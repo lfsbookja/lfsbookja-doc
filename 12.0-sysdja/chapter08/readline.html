@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.11. Readline-8.2
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.0-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.0-systemd
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="file.html" title="File-5.45">戻る</a>
+          <p>
+            File-5.45
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="m4.html" title="M4-1.4.19">次へ</a>
+          <p>
+            M4-1.4.19
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-system-readline" name="ch-system-readline"></a>8.11.
+        Readline-8.2
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Readline パッケージはコマンドラインの編集や履歴管理を行うライブラリを提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.1 SBU 以下</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">16 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.11.1. Readline のインストール
+        </h2>
+        <p>
+          Readline を再インストールすると、それまでの古いライブラリは &lt;ライブラリ名&gt;.old
+          というファイル名でコピーされます。 これは普通は問題ないことですが <span class=
+          "command"><strong>ldconfig</strong></span>
+          によるリンクに際してエラーを引き起こすことがあります。 これを避けるため以下の二つの sed コマンドを実行します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i '/MV.*old/d' Makefile.in
+sed -i '/{OLDSUFF}/c:' support/shlib-install</kbd></pre>
+        <p>
+          またアップストリームが認識している問題を修正します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../readline-8.2-upstream_fix-1.patch</kbd></pre>
+        <p>
+          Readline をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr    \
+            --disable-static \
+            --with-curses    \
+            --docdir=/usr/share/doc/readline-8.2</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>configure オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-curses</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このオプションは Readline パッケージに対して、termcap ライブラリ関数の探し場所を、個別の termcap
+                ライブラリではなく curses ライブラリとすることを指示します。 これにより <code class=
+                "filename">readline.pc</code> ファイルが適切に生成されます。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make SHLIB_LIBS="-lncursesw"</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>make オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>SHLIB_LIBS="-lncursesw"</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このオプションにより Readline を <code class=
+                "filename">libncursesw</code> ライブラリにリンクします。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make SHLIB_LIBS="-lncursesw" install</kbd></pre>
+        <p>
+          必要ならドキュメントをインストールします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">install -v -m644 doc/*.{ps,pdf,html,dvi} /usr/share/doc/readline-8.2</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-readline" name="contents-readline"></a>8.11.2.
+          Readline の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libhistory.so, libreadline.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/readline,
+              /usr/share/doc/readline-8.2</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libhistory" name="libhistory"></a><span class=
+                    "term"><code class="filename">libhistory</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    入力履歴を適切に再現するためのユーザーインターフェースを提供します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libreadline" name="libreadline"></a><span class=
+                    "term"><code class="filename">libreadline</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    プログラムの対話セッションから入力されるテキストを処理するための一連のコマンドを提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="file.html" title="File-5.45">戻る</a>
+          <p>
+            File-5.45
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="m4.html" title="M4-1.4.19">次へ</a>
+          <p>
+            M4-1.4.19
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

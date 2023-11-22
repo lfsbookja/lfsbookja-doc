@@ -1,0 +1,417 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.71. Vim-9.0.1677
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.0-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.0-systemd
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="texinfo.html" title="Texinfo-7.0.3">戻る</a>
+          <p>
+            Texinfo-7.0.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="markupsafe.html" title=
+          "MarkupSafe-2.1.3">次へ</a>
+          <p>
+            MarkupSafe-2.1.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-system-vim" name="ch-system-vim"></a>8.71. Vim-9.0.1677
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Vim パッケージは強力なテキストエディターを提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">2.3 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">229 MB</span>
+            </div>
+          </div>
+        </div>
+        <div class="admon tip">
+          <img alt="[ヒント]" src="../images/tip.png" />
+          <h3>
+            Vim の代替ソフトウェア
+          </h3>
+          <p>
+            もし Emacs、Joe、Nano など他のエディターを用いたい場合は <a class="ulink" href=
+            "https://www.linuxfromscratch.org/blfs/view/stable-systemd/postlfs/editors.html">
+            https://www.linuxfromscratch.org/blfs/view/stable-systemd/postlfs/editors.html</a>
+            に示される手順に従ってインストールしてください。
+          </p>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.71.1. Vim のインストール
+        </h2>
+        <p>
+          設定ファイル <code class="filename">vimrc</code> がインストールされるデフォルトディレクトリを
+          <code class="filename">/etc</code> に変更します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">echo '#define SYS_VIMRC_FILE "/etc/vimrc"' &gt;&gt; src/feature.h</kbd></pre>
+        <p>
+          Vim をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr</kbd></pre>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          コンパイル結果をテストするために、<code class="systemitem">tester</code>
+          ユーザーがソースツリーに書き込みできるようにします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">chown -Rv tester .</kbd></pre>
+        <p>
+          <code class="systemitem">tester</code> ユーザーによりテストを実行します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">su tester -c "LANG=en_US.UTF-8 make -j1 test" &amp;&gt; vim-test.log</kbd></pre>
+        <p>
+          このテストスイートは数多くのバイナリデータを端末画面上に出力します。 これは端末画面の設定によっては問題を引き起こします。
+          これを避けるには、上に示すように出力をリダイレクトしてログファイルに出力するようにしてください。
+          テストが成功すれば、ログファイルの最後に "ALL DONE" と表示されます。
+        </p>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+        <p>
+          たいていのユーザーは <span class="command"><strong>vim</strong></span>
+          ではなく、いわば反射的に <span class="command"><strong>vi</strong></span>
+          を使うようです。 <span class="command"><strong>vi</strong></span> を入力しても
+          <span class="command"><strong>vim</strong></span>
+          が実行されるように、実行モジュールに対するシンボリックリンクを作成します。 さらに指定された言語による man
+          ページへのシンボリックリンクも作成します。
+        </p>
+        <pre class="userinput"><kbd class="command">ln -sv vim /usr/bin/vi
+for L in  /usr/share/man/{,*/}man1/vim.1; do
+    ln -sv vim.1 $(dirname $L)/vi.1
+done</kbd></pre>
+        <p>
+          デフォルトでは Vim のドキュメントが <code class="filename">/usr/share/vim</code>
+          にインストールされます。 以下のようなシンボリックリンクを生成することで <code class=
+          "filename">/usr/share/doc/vim-9.0.1677</code>
+          へアクセスしてもドキュメントが参照できるようにし、他のパッケージが配置するドキュメントの場所と整合を取ります。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">ln -sv ../vim/vim90/doc /usr/share/doc/vim-9.0.1677</kbd></pre>
+        <p>
+          LFS システムに対して X ウィンドウシステムをインストールする場合 X のインストールの後で Vim
+          を再コンパイルする必要があります。 vim には GUI 版があり X や他のライブラリがインストールされていて
+          初めて構築できるためです。 この作業の詳細については Vim のドキュメントと BLFS ブックの <a class="ulink"
+          href=
+          "https://www.linuxfromscratch.org/blfs/view/stable-systemd/postlfs/vim.html">
+          https://www.linuxfromscratch.org/blfs/view/stable-systemd/postlfs/vim.html</a>
+          に示されている Vim のインストール説明のページを参照してください。
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="conf-vim" name="conf-vim"></a>8.71.2. Vim の設定
+        </h2>
+        <p>
+          デフォルトで <span class="command"><strong>vim</strong></span> は vi
+          非互換モード (vi-incompatible mode) で起動します。
+          他のエディターを使ってきたユーザーにとっては、よく分からないものかもしれません。 以下の設定における<span class=
+          "quote">「<span class="quote">nocompatible</span>」</span>(非互換) は、Vi
+          の新しい機能を利用することを意味しています。 もし<span class="quote">「<span class=
+          "quote">compatible</span>」</span>(互換)
+          モードに変更したい場合は、この設定ファイルの冒頭にて行っておくことが必要です。
+          このモード設定は他の設定を置き換えるものとなることから、まず初めに行っておかなければならないものだからです。 以下のコマンドを実行して
+          <span class="command"><strong>vim</strong></span> の設定ファイルを生成します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; /etc/vimrc &lt;&lt; "EOF"
+<code class="literal">" Begin /etc/vimrc
+
+" Ensure defaults are set before customizing settings, not after
+source $VIMRUNTIME/defaults.vim
+let skip_defaults_vim=1
+
+set nocompatible
+set backspace=2
+set mouse=
+syntax on
+if (&amp;term == "xterm") || (&amp;term == "putty")
+  set background=dark
+endif
+
+" End /etc/vimrc</code>
+EOF</kbd></pre>
+        <p>
+          <em class="parameter"><code>set nocompatible</code></em> と設定しておくと
+          vi 互換モードでの動作に比べて有用な動作となります。(これがデフォルトになっています。) その設定の記述から<span class=
+          "quote">「<span class="quote">no</span>」</span>の文字を取り除けば、旧来の
+          <span class="command"><strong>vi</strong></span> コマンドの動作となります。
+          <em class="parameter"><code>set backspace=2</code></em>
+          を設定しておくと、行を超えてもバックスペースキーによる編集が可能となります。
+          またインデントが自動的に行われ、コマンド起動時には自動的に挿入モードとなります。 <em class=
+          "parameter"><code>syntax on</code></em> パラメーターを指定すれば vim の文法ハイライト
+          (syntax highlighting) 機能が有効になります。 <em class="parameter"><code>set
+          mouse=</code></em> を指定すると chroot
+          環境やリモート接続時であってもマウスによるテキスト選択が適切になります。 最後にある <span class=
+          "emphasis"><em>if</em></span> 文は、<em class="parameter"><code>set
+          background=dark</code></em> を指定した場合に、特定の端末エミュレーター上において <span class=
+          "command"><strong>vim</strong></span> が背景色を誤って認識しないようにするためのものです。
+          エミュレーターの背景色が黒色であった場合に、より適切なハイライトが実現できます。
+        </p>
+        <p>
+          この他に利用できるオプションについては、以下のコマンドを実行することで出力される説明を参照してください。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">vim -c ':options'</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            Vim がインストールするスペルチェックファイルはデフォルトでは英語に対するものだけです。
+            必要とする言語のスペルチェックファイルをインストールするなら <code class=
+            "filename">runtime/spell</code> から、特定の言語、エンコーディングによる <code class=
+            "filename">*.spl</code> ファイル、またオプションとして <code class=
+            "filename">*.sug</code> ファイルを <code class=
+            "filename">/usr/share/vim/vim90/spell/</code> にコピーしてください。
+          </p>
+          <p>
+            スペルチェックファイルを利用するには <code class="filename">/etc/vimrc</code>
+            ファイルにて、例えば以下のような設定が必要になります。
+          </p>
+          <pre class="screen"><code class="literal">set spelllang=en,ru
+set spell</code></pre>
+          <p>
+            詳しくは <code class="filename">runtime/spell/README.txt</code>
+            を参照してください。
+          </p>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-vim" name="contents-vim"></a>8.71.3. Vim の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">ex (vim へのリンク), rview (vim へのリンク), rvim (vim へのリンク),
+              vi (vim へのリンク), view (vim へのリンク), vim, vimdiff (vim へのリンク),
+              vimtutor, xxd</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/share/vim</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ex" name="ex"></a><span class="term"><span class=
+                    "command"><strong>ex</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>vim</strong></span> を ex
+                    モードで起動します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rview" name="rview"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rview</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>view</strong></span>
+                    の機能限定版。 シェルは起動できず、サスペンドも行うことはできません。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rvim" name="rvim"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rvim</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>vim</strong></span> の機能限定版。
+                    シェルは起動できず、サスペンドも行うことはできません。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="vi" name="vi"></a><span class="term"><span class=
+                    "command"><strong>vi</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>vim</strong></span> へのリンク。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="view" name="view"></a><span class=
+                    "term"><span class=
+                    "command"><strong>view</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>vim</strong></span>
+                    を読み込み専用モード (read-only mode) で起動します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="vim" name="vim"></a><span class=
+                    "term"><span class="command"><strong>vim</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    エディター。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="vimdiff" name="vimdiff"></a><span class=
+                    "term"><span class=
+                    "command"><strong>vimdiff</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>vim</strong></span>
+                    により、同一ファイルにおける 2 つまたは 3 つの版を同時に編集し、差異を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="vimtutor" name="vimtutor"></a><span class=
+                    "term"><span class=
+                    "command"><strong>vimtutor</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>vim</strong></span>
+                    の基本的なキー操作とコマンドについて教えてくれます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xxd" name="xxd"></a><span class=
+                    "term"><span class="command"><strong>xxd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたファイルの内容を 16進数ダンプとして変換します。
+                    逆の変換も行うことができるため、バイナリパッチにも利用されます。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="texinfo.html" title="Texinfo-7.0.3">戻る</a>
+          <p>
+            Texinfo-7.0.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="markupsafe.html" title=
+          "MarkupSafe-2.1.3">次へ</a>
+          <p>
+            MarkupSafe-2.1.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

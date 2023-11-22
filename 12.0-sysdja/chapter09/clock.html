@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      9.5. システムクロックの設定
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.0-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.0-systemd
+      </h4>
+      <h3>
+        第9章 システム設定
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="symlinks.html" title="デバイスの管理">戻る</a>
+          <p>
+            デバイスの管理
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="console.html" title="Linux コンソールの設定">次へ</a>
+          <p>
+            Linux コンソールの設定
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter09.html" title="第9章 システム設定">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-config-clock" name="ch-config-clock"></a>9.5. システムクロックの設定
+      </h1>
+      <p>
+        本節ではシステムサービス <span class=
+        "command"><strong>systemd-timedated</strong></span> の設定方法について示します。
+        このサービスはシステムクロックとタイムゾーンの設定を行うものです。
+      </p>
+      <p>
+        ハードウェアクロックが UTC に設定されているかどうか忘れた場合は <strong class=
+        "userinput"><code>hwclock --localtime --show</code></strong>
+        を実行すれば確認できます。 このコマンドにより、ハードウェアクロックに基づいた現在時刻が表示されます。
+        その時刻が手元の時計と同じ時刻であれば、ローカル時刻として設定されているわけです。 一方それがローカル時刻でなかった場合は、おそらくは
+        UTC に設定されているからでしょう。 <span class=
+        "command"><strong>hwclock</strong></span>
+        によって示された時刻からタイムゾーンに応じた一定時間を加減してみてください。 例えばタイムゾーンが MST であった場合、これは GMT
+        -0700 なので、7時間を加えればローカル時刻となります。
+      </p>
+      <p>
+        <span class="command"><strong>systemd-timedated</strong></span> コマンドは
+        <code class="filename">/etc/adjtime</code> ファイルを読み込みます。
+        そしてこのファイルの設定内容に応じて、システムクロックを UTC かあるいはローカル時刻に設定します。
+      </p>
+      <p>
+        ハードウェアクロックをローカル時刻に設定する場合は、以下の内容により <code class=
+        "filename">/etc/adjtime</code> ファイルを生成します。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">cat &gt; /etc/adjtime &lt;&lt; "EOF"
+<code class="literal">0.0 0 0.0
+0
+LOCAL</code>
+EOF</kbd></pre>
+      <p>
+        起動時に <code class="filename">/etc/adjtime</code>
+        ファイルが存在しなかった場合、ハードウェアクロックは UTC に設定されているものとして <span class=
+        "command"><strong>systemd-timedated</strong></span>
+        が判断し、このファイルを調整します。
+      </p>
+      <p>
+        <span class="command"><strong>timedatectl</strong></span>
+        ユーティリティーを用いる方法もあります。 これを使って <span class=
+        "command"><strong>systemd-timedated</strong></span> に対し、ハードウェアクロックが
+        UTC かローカル時刻かを設定することができます。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">timedatectl set-local-rtc 1</kbd></pre>
+      <p>
+        <span class="command"><strong>timedatectl</strong></span>
+        コマンドを用いれば、システム時刻やタイムゾーンを変更することもできます。
+      </p>
+      <p>
+        システム時刻を変更するには以下を実行します。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">timedatectl set-time YYYY-MM-DD HH:MM:SS</kbd></pre>
+      <p>
+        ハードウェアクロックも同様に設定することができます。
+      </p>
+      <p>
+        タイムゾーンを変更するには以下を実行します。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">timedatectl set-timezone TIMEZONE</kbd></pre>
+      <p>
+        利用可能なタイムゾーンの一覧は以下を実行して確認できます。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">timedatectl list-timezones</kbd></pre>
+      <div class="admon note">
+        <img alt="[注記]" src="../images/note.png" />
+        <h3>
+          注記
+        </h3>
+        <p>
+          <span class="command"><strong>timedatectl</strong></span> コマンドは
+          chroot 環境内では動作しない点に注意してください。 systemd を使って LFS
+          システムを起動したときになって、初めて利用できるものです。
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          9.5.1. ネットワークによる時刻同期
+        </h2>
+        <p>
+          systemd のバージョン 213 からは <span class=
+          "command"><strong>systemd-timesyncd</strong></span>
+          というデーモンが提供されています。 これはシステム時刻とリモートの NTP サーバーの時刻同期を行うものです。
+        </p>
+        <p>
+          このデーモンは、NTP デーモンとして充実したものではありません。 NTP デーモンに代わるものと位置づけられるものではなく、SNTP
+          プロトコルのクライアントのみの実装であり、簡単なタスクの処理やリソースが限られているシステム上にて用いられます。
+        </p>
+        <p>
+          systemd のバージョン 216 からはデフォルトで <span class=
+          "command"><strong>systemd-timesyncd</strong></span> デーモンが用いられます。
+          これを無効にしたい場合は以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">systemctl disable systemd-timesyncd</kbd></pre>
+        <p>
+          <span class="command"><strong>systemd-timesyncd</strong></span>
+          が利用する NTP サーバーを変更するには <code class=
+          "filename">/etc/systemd/timesyncd.conf</code> ファイルを用います。
+        </p>
+        <p>
+          システムクロックがローカル時刻に設定されている場合、<span class=
+          "command"><strong>systemd-timesyncd</strong></span>
+          はハードウェアクロックを更新しない点に注意してください。
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="symlinks.html" title="デバイスの管理">戻る</a>
+          <p>
+            デバイスの管理
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="console.html" title="Linux コンソールの設定">次へ</a>
+          <p>
+            Linux コンソールの設定
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter09.html" title="第9章 システム設定">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

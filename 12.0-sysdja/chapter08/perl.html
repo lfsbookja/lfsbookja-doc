@@ -1,0 +1,701 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.42. Perl-5.38.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.0-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.0-systemd
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="less.html" title="Less-643">戻る</a>
+          <p>
+            Less-643
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="xml-parser.html" title=
+          "XML::Parser-2.46">次へ</a>
+          <p>
+            XML::Parser-2.46
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-system-perl" name="ch-system-perl"></a>8.42. Perl-5.38.0
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Perl パッケージは Perl 言語 (Practical Extraction and Report Language)
+          を提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">7.1 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">239 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.42.1. Perl のインストール
+        </h2>
+        <p>
+          ここでビルドするバージョンの Perl は Compress::Raw::Zlib モジュールと
+          Compress::Raw::Bzip2 モジュールをビルドします。
+          しかしデフォルトでは内部にコピーされたライブラリソースを用いてビルドを行います。
+          以下のコマンドは、既にインストールされているライブラリを用いるようにします。
+        </p>
+        <pre class="userinput"><kbd class="command">export BUILD_ZLIB=False
+export BUILD_BZIP2=0</kbd></pre>
+        <p>
+          Perl のビルド設定を完全に制御したい場合は、以下のコマンドから<span class="quote">「<span class=
+          "quote">-des</span>」</span>オプションを取り除くことで手動設定を進めることもできます。 Perl
+          が自動判別するデフォルト設定に従うので良ければ、以下のコマンドにより Perl をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sh Configure -des                                         \
+             -Dprefix=/usr                                \
+             -Dvendorprefix=/usr                          \
+             -Dprivlib=/usr/lib/perl5/5.38/core_perl      \
+             -Darchlib=/usr/lib/perl5/5.38/core_perl      \
+             -Dsitelib=/usr/lib/perl5/5.38/site_perl      \
+             -Dsitearch=/usr/lib/perl5/5.38/site_perl     \
+             -Dvendorlib=/usr/lib/perl5/5.38/vendor_perl  \
+             -Dvendorarch=/usr/lib/perl5/5.38/vendor_perl \
+             -Dman1dir=/usr/share/man/man1                \
+             -Dman3dir=/usr/share/man/man3                \
+             -Dpager="/usr/bin/less -isR"                 \
+             -Duseshrplib                                 \
+             -Dusethreads</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>configure オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>-Dvendorprefix=/usr</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このオプションは各種の Perl モジュールをどこにインストールするかを指定します。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>-Dpager="/usr/bin/less
+              -isR"</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このオプションは <span class="command"><strong>more</strong></span>
+                プログラムでなく <span class="command"><strong>less</strong></span>
+                プログラムが利用されるようにします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>-Dman1dir=/usr/share/man/man1
+              -Dman3dir=/usr/share/man/man3</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                まだ Groff をインストールしていないので <span class=
+                "command"><strong>Configure</strong></span> スクリプトが Perl の man
+                ページを生成しません。 このオプションを指定することによりその判断を正します。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>-Duseshrplib</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Perl モジュールの中で必要とされる共有ライブラリ libperl をビルドします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>-Dusethreads</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                スレッドサポートを含めて Perl をビルドします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>-Dprivlib,-Darchlib,-Dsitelib,...</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                この設定は、Perl がインストール済のモジュールを探す場所を指定します。 LFS 編集者はディレクトリ構造として
+                Perl の MAJOR.MINOR バージョン (5.38)
+                の形に基づいて、インストールモジュールを配置することにしています。 このようにしておくと、新たなパッチレベル
+                (5.38.0 のようなフルバージョンにおいて最後のドット以降のバージョン部分)
+                によるアップグレードの際に、モジュールを再インストールする必要がなくなるためです。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          コンパイル結果をテストするには以下を実行します。(約 11 SBU)
+        </p>
+        <pre class="userinput"><kbd class="command">make test</kbd></pre>
+        <p>
+          パッケージはインストールしクリーンアップします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install
+unset BUILD_ZLIB BUILD_BZIP2</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-perl" name="contents-perl"></a>8.42.2. Perl の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">corelist, cpan, enc2xs, encguess, h2ph, h2xs,
+              instmodsh, json_pp, libnetcfg, perl, perl5.38.0 (perl
+              へのハードリンク), perlbug, perldoc, perlivp, perlthanks (perlbug
+              へのハードリンク), piconv, pl2pm, pod2html, pod2man, pod2text,
+              pod2usage, podchecker, podselect, prove, ptar, ptardiff,
+              ptargrep, shasum, splain, xsubpp, zipdetails</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">ここで示しきれないほど多くのライブラリ</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/lib/perl5</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="corelist" name="corelist"></a><span class=
+                    "term"><span class=
+                    "command"><strong>corelist</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Module::CoreList に対するコマンドラインフロントエンド。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cpan" name="cpan"></a><span class=
+                    "term"><span class=
+                    "command"><strong>cpan</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    コマンドラインから CPAN (Comprehensive Perl Archive Network)
+                    との通信を行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="enc2xs" name="enc2xs"></a><span class=
+                    "term"><span class=
+                    "command"><strong>enc2xs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Unicode キャラクターマッピングまたは Tcl エンコーディングファイルから Perl の Encode
+                    拡張モジュールを構築します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="encguess" name="encguess"></a><span class=
+                    "term"><span class=
+                    "command"><strong>encguess</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    複数ファイルのエンコーディングを調査します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="h2ph" name="h2ph"></a><span class=
+                    "term"><span class=
+                    "command"><strong>h2ph</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    C 言語のヘッダーファイル <code class="filename">.h</code>を Perl
+                    のヘッダーファイル <code class="filename">.ph</code> に変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="h2xs" name="h2xs"></a><span class=
+                    "term"><span class=
+                    "command"><strong>h2xs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    C 言語のヘッダーファイル <code class="filename">.h</code> を Perl 拡張
+                    (Perl extension) に変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="instmodsh" name="instmodsh"></a><span class=
+                    "term"><span class=
+                    "command"><strong>instmodsh</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    インストールされている Perl モジュールを調査するシェルスクリプト。 インストールされたモジュールから
+                    tarball を作ることができます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="json_pp" name="json_pp"></a><span class=
+                    "term"><span class=
+                    "command"><strong>json_pp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    特定の入出力フォーマット間でデータを変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libnetcfg" name="libnetcfg"></a><span class=
+                    "term"><span class=
+                    "command"><strong>libnetcfg</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Perl モジュール <code class="filename">libnet</code>
+                    の設定に利用します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="perl" name="perl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>perl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    C 言語、<span class=
+                    "command"><strong>sed</strong></span>、<span class=
+                    "command"><strong>awk</strong></span>、<span class=
+                    "command"><strong>sh</strong></span> の持つ機能を寄せ集めて出来上がった言語。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="perl-version" name="perl-version"></a><span class=
+                    "term"><span class=
+                    "command"><strong>perl5.38.0</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>perl</strong></span>
+                    へのハードリンク。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="perlbug" name="perlbug"></a><span class=
+                    "term"><span class=
+                    "command"><strong>perlbug</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Perl およびそのモジュールに関するバグ報告を生成して、電子メールを送信します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="perldoc" name="perldoc"></a><span class=
+                    "term"><span class=
+                    "command"><strong>perldoc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    pod フォーマットのドキュメントを表示します。 pod フォーマットは Perl のインストールツリーあるいは
+                    Perl スクリプト内に埋め込まれています。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="perlivp" name="perlivp"></a><span class=
+                    "term"><span class=
+                    "command"><strong>perlivp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Perl Installation Verification Procedure のこと。 Perl
+                    とライブラリが正しくインストールできているかを調べるものです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="perlthanks" name="perlthanks"></a><span class=
+                    "term"><span class=
+                    "command"><strong>perlthanks</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    感謝のメッセージ (Thank you messages) を電子メールで Perl 開発者に送信します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="piconv" name="piconv"></a><span class=
+                    "term"><span class=
+                    "command"><strong>piconv</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    キャラクターエンコーディングを変換する <span class=
+                    "command"><strong>iconv</strong></span> の Perl バージョン。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pl2pm" name="pl2pm"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pl2pm</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Perl4 の <code class="filename">.pl</code> ファイルを Perl5 の
+                    <code class="filename">.pm</code> モジュールファイルへの変換を行うツール。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pod2html" name="pod2html"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pod2html</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    pod フォーマットから HTML フォーマットに変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pod2man" name="pod2man"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pod2man</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    pod データを *roff の入力ファイル形式に変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pod2text" name="pod2text"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pod2text</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    pod データをアスキーテキスト形式に変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pod2usage" name="pod2usage"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pod2usage</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイル内に埋め込まれた pod ドキュメントから使用方法の記述部分を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="podchecker" name="podchecker"></a><span class=
+                    "term"><span class=
+                    "command"><strong>podchecker</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    pod 形式の文書ファイルに対して文法をチェックします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="podselect" name="podselect"></a><span class=
+                    "term"><span class=
+                    "command"><strong>podselect</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    pod ドキュメントに対して指定したセクションを表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="prove" name="prove"></a><span class=
+                    "term"><span class=
+                    "command"><strong>prove</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Test::Harness モジュールのテストを行うコマンドラインツール。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ptar" name="ptar"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ptar</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Perl で書かれた <span class=
+                    "command"><strong>tar</strong></span> 相当のプログラム。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ptardiff" name="ptardiff"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ptardiff</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    アーカイブの抽出前後を比較する Perl プログラム。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ptargrep" name="ptargrep"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ptargrep</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    tar アーカイブ内のファイルに対してパターンマッチングを適用するための Perl プログラム。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="shasum" name="shasum"></a><span class=
+                    "term"><span class=
+                    "command"><strong>shasum</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    SHA チェックサム値を表示またはチェックします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="splain" name="splain"></a><span class=
+                    "term"><span class=
+                    "command"><strong>splain</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Perl スクリプトの警告エラーの診断結果を詳細 (verbose) に出力するために利用します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xsubpp" name="xsubpp"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xsubpp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Perl の XS コードを C 言語コードに変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="zipdetails" name="zipdetails"></a><span class=
+                    "term"><span class=
+                    "command"><strong>zipdetails</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Zip ファイルの内部構造に関する情報を出力します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="less.html" title="Less-643">戻る</a>
+          <p>
+            Less-643
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="xml-parser.html" title=
+          "XML::Parser-2.46">次へ</a>
+          <p>
+            XML::Parser-2.46
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,333 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      5.5. Glibc-2.38
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.0-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.0-systemd
+      </h4>
+      <h3>
+        第5章 クロスツールチェーンの構築
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="linux-headers.html" title=
+          "Linux-6.4.12 API ヘッダー">戻る</a>
+          <p>
+            Linux-6.4.12 API ヘッダー
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gcc-libstdc++.html" title=
+          "GCC-13.2.0 から取り出した libstdc++">次へ</a>
+          <p>
+            GCC-13.2.0 から取り出した libstdc++
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter05.html" title=
+          "第5章 クロスツールチェーンの構築">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-tools-glibc" name="ch-tools-glibc"></a>5.5. Glibc-2.38
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Glibc パッケージは主要な C ライブラリを提供します。
+          このライブラリは基本的な処理ルーチンを含むもので、メモリ割り当て、ディレクトリ走査、ファイルのオープン、クローズや入出力、文字列操作、パターンマッチング、算術処理、等々があります。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">1.6 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">858 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          5.5.1. Glibc のインストール
+        </h2>
+        <p>
+          はじめに LSB コンプライアンスに合うように、シンボリックリンクを生成します。 さらに x86_64
+          向けとして、互換のシンボリックリンクを生成して、ダイナミックライブラリローダーが適切に動作するようにします。
+        </p>
+        <pre class="userinput"><kbd class="command">case $(uname -m) in
+    i?86)   ln -sfv ld-linux.so.2 $LFS/lib/ld-lsb.so.3
+    ;;
+    x86_64) ln -sfv ../lib/ld-linux-x86-64.so.2 $LFS/lib64
+            ln -sfv ../lib/ld-linux-x86-64.so.2 $LFS/lib64/ld-lsb-x86-64.so.3
+    ;;
+esac</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            上記のコマンドに間違いはありません。 <span class=
+            "command"><strong>ln</strong></span> コマンドにはいくつか文法の異なるバージョンがあります。
+            間違いと思われる場合には <span class="command"><strong>info coreutils
+            ln</strong></span> や <code class="filename">ln(1)</code>
+            をよく確認してください。
+          </p>
+        </div>
+        <p>
+          Glibc のプログラムの中で、FHS コンプライアンスに適合しない <code class=
+          "filename">/var/db</code> ディレクトリを用いているものがあり、そこに実行時データを保存しています。
+          以下のパッチを適用することで、実行時データの保存ディレクトリを FHS に合致するものとします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../glibc-2.38-fhs-1.patch</kbd></pre>
+        <p>
+          Glibc のドキュメントでは、専用のビルドディレクトリを作成することが推奨されています。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir -v build
+cd       build</kbd></pre>
+        <p>
+          <span class="command"><strong>ldconfig</strong></span> と
+          <span class="command"><strong>sln</strong></span> ユーティリティーを
+          <code class="filename">/usr/sbin</code> にインストールするようにします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">echo "rootsbindir=/usr/sbin" &gt; configparms</kbd></pre>
+        <p>
+          次に Glibc をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">../configure                             \
+      --prefix=/usr                      \
+      --host=$LFS_TGT                    \
+      --build=$(../scripts/config.guess) \
+      --enable-kernel=4.14               \
+      --with-headers=$LFS/usr/include    \
+      libc_cv_slibdir=/usr/lib</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>configure オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class="parameter"><code>--host=$LFS_TGT,
+              --build=$(../scripts/config.guess)</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このようなオプションを組み合わせることで <code class="filename">/tools</code>
+                ディレクトリにあるクロスコンパイラー、クロスリンカーを使って Glibc がクロスコンパイルされるようになります。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-kernel=4.14</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Linux カーネル 4.14 以上のサポートを行うよう指示します。 これ以前のカーネルは利用することができません。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-headers=$LFS/usr/include</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                これまでに $LFS/usr/include ディレクトリにインストールしたヘッダーファイルを用いて Glibc
+                をビルドすることを指示します。 こうすればカーネルにどのような機能があるか、どのようにして処理効率化を図れるかなどの情報を
+                Glibc が得られることになります。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>libc_cv_slibdir=/usr/lib</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                この指定は 64 ビットマシンにおいて、ライブラリのインストール先をデフォルトの /lib64 ではなく /usr/lib
+                とします。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          ビルド中には以下のようなメッセージが出力されるかもしれません。
+        </p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <pre class="screen"><code class=
+            "computeroutput">configure: WARNING:
+*** These auxiliary programs are missing or
+*** incompatible versions: msgfmt
+*** some features will be disabled.
+*** Check the INSTALL file for required versions.</code></pre>
+          </blockquote>
+        </div>
+        <p>
+          <span class="command"><strong>msgfmt</strong></span> プログラムがない場合
+          (missing) や互換性がない場合 (incompatible) でも特に問題はありません。 <span class=
+          "command"><strong>msgfmt</strong></span> プログラムは Gettext
+          パッケージが提供するもので、ホストシステムに含まれているかもしれません。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            本パッケージは "並行ビルド (parallel make)" を行うとビルドに失敗するとの報告例があります。
+            もしビルドに失敗した場合は make コマンドに "-j1" オプションをつけて再ビルドしてください。
+          </p>
+        </div>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <div class="admon warning">
+          <img alt="[警告]" src="../images/warning.png" />
+          <h3>
+            警告
+          </h3>
+          <p>
+            <code class="envar">LFS</code> が適切に設定されていない状態で、推奨する方法とは異なり
+            <code class="systemitem">root</code> によってビルドを行うと、次のコマンドはビルドした
+            Glibc をホストシステムにインストールしてしまいます。 これを行ってしまうと、ほぼ間違いなくホストが利用不能になります。
+            したがってその環境変数が適切に設定されていること、<code class="systemitem">root</code>
+            ユーザーではないことを確認してから、以下のコマンドを実行してください。
+          </p>
+        </div>
+        <pre class="userinput"><kbd class=
+        "command">make DESTDIR=$LFS install</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong><span class="command"><strong>make
+            install</strong></span> オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>DESTDIR=$LFS</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                make 変数 <code class="envar">DESTDIR</code>
+                はほとんどすべてのパッケージにおいて、そのパッケージをインストールするディレクトリを定義するために利用されています。
+                これが設定されていない場合のデフォルトは、ルートディレクトリ（<code class=
+                "filename">/</code>）となります。 ここではパッケージのインストール先を <code class=
+                "filename">$LFS</code> とします。 これは <a class="xref" href=
+                "../chapter07/chroot.html" title="7.4. Chroot 環境への移行">「Chroot
+                環境への移行」</a> に入ってからはルートディレクトリとなります。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          <span class="command"><strong>ldd</strong></span>
+          スクリプト内にある実行可能なローダーへのパスがハードコーディングされているので、これを修正します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed '/RTLDLIST=/s@/usr@@g' -i $LFS/usr/bin/ldd</kbd></pre>
+        <div class="admon caution">
+          <img alt="[注意]" src="../images/caution.png" />
+          <h3>
+            注意
+          </h3>
+          <p>
+            この時点で以下を必ず実施します。 新しいツールチェーンの基本的な機能 (コンパイルやリンク)
+            が正常に処理されるかどうかを確認することです。 健全性のチェック (sanity check)
+            を行うものであり、以下のコマンドを実行します。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">echo 'int main(){}' | $LFS_TGT-gcc -xc -
+readelf -l a.out | grep ld-linux</kbd></pre>
+          <p>
+            すべてが正常に処理され、エラーが発生しなければ、最終のコマンドの実行結果として以下が出力されるはずです。
+          </p>
+          <pre class="screen"><code class=
+          "computeroutput">[Requesting program interpreter: /lib64/ld-linux-x86-64.so.2]</code></pre>
+          <p>
+            インタープリター名は 32 ビットマシンの場合 <code class=
+            "filename">/lib/ld-linux.so.2</code> となります。
+          </p>
+          <p>
+            出力結果が上とは異なったり、あるいは何も出力されなかったりした場合は、どこかに不備があります。
+            どこに問題があるのか調査、再試行を行って解消してください。 解決せずにこの先に進まないでください。
+          </p>
+          <p>
+            すべてが完了したら、テストファイルを削除します。
+          </p>
+          <pre class="userinput"><kbd class="command">rm -v a.out</kbd></pre>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            次節にてビルドするパッケージでは、ツールチェーンが正しく構築できたかどうかを再度チェックすることになります。 特に
+            Binutils 2 回めや GCC 2 回めのビルドに失敗したら、それ以前にインストールしてきた Binutils, GCC,
+            Glibc のいずれかにてビルドがうまくできていないことを意味します。
+          </p>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <p>
+          本パッケージの詳細は <a class="xref" href=
+          "../chapter08/glibc.html#contents-glibc" title=
+          "8.5.3. Glibc の構成">「Glibc の構成」</a>を参照してください。
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="linux-headers.html" title=
+          "Linux-6.4.12 API ヘッダー">戻る</a>
+          <p>
+            Linux-6.4.12 API ヘッダー
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gcc-libstdc++.html" title=
+          "GCC-13.2.0 から取り出した libstdc++">次へ</a>
+          <p>
+            GCC-13.2.0 から取り出した libstdc++
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter05.html" title=
+          "第5章 クロスツールチェーンの構築">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

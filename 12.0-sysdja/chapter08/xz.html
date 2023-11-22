@@ -1,0 +1,510 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.8. Xz-5.4.4
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.0-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.0-systemd
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="bzip2.html" title="Bzip2-1.0.8">戻る</a>
+          <p>
+            Bzip2-1.0.8
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="zstd.html" title="Zstd-1.5.5">次へ</a>
+          <p>
+            Zstd-1.5.5
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-system-xz" name="ch-system-xz"></a>8.8. Xz-5.4.4
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Xz パッケージは、ファイルの圧縮、伸張 (解凍) を行うプログラムを提供します。 これは lzma フォーマットおよび新しい xz
+          圧縮フォーマットを取り扱います。 <span class="command"><strong>xz</strong></span>
+          コマンドによりテキストファイルを圧縮すると、従来の <span class=
+          "command"><strong>gzip</strong></span> コマンドや <span class=
+          "command"><strong>bzip2</strong></span> コマンドに比べて、高い圧縮率を実現できます。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.1 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">24 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.8.1. Xz のインストール
+        </h2>
+        <p>
+          Xz をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr    \
+            --disable-static \
+            --docdir=/usr/share/doc/xz-5.4.4</kbd></pre>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class="command">make check</kbd></pre>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-xz" name="contents-xz"></a>8.8.2. Xz の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">lzcat (xz へのリンク), lzcmp (xzdiff へのリンク), lzdiff
+              (xzdiff へのリンク), lzegrep (xzgrep へのリンク), lzfgrep (xzgrep へのリンク),
+              lzgrep (xzgrep へのリンク), lzless (xzless へのリンク), lzma (xz へのリンク),
+              lzmadec, lzmainfo, lzmore (xzmore へのリンク), unlzma (xz へのリンク),
+              unxz (xz へのリンク), xz, xzcat (xz へのリンク), xzcmp (xzdiff へのリンク),
+              xzdec, xzdiff, xzegrep (xzgrep へのリンク), xzfgrep (xzgrep へのリンク),
+              xzgrep, xzless, xzmore</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">liblzma.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/lzma, /usr/share/doc/xz-5.4.4</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lzcat" name="lzcat"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lzcat</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルを伸張 (解凍) し標準出力へ出力します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lzcmp" name="lzcmp"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lzcmp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    LZMA 圧縮されたファイルに対して <span class=
+                    "command"><strong>cmp</strong></span> を実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lzdiff" name="lzdiff"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lzdiff</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    LZMA 圧縮されたファイルに対して <span class=
+                    "command"><strong>diff</strong></span> を実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lzegrep" name="lzegrep"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lzegrep</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    LZMA 圧縮されたファイルに対して <span class=
+                    "command"><strong>egrep</strong></span> を実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lzfgrep" name="lzfgrep"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lzfgrep</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    LZMA 圧縮されたファイルに対して <span class=
+                    "command"><strong>fgrep</strong></span> を実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lzgrep" name="lzgrep"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lzgrep</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    LZMA 圧縮されたファイルに対して <span class=
+                    "command"><strong>grep</strong></span> を実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lzless" name="lzless"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lzless</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    LZMA 圧縮されたファイルに対して <span class=
+                    "command"><strong>less</strong></span> を実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lzma" name="lzma"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lzma</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    LZMA フォーマットによりファイルの圧縮と伸張 (解凍) を行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lzmadec" name="lzmadec"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lzmadec</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    LZMA 圧縮されたファイルを高速に伸張 (解凍) するコンパクトなプログラムです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lzmainfo" name="lzmainfo"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lzmainfo</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    LZMA 圧縮されたファイルのヘッダーに保持されている情報を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lzmore" name="lzmore"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lzmore</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    LZMA 圧縮されたファイルに対して <span class=
+                    "command"><strong>more</strong></span> を実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="unlzma" name="unlzma"></a><span class=
+                    "term"><span class=
+                    "command"><strong>unlzma</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    LZMA フォーマットされたファイルを伸張 (解凍) します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="unxz" name="unxz"></a><span class=
+                    "term"><span class=
+                    "command"><strong>unxz</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    XZ フォーマットされたファイルを伸張 (解凍) します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xz" name="xz"></a><span class="term"><span class=
+                    "command"><strong>xz</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    XZ フォーマットによりファイルの圧縮と伸張 (解凍) を行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xzcat" name="xzcat"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xzcat</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルの伸張 (解凍) を行い標準出力へ出力します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xzcmp" name="xzcmp"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xzcmp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    XZ 圧縮されたファイルに対して <span class=
+                    "command"><strong>cmp</strong></span> を実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xzdec" name="xzdec"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xzdec</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    XZ 圧縮されたファイルを高速に伸張 (解凍) するコンパクトなプログラムです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xzdiff" name="xzdiff"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xzdiff</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    XZ 圧縮されたファイルに対して <span class=
+                    "command"><strong>diff</strong></span> を実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xzegrep" name="xzegrep"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xzegrep</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    XZ 圧縮されたファイルに対して <span class=
+                    "command"><strong>egrep</strong></span> を実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xzfgrep" name="xzfgrep"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xzfgrep</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    XZ 圧縮されたファイルに対して <span class=
+                    "command"><strong>fgrep</strong></span> を実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xzgrep" name="xzgrep"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xzgrep</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    XZ 圧縮されたファイルに対して <span class=
+                    "command"><strong>grep</strong></span> を実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xzless" name="xzless"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xzless</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    XZ 圧縮されたファイルに対して <span class=
+                    "command"><strong>less</strong></span> を実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xzmore" name="xzmore"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xzmore</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    XZ 圧縮されたファイルに対して <span class=
+                    "command"><strong>more</strong></span> を実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="liblzma" name="liblzma"></a><span class=
+                    "term"><code class="filename">liblzma</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Lempel-Ziv-Markov
+                    のチェーンアルゴリズムを利用し、損失なくブロックソートによりデータ圧縮を行う機能を提供するライブラリです。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="bzip2.html" title="Bzip2-1.0.8">戻る</a>
+          <p>
+            Bzip2-1.0.8
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="zstd.html" title="Zstd-1.5.5">次へ</a>
+          <p>
+            Zstd-1.5.5
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

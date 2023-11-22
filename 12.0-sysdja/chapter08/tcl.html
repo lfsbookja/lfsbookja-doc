@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.15. Tcl-8.6.13
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.0-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.0-systemd
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="flex.html" title="Flex-2.6.4">戻る</a>
+          <p>
+            Flex-2.6.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="expect.html" title="Expect-5.45.4">次へ</a>
+          <p>
+            Expect-5.45.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-system-tcl" name="ch-system-tcl"></a>8.15. Tcl-8.6.13
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          <span class="application">Tcl</span>
+          パッケージは、堅牢で汎用的なスクリプト言語であるツールコマンド言語 (Tool Command Language) を提供します。
+          <span class="application">Expect</span> パッケージは <span class=
+          "application">Tcl</span>（発音は "tickle"）によって書かれています。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">2.7 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">89 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.15.1. Tcl のインストール
+        </h2>
+        <p>
+          本パッケージとこれに続く 2 つのパッケージ (Expect と DejaGNU) は、Binutils および GCC
+          などにおけるテストスイートを実行するのに必要となるためインストールするものです。 テスト目的のためにこれら 3
+          つのパッケージをインストールするというのは、少々大げさなことかもしれません。
+          ただ本質的ではないことであっても、重要なツール類が正常に動作するという確認が得られれば安心できます。
+        </p>
+        <p>
+          Tcl をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class="command">SRCDIR=$(pwd)
+cd unix
+./configure --prefix=/usr           \
+            --mandir=/usr/share/man</kbd></pre>
+        <p>
+          パッケージをビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">make
+
+sed -e "s|$SRCDIR/unix|/usr/lib|" \
+    -e "s|$SRCDIR|/usr/include|"  \
+    -i tclConfig.sh
+
+sed -e "s|$SRCDIR/unix/pkgs/tdbc1.1.5|/usr/lib/tdbc1.1.5|" \
+    -e "s|$SRCDIR/pkgs/tdbc1.1.5/generic|/usr/include|"    \
+    -e "s|$SRCDIR/pkgs/tdbc1.1.5/library|/usr/lib/tcl8.6|" \
+    -e "s|$SRCDIR/pkgs/tdbc1.1.5|/usr/include|"            \
+    -i pkgs/tdbc1.1.5/tdbcConfig.sh
+
+sed -e "s|$SRCDIR/unix/pkgs/itcl4.2.3|/usr/lib/itcl4.2.3|" \
+    -e "s|$SRCDIR/pkgs/itcl4.2.3/generic|/usr/include|"    \
+    -e "s|$SRCDIR/pkgs/itcl4.2.3|/usr/include|"            \
+    -i pkgs/itcl4.2.3/itclConfig.sh
+
+unset SRCDIR</kbd></pre>
+        <p>
+          "make" コマンドに続くたくさんの "sed"
+          コマンドは、設定ファイルにあるビルドディレクトリへの参照を削除して、インストールディレクトリへの参照に置き換えます。 これ以降の
+          LFS 作業において必須のことではありませんが、後にビルドされるパッケージが Tcl を用いるかもしれないからです。
+        </p>
+        <p>
+          ビルド結果をテストする場合は、以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class="command">make test</kbd></pre>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+        <p>
+          インストールされたライブラリを書き込み可能にします。 こうすることで後にデバッグシンボルを削除できるようにします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">chmod -v u+w /usr/lib/libtcl8.6.so</kbd></pre>
+        <p>
+          Tcl のヘッダーファイルをインストールします。 これらは次にビルドする Expect が必要とするファイルです。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make install-private-headers</kbd></pre>
+        <p>
+          必要となるシンボリックリンクを生成します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">ln -sfv tclsh8.6 /usr/bin/tclsh</kbd></pre>
+        <p>
+          Perl の man ページと重複するものを名称変更します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mv /usr/share/man/man3/{Thread,Tcl_Thread}.3</kbd></pre>
+        <p>
+          任意の作業として、 以下のコマンドを実行してインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">cd ..
+tar -xf ../tcl8.6.13-html.tar.gz --strip-components=1
+mkdir -v -p /usr/share/doc/tcl-8.6.13
+cp -v -r  ./html/* /usr/share/doc/tcl-8.6.13</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-tcl" name="contents-tcl"></a>8.15.2. Tcl の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">tclsh (tclsh8.6 へのリンク), tclsh8.6</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libtcl8.6.so, libtclstub8.6.a</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tclsh8.6" name="tclsh8.6"></a><span class=
+                    "term"><span class=
+                    "command"><strong>tclsh8.6</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Tcl コマンドシェル
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tclsh" name="tclsh"></a><span class=
+                    "term"><span class=
+                    "command"><strong>tclsh</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    tclsh8.6 へのリンク
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libtcl8.6.so" name="libtcl8.6.so"></a><span class=
+                    "term"><code class="filename">libtcl8.6.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Tcl ライブラリ
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libtclstub8.6.a" name=
+                    "libtclstub8.6.a"></a><span class="term"><code class=
+                    "filename">libtclstub8.6.a</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Tcl スタブライブラリ
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="flex.html" title="Flex-2.6.4">戻る</a>
+          <p>
+            Flex-2.6.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="expect.html" title="Expect-5.45.4">次へ</a>
+          <p>
+            Expect-5.45.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

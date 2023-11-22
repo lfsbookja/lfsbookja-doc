@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      4.5. SBU 値について
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.0-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.0-systemd
+      </h4>
+      <h3>
+        第4章 準備作業の仕上げ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="settingenvironment.html" title="環境設定">戻る</a>
+          <p>
+            環境設定
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="abouttestsuites.html" title=
+          "テストスイートについて">次へ</a>
+          <p>
+            テストスイートについて
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter04.html" title=
+          "第4章 準備作業の仕上げ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-preps-aboutsbus" name="ch-preps-aboutsbus"></a>4.5. SBU
+        値について
+      </h1>
+      <p>
+        各パッケージをコンパイルしインストールするのにどれほどの時間を要するか、誰しも知りたくなるところです。 しかし Linux From
+        Scratch は数多くのシステム上にて構築可能であるため、正確な処理時間を見積ることは困難です。 最も大きなパッケージ (gcc)
+        の場合、処理性能の高いシステムでも 5 分はかかります。 それが性能の低いシステムとなると数日はかかるかもしれません!
+        本書では処理時間を正確に示すのでなく、標準ビルド単位 (Standard Build Unit; SBU) を用いることにします。
+      </p>
+      <p>
+        SBU の測定は以下のようにします。 最初にコンパイルするのは <a class="xref" href=
+        "../chapter05/chapter05.html" title=
+        "第5章 クロスツールチェーンの構築">第&nbsp;5&nbsp;章</a>における binutils です。 このパッケージを 1
+        コアのシステムによってコンパイルするのに要する時間を標準ビルド時間とし、他のコンパイル時間はその時間を基準にして表現します。
+      </p>
+      <p>
+        例えばあるパッケージのコンパイル時間が 4.5 SBU であったとします。 そして binutils の 1 回目のコンパイルが 10
+        分であったとすると、そのパッケージは <span class="emphasis"><em>およそ</em></span> 45
+        分かかることを意味しています。 幸いにも、たいていのパッケージは 1 SBU よりもコンパイル時間は短いものです。
+      </p>
+      <p>
+        コンパイル時間というものは、例えばホストシステムの GCC のバージョンの違いなど、多くの要因に左右されるため SBU
+        値は正確なものになりません。 SBU
+        値は、インストールに要する時間の目安を示すものに過ぎず、場合によっては十数分の誤差が出ることもあります。
+      </p>
+      <div class="admon note">
+        <img alt="[注記]" src="../images/note.png" />
+        <h3>
+          注記
+        </h3>
+        <p>
+          最新のシステムは複数プロセッサー (デュアルコアとも言います)
+          であることが多く、パッケージのビルドにあたっては「同時並行のビルド」によりビルド時間を削減できます。
+          その場合プロセッサー数がいくつなのかを環境変数に指定するか、あるいは <span class=
+          "command"><strong>make</strong></span> プログラムの実行時に指定する方法があります。 例えば
+          Intel i5-6500 CPU であれば、以下のようにして同時並行の 4 つのプロセスを実行することができます。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">export MAKEFLAGS='-j4'</kbd></pre>
+        <p>
+          あるいはビルド時の指定として以下のようにすることもできます。
+        </p>
+        <pre class="userinput"><kbd class="command">make -j4</kbd></pre>
+        <p>
+          上のようにして複数プロセッサーが利用されると、本書に示している SBU 単位は、通常の場合に比べて大きく変化します。
+          そればかりか場合により make 処理に失敗することもあります。 したがってビルド結果を検証するにしても話が複雑になります。
+          複数のプロセスラインがインターリーブにより多重化されるためです。
+          ビルド時に何らかの問題が発生したら、単一プロセッサー処理を行ってエラーメッセージを分析してください。
+        </p>
+        <p>
+          ここに示す時間は 4 コア（-j4）を使用した場合に基づいています。 また第 8
+          章では、特に断りがない限り、パッケージの縮退テストの実行時間も含めています。
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="settingenvironment.html" title="環境設定">戻る</a>
+          <p>
+            環境設定
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="abouttestsuites.html" title=
+          "テストスイートについて">次へ</a>
+          <p>
+            テストスイートについて
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter04.html" title=
+          "第4章 準備作業の仕上げ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

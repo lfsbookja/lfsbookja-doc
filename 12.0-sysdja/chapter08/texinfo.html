@@ -1,0 +1,324 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.70. Texinfo-7.0.3
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.0-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.0-systemd
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="tar.html" title="Tar-1.35">戻る</a>
+          <p>
+            Tar-1.35
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="vim.html" title="Vim-9.0.1677">次へ</a>
+          <p>
+            Vim-9.0.1677
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-system-texinfo" name="ch-system-texinfo"></a>8.70.
+        Texinfo-7.0.3
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Texinfo パッケージは info ページへの読み書き、変換を行うプログラムを提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.3 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">128 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.70.1. Texinfo のインストール
+        </h2>
+        <p>
+          Texinfo をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr</kbd></pre>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          コンパイル結果をテストするには以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class="command">make check</kbd></pre>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+        <p>
+          必要なら TeX システムに属するコンポーネント類をインストールします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make TEXMF=/usr/share/texmf install-tex</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>make パラメーターの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>TEXMF=/usr/share/texmf</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Makefile 変数である <code class="envar">TEXMF</code> に TeX
+                ツリーのルートディレクトリを設定します。 これは後に TeX パッケージをインストールするための準備です。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          ドキュメントシステム Info は、 メニュー項目の一覧を単純なテキストファイルに保持しています。 そのファイルは
+          <code class="filename">/usr/share/info/dir</code> にあります。
+          残念ながら数々のパッケージの Makefile は、既にインストールされている info
+          ページとの同期を取る処理を行わない場合があります。 <code class=
+          "filename">/usr/share/info/dir</code>
+          の再生成を必要とするなら、以下のコマンドを実行してこれを実現します。
+        </p>
+        <pre class="userinput"><kbd class="command">pushd /usr/share/info
+  rm -v dir
+  for f in *
+    do install-info $f dir 2&gt;/dev/null
+  done
+popd</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-texinfo" name="contents-texinfo"></a>8.70.2.
+          Texinfo の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">info, install-info, makeinfo (texi2any へのリンク),
+              pdftexi2dvi, pod2texi, texi2any, texi2dvi, texi2pdf,
+              texindex</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">MiscXS.so, Parsetexi.so, XSParagraph.so (すべて
+              /usr/lib/texinfo ディレクトリ内)</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/share/texinfo, /usr/lib/texinfo</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="info" name="info"></a><span class=
+                    "term"><span class=
+                    "command"><strong>info</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    info ページを見るために利用します。 これは man
+                    ページに似ていますが、単に利用可能なコマンドラインオプションを説明するだけのものではなく、おそらくはもっと充実しています。
+                    例えば <span class="command"><strong>man
+                    bison</strong></span> と <span class=
+                    "command"><strong>info bison</strong></span> を比較してみてください。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="install-info" name="install-info"></a><span class=
+                    "term"><span class=
+                    "command"><strong>install-info</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    info ページをインストールします。 <span class=
+                    "command"><strong>info</strong></span>
+                    索引ファイルにある索引項目も更新します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="makeinfo" name="makeinfo"></a><span class=
+                    "term"><span class=
+                    "command"><strong>makeinfo</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定された Texinfo ソースファイルを Info ページ、プレーンテキスト、HTML ファイルに変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pdftexi2dvi" name="pdftexi2dvi"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pdftexi2dvi</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定された Texinfo ドキュメントファイルを PDF (Portable Document Format)
+                    ファイルに変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pod2texi" name="pod2texi"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pod2texi</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Pod フォーマットを Texinfo フォーマットに変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="texi2any" name="texi2any"></a><span class=
+                    "term"><span class=
+                    "command"><strong>texi2any</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Texinfo のソースファイルを他のさまざまなフォーマットに変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="texi2dvi" name="texi2dvi"></a><span class=
+                    "term"><span class=
+                    "command"><strong>texi2dvi</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定された Texinfo ドキュメントファイルを、デバイスに依存しない印刷可能なファイルに変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="texi2pdf" name="texi2pdf"></a><span class=
+                    "term"><span class=
+                    "command"><strong>texi2pdf</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定された Texinfo ドキュメントファイルを PDF (Portable Document Format)
+                    ファイルに変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="texindex" name="texindex"></a><span class=
+                    "term"><span class=
+                    "command"><strong>texindex</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Texinfo 索引ファイルの並び替えを行います。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="tar.html" title="Tar-1.35">戻る</a>
+          <p>
+            Tar-1.35
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="vim.html" title="Vim-9.0.1677">次へ</a>
+          <p>
+            Vim-9.0.1677
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

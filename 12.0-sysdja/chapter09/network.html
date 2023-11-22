@@ -1,0 +1,425 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      9.2. 全般的なネットワークの設定
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.0-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.0-systemd
+      </h4>
+      <h3>
+        第9章 システム設定
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="introduction.html" title="はじめに">戻る</a>
+          <p>
+            はじめに
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="udev.html" title="デバイスとモジュールの扱いについて">次へ</a>
+          <p>
+            デバイスとモジュールの扱いについて
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter09.html" title="第9章 システム設定">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-config-network" name="ch-config-network"></a>9.2.
+        全般的なネットワークの設定
+      </h1>
+      <p>
+        本節はネットワークカードを設定する場合にのみ作業を行っていきます。
+      </p>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          9.2.1. ネットワークインターフェースの設定ファイル
+        </h2>
+        <p>
+          systemd はバージョン 209 から、ネットワーク設定を行うデーモン <span class=
+          "command"><strong>systemd-networkd</strong></span> を提供するようになりました。
+          このデーモンが基本的なネットワーク設定を行います。 さらにバージョン 213 からは、DNS 名前解決を固定的に
+          <code class="filename">/etc/resolv.conf</code> ファイルによって行っていたものが
+          <span class="command"><strong>systemd-resolved</strong></span>
+          により行うよう変更されています。 いずれのデーモンもデフォルトで有効となっています。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            ネットワーク設定に <span class=
+            "command"><strong>systemd-networkd</strong></span>
+            を利用しない場合（たとえばネットワークに接続しないシステムを利用する場合や、NetworkManager
+            のようなネットワーク設定を行う別ユーティリティーを利用する場合）は、起動時にエラーメッセージが表示されないように、サービスを無効にしてください。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">systemctl disable systemd-networkd-wait-online</kbd></pre>
+        </div>
+        <p>
+          <span class="command"><strong>systemd-networkd</strong></span> (および
+          <span class="command"><strong>systemd-resolved</strong></span>)
+          に対する設定ファイルは <code class="filename">/usr/lib/systemd/network</code>
+          ディレクトリまたは <code class="filename">/etc/systemd/network</code>
+          ディレクトリに置きます。 <code class="filename">/usr/lib/systemd/network</code>
+          ディレクトリにある設定ファイルよりも <code class=
+          "filename">/etc/systemd/network</code> ディレクトリにある設定ファイルの方が優先されます。
+          設定ファイルには <code class="filename">.link</code>, <code class=
+          "filename">.netdev</code>, <code class="filename">.network</code>
+          の三種類があります。 これらの説明や設定例については man ページ <code class=
+          "filename">systemd-link(5)</code>, <code class=
+          "filename">systemd-netdev(5)</code>, <code class=
+          "filename">systemd-network(5)</code> を参照してください。
+        </p>
+        <div class="sect3">
+          <h3 class="sect3">
+            <a id="systemd-network-devices" name=
+            "systemd-network-devices"></a>9.2.1.1. ネットワークデバイスの命名
+          </h3>
+          <p>
+            通常 Udev は、システムの物理的な特性に従った enp2s1
+            などのような名称をネットワークカードインターフェースに割り当てます。 インタフェース名が分からない場合は、システム起動直後に
+            <span class="command"><strong>ip link</strong></span>
+            を実行して確認してください。
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              インターフェース名は、システム上で起動している udev デーモンの実装や設定に依存します。 LFS における udev
+              デーモン（<a class="xref" href="../chapter08/systemd.html" title=
+              "8.74. Systemd-254">「Systemd-254」</a>においてインストール）は、LFS
+              システムを起動させるまでは動作しません。 したがってホストディストリビューションにおいて各コマンドを実行しても、LFS
+              上において用いられるインターフェース名が何であるのかは特定できません。 それは chroot 環境内においても同じことです。
+            </p>
+          </div>
+          <p>
+            システムにおいて、接続タイプに応じたネットワークインターフェースは、それぞれに 1 つであるのが通常です。
+            例えば有線接続のインターフェース名は、従来より eth0 とされます。 また無線接続の場合は wifi0 や wlan0
+            といった名前が用いられます。
+          </p>
+          <p>
+            ネットワークインターフェース名を従来どおりとしたり、カスタマイズしたりするには、以下に示す 3 通りの方法があります。
+          </p>
+          <div class="itemizedlist">
+            <ul>
+              <li class="listitem">
+                <p>
+                  udev のデフォルトポリシーに対する .link ファイルをマスクして無効にします。
+                </p>
+                <pre class="userinput"><kbd class=
+                "command">ln -s /dev/null /etc/systemd/network/99-default.link</kbd></pre>
+              </li>
+              <li class="listitem">
+                <p>
+                  インターフェースに対する名前として "internet0", "dmz0", "lan0"
+                  といった命名スキームを自分で定めます。 これを行うには /etc/systemd/network/ ディレクトリに
+                  .link ファイルを生成し、必要なインターフェースに対して具体的な名前、つまりより良い命名スキームを定めます。
+                  例えば以下のようにします。
+                </p>
+                <pre class="userinput"><kbd class=
+                "command">cat &gt; /etc/systemd/network/10-ether0.link &lt;&lt; "EOF"
+<code class="literal">[Match]
+# Change the MAC address as appropriate for your network device
+MACAddress=12:34:45:78:90:AB
+
+[Link]
+Name=ether0</code>
+EOF</kbd></pre>
+                <p>
+                  詳細は man ページ systemd.link(5) を確認してください。
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  /boot/grub/grub.cfg ファイル内において、カーネルの設定行に net.ifnames=0
+                  を追加します。
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="sect3">
+          <h3 class="sect3">
+            <a id="systemd-networkd-static" name=
+            "systemd-networkd-static"></a>9.2.1.2. 固定 IP アドレスの設定
+          </h3>
+          <p>
+            以下のコマンドは固定IPアドレスの設定を行う設定ファイルを生成するものです。 (systemd-networkd と
+            systemd-resolved を利用します。)
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">cat &gt; /etc/systemd/network/10-eth-static.network &lt;&lt; "EOF"
+<code class="literal">[Match]
+Name=<em class="replaceable"><code>&lt;network-device-name&gt;</code></em>
+
+[Network]
+Address=192.168.0.2/24
+Gateway=192.168.0.1
+DNS=192.168.0.1
+Domains=<em class=
+"replaceable"><code>&lt;Your Domain Name&gt;</code></em></code>
+EOF</kbd></pre>
+          <p>
+            複数のDNSサーバーを有している場合は、DNS設定行を複数指定することができます。 固定的に <code class=
+            "filename">/etc/resolv.conf</code> ファイルを利用する場合は DNS および Domains
+            の設定行は記載しません。
+          </p>
+        </div>
+        <div class="sect3">
+          <h3 class="sect3">
+            <a id="systemd-networkd-dhcp" name=
+            "systemd-networkd-dhcp"></a>9.2.1.3. DHCP 設定
+          </h3>
+          <p>
+            以下のコマンドは IPv4 DHCP 設定を行う設定ファイルを生成します。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">cat &gt; /etc/systemd/network/10-eth-dhcp.network &lt;&lt; "EOF"
+<code class="literal">[Match]
+Name=&lt;network-device-name&gt;
+
+[Network]
+DHCP=ipv4
+
+[DHCPv4]
+UseDomains=true</code>
+EOF</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="resolv.conf" name="resolv.conf"></a>9.2.2. /etc/resolv.conf
+          ファイルの生成
+        </h2>
+        <p>
+          インターネットへの接続を行う場合には、ドメイン名サービス (domain name service; DNS)
+          による名前解決を必要とします。 これによりインターネットドメイン名を IP アドレスに、あるいはその逆の変換を行います。
+          これを行うには ISP やネットワーク管理者が指定する DNS サーバーの割り振り IP アドレスを <code class=
+          "filename">/etc/resolv.conf</code> ファイルに設定します。
+        </p>
+        <div class="sect3">
+          <h3 class="sect3">
+            <a id="resolv-conf-systemd-resolved" name=
+            "resolv-conf-systemd-resolved"></a>9.2.2.1. systemd 解決による設定
+          </h3>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              ネットワークインターフェース設定を systemd-resolved とは別の方法 (例えば ppp など) で行う場合、
+              または別のタイプのローカルリゾルバー (local resolver; たとえば bind や dnsmasq や
+              unbound など) や <code class="filename">/etc/resolv.conf</code>
+              を生成するソフトウェア (つまり systemd が提供するものでない <span class=
+              "command"><strong>resolvconf</strong></span> プログラム)
+              などを用いる場合、<span class=
+              "command"><strong>systemd-resolved</strong></span>
+              サービスは用いてはなりません。
+            </p>
+            <p>
+              systemd-resolved を無効にするには、以下のコマンドを実行します。
+            </p>
+            <pre class="userinput"><kbd class=
+            "command">systemctl disable systemd-resolved</kbd></pre>
+          </div>
+          <p>
+            DNS 設定に <span class=
+            "command"><strong>systemd-resolved</strong></span> を用いると
+            <code class="filename">/run/systemd/resolve/resolv.conf</code>
+            ファイルが生成されます。 また <code class="filename">/etc/resolv.conf</code>
+            が存在していない場合は、<span class=
+            "command"><strong>systemd-resolved</strong></span> が <code class=
+            "filename">/run/systemd/resolve/stub-resolv.conf</code>
+            へのシンボリックリンクとして生成します。 その場合は <code class=
+            "filename">/etc/resolv.conf</code> を手動で生成する必要はありません。
+          </p>
+        </div>
+        <div class="sect3">
+          <h3 class="sect3">
+            <a id="resolv-conf-static" name="resolv-conf-static"></a>9.2.2.2.
+            スタティックな resolv.conf 設定
+          </h3>
+          <p>
+            スタティックな <code class="filename">/etc/resolv.conf</code>
+            ファイルを必要とする場合は、以下のコマンドにより生成します。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">cat &gt; /etc/resolv.conf &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/resolv.conf
+
+domain <em class="replaceable"><code>&lt;Your Domain Name&gt;</code></em>
+nameserver <em class=
+"replaceable"><code>&lt;IP address of your primary nameserver&gt;</code></em>
+nameserver <em class=
+"replaceable"><code>&lt;IP address of your secondary nameserver&gt;</code></em>
+
+# End /etc/resolv.conf</code>
+EOF</kbd></pre>
+          <p>
+            <code class="varname">domain</code> ステートメントは省略するか、<code class=
+            "varname">search</code> ステートメントで代用することが可能です。 詳しくは resolv.conf の
+            man ページを参照してください。
+          </p>
+          <p>
+            <em class="replaceable"><code>&lt;IP address of the
+            nameserver&gt;</code></em> (ネームサーバーの IP アドレス) の部分には、DNS が割り振る適切な
+            IP アドレスを記述します。 IP
+            アドレスの設定は複数行う場合もあります。(代替構成を必要とするなら二次サーバーを設けることでしょう。)
+            一つのサーバーのみで十分な場合は、二つめの <span class=
+            "emphasis"><em>nameserver</em></span> の行は削除します。
+            ローカルネットワークにおいてはルーターの IP アドレスを設定することになるでしょう。 これ以外の方法として、IP アドレスに
+            Google Public DNS サービスをネームサーバーとして利用する方法もあります。
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              Google Public IPv4 DNS アドレスは <em class=
+              "parameter"><code>8.8.8.8</code></em> と <em class=
+              "parameter"><code>8.8.4.4</code></em> です。 また IPv6 では <em class=
+              "parameter"><code>2001:4860:4860::8888</code></em> と <em class=
+              "parameter"><code>2001:4860:4860::8844</code></em> です。
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="ch-config-hostname" name="ch-config-hostname"></a>9.2.3.
+          ホスト名の設定
+        </h2>
+        <p>
+          システム起動時には <code class="filename">/etc/hostname</code>
+          が参照されてシステムのホスト名が決定されます。
+        </p>
+        <p>
+          以下のコマンドを実行することで <code class="filename">/etc/hostname</code>
+          ファイルを生成するとともに、ホスト名を設定します。
+        </p>
+        <pre class="userinput"><kbd class="command">echo "<em class=
+        "replaceable"><code>&lt;lfs&gt;</code></em>" &gt; /etc/hostname</kbd></pre>
+        <p>
+          <em class="replaceable"><code>&lt;lfs&gt;</code></em>
+          の部分は、各システムにおいて定めたい名称に置き換えてください。 ここでは完全修飾ドメイン名 (Fully Qualified
+          Domain Name; FQDN) は指定しないでください。 その情報は <code class=
+          "filename">/etc/hosts</code> ファイルにて行います。
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="ch-config-hosts" name="ch-config-hosts"></a>9.2.4.
+          /etc/hosts ファイルの設定
+        </h2>
+        <p>
+          完全修飾ドメイン名 (Fully Qualified Domain Name; FQDN)、エイリアスの各設定は
+          <code class="filename">/etc/hosts</code> ファイルにて行います。 固定アドレスを用いる場合は
+          IPアドレスを定める必要があります。 ホストファイルの文法は以下のとおりです。
+        </p>
+        <pre class="screen"><code class=
+        "literal">IP_address myhost.example.org aliases</code></pre>
+        <p>
+          インターネットに公開されていないコンピューターである場合 (つまり登録ドメインであったり、あらかじめ IP
+          アドレスが割り当てられていたりする場合。 普通のユーザーはこれを持ちません。) IP アドレスはプライベートネットワーク IP
+          アドレスの範囲で指定します。 以下がそのアドレス範囲です。
+        </p>
+        <pre class="screen"><code class=
+        "literal">Private Network Address Range      Normal Prefix
+10.0.0.1 - 10.255.255.254           8
+172.x.0.1 - 172.x.255.254           16
+192.168.y.1 - 192.168.y.254         24</code></pre>
+        <p>
+          x は 16 から 31、y は 0 から 255 の範囲の数値です。
+        </p>
+        <p>
+          IP アドレスの例は 192.168.1.1 となります。 また FQDN の例としては lfs.example.org となります。
+        </p>
+        <p>
+          ネットワークカードを用いない場合でも FQDN の記述は行ってください。 MTA
+          のような特定のプログラムが動作する際に必要となることがあるからです。
+        </p>
+        <p>
+          以下のようにして <code class="filename">/etc/hosts</code> ファイルを生成します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; /etc/hosts &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/hosts
+
+127.0.0.1 localhost.localdomain localhost
+127.0.1.1 <em class="replaceable"><code>&lt;FQDN&gt;</code></em> <em class=
+"replaceable"><code>&lt;HOSTNAME&gt;</code></em>
+<em class="replaceable"><code>&lt;192.168.0.2&gt;</code></em> <em class=
+"replaceable"><code>&lt;FQDN&gt;</code></em> <em class=
+"replaceable"><code>&lt;HOSTNAME&gt;</code></em> <em class=
+"replaceable"><code>[alias1] [alias2] ...</code></em>
+::1       localhost ip6-localhost ip6-loopback
+ff02::1   ip6-allnodes
+ff02::2   ip6-allrouters
+
+# End /etc/hosts</code>
+EOF</kbd></pre>
+        <p>
+          <em class="replaceable"><code>&lt;192.168.0.2&gt;</code></em>,
+          <em class="replaceable"><code>&lt;FQDN&gt;</code></em>, <em class=
+          "replaceable"><code>&lt;HOSTNAME&gt;</code></em>
+          の部分は利用状況に応じて書き換えてください。 (ネットワーク管理者から IP
+          アドレスを指定されている場合や、既存のネットワーク環境に接続する場合など。). エイリアスの記述は省略しても構いません。 また
+          <em class="replaceable"><code>&lt;192.168.0.2&gt;</code></em>
+          の行も、DHCP や IPv6 による自動設定による接続を行う場合には省略可能です。
+        </p>
+        <p>
+          ::1 という項目は IPv6 における 127.0.0.1 に相当し、IPv6 のループバックインターフェースを表します。
+          127.0.1.1 は FQDN に対して特別に割り当てられたループバック項目です。
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="introduction.html" title="はじめに">戻る</a>
+          <p>
+            はじめに
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="udev.html" title="デバイスとモジュールの扱いについて">次へ</a>
+          <p>
+            デバイスとモジュールの扱いについて
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter09.html" title="第9章 システム設定">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

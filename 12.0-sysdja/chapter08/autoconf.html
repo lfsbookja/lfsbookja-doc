@@ -1,0 +1,299 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.45. Autoconf-2.71
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.0-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.0-systemd
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="intltool.html" title=
+          "Intltool-0.51.0">戻る</a>
+          <p>
+            Intltool-0.51.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="automake.html" title=
+          "Automake-1.16.5">次へ</a>
+          <p>
+            Automake-1.16.5
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-system-autoconf" name="ch-system-autoconf"></a>8.45.
+        Autoconf-2.71
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Autoconf パッケージは、ソースコードを自動的に設定するシェルスクリプトの生成を行うプログラムを提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.1 SBU 以下 (テスト込みで約 6.0 SBU)</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">24 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.45.1. Autoconf のインストール
+        </h2>
+        <p>
+          bash-5.2 以降が起因となるテストの不具合をここで修正します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -e 's/SECONDS|/&amp;SHLVL|/'               \
+    -e '/BASH_ARGV=/a\        /^SHLVL=/ d' \
+    -i.orig tests/local.at</kbd></pre>
+        <p>
+          Autoconf をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr</kbd></pre>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          ビルド結果をテストするには、以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class="command">make check</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            マルチコアのシステム上で autoconf のテストをすると、その処理時間は大幅に減ります。 実行する際には、上のコマンドに
+            <span class=
+            "command"><strong>TESTSUITEFLAGS=-j&lt;N&gt;</strong></span>
+            を加えます。 例えば -j4 を指定するとテスト時間は 6 割以上減ります。
+          </p>
+        </div>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-autoconf" name="contents-autoconf"></a>8.45.2.
+          Autoconf の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">autoconf, autoheader, autom4te, autoreconf, autoscan,
+              autoupdate, ifnames</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/share/autoconf</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="autoconf" name="autoconf"></a><span class=
+                    "term"><span class=
+                    "command"><strong>autoconf</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ソースコードを提供するソフトウェアパッケージを自動的に設定する (configure する)
+                    シェルスクリプトを生成します。 これにより数多くの Unix 互換システムへの適用を可能とします。 生成される設定
+                    (<span class="command"><strong>configure</strong></span>)
+                    スクリプトは独立して動作します。 つまりこれを実行するにあたっては <span class=
+                    "command"><strong>autoconf</strong></span> プログラムを必要としません。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="autoheader" name="autoheader"></a><span class=
+                    "term"><span class=
+                    "command"><strong>autoheader</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    C言語の <span class="emphasis"><em>#define</em></span> 文を
+                    configure が利用するためのテンプレートファイルを生成するツール。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="autom4te" name="autom4te"></a><span class=
+                    "term"><span class=
+                    "command"><strong>autom4te</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    M4 マクロプロセッサーに対するラッパー。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="autoreconf" name="autoreconf"></a><span class=
+                    "term"><span class=
+                    "command"><strong>autoreconf</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>autoconf</strong></span> と
+                    <span class="command"><strong>automake</strong></span>
+                    のテンプレートファイルが変更された時に、自動的に <span class=
+                    "command"><strong>autoconf</strong></span>、 <span class=
+                    "command"><strong>autoheader</strong></span>、<span class=
+                    "command"><strong>aclocal</strong></span>、<span class=
+                    "command"><strong>automake</strong></span>、<span class=
+                    "command"><strong>gettextize</strong></span>、<span class=
+                    "command"><strong>libtoolize</strong></span>
+                    を無駄なく適正な順で実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="autoscan" name="autoscan"></a><span class=
+                    "term"><span class=
+                    "command"><strong>autoscan</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ソフトウェアパッケージに対する <code class=
+                    "filename">configure.in</code> ファイルの生成をサポートします。
+                    ディレクトリツリー内のソースファイルを調査して、共通的な可搬性に関わる問題を見出します。 そして
+                    <code class="filename">configure.scan</code>
+                    ファイルを生成して、そのパッケージの <code class=
+                    "filename">configure.in</code> ファイルの雛形として提供します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="autoupdate" name="autoupdate"></a><span class=
+                    "term"><span class=
+                    "command"><strong>autoupdate</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <code class="filename">configure.in</code>
+                    ファイルにおいて、かつての古い <span class=
+                    "command"><strong>autoconf</strong></span>
+                    マクロが利用されている場合に、それを新しいマクロに変更します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ifnames" name="ifnames"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ifnames</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ソフトウェアパッケージにおける <code class=
+                    "filename">configure.in</code> ファイルの記述作成をサポートします。
+                    これはそのパッケージが利用する C プリプロセッサーの条件ディレクティブの識別子を出力します。
+                    可搬性を考慮した構築ができている場合は、本プログラムが <span class=
+                    "command"><strong>configure</strong></span>
+                    スクリプトにおいて何をチェックするべきかを決定してくれます。 また <span class=
+                    "command"><strong>autoscan</strong></span> によって生成された
+                    <code class="filename">configure.in</code>
+                    ファイルでの過不足を調整する働きもします。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="intltool.html" title=
+          "Intltool-0.51.0">戻る</a>
+          <p>
+            Intltool-0.51.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="automake.html" title=
+          "Automake-1.16.5">次へ</a>
+          <p>
+            Automake-1.16.5
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
