@@ -1,0 +1,310 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      5.3. GCC-13.2.0 - 1回め
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.0">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.0
+      </h4>
+      <h3>
+        第5章 クロスツールチェーンの構築
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="binutils-pass1.html" title=
+          "Binutils-2.41 - 1回め">戻る</a>
+          <p>
+            Binutils-2.41 - 1回め
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="linux-headers.html" title=
+          "Linux-6.4.12 API ヘッダー">次へ</a>
+          <p>
+            Linux-6.4.12 API ヘッダー
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter05.html" title=
+          "第5章 クロスツールチェーンの構築">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-tools-gcc-pass1" name="ch-tools-gcc-pass1"></a>5.3.
+        GCC-13.2.0 - 1回め
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          GCC パッケージは C コンパイラーや C++ コンパイラーなどの GNU コンパイラーコレクションを提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">3.5 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">4.2 GB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          5.3.1. クロスコンパイル版 GCC のインストール
+        </h2>
+        <p>
+          GCC は GMP、MPFR、MPC の各パッケージを必要とします。
+          これらのパッケージはホストシステムに含まれていないかもしれないため、以下を実行してビルドの準備をします。 個々のパッケージを GCC
+          ソースディレクトリの中に伸張 (解凍) し、ディレクトリ名を変更します。 これは GCC
+          のビルド処理においてそれらを自動的に利用できるようにするためです。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            本節においては誤解が多く発生しています。 ここでの手順は他のものと同様であり、手順の概要 (<a class="xref"
+            href=
+            "../partintro/generalinstructions.html#buildinstr">パッケージビルド手順</a>)
+            は説明済です。 まず初めに gcc-13.2.0 の tarball を伸張 (解凍)
+            し、生成されたソースディレクトリに移動します。 それに加えて本節では、以下の手順を行うものとなります。
+          </p>
+        </div>
+        <pre class="userinput"><kbd class=
+        "command">tar -xf ../mpfr-4.2.0.tar.xz
+mv -v mpfr-4.2.0 mpfr
+tar -xf ../gmp-6.3.0.tar.xz
+mv -v gmp-6.3.0 gmp
+tar -xf ../mpc-1.3.1.tar.gz
+mv -v mpc-1.3.1 mpc</kbd></pre>
+        <p>
+          x86_64 ホストにおいて、64 ビットライブラリに対するデフォルトのディレクトリ名は<span class=
+          "quote">「<span class="quote">lib</span>」</span>です。
+        </p>
+        <pre class="userinput"><kbd class="command">case $(uname -m) in
+  x86_64)
+    sed -e '/m64=/s/lib64/lib/' \
+        -i.orig gcc/config/i386/t-linux64
+ ;;
+esac</kbd></pre>
+        <p>
+          GCC のドキュメントでは、専用のビルドディレクトリを作成することが推奨されています。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir -v build
+cd       build</kbd></pre>
+        <p>
+          GCC をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">../configure                  \
+    --target=$LFS_TGT         \
+    --prefix=$LFS/tools       \
+    --with-glibc-version=2.38 \
+    --with-sysroot=$LFS       \
+    --with-newlib             \
+    --without-headers         \
+    --enable-default-pie      \
+    --enable-default-ssp      \
+    --disable-nls             \
+    --disable-shared          \
+    --disable-multilib        \
+    --disable-threads         \
+    --disable-libatomic       \
+    --disable-libgomp         \
+    --disable-libquadmath     \
+    --disable-libssp          \
+    --disable-libvtv          \
+    --disable-libstdcxx       \
+    --enable-languages=c,c++</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>configure オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-glibc-version=2.38</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このオプションは、ターゲットにおいて用いられることになる Glibc のバージョンを指定します。
+                これはホストディストリビューションにある libc のバージョンとは関係がありません。 1 回めの GCC
+                によってコンパイルされるものは、すべて chroot 環境内で実行されるものであって、ホストにある libc
+                とは切り離されているためです。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-newlib</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                この時点では利用可能な C ライブラリがまだ存在しません。 したがって libgcc のビルド時に
+                inhibit_libc 定数を定義します。 これを行うことで、libc
+                サポートを必要とするコード部分をコンパイルしないようにします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--without-headers</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                完璧なクロスコンパイラーを構築するなら、GCC はターゲットシステムに互換性を持つ標準ヘッダーを必要とします。
+                本手順においては標準ヘッダーは必要ありません。 このスイッチは GCC がそういったヘッダーを探しにいかないようにします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-default-pie と
+              --enable-default-ssp</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このスイッチは GCC がプログラムをコンパイルする際にデフォルトとして、堅牢なセキュリティ機能（詳しくは
+                <a class="xref" href="../chapter08/gcc.html#pie-ssp-info">PIE
+                と SSP に関するメモ</a> 参照）をある程度含める指示を行います。
+                厳密には、この段階で必要となるものではありません。
+                と言うのも、ここでのコンパイラーは一時的な実行ファイルを生み出すだけのものだからです。
+                ただし一時的なパッケージだとしても、最終形とするパッケージにできるだけ近づけておけば、理解しやすくなります。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--disable-shared</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このスイッチは内部ライブラリをスタティックライブラリとしてリンクすることを指示します。 共有ライブラリが Glibc
+                を必要としており、処理しているシステム上にはまだインストールされていないためです。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--disable-multilib</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                x86_64 に対して LFS は multilib のサポートをしていません。 このオプション指定は x86
+                には無関係です。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--disable-threads, --disable-libatomic,
+              --disable-libgomp, --disable-libquadmath, --disable-libssp,
+              --disable-libvtv, --disable-libstdcxx</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                これらのオプションは順に、スレッド処理、libatomic, libgomp, libquadmath, libssp,
+                libvtv, C++ 標準ライブラリのサポートをいずれも無効にすることを指示します。
+                これらの機能を含めていると、クロスコンパイラーをビルドする際にはコンパイルに失敗するかもしれません。
+                またクロスコンパイルによって一時的な libc ライブラリを構築する際には不要なものです。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-languages=c,c++</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このオプションは C コンパイラーおよび C++ コンパイラーのみビルドすることを指示します。
+                この時点で必要なのはこの言語だけだからです。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          GCC をコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+        <p>
+          ここでの GCC ビルドにおいては、内部にあるシステムヘッダーファイルをいくつかインストールしました。 そのうちの
+          <code class="filename">limits.h</code> というものは、対応するシステムヘッダーファイルである
+          <code class="filename">limits.h</code> を読み込むものになっています。 そのファイルはここでは
+          <code class="filename">$LFS/usr/include/limits.h</code> になります。 ただし
+          GCC をビルドしたこの時点において <code class=
+          "filename">$LFS/usr/include/limits.h</code> は存在していません。
+          したがってインストールされたばかりの内部ヘッダーファイルは、部分的に自己完結したファイルとなり、システムヘッダーファイルによる拡張された機能を含むものになっていません。
+          Glibc をビルドする際にはこれでもかまわないのですが、後々内部ヘッダーファイルは完全なものが必要になります。
+          以下のようなコマンドを通じて、その内部ヘッダーファイルの完成版を作り出します。 このコマンドは GCC
+          ビルドが通常行っている方法と同じものです。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            以下に示すコマンドは、2 つの手法、つまりバッククォートと <code class="literal">$()</code>
+            構文を使って、ネスト化したコマンド置換を行う例を示しています。
+            これは、両方の置換において一つの手法のみを使って書き換えることもできます。
+            ただしここでは、両者を混在させても実現できることを示すものです。 一般的には <code class=
+            "literal">$()</code> 構文による手法がよく用いられます。
+          </p>
+        </div>
+        <pre class="userinput"><kbd class="command">cd ..
+cat gcc/limitx.h gcc/glimits.h gcc/limity.h &gt; \
+  `dirname $($LFS_TGT-gcc -print-libgcc-file-name)`/include/limits.h</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <p>
+          本パッケージの詳細は <a class="xref" href=
+          "../chapter08/gcc.html#contents-gcc" title="8.27.2. GCC の構成">「GCC
+          の構成」</a>を参照してください。
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="binutils-pass1.html" title=
+          "Binutils-2.41 - 1回め">戻る</a>
+          <p>
+            Binutils-2.41 - 1回め
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="linux-headers.html" title=
+          "Linux-6.4.12 API ヘッダー">次へ</a>
+          <p>
+            Linux-6.4.12 API ヘッダー
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter05.html" title=
+          "第5章 クロスツールチェーンの構築">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

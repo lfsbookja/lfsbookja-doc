@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      7.6. 重要なファイルとシンボリックリンクの生成
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.0">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.0
+      </h4>
+      <h3>
+        第7章 chroot への移行と一時的ツールの追加ビルド
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="creatingdirs.html" title="ディレクトリの生成">戻る</a>
+          <p>
+            ディレクトリの生成
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gettext.html" title="Gettext-0.22">次へ</a>
+          <p>
+            Gettext-0.22
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter07.html" title=
+          "第7章 chroot への移行と一時的ツールの追加ビルド">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-tools-createfiles" name="ch-tools-createfiles"></a>7.6.
+        重要なファイルとシンボリックリンクの生成
+      </h1>
+      <p>
+        Linux のこれまでの経緯として、マウントされているファイルシステムの情報は <code class=
+        "filename">/etc/mtab</code> ファイルに保持されてきました。 最新の Linux
+        であれば、内部的にこのファイルを管理し、ユーザーに対しては <code class="filename">/proc</code>
+        ファイルシステムを通じて情報提示しています。 <code class="filename">/etc/mtab</code>
+        ファイルの存在を前提としているプログラムが正常動作するように、以下のシンボリックリンクを作成します。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">ln -sv /proc/self/mounts /etc/mtab</kbd></pre>
+      <p>
+        テストスイートの中に <code class="filename">/etc/hosts</code>
+        ファイルを参照するものがあるので、単純なものをここで生成します。 これは Perl の設定ファイルにおいても参照されます。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">cat &gt; /etc/hosts &lt;&lt; EOF
+<code class="literal">127.0.0.1  localhost $(hostname)
+::1        localhost</code>
+EOF</kbd></pre>
+      <p>
+        <code class="systemitem">root</code> ユーザーがログインできるように、またその<span class=
+        "quote">「<span class="quote">root</span>」</span>という名称を認識できるように
+        <code class="filename">/etc/passwd</code> ファイルと <code class=
+        "filename">/etc/group</code> ファイルには該当する情報が登録されている必要があります。
+      </p>
+      <p>
+        以下のコマンドを実行して <code class="filename">/etc/passwd</code> ファイルを生成します。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">cat &gt; /etc/passwd &lt;&lt; "EOF"
+<code class="literal">root:x:0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/dev/null:/usr/bin/false
+daemon:x:6:6:Daemon User:/dev/null:/usr/bin/false
+messagebus:x:18:18:D-Bus Message Daemon User:/run/dbus:/usr/bin/false
+uuidd:x:80:80:UUID Generation Daemon User:/dev/null:/usr/bin/false
+nobody:x:65534:65534:Unprivileged User:/dev/null:/usr/bin/false</code>
+EOF</kbd></pre>
+      <p>
+        <code class="systemitem">root</code> ユーザーに対する本当のパスワードは後に定めます。
+      </p>
+      <p>
+        以下のコマンドを実行して <code class="filename">/etc/group</code> ファイルを生成します。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">cat &gt; /etc/group &lt;&lt; "EOF"
+<code class="literal">root:x:0:
+bin:x:1:daemon
+sys:x:2:
+kmem:x:3:
+tape:x:4:
+tty:x:5:
+daemon:x:6:
+floppy:x:7:
+disk:x:8:
+lp:x:9:
+dialout:x:10:
+audio:x:11:
+video:x:12:
+utmp:x:13:
+usb:x:14:
+cdrom:x:15:
+adm:x:16:
+messagebus:x:18:
+input:x:24:
+mail:x:34:
+kvm:x:61:
+uuidd:x:80:
+wheel:x:97:
+users:x:999:
+nogroup:x:65534:</code>
+EOF</kbd></pre>
+      <p>
+        作成するグループは何かの標準に基づいたものではありません。 一部は 9 章の udev の設定に必要となるものですし、一部は既存の
+        Linux ディストリビューションが採用している慣用的なものです。
+        またテストスイートにて特定のユーザーやグループを必要としているものがあります。 Linux Standard Base
+        (<a class="ulink" href=
+        "https://refspecs.linuxfoundation.org/lsb.shtml">https://refspecs.linuxfoundation.org/lsb.shtml</a>
+        参照) では <code class="systemitem">root</code> グループのグループID (GID) は
+        0、<code class="systemitem">bin</code> グループの GID は 1 を定めているにすぎません。 GID
+        5 は <code class="systemitem">tty</code> グループに対して広く用いられています。 また数値 5 は
+        <code class="systemitem">devpts</code> ファイルシステムに対して <span class=
+        "phrase"><code class="filename">/etc/fstab</code></span>
+        においても用いられています。 他のグループとその GID はシステム管理者が自由に取り決めることができます。
+        というのも通常のプログラムであれば GID の値に依存することはなく、あくまでグループ名を用いてプログラミングされているからです。
+      </p>
+      <p>
+        ID 65534 は NFS のカーネルが利用し、マップされていないユーザーやグループに対するユーザー名前空間を切り分けます （これは
+        NFS サーバー上や親のユーザー空間に存在しますが、ローカルマシンや分離された名前空間には存在しません）。 未割り当ての ID
+        を避けるために、この ID を <code class="systemitem">nobody</code> と <code class=
+        "systemitem">nogroup</code> に用いることにします。 他のディストリビューションにおいては、この ID
+        を異なる用い方をしている場合があるため、移植性を考慮するプログラムでは、ここでの割り当てに依存しないようにしてください。
+      </p>
+      <p>
+        <a class="xref" href="../chapter08/chapter08.html" title=
+        "第8章 基本的なソフトウェアのインストール">第&nbsp;8&nbsp;章</a>
+        におけるテストの中には、通常のユーザーを必要とするものがあります。 ここでそういったユーザーをここで追加し、その章の最後には削除します。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">echo "tester:x:101:101::/home/tester:/bin/bash" &gt;&gt; /etc/passwd
+echo "tester:x:101:" &gt;&gt; /etc/group
+install -o tester -d /home/tester</kbd></pre>
+      <p>
+        プロンプトの<span class="quote">「<span class="quote">I have no
+        name!</span>」</span>を取り除くために新たなシェルを起動します。 <code class=
+        "filename">/etc/passwd</code> ファイルと <code class=
+        "filename">/etc/group</code> ファイルを作ったので、ユーザー名とグループ名の名前解決が適切に動作します。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">exec /usr/bin/bash --login</kbd></pre>
+      <p>
+        <span class="command"><strong>login</strong></span>、<span class=
+        "command"><strong>agetty</strong></span>、<span class=
+        "command"><strong>init</strong></span> といったプログラム (あるいは他のプログラム)
+        は、システムに誰がいつログインしたかといった情報を多くのログファイルに記録します。
+        しかしログファイルがあらかじめ存在していない場合は、ログファイルの出力が行われません。
+        そこでそのようなログファイルを作成し、適切なパーミッションを与えます。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">touch /var/log/{btmp,lastlog,faillog,wtmp}
+chgrp -v utmp /var/log/lastlog
+chmod -v 664  /var/log/lastlog
+chmod -v 600  /var/log/btmp</kbd></pre>
+      <p>
+        <code class="filename">/var/log/wtmp</code>
+        ファイルはすべてのログイン、ログアウトの情報を保持します。 <code class=
+        "filename">/var/log/lastlog</code> ファイルは各ユーザーが最後にログインした情報を保持します。
+        <code class="filename">/var/log/faillog</code>
+        ファイルはログインに失敗した情報を保持します。 <code class="filename">/var/log/btmp</code>
+        ファイルは不正なログイン情報を保持します。
+      </p>
+      <div class="admon note">
+        <img alt="[注記]" src="../images/note.png" />
+        <h3>
+          注記
+        </h3>
+        <p>
+          <code class="filename">/run/utmp</code>
+          ファイルは現在ログインしているユーザーの情報を保持します。 このファイルはブートスクリプトが動的に生成します。
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="creatingdirs.html" title="ディレクトリの生成">戻る</a>
+          <p>
+            ディレクトリの生成
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gettext.html" title="Gettext-0.22">次へ</a>
+          <p>
+            Gettext-0.22
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter07.html" title=
+          "第7章 chroot への移行と一時的ツールの追加ビルド">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

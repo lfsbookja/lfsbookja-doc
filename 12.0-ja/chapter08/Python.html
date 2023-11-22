@@ -1,0 +1,367 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.51. Python-3.11.4
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.0">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.0
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libffi.html" title="Libffi-3.4.4">戻る</a>
+          <p>
+            Libffi-3.4.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="flit-core.html" title=
+          "Flit-Core-3.9.0">次へ</a>
+          <p>
+            Flit-Core-3.9.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-system-Python" name="ch-system-Python"></a>8.51.
+        Python-3.11.4
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Python 3 パッケージは Python 開発環境を提供します。
+          オブジェクト指向プログラミング、スクリプティング、大規模プログラムのプロトタイピング、アプリケーション開発などに有用なものです。
+          Python はインタープリター言語です。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">1.9 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">370 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.51.1. Python 3 のインストール
+        </h2>
+        <p>
+          Python をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr        \
+            --enable-shared      \
+            --with-system-expat  \
+            --with-system-ffi    \
+            --enable-optimizations</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>configure オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-system-expat</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                本スイッチは、システムにインストールされている <span class=
+                "application">Expat</span> をリンクすることを指示します。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-system-ffi</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                本スイッチは、システムにインストールされている <code class=
+                "filename">libffi.so</code> をリンクすることを指示します。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-optimizations</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                本スイッチは、拡張的ではあるものの高くつく最適化を有効にします。 インタープリターは二度ビルドされます。 そこでは 1
+                回めのビルドにて実施されるテストを用いて、最適化された最終バージョンが適正化されます。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          この時点においてテスト実行することはお勧めしません。 部分的にしか仕上がっていない LFS 環境では安定せずハングすることがあります。
+          テストを必要とする場合は、本章を一番最後まで進めてから再度実行するか、あるいは BLFS において Python 3
+          をインストール際に行います。 そうではなくここでテスト実行をするなら <span class=
+          "command"><strong>make test</strong></span> を実行します。
+        </p>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+        <p>
+          Python 3 プログラムやモジュールをインストールする際には、全ユーザー向けのインストールを行うために <code class=
+          "systemitem">root</code> ユーザーになって <span class=
+          "command"><strong>pip3</strong></span> コマンドを用いています。 このことは Python
+          開発者が推奨している、仮想環境内にて一般ユーザーにより（そのユーザーが <span class=
+          "command"><strong>pip3</strong></span>
+          を実行することで）パッケージビルドを行う方法とは相容れないものです。 これを行っているため、<code class=
+          "systemitem">root</code> ユーザーとして <span class=
+          "command"><strong>pip3</strong></span> を用いると、警告メッセージが複数出力されます。
+        </p>
+        <p>
+          開発者がなぜその方法を推奨しているかというと、システムパッケージマネージャー（たとえば <span class=
+          "command"><strong>dpkg</strong></span>）などと衝突が発生するからです。 LFS
+          ではシステムワイドなパッケージマネージャーを利用していないため、このことは問題となりません。 また <span class=
+          "command"><strong>pip3</strong></span>
+          そのものが、自分の最新版が存在していないかどうかを実行時に確認します。 LFS の chroot
+          環境においては、ドメイン名解決がまだ設定されていないので、最新版の確認は失敗して警告が出力されます。
+        </p>
+        <p>
+          LFS システムを再起動してネットワーク設定を行えば、（最新版の入手可能時にはいつでも）あらかじめビルドされていた wheel を
+          PyPI から更新するような警告メッセージが示されます。 もっとも LFS では <span class=
+          "command"><strong>pip3</strong></span> を Python 3
+          の一部として考えるので、個別に更新しないでください。 したがってあらかじめビルドされた wheel を更新することは、ソースコードから
+          Linux システムをビルドするという目的から逸脱してしまいます。 このことから、<span class=
+          "command"><strong>pip3</strong></span> の最新版を求める警告は無視してください。
+          警告メッセージを省略したい場合は、以下のコマンドを実行します。 ここでは設定ファイルを生成します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; /etc/pip.conf &lt;&lt; EOF
+<code class="literal">[global]
+root-user-action = ignore
+disable-pip-version-check = true</code>
+EOF
+</kbd></pre>
+        <div class="admon important">
+          <img alt="[重要]" src="../images/important.png" />
+          <h3>
+            重要
+          </h3>
+          <p>
+            LFS や BLFS においては通常、Python モジュールのビルドとインストールには <span class=
+            "command"><strong>pip3</strong></span> コマンドを用いています。
+            この両ブックにおいて実行する <span class="command"><strong>pip3
+            install</strong></span> コマンドは、（Python 仮想環境内でない場合には） <code class=
+            "systemitem">root</code> ユーザーで実行するようにしてください。 <code class=
+            "systemitem">root</code> ユーザー以外によって <span class=
+            "command"><strong>pip3 install</strong></span>
+            を実行しても問題なく動作するように見えるかもしれませんが、インストールしたモジュールが別のユーザーからはアクセスできない事態を作り出してしまいます。
+          </p>
+          <p>
+            <span class="command"><strong>pip3 install</strong></span>
+            は、すでにインストールされているモジュールを自動的に再インストールすることは行いません。 <span class=
+            "command"><strong>pip3 install</strong></span>
+            コマンドを使ってモジュールのアップグレードを行う（たとえば meson-0.61.3 から meson-0.62.0
+            にするような場合）には、コマンドラインに <em class=
+            "parameter"><code>--upgrade</code></em> オプションを含めてください。
+            またモジュールのダウングレードや再インストールが必要となる理由が確実にあるのであれば、コマンドラインに <em class=
+            "parameter"><code>--force-reinstall --no-deps</code></em>
+            を含めて実行してください。
+          </p>
+        </div>
+        <p>
+          必要なら、整形済みドキュメントをインストールします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">install -v -dm755 /usr/share/doc/python-3.11.4/html
+
+tar --strip-components=1  \
+    --no-same-owner       \
+    --no-same-permissions \
+    -C /usr/share/doc/python-3.11.4/html \
+    -xvf ../python-3.11.4-docs-html.tar.bz2</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>ドキュメント install コマンドの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><code class="option">--no-same-owner</code>
+              と <code class="option">--no-same-permissions</code></span>
+            </dt>
+            <dd>
+              <p>
+                インストールするファイルの所有者とパーミッションを適切に設定します。 このオプションがないと <span class=
+                "application">tar</span>
+                によって展開されるファイルは、アップストリームが作り出した値になってしまうためです。
+              </p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-python" name="contents-python"></a>8.51.2. Python 3
+          の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">2to3, idle3, pip3, pydoc3, python3,
+              python3-config</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libpython3.11.so, libpython3.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/python3.11, /usr/lib/python3,
+              /usr/share/doc/python-3.11.4</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="python-2to3" name="python-2to3"></a><span class=
+                    "term"><span class=
+                    "command"><strong>2to3</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">Python 2.x</span>
+                    のソースコードを読み込み、種々の変更を行って <span class="application">Python
+                    3.x</span> 用の適正なソースコードに変換するための <span class=
+                    "application">Python</span> プログラムです
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="idle3" name="idle3"></a><span class=
+                    "term"><span class=
+                    "command"><strong>idle3</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">Python</span> に特化した GUI
+                    エディターを起動するラッパースクリプト。 このスクリプトを実行するには、Python より前に
+                    <span class="application">Tk</span> をインストールして、Python
+                    モジュールである Tkinter をビルドしておく必要があります。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pip3" name="pip3"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pip3</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Python のパッケージインストーラー。 この pip を使って Python Package Index
+                    などのインデックスサイトから各種パッケージをインストールできます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pydoc3" name="pydoc3"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pydoc3</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">Python</span> ドキュメントツール。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="python3" name="python3"></a><span class=
+                    "term"><span class=
+                    "command"><strong>python3</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Python インタープリターであり、対話的なオブジェクト指向プログラミング言語。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libffi.html" title="Libffi-3.4.4">戻る</a>
+          <p>
+            Libffi-3.4.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="flit-core.html" title=
+          "Flit-Core-3.9.0">次へ</a>
+          <p>
+            Flit-Core-3.9.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      4.3. LFS ユーザーの追加
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.0">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.0
+      </h4>
+      <h3>
+        第4章 準備作業の仕上げ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="creatingminlayout.html" title=
+          "LFS ファイルシステムの限定的なディレクトリレイアウトの生成">戻る</a>
+          <p>
+            LFS ファイルシステムの限定的なディレクトリレイアウトの生成
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="settingenvironment.html" title="環境設定">次へ</a>
+          <p>
+            環境設定
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter04.html" title=
+          "第4章 準備作業の仕上げ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-preps-addinguser" name="ch-preps-addinguser"></a>4.3. LFS
+        ユーザーの追加
+      </h1>
+      <p>
+        <code class="systemitem">root</code>
+        ユーザーでログインしていると、ちょっとした誤操作がもとで、システムを破壊する重大な事態につながることがあります。
+        そこでパッケージのビルドにあたっては通常のユーザー権限にて作業することにします。
+        あなた自身のユーザーを利用するのでも構いませんが、全く新しいユーザー環境として <code class=
+        "systemitem">lfs</code> というユーザーを作成するのが分かりやすいでしょう。 所属するグループも
+        <code class="systemitem">lfs</code> という名で作成します。 ビルド作業においてはこの
+        <code class="systemitem">lfs</code> ユーザーによりコマンド実行していきます。 そこで
+        <code class="systemitem">root</code>
+        ユーザーになって、新たなユーザーを追加する以下のコマンドを実行します。
+      </p>
+      <pre class="userinput"><kbd class="command">groupadd lfs
+useradd -s /bin/bash -g lfs -m -k /dev/null lfs</kbd></pre>
+      <div class="variablelist">
+        <p class="title">
+          <strong>コマンドラインオプションの意味</strong>
+        </p>
+        <dl class="variablelist">
+          <dt>
+            <span class="term"><em class="parameter"><code>-s
+            /bin/bash</code></em></span>
+          </dt>
+          <dd>
+            <p>
+              <code class="systemitem">lfs</code> ユーザーが利用するデフォルトのシェルを
+              <span class="command"><strong>bash</strong></span> にします。
+            </p>
+          </dd>
+          <dt>
+            <span class="term"><em class="parameter"><code>-g
+            lfs</code></em></span>
+          </dt>
+          <dd>
+            <p>
+              <code class="systemitem">lfs</code> ユーザーのグループを <code class=
+              "systemitem">lfs</code> とします。
+            </p>
+          </dd>
+          <dt>
+            <span class="term"><em class=
+            "parameter"><code>-m</code></em></span>
+          </dt>
+          <dd>
+            <p>
+              <code class="systemitem">lfs</code> ユーザーのホームディレクトリを生成します。
+            </p>
+          </dd>
+          <dt>
+            <span class="term"><em class="parameter"><code>-k
+            /dev/null</code></em></span>
+          </dt>
+          <dd>
+            <p>
+              このパラメーターは、ディレクトリ名をヌルデバイス (null device) に指定しています。
+              こうすることでスケルトンディレクトリ (デフォルトは <code class=
+              "filename">/etc/skel</code>) からのファイル群のコピーを無効とします。
+            </p>
+          </dd>
+          <dt>
+            <span class="term"><em class=
+            "parameter"><code>lfs</code></em></span>
+          </dt>
+          <dd>
+            <p>
+              新規ユーザーの名称を与えます。
+            </p>
+          </dd>
+        </dl>
+      </div>
+      <p>
+        <code class="systemitem">lfs</code> にログインする、あるいは非 <code class=
+        "systemitem">root</code> ユーザーから <code class="systemitem">lfs</code>
+        に切り替える場合には、<code class="systemitem">lfs</code>
+        に対してパスワードを設定しておくことが必要です （この反対に <code class="systemitem">root</code>
+        ユーザーにログインしている状態から <code class="systemitem">lfs</code>
+        にユーザー切り替えを行う場合には、パスワードは必要ありません）。 <code class="systemitem">root</code>
+        ユーザーにおいて以下のコマンドを実行して、パスワードの設定を行います。
+      </p>
+      <pre class="userinput"><kbd class="command">passwd lfs</kbd></pre>
+      <p>
+        <code class="filename">$LFS</code> ディレクトリの所有者を <code class=
+        "systemitem">lfs</code> ユーザーとすることで、このディレクトリ配下の全ディレクトリへのフルアクセス権を設定します。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">chown -v lfs $LFS/{usr{,/*},lib,var,etc,bin,sbin,tools}
+case $(uname -m) in
+  x86_64) chown -v lfs $LFS/lib64 ;;
+esac</kbd></pre>
+      <div class="admon note">
+        <img alt="[注記]" src="../images/note.png" />
+        <h3>
+          注記
+        </h3>
+        <p>
+          ホストシステムによっては、以下の <span class="command"><strong>su</strong></span>
+          コマンドを実行しても正常に処理されず、<code class="systemitem">lfs</code>
+          ユーザーへのログインがバックグラウンドで処理中のままとなってしまうことがあります。 プロンプトに "lfs:~$"
+          という表示がすぐに現れなかった場合は、<span class="command"><strong>fg</strong></span>
+          コマンドを入力することで解決するかもしれません。
+        </p>
+      </div>
+      <p>
+        <code class="systemitem">lfs</code> ユーザーにより起動するシェルを開始します。
+        これは、仮想コンソール上から <code class="systemitem">lfs</code> によってログインして実現します。
+        あるいは以下のユーザー切り替えコマンドを実行します。
+      </p>
+      <pre class="userinput"><kbd class="command">su - lfs</kbd></pre>
+      <p>
+        パラメーター<span class="quote">「<span class="quote"><em class=
+        "parameter"><code>-</code></em></span>」</span>は <span class=
+        "command"><strong>su</strong></span> コマンドの実行において、非ログイン (non-login)
+        シェルではなく、ログインシェルを起動することを指示します。 ログインシェルとそうでないシェルの違いについては <code class=
+        "filename">bash(1)</code> や <span class="command"><strong>info
+        bash</strong></span> を参照してください。
+      </p>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="creatingminlayout.html" title=
+          "LFS ファイルシステムの限定的なディレクトリレイアウトの生成">戻る</a>
+          <p>
+            LFS ファイルシステムの限定的なディレクトリレイアウトの生成
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="settingenvironment.html" title="環境設定">次へ</a>
+          <p>
+            環境設定
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter04.html" title=
+          "第4章 準備作業の仕上げ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

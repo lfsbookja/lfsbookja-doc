@@ -1,0 +1,251 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      6.18. GCC-13.2.0 - 2回め
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.0">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.0
+      </h4>
+      <h3>
+        第6章 クロスコンパイルによる一時的ツール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="binutils-pass2.html" title=
+          "Binutils-2.41 - 2回め">戻る</a>
+          <p>
+            Binutils-2.41 - 2回め
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="../chapter07/chapter07.html" title=
+          "chroot への移行と一時的ツールの追加ビルド">次へ</a>
+          <p>
+            chroot への移行と一時的ツールの追加ビルド
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter06.html" title=
+          "第6章 クロスコンパイルによる一時的ツール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-tools-gcc-pass2" name="ch-tools-gcc-pass2"></a>6.18.
+        GCC-13.2.0 - 2回め
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          GCC パッケージは C コンパイラーや C++ コンパイラーなどの GNU コンパイラーコレクションを提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">4.3 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">4.8 GB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          6.18.1. GCC のインストール
+        </h2>
+        <p>
+          GCC の 1 回めのビルドと同様に、ここでも GMP、MPFR、MPC の各パッケージを必要とします。 tarball
+          を解凍して、所定のディレクトリに移動させます。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">tar -xf ../mpfr-4.2.0.tar.xz
+mv -v mpfr-4.2.0 mpfr
+tar -xf ../gmp-6.3.0.tar.xz
+mv -v gmp-6.3.0 gmp
+tar -xf ../mpc-1.3.1.tar.gz
+mv -v mpc-1.3.1 mpc</kbd></pre>
+        <p>
+          x86_64 上でビルドしている場合は、64ビットライブラリのデフォルトディレクトリ名を<span class=
+          "quote">「<span class="quote">lib</span>」</span>にします。
+        </p>
+        <pre class="userinput"><kbd class="command">case $(uname -m) in
+  x86_64)
+    sed -e '/m64=/s/lib64/lib/' -i.orig gcc/config/i386/t-linux64
+  ;;
+esac</kbd></pre>
+        <p>
+          libgcc と libstdc++ のヘッダーのビルドルールを変更して、これらのライブラリに対して POSIX
+          スレッドサポートを含めてビルドするようにします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed '/thread_header =/s/@.*@/gthr-posix.h/' \
+    -i libgcc/Makefile.in libstdc++-v3/include/Makefile.in</kbd></pre>
+        <p>
+          専用のディレクトリを再度生成します。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir -v build
+cd       build</kbd></pre>
+        <p>
+          GCC のビルドに入る前に、デフォルトの最適化フラグを上書きするような環境変数の設定がないことを確認してください。
+        </p>
+        <p>
+          GCC をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">../configure                                       \
+    --build=$(../config.guess)                     \
+    --host=$LFS_TGT                                \
+    --target=$LFS_TGT                              \
+    LDFLAGS_FOR_TARGET=-L$PWD/$LFS_TGT/libgcc      \
+    --prefix=/usr                                  \
+    --with-build-sysroot=$LFS                      \
+    --enable-default-pie                           \
+    --enable-default-ssp                           \
+    --disable-nls                                  \
+    --disable-multilib                             \
+    --disable-libatomic                            \
+    --disable-libgomp                              \
+    --disable-libquadmath                          \
+    --disable-libsanitizer                         \
+    --disable-libssp                               \
+    --disable-libvtv                               \
+    --enable-languages=c,c++</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>configure オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-build-sysroot=$LFS</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                通常は <em class="parameter"><code>--host</code></em> を用いれば、GCC
+                ビルドにクロスコンパイラーが用いられ、参照すべきヘッダーやライブラリも <code class=
+                "filename">$LFS</code> にあるものが用いられるように指示されます。 しかし GCC
+                向けのビルドシステムは別のツールを使っているので、上のような場所を認識できていません。
+                本スイッチは、そのツール類が必要とするファイルを、ホスト内からではなく、<code class=
+                "filename">$LFS</code> から探し出すようにします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--target=$LFS_TGT</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                GCC はクロスコンパイルによって作り出してきているので、コンパイル済み GCC
+                実行ファイルからターゲットライブラリ（<code class="filename">libgcc</code> と
+                <code class="filename">libstdc++</code>) をビルドして作り出すことができません。
+                なぜならその実行ファイルはホスト上で動作させられないからです。 GCC
+                ビルドシステムはその回避策として、デフォルトではホスト上にある C および C++ コンパイラーを利用しようとします。
+                ただし GCC のバージョンが異なる場合に、GCC ターゲットライブラリをビルドすることはサポートされていません。
+                したがってホスト上のコンパイラーがビルドに失敗する可能性があります。 本パラメーターは、確実に GCC
+                １回めの実行ファイルを使ってライブラリビルドを行うようにします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>LDFLAGS_FOR_TARGET=...</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                GCC １回めではスタティックバージョンの <code class="filename">libgcc</code>
+                をビルドしていましたが、ここでは共有の <code class="filename">libgcc</code>
+                をビルドするようにします。 これは C++ 例外処理のために必要となります。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--disable-libsanitizer</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                GCC のサニタイザーランタイムライブラリを無効にします。 これはここでの一時的インストールにおいては不要です。
+                本スイッチは、インストールターゲットにおいて <code class=
+                "systemitem">libcrypt</code> がインストールされていない状況で GCC
+                をビルドする場合に必要となります。 <a class="xref" href=
+                "../chapter05/gcc-pass1.html" title=
+                "5.3. GCC-13.2.0 - 1回め">gcc 1 回め</a> においては、<em class=
+                "parameter"><code>--disable-libstdcxx</code></em>
+                によって暗にそれを行っていましたが、ここではそれを明示的に行う必要があります。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make DESTDIR=$LFS install</kbd></pre>
+        <p>
+          最後に、便利なシンボリックリンクを作成します。 プログラムやスクリプトの中には <span class=
+          "command"><strong>gcc</strong></span> ではなく <span class=
+          "command"><strong>cc</strong></span> を用いるものが結構あります。
+          シンボリックリンクを作ることで各種のプログラムを汎用的にすることができ、通常 GNU C コンパイラーがインストールされていない多くの
+          UNIX システムでも利用できるものになります。 <span class=
+          "command"><strong>cc</strong></span> を利用することにすれば、システム管理者がどの C
+          コンパイラーをインストールすべきかを判断する必要がなくなります。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">ln -sv gcc $LFS/usr/bin/cc</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <p>
+          本パッケージの詳細は <a class="xref" href=
+          "../chapter08/gcc.html#contents-gcc" title="8.27.2. GCC の構成">「GCC
+          の構成」</a>を参照してください。
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="binutils-pass2.html" title=
+          "Binutils-2.41 - 2回め">戻る</a>
+          <p>
+            Binutils-2.41 - 2回め
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="../chapter07/chapter07.html" title=
+          "chroot への移行と一時的ツールの追加ビルド">次へ</a>
+          <p>
+            chroot への移行と一時的ツールの追加ビルド
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter06.html" title=
+          "第6章 クロスコンパイルによる一時的ツール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

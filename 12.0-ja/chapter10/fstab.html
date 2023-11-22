@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      10.2. /etc/fstab ファイルの生成
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.0">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.0
+      </h4>
+      <h3>
+        第10章 LFS システムのブート設定
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="introduction.html" title="はじめに">戻る</a>
+          <p>
+            はじめに
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="kernel.html" title="Linux-6.4.12">次へ</a>
+          <p>
+            Linux-6.4.12
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter10.html" title=
+          "第10章 LFS システムのブート設定">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-bootable-fstab" name="ch-bootable-fstab"></a>10.2.
+        /etc/fstab ファイルの生成
+      </h1>
+      <p>
+        <code class="filename">/etc/fstab</code>
+        ファイルは、種々のプログラムがファイルシステムのマウント状況を確認するために利用するファイルです。
+        ファイルシステムがデフォルトでどこにマウントされ、それがどういう順序であるか、マウント前に (整合性エラーなどの)
+        チェックを行うかどうか、という設定が行われます。 新しいファイルシステムに対する設定は以下のようにして生成します。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">cat &gt; /etc/fstab &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/fstab
+
+# file system  mount-point    type     options             dump  fsck
+#                                                                order
+
+/dev/<em class=
+"replaceable"><code>&lt;xxx&gt;</code></em>     /              <em class=
+"replaceable"><code>&lt;fff&gt;</code></em>    defaults            1     1
+/dev/<em class=
+"replaceable"><code>&lt;yyy&gt;</code></em>     swap           swap     pri=1               0     0
+proc           /proc          proc     nosuid,noexec,nodev 0     0
+sysfs          /sys           sysfs    nosuid,noexec,nodev 0     0
+devpts         /dev/pts       devpts   gid=5,mode=620      0     0
+tmpfs          /run           tmpfs    defaults            0     0
+devtmpfs       /dev           devtmpfs mode=0755,nosuid    0     0
+tmpfs          /dev/shm       tmpfs    nosuid,nodev        0     0
+cgroup2        /sys/fs/cgroup cgroup2  nosuid,noexec,nodev 0     0
+
+# End /etc/fstab</code>
+EOF</kbd></pre>
+      <p>
+        <em class="replaceable"><code>&lt;xxx&gt;</code></em>、 <em class=
+        "replaceable"><code>&lt;yyy&gt;</code></em>、 <em class=
+        "replaceable"><code>&lt;fff&gt;</code></em>
+        の部分はシステムに合わせて正しい記述に書き換えてください。 例えば <code class=
+        "filename">sda2</code>、<code class=
+        "filename">sda5</code>、<code class="systemitem">ext4</code> といったものです。
+        上記各行の6項目の記述内容については <span class="command"><strong>man 5
+        fstab</strong></span> により確認してください。
+      </p>
+      <p>
+        MS-DOS や Windows において利用されるファイルシステム（つまり
+        vfat、ntfs、smbfs、cifs、iso9660、udfなど）では、ファイル名称内に用いられた非アスキー文字を正しく認識させるために、特別なマウントオプション<span class="quote">「<span class="quote">utf8</span>」</span>の指定が必要になります。
+        UTF-8 以外のロケールの場合 <code class="option">iocharset</code>
+        オプションには、文字ロケールと同じ値を設定することが必要であり、カーネルが理解できる形でなければなりません。
+        またこれを動作させるために、対応するキャラクターセット定義（File systems -&gt;Native Language
+        Support にあります）をカーネルに組み入れるか、モジュールとしてビルドすることが必要です。 ただし <code class=
+        "option">iocharset=utf8</code> というオプション指定によって文字ロケールを UTF-8
+        とした場合、ファイルシステムの英大文字小文字は区別されるようになります。 これを避けるのであれば、<code class=
+        "option">iocharset=utf8</code> ではなく特別なオプション <code class=
+        "option">utf8</code> を指定します。 vfat や smbfs
+        ファイルシステムを用いるなら、さらに<span class="quote">「<span class=
+        "quote">codepage</span>」</span>オプションも必要です。 このオプションには、国情報に基づいて MS-DOS
+        にて用いられるコードページ番号をセットします。 例えば USB フラッシュドライブをマウントし ru_RU.KOI8-R
+        をセットするユーザーであれば <code class="filename">/etc/fstab</code>
+        ファイルの設定は以下のようになります。
+      </p>
+      <pre class="screen"><code class=
+      "literal">noauto,user,quiet,showexec,codepage=866,iocharset=koi8r</code></pre>
+      <p>
+        ru_RU.UTF-8 をセットするなら以下のように変わります。
+      </p>
+      <pre class="screen"><code class=
+      "literal">noauto,user,quiet,showexec,codepage=866,utf8</code></pre>
+      <p>
+        <code class="option">iocharset</code> オプションは <code class=
+        "literal">iso8859-1</code> に対してのデフォルト設定です。
+        （その場合、ファイルシステムの英大文字小文字は区別されません。） <code class="option">utf8</code>
+        オプションは、ファイル名称が UTF-8 ロケール内にて正しく認識されるように、カーネルが UTF-8
+        ロケールに変換して取り扱うことを指示するものです。
+      </p>
+      <p>
+        ファイルシステムによっては codepage と iocharset のデフォルト値をカーネルにおいて設定することもできます。
+        カーネルにおいて対応する設定は<span class="quote">「<span class="quote">Default NLS
+        Option</span>」</span>(<code class=
+        "option">CONFIG_NLS_DEFAULT)</code>、<span class="quote">「<span class=
+        "quote">Default Remote NLS Option</span>」</span>(<code class=
+        "option">CONFIG_SMB_NLS_DEFAULT</code>)、<span class=
+        "quote">「<span class="quote">Default codepage for
+        FAT</span>」</span>(<code class=
+        "option">CONFIG_FAT_DEFAULT_CODEPAGE</code>)、<span class=
+        "quote">「<span class="quote">Default iocharset for
+        FAT</span>」</span>(<code class=
+        "option">CONFIG_FAT_DEFAULT_IOCHARSET</code>) です。 なお ntfs
+        ファイルシステムに対しては、カーネルのコンパイル時に設定する項目はありません。
+      </p>
+      <p>
+        特定のハードディスクにおいて ext3 ファイルシステムでの電源供給不足時の信頼性を向上させることができます。 これは
+        <code class="filename">/etc/fstab</code> での定義においてマウントオプション
+        <code class="option">barrier=1</code> を指定します。
+        ハードディスクがこのオプションをサポートしているかどうかは <a class="ulink" href=
+        "https://www.linuxfromscratch.org/blfs/view/12.0/general/hdparm.html">
+        hdparm</a> を実行することで確認できます。 例えば以下のコマンドを実行します。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">hdparm -I /dev/sda | grep NCQ</kbd></pre>
+      <p>
+        何かが出力されたら、このオプションがサポートされていることを意味します。
+      </p>
+      <p>
+        論理ボリュームマネージャー (Logical Volume Management; LVM) に基づいたパーティションでは
+        <code class="option">barrier</code> オプションは利用できません。
+      </p>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="introduction.html" title="はじめに">戻る</a>
+          <p>
+            はじめに
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="kernel.html" title="Linux-6.4.12">次へ</a>
+          <p>
+            Linux-6.4.12
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter10.html" title=
+          "第10章 LFS システムのブート設定">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

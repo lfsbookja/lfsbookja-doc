@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.55. Meson-1.2.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.0">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.0
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="ninja.html" title="Ninja-1.11.1">戻る</a>
+          <p>
+            Ninja-1.11.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="coreutils.html" title="Coreutils-9.3">次へ</a>
+          <p>
+            Coreutils-9.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-system-meson" name="ch-system-meson"></a>8.55. Meson-1.2.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Meson はオープンソースによるビルドシステムです。 非常に高速であり、できるかぎりユーザーフレンドリーであることを意識しています。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.1 SBU 以下</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">42 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.55.1. Meson のインストール
+        </h2>
+        <p>
+          Meson をビルドするには、以下のコマンドを実行します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">pip3 wheel -w dist --no-build-isolation --no-deps $PWD</kbd></pre>
+        <p>
+          このテストスイートには、LFS の範囲外としているパッケージがいくつか必要です。
+        </p>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">pip3 install --no-index --find-links dist meson
+install -vDm644 data/shell-completions/bash/meson /usr/share/bash-completion/completions/meson
+install -vDm644 data/shell-completions/zsh/_meson /usr/share/zsh/site-functions/_meson</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>install パラメーターの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class="parameter"><code>-w
+              dist</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                生成された wheel を <code class="filename">dist</code>
+                ディレクトリに配置します。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class="parameter"><code>--find-links
+              dist</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                <code class="filename">dist</code> ディレクトリから wheel をインストールします。
+              </p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-meson" name="contents-meson"></a>8.55.2. Meson の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">meson</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/lib/python3.11/site-packages/meson-1.2.1.dist-info,
+              /usr/lib/python3.11/site-packages/mesonbuild</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="meson" name="meson"></a><span class=
+                    "term"><span class=
+                    "command"><strong>meson</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    生産性の高いビルドシステム。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="ninja.html" title="Ninja-1.11.1">戻る</a>
+          <p>
+            Ninja-1.11.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="coreutils.html" title="Coreutils-9.3">次へ</a>
+          <p>
+            Coreutils-9.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

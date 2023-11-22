@@ -1,0 +1,569 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.32. Gettext-0.22
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.0">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.0
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="psmisc.html" title="Psmisc-23.6">戻る</a>
+          <p>
+            Psmisc-23.6
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="bison.html" title="Bison-3.8.2">次へ</a>
+          <p>
+            Bison-3.8.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-system-gettext" name="ch-system-gettext"></a>8.32.
+        Gettext-0.22
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Gettext パッケージは国際化を行うユーティリティを提供します。 各種プログラムに対して NLS (Native Language
+          Support) を含めてコンパイルすることができます。 つまり各言語による出力メッセージが得られることになります。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">1.4 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">250 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.32.1. Gettext のインストール
+        </h2>
+        <p>
+          Gettext をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr    \
+            --disable-static \
+            --docdir=/usr/share/doc/gettext-0.22</kbd></pre>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          コンパイル結果をテストするなら (3 SBU 程度の処理時間を要しますが) 以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class="command">make check</kbd></pre>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install
+chmod -v 0755 /usr/lib/preloadable_libintl.so</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-gettext" name="contents-gettext"></a>8.32.2.
+          Gettext の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">autopoint, envsubst, gettext, gettext.sh, gettextize,
+              msgattrib, msgcat, msgcmp, msgcomm, msgconv, msgen, msgexec,
+              msgfilter, msgfmt, msggrep, msginit, msgmerge, msgunfmt,
+              msguniq, ngettext, recode-sr-latin, xgettext</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libasprintf.so, libgettextlib.so, libgettextpo.so,
+              libgettextsrc.so, libtextstyle.so,
+              preloadable_libintl.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/lib/gettext, /usr/share/doc/gettext-0.22,
+              /usr/share/gettext, /usr/share/gettext-0.22</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="autopoint" name="autopoint"></a><span class=
+                    "term"><span class=
+                    "command"><strong>autopoint</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Gettext 標準のインフラストラクチャーファイル (infrastructure file)
+                    をソースパッケージ内にコピーします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="envsubst" name="envsubst"></a><span class=
+                    "term"><span class=
+                    "command"><strong>envsubst</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    環境変数をシェル書式の文字列として変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gettext" name="gettext"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gettext</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    メッセージカタログ内の翻訳文を参照し、メッセージをユーザーの利用言語に変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gettext.sh" name="gettext.sh"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gettext.sh</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    主に gettext におけるシェル関数ライブラリとして機能します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gettextize" name="gettextize"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gettextize</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    パッケージの国際化対応を始めるにあたり、標準的な Gettext
+                    関連ファイルを、指定されたパッケージのトップディレクトリにコピーします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="msgattrib" name="msgattrib"></a><span class=
+                    "term"><span class=
+                    "command"><strong>msgattrib</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    翻訳カタログ内のメッセージの属性に応じて、そのメッセージを抽出します。 またメッセージの属性を操作します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="msgcat" name="msgcat"></a><span class=
+                    "term"><span class=
+                    "command"><strong>msgcat</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定された <code class="filename">.po</code> ファイルを連結します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="msgcmp" name="msgcmp"></a><span class=
+                    "term"><span class=
+                    "command"><strong>msgcmp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    二つの <code class="filename">.po</code> ファイルを比較して、同一の msgid
+                    による文字定義が両者に含まれているかどうかをチェックします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="msgcomm" name="msgcomm"></a><span class=
+                    "term"><span class=
+                    "command"><strong>msgcomm</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定された <code class="filename">.po</code>
+                    ファイルにて共通のメッセージを検索します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="msgconv" name="msgconv"></a><span class=
+                    "term"><span class=
+                    "command"><strong>msgconv</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    翻訳カタログを別のキャラクターエンコーディングに変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="msgen" name="msgen"></a><span class=
+                    "term"><span class=
+                    "command"><strong>msgen</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    英語用の翻訳カタログを生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="msgexec" name="msgexec"></a><span class=
+                    "term"><span class=
+                    "command"><strong>msgexec</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    翻訳カタログ内の翻訳文すべてに対してコマンドを適用します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="msgfilter" name="msgfilter"></a><span class=
+                    "term"><span class=
+                    "command"><strong>msgfilter</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    翻訳カタログ内の翻訳文すべてに対してフィルター処理を適用します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="msgfmt" name="msgfmt"></a><span class=
+                    "term"><span class=
+                    "command"><strong>msgfmt</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    翻訳カタログからバイナリメッセージカタログを生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="msggrep" name="msggrep"></a><span class=
+                    "term"><span class=
+                    "command"><strong>msggrep</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定された検索パターンに合致する、あるいは指定されたソースファイルに属する翻訳カタログの全メッセージを出力します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="msginit" name="msginit"></a><span class=
+                    "term"><span class=
+                    "command"><strong>msginit</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    新規に <code class="filename">.po</code> ファイルを生成します。
+                    その時にはユーザーの環境設定に基づいてメタ情報を初期化します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="msgmerge" name="msgmerge"></a><span class=
+                    "term"><span class=
+                    "command"><strong>msgmerge</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    二つの翻訳ファイルを一つにまとめます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="msgunfmt" name="msgunfmt"></a><span class=
+                    "term"><span class=
+                    "command"><strong>msgunfmt</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    バイナリメッセージカタログを翻訳テキストに逆コンパイルします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="msguniq" name="msguniq"></a><span class=
+                    "term"><span class=
+                    "command"><strong>msguniq</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    翻訳カタログ中に重複した翻訳がある場合にこれを統一します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ngettext" name="ngettext"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ngettext</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    出力メッセージをユーザーの利用言語に変換します。 特に複数形のメッセージを取り扱います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="recode-sr-latin" name=
+                    "recode-sr-latin"></a><span class="term"><span class=
+                    "command"><strong>recode-sr-latin</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    セルビア語のテキストに対し、キリル文字からラテン文字にコード変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xgettext" name="xgettext"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xgettext</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたソースファイルから、翻訳対象となるメッセージ行を抽出して、翻訳テンプレートとして生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libasprintf" name="libasprintf"></a><span class=
+                    "term"><code class="filename">libasprintf</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="emphasis"><em>autosprintf</em></span>
+                    クラスを定義します。 これは C++ プログラムにて利用できる C 言語書式の出力ルーチンを生成するものです。
+                    <span class="emphasis"><em>&lt;string&gt;</em></span>
+                    文字列と <span class=
+                    "emphasis"><em>&lt;iostream&gt;</em></span> ストリームを利用します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libgettextlib" name=
+                    "libgettextlib"></a><span class="term"><code class=
+                    "filename">libgettextlib</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    さまざまな Gettext プログラムが利用している共通的ルーチンを提供します。
+                    これは一般的な利用を想定したものではありません。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libgettextpo" name="libgettextpo"></a><span class=
+                    "term"><code class="filename">libgettextpo</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <code class="filename">.po</code>
+                    ファイルの出力に特化したプログラムを構築する際に利用します。 Gettext が提供する標準的なアプリケーション
+                    (<span class=
+                    "command"><strong>msgcomm</strong></span>、<span class=
+                    "command"><strong>msgcmp</strong></span>、<span class=
+                    "command"><strong>msgattrib</strong></span>、<span class=
+                    "command"><strong>msgen</strong></span>)
+                    などでは処理出来ないものがある場合に、このライブラリを利用します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libgettextsrc" name=
+                    "libgettextsrc"></a><span class="term"><code class=
+                    "filename">libgettextsrc</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    さまざまな Gettext プログラムが利用している共通的ルーチンを提供します。
+                    これは一般的な利用を想定したものではありません。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libtextstyle" name="libtextstyle"></a><span class=
+                    "term"><code class="filename">libtextstyle</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    テキストスタイリングライブラリ。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="preloadable_libintl" name=
+                    "preloadable_libintl"></a><span class="term"><code class=
+                    "filename">preloadable_libintl</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    LD_PRELOAD が利用するライブラリ。 翻訳されていないメッセージを収集 (log) する
+                    <code class="filename">libintl</code> をサポートします。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="psmisc.html" title="Psmisc-23.6">戻る</a>
+          <p>
+            Psmisc-23.6
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="bison.html" title="Bison-3.8.2">次へ</a>
+          <p>
+            Bison-3.8.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.0">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
