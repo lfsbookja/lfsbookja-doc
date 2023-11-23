@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.70. Tar-1.35
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-r12.0-90">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version r12.0-90
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="patch.html" title="Patch-2.7.6">戻る</a>
+          <p>
+            Patch-2.7.6
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="texinfo.html" title="Texinfo-7.1">次へ</a>
+          <p>
+            Texinfo-7.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r12.0-90">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-system-tar" name="ch-system-tar"></a>8.70. Tar-1.35
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Tar パッケージは tar アーカイブの生成を行うとともに、アーカイブ操作に関する多くの処理を提供します。 Tar
+          はすでに生成されているアーカイブからファイルを抽出したり、ファイルを追加したりします。
+          あるいはすでに保存されているファイルを更新したり一覧を表示したりします。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">1.7 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">43 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.70.1. Tar のインストール
+        </h2>
+        <p>
+          Tar をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">FORCE_UNSAFE_CONFIGURE=1  \
+./configure --prefix=/usr</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>configure オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><code class=
+              "envar">FORCE_UNSAFE_CONFIGURE=1</code></span>
+            </dt>
+            <dd>
+              <p>
+                このオプションは、<code class="function">mknod</code> に対するテストを
+                <code class="systemitem">root</code> ユーザーにて実行するようにします。
+                一般にこのテストを <code class="systemitem">root</code>
+                ユーザーで実行することは危険なこととされますが、ここでは部分的にビルドしたシステムでテストするものであるため、オーバーライドすることで支障はありません。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          コンパイル結果をテストするために以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class="command">make check</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            Tar のテスト時間は、システムが有するマルチコアに応じて明らかに少なくて済みます。 そのようにするためには、上のコマンドに
+            <span class=
+            "command"><strong>TESTSUITEFLAGS=-j&lt;N&gt;</strong></span>
+            を加えます。 例えば -j4 を指定すると、テスト時間は 70% 以上減少させることができます。
+          </p>
+        </div>
+        <p>
+          テストの 1 つ capabilities: binary store/restore は、LFS が selinux
+          を含んでいないため、実行に失敗します。 ただし LFS
+          ビルドに利用するファイルシステム上において、ホストカーネルが拡張属性またはセキュリティラベルをサポートしていない場合、このテストはスキップされます。
+        </p>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install
+make -C doc install-html docdir=/usr/share/doc/tar-1.35</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-tar" name="contents-tar"></a>8.70.2. Tar の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">tar</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/share/doc/tar-1.35</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tar" name="tar"></a><span class=
+                    "term"><span class="command"><strong>tar</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    アーカイブの生成、アーカイブからのファイル抽出、アーカイブの内容一覧表示を行います。 アーカイブは tarball
+                    とも呼ばれます。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="patch.html" title="Patch-2.7.6">戻る</a>
+          <p>
+            Patch-2.7.6
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="texinfo.html" title="Texinfo-7.1">次へ</a>
+          <p>
+            Texinfo-7.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r12.0-90">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

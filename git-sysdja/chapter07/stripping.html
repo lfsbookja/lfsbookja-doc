@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      7.14. 一時的システムのクリーンアップと保存
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-r10.1-180-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version r10.1-180-systemd
+      </h4>
+      <h3>
+        第7章 chroot への移行と一時的ツールの追加ビルド
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="util-linux.html" title=
+          "Util-linux-2.37.1">戻る</a>
+          <p>
+            Util-linux-2.37.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="../part4.html" title="LFSシステムの構築">次へ</a>
+          <p>
+            LFSシステムの構築
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter07.html" title=
+          "第7章 chroot への移行と一時的ツールの追加ビルド">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r10.1-180-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-tools-stripping" name="ch-tools-stripping"></a>7.14.
+        一時的システムのクリーンアップと保存
+      </h1>
+      <p>
+        libtool の .la ファイルはスタティックライブラリにリンクするときだけ使います。
+        これらはダイナミック共有ライブラリを用いるとき、そして特に autotools
+        以外のビルドシステムを利用するときには不要であり、潜在的には支障を及ぼします。 したがって chroot
+        の中で、不要なファイルは削除します。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">find /usr/{lib,libexec} -name \*.la -delete</kbd></pre>
+      <p>
+        一時ツールのドキュメントを削除します。 これを最終的なシステムには持ち込みません。 これによって 35 MB を節約します。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">rm -rf /usr/share/{info,man,doc}/*</kbd></pre>
+      <div class="admon note">
+        <img alt="[注記]" src="../images/note.png" />
+        <h3>
+          注記
+        </h3>
+        <p>
+          本節の残りの作業は必須ではありません。 ただし <a class="xref" href=
+          "../chapter08/chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">第&nbsp;8&nbsp;章</a>
+          においてパッケージのインストールを始めていくと、一時的ツールは上書きされていきます。
+          そこで以下に示すように、一時的ツールのバックアップをとっておくのが良いでしょう。
+          その後の作業は、ディスク容量が残り少ない場合に限って行えば十分です。
+        </p>
+      </div>
+      <p>
+        以下の手順は chroot 環境の外から実施します。 これはつまり chroot 環境から抜け出してから手順を進めていくということです。
+        こうする理由は以下のとおりです。
+      </p>
+      <div class="itemizedlist">
+        <ul>
+          <li class="listitem">
+            <p>
+              処理対象とするオブジェクトは、確実に利用していない状態とします。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              ファイルシステムへのアクセスは chroot 環境の外部から行います。
+              バックアップアーカイブの保存や読み込みをするなら、安全のため <code class=
+              "filename">$LFS</code> ディレクトリ階層の内部において行うべきではないからです。
+            </p>
+          </li>
+        </ul>
+      </div>
+      <p>
+        インストールしたファイルのストリップやバックアップ取得を行っている場合は、 chroot 環境からログアウトします。
+      </p>
+      <pre class="userinput"><kbd class="command">exit</kbd></pre>
+      <div class="admon important">
+        <img alt="[重要]" src="../images/important.png" />
+        <h3>
+          重要
+        </h3>
+        <p>
+          以降の手順はすべて <code class="systemitem">root</code> ユーザーにより実施します。
+          特にコマンド実行は、よく注意しながら行ってください。 誤ったことをすると、ホストシステムを書き換えてしまうことになります。 環境変数
+          <code class="envar">LFS</code> と <code class="envar">LFS_TGT</code>
+          はデフォルトで <code class="systemitem">lfs</code>
+          ユーザーにおいて設定していましたが、<code class="systemitem">root</code>
+          ユーザーにおいては設定していないかもしれません。 <code class="systemitem">root</code>
+          ユーザーによりコマンド実行する際にも、<code class="envar">LFS</code>、<code class=
+          "envar">LFS_TGT</code> の各変数を設定してください。 このことは <a class="xref" href=
+          "../chapter02/aboutlfs.html" title="2.6. 変数 $LFS の設定">「変数 $LFS
+          の設定」</a> において説明済です。
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          7.14.1. ストリップ
+        </h2>
+        <p>
+          LFS パーティションの容量が比較的小さい場合、不要なものは削除することを覚えておきましょう。
+          ここまでにビルドしてきた実行モジュールやライブラリには、合計で 90 MB ほどの不要なデバッグシンボル情報が含まれています。
+        </p>
+        <p>
+          そのデバッグ情報を実行モジュール類から取り除くには以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class="command">cd $LFS/tools/$LFS_TGT
+bin/strip --strip-unneeded $LFS/usr/lib/*
+bin/strip --strip-unneeded $LFS/usr/{,s}bin/*
+bin/strip --strip-unneeded $LFS/tools/bin/*</kbd></pre>
+        <p>
+          上のコマンド実行ではいくつものファイルがフォーマット不明となって処理がスキップされます。
+          それらはたいてい、バイナリではなくスクリプトであることを示しています。
+        </p>
+        <p>
+          この時点において chroot パーティションには最低でも 5 GB の空き容量が必要になります。 これは次のフェーズにて Glibc
+          と GCC をビルドしインストールするためです。 Glibc
+          のビルドとインストールができさえすれば、残りのものもすべてビルド、インストールができます。 空き容量がどれだけあるかは
+          <span class="command"><strong>df -h $LFS</strong></span>
+          により確認することができます。
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          7.14.2. バックアップ
+        </h2>
+        <p>
+          必要となるツールはすべて作り終えました。 ここでバックアップについて考えておきます。
+          これまでのパッケージビルドにおいて、手順確認を正常に進めていれば、ビルドされた一時的ツールは適切な状態となっています。
+          後々の再利用を考慮して、バックアップをとっておくべきかもしれません。
+          この後に続く章において何か致命的な失敗を起こしたとしたら、すべてを取り消して最初から（今度こそ慎重に）やり直すのが、一番良いことです。
+          ただしそうしてしまうと、一時的ツールもすべて失ってしまうことになります。
+          せっかく正常にビルドできたものを、また時間をかけて作り直すというのは避けたいところです。 ですからバックアップをとることにしましょう。
+        </p>
+        <p>
+          <code class="systemitem">root</code>
+          ユーザーのホームディレクトリにおいて、未使用のディスク容量が最低でも 600 MB はあることを確認してください。 （ソース
+          tarball もバックアップアーカイブに含めることにしています。）
+        </p>
+        <p>
+          バックアップを取る前に、仮想ファイルシステムをアンマウントします。
+        </p>
+        <pre class="userinput"><kbd class="command">umount $LFS/dev{/pts,}
+umount $LFS/{sys,proc,run}</kbd></pre>
+        <p>
+          バックアップアーカイブを生成するために、以下のコマンドを実行します。
+        </p>
+        <pre class="userinput"><kbd class="command">cd $LFS
+tar -cJpf $HOME/lfs-temp-tools-r10.1-180-systemd.tar.xz .</kbd></pre>
+        <p>
+          <code class="systemitem">root</code>
+          ユーザーのホームディレクトリにバックアップを生成したくない場合は、<code class="envar">$HOME</code>
+          の内容を適切に書き換えてください。
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          7.14.3. 復元
+        </h2>
+        <p>
+          誤操作をしてしまい、初めからやり直す必要が出てきたとします。
+          そんなときは上のバックアップを復元し、すばやく回復させることにしましょう。 <code class=
+          "filename">$LFS</code>
+          配下にソースも配置することにしているので、バックアップアーカイブ内にはそれらも含まれています。
+          したがって再度ダウンロードする必要はありません。 <code class="envar">$LFS</code>
+          が適切に設定されていることを再度確認した上で、バックアップの復元を行うための以下のコマンドを実行します。
+        </p>
+        <div class="admon warning">
+          <img alt="[警告]" src="../images/warning.png" />
+          <h3>
+            警告
+          </h3>
+          <p>
+            以下に示すコマンドは相当に危険です。 root ユーザーになって <span class="command"><strong>rm
+            -rf ./*</strong></span> を実行する際に、$LFS ディレクトリに移動していない、あるいは環境変数
+            <code class="envar">LFS</code> を設定していないとしたら、システム全体を破壊することになります。
+            厳に警告しておきます。
+          </p>
+        </div>
+        <pre class="screen"><code class="computeroutput">cd $LFS
+rm -rf ./*
+tar -xpf $HOME/lfs-temp-tools-r10.1-180-systemd.tar.xz</code></pre>
+        <p>
+          環境変数が適切に設定されていることを再度確認の上、ここから続くシステムビルドに進んでいきます。
+        </p>
+        <div class="admon important">
+          <img alt="[重要]" src="../images/important.png" />
+          <h3>
+            重要
+          </h3>
+          <p>
+            chroot 環境から抜け出して、バックアップの生成を行った場合、あるいはビルド作業を再開する場合は、<a class=
+            "xref" href="kernfs.html" title=
+            "7.3. 仮想カーネルファイルシステムの準備">「仮想カーネルファイルシステムの準備」</a>
+            において説明している、カーネル仮想ファイルシステムがマウントされていることを確認してください (<span class=
+            "command"><strong>findmnt | grep $LFS</strong></span>)。
+            もしマウントされていなかったら、マウントを行ってから、再び chroot 環境に入るようにしてください（<a class=
+            "xref" href="chroot.html" title="7.4. Chroot 環境への移行">「Chroot
+            環境への移行」</a> 参照）。
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="util-linux.html" title=
+          "Util-linux-2.37.1">戻る</a>
+          <p>
+            Util-linux-2.37.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="../part4.html" title="LFSシステムの構築">次へ</a>
+          <p>
+            LFSシステムの構築
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter07.html" title=
+          "第7章 chroot への移行と一時的ツールの追加ビルド">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r10.1-180-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

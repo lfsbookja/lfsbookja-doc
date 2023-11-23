@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      7.9. Perl-5.38.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-r12.0-90-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version r12.0-90-systemd
+      </h4>
+      <h3>
+        第7章 chroot への移行と一時的ツールの追加ビルド
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="bison.html" title="Bison-3.8.2">戻る</a>
+          <p>
+            Bison-3.8.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="Python.html" title="Python-3.12.0">次へ</a>
+          <p>
+            Python-3.12.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter07.html" title=
+          "第7章 chroot への移行と一時的ツールの追加ビルド">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r12.0-90-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-tools-perl" name="ch-tools-perl"></a>7.9. Perl-5.38.0
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Perl パッケージは Perl 言語 (Practical Extraction and Report Language)
+          を提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.6 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">280 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          7.9.1. Perl のインストール
+        </h2>
+        <p>
+          Perl をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sh Configure -des                                        \
+             -Dprefix=/usr                               \
+             -Dvendorprefix=/usr                         \
+             -Duseshrplib                                \
+             -Dprivlib=/usr/lib/perl5/5.38/core_perl     \
+             -Darchlib=/usr/lib/perl5/5.38/core_perl     \
+             -Dsitelib=/usr/lib/perl5/5.38/site_perl     \
+             -Dsitearch=/usr/lib/perl5/5.38/site_perl    \
+             -Dvendorlib=/usr/lib/perl5/5.38/vendor_perl \
+             -Dvendorarch=/usr/lib/perl5/5.38/vendor_perl</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>configure オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>-des</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                これは三つのオプションを組み合わせたものです。 -d はあらゆる項目に対してデフォルト設定を用います。 -e
+                はタスクをすべて実施します。 -s は不要な出力は行わないようにします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>-Dvendorprefix=/usr</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                これは <span class="command"><strong>perl</strong></span>
+                に対して、Perl モジュールをどこにインストールするのかを指示するものです。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>-Duseshrplib</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Perl モジュールの中には <code class="systemitem">libperl</code>
+                をスタティックライブラリではなく共有ライブラリとして必要とするものがあるため、これをビルドします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>-Dprivlib,-Darchlib,-Dsitelib,...</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                この設定は、Perl がインストール済のモジュールを探す場所を指定します。 LFS 編集者はディレクトリ構造として
+                Perl の MAJOR.MINOR バージョン (5.38)
+                の形に基づいて、インストールモジュールを配置することにしています。 このようにしておくと、新たなパッチレベル
+                (5.38.0 のようなフルバージョンにおいて最後のドット以降のバージョン部分)
+                によるアップグレードの際に、モジュールを再インストールする必要がなくなるためです。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <p>
+          本パッケージの詳細は <a class="xref" href=
+          "../chapter08/perl.html#contents-perl" title=
+          "8.42.2. Perl の構成">「Perl の構成」</a>を参照してください。
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="bison.html" title="Bison-3.8.2">戻る</a>
+          <p>
+            Bison-3.8.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="Python.html" title="Python-3.12.0">次へ</a>
+          <p>
+            Python-3.12.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter07.html" title=
+          "第7章 chroot への移行と一時的ツールの追加ビルド">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r12.0-90-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

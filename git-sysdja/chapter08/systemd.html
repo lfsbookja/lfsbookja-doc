@@ -1,0 +1,1125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.75. Systemd-254
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-r12.0-90-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version r12.0-90-systemd
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="jinja2.html" title="Jinja2-3.1.2">戻る</a>
+          <p>
+            Jinja2-3.1.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="dbus.html" title="D-Bus-1.14.10">次へ</a>
+          <p>
+            D-Bus-1.14.10
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r12.0-90-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-system-systemd" name="ch-system-systemd"></a>8.75.
+        Systemd-254
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          systemd パッケージは、システムの起動、稼動、終了の制御を行うプログラムを提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.7 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">238 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.75.1. systemd のインストール
+        </h2>
+        <p>
+          デフォルトの udev ルールから、不要な 2 つのグループ <code class=
+          "systemitem">render</code> と <code class="systemitem">sgx</code>
+          を削除します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i -e 's/GROUP="render"/GROUP="video"/' \
+       -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in</kbd></pre>
+        <p>
+          systemd をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir -p build
+cd       build
+
+meson setup \
+      --prefix=/usr                 \
+      --buildtype=release           \
+      -Ddefault-dnssec=no           \
+      -Dfirstboot=false             \
+      -Dinstall-tests=false         \
+      -Dldconfig=false              \
+      -Dsysusers=false              \
+      -Drpmmacrosdir=no             \
+      -Dhomed=false                 \
+      -Duserdb=false                \
+      -Dman=false                   \
+      -Dmode=release                \
+      -Dpamconfdir=no               \
+      -Ddev-kvm-mode=0660           \
+      -Dnobody-group=nogroup        \
+      -Ddocdir=/usr/share/doc/systemd-254 \
+      ..</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>meson オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--buildtype=release</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                本スイッチは、デフォルトのビルドタイプ (<span class="quote">「<span class=
+                "quote">debug</span>」</span>) をオーバーライドします。
+                そのままにしておくと、最適化されていない実行モジュールが生成されるためです。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>-Ddefault-dnssec=no</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                本スイッチは、実験的な DNSSEC サポートを無効にします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>-Dfirstboot=false</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                本スイッチは、systemd サービスを、システムの初回構築用としてインストールしないようにします。 LFS
+                ではすべて手作業で行うため、この機能が必要ないからです。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>-Dinstall-tests=false</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                本スイッチはコンパイルされたテストをインストールしないようにします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>-Dldconfig=false</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                本スイッチは、システム起動時に <span class=
+                "command"><strong>ldconfig</strong></span> を実行するような systemd
+                ユニットはインストールしないようにします。 LFS
+                のようにソースから作り出すディストリビューションにとっては無用なものであり、起動時間も長くなります。 起動時の
+                <span class="command"><strong>ldconfig</strong></span>
+                実行を有効にするには、本オプションを除いてください。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>-Dsysusers=false</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                本スイッチは、システム起動初期に <code class="filename">/etc/group</code>
+                ファイルと <code class="filename">/etc/passwd</code> ファイルを設定する
+                systemd サービスをインストールしないようにします。 この二つのファイルは前章にて生成済です。 LFS
+                システム上におけるこのデーモンは、ユーザーアカウントを手動で生成するまでは、利用することはできません。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>-Drpmmacrosdir=no</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                本スイッチは systemd において利用される RPM マクロをインストールしないようにします。 LFS では RPM
+                をサポートしていないためです。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>-D{userdb,homed}=false</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                LFS が取り扱う範囲にそぐわない依存関係を持ったデーモンを削除します。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>-Dman=false</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                man ページを生成することで発生する追加パッケージの導入を行わないようにします。 systemd の man
+                ページは、生成済みの tarball を使ってインストールすることにします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>-Dmode=release</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                アップストリームにおいて試験的機能とみなされている機能を無効にします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>-Dpamconfdir=no</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                PAM 設定は LFS 上では機能しないため、これをインストールしないようにします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>-Ddev-kvm-mode=0660</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                デフォルトの udev ルールは、あらゆるユーザーが <code class=
+                "filename">/dev/kvm</code> にアクセスできるようにします。
+                当編集者としてこれは危険なことと考えています。 本オプションはその設定を上書きします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>-Dnobody-group=nogroup</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                <code class="systemitem">nogroup</code> がグループ GID 65534
+                であるグループ名として指定します。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">ninja</kbd></pre>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">ninja install</kbd></pre>
+        <p>
+          man ページをインストールします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">tar -xf ../../systemd-man-pages-254.tar.xz \
+    --no-same-owner --strip-components=1   \
+    -C /usr/share/man</kbd></pre>
+        <p>
+          <span class="command"><strong>systemd-journald</strong></span>
+          に対して必要となる <code class="filename">/etc/machine-id</code> ファイルを生成します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">systemd-machine-id-setup</kbd></pre>
+        <p>
+          基本的なターゲット構造を設定します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">systemctl preset-all</kbd></pre>
+        <p>
+          バイナリディストリビューションの更新サービスを 2 つ無効にします。 ソースからのビルドを行う単純な Linux
+          システムでは不要だからです 有効化されても設定が行われていない場合には、エラーが出力されます。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">systemctl disable systemd-sysupdate{,-reboot}</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-systemd" name="contents-systemd"></a>8.75.2.
+          systemd の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">busctl, coredumpctl, halt (systemctl へのシンボリックリンク),
+              hostnamectl, init, journalctl, kernel-install, localectl,
+              loginctl, machinectl, mount.ddi (systemd-dissect へのシンボリックリンク),
+              networkctl, oomctl, portablectl, poweroff (systemctl
+              へのシンボリックリンク), reboot (systemctl へのシンボリックリンク), resolvconf
+              (resolvectl へのシンボリックリンク), resolvectl, runlevel (systemctl
+              へのシンボリックリンク), shutdown (systemctl へのシンボリックリンク), systemctl,
+              systemd-ac-power, systemd-analyze, systemd-ask-password,
+              systemd-cat, systemd-cgls, systemd-cgtop, systemd-confext
+              (systemd-sysext へのシンボリックリンク), systemd-creds, systemd-delta,
+              systemd-detect-virt, systemd-dissect, systemd-escape,
+              systemd-hwdb, systemd-id128, systemd-inhibit,
+              systemd-machine-id-setup, systemd-mount, systemd-notify,
+              systemd-nspawn, systemd-path, systemd-repart, systemd-resolve
+              (resolvectl へのシンボリックリンク), systemd-run, systemd-socket-activate,
+              systemd-stdio-bridge, systemd-sysext, systemd-tmpfiles,
+              systemd-tty-ask-password-agent, systemd-umount (systemd-mount
+              へのシンボリックリンク), telinit (systemctl へのシンボリックリンク), timedatectl,
+              udevadm</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libnss_myhostname.so.2, libnss_mymachines.so.2,
+              libnss_resolve.so.2, libnss_systemd.so.2, libsystemd.so,
+              libsystemd-shared-254.so (/usr/lib/systemd ディレクトリ内),
+              libudev.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/etc/binfmt.d, /etc/init.d, /etc/kernel,
+              /etc/modules-load.d, /etc/sysctl.d, /etc/systemd,
+              /etc/tmpfiles.d, /etc/udev, /etc/xdg/systemd, /usr/lib/systemd,
+              /usr/lib/udev, /usr/include/systemd, /usr/lib/binfmt.d,
+              /usr/lib/environment.d, /usr/lib/kernel,
+              /usr/lib/modules-load.d, /usr/lib/sysctl.d, /usr/lib/systemd,
+              /usr/lib/tmpfiles.d, /usr/share/doc/systemd-254,
+              /usr/share/factory, /usr/share/systemd, /var/lib/systemd,
+              /var/log/journal</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="busctl" name="busctl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>busctl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    D-Bus のバスを監視するために用います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="coredumpctl" name="coredumpctl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>coredumpctl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    systemd journal よりコアダンプを抽出します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="halt" name="halt"></a><span class=
+                    "term"><span class=
+                    "command"><strong>halt</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    普通は <span class=
+                    "command"><strong>shutdown</strong></span> にオプション
+                    <em class="parameter"><code>-h</code></em> をつけて実行します。
+                    ただし既にランレベルが 0 である場合を除きます。 カーネルに対してシステムの停止を指示します。
+                    システムが停止したことは <code class="filename">/var/log/wtmp</code>
+                    ファイルに記録されます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hostnamectl" name="hostnamectl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>hostnamectl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    システムのホスト名および関連設定を確認し変更します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="init" name="init"></a><span class=
+                    "term"><span class=
+                    "command"><strong>init</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    カーネルがハードウェアを初期化した後に起動される最初のプロセスです。 <span class=
+                    "command"><strong>init</strong></span>
+                    は、この後の起動処理を担い、設定ファイルに応じたブートプロセスと他の全てのプロセスを起動します。 つまり
+                    systemd を起動するということです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="journalctl" name="journalctl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>journalctl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Systemd のジャーナルの内容を確認します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="kernel-install" name=
+                    "kernel-install"></a><span class="term"><span class=
+                    "command"><strong>kernel-install</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    カーネルや initramfs イメージを /boot ディレクトリに対して追加、削除します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="localectl" name="localectl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>localectl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    システムロケールやキーボードレイアウト設定を確認し変更します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="loginctl" name="loginctl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>loginctl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Systemd のログインマネージャーの状態を確認し制御します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="machinectl" name="machinectl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>machinectl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Systemd の仮想マシンとコンテナー登録マネージャー (Container Registration
+                    Manager) の状態を確認し制御します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="networkctl" name="networkctl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>networkctl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    systemd-netword から見えるネットワークリンクの状態を確認 (introspect) し設定します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="oomctl" name="oomctl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>oomctl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    systemd の Out Of Memory デーモンを制御します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="portablectl" name="portablectl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>portablectl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ローカルシステムにおいてポータブルサービスのアタッチ、デタッチを行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="poweroff" name="poweroff"></a><span class=
+                    "term"><span class=
+                    "command"><strong>poweroff</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    カーネルに対してシステム停止を指示し、コンピューターの電源を落とします。(<span class=
+                    "command"><strong>halt</strong></span>参照)
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="reboot" name="reboot"></a><span class=
+                    "term"><span class=
+                    "command"><strong>reboot</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    カーネルに対してシステム再起動を指示します。(<span class=
+                    "command"><strong>halt</strong></span>参照)
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="resolvconf" name="resolvconf"></a><span class=
+                    "term"><span class=
+                    "command"><strong>resolvconf</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class=
+                    "command"><strong>systemd-resolved</strong></span> に対する
+                    DNS サーバーやドメイン設定を登録します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="resolvectl" name="resolvectl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>resolvectl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ネットワーク名前解決マネージャーに対して制御コマンドを送信します。 あるいはドメイン名、IPv4、IPv6
+                    アドレス、DNS レコードやサービスなどを解決します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="runlevel" name="runlevel"></a><span class=
+                    "term"><span class=
+                    "command"><strong>runlevel</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    現時点とその直前のランレベルを表示します。 最新のランレベルは <code class=
+                    "filename">/run/utmp</code> ファイルに記録されます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="shutdown" name="shutdown"></a><span class=
+                    "term"><span class=
+                    "command"><strong>shutdown</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    すべてのプロセスとすべてのログインユーザーへの通知を行なった上で、システムを安全に停止します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="systemctl" name="systemctl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>systemctl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Systemd システムとサービスマネージャーの状態について確認し制御します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="systemd-ac-power" name=
+                    "systemd-ac-power"></a><span class="term"><span class=
+                    "command"><strong>systemd-ac-power</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    システムが外部電源につながっているかどうかを報告します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="systemd-analyze" name=
+                    "systemd-analyze"></a><span class="term"><span class=
+                    "command"><strong>systemd-analyze</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    起動処理パフォーマンスを解析します。 また問題のある systemd ユニットを特定します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="systemd-ask-password" name=
+                    "systemd-ask-password"></a><span class=
+                    "term"><span class="command"><strong>systemd-ask-password</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Linux
+                    コマンドラインから指定されたメッセージを用いて、システムパスワードやユーザーのパスフレーズを確認します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="systemd-cat" name="systemd-cat"></a><span class=
+                    "term"><span class=
+                    "command"><strong>systemd-cat</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    systemd journal に対してプロセスの STDOUT と STDERR に接続します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="systemd-cgls" name="systemd-cgls"></a><span class=
+                    "term"><span class=
+                    "command"><strong>systemd-cgls</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定された Linux コントロールグループ (control group) の階層を再帰的に表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="systemd-cgtop" name=
+                    "systemd-cgtop"></a><span class="term"><span class=
+                    "command"><strong>systemd-cgtop</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    最上位のローカル Linux コントロールグループ (control group)
+                    を表示し、CPU、メモリ、ディスクI/Oロードの並びにより示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="systemd-creds" name=
+                    "systemd-creds"></a><span class="term"><span class=
+                    "command"><strong>systemd-creds</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    資格情報を表示し処理します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="systemd-delta" name=
+                    "systemd-delta"></a><span class="term"><span class=
+                    "command"><strong>systemd-delta</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <code class="filename">/etc</code>
+                    ディレクトリにある設定ファイルを同定したり比較したりします。 この設定ファイルは <code class=
+                    "filename">/usr</code> ディレクトリにあるデフォルト設定をオーバーライドします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="systemd-detect-virt" name=
+                    "systemd-detect-virt"></a><span class="term"><span class=
+                    "command"><strong>systemd-detect-virt</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    システムが仮想化環境で動作しているかどうかを検出し、それに応じて udev を調整します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="systemd-dissect" name=
+                    "systemd-dissect"></a><span class="term"><span class=
+                    "command"><strong>systemd-dissect</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    OS ディスクイメージの調査に用いられます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="systemd-escape" name=
+                    "systemd-escape"></a><span class="term"><span class=
+                    "command"><strong>systemd-escape</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    systemd ユニット名での文字エスケープを行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="systemd-hwdb" name="systemd-hwdb"></a><span class=
+                    "term"><span class=
+                    "command"><strong>systemd-hwdb</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ハードウェアデータベース (hwdb) を管理します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="systemd-id128" name=
+                    "systemd-id128"></a><span class="term"><span class=
+                    "command"><strong>systemd-id128</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    id128（UUID）文字列を生成し表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="systemd-inhibit" name=
+                    "systemd-inhibit"></a><span class="term"><span class=
+                    "command"><strong>systemd-inhibit</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    システム停止、休止、アイドル禁止ロックを行うプログラムを実行します。
+                    プロセスが正常起動するまでは、システムシャットダウンのような処理は行いません。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="systemd-machine-id-setup" name=
+                    "systemd-machine-id-setup"></a><span class=
+                    "term"><span class=
+                    "command"><strong>systemd-machine-id-setup</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    システムインストールツールがマシンIDを初期化するために利用します。 このマシンIDは <code class=
+                    "filename">/etc/machine-id</code>
+                    ファイル内にあるものから、インストール時にランダムに生成されます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="systemd-mount" name=
+                    "systemd-mount"></a><span class="term"><span class=
+                    "command"><strong>systemd-mount</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ディスクの一時的あるいは自動マウントを行ないます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="systemd-notify" name=
+                    "systemd-notify"></a><span class="term"><span class=
+                    "command"><strong>systemd-notify</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    init システムに対してステータス変更が発生したことを通知するデーモンスクリプトが利用します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="systemd-nspawn" name=
+                    "systemd-nspawn"></a><span class="term"><span class=
+                    "command"><strong>systemd-nspawn</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    軽量な名前空間コンテナー (light-weight namepspace container)
+                    においてコマンドや OS 全体の実行に用いられます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="systemd-path" name="systemd-path"></a><span class=
+                    "term"><span class=
+                    "command"><strong>systemd-path</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    システムパスやユーザーパスを検索します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="systemd-repart" name=
+                    "systemd-repart"></a><span class="term"><span class=
+                    "command"><strong>systemd-repart</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    systemd が OS
+                    イメージ内（たとえばコンテナーなど）で用いられている場合に、パーティションテーブルに対してパーティションの拡張や追加を行うために用いられます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="systemd-resolve" name=
+                    "systemd-resolve"></a><span class="term"><span class=
+                    "command"><strong>systemd-resolve</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ドメイン名、IPV4 と IPv6 アドレス、DNSリソースレコード、サービスの名前解決を行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="systemd-run" name="systemd-run"></a><span class=
+                    "term"><span class=
+                    "command"><strong>systemd-run</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    一時的な .service ユニットや .scope ユニットを生成および起動し、その指定コマンドを実行します。
+                    これは systemd ユニットの検証を行うことができます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="systemd-socket-activate" name=
+                    "systemd-socket-activate"></a><span class=
+                    "term"><span class=
+                    "command"><strong>systemd-socket-activate</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ソケットデバイスの情報を読み取って、ソケットに対するコネクション上にてプロセスを起動します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="systemd-sysext" name=
+                    "systemd-sysext"></a><span class="term"><span class=
+                    "command"><strong>systemd-sysext</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    システム拡張イメージを有効にします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="systemd-tmpfiles" name=
+                    "systemd-tmpfiles"></a><span class="term"><span class=
+                    "command"><strong>systemd-tmpfiles</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <code class="filename">tmpfiles.d</code>
+                    ディレクトリにて指定された設定ファイルの内容に基づいて、テンポラリファイルなどの生成削除等を行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="systemd-umount" name=
+                    "systemd-umount"></a><span class="term"><span class=
+                    "command"><strong>systemd-umount</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    マウントポイントをアンマウントします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="systemd-tty-ask-password-agent" name=
+                    "systemd-tty-ask-password-agent"></a><span class=
+                    "term"><span class=
+                    "command"><strong>systemd-tty-ask-password-agent</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    未定となっている Systemd のパスワード変更指示の一覧を表示し処理します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="telinit" name="telinit"></a><span class=
+                    "term"><span class=
+                    "command"><strong>telinit</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>init</strong></span>
+                    コマンドに対してランレベルを何にするかを指示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="timedatectl" name="timedatectl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>timedatectl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    システムクロックとその設定を確認し変更します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="udevadm" name="udevadm"></a><span class=
+                    "term"><span class=
+                    "command"><strong>udevadm</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    汎用的な udev 管理ツール。 udevd デーモンの制御、udev データベースデータの提供、uevent
+                    の監視、uevent の完了までの待機、udev 設定のテスト、指定デバイスに対する uevent
+                    の起動、といったことを行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libsystemd" name="libsystemd"></a><span class=
+                    "term"><code class="filename">libsystemd</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    主となる systemd ユーティリティライブラリ。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libudev" name="libudev"></a><span class=
+                    "term"><code class="filename">libudev</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Udev デバイス情報にアクセスするためのライブラリ。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="jinja2.html" title="Jinja2-3.1.2">戻る</a>
+          <p>
+            Jinja2-3.1.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="dbus.html" title="D-Bus-1.14.10">次へ</a>
+          <p>
+            D-Bus-1.14.10
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r12.0-90-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

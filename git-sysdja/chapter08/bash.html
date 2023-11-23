@@ -1,0 +1,253 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.35. Bash-5.2.21
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-r12.0-90-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version r12.0-90-systemd
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="grep.html" title="Grep-3.11">戻る</a>
+          <p>
+            Grep-3.11
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libtool.html" title="Libtool-2.4.7">次へ</a>
+          <p>
+            Libtool-2.4.7
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r12.0-90-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-system-bash" name="ch-system-bash"></a>8.35. Bash-5.2.21
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Bash は Bourne-Again Shell を提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">1.1 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">52 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.35.1. Bash のインストール
+        </h2>
+        <p>
+          Bash をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr             \
+            --without-bash-malloc     \
+            --with-installed-readline \
+            --docdir=/usr/share/doc/bash-5.2.21</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>configure オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-installed-readline</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このオプションは Bash が持つ独自の <code class="filename">readline</code>
+                ライブラリではなく、既にインストールした <code class="filename">readline</code>
+                ライブラリを用いることを指示します。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          テストスィートを実行しない場合は<span class="quote">「<span class=
+          "quote">パッケージをインストールします。</span>」</span>と書かれた箇所まで読み飛ばしてください。
+        </p>
+        <p>
+          テストを実施するにあたっては <code class="systemitem">tester</code>
+          ユーザーによるソースツリーへの書き込みを可能とします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">chown -Rv tester .</kbd></pre>
+        <p>
+          本パッケージのテストスイートは、非 <code class="systemitem">root</code>
+          ユーザーが実行するものとされていて、利用する端末が標準入力に接続できているものとしています。
+          この仕様を満たすためには、<span class="application">Expect</span>
+          を使って新たな疑似端末を起動します。 そして <code class="systemitem">tester</code>
+          ユーザーとしてテストを実行します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">su -s /usr/bin/expect tester &lt;&lt; EOF
+set timeout -1
+spawn make tests
+expect eof
+lassign [wait] _ _ _ value
+exit $value
+EOF</kbd></pre>
+        <p>
+          テストスイートでは <span class="command"><strong>diff</strong></span>
+          を使って、テストスクリプトの出力結果と期待される出力結果との差異を調べています。 <span class=
+          "command"><strong>diff</strong></span> からの出力（先頭行に <code class=
+          "computeroutput">&lt;</code> と <code class=
+          "computeroutput">&gt;</code>）があれば、テストが失敗したことを表します。
+          ただしその差異は無視できる旨を示すメッセージがあれば問題ありません。 <code class=
+          "filename">run-builtins</code> というテストは、出力の第 1
+          行めが異なるということで、特定のホストディストリビューションでは失敗する場合があります。
+        </p>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+        <p>
+          新たにコンパイルした <span class="command"><strong>bash</strong></span>
+          プログラムを実行します。(この時点までに実行されていたものが置き換えられます。)
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">exec /usr/bin/bash --login</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-bash" name="contents-bash"></a>8.35.2. Bash の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">bash, bashbug, sh (bash へのリンク)</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/bash, /usr/lib/bash,
+              /usr/share/doc/bash-5.2.21</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="bash" name="bash"></a><span class=
+                    "term"><span class=
+                    "command"><strong>bash</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    広く活用されているコマンドインタープリター。
+                    処理実行前には、指示されたコマンドラインをさまざまに展開したり置換したりします。
+                    この機能があるからこそインタープリター機能を強力なものにしています。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="bashbug" name="bashbug"></a><span class=
+                    "term"><span class=
+                    "command"><strong>bashbug</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>bash</strong></span>
+                    に関連したバグ報告を、標準書式で生成しメール送信することを補助するシェルスクリプトです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sh" name="sh"></a><span class="term"><span class=
+                    "command"><strong>sh</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>bash</strong></span>
+                    プログラムへのシンボリックリンク。 <span class=
+                    "command"><strong>sh</strong></span>
+                    として起動された際には、かつてのバージョンである <span class=
+                    "command"><strong>sh</strong></span>
+                    の起動時の動作と、出来るだけ同じになるように振舞います。 同時に POSIX 標準に適合するよう動作します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="grep.html" title="Grep-3.11">戻る</a>
+          <p>
+            Grep-3.11
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libtool.html" title="Libtool-2.4.7">次へ</a>
+          <p>
+            Libtool-2.4.7
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r12.0-90-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

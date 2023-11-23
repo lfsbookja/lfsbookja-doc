@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.50. Libffi-3.4.4
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-r12.0-90">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version r12.0-90
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libelf.html" title=
+          "Elfutils-0.190 から取り出した libelf">戻る</a>
+          <p>
+            Elfutils-0.190 から取り出した libelf
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="Python.html" title="Python-3.12.0">次へ</a>
+          <p>
+            Python-3.12.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r12.0-90">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-system-libffi" name="ch-system-libffi"></a>8.50.
+        Libffi-3.4.4
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Libffi ライブラリは、さまざまな呼出規約（calling
+          conventions）に対しての、移植性に優れた高レベルのプログラミングインターフェースを提供します。
+          このライブラリを用いることで、プログラム実行時に呼出インターフェース記述（call interface
+          description）による関数を指定して呼び出すことができるようになります。
+        </p>
+        <p>
+          FFI は Foreign Function Interface を表します。 FFI は、1
+          つの言語で書かれたプログラムから、別の言語で書かれたプログラムを呼び出せるようにするものです。 特に Libffi は、Perl や
+          Python のようなインタープリターや、C, C++ で書かれた共有ライブラリサブルーチン間のブリッジ機能を提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">1.8 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">11 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.50.1. Libffi のインストール
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            GMP と同じように Libffi では、利用中のプロセッサーに応じた最適化を行なってビルドされます。
+            異なるシステムに向けてのビルドを行う場合は、以下のコマンドにおいて <em class=
+            "parameter"><code>--with-gcc-arch=</code></em> を使って、そのシステム上の CPU
+            の実装を完全に表すアーキテクチャー名に変更してください。 そうしなかった場合には、<code class=
+            "filename">libffi</code> をリンクするアプリケーションにおいて Illegal Operation
+            エラーを発生させることになります。
+          </p>
+        </div>
+        <p>
+          Libffi をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr          \
+            --disable-static       \
+            --with-gcc-arch=native</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>configure オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-gcc-arch=native</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                現状のシステムに応じて GCC が最適化されるようにします。
+                仮にこれを指定しなかった場合、システムを誤認して誤ったコードを生成してしまう場合があります。
+                生成されたコードが、より劣ったシステム向けのネイティブコードをコピーしていたとすると、より劣ったシステムに対するパラメーターを指定することとなります。
+                システムに応じた詳細は <a class="ulink" href=
+                "https://gcc.gnu.org/onlinedocs/gcc-13.2.0/gcc/x86-Options.html">
+                the x86 options in the GCC manual</a> を参照してください。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は、以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class="command">make check</kbd></pre>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-libffi" name="contents-libffi"></a>8.50.2. Libffi
+          の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libffi.so</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libffi" name="libffi"></a><span class=
+                    "term"><code class="filename">libffi</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    外部関数インターフェース API 関数を提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libelf.html" title=
+          "Elfutils-0.190 から取り出した libelf">戻る</a>
+          <p>
+            Elfutils-0.190 から取り出した libelf
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="Python.html" title="Python-3.12.0">次へ</a>
+          <p>
+            Python-3.12.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r12.0-90">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

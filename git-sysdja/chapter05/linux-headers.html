@@ -1,0 +1,311 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      5.4. Linux-6.6.1 API ヘッダー
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-r12.0-90-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version r12.0-90-systemd
+      </h4>
+      <h3>
+        第5章 クロスツールチェーンの構築
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gcc-pass1.html" title=
+          "GCC-13.2.0 - 1回め">戻る</a>
+          <p>
+            GCC-13.2.0 - 1回め
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="glibc.html" title="Glibc-2.38">次へ</a>
+          <p>
+            Glibc-2.38
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter05.html" title=
+          "第5章 クロスツールチェーンの構築">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r12.0-90-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-tools-linux-headers" name="ch-tools-linux-headers"></a>5.4.
+        Linux-6.6.1 API ヘッダー
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Linux API ヘッダー（linux-6.6.1.tar.xz 内) は glibc が利用するカーネル API を提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.1 SBU 以下</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">1.5 GB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          5.4.1. Linux API ヘッダー のインストール
+        </h2>
+        <p>
+          Linux カーネルはアプリケーションプログラミングインターフェース (Application Programming
+          Interface) を、システムの C ライブラリ (LFS の場合 Glibc) に対して提供する必要があります。 これを行うには
+          Linux カーネルのソースに含まれる、さまざまな C ヘッダーファイルを<span class=
+          "quote">「<span class="quote">健全化
+          (sanitizing)</span>」</span>して利用します。
+        </p>
+        <p>
+          本パッケージ内にある不適切なファイルを残さないように、以下を処理します。
+        </p>
+        <pre class="userinput"><kbd class="command">make mrproper</kbd></pre>
+        <p>
+          そしてユーザーが利用するカーネルヘッダーファイルをソースから抽出します。 推奨されている make ターゲット<span class=
+          "quote">「<span class=
+          "quote">headers_install</span>」</span>は利用できません。 なぜなら <span class=
+          "application">rsync</span> が必要となり、この時点では利用できないからです。 ヘッダーファイルは初めに
+          <code class="filename">./usr</code> にコピーし、その後に必要な場所にコピーされます。
+        </p>
+        <pre class="userinput"><kbd class="command">make headers
+find usr/include -type f ! -name '*.h' -delete
+</kbd><kbd class="command">cp -rv usr/include $LFS/usr</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-linux-headers" name=
+          "contents-linux-headers"></a>5.4.2. Linux API ヘッダー の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールヘッダー:</strong> <span class=
+              "segbody">/usr/include/asm/*.h, /usr/include/asm-generic/*.h,
+              /usr/include/drm/*.h, /usr/include/linux/*.h,
+              /usr/include/misc/*.h, /usr/include/mtd/*.h,
+              /usr/include/rdma/*.h, /usr/include/scsi/*.h,
+              /usr/include/sound/*.h, /usr/include/video/*.h,
+              /usr/include/xen/*.h</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/asm, /usr/include/asm-generic,
+              /usr/include/drm, /usr/include/linux, /usr/include/misc,
+              /usr/include/mtd, /usr/include/rdma, /usr/include/scsi,
+              /usr/include/sound, /usr/include/video, /usr/include/xen</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="asm" name="asm"></a><span class=
+                    "term"><code class="filename">/usr/include/asm/*.h</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Linux API ASM ヘッダーファイル
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="asm-generic" name="asm-generic"></a><span class=
+                    "term"><code class=
+                    "filename">/usr/include/asm-generic/*.h</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Linux API ASM の汎用的なヘッダーファイル
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="drm" name="drm"></a><span class=
+                    "term"><code class="filename">/usr/include/drm/*.h</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Linux API DRM ヘッダーファイル
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="linux" name="linux"></a><span class=
+                    "term"><code class=
+                    "filename">/usr/include/linux/*.h</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Linux API Linux ヘッダーファイル
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="misc" name="misc"></a><span class=
+                    "term"><code class=
+                    "filename">/usr/include/misc/*.h</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Linux API のさまざまなヘッダーファイル
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mtd" name="mtd"></a><span class=
+                    "term"><code class="filename">/usr/include/mtd/*.h</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Linux API MTD ヘッダーファイル
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rdma" name="rdma"></a><span class=
+                    "term"><code class=
+                    "filename">/usr/include/rdma/*.h</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Linux API RDMA ヘッダーファイル
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="scsi" name="scsi"></a><span class=
+                    "term"><code class=
+                    "filename">/usr/include/scsi/*.h</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Linux API SCSI ヘッダーファイル
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sound" name="sound"></a><span class=
+                    "term"><code class=
+                    "filename">/usr/include/sound/*.h</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Linux API Sound ヘッダーファイル
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="video" name="video"></a><span class=
+                    "term"><code class=
+                    "filename">/usr/include/video/*.h</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Linux API Video ヘッダーファイル
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xen" name="xen"></a><span class=
+                    "term"><code class="filename">/usr/include/xen/*.h</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Linux API Xen ヘッダーファイル
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gcc-pass1.html" title=
+          "GCC-13.2.0 - 1回め">戻る</a>
+          <p>
+            GCC-13.2.0 - 1回め
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="glibc.html" title="Glibc-2.38">次へ</a>
+          <p>
+            Glibc-2.38
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter05.html" title=
+          "第5章 クロスツールチェーンの構築">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r12.0-90-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

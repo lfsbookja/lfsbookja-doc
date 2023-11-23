@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      2.5. ファイルシステムの生成
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-r12.0-90-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version r12.0-90-systemd
+      </h4>
+      <h3>
+        第2章 ホストシステムの準備
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="creatingpartition.html" title=
+          "新しいパーティションの生成">戻る</a>
+          <p>
+            新しいパーティションの生成
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="aboutlfs.html" title="変数 $LFS の設定">次へ</a>
+          <p>
+            変数 $LFS の設定
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter02.html" title=
+          "第2章 ホストシステムの準備">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r12.0-90-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-partitioning-creatingfilesystem" name=
+        "ch-partitioning-creatingfilesystem"></a>2.5. ファイルシステムの生成
+      </h1>
+      <p>
+        パーティションとは、ディスクドライブ上の一定数のセクターの集まりのことです。
+        これはパーティションテーブルにおいて、その境界設定によって定められます。
+        オペレーティングシステムがファイルを保存するパーティションを利用できるように、そのパーティションはフォーマットしておかなければなりません。
+        そこにはラベル、ディレクトリブロック、データブロック、目的となるファイル位置へのインデックススキームといったものが含まれます。
+        ファイルシステムは、OS がパーティションの空き容量を管理できるようにしています。
+        また新規ファイル生成時や既存ファイルの拡張時に必要となるセクターの確保や、ファイル削除によって生み出された未使用データセグメントの再利用なども可能にします。
+        さらにデータ冗長性やエラー回復のためのサポート機能も提供しています。
+      </p>
+      <p>
+        LFS では Linux カーネルが認識できるファイルシステムであれば何でも利用できます。 最も標準的なものは ext3 や ext4
+        です。 ファイルシステムを正しく選ぶことは、実は難しいことです。 収容するファイルの性質やパーティションサイズにも依存します。
+        例えば以下のとおりです。
+      </p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt>
+            <span class="term">ext2</span>
+          </dt>
+          <dd>
+            <p>
+              比較的小容量のパーティションで、/boot のようにあまり更新されないパーティションに対して適してます。
+            </p>
+          </dd>
+          <dt>
+            <span class="term">ext3</span>
+          </dt>
+          <dd>
+            <p>
+              ext2 の拡張でありジャーナルを含みます。
+              このジャーナルとは、不測のシャットダウン時などに、パーティション状態の復元に用いられます。
+              汎用的なファイルシステムとして用いることができます。
+            </p>
+          </dd>
+          <dt>
+            <span class="term">ext4</span>
+          </dt>
+          <dd>
+            <p>
+              ファイルシステムに用いられている ext 系の最新バージョンです。
+              新たな機能として、ナノ秒単位のタイムスタンプの提供、大容量ファイル (16 TB まで)
+              の生成利用、処理性能の改善が加えられています。
+            </p>
+          </dd>
+        </dl>
+      </div>
+      <p>
+        この他のファイルシステムとして、FAT32, NTFS, ReiserFS, JFS, XFS
+        などがあり、それぞれに特定の目的に応じて活用されています。 ファイルシステムの詳細、さらに多くのことは <a class="ulink"
+        href=
+        "https://en.wikipedia.org/wiki/Comparison_of_file_systems">https://en.wikipedia.org/wiki/Comparison_of_file_systems</a>
+        を参照してください。
+      </p>
+      <p>
+        LFS ではルートファイルシステム (/) として ext4 を用いるものとします。 LFS 用のパーティションに対して
+        <code class="systemitem">ext4</code> ファイルシステムを生成するために以下のコマンドを実行します。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">mkfs -v -t ext4 /dev/<em class=
+      "replaceable"><code>&lt;xxx&gt;</code></em></kbd></pre>
+      <p>
+        <em class="replaceable"><code>&lt;xxx&gt;</code></em> の部分は LFS
+        パーティション名に合わせて置き換えてください。
+      </p>
+      <p>
+        既存の <code class="systemitem">swap</code>
+        パーティションを利用している場合は、初期化を行う必要はありません。 新しく <code class=
+        "systemitem">swap</code> パーティションを生成した場合には、以下のコマンドにより初期化を行ってください。
+      </p>
+      <pre class="userinput"><kbd class="command">mkswap /dev/<em class=
+      "replaceable"><code>&lt;yyy&gt;</code></em></kbd></pre>
+      <p>
+        <em class="replaceable"><code>&lt;yyy&gt;</code></em> の部分は
+        <code class="systemitem">swap</code> パーティションの名に合わせて置き換えてください。
+      </p>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="creatingpartition.html" title=
+          "新しいパーティションの生成">戻る</a>
+          <p>
+            新しいパーティションの生成
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="aboutlfs.html" title="変数 $LFS の設定">次へ</a>
+          <p>
+            変数 $LFS の設定
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter02.html" title=
+          "第2章 ホストシステムの準備">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r12.0-90-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

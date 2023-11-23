@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      6.16. Xz-5.4.5
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-r12.0-90">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version r12.0-90
+      </h4>
+      <h3>
+        第6章 クロスコンパイルによる一時的ツール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="tar.html" title="Tar-1.35">戻る</a>
+          <p>
+            Tar-1.35
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="binutils-pass2.html" title=
+          "Binutils-2.41 - 2回め">次へ</a>
+          <p>
+            Binutils-2.41 - 2回め
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter06.html" title=
+          "第6章 クロスコンパイルによる一時的ツール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r12.0-90">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-tools-xz" name="ch-tools-xz"></a>6.16. Xz-5.4.5
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Xz パッケージは、ファイルの圧縮、伸張 (解凍) を行うプログラムを提供します。 これは lzma フォーマットおよび新しい xz
+          圧縮フォーマットを取り扱います。 <span class="command"><strong>xz</strong></span>
+          コマンドによりテキストファイルを圧縮すると、従来の <span class=
+          "command"><strong>gzip</strong></span> コマンドや <span class=
+          "command"><strong>bzip2</strong></span> コマンドに比べて、高い圧縮率を実現できます。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.1 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">22 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          6.16.1. Xz のインストール
+        </h2>
+        <p>
+          Xz をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr                     \
+            --host=$LFS_TGT                   \
+            --build=$(build-aux/config.guess) \
+            --disable-static                  \
+            --docdir=/usr/share/doc/xz-5.4.5</kbd></pre>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make DESTDIR=$LFS install</kbd></pre>
+        <p>
+          クロスコンパイルにとっては libtool アーカイブファイルが邪魔になるため削除します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">rm -v $LFS/usr/lib/liblzma.la</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <p>
+          本パッケージの詳細は <a class="xref" href="../chapter08/xz.html#contents-xz"
+          title="8.8.2. Xz の構成">「Xz の構成」</a>を参照してください。
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="tar.html" title="Tar-1.35">戻る</a>
+          <p>
+            Tar-1.35
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="binutils-pass2.html" title=
+          "Binutils-2.41 - 2回め">次へ</a>
+          <p>
+            Binutils-2.41 - 2回め
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter06.html" title=
+          "第6章 クロスコンパイルによる一時的ツール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r12.0-90">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

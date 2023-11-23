@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      7.2. 所有者の変更
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-r12.0-90-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version r12.0-90-systemd
+      </h4>
+      <h3>
+        第7章 chroot への移行と一時的ツールの追加ビルド
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="introduction.html" title="はじめに">戻る</a>
+          <p>
+            はじめに
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="kernfs.html" title=
+          "仮想カーネルファイルシステムの準備">次へ</a>
+          <p>
+            仮想カーネルファイルシステムの準備
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter07.html" title=
+          "第7章 chroot への移行と一時的ツールの追加ビルド">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r12.0-90-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-tools-changingowner" name="ch-tools-changingowner"></a>7.2.
+        所有者の変更
+      </h1>
+      <div class="admon note">
+        <img alt="[注記]" src="../images/note.png" />
+        <h3>
+          注記
+        </h3>
+        <p>
+          本書のこれ以降で実行するコマンドはすべて <code class="systemitem">root</code>
+          ユーザーでログインして実行します。 もう <code class="systemitem">lfs</code> ユーザーは不要です。
+          <code class="systemitem">root</code> ユーザーの環境にて環境変数 <code class=
+          "envar">$LFS</code> がセットされていることを今一度確認してください。
+        </p>
+      </div>
+      <p>
+        <code class="filename">$LFS</code> ディレクトリ配下の所有者は今は <code class=
+        "systemitem">lfs</code> ユーザーであり、これはホストシステム上にのみ存在するユーザーです。 この
+        <code class="filename">$LFS</code>
+        ディレクトリ配下をこのままにしておくということは、そこにあるファイル群が、存在しないユーザーによって所有される形を生み出すことになります。
+        これは危険なことです。 後にユーザーアカウントが生成され同一のユーザーIDを持ったとすると <code class=
+        "filename">$LFS</code> の全ファイルの所有者となるので、悪意のある操作に利用されてしまいます。
+      </p>
+      <p>
+        この問題を解消するために <code class="filename">$LFS/*</code> ディレクトリの所有者を
+        <code class="systemitem">root</code> ユーザーにします。 以下のコマンドによりこれを実現します。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">chown -R root:root $LFS/{usr,lib,var,etc,bin,sbin,tools}
+case $(uname -m) in
+  x86_64) chown -R root:root $LFS/lib64 ;;
+esac</kbd></pre>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="introduction.html" title="はじめに">戻る</a>
+          <p>
+            はじめに
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="kernfs.html" title=
+          "仮想カーネルファイルシステムの準備">次へ</a>
+          <p>
+            仮想カーネルファイルシステムの準備
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter07.html" title=
+          "第7章 chroot への移行と一時的ツールの追加ビルド">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r12.0-90-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

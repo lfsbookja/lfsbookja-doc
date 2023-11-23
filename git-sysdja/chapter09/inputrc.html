@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      9.8. /etc/inputrc ファイルの生成
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-r12.0-90-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version r12.0-90-systemd
+      </h4>
+      <h3>
+        第9章 システム設定
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="locale.html" title="システムロケールの設定">戻る</a>
+          <p>
+            システムロケールの設定
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="etcshells.html" title=
+          "/etc/shells ファイルの生成">次へ</a>
+          <p>
+            /etc/shells ファイルの生成
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter09.html" title="第9章 システム設定">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r12.0-90-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-config-inputrc" name="ch-config-inputrc"></a>9.8.
+        /etc/inputrc ファイルの生成
+      </h1>
+      <p>
+        <code class="filename">inputrc</code> ファイルは readline
+        ライブラリに対する設定ファイルです。 この Readline
+        ライブラリは、ユーザーが端末から文字列入力を行う際の編集機能を提供するものです。
+        キーボード入力内容は所定の処理動作に変換され解釈されます。 readline ライブラリは bash
+        をはじめとする各種シェルや他の多くのアプリケーションにおいて利用されています。
+      </p>
+      <p>
+        ユーザー固有の機能を必要となるのはまれなので、以下の <code class="filename">/etc/inputrc</code>
+        ファイルによって、ログインユーザーすべてに共通するグローバルな定義を生成します。
+        各ユーザーごとにこのデフォルト定義を上書きする必要が出てきた場合は、ユーザーのホームディレクトリに <code class=
+        "filename">.inputrc</code> ファイルを生成して、修正マップを定義することもできます。
+      </p>
+      <p>
+        <code class="filename">inputrc</code> ファイルの設定方法については <span class=
+        "command"><strong>info bash</strong></span> により表示される <span class=
+        "emphasis"><em>Readline Init File</em></span> の節に詳しい説明があります。
+        <span class="command"><strong>info readline</strong></span>
+        にも有用な情報があります。
+      </p>
+      <p>
+        以下はグローバルな <code class="filename">inputrc</code> ファイルの一般的な定義例です。
+        コメントをつけて各オプションを説明しています。 コメントはコマンドと同一行に記述することはできません。
+        以下のコマンドを実行してこのファイルを生成します。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">cat &gt; /etc/inputrc &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/inputrc
+# Modified by Chris Lynn &lt;roryo@roryo.dynup.net&gt;
+
+# Allow the command prompt to wrap to the next line
+set horizontal-scroll-mode Off
+
+# Enable 8-bit input
+set meta-flag On
+set input-meta On
+
+# Turns off 8th bit stripping
+set convert-meta Off
+
+# Keep the 8th bit for display
+set output-meta On
+
+# none, visible or audible
+set bell-style none
+
+# All of the following map the escape sequence of the value
+# contained in the 1st argument to the readline specific functions
+"\eOd": backward-word
+"\eOc": forward-word
+
+# for linux console
+"\e[1~": beginning-of-line
+"\e[4~": end-of-line
+"\e[5~": beginning-of-history
+"\e[6~": end-of-history
+"\e[3~": delete-char
+"\e[2~": quoted-insert
+
+# for xterm
+"\eOH": beginning-of-line
+"\eOF": end-of-line
+
+# for Konsole
+"\e[H": beginning-of-line
+"\e[F": end-of-line
+
+# End /etc/inputrc</code>
+EOF</kbd></pre>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="locale.html" title="システムロケールの設定">戻る</a>
+          <p>
+            システムロケールの設定
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="etcshells.html" title=
+          "/etc/shells ファイルの生成">次へ</a>
+          <p>
+            /etc/shells ファイルの生成
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter09.html" title="第9章 システム設定">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r12.0-90-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

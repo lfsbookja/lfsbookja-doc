@@ -1,0 +1,782 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      各パッケージを用いる理由
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-r12.0-90-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version r12.0-90-systemd
+      </h4>
+      <h3>
+        序文
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="standards.html" title="LFS と各種標準">戻る</a>
+          <p>
+            LFS と各種標準
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="typography.html" title="本書の表記">次へ</a>
+          <p>
+            本書の表記
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="preface.html" title="序文">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r12.0-90-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="pre-why" name="pre-why"></a>vi. 各パッケージを用いる理由
+      </h1>
+      <p>
+        LFS が目指すのは、完成した形での実用可能な基盤システムを構築することです。 LFS
+        に含まれるパッケージ群は、パッケージの個々を構築していくために必要となるものばかりです。
+        そこからは最小限の基盤となるシステムを作り出します。 そしてユーザーの望みに応じて、より完璧なシステムへと拡張していくものとなります。
+        LFS は極小システムを意味するわけではありません。 厳密には必要のないパッケージであっても、重要なものとして含んでいるものもあります。
+        以下に示す一覧は、本書内の各パッケージの採用根拠について説明するものです。
+      </p>
+      <div class="itemizedlist">
+        <ul>
+          <li class="listitem">
+            <p>
+              Acl
+            </p>
+            <p>
+              このパッケージはアクセス制御リスト (Access Control Lists) を管理するツールを提供します。
+              これはファイルやディレクトリに対して、きめ細かくさまざまなアクセス権限を定義するために利用されます。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Attr
+            </p>
+            <p>
+              このパッケージはファイルシステムオブジェクト上の拡張属性を管理するプログラムを提供します。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Autoconf
+            </p>
+            <p>
+              このパッケージは、以下に示すようなシェルスクリプトを生成するプログラムを提供します。
+              つまり開発者が意図しているテンプレートに基づいて、ソースコードを自動的に設定する (configure する)
+              ためのシェルスクリプトです。
+              特定のパッケージのビルド方法に変更があった場合は、パッケージ再構築を行うことになるため、その場合に本パッケージが必要となります。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Automake
+            </p>
+            <p>
+              このパッケージは、テンプレートとなるファイルから Makefile を生成するためのプログラムを提供します。
+              特定のパッケージのビルド方法に変更があった場合は、パッケージ再構築を行うことになるため、その場合に本パッケージが必要となります。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Bash
+            </p>
+            <p>
+              このパッケージは、システムとのインターフェースを実現する Bourne シェルを提供し、LSB コア要件を満たします。
+              他のシェルを選ばずにこれを選ぶのは、一般的に多用されていて拡張性が高いからです。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Bc
+            </p>
+            <p>
+              このパッケージは、任意精度 (arbitrary precision) の演算処理言語を提供します。 Linux
+              カーネルの構築に必要となります。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Binutils
+            </p>
+            <p>
+              このパッケージは、リンカー、アセンブラーのような、オブジェクトファイルを取り扱うプログラムを提供します。 各プログラムは
+              LFS における他のパッケージをコンパイルするために必要となります。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Bison
+            </p>
+            <p>
+              このパッケージは yacc (Yet Another Compiler Compiler) の GNU
+              バージョンを提供します。 LFS プログラムをビルドする際に、これを必要とするものがあります。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Bzip2
+            </p>
+            <p>
+              このパッケージは、ファイルの圧縮、伸張 (解凍) を行うプログラムを提供します。 これは LFS パッケージの多くを伸張
+              (解凍) するために必要です。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Check
+            </p>
+            <p>
+              このパッケージは、他のプログラムに対するテストハーネス (test harness) を提供します。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Coreutils
+            </p>
+            <p>
+              このパッケージは、ファイルやディレクトリを参照あるいは操作するための基本的なプログラムを数多く提供します。
+              各プログラムはコマンドラインからの実行によりファイル制御を行うために必要です。 また LFS
+              におけるパッケージのインストールに必要となります。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              D-Bus
+            </p>
+            <p>
+              このパッケージはメッセージバスシステムを実装しています。 これはアプリケーション間での通信手段を容易にするものです。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              DejaGNU
+            </p>
+            <p>
+              このパッケージは、他のプログラムをテストするフレームワークを提供します。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Diffutils
+            </p>
+            <p>
+              このパッケージは、ファイルやディレクトリ間の差異を表示するプログラムを提供します。
+              各プログラムはパッチを生成するために利用されます。 したがってパッケージのビルド時に利用されることが多々あります。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              E2fsprogs
+            </p>
+            <p>
+              このパッケージは ext2, ext3, ext4 の各ファイルシステムを取り扱うユーティリティを提供します。
+              各ファイルシステムは Linux がサポートする一般的なものであり、十分なテストが実施されているものです。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Expat
+            </p>
+            <p>
+              このパッケージは比較的小規模の XML 解析ライブラリを生成します。 XML-Parser Perl
+              モジュールがこれを必要とします。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Expect
+            </p>
+            <p>
+              このパッケージは、スクリプトで作られた対話型プログラムを通じて、他のプログラムとのやりとりを行うプログラムを提供します。
+              通常は他のパッケージをテストするために利用します。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              File
+            </p>
+            <p>
+              このパッケージは、指定されたファイルの種類を判別するユーティリティプログラムを提供します。
+              他のパッケージのビルドスクリプト内にてこれを必要とするものもあります。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Findutils
+            </p>
+            <p>
+              このパッケージは、ファイルシステム上のファイルを検索するプログラムを提供します。
+              これは他のパッケージにて、ビルド時のスクリプトにおいて利用されています。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Flex
+            </p>
+            <p>
+              このパッケージは、テキスト内の特定パターンの認識プログラムを生成するユーティリティを提供します。 これは lex (字句解析;
+              lexical analyzer) プログラムの GNU 版です。 LFS
+              内の他のパッケージの中にこれを必要としているものがあります。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Gawk
+            </p>
+            <p>
+              このパッケージはテキストファイルを操作するプログラムを提供します。 プログラムは GNU 版の awk
+              (Aho-Weinberg-Kernighan) です。
+              これは他のパッケージにて、ビルド時のスクリプトにおいて利用されています。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              GCC
+            </p>
+            <p>
+              これは GNU コンパイラーコレクションパッケージです。 C コンパイラーと C++ コンパイラーを含みます。また LFS
+              ではビルドしないコンパイラーも含まれています。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              GDBM
+            </p>
+            <p>
+              このパッケージは GNU データベースマネージャーライブラリを提供します。 LFS が扱う Man-DB
+              パッケージがこれを利用しています。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Gettext
+            </p>
+            <p>
+              このパッケージは、各種パッケージが国際化を行うために利用するユーティリティやライブラリを提供します。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Glibc
+            </p>
+            <p>
+              このパッケージは C ライブラリです。Linux 上のプログラムはこれがなければ動作させることができません。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              GMP
+            </p>
+            <p>
+              このパッケージは数値演算ライブラリを提供するもので、任意精度演算 (arbitrary precision
+              arithmetic) についての有用な関数を含みます。 これは GCC をビルドするために必要です。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Gperf
+            </p>
+            <p>
+              このパッケージは、キーセットから完全なハッシュ関数を生成するプログラムを提供します。 <span class=
+              "phrase">Systemd</span> がこれを必要としています。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Grep
+            </p>
+            <p>
+              このパッケージはファイル内を検索するプログラムを提供します。
+              これは他のパッケージにて、ビルド時のスクリプトにおいて利用されています。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Groff
+            </p>
+            <p>
+              このパッケージは、テキストを処理し整形するプログラムをいくつか提供します。 重要なものプログラムとして man
+              ページを生成するものを含みます。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              GRUB
+            </p>
+            <p>
+              これは Grand Unified Boot Loader です。
+              ブートローダーとして利用可能なものの中でも、これが最も柔軟性に富むものです。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Gzip
+            </p>
+            <p>
+              このパッケージは、ファイルの圧縮と伸張 (解凍) を行うプログラムを提供します。 LFS において、パッケージを伸張 (解凍)
+              するために必要です。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Iana-etc
+            </p>
+            <p>
+              このパッケージは、ネットワークサービスやプロトコルに関するデータを提供します。
+              ネットワーク機能を適切に有効なものとするために、これが必要です。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Inetutils
+            </p>
+            <p>
+              このパッケージは、ネットワーク管理を行う基本的なプログラム類を提供します。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Intltool
+            </p>
+            <p>
+              本パッケージはソースファイルから翻訳対象となる文字列を抽出するツールを提供します。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              IProute2
+            </p>
+            <p>
+              このパッケージは、IPv4、IPv6 による基本的な、あるいは拡張したネットワーク制御を行うプログラムを提供します。 IPv6
+              への対応があることから、よく使われてきたネットワークツールパッケージ (net-tools) に変わって採用されました。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Jinja2
+            </p>
+            <p>
+              このパッケージは、テキストテンプレート処理を行う Python モジュールです。 Systemd のビルドに必要となります。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Kbd
+            </p>
+            <p>
+              このパッケージは、米国以外のキーボードに対してのキーテーブルファイルやキーボードユーティリティを生成します。
+              また端末上のフォントも提供します。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Kmod
+            </p>
+            <p>
+              このパッケージは Linux カーネルモジュールを管理するために必要なプログラムを提供します。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Less
+            </p>
+            <p>
+              このパッケージはテキストファイルを表示する機能を提供するものであり、表示中にスクロールを可能とします。
+              多くのパッケージでは、ページング出力を行うためにこれを利用しています。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Libcap
+            </p>
+            <p>
+              このパッケージは Linux カーネルにて利用される POSIX 1003.1e
+              機能へのユーザー空間からのインターフェースを実装します。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Libelf
+            </p>
+            <p>
+              elfutils プロジェクトでは、ELF ファイルや DWARF データに対するライブラリやツールを提供しています。
+              他のパッケージに対して各種ユーティリティーは有用なものですが、ライブラリは Linux
+              カーネルのビルドに必要であり、デフォルトの（最も効果的な）カーネル設定にて利用されます。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Libffi
+            </p>
+            <p>
+              このパッケージは、さまざまな呼出規約（calling
+              conventions）に対しての、移植性に優れた高レベルプログラミングインターフェースを提供します。
+              プログラムをコンパイルするその時点においては、関数に対してどのような引数が与えられるかが分からない場合があります。
+              例えばインタープリターの場合、特定の関数を呼び出す際の引数の数や型は、実行時に指定されます。 libffi
+              はそういうプログラムであっても、インタープリタープログラムからコンパイルコードへのブリッジを提供します。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Libpipeline
+            </p>
+            <p>
+              Libpipeline パッケージは、サブプロセスのパイプラインを柔軟にかつ容易に操作するライブラリを提供します。 これは
+              Man-DB パッケージが必要としています。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Libtool
+            </p>
+            <p>
+              このパッケージは GNU の汎用的なライブラリに対してのサポートスクリプトを提供します。
+              これは、複雑な共有ライブラリの取り扱いを単純なものとし、移植性に優れた一貫した方法を提供します。 LFS
+              パッケージのテストスイートにおいて必要となります。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Libxcrypt
+            </p>
+            <p>
+              このパッケージは　<code class="systemitem">libcrypt</code>
+              ライブラリを提供するものであり、さまざまなパッケージ（代表的なものとして
+              Shadow）がパスワードのハッシュ処理のために必要としています。 これは Glibc における、かつての
+              <code class="systemitem">libcrypt</code> 実装を置き換えるものです。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Linux Kernel
+            </p>
+            <p>
+              このパッケージは "オペレーティングシステム" であり GNU/Linux 環境における Linux です。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              M4
+            </p>
+            <p>
+              このパッケージは汎用的なテキストマクロプロセッサーを提供するものであり、他のプログラムを構築するツールとして利用することができます。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Make
+            </p>
+            <p>
+              このパッケージは、パッケージ構築を指示するプログラムを提供します。 LFS
+              におけるパッケージでは、ほぼすべてにおいて必要となります。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              MarkupSafe
+            </p>
+            <p>
+              このパッケージは、HTML/XHTML/XML 内の文字列を安全に処理するための Python モジュールです。 Jinja2
+              がこのパッケージを必要としています。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Man-DB
+            </p>
+            <p>
+              このパッケージは man ページを検索し表示するプログラムを提供します。 <span class=
+              "application">man</span>
+              パッケージではなく本パッケージを採用しているのは、その方が国際化機能が優れているためです。 このパッケージは man
+              プログラムを提供しています。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Man-pages
+            </p>
+            <p>
+              このパッケージは Linux の基本的な man ページを提供します。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Meson
+            </p>
+            <p>
+              このパッケージは、ソフトウェアを自動的にビルドするソフトウエアツールを提供します。 Meson
+              が目指すのは、ソフトウェア開発者がビルドシステムの設定にかける時間を、できるだけ減らすことにあります。 これは Systemd
+              のビルドに必要であり、また BLFS における多くのパッケージにも必要です。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              MPC
+            </p>
+            <p>
+              このパッケージは複素数演算のための関数を提供します。 GCC パッケージがこれを必要としています。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              MPFR
+            </p>
+            <p>
+              このパッケージは倍精度演算 (multiple precision) の関数を提供します。 GCC
+              パッケージがこれを必要としています。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Ninja
+            </p>
+            <p>
+              このパッケージは、処理速度を重視した軽量なビルドシステムを提供します。
+              高レベルなビルドシステムが生成したファイルを入力として、ビルド実行をできるだけ高速に行うように設計されています。
+              このパッケージは Meson が必要としています。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Ncurses
+            </p>
+            <p>
+              このパッケージは、端末に依存せず文字キャラクターを取り扱うライブラリを提供します。
+              メニュー表示時のカーソル制御を実現する際に利用されます。 LFS の他のパッケージでは、たいていはこれを必要としています。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Openssl
+            </p>
+            <p>
+              このパッケージは暗号化に関する管理ツールやライブラリを提供します。 Linux
+              カーネルや他のパッケージに対して、暗号化機能を提供するものとして有用です。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Patch
+            </p>
+            <p>
+              このパッケージは、<span class="emphasis"><em>パッチ</em></span>
+              ファイルの適用により、特定のファイルを修正したり新規生成したりするためのプログラムを提供します。 パッチファイルは
+              <span class="application">diff</span> プログラムにより生成されます。 LFS
+              パッケージの中には、構築時にこれを必要とするものがあります。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Perl
+            </p>
+            <p>
+              このパッケージは、ランタイムに利用されるインタープリター言語 PERL を提供します。 LFS
+              の他のパッケージでは、インストール時やテストスイートの実行時にこれを必要とするものがあります。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Pkgconf
+            </p>
+            <p>
+              このパッケージは、開発用ライブラリに対するコンパイラーフラグやリンカーフラグを設定するためのプログラムを提供します。
+              このプログラムは、<span class=
+              "command"><strong>pkg-config</strong></span>
+              の単純な置き換えプログラムとして利用することができます。
+              そもそもこのプログラムは、数多くのパッケージによるシステム構築に必要となるものです。 元々の Pkg-config
+              パッケージに比べて活発に開発されており、処理速度も若干早くなっています。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Procps-NG
+            </p>
+            <p>
+              このパッケージは、プロセスの監視を行うプログラムを提供します。 システム管理にはこのパッケージが必要となります。 また LFS
+              ブートスクリプトではこれを利用しています。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Psmisc
+            </p>
+            <p>
+              このパッケージは、実行中のプロセスに関する情報を表示するプログラムを提供します。
+              システム管理にはこのパッケージが必要となります。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Python 3
+            </p>
+            <p>
+              このパッケージは、ソースコードの可読性の向上を意図して開発されたインタープリター言語を提供します。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Readline
+            </p>
+            <p>
+              このパッケージは、コマンドライン上での入力編集や履歴管理を行うライブラリを提供します。 これは Bash が利用しています。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Sed
+            </p>
+            <p>
+              このパッケージは、テキストの編集を、テキストエディターを用いることなく可能とします。 LFS パッケージにおける
+              configure スクリプトは、多くのパッケージがこれを必要としています。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Shadow
+            </p>
+            <p>
+              このパッケージは、セキュアな手法によりパスワード制御を行うプログラムを提供します。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Systemd
+            </p>
+            <p>
+              このパッケージは Sysvinit の代替として、<span class="application">init</span>
+              プログラムなど数種のプログラムにより、システム起動やシステム制御を実現します。 多くの Linux
+              ディストリビューションにおいてもよく利用されています。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Tar
+            </p>
+            <p>
+              このパッケージは、アーカイブや圧縮機能を提供するもので LFS が扱うすべてのパッケージにて利用されています。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Tcl
+            </p>
+            <p>
+              このパッケージはツールコマンド言語 (Tool Command Language) を提供します。
+              テストスイートの実行に必要となります。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Texinfo
+            </p>
+            <p>
+              このパッケージは Info ページに関しての入出力や変換を行うプログラムを提供します。 LFS
+              が扱うパッケージのインストール時には、たいてい利用されます。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Util-linux
+            </p>
+            <p>
+              このパッケージは数多くのユーティリティプログラムを提供します。
+              その中には、ファイルシステムやコンソール、パーティション、メッセージなどを取り扱うユーティリティがあります。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Vim
+            </p>
+            <p>
+              このパッケージはテキストエディターを提供します。 これを採用しているのは、従来の vi
+              エディタとの互換性があり、しかも数々の有用な機能を提供するものだからです。
+              テキストエディターは個人により好みはさまざまですから、もし別のエディターを利用したいなら、そちらを用いても構いません。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Wheel
+            </p>
+            <p>
+              このパッケージは Python wheel パッケージング標準に基づいた標準実装の Python モジュールを提供します。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              XML::Parser
+            </p>
+            <p>
+              このパッケージは Expat とのインターフェースを実現する Perl モジュールです。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              XZ Utils
+            </p>
+            <p>
+              このパッケージはファイルの圧縮、伸張 (解凍) を行うプログラムを提供します。
+              一般的に用いられるものの中では高い圧縮率を実現するものであり、特に XZ フォーマットや LZMA フォーマットの伸張
+              (解凍) に利用されます。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Zlib
+            </p>
+            <p>
+              このパッケージは、圧縮や解凍の機能を提供するもので、他のプログラムがこれを利用しています。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Zstd
+            </p>
+            <p>
+              このパッケージは、一定のプログラムが利用している圧縮、伸張（解凍）ルーチンを提供します。
+              高圧縮率に加えて、圧縮、処理速度間のトレードオフを広範囲に提供します。
+            </p>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="standards.html" title="LFS と各種標準">戻る</a>
+          <p>
+            LFS と各種標準
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="typography.html" title="本書の表記">次へ</a>
+          <p>
+            本書の表記
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="preface.html" title="序文">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r12.0-90-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

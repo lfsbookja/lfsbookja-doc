@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.23. Attr-2.5.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-r12.0-90">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version r12.0-90
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="mpc.html" title="MPC-1.3.1">戻る</a>
+          <p>
+            MPC-1.3.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="acl.html" title="Acl-2.3.1">次へ</a>
+          <p>
+            Acl-2.3.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r12.0-90">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-system-attr" name="ch-system-attr"></a>8.23. Attr-2.5.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Attr パッケージは、ファイルシステム上のオブジェクトに対しての拡張属性を管理するユーティリティを提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.1 SBU 以下</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">4.1 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.23.1. Attr のインストール
+        </h2>
+        <p>
+          Attr をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr     \
+            --disable-static  \
+            --sysconfdir=/etc \
+            --docdir=/usr/share/doc/attr-2.5.1</kbd></pre>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          テストは、ext2, ext3, ext4 のような拡張属性をサポートしているファイルシステム上にて実施する必要があります。
+          テストを実施するには以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class="command">make check</kbd></pre>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-attr" name="contents-attr"></a>8.23.2. Attr の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">attr, getfattr, setfattr</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libattr.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/attr, /usr/share/doc/attr-2.5.1</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="attr" name="attr"></a><span class=
+                    "term"><span class=
+                    "command"><strong>attr</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルシステム上のオブジェクトに対して、属性を拡張します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="getfattr" name="getfattr"></a><span class=
+                    "term"><span class=
+                    "command"><strong>getfattr</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルシステム上のオブジェクトに対して、拡張属性の情報を取得します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="setfattr" name="setfattr"></a><span class=
+                    "term"><span class=
+                    "command"><strong>setfattr</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルシステム上のオブジェクトに対して、拡張属性の情報を設定します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libattr" name="libattr"></a><span class=
+                    "term"><code class="filename">libattr</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    拡張属性を制御するライブラリ関数を提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="mpc.html" title="MPC-1.3.1">戻る</a>
+          <p>
+            MPC-1.3.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="acl.html" title="Acl-2.3.1">次へ</a>
+          <p>
+            Acl-2.3.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r12.0-90">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,523 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.29. Ncurses-6.4
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-r12.0-90">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version r12.0-90
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gcc.html" title="GCC-13.2.0">戻る</a>
+          <p>
+            GCC-13.2.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="sed.html" title="Sed-4.9">次へ</a>
+          <p>
+            Sed-4.9
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r12.0-90">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-system-ncurses" name="ch-system-ncurses"></a>8.29.
+        Ncurses-6.4
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Ncurses パッケージは、端末に依存しない、文字ベースのスクリーン制御を行うライブラリを提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.2 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">45 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.29.1. Ncurses のインストール
+        </h2>
+        <p>
+          Ncurses をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr           \
+            --mandir=/usr/share/man \
+            --with-shared           \
+            --without-debug         \
+            --without-normal        \
+            --with-cxx-shared       \
+            --enable-pc-files       \
+            --enable-widec          \
+            --with-pkg-config-libdir=/usr/lib/pkgconfig</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>configure オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-shared</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                これは Ncurses において共有 C ライブラリをビルドしインストールします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--without-normal</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                これは Ncurses においてスタティックな C ライブラリのビルドおよびインストールを行わないようにします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--without-debug</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                これは Ncurses においてデバッグライブラリのビルドおよびインストールを行わないようにします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-cxx-shared</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                これは Ncurses において共有 C++ バインディングをビルドしインストールします。 同時にスタティックな C++
+                バインディングのビルドおよびインストールは行わないようにします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-pc-files</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                本スイッチは pkg-config 用の .pc ファイルを生成しインストールすることを指示します。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-widec</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                本スイッチは通常のライブラリ (<code class=
+                "filename">libncurses.so.6.4</code>) ではなくワイド文字対応のライブラリ
+                (<code class="filename">libncursesw.so.6.4</code>)
+                をビルドすることを指示します。 ワイド文字対応のライブラリは、マルチバイトロケールと従来の
+                8ビットロケールの双方に対して利用可能です。 通常のライブラリでは 8ビットロケールに対してしか動作しません。
+                ワイド文字対応と通常のものとでは、ソース互換があるもののバイナリ互換がありません。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありますが、パッケージをインストールした後でないと実行できません。
+          テストスイートのためのファイル群はサブディレクトリ <code class="filename">test/</code>
+          以下に残っています。 詳しいことはそのディレクトリ内にある <code class="filename">README</code>
+          ファイルを参照してください。
+        </p>
+        <p>
+          本パッケージをインストールすると、所定位置にある <code class=
+          "filename">libncursesw.so.6.4</code> が上書きされます。
+          このときに、そのライブラリファイルのコードやデータを利用しているシェルプロセスが、クラッシュする場合があります。 そこで本パッケージは
+          <code class="literal">DESTDIR</code> を使ってインストールして、<span class=
+          "command"><strong>install</strong></span>
+          コマンドによってライブラリファイルを正しく置き換えるようにします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make DESTDIR=$PWD/dest install
+install -vm755 dest/usr/lib/libncursesw.so.6.4 /usr/lib
+rm -v  dest/usr/lib/libncursesw.so.6.4
+cp -av dest/* /</kbd></pre>
+        <p>
+          アプリケーションによっては、ワイド文字対応ではないライブラリをリンカーが探し出すよう求めるものが多くあります。
+          そのようなアプリケーションに対しては、以下のようなシンボリックリンクやリンカースクリプトを作り出して、ワイド文字対応のライブラリにリンクさせるよう仕向けます。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">for lib in ncurses form panel menu ; do
+    rm -vf                    /usr/lib/lib${lib}.so
+    echo "INPUT(-l${lib}w)" &gt; /usr/lib/lib${lib}.so
+    ln -sfv ${lib}w.pc        /usr/lib/pkgconfig/${lib}.pc
+done</kbd></pre>
+        <p>
+          最後に古いアプリケーションにおいて、ビルド時に <code class="filename">-lcurses</code>
+          を指定するものがあるため、これもビルド可能なものにします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">rm -vf                     /usr/lib/libcursesw.so
+echo "INPUT(-lncursesw)" &gt; /usr/lib/libcursesw.so
+ln -sfv libncurses.so      /usr/lib/libcurses.so</kbd></pre>
+        <p>
+          必要なら Ncurses のドキュメントをインストールします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cp -v -R doc -T /usr/share/doc/ncurses-6.4</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            ここまでの作業手順では、ワイド文字対応ではない Ncurses ライブラリは生成しませんでした。
+            ソースからコンパイルして構築するパッケージなら、実行時にそのようなライブラリにリンクするものはないからであり、バイナリコードのアプリケーションで非ワイド文字対応のものは
+            Ncurses 5 にリンクされています。 バイナリコードしかないアプリケーションを取り扱う場合、あるいは LSB
+            対応を要する場合で、それがワイド文字対応ではないライブラリを必要とするなら、以下のコマンドによりそのようなライブラリを生成してください。
+          </p>
+          <pre class="userinput"><kbd class="command">make distclean
+./configure --prefix=/usr    \
+            --with-shared    \
+            --without-normal \
+            --without-debug  \
+            --without-cxx-binding \
+            --with-abi-version=5
+make sources libs
+cp -av lib/lib*.so.5* /usr/lib</kbd></pre>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-ncurses" name="contents-ncurses"></a>8.29.2.
+          Ncurses の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">captoinfo (tic へのリンク), clear, infocmp, infotocap (tic
+              へのリンク), ncursesw6-config, reset (tset へのリンク), tabs, tic, toe,
+              tput, tset</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libcursesw.so (libncursesw.so
+              へのシンボリックリンクおよびリンカースクリプト), libformw.so, libmenuw.so,
+              libncursesw.so, libncurses++w.so, libpanelw.so,
+              これらに加えてワイド文字対応ではない通常のライブラリでその名称から "w" を取り除いたもの。</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/share/tabset, /usr/share/terminfo,
+              /usr/share/doc/ncurses-6.4</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="captoinfo" name="captoinfo"></a><span class=
+                    "term"><span class=
+                    "command"><strong>captoinfo</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    termcap の記述を terminfo の記述に変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="clear" name="clear"></a><span class=
+                    "term"><span class=
+                    "command"><strong>clear</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    画面消去が可能ならこれを行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="infocmp" name="infocmp"></a><span class=
+                    "term"><span class=
+                    "command"><strong>infocmp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    terminfo の記述どうしを比較したり出力したりします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="infotocap" name="infotocap"></a><span class=
+                    "term"><span class=
+                    "command"><strong>infotocap</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    terminfo の記述を termcap の記述に変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ncursesw6-config" name=
+                    "ncursesw6-config"></a><span class="term"><span class=
+                    "command"><strong>ncursesw6-config</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ncurses の設定情報を提供します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="reset" name="reset"></a><span class=
+                    "term"><span class=
+                    "command"><strong>reset</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    端末をデフォルト設定に初期化します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tabs" name="tabs"></a><span class=
+                    "term"><span class=
+                    "command"><strong>tabs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    端末上のタブストップの設定をクリアしたり設定したりします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tic" name="tic"></a><span class=
+                    "term"><span class="command"><strong>tic</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    terminfo の定義項目に対するコンパイラーです。 これはソース形式の terminfo
+                    ファイルをバイナリ形式に変換し、ncurses ライブラリ内の処理ルーチンが利用できるようにします。
+                    terminfo ファイルは特定端末の特性に関する情報が記述されるものです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="toe" name="toe"></a><span class=
+                    "term"><span class="command"><strong>toe</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    利用可能なすべての端末タイプを一覧表示します。 そこでは端末名と簡単な説明を示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tput" name="tput"></a><span class=
+                    "term"><span class=
+                    "command"><strong>tput</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    端末に依存する機能設定をシェルが利用できるようにします。
+                    また端末のリセットや初期化、あるいは長い端末名称の表示も行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tset" name="tset"></a><span class=
+                    "term"><span class=
+                    "command"><strong>tset</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    端末の初期化に利用します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libcursesw" name="libcursesw"></a><span class=
+                    "term"><code class="filename">libcursesw</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <code class="filename">libncursesw</code> へのリンク。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libncursesw" name="libncursesw"></a><span class=
+                    "term"><code class="filename">libncursesw</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    さまざまな方法により端末画面上に文字列を表示するための関数を提供します。
+                    これらの関数を用いた具体例として、カーネルの <span class="command"><strong>make
+                    menuconfig</strong></span> の実行によって表示されるメニューがあります。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libncurses__w" name=
+                    "libncurses__w"></a><span class="term"><code class=
+                    "filename">libncurses++w</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    本パッケージ内でのその他のライブラリに対応する C++ バインディングを提供します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libformw" name="libformw"></a><span class=
+                    "term"><code class="filename">libformw</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    フォームを実装するための関数を提供します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libmenuw" name="libmenuw"></a><span class=
+                    "term"><code class="filename">libmenuw</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    メニューを実装するための関数を提供します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libpanelw" name="libpanelw"></a><span class=
+                    "term"><code class="filename">libpanelw</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    パネルを実装するための関数を提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gcc.html" title="GCC-13.2.0">戻る</a>
+          <p>
+            GCC-13.2.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="sed.html" title="Sed-4.9">次へ</a>
+          <p>
+            Sed-4.9
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r12.0-90">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

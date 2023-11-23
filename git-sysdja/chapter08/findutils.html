@@ -1,0 +1,229 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.61. Findutils-4.9.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-r12.0-90-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version r12.0-90-systemd
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gawk.html" title="Gawk-5.3.0">戻る</a>
+          <p>
+            Gawk-5.3.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="groff.html" title="Groff-1.23.0">次へ</a>
+          <p>
+            Groff-1.23.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r12.0-90-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-system-findutils" name="ch-system-findutils"></a>8.61.
+        Findutils-4.9.0
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Findutils パッケージはファイル検索を行うプログラムを提供します。
+          このプログラムはディレクトリツリーを検索したり、データベースの生成、保守、検索を行います。
+          (データベースによる検索は再帰的検索に比べて処理速度は速いものですが、データベースが最新のものに更新されていない場合は信頼できない結果となります。)
+          Findutils では <span class="command"><strong>xargs</strong></span>
+          プログラムも提供します。 このプログラムは、検索された複数ファイルの個々に対して、指定されたコマンドを実行するために用いられます。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.4 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">51 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.61.1. Findutils のインストール
+        </h2>
+        <p>
+          Findutils をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr --localstatedir=/var/lib/locate</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>configure オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--localstatedir</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このオプションは <span class="command"><strong>locate</strong></span>
+                データベースの場所を FHS コンプライアンスに準拠するディレクトリ <code class=
+                "filename">/var/lib/locate</code> に変更します。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          コンパイル結果をテストするなら以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class="command">chown -Rv tester .
+su tester -c "PATH=$PATH make check"</kbd></pre>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-findutils" name="contents-findutils"></a>8.61.2.
+          Findutils の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">find, locate, updatedb, xargs</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/var/lib/locate</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="find" name="find"></a><span class=
+                    "term"><span class=
+                    "command"><strong>find</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定された条件に合致するファイルを、指定されたディレクトリツリー内から検索します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="locate" name="locate"></a><span class=
+                    "term"><span class=
+                    "command"><strong>locate</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイル名データベースを検索して、指定された文字列を含むもの、または検索パターンに合致するものを表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="updatedb" name="updatedb"></a><span class=
+                    "term"><span class=
+                    "command"><strong>updatedb</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>locate</strong></span>
+                    データベースを更新します。 これはすべてのファイルシステムを検索します。
+                    (検索非対象とする設定がない限りは、マウントされているすべてのファイルシステムを対象とします。)
+                    そして検索されたファイル名をデータベースに追加します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xargs" name="xargs"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xargs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたコマンドに対してファイル名の一覧を受け渡して実行します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gawk.html" title="Gawk-5.3.0">戻る</a>
+          <p>
+            Gawk-5.3.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="groff.html" title="Groff-1.23.0">次へ</a>
+          <p>
+            Groff-1.23.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r12.0-90-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

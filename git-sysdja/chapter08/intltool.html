@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.44. Intltool-0.51.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-r12.0-90-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version r12.0-90-systemd
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="xml-parser.html" title=
+          "XML::Parser-2.46">戻る</a>
+          <p>
+            XML::Parser-2.46
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="autoconf.html" title="Autoconf-2.71">次へ</a>
+          <p>
+            Autoconf-2.71
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r12.0-90-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-system-intltool" name="ch-system-intltool"></a>8.44.
+        Intltool-0.51.0
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Intltool パッケージは、プログラムソースファイルから翻訳対象の文字列を抽出するために利用する国際化ツールです。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.1 SBU 以下</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">1.5 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.44.1. Intltool のインストール
+        </h2>
+        <p>
+          perl-5.22 以降にて発生する警告メッセージを修正します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i 's:\\\${:\\\$\\{:' intltool-update.in</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            上の正規表現は、バックスラッシュが多すぎて変に思うかもしれません。 ここで行っているのは '\${'
+            という記述の並びに対して、右ブレースの前にバックスラッシュを追加して '\$\{' を作り出しています。
+          </p>
+        </div>
+        <p>
+          Intltool をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr</kbd></pre>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class="command">make check</kbd></pre>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install
+install -v -Dm644 doc/I18N-HOWTO /usr/share/doc/intltool-0.51.0/I18N-HOWTO</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-intltool" name="contents-intltool"></a>8.44.2.
+          Intltool の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">intltool-extract, intltool-merge, intltool-prepare,
+              intltool-update, intltoolize</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/share/doc/intltool-0.51.0,
+              /usr/share/intltool</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="intltoolize" name="intltoolize"></a><span class=
+                    "term"><span class=
+                    "command"><strong>intltoolize</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    パッケージに対して intltool を利用できるようにします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="intltool-extract" name=
+                    "intltool-extract"></a><span class="term"><span class=
+                    "command"><strong>intltool-extract</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>gettext</strong></span>
+                    が読み込むことの出来るヘッダーファイルを生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="intltool-merge" name=
+                    "intltool-merge"></a><span class="term"><span class=
+                    "command"><strong>intltool-merge</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    翻訳された文字列をさまざまな種類のファイルにマージします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="intltool-prepare" name=
+                    "intltool-prepare"></a><span class="term"><span class=
+                    "command"><strong>intltool-prepare</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    pot ファイルを更新し翻訳ファイルにマージします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="intltool-update" name=
+                    "intltool-update"></a><span class="term"><span class=
+                    "command"><strong>intltool-update</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    po テンプレートファイルを更新し翻訳ファイルにマージします。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="xml-parser.html" title=
+          "XML::Parser-2.46">戻る</a>
+          <p>
+            XML::Parser-2.46
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="autoconf.html" title="Autoconf-2.71">次へ</a>
+          <p>
+            Autoconf-2.71
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r12.0-90-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

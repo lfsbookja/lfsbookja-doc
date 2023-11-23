@@ -1,0 +1,256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.72. Eudev-3.2.12
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-r11.3-145">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version r11.3-145
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="vim.html" title="Vim-9.0.1671">戻る</a>
+          <p>
+            Vim-9.0.1671
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="man-db.html" title="Man-DB-2.11.2">次へ</a>
+          <p>
+            Man-DB-2.11.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r11.3-145">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ch-system-eudev" name="ch-system-eudev"></a>8.72. Eudev-3.2.12
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Eudev パッケージはデバイスノードを動的に生成するプログラムを提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.1 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">83 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.72.1. Eudev のインストール
+        </h2>
+        <p>
+          不要なグループ <code class="systemitem">sgx</code> を、デフォルトの udev
+          ルールから削除します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i -e 's/GROUP="sgx", //' rules/50-udev-default.rules</kbd></pre>
+        <p>
+          Eudev をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr           \
+            --bindir=/usr/sbin      \
+            --sysconfdir=/etc       \
+            --enable-manpages       \
+            --disable-static</kbd></pre>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          テスト時に必要となるディレクトリを生成します。 その一部はインストールの際にも利用します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mkdir -pv /usr/lib/udev/rules.d
+mkdir -pv /etc/udev/rules.d</kbd></pre>
+        <p>
+          コンパイル結果をテストするには以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class="command">make check</kbd></pre>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+        <p>
+          LFS 環境にて有用なカスタムルールやサポートファイルをインストールします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">tar -xvf ../udev-lfs-20171102.tar.xz
+make -f udev-lfs-20171102/Makefile.lfs install</kbd></pre>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="conf-eudev" name="conf-eudev"></a>8.72.2. Eudev の設定
+        </h2>
+        <p>
+          Eudev によってインストールされるデフォルトの udev ルールは、あらゆるユーザーが <code class=
+          "filename">/dev/kvm</code> にアクセスできるようにします。 当編集者としてこれは危険なことと考えています。
+          そこで以下のように設定ファイルを生成してこれを上書き設定します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; /etc/udev/rules.d/65-kvm.rules &lt;&lt; "EOF"
+<code class=
+"literal">KERNEL=="kvm", GROUP="kvm", MODE="0660", TAG+="uaccess"</code>
+EOF</kbd></pre>
+        <p>
+          ハードウェアデバイスに関する情報は、<code class="filename">/etc/udev/hwdb.d</code>
+          ディレクトリおよび <code class="filename">/usr/lib/udev/hwdb.d</code>
+          ディレクトリに収容されています。 <span class="application">Eudev</span>
+          はこの情報をとりまとめて、バイナリデータベース <code class=
+          "filename">/etc/udev/hwdb.bin</code> を作成しています。
+          このデータベース初期化は以下により実現します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">udevadm hwdb --update</kbd></pre>
+        <p>
+          このコマンドはハードウェア情報が更新された際には必ず実行してください。
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-eudev" name="contents-eudev"></a>8.72.3. Eudev の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">udevadm, udevd</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libudev.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/etc/udev, /usr/lib/udev,
+              /usr/share/doc/udev-udev-lfs-20171102</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="udevadm" name="udevadm"></a><span class=
+                    "term"><span class=
+                    "command"><strong>udevadm</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    汎用的な udev 管理ツール。 udevd デーモンの制御、Udev データベースからの情報提供、uevent
+                    監視、uevent 完了待機、Udev 設定のテスト、指定デバイスへの uevent 起動などを行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="udevd" name="udevd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>udevd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ネットリンクソケット上の udevent
+                    を検出するデーモンであり、デバイスを生成しそのイベントに応じた外部プログラムを実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libudev" name="libudev"></a><span class=
+                    "term"><code class="filename">libudev</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    udev デバイス情報へのインターフェースライブラリ。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="etc-udev" name="etc-udev"></a><span class=
+                    "term"><code class="filename">/etc/udev</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Udev の設定ファイル、デバイスのパーミッション、デバイス名に対するルールを設定します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="vim.html" title="Vim-9.0.1671">戻る</a>
+          <p>
+            Vim-9.0.1671
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="man-db.html" title="Man-DB-2.11.2">次へ</a>
+          <p>
+            Man-DB-2.11.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r11.3-145">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
