@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-100">
+  <body class="lfs" id="lfs-r12.0-102">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-100
+        Linux From Scratch - Version r12.0-102
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -39,7 +39,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-100">ホーム</a>
+          "Linux From Scratch - Version r12.0-102">ホーム</a>
         </li>
       </ul>
     </div>
@@ -86,6 +86,11 @@
         </p>
         <pre class="userinput"><kbd class=
         "command">sed '/systemd-sysctl/s/^/#/' -i rules.d/99-systemd.rules.in</kbd></pre>
+        <p>
+          ネットワーク設定ファイルへのパスがハードコーディングされているため、独立した udev インストールとして修正します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed '/NETWORK_DIRS/s/systemd/udev/' -i src/basic/path-lookup.h</kbd></pre>
         <p>
           Udev をコンパイルするための準備をします。
         </p>
@@ -172,7 +177,7 @@ meson setup \
           パッケージをインストールします。
         </p>
         <pre class="userinput"><kbd class=
-        "command">install -vm755 -d {/usr/lib,/etc}/udev/{hwdb,rules}.d
+        "command">install -vm755 -d {/usr/lib,/etc}/udev/{hwdb.d,rules.d,network}
 install -vm755 -d /usr/{lib,share}/pkgconfig
 install -vm755 udevadm                             /usr/bin/
 install -vm755 systemd-hwdb                        /usr/bin/udev-hwdb
@@ -187,7 +192,8 @@ install -vm644 $(find ../rules.d/*.rules \
                       -not -name '*power-switch*') /usr/lib/udev/rules.d/
 install -vm644 hwdb.d/*  ../hwdb.d/{*.hwdb,README} /usr/lib/udev/hwdb.d/
 install -vm755 $(find src/udev \
-                      -type f -not -name '*.*')    /usr/lib/udev</kbd></pre>
+                      -type f -not -name '*.*')    /usr/lib/udev
+install -vm644 ../network/99-default.link          /usr/lib/udev/network</kbd></pre>
         <p>
           LFS 環境において有用となるカスタムルールやサポートファイルをインストールします。
         </p>
@@ -201,13 +207,21 @@ make -f udev-lfs-20230818/Makefile.lfs install</kbd></pre>
         "command">tar -xf ../../systemd-man-pages-254.tar.xz                            \
     --no-same-owner --strip-components=1                              \
     -C /usr/share/man --wildcards '*/udev*' '*/libudev*'              \
+                                  '*/systemd.link.5'                  \
                                   '*/systemd-'{hwdb,udevd.service}.8
+
+sed 's|systemd/network|udev/network|'                                 \
+    /usr/share/man/man5/systemd.link.5                                \
+  &gt; /usr/share/man/man5/udev.link.5
+
 sed 's/systemd\(\\\?-\)/udev\1/' /usr/share/man/man8/systemd-hwdb.8   \
                                &gt; /usr/share/man/man8/udev-hwdb.8
+
 sed 's|lib.*udevd|sbin/udevd|'                                        \
     /usr/share/man/man8/systemd-udevd.service.8                       \
   &gt; /usr/share/man/man8/udevd.8
-rm  /usr/share/man/man8/systemd-*.8</kbd></pre>
+
+rm /usr/share/man/man*/systemd*</kbd></pre>
       </div>
       <div class="configuration" lang="ja" xml:lang="ja">
         <h2 class="sect2">
@@ -354,7 +368,7 @@ rm  /usr/share/man/man8/systemd-*.8</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-100">ホーム</a>
+          "Linux From Scratch - Version r12.0-102">ホーム</a>
         </li>
       </ul>
     </div>
