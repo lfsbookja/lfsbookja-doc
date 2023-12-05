@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-102-systemd">
+  <body class="lfs" id="lfs-r12.0-110-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-102-systemd
+        Linux From Scratch - Version r12.0-110-systemd
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -40,7 +40,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-102-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.0-110-systemd">ホーム</a>
         </li>
       </ul>
     </div>
@@ -188,11 +188,10 @@ EOF
         <pre class="userinput"><kbd class=
         "command">install -v -dm755 /usr/share/doc/python-3.12.0/html
 
-tar --strip-components=1  \
-    --no-same-owner       \
-    --no-same-permissions \
-    -C /usr/share/doc/python-3.12.0/html \
-    -xvf ../python-3.12.0-docs-html.tar.bz2</kbd></pre>
+tar --no-same-owner \
+    -xvf ../python-3.12.0-docs-html.tar.bz2
+cp -R --no-preserve=mode python-3.12.0-docs-html/* \
+    /usr/share/doc/python-3.12.0/html</kbd></pre>
         <div class="variablelist">
           <p class="title">
             <strong>ドキュメント install コマンドの意味</strong>
@@ -200,13 +199,14 @@ tar --strip-components=1  \
           <dl class="variablelist">
             <dt>
               <span class="term"><code class="option">--no-same-owner</code>
-              と <code class="option">--no-same-permissions</code></span>
+              (tar) と <code class="option">--no-preserve=mode</code>
+              (cp)</span>
             </dt>
             <dd>
               <p>
                 インストールするファイルの所有者とパーミッションを適切に設定します。 このオプションがないと <span class=
                 "application">tar</span>
-                によって展開されるファイルは、アップストリームが作り出した値になってしまうためです。
+                によって展開されるファイルは、アップストリームが作り出した値になってしまい、またファイルのパーミッションが限定的になることがあります。
               </p>
             </dd>
           </dl>
@@ -348,7 +348,7 @@ tar --strip-components=1  \
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-102-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.0-110-systemd">ホーム</a>
         </li>
       </ul>
     </div>

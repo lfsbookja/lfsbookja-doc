@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-102-systemd">
+  <body class="lfs" id="lfs-r12.0-110-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-102-systemd
+        Linux From Scratch - Version r12.0-110-systemd
       </h4>
       <h3>
         第10章 LFS システムのブート設定
@@ -41,7 +41,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-102-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.0-110-systemd">ホーム</a>
         </li>
       </ul>
     </div>
@@ -229,12 +229,17 @@
     [*] <span class=
 "blue">E</span>xport DMI identification via sysfs to userspace                 [DMIID]
   <span class="blue">G</span>raphics support ---&gt;
-    <span class="blue">F</span>rame buffer Devices ---&gt;
-      &lt;*&gt; <span class=
-"blue">S</span>upport for frame buffer devices ---&gt;                             [FB]
+    &lt; /*/M&gt; <span class=
+"blue">D</span>irect Rendering Manager (XFree86 4.1.0 and higher DRI support) ---&gt;
+                                                                      ...  [DRM]
+    # If [DRM] is selected as * or M, this must be selected:
+    [ /*]   <span class=
+"blue">E</span>nable legacy fbdev support for your modesetting driver
+                                                      ...  [DRM_FBDEV_EMULATION]
     <span class="blue">C</span>onsole display driver support ---&gt;
-      [*] <span class=
-"blue">F</span>ramebuffer Console support                      [FRAMEBUFFER_CONSOLE]
+      # If [DRM] is selected as * or M, this must be selected:
+      [ /*] <span class=
+"blue">F</span>ramebuffer Console support                    [FRAMEBUFFER_CONSOLE]
 
 <span class="blue">F</span>ile systems ---&gt;
   [*] <span class=
@@ -404,19 +409,18 @@
               </p>
             </dd>
             <dt>
-              <span class="term"><em class="parameter"><code>Framebuffer
-              Console support</code></em></span>
+              <span class="term"><em class="parameter"><code>Enable legacy
+              fbdev support for your modesetting driver</code></em> ,
+              <em class="parameter"><code>Framebuffer Console
+              support</code></em></span>
             </dt>
             <dd>
               <p>
-                これはフレームバッファーデバイス上に Linux コンソールを表示するために必要となります。
-                起動初期においてカーネルがデバッグメッセージを表示できるようにするためには、initramfs
-                を使わない場合であれば、これをカーネルモジュールとしてビルドしてはなりません。 また <code class=
+                これは DRI (Direct Rendering Infrastructure) ドライバーにより起動される GPU
+                上に Linux コンソールを表示するために必要となります。 <code class=
                 "option">CONFIG_DRM</code> (Direct Rendering Manager)
-                を有効にしている場合は <code class=
-                "option">CONFIG_DRM_FBDEV_EMULATION</code> (Enable legacy
-                fbdev support for your modesetting driver)
-                も同じく有効にしておく必要があります。
+                を有効にしている場合は、この 2 つのオプションも同じく有効にしておく必要があります。 そうしておかないと、DRI
+                ドライバーのロードの際に画面がブランクになってしまいます。
               </p>
             </dd>
             <dt>
@@ -497,7 +501,7 @@
           アーキテクチャーの場合の例です。
         </p>
         <pre class="userinput"><kbd class=
-        "command">cp -iv arch/x86/boot/bzImage /boot/vmlinuz-6.6.3-lfs-r12.0-102-systemd</kbd></pre>
+        "command">cp -iv arch/x86/boot/bzImage /boot/vmlinuz-6.6.3-lfs-r12.0-110-systemd</kbd></pre>
         <p>
           <code class="filename">System.map</code> はカーネルに対するシンボルファイルです。
           このファイルはカーネル API の各関数のエントリポイントをマッピングしています。
@@ -618,7 +622,7 @@ EOF</kbd></pre>
           <div class="seglistitem">
             <div class="seg">
               <strong class="segtitle">インストールファイル:</strong> <span class=
-              "segbody">config-6.6.3, vmlinuz-6.6.3-lfs-r12.0-102-systemd,
+              "segbody">config-6.6.3, vmlinuz-6.6.3-lfs-r12.0-110-systemd,
               and System.map-6.6.3</span>
             </div>
             <div class="seg">
@@ -655,7 +659,7 @@ EOF</kbd></pre>
                   <p>
                     <a id="lfskernel" name="lfskernel"></a><span class=
                     "term"><code class=
-                    "filename">vmlinuz-6.6.3-lfs-r12.0-102-systemd</code></span>
+                    "filename">vmlinuz-6.6.3-lfs-r12.0-110-systemd</code></span>
                   </p>
                 </td>
                 <td>
@@ -709,7 +713,7 @@ EOF</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-102-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.0-110-systemd">ホーム</a>
         </li>
       </ul>
     </div>
