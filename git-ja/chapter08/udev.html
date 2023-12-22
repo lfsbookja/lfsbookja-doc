@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <title>
-      8.75. Systemd-254 から取り出した Udev
+      8.75. Systemd-255 から取り出した Udev
     </title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
     <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-115">
+  <body class="lfs" id="lfs-r12.0-118">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-115
+        Linux From Scratch - Version r12.0-118
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -39,13 +39,13 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-115">ホーム</a>
+          "Linux From Scratch - Version r12.0-118">ホーム</a>
         </li>
       </ul>
     </div>
     <div class="wrap" lang="ja" xml:lang="ja">
       <h1 class="sect1">
-        <a id="ch-system-udev" name="ch-system-udev"></a>8.75. Systemd-254
+        <a id="ch-system-udev" name="ch-system-udev"></a>8.75. Systemd-255
         から取り出した Udev
       </h1>
       <div class="package" lang="ja" xml:lang="ja">
@@ -70,7 +70,7 @@
           8.75.1. Udev のインストール
         </h2>
         <p>
-          Udev は systemd-254 パッケージの一部です。 ソース tarball としては systemd-254.tar.xz
+          Udev は systemd-255 パッケージの一部です。 ソース tarball としては systemd-255.tar.xz
           ファイルを用います。
         </p>
         <p>
@@ -167,12 +167,19 @@ meson setup \
           </dl>
         </div>
         <p>
+          同梱されている udev ヘルパーの一覧を取得して、それを環境変数に保存します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">udev_helpers=$(grep "'name' :" ../src/udev/meson.build | \
+               awk '{print $3}' | tr -d ",'" | grep -v 'udevadm')</kbd></pre>
+        <p>
           udev に必要となるコンポーネントのみをビルドします。
         </p>
         <pre class="userinput"><kbd class=
         "command">ninja udevadm systemd-hwdb                                           \
       $(ninja -n | grep -Eo '(src/(lib)?udev|rules.d|hwdb.d)/[^ ]*') \
-      $(realpath libudev.so --relative-to .)</kbd></pre>
+      $(realpath libudev.so --relative-to .)                         \
+      $udev_helpers udevadm</kbd></pre>
         <p>
           パッケージをインストールします。
         </p>
@@ -191,8 +198,7 @@ install -vm644 rules.d/* ../rules.d/README         /usr/lib/udev/rules.d/
 install -vm644 $(find ../rules.d/*.rules \
                       -not -name '*power-switch*') /usr/lib/udev/rules.d/
 install -vm644 hwdb.d/*  ../hwdb.d/{*.hwdb,README} /usr/lib/udev/hwdb.d/
-install -vm755 $(find src/udev \
-                      -type f -not -name '*.*')    /usr/lib/udev
+install -vm755 $udev_helpers                       /usr/lib/udev
 install -vm644 ../network/99-default.link          /usr/lib/udev/network</kbd></pre>
         <p>
           LFS 環境において有用となるカスタムルールやサポートファイルをインストールします。
@@ -204,7 +210,7 @@ make -f udev-lfs-20230818/Makefile.lfs install</kbd></pre>
           man ページをインストールします。
         </p>
         <pre class="userinput"><kbd class=
-        "command">tar -xf ../../systemd-man-pages-254.tar.xz                            \
+        "command">tar -xf ../../systemd-man-pages-255.tar.xz                            \
     --no-same-owner --strip-components=1                              \
     -C /usr/share/man --wildcards '*/udev*' '*/libudev*'              \
                                   '*/systemd.link.5'                  \
@@ -368,7 +374,7 @@ rm /usr/share/man/man*/systemd*</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-115">ホーム</a>
+          "Linux From Scratch - Version r12.0-118">ホーム</a>
         </li>
       </ul>
     </div>

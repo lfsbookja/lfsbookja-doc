@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-115">
+  <body class="lfs" id="lfs-r12.0-118">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-115
+        Linux From Scratch - Version r12.0-118
       </h4>
       <h3>
         第9章 システム設定
@@ -38,7 +38,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-115">ホーム</a>
+          "Linux From Scratch - Version r12.0-118">ホーム</a>
         </li>
       </ul>
     </div>
@@ -166,6 +166,20 @@
             どのネットワークカードにどんな名前が割り当てられているかをよく確認してください。 そしてネットワーク設定ファイルを生成する際には
             <code class="literal">NAME</code> に定義されている名称を利用してください。
           </p>
+          <p>
+            たとえカスタムルールファイルを生成していても、udev は NIC
+            に対して、その物理的特性からいくつかの名前を割り振るかもしれません。 仮にカスタム udev ルールが定めた NIC 名が、他の
+            NIC に割り当てられた別名と同じものに割り当てられた場合、その udev ルールは失敗します。
+            この問題が発生する場合には、設定ファイル <code class=
+            "filename">/etc/udev/network/99-default.link</code>
+            を生成して、空の別名割り当てポリシーを設定することで、デフォルトの設定である <code class=
+            "filename">/usr/lib/udev/network/99-default.link</code>
+            を上書きするようにします。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">sed -e '/^AlternativeNamesPolicy/s/=.*$/=/'  \
+    -i /usr/lib/udev/network/99-default.link \
+     &gt; /etc/udev/network/99-default.link</kbd></pre>
         </div>
       </div>
       <div class="sect2" lang="ja" xml:lang="ja">
@@ -334,7 +348,7 @@ EOF</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-115">ホーム</a>
+          "Linux From Scratch - Version r12.0-118">ホーム</a>
         </li>
       </ul>
     </div>

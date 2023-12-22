@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <title>
-      8.75. Systemd-254
+      8.75. Systemd-255
     </title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
     <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-115-systemd">
+  <body class="lfs" id="lfs-r12.0-118-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-115-systemd
+        Linux From Scratch - Version r12.0-118-systemd
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -39,14 +39,14 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-115-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.0-118-systemd">ホーム</a>
         </li>
       </ul>
     </div>
     <div class="wrap" lang="ja" xml:lang="ja">
       <h1 class="sect1">
         <a id="ch-system-systemd" name="ch-system-systemd"></a>8.75.
-        Systemd-254
+        Systemd-255
       </h1>
       <div class="package" lang="ja" xml:lang="ja">
         <p>
@@ -92,14 +92,16 @@ meson setup \
       -Dldconfig=false              \
       -Dsysusers=false              \
       -Drpmmacrosdir=no             \
-      -Dhomed=false                 \
+      -Dhomed=disabled              \
       -Duserdb=false                \
       -Dman=false                   \
       -Dmode=release                \
       -Dpamconfdir=no               \
       -Ddev-kvm-mode=0660           \
       -Dnobody-group=nogroup        \
-      -Ddocdir=/usr/share/doc/systemd-254 \
+      -Dsysupdate=disabled          \
+      -Dukify=disabled              \
+      -Ddocdir=/usr/share/doc/systemd-255 \
       ..</kbd></pre>
         <div class="variablelist">
           <p class="title">
@@ -183,7 +185,8 @@ meson setup \
             </dd>
             <dt>
               <span class="term"><em class=
-              "parameter"><code>-D{userdb,homed}=false</code></em></span>
+              "parameter"><code>-Dhomed=disabled</code></em> と <em class=
+              "parameter"><code>-Duserdb=false</code></em></span>
             </dt>
             <dd>
               <p>
@@ -239,6 +242,31 @@ meson setup \
                 であるグループ名として指定します。
               </p>
             </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>-Dsysupdate=disabled</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                <span class=
+                "command"><strong>systemd-sysupdate</strong></span>
+                ツールをインストールしないようにします。 これはバイナリディストロを自動的に更新する目的のものです。
+                したがってソースからビルドするという Linux システムにおいては、基本的に無用なものです。
+                またこれが利用可能でありながら適切に設定されていない場合には、起動時にエラーが表示されることになります。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>-Dukify=disabled</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                <span class="command"><strong>systemd-ukify</strong></span>
+                スクリプトをインストールしないようにします。 このスクリプトは実行時に Python モジュール <span class=
+                "application">pefile</span> を必要としますが、これは LFS と BLFS
+                のいずれにおいても提供していません。
+              </p>
+            </dd>
           </dl>
         </div>
         <p>
@@ -253,7 +281,7 @@ meson setup \
           man ページをインストールします。
         </p>
         <pre class="userinput"><kbd class=
-        "command">tar -xf ../../systemd-man-pages-254.tar.xz \
+        "command">tar -xf ../../systemd-man-pages-255.tar.xz \
     --no-same-owner --strip-components=1   \
     -C /usr/share/man</kbd></pre>
         <p>
@@ -267,12 +295,6 @@ meson setup \
         </p>
         <pre class="userinput"><kbd class=
         "command">systemctl preset-all</kbd></pre>
-        <p>
-          バイナリディストリビューションの更新サービスを 2 つ無効にします。 ソースからのビルドを行う単純な Linux
-          システムでは不要だからです 有効化されても設定が行われていない場合には、エラーが出力されます。
-        </p>
-        <pre class="userinput"><kbd class=
-        "command">systemctl disable systemd-sysupdate{,-reboot}</kbd></pre>
       </div>
       <div class="content" lang="ja" xml:lang="ja">
         <h2 class="sect2">
@@ -307,7 +329,7 @@ meson setup \
               <strong class="segtitle">インストールライブラリ:</strong> <span class=
               "segbody">libnss_myhostname.so.2, libnss_mymachines.so.2,
               libnss_resolve.so.2, libnss_systemd.so.2, libsystemd.so,
-              libsystemd-shared-254.so (/usr/lib/systemd ディレクトリ内),
+              libsystemd-shared-255.so (/usr/lib/systemd ディレクトリ内),
               libudev.so</span>
             </div>
             <div class="seg">
@@ -318,7 +340,7 @@ meson setup \
               /usr/lib/udev, /usr/include/systemd, /usr/lib/binfmt.d,
               /usr/lib/environment.d, /usr/lib/kernel,
               /usr/lib/modules-load.d, /usr/lib/sysctl.d, /usr/lib/systemd,
-              /usr/lib/tmpfiles.d, /usr/share/doc/systemd-254,
+              /usr/lib/tmpfiles.d, /usr/share/doc/systemd-255,
               /usr/share/factory, /usr/share/systemd, /var/lib/systemd,
               /var/log/journal</span>
             </div>
@@ -1117,7 +1139,7 @@ meson setup \
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-115-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.0-118-systemd">ホーム</a>
         </li>
       </ul>
     </div>
