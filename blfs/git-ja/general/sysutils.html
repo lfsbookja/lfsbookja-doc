@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      第12章 システムユーティリティ
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        パート&nbsp;III.&nbsp;汎用的なライブラリとユーティリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="xdg-user-dirs.html" title=
+          "Xdg-user-dirs-0.18">戻る</a>
+          <p>
+            Xdg-user-dirs-0.18
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="accountsservice.html" title=
+          "AccountsService-23.13.9">次へ</a>
+          <p>
+            AccountsService-23.13.9
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="general.html" title=
+          "パート&nbsp;III.&nbsp;汎用的なライブラリとユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="chapter" lang="ja" xml:lang="ja">
+      <h1 class="chapter">
+        <a id="general-sysutils" name="general-sysutils"></a>システムユーティリティ
+      </h1>
+      <p>
+        本章では主にハードウェア関連のユーティリティを示します。
+        また多くのアプリケーションが利用するアプリケーションで、本書でのインストールや設定作業のために必要となるものも説明します。
+      </p>
+      <div class="toc">
+        <h3>
+          目次
+        </h3>
+        <ul>
+          <li class="sect1">
+            <a href="accountsservice.html">AccountsService-23.13.9</a>
+          </li>
+          <li class="sect1">
+            <a href="acpid.html">acpid-2.0.34</a>
+          </li>
+          <li class="sect1">
+            <a href="at.html">at-3.2.5</a>
+          </li>
+          <li class="sect1">
+            <a href="autofs.html">autofs-5.1.9</a>
+          </li>
+          <li class="sect1">
+            <a href="bluez.html">BlueZ-5.71</a>
+          </li>
+          <li class="sect1">
+            <a href="bubblewrap.html">Bubblewrap-0.8.0</a>
+          </li>
+          <li class="sect1">
+            <a href="colord.html">Colord-1.4.6</a>
+          </li>
+          <li class="sect1">
+            <a href="cpio.html">cpio-2.14</a>
+          </li>
+          <li class="sect1">
+            <a href="cups-pk-helper.html">cups-pk-helper-0.2.7</a>
+          </li>
+          <li class="sect1">
+            <a href="dbus.html">dbus-1.14.10</a>
+          </li>
+          <li class="sect1">
+            <a href="elogind.html">elogind-252.9</a>
+          </li>
+          <li class="sect1">
+            <a href="blocaled.html">blocaled-0.5</a>
+          </li>
+          <li class="sect1">
+            <a href="fcron.html">Fcron-3.2.1</a>
+          </li>
+          <li class="sect1">
+            <a href="gpm.html">GPM-1.20.7</a>
+          </li>
+          <li class="sect1">
+            <a href="hdparm.html">Hdparm-9.65</a>
+          </li>
+          <li class="sect1">
+            <a href="lsb-tools.html">LSB-Tools-0.10</a>
+          </li>
+          <li class="sect1">
+            <a href="lm_sensors.html">Lm-sensors-3-6-0</a>
+          </li>
+          <li class="sect1">
+            <a href="logrotate.html">Logrotate-3.21.0</a>
+          </li>
+          <li class="sect1">
+            <a href="mc.html">MC-4.8.30</a>
+          </li>
+          <li class="sect1">
+            <a href="ModemManager.html">ModemManager-1.18.12</a>
+          </li>
+          <li class="sect1">
+            <a href="notification-daemon.html">notification-daemon-3.20.0</a>
+          </li>
+          <li class="sect1">
+            <a href="p7zip.html">p7zip-17.04</a>
+          </li>
+          <li class="sect1">
+            <a href="pax.html">Pax-20201030</a>
+          </li>
+          <li class="sect1">
+            <a href="pciutils.html">pciutils-3.10.0</a>
+          </li>
+          <li class="sect1">
+            <a href="pm-utils.html">pm-utils-1.4.1</a>
+          </li>
+          <li class="sect1">
+            <a href="raptor.html">Raptor-2.0.16</a>
+          </li>
+          <li class="sect1">
+            <a href="rasqal.html">Rasqal-0.9.33</a>
+          </li>
+          <li class="sect1">
+            <a href="redland.html">Redland-1.0.17</a>
+          </li>
+          <li class="sect1">
+            <a href="sg3_utils.html">sg3_utils-1.48</a>
+          </li>
+          <li class="sect1">
+            <a href="sysmon-qt.html">sysmon-qt-1.0</a>
+          </li>
+          <li class="sect1">
+            <a href="sysstat.html">Sysstat-12.7.4</a>
+          </li>
+          <li class="sect1">
+            <a href="udisks2.html">UDisks-2.10.1</a>
+          </li>
+          <li class="sect1">
+            <a href="unrar.html">UnRar-6.2.12</a>
+          </li>
+          <li class="sect1">
+            <a href="unzip.html">UnZip-6.0</a>
+          </li>
+          <li class="sect1">
+            <a href="upower.html">UPower-1.90.2</a>
+          </li>
+          <li class="sect1">
+            <a href="usbutils.html">usbutils-017</a>
+          </li>
+          <li class="sect1">
+            <a href="which.html">Which-2.21 と別の実現方法</a>
+          </li>
+          <li class="sect1">
+            <a href="zip.html">Zip-3.0</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="xdg-user-dirs.html" title=
+          "Xdg-user-dirs-0.18">戻る</a>
+          <p>
+            Xdg-user-dirs-0.18
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="accountsservice.html" title=
+          "AccountsService-23.13.9">次へ</a>
+          <p>
+            AccountsService-23.13.9
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="general.html" title=
+          "パート&nbsp;III.&nbsp;汎用的なライブラリとユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

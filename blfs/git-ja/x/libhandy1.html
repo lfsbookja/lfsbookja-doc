@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      libhandy-1.8.2
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第25章 グラフィック環境ライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libgedit-gtksourceview.html" title=
+          "libgedit-gtksourceview-299.0.4">戻る</a>
+          <p>
+            libgedit-gtksourceview-299.0.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libdrm.html" title="Libdrm-2.4.118">次へ</a>
+          <p>
+            Libdrm-2.4.118
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="lib.html" title=
+          "第25章 グラフィック環境ライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="libhandy1" name="libhandy1"></a>libhandy-1.8.2
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libhandy の概要
+        </h2>
+        <p>
+          The <span class="application">libhandy</span> package provides
+          additional GTK UI widgets for use in developing user interfaces.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://download.gnome.org/sources/libhandy/1.8/libhandy-1.8.2.tar.xz">
+                https://download.gnome.org/sources/libhandy/1.8/libhandy-1.8.2.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 24c0addde7fac024bcf23cecf6c50c3a
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1.7 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 27 MB（テスト込み）
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU（テスト込み）
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          libhandy の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="gtk3.html" title=
+          "GTK+-3.24.38">GTK+-3.24.38</a>
+        </p>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../general/vala.html" title=
+          "Vala-0.56.14">Vala-0.56.14</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/gtk-doc.html" title=
+          "GTK-Doc-1.33.2">GTK-Doc-1.33.2</a>, <a class="ulink" href=
+          "https://glade.gnome.org/">Glade</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libhandy のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">libhandy</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+meson setup --prefix=/usr --buildtype=release .. &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>ninja
+          test</strong></span> を実行します。 テストはグラフィックセッションから実行することが必要です。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">ninja install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--buildtype=release</code></em>:
+          本パッケージの安定版リリース向けに適したビルドタイプを指定します。
+          デフォルトにしていると、最適化されていないバイナリを生成する場合があるためです。
+        </p>
+        <p>
+          <code class="option">-Dgtk_doc=true</code>: Use this option if you
+          have <a class="xref" href="../general/gtk-doc.html" title=
+          "GTK-Doc-1.33.2">GTK-Doc-1.33.2</a> installed and wish to install
+          the documentation.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">handy-1-demo</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libhandy-1.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/libhandy-1</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="handy-1-demo" name="handy-1-demo"></a><span class=
+                    "term"><span class=
+                    "command"><strong>handy-1-demo</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides an example of how to use the <span class=
+                    "application">libhandy</span> library
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libhandy-1" name="libhandy-1"></a><span class=
+                    "term"><code class="filename">libhandy-1.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides additional GTK widgets for use in creating user
+                    interfaces
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libgedit-gtksourceview.html" title=
+          "libgedit-gtksourceview-299.0.4">戻る</a>
+          <p>
+            libgedit-gtksourceview-299.0.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libdrm.html" title="Libdrm-2.4.118">次へ</a>
+          <p>
+            Libdrm-2.4.118
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="lib.html" title=
+          "第25章 グラフィック環境ライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      UDisks-2.10.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第12章 システムユーティリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="sysstat.html" title="Sysstat-12.7.4">戻る</a>
+          <p>
+            Sysstat-12.7.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="unrar.html" title="UnRar-6.2.12">次へ</a>
+          <p>
+            UnRar-6.2.12
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="sysutils.html" title=
+          "第12章 システムユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="udisks2" name="udisks2"></a>UDisks-2.10.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          UDisks の概要
+        </h2>
+        <p>
+          The <span class="application">UDisks</span> package provides a
+          daemon, tools and libraries to access and manipulate disks and
+          storage devices.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/storaged-project/udisks/releases/download/udisks-2.10.1/udisks-2.10.1.tar.bz2">
+                https://github.com/storaged-project/udisks/releases/download/udisks-2.10.1/udisks-2.10.1.tar.bz2</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 613af9bfea52cde74d2ac34d96de544d
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1.8 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 44 MB (テスト込み)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.2 SBU (テスト込み)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          UDisks の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="libatasmart.html" title=
+          "libatasmart-0.19">libatasmart-0.19</a>, <a class="xref" href=
+          "libblockdev.html" title="libblockdev-3.0.4">libblockdev-3.0.4</a>,
+          <a class="xref" href="libgudev.html" title=
+          "libgudev-238">libgudev-238</a>, <a class="xref" href=
+          "libxslt.html" title="libxslt-1.1.39">libxslt-1.1.39</a>, <a class=
+          "xref" href="../postlfs/polkit.html" title=
+          "Polkit-123">Polkit-123</a>
+        </p>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <span class="phrase"><a class="xref" href="elogind.html" title=
+          "elogind-252.9">elogind-252.9</a></span>
+        </p>
+        <h4>
+          任意 (GNOME 構築時に必要)
+        </h4>
+        <p class="optional">
+          <a class="xref" href="gobject-introspection.html" title=
+          "gobject-introspection-1.78.1">gobject-introspection-1.78.1</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="python-modules.html#dbus-python" title=
+          "D-Bus Python-1.3.2">D-Bus Python-1.3.2</a> (for the integration
+          tests), <a class="xref" href="gtk-doc.html" title=
+          "GTK-Doc-1.33.2">GTK-Doc-1.33.2</a>, <a class="xref" href=
+          "../postlfs/lvm2.html" title="LVM2-2.03.23">LVM2-2.03.23</a>,
+          <a class="xref" href="python-modules.html#pygobject3" title=
+          "PyGObject-3.46.0">PyGObject-3.46.0</a> (for the integration
+          tests), <a class="ulink" href=
+          "https://github.com/relan/exfat">exFAT</a>, <a class="ulink" href=
+          "https://github.com/sahlberg/libiscsi">libiscsi</a>
+        </p>
+        <h4>
+          Optional Runtime Dependencies
+        </h4>
+        <p class="runtime">
+          <a class="xref" href="../postlfs/btrfs-progs.html" title=
+          "btrfs-progs-6.6.1">btrfs-progs-6.6.1</a>, <span class=
+          "phrase"><a class="xref" href="dbus.html" title=
+          "dbus-1.14.10">dbus-1.14.10</a>,</span> <a class="xref" href=
+          "../postlfs/dosfstools.html" title=
+          "dosfstools-4.2">dosfstools-4.2</a>, <a class="xref" href=
+          "../postlfs/gptfdisk.html" title=
+          "gptfdisk-1.0.9">gptfdisk-1.0.9</a>, <a class="xref" href=
+          "../postlfs/mdadm.html" title="mdadm-4.2">mdadm-4.2</a>, and
+          <a class="xref" href="../postlfs/xfsprogs.html" title=
+          "xfsprogs-6.5.0">xfsprogs-6.5.0</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          UDisks のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">UDisks</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr        \
+            --sysconfdir=/etc    \
+            --localstatedir=/var \
+            --disable-static     \
+            --enable-available-modules &amp;&amp;
+make</kbd></pre>
+        <p>
+          To test the results, issue: <span class="command"><strong>make
+          check</strong></span>. A more thorough test can be run with
+          <span class="command"><strong>make ci</strong></span>. You must
+          first create the directories <code class=
+          "filename">/var/run/udisks2</code> and <code class=
+          "filename">/var/lib/udisks2</code>, and the optional python modules
+          should be present.
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--disable-static</code></em>:
+          このスイッチはスタティックライブラリをインストールしないようにします。
+        </p>
+        <p>
+          <code class="option">--enable-gtk-doc</code>: <span class=
+          "application">GTK-Doc</span> をインストール済で API ドキュメントを再構築する場合に指定します。
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-available-modules</code></em>:
+          This switch enables additional <span class=
+          "application">UDisks2</span> functionalities if <a class="xref"
+          href="libblockdev.html" title=
+          "libblockdev-3.0.4">libblockdev-3.0.4</a> has been built with
+          optional dependencies.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">udisksctl, umount.udisks2</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libudisks2.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/etc/udisks2, /usr/include/udisks2,
+              /usr/libexec/udisks2, /usr/share/gtk-doc/html/udisks2,
+              /var/lib/udisks2</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="udisksctl" name="udisksctl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>udisksctl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a command-line program used to interact with the
+                    <span class="command"><strong>udisksd</strong></span>
+                    daemon
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="umountudisks2" name=
+                    "umountudisks2"></a><span class="term"><span class=
+                    "command"><strong>umount.udisks2</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a command-line program used to unmount file systems
+                    that have been mounted by the <span class=
+                    "application">UDisks</span> daemon
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libudisks2" name="libudisks2"></a><span class=
+                    "term"><code class="filename">libudisks2.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains the <span class="application">UDisks</span> API
+                    functions
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="sysstat.html" title="Sysstat-12.7.4">戻る</a>
+          <p>
+            Sysstat-12.7.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="unrar.html" title="UnRar-6.2.12">次へ</a>
+          <p>
+            UnRar-6.2.12
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="sysutils.html" title=
+          "第12章 システムユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

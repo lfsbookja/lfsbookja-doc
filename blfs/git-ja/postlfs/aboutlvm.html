@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      論理ボリューム管理 (LVM) について
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第5章 ファイルシステムとディスク管理
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="lvm2.html" title="LVM2-2.03.23">戻る</a>
+          <p>
+            LVM2-2.03.23
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="raid.html" title="RAID について">次へ</a>
+          <p>
+            RAID について
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="filesystems.html" title=
+          "第5章 ファイルシステムとディスク管理">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="aboutlvm" name="aboutlvm"></a>論理ボリューム管理 (LVM) について
+      </h1>
+      <p>
+        LVM (Logical Volume Management)
+        はディスクを管理するものであり、複数のドライブやパーティションを結合して、より大きな<span class=
+        "emphasis"><em>ボリュームグループ</em></span> を作り出します。 これにより<span class=
+        "emphasis"><em>スナップショット</em></span>
+        からバックアップを取ったり、動的にボリュームサイズを変更したりできるようになります。 また RAID 1
+        アレーのようなミラーリング機能も実現できます。
+      </p>
+      <p>
+        LVM に関しての完璧な論議は、この概要説明の範囲を超えてしまいます。 ここでは基本的な概念について示すことにします。
+      </p>
+      <p>
+        以下に示すコマンドを実行していくためには <a class="xref" href="lvm2.html" title=
+        "LVM2-2.03.23">LVM2-2.03.23</a> をインストールしておく必要があります。 コマンドはすべて
+        <code class="systemitem">root</code> ユーザーにより実行します。
+      </p>
+      <p>
+        LVM を用いたディスク管理には、以下の考え方に基づいて実現されます。
+      </p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt>
+            <span class="term">物理ボリューム</span>
+          </dt>
+          <dd>
+            <p>
+              /dev/sda3 や /dev/sdb などのような、物理的なディスク、またはパーティションのことです。
+            </p>
+          </dd>
+          <dt>
+            <span class="term">ボリュームグループ</span>
+          </dt>
+          <dd>
+            <p>
+              複数の物理ボリュームに対して名前づけされたグループであり、管理者がこれを制御します。
+              ボリュームグループを構成する物理ボリュームの数に制限はありません。
+              ボリュームグループに対しては、物理ボリュームを動的に追加したり削除したりすることができます。
+            </p>
+          </dd>
+          <dt>
+            <span class="term">論理ボリューム</span>
+          </dt>
+          <dd>
+            <p>
+              ボリュームグループは、いくつかの論理ボリュームに分けることができます。 個々の論理ボリュームは、あたかも通常の Linux
+              パーティションであるかのように、個別にフォーマットすることができます。
+              論理ボリュームは、必要に応じて管理ツールを使い、そのサイズを動的に変更することもできます。
+            </p>
+          </dd>
+        </dl>
+      </div>
+      <p>
+        具体的な例として、今 2 TB のディスクがあるとします。 そして大規模なデータベースを <code class=
+        "filename">/srv/mysql</code> にマウントして構築するために、大容量のディスクが必要であるとします。
+        以下はそのためのパーティション設定の例です。
+      </p>
+      <pre class="screen"><code class=
+      "literal">Partition  Use    Size      Partition Type
+/dev/sda1  /boot  100MB     83 (Linux)
+/dev/sda2  /       10GB     83 (Linux)
+/dev/sda3  swap     2GB     82 (Swap)
+/dev/sda4  LVM    remainder 8e (LVM)
+/dev/sdb1  swap     2GB     82 (Swap)
+/dev/sdb2  LVM    remainder 8e (LVM)</code></pre>
+      <p>
+        はじめに物理ボリュームを初期化します。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">pvcreate /dev/sda4 /dev/sdb2</kbd></pre>
+      <div class="admon note">
+        <img alt="[注記]" src="../images/note.png" />
+        <h3>
+          注記
+        </h3>
+        <p>
+          A full disk can be used as part of a physical volume, but beware
+          that the <span class="command"><strong>pvcreate</strong></span>
+          command will destroy any partition information on that disk.
+        </p>
+      </div>
+      <p>
+        次に lfs-lvm と名づけたボリュームグループを生成します。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">vgcreate lfs-lvm /dev/sda4  /dev/sdb2</kbd></pre>
+      <p>
+        ボリュームグループの状態を確認するには <span class=
+        "command"><strong>vgscan</strong></span> コマンドを用います。 そして論理ボリュームを生成します。
+        Since there is about 3900 GB available, leave about 900 GB free for
+        expansion. Note that the logical volume named <span class=
+        "emphasis"><em>mysql</em></span> is larger than any physical disk.
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">lvcreate --name mysql --size 2500G lfs-lvm
+lvcreate --name home  --size  500G lfs-lvm</kbd></pre>
+      <p>
+        Finally the logical volumes can be formatted and mounted. In this
+        example, the jfs file system (<a class="xref" href="jfsutils.html"
+        title="jfsutils-1.1.15">jfsutils-1.1.15</a>) is used for
+        demonstration purposes.
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">mkfs -t ext4 /dev/lfs-lvm/home
+mkfs -t jfs  /dev/lfs-lvm/mysql
+mount /dev/lfs-lvm/home /home
+mkdir -p /srv/mysql
+mount /dev/lfs-lvm/mysql /srv/mysql</kbd></pre>
+      <p>
+        It may be needed to activate those logical volumes, for them to
+        appear in <code class="filename">/dev</code>. They can all be
+        activated at the same time by issuing, as the <code class=
+        "systemitem">root</code> user:
+      </p>
+      <pre class="root"><kbd class="command">vgchange -a y</kbd></pre>
+      <p>
+        The LFS boot scripts automatically make these logical volumes
+        available to the system in the <span class=
+        "command"><strong>udev</strong></span> script. Edit the <code class=
+        "filename">/etc/fstab</code> file as required to automatically mount
+        them.
+      </p>
+      <p>
+        A LVM logical volume can host a root filesystem, but requires the use
+        of an initramfs (initial RAM file system). The initramfs proposed in
+        <a class="xref" href="initramfs.html" title=
+        "initramfs について">「initramfs について」</a> allows to pass the lvm volume
+        in the <em class="parameter"><code>root=</code></em> switch of the
+        kernel command line.
+      </p>
+      <p>
+        For more information about LVM, see the <a class="ulink" href=
+        "https://tldp.org/HOWTO/LVM-HOWTO/">LVM HOWTO</a> and the lvm man
+        pages. A good in-depth <a class="ulink" href=
+        "https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/logical_volume_manager_administration/index">
+        guide</a> is available from RedHat<sup>®</sup>, although it makes
+        sometimes reference to proprietary tools.
+      </p>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="lvm2.html" title="LVM2-2.03.23">戻る</a>
+          <p>
+            LVM2-2.03.23
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="raid.html" title="RAID について">次へ</a>
+          <p>
+            RAID について
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="filesystems.html" title=
+          "第5章 ファイルシステムとディスク管理">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

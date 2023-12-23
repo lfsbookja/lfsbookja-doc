@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Colord-1.4.6
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第12章 システムユーティリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="bubblewrap.html" title=
+          "Bubblewrap-0.8.0">戻る</a>
+          <p>
+            Bubblewrap-0.8.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="cpio.html" title="cpio-2.14">次へ</a>
+          <p>
+            cpio-2.14
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="sysutils.html" title=
+          "第12章 システムユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="colord" name="colord"></a>Colord-1.4.6
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Colord の概要
+        </h2>
+        <p>
+          <span class="application">Colord</span> is a system service that
+          makes it easy to manage, install, and generate color profiles. It
+          is used mainly by <span class="application">GNOME Color
+          Manager</span> for system integration and use when no users are
+          logged in.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://www.freedesktop.org/software/colord/releases/colord-1.4.6.tar.xz">
+                https://www.freedesktop.org/software/colord/releases/colord-1.4.6.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 7dbdc807495890c13e8242385f4c641f
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1.8 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 32 MB (with tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.3 SBU (with tests)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Colord の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="dbus.html" title=
+          "dbus-1.14.10">dbus-1.14.10</a>, <a class="xref" href="glib2.html"
+          title="GLib-2.78.3">GLib-2.78.3</a>, <a class="xref" href=
+          "lcms2.html" title="Little CMS-2.14">Little CMS-2.14</a>, <a class=
+          "xref" href="../postlfs/polkit.html" title=
+          "Polkit-123">Polkit-123</a>, <a class="xref" href=
+          "../server/sqlite.html" title="SQLite-3.44.2">SQLite-3.44.2</a>
+        </p>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <span class="phrase"><a class="xref" href="elogind.html" title=
+          "elogind-252.9">elogind-252.9</a>,</span> <a class="xref" href=
+          "gobject-introspection.html" title=
+          "gobject-introspection-1.78.1">gobject-introspection-1.78.1</a>,
+          <a class="xref" href="libgudev.html" title=
+          "libgudev-238">libgudev-238</a>, <a class="xref" href=
+          "libgusb.html" title="libgusb-0.4.8">libgusb-0.4.8</a>, and
+          <a class="xref" href="vala.html" title=
+          "Vala-0.56.14">Vala-0.56.14</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../gnome/gnome-desktop.html" title=
+          "gnome-desktop-44.0">gnome-desktop-44.0</a> and <a class="xref"
+          href="../x/colord-gtk.html" title=
+          "colord-gtk-0.3.0">colord-gtk-0.3.0</a> (to build the example
+          tools), <a class="xref" href="../pst/docbook-utils.html" title=
+          "DocBook-utils-0.6.14">DocBook-utils-0.6.14</a>, <a class="xref"
+          href="gtk-doc.html" title="GTK-Doc-1.33.2">GTK-Doc-1.33.2</a>,
+          <a class="xref" href="libxslt.html" title=
+          "libxslt-1.1.39">libxslt-1.1.39</a>, <a class="xref" href=
+          "../pst/sane.html" title="SANE-1.2.1">SANE-1.2.1</a>, <a class=
+          "ulink" href="https://www.argyllcms.com/">ArgyllCMS</a>, and
+          <a class="ulink" href=
+          "https://github.com/scop/bash-completion/">Bash Completion</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Colord のインストール
+        </h2>
+        <p>
+          There should be a dedicated user and group to take control of the
+          colord daemon after it has started. Issue the following commands as
+          the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">groupadd -g 71 colord &amp;&amp;
+useradd -c "Color Daemon Owner" -d /var/lib/colord -u 71 \
+        -g colord -s /bin/false colord</kbd></pre>
+        <p>
+          Fix a double free causing a build failure on 32-bit x86 and runtime
+          crashes with some monitors:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed '/cmsUnregisterPluginsTHR/d' -i lib/colord/cd-context-lcms.c</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">Colord</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+meson setup ..                 \
+      --prefix=/usr            \
+      --buildtype=release      \
+      -Ddaemon_user=colord     \
+      -Dvapi=true              \
+      -Dsystemd=false          \
+      -Dlibcolordcompat=true   \
+      -Dargyllcms_sensor=false \
+      -Dbash_completion=false  \
+      -Ddocs=false             \
+      -Dman=false              &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">ninja install</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>ninja -k 2
+          test</strong></span> を実行します。 One test, <code class=
+          "filename">colord-self-test-daemon</code>, will fail if the package
+          is already installed. The test suite must be run with the
+          system-wide D-Bus Daemon running.
+        </p>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--buildtype=release</code></em>:
+          本パッケージの安定版リリース向けに適したビルドタイプを指定します。
+          デフォルトにしていると、最適化されていないバイナリを生成する場合があるためです。
+        </p>
+        <p>
+          <em class="parameter"><code>-Ddaemon_user=colord</code></em>: This
+          switch is used so the colord daemon will run as an unprivileged
+          user instead of the <code class="systemitem">root</code> user.
+        </p>
+        <p>
+          <em class="parameter"><code>-Dvapi=true</code></em>: This switch
+          enables building the <span class="application">Vala</span>
+          bindings. Remove if you don't have <a class="xref" href="vala.html"
+          title="Vala-0.56.14">Vala-0.56.14</a> installed.
+        </p>
+        <p>
+          <em class="parameter"><code>-Dsystemd=false</code></em>: This
+          switch disables support for <span class=
+          "application">systemd</span> login in Colord applications.
+        </p>
+        <p>
+          <em class="parameter"><code>-Dlibcolordcompat=true</code></em>:
+          This switch enables building a compatibility library for older
+          packages that use <span class="application">Colord</span>.
+        </p>
+        <p>
+          <em class="parameter"><code>-Dargyllcms_sensor=false</code></em>:
+          This switch disables the ArgLLCMS sensor driver. Omit if you have
+          <a class="ulink" href="https://www.argyllcms.com/">ArgyllCMS</a>
+          installed and wish to use it.
+        </p>
+        <p>
+          <em class="parameter"><code>-Dbash_completion=false</code></em>:
+          This switch disables Bash Completion support for Colord
+          applications.
+        </p>
+        <p>
+          <em class="parameter"><code>-Ddocs=false</code></em>: This switch
+          disables building of documentation. Omit if you have <a class=
+          "xref" href="gtk-doc.html" title=
+          "GTK-Doc-1.33.2">GTK-Doc-1.33.2</a> available.
+        </p>
+        <p>
+          <em class="parameter"><code>-Dman=false</code></em>: This switch
+          disables building of man pages. Omit if you have <a class="xref"
+          href="../pst/docbook-utils.html" title=
+          "DocBook-utils-0.6.14">DocBook-utils-0.6.14</a> available.
+          Namespaced versions of the docbook-xsl stylesheets are also
+          required.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">cd-create-profile, cd-fix-profile, cd-iccdump,
+              cd-it8, colormgr</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libcolord.so, libcolordcompat.so,
+              libcolordprivate.so, libcolorhug.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/colord-1,
+              /usr/lib/colord-{plugins,sensors}, /usr/share/color{d},
+              /usr/share/gtk-doc/html/colord, /var/lib/colord</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cd-create-profile" name=
+                    "cd-create-profile"></a><span class="term"><span class=
+                    "command"><strong>cd-create-profile</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the Color Manager Profile Creation Tool
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cd-fix-profile" name=
+                    "cd-fix-profile"></a><span class="term"><span class=
+                    "command"><strong>cd-fix-profile</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool used to fix metadata in ICC profiles
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cd-iccdump" name="cd-iccdump"></a><span class=
+                    "term"><span class=
+                    "command"><strong>cd-iccdump</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    dumps the contents of an ICC profile as human readable
+                    text
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cd-it8" name="cd-it8"></a><span class=
+                    "term"><span class=
+                    "command"><strong>cd-it8</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the Color Manager Testing Tool
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="colormgr" name="colormgr"></a><span class=
+                    "term"><span class=
+                    "command"><strong>colormgr</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a text-mode program that allows you to interact with
+                    colord on the command line
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libcolord.so" name="libcolord.so"></a><span class=
+                    "term"><code class="filename">libcolord.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">Colord</span> API 関数を提供します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libcolordcompat.so" name=
+                    "libcolordcompat.so"></a><span class="term"><code class=
+                    "filename">libcolordcompat.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains legacy API functions for compatibility with
+                    older applications
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libcolordprivate.so" name=
+                    "libcolordprivate.so"></a><span class="term"><code class=
+                    "filename">libcolordprivate.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains internal API functions for the programs included
+                    with <span class="application">Colord</span>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libcolorhug.so" name=
+                    "libcolorhug.so"></a><span class="term"><code class=
+                    "filename">libcolorhug.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains a simple display hardware colorimiter
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="bubblewrap.html" title=
+          "Bubblewrap-0.8.0">戻る</a>
+          <p>
+            Bubblewrap-0.8.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="cpio.html" title="cpio-2.14">次へ</a>
+          <p>
+            cpio-2.14
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="sysutils.html" title=
+          "第12章 システムユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

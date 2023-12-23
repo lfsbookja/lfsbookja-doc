@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Snapshot-45.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第34章 <span class="phrase">GNOME アプリケーション</span>
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="seahorse.html" title="Seahorse-43.0">戻る</a>
+          <p>
+            Seahorse-43.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="vinagre.html" title="Vinagre-3.22.0">次へ</a>
+          <p>
+            Vinagre-3.22.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="applications.html" title=
+          "第34章 GNOME アプリケーション">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="snapshot" name="snapshot"></a>Snapshot-45.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Snapshot の概要
+        </h2>
+        <p>
+          The <span class="application">Snapshot</span> package contains a
+          program that takes pictures and videos from a Webcam.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://download.gnome.org/sources/snapshot/45/snapshot-45.1.tar.xz">
+                https://download.gnome.org/sources/snapshot/45/snapshot-45.1.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: f95c3a9d081d9670d01b7fe1309fddd2
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 33 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 1.6 GB (5.3 MB installed)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 4.5 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Snapshot の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="../x/libadwaita.html" title=
+          "libadwaita-1.4.2">libadwaita-1.4.2</a>, <a class="xref" href=
+          "../multimedia/gst10-plugins-bad.html" title=
+          "gst-plugins-bad-1.22.7">gst-plugins-bad-1.22.7</a>, <a class=
+          "xref" href="../general/rust.html" title=
+          "Rustc-1.74.1">rustc-1.74.1</a>
+        </p>
+        <h4>
+          Required at runtime
+        </h4>
+        <p class="required">
+          <a class="xref" href="../multimedia/pipewire.html" title=
+          "Pipewire-1.0.0">pipewire-1.0.0</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Snapshot のインストール
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            This package takes a long time to build because LTO is enabled,
+            and the LTO pass is not parallelized.
+          </p>
+        </div>
+        <p>
+          First, remove a check against the system <span class=
+          "application">Pango</span> version that is too strict:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed '/pango.v1_52/,+1d' -i vendor/pango-sys/Cargo.toml &amp;&amp;
+
+cat &gt;&gt; Cargo.toml &lt;&lt; EOF
+<code class="literal">[patch.crates-io.pango-sys]
+path = "vendor/pango-sys"</code>
+EOF</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">Snapshot</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+meson setup --prefix=/usr --buildtype=release .. &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>ninja
+          test</strong></span> を実行します。 One test is known to fail due to
+          deprecated constructs in appstream-1.0+
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">ninja install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--buildtype=release</code></em>:
+          本パッケージの安定版リリース向けに適したビルドタイプを指定します。
+          デフォルトにしていると、最適化されていないバイナリを生成する場合があるためです。
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">snapshot</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/share/snapshot</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="snapshot-prog" name=
+                    "snapshot-prog"></a><span class="term"><span class=
+                    "command"><strong>snapshot</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a program used to take pictures and videos from a
+                    Webcam
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="seahorse.html" title="Seahorse-43.0">戻る</a>
+          <p>
+            Seahorse-43.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="vinagre.html" title="Vinagre-3.22.0">次へ</a>
+          <p>
+            Vinagre-3.22.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="applications.html" title=
+          "第34章 GNOME アプリケーション">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

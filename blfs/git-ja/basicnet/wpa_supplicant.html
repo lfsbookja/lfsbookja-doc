@@ -1,0 +1,614 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      wpa_supplicant-2.10
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第15章 ネットワークプログラム
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="wireless_tools.html" title=
+          "Wireless Tools-29">戻る</a>
+          <p>
+            Wireless Tools-29
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="netutils.html" title="ネットワークユーティリティ">次へ</a>
+          <p>
+            ネットワークユーティリティ
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="netprogs.html" title=
+          "第15章 ネットワークプログラム">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="wpa_supplicant" name="wpa_supplicant"></a>wpa_supplicant-2.10
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          WPA Supplicant の概要
+        </h2>
+        <p>
+          <span class="application">WPA Supplicant</span> is a Wi-Fi
+          Protected Access (WPA) client and IEEE 802.1X supplicant. It
+          implements WPA key negotiation with a WPA Authenticator and
+          Extensible Authentication Protocol (EAP) authentication with an
+          Authentication Server. In addition, it controls the roaming and
+          IEEE 802.11 authentication/association of the wireless LAN driver.
+          This is useful for connecting to a password protected wireless
+          access point.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://w1.fi/releases/wpa_supplicant-2.10.tar.gz">https://w1.fi/releases/wpa_supplicant-2.10.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: d26797fcb002898d4ee989179346e1cc
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 3.4 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 37 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.5 SBU (with optional gui)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          WPA Supplicant の依存パッケージ
+        </h3>
+        <h4>
+          Required (Runtime)
+        </h4>
+        <p class="nodump">
+          <a class="xref" href="wireless-kernel.html" title=
+          "Configuring the Linux Kernel for Wireless">Configuring the Linux
+          Kernel for Wireless</a>
+        </p>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../general/desktop-file-utils.html" title=
+          "desktop-file-utils-0.27">desktop-file-utils-0.27</a> (for running
+          <span class=
+          "command"><strong>update-desktop-database</strong></span>) and
+          <a class="xref" href="libnl.html" title=
+          "libnl-3.9.0">libnl-3.9.0</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <span class="phrase"><a class="xref" href="../general/dbus.html"
+          title="dbus-1.14.10">dbus-1.14.10</a>,</span> <a class="xref" href=
+          "../general/libxml2.html" title=
+          "libxml2-2.12.3">libxml2-2.12.3</a>, (<a class="xref" href=
+          "../x/qt5.html" title="Qt-5.15.11">Qt-5.15.11</a> または <a class=
+          "xref" href="../x/qt5-alternate.html" title=
+          "qt-alternate-5.15.11">qt-alternate-5.15.11</a>)
+        </p>
+      </div>
+      <div class="kernel" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="wpa_supplicant-kernel" name=
+          "wpa_supplicant-kernel"></a>Kernel Configuration
+        </h2>
+        <p>
+          To use <span class="application">wpa_supplicant</span>, the kernel
+          must have the appropriate drivers and other support available. Read
+          <a class="xref" href="wireless-kernel.html" title=
+          "Configuring the Linux Kernel for Wireless">Configuring the Linux
+          Kernel for Wireless</a> for details.
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of WPA Supplicant
+        </h2>
+        <p>
+          First you will need to create an initial configuration file for the
+          build process. You can read <code class=
+          "filename">wpa_supplicant/README</code> and <code class=
+          "filename">wpa_supplicant/defconfig</code> for the explanation of
+          the following options as well as other options that can be used.
+          Create a build configuration file that should work for standard
+          WiFi setups by running the following command:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; wpa_supplicant/.config &lt;&lt; "EOF"
+<code class="literal">CONFIG_BACKEND=file
+CONFIG_CTRL_IFACE=y
+CONFIG_DEBUG_FILE=y
+CONFIG_DEBUG_SYSLOG=y
+CONFIG_DEBUG_SYSLOG_FACILITY=LOG_DAEMON
+CONFIG_DRIVER_NL80211=y
+CONFIG_DRIVER_WEXT=y
+CONFIG_DRIVER_WIRED=y
+CONFIG_EAP_GTC=y
+CONFIG_EAP_LEAP=y
+CONFIG_EAP_MD5=y
+CONFIG_EAP_MSCHAPV2=y
+CONFIG_EAP_OTP=y
+CONFIG_EAP_PEAP=y
+CONFIG_EAP_TLS=y
+CONFIG_EAP_TTLS=y
+CONFIG_IEEE8021X_EAPOL=y
+CONFIG_IPV6=y
+CONFIG_LIBNL32=y
+CONFIG_PEERKEY=y
+CONFIG_PKCS12=y
+CONFIG_READLINE=y
+CONFIG_SMARTCARD=y
+CONFIG_WPS=y
+CFLAGS += -I/usr/include/libnl3</code>
+EOF</kbd></pre>
+        <p>
+          If you wish to use <span class="application">WPA Supplicant</span>
+          with <a class="xref" href="networkmanager.html" title=
+          "NetworkManager-1.44.2">NetworkManager-1.44.2</a>, make sure that
+          you have installed <a class="xref" href="../general/dbus.html"
+          title="dbus-1.14.10">dbus-1.14.10</a> and <a class="xref" href=
+          "../general/libxml2.html" title=
+          "libxml2-2.12.3">libxml2-2.12.3</a>, then add the following options
+          to the <span class="application">WPA Supplicant</span> build
+          configuration file by running the following command:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt;&gt; wpa_supplicant/.config &lt;&lt; "EOF"
+<code class="literal">CONFIG_CTRL_IFACE_DBUS=y
+CONFIG_CTRL_IFACE_DBUS_NEW=y
+CONFIG_CTRL_IFACE_DBUS_INTRO=y</code>
+EOF</kbd></pre>
+        <p>
+          Install <span class="application">WPA Supplicant</span> by running
+          the following commands:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cd wpa_supplicant &amp;&amp;
+make BINDIR=/usr/sbin LIBDIR=/usr/lib</kbd></pre>
+        <p>
+          If you have installed (<a class="xref" href="../x/qt5.html" title=
+          "Qt-5.15.11">Qt-5.15.11</a> または <a class="xref" href=
+          "../x/qt5-alternate.html" title=
+          "qt-alternate-5.15.11">qt-alternate-5.15.11</a>) and wish to build
+          the <span class="application">WPA Supplicant</span> GUI program,
+          run the following commands:
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            The following directory name is labelled qt4, but is compatible
+            with (<a class="xref" href="../x/qt5.html" title=
+            "Qt-5.15.11">Qt-5.15.11</a> または <a class="xref" href=
+            "../x/qt5-alternate.html" title=
+            "qt-alternate-5.15.11">qt-alternate-5.15.11</a>).
+          </p>
+        </div>
+        <pre class="userinput"><kbd class=
+        "command">pushd wpa_gui-qt4 &amp;&amp;
+qmake wpa_gui.pro &amp;&amp;
+make &amp;&amp;
+popd</kbd></pre>
+        <p>
+          This package does not come with a test suite.
+        </p>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">install -v -m755 wpa_{cli,passphrase,supplicant} /usr/sbin/ &amp;&amp;
+install -v -m644 doc/docbook/wpa_supplicant.conf.5 /usr/share/man/man5/ &amp;&amp;
+install -v -m644 doc/docbook/wpa_{cli,passphrase,supplicant}.8 /usr/share/man/man8/</kbd></pre>
+        <p>
+          If you have built <span class="application">WPA Supplicant</span>
+          with <span class="application">D-Bus</span> support, you will need
+          to install <span class="application">D-Bus</span> configuration
+          files. Install them by running the following commands as the
+          <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">install -v -m644 dbus/fi.w1.wpa_supplicant1.service \
+                 /usr/share/dbus-1/system-services/ &amp;&amp;
+install -v -d -m755 /etc/dbus-1/system.d &amp;&amp;
+install -v -m644 dbus/dbus-wpa_supplicant.conf \
+                 /etc/dbus-1/system.d/wpa_supplicant.conf</kbd></pre>
+        <p>
+          If you have built the <span class="application">WPA
+          Supplicant</span> GUI program, install it by running the following
+          commands as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">install -v -m755 wpa_gui-qt4/wpa_gui /usr/bin/ &amp;&amp;
+install -v -m644 doc/docbook/wpa_gui.8 /usr/share/man/man8/ &amp;&amp;
+install -v -m644 wpa_gui-qt4/wpa_gui.desktop /usr/share/applications/ &amp;&amp;
+install -v -m644 wpa_gui-qt4/icons/wpa_gui.svg /usr/share/pixmaps/</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            You will need to restart the system <span class=
+            "application">D-Bus</span> daemon before you can use the
+            <span class="application">WPA Supplicant</span> <span class=
+            "application">D-Bus</span> interface.
+          </p>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            This package installs desktop files into the <code class=
+            "filename">/usr/share/applications</code> hierarchy and you can
+            improve system performance and memory usage by updating
+            <code class=
+            "filename">/usr/share/applications/mimeinfo.cache</code>. To
+            perform the update you must have <a class="xref" href=
+            "../general/desktop-file-utils.html" title=
+            "desktop-file-utils-0.27">desktop-file-utils-0.27</a> installed
+            and issue the following command as the <code class=
+            "systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">update-desktop-database -q</kbd></pre>
+        </div>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Configuring wpa_supplicant
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="wpa_supplicant-config" name="wpa_supplicant-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="wpa_supplicant-config" name=
+            "wpa_supplicant-config"></a>Config File
+          </h4>
+          <p>
+            <code class=
+            "filename">/etc/sysconfig/wpa_supplicant-*.conf</code>
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id53352" name="id53352"></a>Configuration Information
+          </h4>
+          <p>
+            To connect to an access point that uses a password, you need to
+            put the pre-shared key in <span class="phrase"><code class=
+            "filename">/etc/sysconfig/wpa_supplicant-<em class=
+            "replaceable"><code>wifi0</code></em>.conf</code>.</span> SSID is
+            the string that the access point/router transmits to identify
+            itself. Run the following command as the <code class=
+            "systemitem">root</code> user:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">wpa_passphrase <em class=
+          "replaceable"><code>SSID</code></em> <em class=
+          "replaceable"><code>SECRET_PASSWORD</code></em> &gt; /etc/sysconfig/wpa_supplicant-<em class="replaceable"><code>wifi0</code></em>.conf</kbd></pre>
+          <p>
+            <span class="phrase"><code class=
+            "filename">/etc/sysconfig/wpa_supplicant-<em class=
+            "replaceable"><code>wifi0</code></em>.conf</code></span> can hold
+            the details of several access points. When <span class=
+            "command"><strong>wpa_supplicant</strong></span> is started, it
+            will scan for the SSIDs it can see and choose the appropriate
+            password to connect.
+          </p>
+          <p>
+            If you want to connect to an access point that isn't password
+            protected, put an entry like this in <span class=
+            "phrase"><code class=
+            "filename">/etc/sysconfig/wpa_supplicant-<em class=
+            "replaceable"><code>wifi0</code></em>.conf</code>.</span> Replace
+            "Some-SSID" with the SSID of the access point/router.
+          </p>
+          <pre class="screen">network={
+  ssid="<em class="replaceable"><code>Some-SSID</code></em>"
+  key_mgmt=NONE
+}</pre>
+          <p>
+            Connecting to a new access point that is not in the configuration
+            file can be accomplished manually via the command line or GUI,
+            but it must be done via a privileged user. To do that, add the
+            following to the configuration file:
+          </p>
+          <pre class=
+          "screen">ctrl_interface=DIR=/run/wpa_supplicant GROUP=&lt;privileged group&gt;
+update_config=1</pre>
+          <p>
+            Replace the &lt;privileged group&gt; above with a system group
+            where members have the ability to connect to a wireless access
+            point.
+          </p>
+          <p>
+            There are many options that you could use to tweak how you
+            connect to each access point. They are described in some detail
+            in the <code class=
+            "filename">wpa_supplicant/wpa_supplicant.conf</code> file in the
+            source tree.
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id53380" name="id53380"></a>Connecting to an Access Point
+          </h4>
+          <p>
+            <a id="wpa-service" name="wpa-service"></a> If you want to
+            configure network interfaces at boot using <span class=
+            "command"><strong>wpa_supplicant</strong></span>, you need to
+            install the <code class="filename">/lib/services/wpa</code>
+            script included in <a class="xref" href=
+            "../introduction/bootscripts.html" title=
+            "BLFS ブートスクリプト">blfs-bootscripts-20231119</a> package:
+          </p>
+          <pre class="root"><kbd class=
+          "command">make install-service-wpa</kbd></pre>
+          <p>
+            If your router/access point uses DHCP to allocate IP addresses,
+            you can install <a class="xref" href="dhcpcd.html" title=
+            "dhcpcd-10.0.6">dhcpcd-10.0.6</a> and use it to automatically
+            obtain network addresses. Create the <code class=
+            "filename">/etc/sysconfig/ifconfig-<em class=
+            "replaceable"><code>wifi0</code></em></code> by running the
+            following command as the <code class="systemitem">root</code>
+            user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt; /etc/sysconfig/ifconfig.<em class=
+          "replaceable"><code>wifi0</code></em> &lt;&lt; "EOF"
+<code class="literal">ONBOOT="yes"
+IFACE="<em class="replaceable"><code>wlan0</code></em>"
+SERVICE="wpa"
+
+# Additional arguments to wpa_supplicant
+WPA_ARGS=""
+
+WPA_SERVICE="dhcpcd"
+DHCP_START="-b -q <em class=
+"replaceable"><code>&lt;insert appropriate start options here&gt;</code></em>"
+DHCP_STOP="-k <em class=
+"replaceable"><code>&lt;insert additional stop options here&gt;</code></em>"</code>
+EOF</kbd></pre>
+          <p>
+            Alternatively, if you use static addresses on your local network,
+            then create the <code class=
+            "filename">/etc/sysconfig/ifconfig-<em class=
+            "replaceable"><code>wifi0</code></em></code> by running the
+            following command as the <code class="systemitem">root</code>
+            user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt; /etc/sysconfig/ifconfig.<em class=
+          "replaceable"><code>wifi0</code></em> &lt;&lt; "EOF"
+<code class="literal">ONBOOT="yes"
+IFACE="<em class="replaceable"><code>wlan0</code></em>"
+SERVICE="wpa"
+
+# Additional arguments to wpa_supplicant
+WPA_ARGS=""
+
+WPA_SERVICE="ipv4-static"
+IP="192.168.1.1"
+GATEWAY="192.168.1.2"
+PREFIX="24"
+BROADCAST="192.168.1.255"</code>
+EOF</kbd></pre>
+          <p>
+            You can connect to the wireless access point by running the
+            following command as the <code class="systemitem">root</code>
+            user:
+          </p>
+          <pre class="root"><kbd class="command">ifup <em class=
+          "replaceable"><code>wifi0</code></em></kbd></pre>
+          <p>
+            Replace <em class="replaceable"><code>wlan0</code></em> with the
+            correct wireless interface and <em class=
+            "replaceable"><code>wifi0</code></em> with desired name for the
+            configuration file. Please note that <code class=
+            "filename">wpa_supplicant-*.conf</code> and <code class=
+            "filename">ifconfig.*</code> configuration files need to have
+            identical names, ie both contain <em class=
+            "replaceable"><code>wifi0</code></em> in their name.
+          </p>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">wpa_gui, wpa_supplicant, wpa_passphrase,
+              wpa_cli</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">None</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody">None</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="wpa_gui" name="wpa_gui"></a><span class=
+                    "term"><span class=
+                    "command"><strong>wpa_gui</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a graphical frontend program for interacting with
+                    <span class="application">wpa_supplicant</span>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="wpa_supplicant-prog" name=
+                    "wpa_supplicant-prog"></a><span class="term"><span class=
+                    "command"><strong>wpa_supplicant</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a daemon that can connect to a password protected
+                    wireless access point
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="wpa_passphrase" name=
+                    "wpa_passphrase"></a><span class="term"><span class=
+                    "command"><strong>wpa_passphrase</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    takes an SSID and a password and generates a simple
+                    configuration that <span class=
+                    "command"><strong>wpa_supplicant</strong></span> can
+                    understand
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="wpa_cli" name="wpa_cli"></a><span class=
+                    "term"><span class=
+                    "command"><strong>wpa_cli</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a command line interface used to control a running
+                    <span class=
+                    "command"><strong>wpa_supplicant</strong></span> daemon
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="wireless_tools.html" title=
+          "Wireless Tools-29">戻る</a>
+          <p>
+            Wireless Tools-29
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="netutils.html" title="ネットワークユーティリティ">次へ</a>
+          <p>
+            ネットワークユーティリティ
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="netprogs.html" title=
+          "第15章 ネットワークプログラム">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

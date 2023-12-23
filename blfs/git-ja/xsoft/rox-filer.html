@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Rox-Filer-2.11
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第41章 X ベースのその他のプログラム
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="pidgin.html" title="Pidgin-2.14.12">戻る</a>
+          <p>
+            Pidgin-2.14.12
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="rxvt-unicode.html" title=
+          "rxvt-unicode-9.31">次へ</a>
+          <p>
+            rxvt-unicode-9.31
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="other.html" title=
+          "第41章 X ベースのその他のプログラム">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="rox-filer" name="rox-filer"></a>Rox-Filer-2.11
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to Rox-Filer
+        </h2>
+        <p>
+          <span class="application">rox-filer</span> is a fast, lightweight,
+          gtk2 file manager.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://downloads.sourceforge.net/rox/rox-filer-2.11.tar.bz2">
+                https://downloads.sourceforge.net/rox/rox-filer-2.11.tar.bz2</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: 0eebf05a67f7932367750ebf9faf215d
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 1.8 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 19 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: 0.3 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          rox-filer Dependencies
+        </h3>
+        <h4>
+          Required
+        </h4>
+        <p class="required">
+          <a class="xref" href="../x/libglade.html" title=
+          "libglade-2.6.4">libglade-2.6.4</a> and <a class="xref" href=
+          "../general/shared-mime-info.html" title=
+          "shared-mime-info-2.4">shared-mime-info-2.4</a>
+        </p>
+      </div>
+      <div class="kernel" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="rox-filer-kernel" name="rox-filer-kernel"></a>Kernel
+          Configuration
+        </h2>
+        <p>
+          If you want <span class="application">rox-filer</span> to be able
+          to update the contents of a directory when changes are made to the
+          files by other applications (eg, if a script is running) you will
+          need to enable dnotify support in your kernel. In <span class=
+          "command"><strong>make menuconfig</strong></span>:
+        </p>
+        <pre class="screen"><span class="blue">F</span>ile systems ---&gt;
+  [*] <span class=
+"blue">D</span>notify support                                                  [DNOTIFY]</pre>
+        <p>
+          Save the new <code class="filename">.config</code> and then compile
+          the kernel.
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of Rox-Filer
+        </h2>
+        <p>
+          Compile <span class="application">rox-filer</span> with the
+          following commands:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cd ROX-Filer                                                        &amp;&amp;
+sed -i 's:g_strdup(getenv("APP_DIR")):"/usr/share/rox":' src/main.c &amp;&amp;
+sed -i 's/gboolean/extern &amp;/' src/session.h                     &amp;&amp;
+
+mkdir build                        &amp;&amp;
+pushd build                        &amp;&amp;
+  ../src/configure LIBS="-lm -ldl" &amp;&amp;
+  make                             &amp;&amp;
+popd</kbd></pre>
+        <p>
+          Now install it as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">mkdir -p /usr/share/rox                              &amp;&amp;
+cp -av Help Messages Options.xml ROX images style.css .DirIcon /usr/share/rox &amp;&amp;
+
+cp -av ../rox.1 /usr/share/man/man1                  &amp;&amp;
+cp -v  ROX-Filer /usr/bin/rox                        &amp;&amp;
+chown -Rv root:root /usr/bin/rox /usr/share/rox      &amp;&amp;
+
+cd /usr/share/rox/ROX/MIME                           &amp;&amp;
+ln -sv text-x-{diff,patch}.png                       &amp;&amp;
+ln -sv application-x-font-{afm,type1}.png            &amp;&amp;
+ln -sv application-xml{,-dtd}.png                    &amp;&amp;
+ln -sv application-xml{,-external-parsed-entity}.png &amp;&amp;
+ln -sv application-{,rdf+}xml.png                    &amp;&amp;
+ln -sv application-x{ml,-xbel}.png                   &amp;&amp;
+ln -sv application-{x-shell,java}script.png          &amp;&amp;
+ln -sv application-x-{bzip,xz}-compressed-tar.png    &amp;&amp;
+ln -sv application-x-{bzip,lzma}-compressed-tar.png  &amp;&amp;
+ln -sv application-x-{bzip-compressed-tar,lzo}.png   &amp;&amp;
+ln -sv application-x-{bzip,xz}.png                   &amp;&amp;
+ln -sv application-x-{gzip,lzma}.png                 &amp;&amp;
+ln -sv application-{msword,rtf}.png</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <span class="command"><strong>sed -i
+          's:g_strdup(getenv("APP_DIR")):"/usr/share/rox":'
+          src/main.c</strong></span>: This command hard codes /usr/share/rox
+          as the directory for <span class="application">rox-filer</span>'s
+          private files. Without this sed rox needs the environment variable
+          ${APP_DIR} to be set.
+        </p>
+        <p>
+          <span class="command"><strong>sed -i 's/gboolean/extern &amp;/'
+          src/session.h</strong></span>: This command fixes a multiple
+          definition flagged as an error by GCC 10 and higher.
+        </p>
+        <p>
+          <span class="command"><strong>ln -sv
+          application-...</strong></span>: These commands duplicate the icons
+          for some common mime types. Without these links <span class=
+          "application">rox-filer</span> would just display the default
+          "unknown binary blob" icon.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Configuring RoxFiler
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id88778" name="id88778"></a>Configuration Information
+          </h4>
+          <p>
+            Most of the configuration of <span class=
+            "application">rox-filer</span> is achieved by right clicking on a
+            <span class="application">rox-filer</span> window and choosing
+            "Options" from the menu. It stores its settings in <code class=
+            "filename">~/.config/rox.sourceforge.net</code>.
+          </p>
+          <p>
+            A <span class="application">rox-filer</span> feature is that if
+            there is an executable file called <code class=
+            "filename">AppRun</code> in a directory <span class=
+            "application">rox-filer</span> will first run <span class=
+            "command"><strong>AppRun</strong></span> before it opens the
+            folder.
+          </p>
+          <p>
+            As an example of how this may be used, if you have ssh access to
+            another computer (perhaps another computer on your local network)
+            with ssh configured for passwordless logins and you have
+            <a class="xref" href="../postlfs/sshfs.html" title=
+            "sshfs-3.7.3">sshfs-3.7.3</a> installed you can use AppRun to
+            mount the remote computer in a local folder using <span class=
+            "command"><strong>sshfs</strong></span>. For this example AppRun
+            script to work the folder must have the same name as the hostname
+            of the remote computer:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">cat &gt; /path/to/hostname/AppRun &lt;&lt; "HERE_DOC"
+#!/bin/bash
+
+MOUNT_PATH="${0%/*}"
+HOST=${MOUNT_PATH##*/}
+export MOUNT_PATH HOST
+sshfs -o nonempty ${HOST}:/ ${MOUNT_PATH}
+rox -x ${MOUNT_PATH}
+HERE_DOC
+
+chmod 755 /path/to/hostname/AppRun</kbd></pre>
+          <p>
+            That works fine for mounting, but to unmount it the command
+            <span class="command"><strong>fusermount -u
+            ${MOUNTPOINT}</strong></span> is ran. You could set that as your
+            default umount command in your rox preferences, but you would
+            then be unable to unmount any normal mountpoints (that need
+            umount). A script is needed that will unmount a Fuse mountpoint
+            with <span class="command"><strong>fusermount -u
+            ${MOUNTPOINT}</strong></span> and everything else with
+            <span class="command"><strong>umount</strong></span>. As the
+            <code class="systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt; /usr/bin/myumount &lt;&lt; "HERE_DOC" &amp;&amp;
+#!/bin/bash
+sync
+if mount | grep "${@}" | grep -q fuse
+then fusermount -u "${@}"
+else umount "${@}"
+fi
+HERE_DOC
+
+chmod 755 /usr/bin/myumount</kbd></pre>
+          <p>
+            Now, to make Rox use this simple script, open a Rox window, right
+            click on it and choose Options from the menu. In the left hand
+            list choose "Action windows" and then on the right hand side,
+            where it says "Unmount command" change <span class=
+            "command"><strong>umount</strong></span> to <span class=
+            "command"><strong>myumount</strong></span>.
+          </p>
+          <p>
+            If you use a desktop environment like <span class=
+            "application">Gnome</span> or <span class=
+            "application">KDE</span> you may like to create a <code class=
+            "filename">rox.desktop</code> file so that <span class=
+            "application">rox-filer</span> appears in the panel's menus. As
+            the <code class="systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">ln -s ../rox/.DirIcon /usr/share/pixmaps/rox.png &amp;&amp;
+mkdir -p /usr/share/applications &amp;&amp;
+
+cat &gt; /usr/share/applications/rox.desktop &lt;&lt; "HERE_DOC"
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Name=Rox
+Comment=The Rox File Manager
+Icon=rox
+Exec=rox
+Categories=GTK;Utility;Application;System;Core;
+StartupNotify=true
+Terminal=false
+HERE_DOC</kbd></pre>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">rox</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">None</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody">/usr/share/rox</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rox-filer-prog" name=
+                    "rox-filer-prog"></a><span class="term"><span class=
+                    "command"><strong>rox</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the rox file manager
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="pidgin.html" title="Pidgin-2.14.12">戻る</a>
+          <p>
+            Pidgin-2.14.12
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="rxvt-unicode.html" title=
+          "rxvt-unicode-9.31">次へ</a>
+          <p>
+            rxvt-unicode-9.31
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="other.html" title=
+          "第41章 X ベースのその他のプログラム">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

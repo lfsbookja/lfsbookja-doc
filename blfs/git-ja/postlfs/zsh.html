@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      zsh-5.9
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第7章 シェル
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="tcsh.html" title="Tcsh-6.24.10">戻る</a>
+          <p>
+            Tcsh-6.24.10
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="virtualization.html" title="仮想化">次へ</a>
+          <p>
+            仮想化
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="shells.html" title="第7章 シェル">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="zsh" name="zsh"></a>zsh-5.9
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to zsh
+        </h2>
+        <p>
+          The <span class="application">zsh</span> package contains a command
+          interpreter (shell) usable as an interactive login shell and as a
+          shell script command processor. Of the standard shells,
+          <span class="application">zsh</span> most closely resembles
+          <span class="application">ksh</span> but includes many
+          enhancements.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://www.zsh.org/pub/zsh-5.9.tar.xz">https://www.zsh.org/pub/zsh-5.9.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: 182e37ca3fe3fa6a44f69ad462c5c30e
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 3.2 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 48 MB (includes documentation
+                and tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: 1.6 SBU (Using parallelism=4; includes
+                documentation and tests)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Additional Downloads
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Optional Documentation: <a class="ulink" href=
+                "https://www.zsh.org/pub/zsh-5.9-doc.tar.xz">https://www.zsh.org/pub/zsh-5.9-doc.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Documentation MD5 sum: 8db53446f613521fb4f9b0bd9f6adda1
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Documentation download size: 3.0 MB
+              </p>
+            </li>
+          </ul>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            When there is a new <span class="application">zsh</span> release,
+            the old files shown above are moved to a new server directory:
+            <a class="ulink" href=
+            "https://www.zsh.org/pub/old/">https://www.zsh.org/pub/old/</a>.
+          </p>
+        </div>
+        <h3>
+          zsh Dependencies
+        </h3>
+        <h4>
+          Optional
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/pcre.html" title=
+          "PCRE-8.45">PCRE-8.45</a> and <a class="xref" href=
+          "../general/valgrind.html" title=
+          "Valgrind-3.22.0">Valgrind-3.22.0</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of zsh
+        </h2>
+        <p>
+          If you downloaded the optional documentation, unpack it with the
+          following command:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">tar --strip-components=1 -xvf ../zsh-5.9-doc.tar.xz</kbd></pre>
+        <p>
+          Install <span class="application">zsh</span> by running the
+          following commands:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr            \
+            --sysconfdir=/etc/zsh    \
+            --enable-etcdir=/etc/zsh \
+            --enable-cap             \
+            --enable-gdbm                             &amp;&amp;
+make                                                  &amp;&amp;
+
+makeinfo  Doc/zsh.texi --plaintext -o Doc/zsh.txt     &amp;&amp;
+makeinfo  Doc/zsh.texi --html      -o Doc/html        &amp;&amp;
+makeinfo  Doc/zsh.texi --html --no-split --no-headers -o Doc/zsh.html</kbd></pre>
+        <p>
+          If you have <a class="xref" href="../pst/texlive.html" title=
+          "texlive-20230313-source">texlive-20230313</a> installed, you can
+          build PDF format of the documentation by issuing the following
+          command:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">texi2pdf  Doc/zsh.texi -o Doc/zsh.pdf</kbd></pre>
+        <p>
+          To test the results, issue: <span class="command"><strong>make
+          check</strong></span>.
+        </p>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">make install                              &amp;&amp;
+make infodir=/usr/share/info install.info &amp;&amp;
+
+install -v -m755 -d                 /usr/share/doc/zsh-5.9/html &amp;&amp;
+install -v -m644 Doc/html/*         /usr/share/doc/zsh-5.9/html &amp;&amp;
+install -v -m644 Doc/zsh.{html,txt} /usr/share/doc/zsh-5.9</kbd></pre>
+        <p>
+          If you downloaded the optional documentation, install it by issuing
+          the following commands as the <code class="systemitem">root</code>
+          user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">make htmldir=/usr/share/doc/zsh-5.9/html install.html &amp;&amp;
+install -v -m644 Doc/zsh.dvi /usr/share/doc/zsh-5.9</kbd></pre>
+        <p>
+          If you built the PDF format of the documentation, install it by
+          issuing the following command as the <code class=
+          "systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">install -v -m644 Doc/zsh.pdf /usr/share/doc/zsh-5.9</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <em class="parameter"><code>--sysconfdir=/etc/zsh</code></em> and
+          <em class="parameter"><code>--enable-etcdir=/etc/zsh</code></em>:
+          These parameters are used so that all the <span class=
+          "application">zsh</span> configuration files are consolidated into
+          the <code class="filename">/etc/zsh</code> directory. Omit these
+          parameters if you wish to retain historical compatibility by having
+          all the files located in the <code class="filename">/etc</code>
+          directory.
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-cap</code></em>: This option
+          enables POSIX capabilities.
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-gdbm</code></em>: This option
+          enables the use of the <span class="application">GDBM</span>
+          library.
+        </p>
+        <p>
+          <code class="option">--enable-pcre</code>: This option allows zsh
+          to use the <span class="application">PCRE</span> regular expression
+          library in shell builtins.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Configuring zsh
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="zsh-config" name="zsh-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="zsh-config" name="zsh-config"></a>Config Files
+          </h4>
+          <p>
+            There are a whole host of configuration files for <span class=
+            "application">zsh</span> including <code class=
+            "filename">/etc/zsh/zshenv</code>, <code class=
+            "filename">/etc/zsh/zprofile</code>, <code class=
+            "filename">/etc/zsh/zshrc</code>, <code class=
+            "filename">/etc/zsh/zlogin</code> and <code class=
+            "filename">/etc/zsh/zlogout</code>. You can find more information
+            on these in the <code class="filename">zsh(1)</code> and related
+            manual pages.
+          </p>
+          <p>
+            The first time zsh is executed, you will be prompted by messages
+            asking several questions. The answers will be used to create a
+            <code class="filename">~/.zshrc</code> file. If you wish to run
+            these questions again, run <span class="command"><strong>zsh
+            /usr/share/zsh/5.9/functions/zsh-newuser-install
+            -f</strong></span>.
+          </p>
+          <p>
+            There are several built-in advanced prompts. In the <span class=
+            "command"><strong>zsh</strong></span> shell, start advanced
+            prompt support with <span class="command"><strong>autoload -U
+            promptinit</strong></span>, then <span class=
+            "command"><strong>promptinit</strong></span>. Available prompt
+            names are listed with <span class="command"><strong>prompt
+            -l</strong></span>. Select a particular one with <span class=
+            "command"><strong>prompt <code class=
+            "literal">&lt;prompt-name&gt;</code></strong></span>. Display all
+            available prompts with <span class="command"><strong>prompt
+            -p</strong></span>. Except for the list and display commands
+            above, you can insert the other ones in <code class=
+            "filename">~/.zshrc</code> to be automatically executed at shell
+            start, with the prompt you chose.
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id14155" name="id14155"></a>Configuration Information
+          </h4>
+          <p>
+            Update <code class="filename">/etc/shells</code> to include the
+            <span class="application">zsh</span> shell program names (as the
+            <code class="systemitem">root</code> user):
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt;&gt; /etc/shells &lt;&lt; "EOF"
+<code class="literal">/bin/zsh</code>
+EOF</kbd></pre>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">zsh and zsh-5.9 (hardlinked to each
+              other)</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">Numerous plugin helper modules under
+              /usr/lib/zsh/5.9/</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody">/usr/{lib,share}/zsh and
+              /usr/share/doc/zsh-5.9</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Description
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="zsh-prog" name="zsh-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>zsh</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a shell which has command-line editing, built-in
+                    spelling correction, programmable command completion,
+                    shell functions (with autoloading), a history mechanism,
+                    and a host of other features
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="tcsh.html" title="Tcsh-6.24.10">戻る</a>
+          <p>
+            Tcsh-6.24.10
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="virtualization.html" title="仮想化">次へ</a>
+          <p>
+            仮想化
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="shells.html" title="第7章 シェル">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

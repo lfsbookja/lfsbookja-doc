@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Seamonkey-2.53.18
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第40章 グラフィカルウェブブラウザー
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="firefox.html" title=
+          "Firefox-115.6.0esr">戻る</a>
+          <p>
+            Firefox-115.6.0esr
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="other.html" title="X ベースのその他のプログラム">次へ</a>
+          <p>
+            X ベースのその他のプログラム
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="graphweb.html" title=
+          "第40章 グラフィカルウェブブラウザー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="seamonkey" name="seamonkey"></a>Seamonkey-2.53.18
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Seamonkey の概要
+        </h2>
+        <p>
+          <span class="application">Seamonkey</span> is a browser suite, a
+          descendant of <span class="application">Netscape</span>. It
+          includes the browser, composer, mail and news clients, and an IRC
+          client.
+        </p>
+        <p>
+          It is the community-driven follow-on to the Mozilla Application
+          Suite, created after Mozilla decided to focus on separate
+          applications for browsing and e-mail. Those applications are
+          <a class="xref" href="firefox.html" title=
+          "Firefox-115.6.0esr">Firefox-115.6.0</a> and <a class="xref" href=
+          "thunderbird.html" title=
+          "Thunderbird-115.5.1">Thunderbird-115.5.1</a>.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://archive.mozilla.org/pub/seamonkey/releases/2.53.18/source/seamonkey-2.53.18.source.tar.xz">
+                https://archive.mozilla.org/pub/seamonkey/releases/2.53.18/source/seamonkey-2.53.18.source.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 6ac064816caa2c3fe6bc1f130bd9599b
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 241 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 4.2 GB (159 MB installed)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 11 SBU (with parallelism=4)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          追加のダウンロード
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Required patch: <a class="ulink" href=
+                "https://www.linuxfromscratch.org/patches/blfs/svn/seamonkey-2.53.18-consolidated_fixes-1.patch">
+                https://www.linuxfromscratch.org/patches/blfs/svn/seamonkey-2.53.18-consolidated_fixes-1.patch</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Required Python module: <a class="ulink" href=
+                "https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-68.2.2.tar.gz">
+                https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-68.2.2.tar.gz</a>
+              </p>
+              <p>
+                This module has already been installed in LFS, but now we
+                need to rebuild its wheel package for the SeaMonkey build
+                system.
+              </p>
+            </li>
+          </ul>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            The tarball <span class=
+            "emphasis"><em>seamonkey-2.53.18.source.tar.xz</em></span> will
+            untar to <span class="emphasis"><em>seamonkey-2.53.18</em></span>
+            directory.
+          </p>
+        </div>
+        <h3>
+          Seamonkey の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/cbindgen.html" title=
+          "Cbindgen-0.26.0">Cbindgen-0.26.0</a>, <a class="xref" href=
+          "../x/gtk3.html" title="GTK+-3.24.38">GTK+-3.24.38</a>, <a class=
+          "xref" href="../general/nodejs.html" title=
+          "Node.js-20.10.0">nodejs-20.10.0</a>, <a class="xref" href=
+          "../general/python-modules.html#six" title=
+          "six-1.16.0">six-1.16.0</a>, <a class="xref" href=
+          "../general/unzip.html" title="UnZip-6.0">UnZip-6.0</a>, <a class=
+          "xref" href="../general/yasm.html" title=
+          "yasm-1.3.0">yasm-1.3.0</a>, <a class="xref" href=
+          "../general/zip.html" title="Zip-3.0">Zip-3.0</a>
+        </p>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../general/icu.html" title=
+          "ICU-74.1">ICU-74.1</a>, <a class="xref" href=
+          "../basicnet/libevent.html" title=
+          "libevent-2.1.12">libevent-2.1.12</a>, <a class="xref" href=
+          "../general/libwebp.html" title="libwebp-1.3.2">libwebp-1.3.2</a>,
+          <a class="xref" href="../general/llvm.html" title=
+          "LLVM-17.0.6">LLVM-17.0.6</a> (with clang), <a class="xref" href=
+          "../general/nasm.html" title="NASM-2.16.01">NASM-2.16.01</a>,
+          <a class="xref" href="../general/nspr.html" title=
+          "NSPR-4.35">NSPR-4.35</a>, <a class="xref" href=
+          "../postlfs/nss.html" title="NSS-3.96.1">nss-3.96.1</a>, <a class=
+          "xref" href="../multimedia/pulseaudio.html" title=
+          "PulseAudio-16.1">PulseAudio-16.1</a>
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            If you don't install recommended dependencies, then internal
+            copies of those packages will be used. They might be tested to
+            work, but they can be out of date or contain security holes.
+          </p>
+        </div>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../multimedia/alsa-lib.html" title=
+          "alsa-lib-1.2.10">alsa-lib-1.2.10</a>, <a class="xref" href=
+          "../general/dbus-glib.html" title=
+          "dbus-glib-0.112">dbus-glib-0.112</a>, <a class="xref" href=
+          "../x/startup-notification.html" title=
+          "startup-notification-0.12">startup-notification-0.12</a>,
+          <a class="xref" href="../general/valgrind.html" title=
+          "Valgrind-3.22.0">Valgrind-3.22.0</a>, <a class="xref" href=
+          "../basicnet/wget.html" title="Wget-1.21.4">Wget-1.21.4</a>,
+          <a class="xref" href="../basicnet/wireless_tools.html" title=
+          "Wireless Tools-29">Wireless Tools-29</a>, <a class="ulink" href=
+          "https://hunspell.sourceforge.net/">Hunspell</a>, <a class="ulink"
+          href="https://gitlab.gnome.org/Archive/gconf">Gconf</a>, <a class=
+          "ulink" href="https://facebook.github.io/watchman/">Watchman</a>
+        </p>
+        <p class="usernotes">
+          編集ノート: <a class="ulink" href=
+          "https://wiki.linuxfromscratch.org/blfs/wiki/seamonkey">https://wiki.linuxfromscratch.org/blfs/wiki/seamonkey</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Seamonkey のインストール
+        </h2>
+        <p>
+          The configuration of <span class="application">Seamonkey</span> is
+          accomplished by creating a <code class="filename">mozconfig</code>
+          file containing the desired configuration options. A default
+          <code class="filename">mozconfig</code> file is created below. To
+          see the entire list of available configuration options (and an
+          abbreviated description of each one), issue <span class=
+          "command"><strong>./configure --help</strong></span>. You may also
+          wish to review the entire file and uncomment any other desired
+          options. Create the file by issuing the following command:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; mozconfig &lt;&lt; "EOF"
+<code class=
+"literal"># If you have a multicore machine, all cores will be used
+
+# If you have installed DBus-Glib comment out this line:
+ac_add_options --disable-dbus
+
+# If you have installed dbus-glib, and you have installed (or will install)
+# wireless-tools, and you wish to use geolocation web services, comment out
+# this line
+ac_add_options --disable-necko-wifi
+
+# Uncomment these lines if you have installed optional dependencies:
+#ac_add_options --enable-system-hunspell
+#ac_add_options --enable-startup-notification
+
+# Uncomment the following option if you have not installed PulseAudio
+#ac_add_options --disable-pulseaudio
+# and uncomment this if you installed alsa-lib instead of PulseAudio
+#ac_add_options --enable-alsa
+
+# Comment out the following option if you have gconf installed
+ac_add_options --disable-gconf
+
+# Comment out following options if you have not installed
+# recommended dependencies:
+ac_add_options --with-system-icu
+ac_add_options --with-system-libevent
+ac_add_options --with-system-nspr
+ac_add_options --with-system-nss
+ac_add_options --with-system-webp
+
+# Disabling debug symbols makes the build much smaller and a little
+# faster. Comment this if you need to run a debugger. Note: This is
+# required for compilation on i686.
+ac_add_options --disable-debug-symbols
+
+# The elf-hack is reported to cause failed installs (after successful builds)
+# on some machines. It is supposed to improve startup time and it shrinks
+# libxul.so by a few MB.  With recent Binutils releases the linker already
+# supports a much safer and generic way for this.
+ac_add_options --disable-elf-hack
+ac_add_options --enable-linker=bfd
+export LDFLAGS="$LDFLAGS -Wl,-z,pack-relative-relocs"
+
+# Seamonkey has some additional features that are not turned on by default,
+# such as an IRC client, calendar, and DOM Inspector. The DOM Inspector
+# aids with designing web pages. Comment these options if you do not
+# desire these features.
+ac_add_options --enable-calendar
+ac_add_options --enable-dominspector
+ac_add_options --enable-irc
+
+# The BLFS editors recommend not changing anything below this line:
+ac_add_options --prefix=/usr
+ac_add_options --enable-application=comm/suite
+
+ac_add_options --disable-crashreporter
+ac_add_options --disable-updater
+ac_add_options --disable-tests
+
+# The Rust code for SIMD optimization is much more outdated than
+# Firefox and Thunderbird, so it does not build with recent Rustc.
+ac_add_options --disable-rust-simd
+
+ac_add_options --enable-strip
+ac_add_options --enable-install-strip
+
+# You cannot distribute the binary if you do this.
+ac_add_options --enable-official-branding
+
+# The option to use system cairo was removed in 2.53.9.
+ac_add_options --enable-system-ffi
+ac_add_options --enable-system-pixman
+
+ac_add_options --with-system-bz2
+ac_add_options --with-system-jpeg
+ac_add_options --with-system-png
+ac_add_options --with-system-zlib
+
+export CC=clang CXX=clang++</code>
+EOF</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            If you are compiling this package in chroot you must ensure that
+            <code class="filename">/dev/shm</code> is mounted. If you do not
+            do this, the <span class="application">Python</span>
+            configuration will fail with a traceback report referencing
+            <code class=
+            "filename">/usr/lib/pythonN.N/multiprocessing/synchronize.py</code>.
+            As the <code class="systemitem">root</code> user, run:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">mountpoint -q /dev/shm || mount -t tmpfs devshm /dev/shm</kbd></pre>
+        </div>
+        <p>
+          First, fix several problems that occur with Python-3.12 and ICU-74.
+          If you are not using ICU-74 and Python-3.12, do not apply this
+          patch.
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../seamonkey-2.53.18-consolidated_fixes-1.patch</kbd></pre>
+        <p>
+          Next, if you are using Python-3.12, reinstall the setuptools
+          package for Seamonkey, and update it's vendored copy of pip:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">ln -sv /usr/lib/python3.12/ensurepip/_bundled/pip-*.whl \
+       third_party/python/virtualenv/virtualenv_support &amp;&amp;
+
+tar xf ../setuptools-68.2.2.tar.gz                             &amp;&amp;
+pip3 wheel --no-build-isolation --no-deps --no-cache-dir       \
+           $PWD/setuptools-68.2.2                              \
+           -w third_party/python/virtualenv/virtualenv_support</kbd></pre>
+        <p>
+          Next, if you are on Python-3.11 still, fix a problem with the
+          bundled 'distro' python module. This has been included in the patch
+          for Python-3.12 users:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -e '1012 s/stderr=devnull/stderr=subprocess.DEVNULL/' \
+    -e '1013 s/OSError/(OSError, subprocess.CalledProcessError)/' \
+    -i third_party/python/distro/distro.py</kbd></pre>
+        <p>
+          Compile <span class="application">Seamonkey</span> by running the
+          following commands:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">AUTOCONF=true ./mach configure &amp;&amp;
+./mach build</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          Install <span class="application">Seamonkey</span> by issuing the
+          following commands as the <code class="systemitem">root</code>
+          user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">./mach install                  &amp;&amp;
+chown -R 0:0 /usr/lib/seamonkey &amp;&amp;
+
+cp -v $(find -name seamonkey.1 | head -n1) /usr/share/man/man1</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <span class="command"><strong>export CC=clang
+          CXX=clang++</strong></span>: With the introduction of <span class=
+          "application">gcc-12</span>, many more warnings are generated when
+          compiling mozilla applications and that results in a much slower,
+          and larger, build. Furthermore, building with GCC on i?86 is
+          currently broken. Although upstream mozilla code defaults to using
+          <span class="application">llvm</span> unless overridden, the older
+          configure code in <span class="application">Seamonkey</span>
+          defaults to gcc.
+        </p>
+        <p>
+          <span class="command"><strong>AUTOCONF=true ./mach
+          configure</strong></span>: This validates the supplied dependencies
+          and the <code class="filename">mozconfig</code>. The building
+          system always checks for an old version (2.13) of autoconf, but
+          it's not really needed because the necessary <span class=
+          "command"><strong>configure</strong></span> scripts are already
+          shipped in the tarball and we've not modified the <code class=
+          "filename">configure.in</code> files. So we pass <code class=
+          "envar">AUTOCONF=true</code> so the building system will skip the
+          checking for autoconf-2.13 and allow building this package without
+          autoconf-2.13 installed.
+        </p>
+        <p>
+          <code class="option">./mach build --verbose</code>: Use this
+          alternative if you need details of which files are being compiled,
+          together with any C or C++ flags being used. But do not add
+          '--verbose' to the install command, it is not accepted there.
+        </p>
+        <p>
+          <code class="option">./mach build -jN</code>: The build should, by
+          default, use all the online CPU cores. If using all the cores
+          causes the build to swap because you have insufficient memory,
+          using fewer cores can be faster.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Seamonkey の設定
+        </h2>
+        <p>
+          For installing various <span class="application">Seamonkey</span>
+          add-ons, refer to <a class="ulink" href=
+          "https://addons.thunderbird.net/en-US/seamonkey/">Add-ons for
+          Seamonkey</a>.
+        </p>
+        <p>
+          Along with using the <span class="quote">「<span class=
+          "quote">Preferences</span>」</span> menu to configure <span class=
+          "application">Seamonkey</span>'s options and preferences to suit
+          individual tastes, finer grain control of many options is only
+          available using a tool not available from the general menu system.
+          To access this tool, you'll need to open a browser window and enter
+          <code class="systemitem">about:config</code> in the address bar.
+          This will display a list of the configuration preferences and
+          information related to each one. You can use the <span class=
+          "quote">「<span class="quote">Search:</span>」</span> bar to enter
+          search criteria and narrow down the listed items. Changing a
+          preference can be done using two methods. One, if the preference
+          has a boolean value (True/False), simply double-click on the
+          preference to toggle the value and two, for other preferences
+          simply right-click on the desired line, choose <span class=
+          "quote">「<span class="quote">Modify</span>」</span> from the menu
+          and change the value. Creating new preference items is accomplished
+          in the same way, except choose <span class="quote">「<span class=
+          "quote">New</span>」</span> from the menu and provide the desired
+          data into the fields when prompted.
+        </p>
+        <p>
+          If you use a desktop environment like <span class=
+          "application">Gnome</span> or <span class="application">KDE</span>
+          you may wish to create a <code class=
+          "filename">seamonkey.desktop</code> file so that <span class=
+          "application">Seamonkey</span> appears in the panel's menus. If you
+          didn't enable <span class="application">Startup-Notification</span>
+          in your mozconfig change the StartupNotify line to false. As the
+          <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">mkdir -pv /usr/share/{applications,pixmaps}              &amp;&amp;
+
+cat &gt; /usr/share/applications/seamonkey.desktop &lt;&lt; "EOF"
+<code class="literal">[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Name=Seamonkey
+Comment=The Mozilla Suite
+Icon=seamonkey
+Exec=seamonkey
+Categories=Network;GTK;Application;Email;Browser;WebBrowser;News;
+StartupNotify=true
+Terminal=false</code>
+EOF
+
+ln -sfv /usr/lib/seamonkey/chrome/icons/default/default128.png \
+        /usr/share/pixmaps/seamonkey.png</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">seamonkey</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">Numerous libraries, browser, and email/newsgroup
+              components, plugins, extensions, and helper modules installed
+              in <code class="filename">/usr/lib/seamonkey</code></span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/lib/seamonkey</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="seamonkey-prog" name=
+                    "seamonkey-prog"></a><span class="term"><span class=
+                    "command"><strong>seamonkey</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the Mozilla browser/email/newsgroup/chat client suite
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="firefox.html" title=
+          "Firefox-115.6.0esr">戻る</a>
+          <p>
+            Firefox-115.6.0esr
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="other.html" title="X ベースのその他のプログラム">次へ</a>
+          <p>
+            X ベースのその他のプログラム
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="graphweb.html" title=
+          "第40章 グラフィカルウェブブラウザー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

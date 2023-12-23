@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      HarfBuzz-8.3.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第10章 グラフィックスとフォントのライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="graphite2.html" title=
+          "Graphite2-1.3.14">戻る</a>
+          <p>
+            Graphite2-1.3.14
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="jasper.html" title="JasPer-4.1.1">次へ</a>
+          <p>
+            JasPer-4.1.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="graphlib.html" title=
+          "第10章 グラフィックスとフォントのライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="harfbuzz" name="harfbuzz"></a>HarfBuzz-8.3.0
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Harfbuzz の概要
+        </h2>
+        <p>
+          <span class="application">Harfbuzz</span> パッケージは OpenType
+          テキストシェーピングエンジンを提供します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/harfbuzz/harfbuzz/releases/download/8.3.0/harfbuzz-8.3.0.tar.xz">
+                https://github.com/harfbuzz/harfbuzz/releases/download/8.3.0/harfbuzz-8.3.0.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 7bf11a21c51a4f3ce0728decc4c557d4
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 18 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 153 MB （テスト込み）
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.8 SBU （parallelism=4 利用; テスト込み）
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          HarfBuzz の依存パッケージ
+        </h3>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="gobject-introspection.html" title=
+          "gobject-introspection-1.78.1">gobject-introspection-1.78.1</a>
+          (GNOME ビルド時に必要), <a class="xref" href="glib2.html" title=
+          "GLib-2.78.3">GLib-2.78.3</a> (Pango に必要), <a class="xref" href=
+          "graphite2.html" title="Graphite2-1.3.14">Graphite2-1.3.14</a>
+          (required for building <a class="xref" href="../pst/texlive.html"
+          title="texlive-20230313-source">texlive-20230313</a> or <a class=
+          "xref" href="../xsoft/libreoffice.html" title=
+          "LibreOffice-7.6.4">LibreOffice-7.6.4.1</a> with system harfbuzz),
+          <a class="xref" href="icu.html" title="ICU-74.1">ICU-74.1</a>, and
+          <a class="xref" href="freetype2.html" title=
+          "FreeType-2.13.2">FreeType-2.13.2</a> (after <a class="xref" href=
+          "harfbuzz.html" title="HarfBuzz-8.3.0">HarfBuzz-8.3.0</a> is
+          installed, reinstall <a class="xref" href="freetype2.html" title=
+          "FreeType-2.13.2">FreeType-2.13.2</a>)
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../x/cairo.html" title=
+          "Cairo-1.18.0">Cairo-1.18.0</a> (circular: build cairo and all its
+          recommended dependencies, including harfbuzz, first, then rebuild
+          harfbuzz if the cairo backend is needed), <a class="xref" href=
+          "git.html" title="Git-2.43.0">git-2.43.0</a>, <a class="xref" href=
+          "gtk-doc.html" title="GTK-Doc-1.33.2">GTK-Doc-1.33.2</a>, <a class=
+          "ulink" href="https://pypi.org/project/FontTools/">FontTools</a>
+          (Python 3 module, for the test suite), <a class="ulink" href=
+          "https://www.colm.net/open-source/ragel/">ragel</a>, and <a class=
+          "ulink" href=
+          "https://github.com/bytecodealliance/wasm-micro-runtime">wasm-micro-runtime</a>
+        </p>
+        <div class="admon warning">
+          <img alt="[警告]" src="../images/warning.png" />
+          <h3>
+            警告
+          </h3>
+          <p>
+            推奨パッケージは、本パッケージのビルドにてすべて必要となるわけではありません。
+            しかしそれらをインストールしていない場合、適正な処理結果が得られないかもしれません。
+            したがってそれらをインストールして<span class=
+            "emphasis"><em>いない</em></span>場合には、バグ報告をあげないでください。
+          </p>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          HarfBuzz のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">HarfBuzz</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+meson setup ..            \
+      --prefix=/usr       \
+      --buildtype=release \
+      -Dgraphite2=enabled &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>ninja
+          test</strong></span> を実行します。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">ninja install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--buildtype=release</code></em>:
+          本パッケージの安定版リリース向けに適したビルドタイプを指定します。
+          デフォルトにしていると、最適化されていないバイナリを生成する場合があるためです。
+        </p>
+        <p>
+          <em class="parameter"><code>-Dgraphite2=enabled</code></em>: 本スイッチは
+          <span class="application">Graphite2</span> サポートを有効にします。 <a class=
+          "xref" href="../pst/texlive.html" title=
+          "texlive-20230313-source">texlive-20230313</a> または <a class="xref"
+          href="../xsoft/libreoffice.html" title=
+          "LibreOffice-7.6.4">LibreOffice-7.6.4.1</a> をインストール済 harfbuzz
+          を用いてビルドする場合に必要となります。
+        </p>
+        <p>
+          <code class="option">-Ddocs=disabled</code>: If <a class="xref"
+          href="gtk-doc.html" title="GTK-Doc-1.33.2">GTK-Doc-1.33.2</a> is
+          installed, the documentation is built and installed. This switch
+          prevents that.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">hb-info, hb-ot-shape-closure, hb-shape, hb-subset,
+              hb-view (cairo インストール時のみ)</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libharfbuzz.so, libharfbuzz-cairo.so (cairo
+              インストール時のみ), libharfbuzz-gobject.so, libharfbuzz-icu.so,
+              libharfbuzz-subset.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/harbuzz, /usr/lib/cmake/harfbuzz,
+              /usr/share/gtk-doc/html/harfbuzz (任意ビルド)</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hb-info" name="hb-info"></a><span class=
+                    "term"><span class=
+                    "command"><strong>hb-info</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used for gathering information about fonts installed
+                    on the system
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hb-ot-shape-closure" name=
+                    "hb-ot-shape-closure"></a><span class="term"><span class=
+                    "command"><strong>hb-ot-shape-closure</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    gives the set of characters contained in a string,
+                    represented as single characters and/or single character
+                    names. Example: <span class=
+                    "command"><strong>hb-ot-shape-closure
+                    /usr/share/fonts/dejavu/DejaVuSans.ttf "Hello
+                    World."</strong></span>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hb-shape" name="hb-shape"></a><span class=
+                    "term"><span class=
+                    "command"><strong>hb-shape</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used for the conversion of text strings into
+                    positioned glyphs
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hb-subset" name="hb-subset"></a><span class=
+                    "term"><span class=
+                    "command"><strong>hb-subset</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to create subsets of fonts, and display text
+                    using them
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hb-view" name="hb-view"></a><span class=
+                    "term"><span class=
+                    "command"><strong>hb-view</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    displays a graphical view of a string shape using a
+                    particular font as a set of glyphs. The output format is
+                    automatically defined by the file extension, the
+                    supported ones being ansi/png/svg/pdf/ps/eps. For
+                    example: <span class="command"><strong>hb-view
+                    --output-file=hello.png
+                    /usr/share/fonts/dejavu/DejaVuSans.ttf "Hello
+                    World."</strong></span>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libharfbuzz" name="libharfbuzz"></a><span class=
+                    "term"><code class=
+                    "filename">libharfbuzz.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the HarfBuzz text shaping library
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libharfbuzz-cairo" name=
+                    "libharfbuzz-cairo"></a><span class="term"><code class=
+                    "filename">libharfbuzz-cairo.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides Cairo integration for the Harfbuzz text shaping
+                    library
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libharfbuzz-gobject" name=
+                    "libharfbuzz-gobject"></a><span class="term"><code class=
+                    "filename">libharfbuzz-gobject.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides GObject integration for the HarfBuzz text
+                    shaping library
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libharfbuzz-icu" name=
+                    "libharfbuzz-icu"></a><span class="term"><code class=
+                    "filename">libharfbuzz-icu.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides ICU integration for the HarfBuzz text shaping
+                    library
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libharfbuzz-subset" name=
+                    "libharfbuzz-subset"></a><span class="term"><code class=
+                    "filename">libharfbuzz-subset.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides API functions for performing subsetting
+                    operations on font files
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="graphite2.html" title=
+          "Graphite2-1.3.14">戻る</a>
+          <p>
+            Graphite2-1.3.14
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="jasper.html" title="JasPer-4.1.1">次へ</a>
+          <p>
+            JasPer-4.1.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="graphlib.html" title=
+          "第10章 グラフィックスとフォントのライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

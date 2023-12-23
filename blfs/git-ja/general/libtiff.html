@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      libtiff-4.6.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第10章 グラフィックスとフォントのライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libspiro.html" title=
+          "Libspiro-20220722">戻る</a>
+          <p>
+            Libspiro-20220722
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libwebp.html" title="libwebp-1.3.2">次へ</a>
+          <p>
+            libwebp-1.3.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="graphlib.html" title=
+          "第10章 グラフィックスとフォントのライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="libtiff" name="libtiff"></a>libtiff-4.6.0
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libtiff の概要
+        </h2>
+        <p>
+          <span class="application">LibTIFF</span> パッケージは TIFF
+          ライブラリと関連ユーティリティを提供します。 ライブラリは TIFF ファイルを入出力するために各種のプログラムが利用しています。
+          またユーティリティは TIFF ファイルを全般的に取り扱う有用なものです。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://download.osgeo.org/libtiff/tiff-4.6.0.tar.gz">https://download.osgeo.org/libtiff/tiff-4.6.0.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: fc7d49a9348b890b29f91a4ecadd5b49
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 3.4 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 46 MB（テスト込み）
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.2 SBU（テスト込み）
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          libtiff の依存パッケージ
+        </h3>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="cmake.html" title=
+          "CMake-3.28.1">CMake-3.28.1</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../x/freeglut.html" title=
+          "Freeglut-3.4.0">Freeglut-3.4.0</a> (required for <span class=
+          "command"><strong>tiffgt</strong></span>), <a class="xref" href=
+          "libjpeg.html" title="libjpeg-turbo-3.0.1">libjpeg-turbo-3.0.1</a>,
+          <a class="xref" href="python-modules.html#sphinx" title=
+          "Sphinx-7.2.6">sphinx-7.2.6</a>, <a class="xref" href=
+          "libwebp.html" title="libwebp-1.3.2">libwebp-1.3.2</a>, <a class=
+          "ulink" href=
+          "https://www.cl.cam.ac.uk/~mgk25/jbigkit/">JBIG-KIT</a>, and
+          <a class="ulink" href=
+          "https://www.osgeo.org/projects/lerc-limited-error-raster-compression/">
+          LERC</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libtiff のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">libtiff</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mkdir -p libtiff-build &amp;&amp;
+cd       libtiff-build &amp;&amp;
+
+cmake -DCMAKE_INSTALL_DOCDIR=/usr/share/doc/libtiff-4.6.0 \
+      -DCMAKE_INSTALL_PREFIX=/usr -G Ninja .. &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>ninja
+          test</strong></span> を実行します。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">ninja install</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">tiffcp, tiffdump, tiffinfo, tiffset, tiffsplit</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libtiff.so, libtiffxx.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/share/doc/tiff-4.6.0</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tiffcp" name="tiffcp"></a><span class=
+                    "term"><span class=
+                    "command"><strong>tiffcp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    TIFF ファイルをコピー (また可能なら変換) を行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tiffdump" name="tiffdump"></a><span class=
+                    "term"><span class=
+                    "command"><strong>tiffdump</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    TIFF ファイルのそのままの情報を出力します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tiffinfo" name="tiffinfo"></a><span class=
+                    "term"><span class=
+                    "command"><strong>tiffinfo</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    TIFF ファイルの情報を出力します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tiffset" name="tiffset"></a><span class=
+                    "term"><span class=
+                    "command"><strong>tiffset</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    TIFF のヘッダーに指定値をセットします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tiffsplit" name="tiffsplit"></a><span class=
+                    "term"><span class=
+                    "command"><strong>tiffsplit</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    複数イメージを持つ TIFF ファイルを単一イメージの TIFF ファイルに分割します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libtiff-lib" name="libtiff-lib"></a><span class=
+                    "term"><code class="filename">libtiff.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    TIFF ファイルの入出力を行う <span class="application">libtiff</span>
+                    プログラムや他のプログラムに対しての API 関数を提供します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libtiffxx" name="libtiffxx"></a><span class=
+                    "term"><code class="filename">libtiffxx.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    TIFF ファイルの入出力を行うプログラムが利用する C++ の API 関数を提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libspiro.html" title=
+          "Libspiro-20220722">戻る</a>
+          <p>
+            Libspiro-20220722
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libwebp.html" title="libwebp-1.3.2">次へ</a>
+          <p>
+            libwebp-1.3.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="graphlib.html" title=
+          "第10章 グラフィックスとフォントのライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

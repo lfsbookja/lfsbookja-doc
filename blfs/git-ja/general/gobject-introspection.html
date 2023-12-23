@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      gobject-introspection-1.78.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第9章 汎用的なライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gmime3.html" title="GMime-3.2.7">戻る</a>
+          <p>
+            GMime-3.2.7
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gsl.html" title="Gsl-2.7.1">次へ</a>
+          <p>
+            Gsl-2.7.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="gobject-introspection" name=
+        "gobject-introspection"></a>gobject-introspection-1.78.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          GObject Introspection の概要
+        </h2>
+        <p>
+          <span class="application">GObject Introspection</span> パッケージは API
+          関数を記述し、それをマシンが読込み可能な統一した書式で構成します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://download.gnome.org/sources/gobject-introspection/1.78/gobject-introspection-1.78.1.tar.xz">
+                https://download.gnome.org/sources/gobject-introspection/1.78/gobject-introspection-1.78.1.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: da2677e6b9c91b33c036d2233a96cec3
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1.0 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 48 MB (テスト込み)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.3 SBU (テスト込み, いずれも parallelism=4 利用時)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          GObject Introspection Dependencies
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="glib2.html" title=
+          "GLib-2.78.3">GLib-2.78.3</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../x/cairo.html" title=
+          "Cairo-1.18.0">Cairo-1.18.0</a> (テスト実施時に必要), <a class="xref" href=
+          "../gnome/gjs.html" title="Gjs-1.78.1">Gjs-1.78.1</a> (1
+          つのテストにおいて必要), <a class="xref" href="gtk-doc.html" title=
+          "GTK-Doc-1.33.2">GTK-Doc-1.33.2</a>, <a class="xref" href=
+          "python-modules.html#Mako" title="Mako-1.3.0">Mako-1.3.0</a>,
+          <a class="xref" href="python-dependencies.html#markdown" title=
+          "Markdown-3.4.1">Markdown-3.4.1</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          GObject Introspection のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">GObject Introspection</span>
+          をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+meson setup --prefix=/usr --buildtype=release .. &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は、Python 3.12
+          以上に対するテストスイートの非互換性を修正してから、以下のようにテストスイートを実行します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed "/PYTHONPATH/a'/usr/lib/python3.12'," -i ../tests/warn/meson.build &amp;&amp;
+ninja test</kbd></pre>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">ninja install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--buildtype=release</code></em>:
+          本パッケージの安定版リリース向けに適したビルドタイプを指定します。
+          デフォルトにしていると、最適化されていないバイナリを生成する場合があるためです。
+        </p>
+        <p>
+          <code class="option">-Dgtk_doc=true</code>: Build and install the
+          documentation.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">g-ir-annotation-tool, g-ir-compiler, g-ir-doc-tool,
+              g-ir-generate, g-ir-inspect, g-ir-scanner</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libgirepository-1.0.so,
+              _giscanner.cpython-312-&lt;arch&gt;-linux-gnu.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/gobject-introspection-1.0,
+              /usr/lib/girepository-1.0, /usr/lib/gobject-introspection,
+              /usr/share/gir-1.0, /usr/share/gobject-introspection-1.0</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="g-ir-annotation-tool" name=
+                    "g-ir-annotation-tool"></a><span class=
+                    "term"><span class="command"><strong>g-ir-annotation-tool</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    creates or extracts annotation data from GI typelibs
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="g-ir-compiler" name=
+                    "g-ir-compiler"></a><span class="term"><span class=
+                    "command"><strong>g-ir-compiler</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    複数の GIR ファイルを複数の typelib に変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="g-ir-doc-tool" name=
+                    "g-ir-doc-tool"></a><span class="term"><span class=
+                    "command"><strong>g-ir-doc-tool</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    generates Mallard files that can be viewed with
+                    <span class="command"><strong>yelp</strong></span> or
+                    rendered to HTML with <span class=
+                    "command"><strong>yelp-build</strong></span> from
+                    <a class="ulink" href=
+                    "https://download.gnome.org/sources/yelp-tools">yelp-tools</a>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="g-ir-inspect" name="g-ir-inspect"></a><span class=
+                    "term"><span class=
+                    "command"><strong>g-ir-inspect</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    GI typelib についての情報を提供するユーティリティーです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="g-ir-generate" name=
+                    "g-ir-generate"></a><span class="term"><span class=
+                    "command"><strong>g-ir-generate</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a GIR generator that uses the repository API
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="g-ir-scanner" name="g-ir-scanner"></a><span class=
+                    "term"><span class=
+                    "command"><strong>g-ir-scanner</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    GObject ベースのライブラリとヘッダーを用いて GIR XML ファイルを生成するためのツールです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libgirepository-1.0" name=
+                    "libgirepository-1.0"></a><span class="term"><code class=
+                    "filename">libgirepository-1.0.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    typelib メタデータにアクセスするための API 関数を提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gmime3.html" title="GMime-3.2.7">戻る</a>
+          <p>
+            GMime-3.2.7
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gsl.html" title="Gsl-2.7.1">次へ</a>
+          <p>
+            Gsl-2.7.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

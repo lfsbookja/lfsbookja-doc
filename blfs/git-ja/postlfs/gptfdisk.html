@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      gptfdisk-1.0.9
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第5章 ファイルシステムとディスク管理
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="ntfs-3g.html" title=
+          "ntfs-3g-2022.10.3">戻る</a>
+          <p>
+            ntfs-3g-2022.10.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="parted.html" title="parted-3.6">次へ</a>
+          <p>
+            parted-3.6
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="filesystems.html" title=
+          "第5章 ファイルシステムとディスク管理">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="gptfdisk" name="gptfdisk"></a>gptfdisk-1.0.9
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to gptfdisk
+        </h2>
+        <p>
+          The <span class="application">gptfdisk</span> package is a set of
+          programs for creation and maintenance of GUID Partition Table (GPT)
+          disk drives. A GPT partitioned disk is required for drives greater
+          than 2 TB and is a modern replacement for legacy PC-BIOS
+          partitioned disk drives that use a Master Boot Record (MBR). The
+          main program, <span class="command"><strong>gdisk</strong></span>,
+          has an interface similar to the classic <span class=
+          "command"><strong>fdisk</strong></span> program.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://downloads.sourceforge.net/gptfdisk/gptfdisk-1.0.9.tar.gz">
+                https://downloads.sourceforge.net/gptfdisk/gptfdisk-1.0.9.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: 01c11ecfa454096543562e3068530e01
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 212 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 2.3 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: less than 0.1 SBU (add 0.2 SBU for
+                tests)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Additional Downloads
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Recommended patch: <a class="ulink" href=
+                "https://www.linuxfromscratch.org/patches/blfs/svn/gptfdisk-1.0.9-convenience-1.patch">
+                https://www.linuxfromscratch.org/patches/blfs/svn/gptfdisk-1.0.9-convenience-1.patch</a>
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          gptfdisk Dependencies
+        </h3>
+        <h4>
+          Required
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/popt.html" title=
+          "Popt-1.19">popt-1.19</a>
+        </p>
+        <h4>
+          Optional
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/icu.html" title=
+          "ICU-74.1">ICU-74.1</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of gptfdisk
+        </h2>
+        <p>
+          The <span class="application">gptfdisk</span> package comes with a
+          rudimentary <code class="filename">Makefile</code>. First we update
+          it to provide a simple build and install interface and fix the
+          location of a header file as well fixing an issue introduced by a
+          recent version of <span class="application">popt</span>. Install
+          <span class="application">gptfdisk</span> by running the following
+          commands:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../gptfdisk-1.0.9-convenience-1.patch &amp;&amp;
+sed -i 's|ncursesw/||' gptcurses.cc &amp;&amp;
+sed -i 's|sbin|usr/sbin|' Makefile &amp;&amp;
+sed -i '/UUID_H/s/^.*$/#if defined (_UUID_UUID_H) || defined (_UL_LIBUUID_UUID_H)/' guid.cc &amp;&amp;
+sed -i "/device =/s/= \(.*\);/= strdup(\1);/" gptcl.cc &amp;&amp;
+
+make</kbd></pre>
+        <p>
+          To test the results, issue: <span class="command"><strong>make
+          test</strong></span>.
+        </p>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <span class="command"><strong>patch -Np1 ...</strong></span>: This
+          patch modifies the <code class="filename">Makefile</code> file so
+          that it provides an <span class="quote">「<span class=
+          "quote">install</span>」</span> target.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">cgdisk, gdisk, fixparts, and
+              sgdisk</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cgdisk" name="cgdisk"></a><span class=
+                    "term"><span class=
+                    "command"><strong>cgdisk</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is an ncurses-based tool for manipulating GPT partitions
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gdisk" name="gdisk"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gdisk</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is an interactive text-mode tool for manipulating GPT
+                    partitions
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fixparts" name="fixparts"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fixparts</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    repairs mis-formatted MBR based disk partitions
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sgdisk" name="sgdisk"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sgdisk</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a partition manipulation program for GPT partitions
+                    similar to <span class=
+                    "command"><strong>sfdisk</strong></span>
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="ntfs-3g.html" title=
+          "ntfs-3g-2022.10.3">戻る</a>
+          <p>
+            ntfs-3g-2022.10.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="parted.html" title="parted-3.6">次へ</a>
+          <p>
+            parted-3.6
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="filesystems.html" title=
+          "第5章 ファイルシステムとディスク管理">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

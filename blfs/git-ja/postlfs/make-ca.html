@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      make-ca-1.13
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第4章 セキュリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="vulnerabilities.html" title="ぜい弱性">戻る</a>
+          <p>
+            ぜい弱性
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="cracklib.html" title=
+          "CrackLib-2.9.11">次へ</a>
+          <p>
+            CrackLib-2.9.11
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="security.html" title="第4章 セキュリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="make-ca" name="make-ca"></a>make-ca-1.13
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          make-ca の概要
+        </h2>
+        <p>
+          Public Key Infrastructure (PKI) is a method to validate the
+          authenticity of an otherwise unknown entity across untrusted
+          networks. PKI works by establishing a chain of trust, rather than
+          trusting each individual host or entity explicitly. In order for a
+          certificate presented by a remote entity to be trusted, that
+          certificate must present a complete chain of certificates that can
+          be validated using the root certificate of a Certificate Authority
+          (CA) that is trusted by the local machine.
+        </p>
+        <p>
+          Establishing trust with a CA involves validating things like
+          company address, ownership, contact information, etc., and ensuring
+          that the CA has followed best practices, such as undergoing
+          periodic security audits by independent investigators and
+          maintaining an always available certificate revocation list. This
+          is well outside the scope of BLFS (as it is for most Linux
+          distributions). The certificate store provided here is taken from
+          the Mozilla Foundation, who have established very strict inclusion
+          policies described <a class="ulink" href=
+          "https://www.mozilla.org/en-US/about/governance/policies/security-group/certs/policy/">
+          here</a>.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/lfs-book/make-ca/releases/download/v1.13/make-ca-1.13.tar.xz">
+                https://github.com/lfs-book/make-ca/releases/download/v1.13/make-ca-1.13.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 32 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 Sum: 04bd86fe2eb299788439c3466782ce45
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 6.9 MB (with all runtime deps)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: 0.1 SBU (with all runtime deps)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            This package ships a CA certificate for validating the identity
+            of <a class="ulink" href=
+            "https://hg.mozilla.org/">https://hg.mozilla.org/</a>. If the
+            trust chain of this website has been changed after the release of
+            make-ca-1.13, it may fail to get the revision of <code class=
+            "filename">certdata.txt</code> from server. Use an updated
+            make-ca release at <a class="ulink" href=
+            "https://github.com/lfs-book/make-ca/releases">the release
+            page</a> if this issue happens.
+          </p>
+        </div>
+        <h3>
+          make-ca Dependencies
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="p11-kit.html" title=
+          "p11-kit-0.25.3">p11-kit-0.25.3</a> (runtime, built after <a class=
+          "xref" href="../general/libtasn1.html" title=
+          "libtasn1-4.19.0">libtasn1-4.19.0</a>, required in the following
+          instructions to generate certificate stores from trust anchors, and
+          each time <span class="command"><strong>make-ca</strong></span> is
+          run)
+        </p>
+        <h4>
+          任意 (実行時)
+        </h4>
+        <p class="optional">
+          <a class="xref" href="nss.html" title="NSS-3.96.1">nss-3.96.1</a>
+          (to generate a shared NSSDB)
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of make-ca and Generation of the CA-certificates
+          stores
+        </h2>
+        <p>
+          The <span class="application">make-ca</span> script will download
+          and process the certificates included in the <code class=
+          "filename">certdata.txt</code> file for use as trust anchors for
+          the <a class="xref" href="p11-kit.html" title=
+          "p11-kit-0.25.3">p11-kit-0.25.3</a> trust module. Additionally, it
+          will generate system certificate stores used by BLFS applications
+          (if the recommended and optional applications are present on the
+          system). Any local certificates stored in <code class=
+          "filename">/etc/ssl/local</code> will be imported to both the trust
+          anchors and the generated certificate stores (overriding Mozilla's
+          trust). Additionally, any modified trust values will be copied from
+          the trust anchors to <code class="filename">/etc/ssl/local</code>
+          prior to any updates, preserving custom trust values that differ
+          from Mozilla when using the <span class=
+          "command"><strong>trust</strong></span> utility from <span class=
+          "application">p11-kit</span> to operate on the trust store.
+        </p>
+        <p>
+          To install the various certificate stores, first install the
+          <span class="application">make-ca</span> script into the correct
+          location. As the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">make install &amp;&amp;
+install -vdm755 /etc/ssl/local</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            Technically, this package is already installed at this point. But
+            most packages listing <span class="application">make-ca</span> as
+            a dependency actually requires the system certificate store set
+            up by this package, instead of requiring the <span class=
+            "command"><strong>make-ca</strong></span> program itself. So the
+            instructions for using <span class=
+            "command"><strong>make-ca</strong></span> for setting up the
+            system certificate store is included in this section. You should
+            make sure the required runtime dependency for <span class=
+            "application">make-ca</span> is satisfied now, and continue to
+            follow the instructions.
+          </p>
+        </div>
+        <p>
+          As the <code class="systemitem">root</code> user, download the
+          certificate source and prepare for system use with the following
+          command:
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            If running the script a second time with the same version of
+            <code class="filename">certdata.txt</code>, for instance, to
+            update the stores when <span class="application">make-ca</span>
+            is upgraded, or to add additional stores as the requisite
+            software is installed, replace the <em class=
+            "parameter"><code>-g</code></em> switch with the <em class=
+            "parameter"><code>-r</code></em> switch in the command line. If
+            packaging, run <span class="command"><strong>make-ca
+            --help</strong></span> to see all available command line options.
+          </p>
+        </div>
+        <pre class="root"><kbd class=
+        "command">/usr/sbin/make-ca -g</kbd></pre>
+        <p>
+          You should periodically update the store with the above command,
+          either manually, or via a <span class="phrase">cron job.</span>
+          <span class="phrase">If you've installed <a class="xref" href=
+          "../general/fcron.html" title="Fcron-3.2.1">Fcron-3.2.1</a> and
+          completed the section on periodic jobs, execute</span> the
+          following commands, as the <code class="systemitem">root</code>
+          user, to <span class="phrase">create a weekly cron job:</span>
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; /etc/cron.weekly/update-pki.sh &lt;&lt; "EOF" &amp;&amp;
+<code class="literal">#!/bin/bash
+/usr/sbin/make-ca -g</code>
+EOF
+chmod 754 /etc/cron.weekly/update-pki.sh</kbd></pre>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="make-ca-config" name="make-ca-config"></a>Configuring
+          make-ca
+        </h2>
+        <p>
+          For most users, no additional configuration is necessary, however,
+          the default <code class="filename">certdata.txt</code> file
+          provided by make-ca is obtained from the mozilla-release branch,
+          and is modified to provide a Mercurial revision. This will be the
+          correct version for most systems. There are several other variants
+          of the file available for use that might be preferred for one
+          reason or another, including the files shipped with Mozilla
+          products in this book. RedHat and OpenSUSE, for instance, use the
+          version included in <a class="xref" href="nss.html" title=
+          "NSS-3.96.1">nss-3.96.1</a>. Additional upstream downloads are
+          available at the links included in <code class=
+          "filename">/etc/make-ca/make-ca.conf.dist</code>. Simply copy the
+          file to <code class="filename">/etc/make-ca.conf</code> and edit as
+          appropriate.
+        </p>
+        <h3>
+          About Trust Arguments
+        </h3>
+        <p>
+          There are three trust types that are recognized by the <span class=
+          "application">make-ca</span> script, SSL/TLS, S/Mime, and code
+          signing. For <span class="application">OpenSSL</span>, these are
+          <em class="parameter"><code>serverAuth</code></em>, <em class=
+          "parameter"><code>emailProtection</code></em>, and <em class=
+          "parameter"><code>codeSigning</code></em> respectively. If one of
+          the three trust arguments is omitted, the certificate is neither
+          trusted, nor rejected for that role. Clients that use <span class=
+          "application">OpenSSL</span> or <span class=
+          "application">NSS</span> encountering this certificate will present
+          a warning to the user. Clients using <span class=
+          "application">GnuTLS</span> without <span class=
+          "application">p11-kit</span> support are not aware of trusted
+          certificates. To include this CA into the <code class=
+          "filename">ca-bundle.crt</code>, <code class=
+          "filename">email-ca-bundle.crt</code>, or <code class=
+          "filename">objsign-ca-bundle.crt</code> files (the <span class=
+          "application">GnuTLS</span> legacy bundles), it must have the
+          appropriate trust arguments.
+        </p>
+        <h3>
+          Adding Additional CA Certificates
+        </h3>
+        <p>
+          The <code class="filename">/etc/ssl/local</code> directory is
+          available to add additional CA certificates to the system trust
+          store. This directory is also used to store certificates that were
+          added to or modified in the system trust store by <a class="xref"
+          href="p11-kit.html" title="p11-kit-0.25.3">p11-kit-0.25.3</a> so
+          that trust values are maintained across upgrades. Files in this
+          directory must be in the <span class="application">OpenSSL</span>
+          trusted certificate format. Certificates imported using the
+          <span class="command"><strong>trust</strong></span> utility from
+          <a class="xref" href="p11-kit.html" title=
+          "p11-kit-0.25.3">p11-kit-0.25.3</a> will utilize the x509 Extended
+          Key Usage values to assign default trust values for the system
+          anchors.
+        </p>
+        <p>
+          If you need to override trust values, or otherwise need to create
+          an <span class="application">OpenSSL</span> trusted certificate
+          manually from a regular PEM encoded file, you need to add trust
+          arguments to the <span class=
+          "command"><strong>openssl</strong></span> command, and create a new
+          certificate. For example, using the <a class="ulink" href=
+          "http://www.cacert.org/">CAcert</a> roots, if you want to trust
+          both for all three roles, the following commands will create
+          appropriate OpenSSL trusted certificates (run as the <code class=
+          "systemitem">root</code> user after <a class="xref" href=
+          "../basicnet/wget.html" title="Wget-1.21.4">Wget-1.21.4</a> is
+          installed):
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">wget http://www.cacert.org/certs/root.crt &amp;&amp;
+wget http://www.cacert.org/certs/class3.crt &amp;&amp;
+openssl x509 -in root.crt -text -fingerprint -setalias "CAcert Class 1 root" \
+        -addtrust serverAuth -addtrust emailProtection -addtrust codeSigning \
+        &gt; /etc/ssl/local/CAcert_Class_1_root.pem &amp;&amp;
+openssl x509 -in class3.crt -text -fingerprint -setalias "CAcert Class 3 root" \
+        -addtrust serverAuth -addtrust emailProtection -addtrust codeSigning \
+        &gt; /etc/ssl/local/CAcert_Class_3_root.pem &amp;&amp;
+/usr/sbin/make-ca -r</kbd></pre>
+        <h3>
+          Overriding Mozilla Trust
+        </h3>
+        <p>
+          Occasionally, there may be instances where you don't agree with
+          Mozilla's inclusion of a particular certificate authority. If you'd
+          like to override the default trust of a particular CA, simply
+          create a copy of the existing certificate in <code class=
+          "filename">/etc/ssl/local</code> with different trust arguments.
+          For example, if you'd like to distrust the "Makebelieve_CA_Root"
+          file, run the following commands:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">openssl x509 -in /etc/ssl/certs/Makebelieve_CA_Root.pem \
+             -text \
+             -fingerprint \
+             -setalias "Disabled Makebelieve CA Root" \
+             -addreject serverAuth \
+             -addreject emailProtection \
+             -addreject codeSigning \
+       &gt; /etc/ssl/local/Disabled_Makebelieve_CA_Root.pem &amp;&amp;
+/usr/sbin/make-ca -r</kbd></pre>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="make-ca-python" name="make-ca-python"></a>Using make-ca with
+          Python3
+        </h2>
+        <p>
+          When <span class="application">Python3</span> was installed in LFS
+          it included the <span class="application">pip3</span> module with
+          vendored certificates from the <span class=
+          "application">Certifi</span> module. That was necessary, but it
+          means that whenever <span class=
+          "command"><strong>pip3</strong></span> is used it can reference
+          those certificates, primarily when creating a virtual environment
+          or when installing a module with all its wheel dependencies in one
+          go.
+        </p>
+        <p>
+          It is generally considered that the System Administrator should be
+          in charge of which certificates are available. Now that <a class=
+          "xref" href="make-ca.html" title="make-ca-1.13">make-ca-1.13</a>
+          and <a class="xref" href="p11-kit.html" title=
+          "p11-kit-0.25.3">p11-kit-0.25.3</a> have been installed and
+          <span class="application">make-ca</span> has been configured, it is
+          possible to make <span class="command"><strong>pip3</strong></span>
+          use the system certificates.
+        </p>
+        <p>
+          The vendored certificates installed in LFS are a snapshot from when
+          the pulled-in version of <span class="application">Certifi</span>
+          was created. If you regularly update the system certificates, the
+          vendored version will become out of date.
+        </p>
+        <p>
+          To use the system certificates in <span class=
+          "application">Python3</span> you should set <code class=
+          "envar">_PIP_STANDALONE_CERT</code> to point to them, e.g for the
+          <span class="application">bash</span> shell:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">export _PIP_STANDALONE_CERT=/etc/pki/tls/certs/ca-bundle.crt</kbd></pre>
+        <div class="admon warning">
+          <img alt="[警告]" src="../images/warning.png" />
+          <h3>
+            警告
+          </h3>
+          <p>
+            If you have created virtual environments, for example when
+            testing modules, and those include the <span class=
+            "application">Requests</span> and <span class=
+            "application">Certifi</span> modules in <code class=
+            "filename">~/.local/lib/python3.11/</code> then those local
+            modules will be used instead of the system certificates unless
+            you remove the local modules.
+          </p>
+        </div>
+        <p>
+          To use the system certificates in <span class=
+          "application">Python3</span> with the BLFS profiles add the
+          following variable to your system or personal profiles:
+        </p>
+        <pre class="root"><kbd class=
+        "command">mkdir -pv /etc/profile.d &amp;&amp;
+cat &gt; /etc/profile.d/pythoncerts.sh &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/profile.d/pythoncerts.sh
+
+export _PIP_STANDALONE_CERT=/etc/pki/tls/certs/ca-bundle.crt
+
+# End /etc/profile.d/pythoncerts.sh</code>
+EOF</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">make-ca</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody">/etc/ssl/{certs,local} and
+              /etc/pki/{nssdb,anchors,tls/{certs,java}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="make-ca-bin" name="make-ca-bin"></a><span class=
+                    "term"><span class=
+                    "command"><strong>make-ca</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a shell script that adapts a current version of
+                    <code class="filename">certdata.txt</code>, and prepares
+                    it for use as the system trust store
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="vulnerabilities.html" title="ぜい弱性">戻る</a>
+          <p>
+            ぜい弱性
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="cracklib.html" title=
+          "CrackLib-2.9.11">次へ</a>
+          <p>
+            CrackLib-2.9.11
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="security.html" title="第4章 セキュリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

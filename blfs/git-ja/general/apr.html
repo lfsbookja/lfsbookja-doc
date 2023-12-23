@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Apr-1.7.4
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第9章 汎用的なライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="appstream.html" title=
+          "AppStream-1.0.1">戻る</a>
+          <p>
+            AppStream-1.0.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="apr-util.html" title="Apr-Util-1.6.3">次へ</a>
+          <p>
+            Apr-Util-1.6.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="apr" name="apr"></a>Apr-1.7.4
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Apr の概要
+        </h2>
+        <p>
+          Apache ポータブルランタイムライブラリ (Apache Portable Runtime; APR) は、Apache web
+          サーバーに対するサポートライブラリです。 これはオペレーティングシステム (OS)
+          へマッピングする、一連のアプリケーションプログラミングインターフェース (API) を提供します。 OS
+          が特定の機能をサポートしていない場合は APR がエミュレートします。 したがってプログラマーは APR
+          を使えば、さまざまに異なるプラットフォーム上にて動作する可搬性の高いプログラムを構築できます。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://archive.apache.org/dist/apr/apr-1.7.4.tar.bz2">https://archive.apache.org/dist/apr/apr-1.7.4.tar.bz2</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: f8a62f3984898ba0ea8b6f26b851cb99
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 876 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 11 MB (テスト実施時はさらに 4 MB)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU (テスト実施時は 1.4 SBU)
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Apr の概要
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">Apr</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr    \
+            --disable-static \
+            --with-installbuilddir=/usr/share/apr-1/build &amp;&amp;
+make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>make
+          test</strong></span> を実行します。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--disable-static</code></em>:
+          このスイッチはスタティックライブラリをインストールしないようにします。
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">apr-1-config</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libapr-1.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/apr-1, /usr/share/apr-1</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="apr-1-config" name="apr-1-config"></a><span class=
+                    "term"><span class=
+                    "command"><strong>apr-1-config</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    apr ライブラリについての情報を得るためのシェルスクリプトです。
+                    本ライブラリをコンパイルしたりリンクしたりする際に、よく利用されます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libapr-1" name="libapr-1"></a><span class=
+                    "term"><code class="filename">libapr-1.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Apache ポータブルランタイムライブラリ (Apache Portable Runtime library)
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="appstream.html" title=
+          "AppStream-1.0.1">戻る</a>
+          <p>
+            AppStream-1.0.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="apr-util.html" title="Apr-Util-1.6.3">次へ</a>
+          <p>
+            Apr-Util-1.6.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

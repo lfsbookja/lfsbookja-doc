@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Mercurial-6.6.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第13章 プログラミング言語
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="lua52.html" title="Lua-5.2.4">戻る</a>
+          <p>
+            Lua-5.2.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="nasm.html" title="NASM-2.16.01">次へ</a>
+          <p>
+            NASM-2.16.01
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="prog.html" title="第13章 プログラミング言語">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="mercurial" name="mercurial"></a>Mercurial-6.6.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Mercurial の概要
+        </h2>
+        <p>
+          <span class="application">Mercurial</span> is a distributed source
+          control management tool similar to <span class=
+          "application">Git</span> and <span class=
+          "application">Bazaar</span>. <span class=
+          "application">Mercurial</span> is written in <span class=
+          "application">Python</span> and is used by projects such as Mozilla
+          for Firefox and Thunderbird.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://www.mercurial-scm.org/release/mercurial-6.6.1.tar.gz">
+                https://www.mercurial-scm.org/release/mercurial-6.6.1.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 29588536095ceb82602bd6656a86bd55
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 7.9 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 115 MB (with docs, add 1.5 GB for tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.5 SBU (with docs; add 18 SBU for tests; both using
+                parallelism=8)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Mercurial の依存パッケージ
+        </h3>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="python-modules.html#docutils" title=
+          "docutils-0.20.1">docutils-0.20.1</a> (required to build the
+          documentation), <a class="xref" href="git.html" title=
+          "Git-2.43.0">git-2.43.0</a>, <a class="xref" href=
+          "../postlfs/gpgme.html" title="GPGME-1.23.2">GPGME-1.23.2</a> (with
+          Python bindings), <a class="xref" href="../postlfs/openssh.html"
+          title="OpenSSH-9.5p1">OpenSSH-9.5p1</a> (runtime, to access
+          ssh://... repositories), <a class="xref" href=
+          "python-modules.html#pygments" title=
+          "Pygments-2.17.2">Pygments-2.17.2</a>, <a class="xref" href=
+          "rust.html" title="Rustc-1.74.1">rustc-1.74.1</a> (see <code class=
+          "filename">rust/README.rst</code> and <code class=
+          "filename">rust/rhg/README.md</code>), <a class="xref" href=
+          "subversion.html" title="Subversion-1.14.2">Subversion-1.14.2</a>
+          (with Python bindings), <a class="ulink" href=
+          "https://launchpad.net/bzr">Bazaar</a>, <a class="ulink" href=
+          "https://www.nongnu.org/cvs/">CVS</a>, <a class="ulink" href=
+          "https://pypi.python.org/pypi/pyflakes">pyflakes</a>, <a class=
+          "ulink" href="https://www.pyopenssl.org/en/stable/">pyOpenSSL</a>,
+          and <a class="ulink" href="https://github.com/google/re2/">re2</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Mercurial のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">Mercurial</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">make build</kbd></pre>
+        <p>
+          ドキュメントをビルドする場合 (<a class="xref" href="python-modules.html#docutils"
+          title="docutils-0.20.1">docutils-0.20.1</a> が必要)、以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class="command">make doc</kbd></pre>
+        <p>
+          If you wish to run the tests, the rust tests must be removed as
+          they are currently broken due to syntax errors. To do this, issue:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i '138,142d' Makefile</kbd></pre>
+        <p>
+          To run the test suite, issue:
+        </p>
+        <pre class="userinput"><kbd class="command">TESTFLAGS="-j<em class=
+        "replaceable"><code>&lt;N&gt;</code></em> --tmpdir tmp" make check</kbd></pre>
+        <p>
+          where <em class="replaceable"><code>&lt;N&gt;</code></em> is an
+          integer between one and the number of ( processor X threads ),
+          inclusive. Several tests fail because some error messages have
+          changed in Python or some deprecation warnings are printed that
+          were not present when the test was designed. In order to
+          investigate any apparently failing tests, you may use the
+          <span class="command"><strong>run-tests.py</strong></span> script.
+          To see the almost forty switches, some of them very useful, issue
+          <span class="command"><strong>tests/run-tests.py
+          --help</strong></span>. Running the following commands, you will
+          execute only the tests that failed before:
+        </p>
+        <pre class="userinput"><kbd class="command">pushd tests  &amp;&amp;
+  rm -rf tmp &amp;&amp;
+  ./run-tests.py --tmpdir tmp test-gpg.t
+popd</kbd></pre>
+        <p>
+          Normally, the previous failures will be reproducible. However, if
+          you add the switch <code class="option">--debug</code> before
+          <code class="option">--tmpdir</code>, and run the tests again, some
+          failures may disappear, which is a problem with the test suite. If
+          this happens, there will be no more of these failures even if you
+          do not pass the --debug switch again.
+        </p>
+        <p>
+          An interesting switch is <code class="option">--time</code>, which
+          will generate a table of all the executed tests and their
+          respective start, end, user, system and real times once the tests
+          are complete. Note that these switches may be used with
+          <span class="command"><strong>make check</strong></span> by
+          including them in the <code class="envar">TESTFLAGS</code>
+          environment variable.
+        </p>
+        <p>
+          Install <span class="application">Mercurial</span> by running the
+          following command (as <code class="systemitem">root</code>):
+        </p>
+        <pre class="root"><kbd class=
+        "command">make PREFIX=/usr install-bin</kbd></pre>
+        <p>
+          ドキュメントをビルドした場合 (<code class="systemitem">root</code> ユーザーになり)
+          以下のコマンドを実行してドキュメントをインストールします。
+        </p>
+        <pre class="root"><kbd class=
+        "command">make PREFIX=/usr install-doc</kbd></pre>
+        <p>
+          After installation, two very quick and simple tests should run
+          correctly. The first one needs some configuration:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt;&gt; ~/.hgrc &lt;&lt; "EOF"
+<code class="literal">[ui]
+username = <em class=
+"replaceable"><code>&lt;user_name&gt; &lt;user@mail&gt;</code></em></code>
+EOF</kbd></pre>
+        <p>
+          where you must replace &lt;user_name&gt; and &lt;your@mail&gt;
+          (mail is optional and can be omitted). With the user identity
+          defined, run <span class="command"><strong>hg
+          debuginstall</strong></span> and several lines will be displayed,
+          the last one reading "no problems detected". Another quick and
+          simple test is just <span class=
+          "command"><strong>hg</strong></span>, which should output basic
+          commands that can be used with <span class=
+          "command"><strong>hg</strong></span>.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Configuring Mercurial
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="mercurial-config" name="mercurial-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="mercurial-config" name="mercurial-config"></a>Config Files
+          </h4>
+          <p>
+            <code class="filename">/etc/mercurial/hgrc</code> and
+            <code class="filename">~/.hgrc</code>
+          </p>
+          <p>
+            The great majority of extensions are disabled by default. Run
+            <span class="command"><strong>hg help extensions</strong></span>
+            if you need to enable any, e.g. when investigating test failures.
+            This will output a list of enabled and disabled extensions, as
+            well as more information such as how to enable or disable
+            extensions using configuration files.
+          </p>
+          <p>
+            If you have installed <a class="xref" href=
+            "../postlfs/make-ca.html" title="make-ca-1.13">make-ca-1.13</a>
+            and want <span class="application">Mercurial</span> to use the
+            certificates, as the <code class="systemitem">root</code> user,
+            issue:
+          </p>
+          <pre class="root"><kbd class=
+          "command">install -v -d -m755 /etc/mercurial &amp;&amp;
+cat &gt; /etc/mercurial/hgrc &lt;&lt; "EOF"
+<code class="literal">[web]
+cacerts = /etc/pki/tls/certs/ca-bundle.crt</code>
+EOF</kbd></pre>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">hg</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">/usr/lib/python3.12/site-packages/mercurial
+              配下にある内部モジュールが数種類。</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/etc/mercurial,
+              /usr/lib/python3.12/site-packages/hgdemandimport,
+              /usr/lib/python3.12/site-packages/hgext,
+              /usr/lib/python3.12/site-packages/hgext3rd,
+              /usr/lib/python3.12/site-packages/mercurial,
+              /usr/lib/python3.12/site-packages/mercurial-6.6.1-py3.12.egg-info</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hg" name="hg"></a><span class="term"><span class=
+                    "command"><strong>hg</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the mercurial version control system
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="lua52.html" title="Lua-5.2.4">戻る</a>
+          <p>
+            Lua-5.2.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="nasm.html" title="NASM-2.16.01">次へ</a>
+          <p>
+            NASM-2.16.01
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="prog.html" title="第13章 プログラミング言語">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      ロケールに関すること
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第2章 重要な情報
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libraries.html" title=
+          "ライブラリはスタティックか共有か">戻る</a>
+          <p>
+            ライブラリはスタティックか共有か
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="beyond.html" title="BLFS のその先">次へ</a>
+          <p>
+            BLFS のその先
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="important.html" title="第2章 重要な情報">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="locale-issues" name="locale-issues"></a>ロケールに関すること
+      </h1>
+      <p>
+        このページではロケールに関する問題や議論について示します。
+        以下の説明を通じて、システムに対しさまざまなロケールを設定する際に発生する問題の概略を説明します。
+        問題が発生する実際のロケールは、たいていは (しかしすべてではないですが) 各節のいずれかに分類されます。
+        その深刻さの度合いは、以下の基準で示します。
+      </p>
+      <div class="itemizedlist">
+        <ul>
+          <li class="listitem">
+            <p>
+              深刻度 致命的: プログラムが主要な機能を実現することができません。
+              修正するのはかなり強引なものとなるため、別の解決方法を探すべきでしょう。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              深刻度 大: プログラム機能の一部が利用できなくなります。
+              その機能を必要とするなら、代わりとなるものを探さなければなりません。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              深刻度 小: プログラムは通常の機能について正常に動作します。
+              しかし一部の機能にて不具合が発生するため、通常は代替となる機能が提供されます。
+            </p>
+          </li>
+        </ul>
+      </div>
+      <p>
+        特定のパッケージに対しての回避策があるとすれば、そのパッケージのホームページなどに示されているはずです。
+        個々のパッケージにおけるロケール問題の最新情報は、BLFS Wiki として示している <a class="ulink" href=
+        "https://wiki.linuxfromscratch.org/blfs/wiki/BlfsNotes">編集ノート</a>
+        を確認してください。
+      </p>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="locale-not-valid-option" name=
+          "locale-not-valid-option"></a>必要なエンコーディングがプログラムでは正常に利用できない
+        </h2>
+        <p>
+          深刻度: 致命的
+        </p>
+        <p>
+          プログラムの中には、データ入出力にあたってキャラクターエンコーディングに特定のものを求めていて、エンコーディングを自由に選択できないものがあります。
+          This is the case for the <code class="option">-X</code> option in
+          <a class="xref" href="../pst/enscript.html" title=
+          "Enscript-1.6.6">Enscript-1.6.6</a>, the <code class=
+          "option">-input-charset</code> option in unpatched <a class="xref"
+          href="../multimedia/cdrtools.html" title=
+          "Cdrtools-3.02a09">Cdrtools-3.02a09</a>, and the character sets
+          offered for display in the menu of <a class="xref" href=
+          "../basicnet/links.html" title="Links-2.29">Links-2.29</a>. If the
+          required encoding is not in the list, the program usually becomes
+          completely unusable. For non-interactive programs, it may be
+          possible to work around this by converting the document to a
+          supported input character set before submitting to the program.
+        </p>
+        <p>
+          A solution to this type of problem is to implement the necessary
+          support for the missing encoding as a patch to the original program
+          or to find a replacement.
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="locale-assumed-encoding" name=
+          "locale-assumed-encoding"></a>The Program Assumes the Locale-Based
+          Encoding of External Documents
+        </h2>
+        <p>
+          Severity: High for non-text documents, low for text documents
+        </p>
+        <p>
+          Some programs, <a class="xref" href="../postlfs/nano.html" title=
+          "Nano-7.2">nano-7.2</a> or <a class="xref" href=
+          "../postlfs/joe.html" title="JOE-4.6">JOE-4.6</a> for example,
+          assume that documents are always in the encoding implied by the
+          current locale. While this assumption may be valid for the
+          user-created documents, it is not safe for external ones. When this
+          assumption fails, non-ASCII characters are displayed incorrectly,
+          and the document may become unreadable.
+        </p>
+        <p>
+          If the external document is entirely text based, it can be
+          converted to the current locale encoding using the <span class=
+          "command"><strong>iconv</strong></span> program.
+        </p>
+        <p>
+          For documents that are not text-based, this is not possible. In
+          fact, the assumption made in the program may be completely invalid
+          for documents where the Microsoft Windows operating system has set
+          de facto standards. An example of this problem is ID3v1 tags in MP3
+          files (see the <a class="ulink" href=
+          "https://wiki.linuxfromscratch.org/blfs/wiki/ID3v1Coding">BLFS Wiki
+          ID3v1Coding page</a> for more details). For these cases, the only
+          solution is to find a replacement program that doesn't have the
+          issue (e.g., one that will allow you to specify the assumed
+          document encoding).
+        </p>
+        <p>
+          Among BLFS packages, this problem applies to <a class="xref" href=
+          "../postlfs/nano.html" title="Nano-7.2">nano-7.2</a>, <a class=
+          "xref" href="../postlfs/joe.html" title="JOE-4.6">JOE-4.6</a>, and
+          all media players except <a class="xref" href=
+          "../multimedia/audacious.html" title=
+          "Audacious-4.3.1">Audacious-4.3.1</a>.
+        </p>
+        <p>
+          Another problem in this category is when someone cannot read the
+          documents you've sent them because their operating system is set up
+          to handle character encodings differently. This can happen often
+          when the other person is using Microsoft Windows, which only
+          provides one character encoding for a given country. For example,
+          this causes problems with UTF-8 encoded TeX documents created in
+          Linux. On Windows, most applications will assume that these
+          documents have been created using the default Windows 8-bit
+          encoding.
+        </p>
+        <p>
+          In extreme cases, Windows encoding compatibility issues may be
+          solved only by running Windows programs under <a class="ulink"
+          href="https://www.winehq.com/">Wine</a>.
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="locale-wrong-filename-encoding" name=
+          "locale-wrong-filename-encoding"></a>The Program Uses or Creates
+          Filenames in the Wrong Encoding
+        </h2>
+        <p>
+          Severity: Critical
+        </p>
+        <p>
+          The POSIX standard mandates that the filename encoding is the
+          encoding implied by the current LC_CTYPE locale category. This
+          information is well-hidden on the page which specifies the behavior
+          of <span class="application">Tar</span> and <span class=
+          "application">Cpio</span> programs. Some programs get it wrong by
+          default (or simply don't have enough information to get it right).
+          The result is that they create filenames which are not subsequently
+          shown correctly by <span class=
+          "command"><strong>ls</strong></span>, or they refuse to accept
+          filenames that <span class="command"><strong>ls</strong></span>
+          shows properly. For the <a class="xref" href=
+          "../general/glib2.html" title="GLib-2.78.3">GLib-2.78.3</a>
+          library, the problem can be corrected by setting the <code class=
+          "envar">G_FILENAME_ENCODING</code> environment variable to the
+          special "@locale" value. <span class="application">Glib2</span>
+          based programs that don't respect that environment variable are
+          buggy.
+        </p>
+        <p>
+          The <a class="xref" href="../general/zip.html" title=
+          "Zip-3.0">Zip-3.0</a> and <a class="xref" href=
+          "../general/unzip.html" title="UnZip-6.0">UnZip-6.0</a> have this
+          problem because they hard-code the expected filename encoding.
+          <span class="application">UnZip</span> contains a hard-coded
+          conversion table between the CP850 (DOS) and ISO-8859-1 (UNIX)
+          encodings and uses this table when extracting archives created
+          under DOS or Microsoft Windows. However, this assumption only works
+          for those in the US and not for anyone using a UTF-8 locale.
+          Non-ASCII characters will be mangled in the extracted filenames.
+        </p>
+        <p>
+          The general rule for avoiding this class of problems is to avoid
+          installing broken programs. If this is impossible, the <a class=
+          "ulink" href="https://j3e.de/linux/convmv/">convmv</a> command-line
+          tool can be used to fix filenames created by these broken programs,
+          or intentionally mangle the existing filenames to meet the broken
+          expectations of such programs.
+        </p>
+        <p>
+          In other cases, a similar problem is caused by importing filenames
+          from a system using a different locale with a tool that is not
+          locale-aware (e.g., <a class="xref" href="../postlfs/openssh.html"
+          title="OpenSSH-9.5p1">OpenSSH-9.5p1</a>). In order to avoid
+          mangling non-ASCII characters when transferring files to a system
+          with a different locale, any of the following methods can be used:
+        </p>
+        <div class="itemizedlist">
+          <ul>
+            <li class="listitem">
+              <p>
+                Transfer anyway, fix the damage with <span class=
+                "command"><strong>convmv</strong></span>.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                On the sending side, create a tar archive with the <em class=
+                "parameter"><code>--format=posix</code></em> switch passed to
+                <span class="command"><strong>tar</strong></span> (this will
+                be the default in a future version of <span class=
+                "command"><strong>tar</strong></span>).
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Mail the files as attachments. Mail clients specify the
+                encoding of attached filenames.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Write the files to a removable disk formatted with a FAT or
+                FAT32 filesystem.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Transfer the files using Samba.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Transfer the files via FTP using RFC2640-aware server (this
+                currently means only wu-ftpd, which has bad security history)
+                and client (e.g., lftp).
+              </p>
+            </li>
+          </ul>
+        </div>
+        <p>
+          The last four methods work because the filenames are automatically
+          converted from the sender's locale to UNICODE and stored or sent in
+          this form. They are then transparently converted from UNICODE to
+          the recipient's locale encoding.
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="locale-wrong-multibyte-characters" name=
+          "locale-wrong-multibyte-characters"></a>The Program Breaks
+          Multibyte Characters or Doesn't Count Character Cells Correctly
+        </h2>
+        <p>
+          Severity: High or critical
+        </p>
+        <p>
+          Many programs were written in an older era where multibyte locales
+          were not common. Such programs assume that C "char" data type,
+          which is one byte, can be used to store single characters. Further,
+          they assume that any sequence of characters is a valid string and
+          that every character occupies a single character cell. Such
+          assumptions completely break in UTF-8 locales. The visible
+          manifestation is that the program truncates strings prematurely
+          (i.e., at 80 bytes instead of 80 characters). Terminal-based
+          programs don't place the cursor correctly on the screen, don't
+          react to the "Backspace" key by erasing one character, and leave
+          junk characters around when updating the screen, usually turning
+          the screen into a complete mess.
+        </p>
+        <p>
+          Fixing this kind of problems is a tedious task from a programmer's
+          point of view, like all other cases of retrofitting new concepts
+          into the old flawed design. In this case, one has to redesign all
+          data structures in order to accommodate to the fact that a complete
+          character may span a variable number of "char"s (or switch to
+          wchar_t and convert as needed). Also, for every call to the
+          "strlen" and similar functions, find out whether a number of bytes,
+          a number of characters, or the width of the string was really
+          meant. Sometimes it is faster to write a program with the same
+          functionality from scratch.
+        </p>
+        <p>
+          Among BLFS packages, this problem applies to <a class="xref" href=
+          "../multimedia/xine-ui.html" title=
+          "xine-ui-0.99.14">xine-ui-0.99.14</a> and all the shells.
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="locale-wrong-manpage-encoding" name=
+          "locale-wrong-manpage-encoding"></a>The Package Installs Manual
+          Pages in Incorrect or Non-Displayable Encoding
+        </h2>
+        <p>
+          Severity: Low
+        </p>
+        <p>
+          LFS expects that manual pages are in the language-specific (usually
+          8-bit) encoding, as specified on the <a class="ulink" href=
+          "../../../../lfs/view/systemd/chapter08/man-db.html">LFS Man DB
+          page</a>. However, some packages install translated manual pages in
+          UTF-8 encoding (e.g., Shadow, already dealt with), or manual pages
+          in languages not in the table. Not all BLFS packages have been
+          audited for conformance with the requirements put in LFS (the large
+          majority have been checked, and fixes placed in the book for
+          packages known to install non-conforming manual pages). If you find
+          a manual page installed by any of BLFS packages that is obviously
+          in the wrong encoding, please remove or convert it as needed, and
+          report this to BLFS team as a bug.
+        </p>
+        <p>
+          You can easily check your system for any non-conforming manual
+          pages by copying the following short shell script to some
+          accessible location,
+        </p>
+        <pre class="screen"><code class="literal">#!/bin/sh
+# Begin checkman.sh
+# Usage: find /usr/share/man -type f | xargs checkman.sh
+for a in "$@"
+do
+    # echo "Checking $a..."
+    # Pure-ASCII manual page (possibly except comments) is OK
+    grep -v '.\\"' "$a" | iconv -f US-ASCII -t US-ASCII &gt;/dev/null 2&gt;&amp;1 \
+        &amp;&amp; continue
+    # Non-UTF-8 manual page is OK
+    iconv -f UTF-8 -t UTF-8 "$a" &gt;/dev/null 2&gt;&amp;1 || continue
+    # Found a UTF-8 manual page, bad.
+    echo "UTF-8 manual page: $a" &gt;&amp;2
+done
+# End checkman.sh
+</code></pre>
+        <p>
+          and then issuing the following command (modify the command below if
+          the <span class="command"><strong>checkman.sh</strong></span>
+          script is not in your <code class="envar">PATH</code> environment
+          variable):
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">find /usr/share/man -type f | xargs checkman.sh</kbd></pre>
+        <p>
+          Note that if you have manual pages installed in any location other
+          than <code class="filename">/usr/share/man</code> (e.g.,
+          <code class="filename">/usr/local/share/man</code>), you must
+          modify the above command to include this additional location.
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libraries.html" title=
+          "ライブラリはスタティックか共有か">戻る</a>
+          <p>
+            ライブラリはスタティックか共有か
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="beyond.html" title="BLFS のその先">次へ</a>
+          <p>
+            BLFS のその先
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="important.html" title="第2章 重要な情報">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

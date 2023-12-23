@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Liba52-0.7.4
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第42章 マルチメディアライブラリとドライバー
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="intel-vaapi-driver.html" title=
+          "intel-vaapi-driver-2.4.1">戻る</a>
+          <p>
+            intel-vaapi-driver-2.4.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libao.html" title="Libao-1.2.0">次へ</a>
+          <p>
+            Libao-1.2.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="libdriv.html" title=
+          "第42章 マルチメディアライブラリとドライバー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="liba52" name="liba52"></a>Liba52-0.7.4
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Liba52 の概要
+        </h2>
+        <p>
+          <span class="application">liba52</span> is a free library for
+          decoding ATSC A/52 (also known as AC-3) streams. The A/52 standard
+          is used in a variety of applications, including digital television
+          and DVD.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://liba52.sourceforge.net/files/a52dec-0.7.4.tar.gz">https://liba52.sourceforge.net/files/a52dec-0.7.4.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: caa9f5bc44232dc8aeea773fea56be80
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 236 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 2.5 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU 以下
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="ulink" href="https://cr.yp.to/djbfft.html">djbfft</a>
+        </p>
+        <p class="usernotes">
+          編集ノート: <a class="ulink" href=
+          "https://wiki.linuxfromscratch.org/blfs/wiki/liba52">https://wiki.linuxfromscratch.org/blfs/wiki/liba52</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Liba52 のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">liba52</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr           \
+            --mandir=/usr/share/man \
+            --enable-shared         \
+            --disable-static        \
+            CFLAGS="${CFLAGS:--g -O3} -fPIC" &amp;&amp;
+make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>make
+          check</strong></span> を実行します。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install &amp;&amp;
+cp liba52/a52_internal.h /usr/include/a52dec &amp;&amp;
+install -v -m644 -D doc/liba52.txt \
+    /usr/share/doc/liba52-0.7.4/liba52.txt</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>CFLAGS="${CFLAGS:--g -O3}
+          -fPIC"</code></em>: This appends <code class="option">-fPIC</code>
+          to <code class="envar">CFLAGS</code> but use <code class=
+          "option">-g -O3</code> (the default of this package) instead of an
+          empty string when <code class="envar">CFLAGS</code> is not set.
+          This is needed to compile <span class="application">liba52</span>
+          without runtime text relocation. Runtime text relocation is
+          prohibited on x86_64 so <code class="option">-fPIC</code> is
+          strictly required. On 32-bit x86 runtime text relocation is allowed
+          but it's insecure and it may waste physical RAM, so <code class=
+          "option">-fPIC</code> is still better.
+        </p>
+        <p>
+          <em class="parameter"><code>--disable-static</code></em>:
+          このスイッチはスタティックライブラリをインストールしないようにします。
+        </p>
+        <p>
+          <span class="command"><strong>cp liba52/a52_internal.h
+          ...</strong></span>: Copying this header file into
+          /usr/include/a52dec allows some other programs (such as
+          <span class="application">xine-lib</span>) to compile and link
+          against a system installed <span class="application">liba52</span>.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">a52dec, extract_a52</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">liba52.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/a52dec,
+              /usr/share/doc/liba52-0.7.4</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="a52dec" name="a52dec"></a><span class=
+                    "term"><span class=
+                    "command"><strong>a52dec</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    plays ATSC A/52 audio streams
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="extract_a52" name="extract_a52"></a><span class=
+                    "term"><span class=
+                    "command"><strong>extract_a52</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    extracts ATSC A/52 audio from an MPEG stream
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="liba52-lib" name="liba52-lib"></a><span class=
+                    "term"><code class="filename">liba52.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides functions for the programs dealing with ATSC
+                    A/52 streams
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="intel-vaapi-driver.html" title=
+          "intel-vaapi-driver-2.4.1">戻る</a>
+          <p>
+            intel-vaapi-driver-2.4.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libao.html" title="Libao-1.2.0">次へ</a>
+          <p>
+            Libao-1.2.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="libdriv.html" title=
+          "第42章 マルチメディアライブラリとドライバー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

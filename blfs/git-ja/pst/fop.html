@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      fop-2.9
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第50章 PostScript
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="epdfview.html" title=
+          "ePDFView-gtk3-20200814">戻る</a>
+          <p>
+            ePDFView-gtk3-20200814
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="mupdf.html" title="MuPDF-1.23.7">次へ</a>
+          <p>
+            MuPDF-1.23.7
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="ps.html" title="第50章 PostScript">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="fop" name="fop"></a>fop-2.9
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          fop の概要
+        </h2>
+        <p>
+          <span class="application">FOP</span> (Formatting Objects Processor)
+          は XSL フォーマットオブジェクト (XSL formatting objects; XSL-FO)
+          に基づいた、印刷フォーマッターを提供します。 a formatting object tree and renders the
+          resulting pages to a specified output. Output formats currently
+          supported include PDF, PCL, PostScript, SVG, XML (area tree
+          representation), print, AWT, MIF and ASCII text. The primary output
+          target is PDF.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://archive.apache.org/dist/xmlgraphics/fop/source/fop-2.9-src.tar.gz">
+                https://archive.apache.org/dist/xmlgraphics/fop/source/fop-2.9-src.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: f7537ca7f2e16971fa99c8bb0dad62c7
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 20 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 333 MB (including files downloaded to the user
+                directory)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.9 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          追加のダウンロード
+        </h3>
+        <div class="itemizedlist">
+          <p class="title">
+            <strong>Required Additional Downloads:</strong>
+          </p>
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Maven build system:<br />
+                <a class="ulink" href=
+                "https://archive.apache.org/dist/maven/maven-3/3.9.4/binaries/apache-maven-3.9.4-bin.tar.gz">
+                https://archive.apache.org/dist/maven/maven-3/3.9.4/binaries/apache-maven-3.9.4-bin.tar.gz</a><br />
+
+                0698a533397eda60cbebcc0fb68ae842<br />
+                9.0 MB (additionally, about 90 MB are downloaded to the
+                building user's directory)<br />
+              </p>
+            </li>
+          </ul>
+        </div>
+        <div class="itemizedlist">
+          <p class="title">
+            <strong>推奨</strong>
+          </p>
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                OFFO (Objects for Formatting Objects) ハイフネーションパターン:<br />
+                <a class="ulink" href=
+                "https://downloads.sourceforge.net/offo/2.2/offo-hyphenation.zip">
+                https://downloads.sourceforge.net/offo/2.2/offo-hyphenation.zip</a><br />
+
+                bf9c09bf05108ef9661b8f08d91c2336<br />
+                862 KB<br />
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          fop の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/apache-ant.html" title=
+          "apache-ant-1.10.14">apache-ant-1.10.14</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../x/installing.html" title=
+          "第24章 グラフィック環境">グラフィック環境</a> (to run tests), <a class="ulink" href=
+          "https://jai-tools.blogspot.com/">JAI Image I/O Tools</a>, and
+          <a class="ulink" href=
+          "https://jeuclid.sourceforge.net/">JEuclid</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          fop のインストール
+        </h2>
+        <p>
+          ビルド前には環境変数 <code class="envar">$JAVA_HOME</code>
+          が適切に設定されていることを確認してください。 また <span class="application">JIMI
+          SDK</span> や <span class="application">XMLUnit</span>
+          といった拡張クラスをビルドする場合は、環境変数 <code class="envar">CLASSPATH</code> にて対応する
+          <code class="filename">.jar</code> が設定されていることを確認してください。
+        </p>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id102224" name="id102224"></a>OFFO ハイフネーションパターンのインストール
+          </h4>
+          <p>
+            Copy the XML hyphenation patterns into the fop source tree by
+            running the following commands:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">unzip ../offo-hyphenation.zip &amp;&amp;
+cp offo-hyphenation/hyph/* fop/hyph &amp;&amp;
+rm -rf offo-hyphenation</kbd></pre>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id102229" name="id102229"></a>Installing a temporary Maven
+            binary
+          </h4>
+          <p>
+            Starting with fop-2.5, the Maven build system is required. We use
+            the binary provided by apache, that we install in a temporary
+            location:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">tar -xf ../apache-maven-3.9.4-bin.tar.gz -C /tmp</kbd></pre>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id102234" name="id102234"></a>fop コンポーネントのインストール
+          </h4>
+          <p>
+            The <span class="command"><strong>javadoc</strong></span> command
+            that ships with OpenJDK 10 and later has become much stricter
+            than previous versions regarding conformance of the Javadoc
+            comments in source code to HTML. The FOP documentation does not
+            meet those standards, so the conformance checks have to be
+            disabled. This can be done with the following command:
+          </p>
+          <pre class="userinput"><kbd class="command">sed -i '\@&lt;/javad@i\
+&lt;arg value="-Xdoclint:none"/&gt;\
+&lt;arg value="--allow-script-in-comments"/&gt;\
+&lt;arg value="--ignore-source-errors"/&gt;' \
+    fop/build.xml</kbd></pre>
+          <p>
+            以下のコマンドを実行して <span class="application">fop</span> をビルドします。
+          </p>
+          <pre class="userinput"><kbd class="command">cd fop &amp;&amp;
+
+LC_ALL=en_US.UTF-8                     \
+PATH=$PATH:/tmp/apache-maven-3.9.4/bin \
+ant all javadocs &amp;&amp;
+
+mv build/javadocs .</kbd></pre>
+          <p>
+            This package comes with a test suite, but the java infrastructure
+            installed in this book does not allow running it.
+          </p>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって <span class=
+            "application">Fop</span> をインストールします。
+          </p>
+          <pre class="root"><kbd class=
+          "command">install -v -d -m755 -o root -g root          /opt/fop-2.9 &amp;&amp;
+cp -vR build conf examples fop* javadocs lib /opt/fop-2.9 &amp;&amp;
+chmod a+x /opt/fop-2.9/fop                                &amp;&amp;
+ln -v -sfn fop-2.9 /opt/fop</kbd></pre>
+          <p>
+            The last thing to do is to clean what we have done:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">rm -rf /tmp/apache-maven-3.9.4</kbd></pre>
+        </div>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <span class="command"><strong>sed -i ... build.xml</strong></span>:
+          This adds three switches to the <span class=
+          "command"><strong>javadoc</strong></span> command, preventing some
+          errors from occurring when building the documentation.
+        </p>
+        <p>
+          <span class="command"><strong>export
+          LC_ALL=en_US.UTF-8</strong></span>: the compiler fails if using an
+          ASCII locale.
+        </p>
+        <p>
+          <span class="command"><strong>ant <code class=
+          "option">target</code></strong></span>: This reads the file
+          <code class="filename">build.xml</code> and builds the target:
+          <code class="option">compile</code> compiles the java sources,
+          <code class="option">jar-main</code> generates jar archives,
+          <code class="option">jar-hyphenation</code> generates the
+          hyphenation patterns for FOP, <code class="option">junit</code>
+          runs the <span class="application">junit</span> tests, and
+          <code class="option">javadocs</code> builds the documentation. The
+          <code class="option">all</code> target runs all of the above.
+        </p>
+        <p>
+          <span class="command"><strong>ln -v -sf fop-2.9
+          /opt/fop</strong></span>: This is optional and creates a
+          convenience symlink so that <code class="envar">$FOP_HOME</code>
+          doesn't have to be changed each time there's a package version
+          change.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          fop の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="fop-config" name="fop-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="fop-config" name="fop-config"></a>設定ファイル
+          </h4>
+          <p>
+            <code class="filename">~/.foprc</code>
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id102282" name="id102282"></a>設定情報
+          </h4>
+          <p>
+            Using <span class="application">fop</span> to process some large
+            FO's (including the FO derived from the BLFS XML sources), can
+            lead to memory errors. Unless you add a parameter to the
+            <span class="command"><strong>java</strong></span> command used
+            in the <span class="command"><strong>fop</strong></span> script
+            you may receive messages similar to the one shown below:
+          </p>
+          <p>
+            <code class="computeroutput">Exception in thread "main"
+            java.lang.OutOfMemoryError: Java heap space</code>
+          </p>
+          <p>
+            To avoid errors like this, you need to pass an extra parameter to
+            the <span class="command"><strong>java</strong></span> command
+            used in the <span class="command"><strong>fop</strong></span>
+            script. This can be accomplished by creating a <code class=
+            "filename">~/.foprc</code> (which is sourced by the <span class=
+            "command"><strong>fop</strong></span> script) and adding the
+            parameter to the <code class="envar">FOP_OPTS</code> environment
+            variable.
+          </p>
+          <p>
+            The <span class="command"><strong>fop</strong></span> script
+            looks for a <code class="envar">FOP_HOME</code> environment
+            variable to locate the <span class="application">fop</span> class
+            libraries. You can create this variable using the <code class=
+            "filename">~/.foprc</code> file as well. Create a <code class=
+            "filename">~/.foprc</code> file using the following commands:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">cat &gt; ~/.foprc &lt;&lt; "EOF"
+<code class="literal">FOP_OPTS="-Xmx<em class=
+"replaceable"><code>&lt;RAM_Installed&gt;</code></em>m"
+FOP_HOME="/opt/fop"</code>
+EOF</kbd></pre>
+          <p>
+            Replace <em class=
+            "replaceable"><code>&lt;RAM_Installed&gt;</code></em> with a
+            number representing the amount of RAM installed in your computer
+            (in megabytes). An example would be <strong class=
+            "userinput"><code>FOP_OPTS="-Xmx768m"</code></strong>.
+          </p>
+          <p>
+            To include the <span class="command"><strong>fop</strong></span>
+            script in your path, update the system-wide profile with the
+            following command as the <code class="systemitem">root</code>
+            user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt; /etc/profile.d/fop.sh &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/profile.d/fop.sh
+
+pathappend /opt/fop
+
+# End /etc/profile.d/fop.sh</code>
+EOF</kbd></pre>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              Running <span class="command"><strong>fop</strong></span> can
+              be somewhat verbose. The default logging level can be changed
+              from INFO to any of FINEST, FINER, FINE, CONFIG, INFO, WARNING,
+              SEVERE, ALL, or OFF. To do this, edit <code class=
+              "filename">$JAVA_HOME/jre/lib/logging.properties</code> and
+              change the entries for <code class="option">.level</code> and
+              <code class=
+              "option">java.util.logging.ConsoleHandler.level</code> to the
+              desired value.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">fop</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">fop.jar and numerous support library classes located
+              in <code class="filename">/opt/fop/{build,lib}</code>; JAI
+              components include libmlib_jai.so, jai_codec.jar, jai_core.jar,
+              mlibwrapper_jai.jar</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/opt/fop-2.9</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fop-prog" name="fop-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fop</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a wrapper script to the <span class=
+                    "command"><strong>java</strong></span> command which sets
+                    up the <span class="application">fop</span> environment
+                    and passes the required parameters
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fop.jar" name="fop.jar"></a><span class=
+                    "term"><code class="filename">fop.jar</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">fop</span> のすべての <span class=
+                    "application">Java</span> クラスを提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="epdfview.html" title=
+          "ePDFView-gtk3-20200814">戻る</a>
+          <p>
+            ePDFView-gtk3-20200814
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="mupdf.html" title="MuPDF-1.23.7">次へ</a>
+          <p>
+            MuPDF-1.23.7
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="ps.html" title="第50章 PostScript">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

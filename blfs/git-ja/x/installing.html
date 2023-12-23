@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      第24章 グラフィック環境
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        パート&nbsp;VI.&nbsp;グラフィックコンポーネント
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="x.html" title="グラフィックコンポーネント">戻る</a>
+          <p>
+            グラフィックコンポーネント
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="xorg7.html" title="Xorg-7 の概要">次へ</a>
+          <p>
+            Xorg-7 の概要
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="x.html" title=
+          "パート&nbsp;VI.&nbsp;グラフィックコンポーネント">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="chapter" lang="ja" xml:lang="ja">
+      <h1 class="chapter">
+        <a id="x-window-system" name="x-window-system"></a>グラフィック環境
+      </h1>
+      <p>
+        本章ではグラフィカルなユーザー環境の構築と設定について説明します。
+      </p>
+      <p>
+        For a long time the only graphical environment usable with GNU/Linux
+        has been the <span class="emphasis"><em>X Window System</em></span>.
+        It uses a client/server model which allows writing applications
+        completely independent of the graphical hardware. This has the
+        drawback that accessing modern hardware acceleration is difficult, so
+        another approach named <span class="emphasis"><em>Wayland</em></span>
+        is developed. It is a simpler replacement for X, easier to develop
+        and maintain, using the OpenGL framework. The main desktop
+        environments GNOME and KDE have been ported to it.
+      </p>
+      <p>
+        This chapter provides the basic components of the X Window System and
+        Wayland. For X, the chosen implementation is Xorg, which is a modular
+        implementation and requires more than 100 packages to be installed.
+        The distribution of Xorg is given a release number by the developers,
+        in this case Xorg-7. Individual packages are updated as needed
+        without changing this number.
+      </p>
+      <div class="toc">
+        <h3>
+          目次
+        </h3>
+        <ul>
+          <li class="sect1">
+            <a href="xorg7.html">Xorg-7 の概要</a>
+          </li>
+          <li class="sect1">
+            <a href="util-macros.html">util-macros-1.20.0</a>
+          </li>
+          <li class="sect1">
+            <a href="xorgproto.html">xorgproto-2023.2</a>
+          </li>
+          <li class="sect1">
+            <a href="libXau.html">libXau-1.0.11</a>
+          </li>
+          <li class="sect1">
+            <a href="libXdmcp.html">libXdmcp-1.1.4</a>
+          </li>
+          <li class="sect1">
+            <a href="xcb-proto.html">xcb-proto-1.16.0</a>
+          </li>
+          <li class="sect1">
+            <a href="libxcb.html">libxcb-1.16</a>
+          </li>
+          <li class="sect1">
+            <a href="x7lib.html">Xorg ライブラリ</a>
+          </li>
+          <li class="sect1">
+            <a href="libxcvt.html">libxcvt-0.1.2</a>
+          </li>
+          <li class="sect1">
+            <a href="xcb-util.html">xcb-util-0.4.1</a>
+          </li>
+          <li class="sect1">
+            <a href="xcb-util-image.html">xcb-util-image-0.4.1</a>
+          </li>
+          <li class="sect1">
+            <a href="xcb-util-keysyms.html">xcb-util-keysyms-0.4.1</a>
+          </li>
+          <li class="sect1">
+            <a href="xcb-util-renderutil.html">xcb-util-renderutil-0.3.10</a>
+          </li>
+          <li class="sect1">
+            <a href="xcb-util-wm.html">xcb-util-wm-0.4.2</a>
+          </li>
+          <li class="sect1">
+            <a href="xcb-util-cursor.html">xcb-util-cursor-0.1.4</a>
+          </li>
+          <li class="sect1">
+            <a href="mesa.html">Mesa-23.3.1</a>
+          </li>
+          <li class="sect1">
+            <a href="xbitmaps.html">xbitmaps-1.1.3</a>
+          </li>
+          <li class="sect1">
+            <a href="x7app.html">Xorg アプリケーション</a>
+          </li>
+          <li class="sect1">
+            <a href="xcursor-themes.html">xcursor-themes-1.0.7</a>
+          </li>
+          <li class="sect1">
+            <a href="x7font.html">Xorg フォント</a>
+          </li>
+          <li class="sect1">
+            <a href="xkeyboard-config.html">XKeyboardConfig-2.40</a>
+          </li>
+          <li class="sect1">
+            <a href="xwayland.html">Xwayland-23.2.3</a>
+          </li>
+          <li class="sect1">
+            <a href="xorg-server.html">Xorg-Server-21.1.10</a>
+          </li>
+          <li class="sect1">
+            <a href="x7driver.html">Xorg Input ドライバー</a>
+          </li>
+          <li class="sect1">
+            <a href="twm.html">twm-1.0.12</a>
+          </li>
+          <li class="sect1">
+            <a href="xterm.html">xterm-388</a>
+          </li>
+          <li class="sect1">
+            <a href="xclock.html">xclock-1.1.1</a>
+          </li>
+          <li class="sect1">
+            <a href="xinit.html">xinit-1.4.2</a>
+          </li>
+          <li class="sect1">
+            <a href="xorg-config.html">Xorg-7 のテストと設定</a>
+          </li>
+          <li class="sect1">
+            <a href="tuning-fontconfig.html">Tuning Fontconfig</a>
+          </li>
+          <li class="sect1">
+            <a href="TTF-and-OTF-fonts.html">TTF and OTF fonts</a>
+          </li>
+          <li class="sect1">
+            <a href="x7legacy.html">Xorg Legacy</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="x.html" title="グラフィックコンポーネント">戻る</a>
+          <p>
+            グラフィックコンポーネント
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="xorg7.html" title="Xorg-7 の概要">次へ</a>
+          <p>
+            Xorg-7 の概要
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="x.html" title=
+          "パート&nbsp;VI.&nbsp;グラフィックコンポーネント">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

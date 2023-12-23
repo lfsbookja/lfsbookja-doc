@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      ghostscript-10.02.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第46章 印刷
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="cups-filters.html" title=
+          "cups-filters-2.0.0">戻る</a>
+          <p>
+            cups-filters-2.0.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gutenprint.html" title=
+          "Gutenprint-5.3.4">次へ</a>
+          <p>
+            Gutenprint-5.3.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="printing.html" title="第46章 印刷">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="gs" name="gs"></a>ghostscript-10.02.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Ghostscript の概要
+        </h2>
+        <p>
+          <span class="application">Ghostscript</span> は、PostScrit
+          データに対する万能なプロセッサーであり、PostScript をさまざまに異なる書式に変換する機能を提供します。 これは cups
+          の印刷機能の一部として必須のものです。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs10021/ghostscript-10.02.1.tar.xz">
+                https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs10021/ghostscript-10.02.1.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 26c0cbfa2e09da97f1fc78728048ada8
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 65 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 391 MB（フォントと libgs.so）
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 1.9 SBU（parallelism=4 指定時、libgs.so 込み）
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          追加のダウンロード
+        </h3>
+        <p>
+          If you wish, you can download additional fonts.
+        </p>
+        <div class="itemizedlist">
+          <p class="title">
+            <strong>共有フォント</strong>
+          </p>
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://downloads.sourceforge.net/gs-fonts/ghostscript-fonts-std-8.11.tar.gz">
+                https://downloads.sourceforge.net/gs-fonts/ghostscript-fonts-std-8.11.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 6865682b095f8c4500c54b285ff05ef6
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 3.7 MB
+              </p>
+            </li>
+          </ul>
+        </div>
+        <div class="itemizedlist">
+          <p class="title">
+            <strong>その他のフォント</strong>
+          </p>
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://downloads.sourceforge.net/gs-fonts/gnu-gs-fonts-other-6.0.tar.gz">
+                https://downloads.sourceforge.net/gs-fonts/gnu-gs-fonts-other-6.0.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 33457d3f37de7ef03d2eea05a9e6aa4f
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 796 KB
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Ghostscript の依存パッケージ
+        </h3>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="cups.html" title="Cups-2.4.7">Cups-2.4.7</a>
+          (required for building the <span class="quote">「<span class=
+          "quote">cups</span>」</span> device backend, which is needed by
+          <span class="application">cups-filters</span>), <a class="xref"
+          href="../general/fontconfig.html" title=
+          "Fontconfig-2.14.2">Fontconfig-2.14.2</a> (required, if you are
+          installing any suggested font), <a class="xref" href=
+          "../general/freetype2.html" title=
+          "FreeType-2.13.2">FreeType-2.13.2</a>, <a class="xref" href=
+          "../general/lcms2.html" title="Little CMS-2.14">Little
+          CMS-2.14</a>, <a class="xref" href="../general/libjpeg.html" title=
+          "libjpeg-turbo-3.0.1">libjpeg-turbo-3.0.1</a>, <a class="xref"
+          href="../general/libpng.html" title=
+          "libpng-1.6.40">libpng-1.6.40</a>, <a class="xref" href=
+          "../general/libtiff.html" title="libtiff-4.6.0">libtiff-4.6.0</a>,
+          <a class="xref" href="../general/openjpeg2.html" title=
+          "OpenJPEG-2.5.0">OpenJPEG-2.5.0</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../x/cairo.html" title=
+          "Cairo-1.18.0">Cairo-1.18.0</a>, <a class="xref" href=
+          "../x/gtk3.html" title="GTK+-3.24.38">GTK+-3.24.38</a>, <a class=
+          "xref" href="../general/libidn.html" title=
+          "libidn-1.41">libidn-1.41</a>, <a class="xref" href=
+          "../general/libpaper.html" title=
+          "libpaper-2.1.2">libpaper-2.1.2</a>, <a class="xref" href=
+          "../general/libwebp.html" title="libwebp-1.3.2">libwebp-1.3.2</a>,
+          <a class="xref" href="../x/installing.html" title=
+          "第24章 グラフィック環境">グラフィック環境</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Ghostscript のインストール
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            The <span class="application">Ghostscript</span> build system is
+            not user-friendly. In order to use system copies of various
+            graphics libraries, you must do it using unconventional methods.
+          </p>
+        </div>
+        <p>
+          <span class="application">Ghostscript</span> includes (old) copies
+          of several libraries. Some of these seem to have been patched to
+          fix known vulnerabilities, but others of these copies are less-well
+          maintained. To ensure that any future fixes are applied throughout
+          the whole system, it is recommended that you first install the
+          released versions of these libraries and then configure
+          <span class="application">Ghostscript</span> to link to them.
+        </p>
+        <p>
+          If you have installed the recommended dependencies on your system,
+          remove the copies of <span class="application">freetype</span>,
+          <span class="application">lcms2</span>, <span class=
+          "application">libjpeg</span>, <span class=
+          "application">libpng</span>, and <span class=
+          "application">openjpeg</span>:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">rm -rf freetype lcms2mt jpeg libpng openjpeg</kbd></pre>
+        <p>
+          Compile <span class="application">Ghostscript</span>:
+        </p>
+        <pre class="userinput"><kbd class="command">rm -rf zlib &amp;&amp;
+
+./configure --prefix=/usr           \
+            --disable-compile-inits \
+            --with-system-libtiff   &amp;&amp;
+make</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            The shared library depends on <a class="xref" href=
+            "../x/gtk3.html" title="GTK+-3.24.38">GTK+-3.24.38</a>. It is
+            only used by external programs like <a class="xref" href=
+            "asymptote.html" title="asymptote-2.86">asymptote-2.86</a>,
+            <a class="xref" href="dvisvgm.html" title=
+            "dvisvgm-3.1.2">dvisvgm-3.1.2</a>, and <a class="xref" href=
+            "../general/imagemagick.html" title=
+            "ImageMagick-7.1.1-15">ImageMagick-7.1.1-15</a>.
+          </p>
+        </div>
+        <p>
+          To compile the shared library <code class=
+          "filename">libgs.so</code>, run the following additional command as
+          an unprivileged user:
+        </p>
+        <pre class="userinput"><kbd class="command">make so</kbd></pre>
+        <p>
+          This package does not come with a test suite. A set of example
+          files may be used for testing, but it is only possible after
+          installation of the package.
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+        <p>
+          If you want the shared library too:
+        </p>
+        <pre class="root"><kbd class="command">make soinstall &amp;&amp;
+install -v -m644 base/*.h /usr/include/ghostscript &amp;&amp;
+ln -sfvn ghostscript /usr/include/ps</kbd></pre>
+        <p>
+          Now make the documentation accessible from a standard place:
+        </p>
+        <pre class="root"><kbd class=
+        "command">mv -v /usr/share/doc/ghostscript/10.02.1 /usr/share/doc/ghostscript-10.02.1  &amp;&amp;
+rm -rfv /usr/share/doc/ghostscript &amp;&amp;
+cp -r examples/ /usr/share/ghostscript/10.02.1/</kbd></pre>
+        <p>
+          If you have downloaded the fonts, unpack them to <code class=
+          "filename">/usr/share/ghostscript</code> and ensure the ownership
+          of the files are <code class="systemitem">root</code>: <code class=
+          "systemitem">root</code>.
+        </p>
+        <pre class="root"><kbd class=
+        "command">tar -xvf ../ghostscript-fonts-std-8.11.tar.gz -C /usr/share/ghostscript --no-same-owner &amp;&amp;
+tar -xvf ../gnu-gs-fonts-other-6.0.tar.gz     -C /usr/share/ghostscript --no-same-owner &amp;&amp;
+fc-cache -v /usr/share/ghostscript/fonts/</kbd></pre>
+        <p>
+          You can now test the rendering of various postscript and pdf files
+          from the <code class=
+          "filename">/usr/share/ghostscript/10.02.1/examples</code> . To do
+          this, run the following command (in a X Windows display):
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">gs -q -dBATCH /usr/share/ghostscript/10.02.1/examples/tiger.eps</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <span class="command"><strong>rm -rf zlib</strong></span> :
+          <span class="application">zlib</span> was installed as part of LFS.
+        </p>
+        <p>
+          <em class="parameter"><code>--disable-compile-inits</code></em>:
+          This option makes <span class="command"><strong>gs</strong></span>
+          and <code class="filename">libgs.so</code> slightly smaller.
+        </p>
+        <p>
+          <em class="parameter"><code>--with-system-libtiff</code></em>:
+          Remove this option if you've not installed <a class="xref" href=
+          "../general/libtiff.html" title="libtiff-4.6.0">libtiff-4.6.0</a>.
+        </p>
+        <p>
+          <span class="command"><strong>install -v -m644
+          base/*.h...</strong></span> : Some packages (<span class=
+          "application">ImageMagick</span> is one) need the <span class=
+          "application">Ghostscript</span> interface headers in place to link
+          to the shared library. These commands install the headers.
+        </p>
+        <p>
+          <span class="command"><strong>ln -sfvn ghostscript
+          /usr/include/ps</strong></span>: Some packages expect to find the
+          interface headers in an alternate location.
+        </p>
+        <p>
+          <span class="command"><strong>mv -v
+          /usr/share/doc/ghostscript/10.02.1
+          /usr/share/doc/ghostscript-10.02.1</strong></span>: This moves the
+          documentation where it is expected to be found.
+        </p>
+        <p>
+          <code class="option">--disable-cups</code>: this option will save a
+          tiny amount of space by not linking <span class=
+          "command"><strong>gs</strong></span> and <code class=
+          "filename">libgs.so</code> to the <a class="xref" href="cups.html"
+          title="Cups-2.4.7">Cups-2.4.7</a> libraries if you have installed
+          those.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">dvipdf, eps2eps, gs, gsbj, gsc (from soinstall),
+              gsdj, gsdj500, gslj, gslp, gsnd, gsx (from soinstall),
+              lprsetup.sh, pdf2dsc, pdf2ps, pf2afm, pfbtopfa, pphs, printafm,
+              ps2ascii, ps2epsi, ps2pdf, ps2pdf12, ps2pdf13, ps2pdf14,
+              ps2pdfwr, ps2ps, ps2ps2, unix-lpr.sh</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libgs.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/ghostscript, /usr/share/ghostscript,
+              /usr/share/doc/ghostscript-10.02.1</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gplgs-prog" name="gplgs-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is an interpreter for Adobe Systems' PostScript(tm) and
+                    Portable Document Format (PDF)
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libgs.so" name="libgs.so"></a><span class=
+                    "term"><code class="filename">libgs.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides <span class="application">Ghostscript</span>
+                    functionality to other programs, such as <span class=
+                    "application">GSView</span>, <span class=
+                    "application">ImageMagick</span>, and <span class=
+                    "application">libspectre</span>
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          <span class="application">Ghostscript</span> provides many
+          different scripts used to convert PostScript, PDF, and other
+          formats. Please refer to the HTML documentation or the man pages
+          for information about the capabilities provided.
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="cups-filters.html" title=
+          "cups-filters-2.0.0">戻る</a>
+          <p>
+            cups-filters-2.0.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gutenprint.html" title=
+          "Gutenprint-5.3.4">次へ</a>
+          <p>
+            Gutenprint-5.3.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="printing.html" title="第46章 印刷">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Tripwire-2.4.3.7
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第4章 セキュリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="sudo.html" title="Sudo-1.9.15p4">戻る</a>
+          <p>
+            Sudo-1.9.15p4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="filesystems.html" title=
+          "ファイルシステムとディスク管理">次へ</a>
+          <p>
+            ファイルシステムとディスク管理
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="security.html" title="第4章 セキュリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="tripwire" name="tripwire"></a>Tripwire-2.4.3.7
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Tripwire の概要
+        </h2>
+        <p>
+          <span class="application">Tripwire</span>
+          パッケージは、利用システム上でのファイルの整合性チェックを行うプログラムを提供します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/Tripwire/tripwire-open-source/releases/download/2.4.3.7/tripwire-open-source-2.4.3.7.tar.gz">
+                https://github.com/Tripwire/tripwire-open-source/releases/download/2.4.3.7/tripwire-open-source-2.4.3.7.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: a5cf1bc2f235f5d8ca458f00548db6ee
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 980 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 29 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 1.6 SBU (scripting install)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Tripwire の依存パッケージ
+        </h3>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          An <a class="xref" href="../server/mail.html" title=
+          "第21章 メールサーバーソフトウェア">MTA</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Tripwire のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">Tripwire</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -e '/^CLOBBER/s/false/true/'         \
+    -e 's|TWDB="${prefix}|TWDB="/var|'   \
+    -e '/TWMAN/ s|${prefix}|/usr/share|' \
+    -e '/TWDOCS/s|${prefix}/doc/tripwire|/usr/share/doc/tripwire-2.4.3.7|' \
+    -i installer/install.cfg                               &amp;&amp;
+
+find . -name Makefile.am | xargs                           \
+    sed -i 's/^[[:alpha:]_]*_HEADERS.*=/noinst_HEADERS =/' &amp;&amp;
+
+sed '/dist/d' -i man/man?/Makefile.am                      &amp;&amp;
+autoreconf -fi                                             &amp;&amp;
+
+./configure --prefix=/usr --sysconfdir=/etc/tripwire       &amp;&amp;
+make CPPFLAGS=-std=c++11</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            デフォルトの設定はローカルな MTA 用となっています。 MTA
+            をインストールしていない場合で、これをインストールするつもりがないなら、<code class=
+            "filename">install/install.cfg</code> を修正して SMTP
+            サーバーを利用するように変更することが必要です。 これを行っておかないとインストールが失敗します。
+          </p>
+        </div>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install &amp;&amp;
+cp -v policy/*.txt /usr/share/doc/tripwire-2.4.3.7</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            During <span class="command"><strong>make
+            install</strong></span>, several questions are asked, including
+            passwords. If you want to make a script, you have to apply a
+            <span class="application">sed</span> before running <span class=
+            "command"><strong>make install</strong></span>:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">sed -i -e 's@installer/install.sh@&amp; -n -s <em class=
+          "replaceable"><code>&lt;site-password&gt;</code></em> -l <em class=
+          "replaceable"><code>&lt;local-password&gt;</code></em>@' Makefile</kbd></pre>
+          <p>
+            Of course, you should do this with dummy passwords and change
+            them later.
+          </p>
+          <p>
+            Another issue when scripting is that the installer exits when the
+            standard input is not a terminal. You may disable this behavior
+            with the following sed:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">sed '/-t 0/,+3d' -i installer/install.sh</kbd></pre>
+        </div>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <span class="command"><strong>sed ...
+          installer/install.cfg</strong></span>: This command tells the
+          package to install the program database and reports in <code class=
+          "filename">/var/lib/tripwire</code> and sets the proper location
+          for man pages and documentation.
+        </p>
+        <p>
+          <span class="command"><strong>find ...</strong></span>,
+          <span class="command"><strong>sed ...</strong></span>, and
+          <span class="command"><strong>autoreconf -fi</strong></span>: The
+          build system is unusable as is, and has to be modified for the
+          build to succeed.
+        </p>
+        <p>
+          <em class="parameter"><code>CPPFLAGS=-std=c++11</code></em>:
+          Setting the C++ preprocessor flags to version 11 is necessary to
+          prevent a conflict with the default version which is c++17 in
+          recent version of gcc.
+        </p>
+        <p>
+          <span class="command"><strong>make install</strong></span>:
+          このコマンドを実行すると、実行バイナリ類のインストールとともに、セキュリティ鍵 (security keys) の生成も行います。
+          サイト鍵 (site key) とローカル鍵 (local key) の２つです。 これらは <code class=
+          "filename">/etc/tripwire/</code> ディレクトリに保存されます。
+        </p>
+        <p>
+          <span class="command"><strong>cp -v policy/*.txt
+          /usr/doc/tripwire-2.4.3.7</strong></span>: このコマンドは <span class=
+          "application">tripwire</span> のサンプルポリシーファイルやドキュメントをインストールします。
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Tripwire の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="tripwire-config" name="tripwire-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="tripwire-config" name="tripwire-config"></a>設定ファイル
+          </h4>
+          <p>
+            <code class="filename">/etc/tripwire/*</code>
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id10365" name="id10365"></a>設定情報
+          </h4>
+          <p>
+            <span class="application">Tripwire</span> にはポリシーファイル (policy
+            file) があり、これを使ってどのファイルの整合性チェックを行うかを決定します。 デフォルトのポリシーファイル
+            (<code class="filename">/etc/tripwire/twpol.txt</code>)
+            は、インストール時にデフォルトで生成されますが、利用システムに応じて適切に書き換える必要があります。
+          </p>
+          <p>
+            ポリシーファイルは、個々のディストリビューションやインストール状況に応じて設定する必要があります。 <code class=
+            "filename">/usr/sharedoc/tripwire/</code> にはポリシーファイルの例がいくつかあります。
+          </p>
+          <p>
+            If desired, copy the policy file you'd like to try into
+            <code class="filename">/etc/tripwire/</code> instead of using the
+            default policy file, <code class="filename">twpol.txt</code>. It
+            is, however, recommended that you edit your policy file. Get
+            ideas from the examples above and read <code class=
+            "filename">/usr/share/doc/tripwire/policyguide.txt</code> for
+            additional information. <code class="filename">twpol.txt</code>
+            is a good policy file for learning about <span class=
+            "application">Tripwire</span> as it will note any changes to the
+            file system and can even be used as an annoying way of keeping
+            track of changes for uninstallation of software.
+          </p>
+          <p>
+            After your policy file has been edited to your satisfaction you
+            may begin the configuration steps (perform as the <code class=
+            "systemitem">root</code>) user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">twadmin --create-polfile --site-keyfile /etc/tripwire/site.key \
+    /etc/tripwire/twpol.txt &amp;&amp;
+tripwire --init</kbd></pre>
+          <p>
+            Depending on your system and the contents of the policy file, the
+            initialization phase above can take a relatively long time.
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id10383" name="id10383"></a>利用情報
+          </h4>
+          <p>
+            <span class="application">Tripwire</span> will identify file
+            changes in the critical system files specified in the policy
+            file. Using <span class="application">Tripwire</span> while
+            making frequent changes to these directories will flag all these
+            changes. It is most useful after a system has reached a
+            configuration that the user considers stable.
+          </p>
+          <p>
+            To use <span class="application">Tripwire</span> after creating a
+            policy file to run a report, use the following command:
+          </p>
+          <pre class="root"><kbd class=
+          "command">tripwire --check &gt; /etc/tripwire/report.txt</kbd></pre>
+          <p>
+            View the output to check the integrity of your files. An
+            automatic integrity report can be produced by using a cron
+            facility to schedule the runs.
+          </p>
+          <p>
+            Reports are stored in binary and, if desired, encrypted. View
+            reports, as the <code class="systemitem">root</code> user, with:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">twprint --print-report -r /var/lib/tripwire/report/<em class=
+          "replaceable"><code>&lt;report-name.twr&gt;</code></em></kbd></pre>
+          <p>
+            After you run an integrity check, you should examine the report
+            (or email) and then modify the <span class=
+            "application">Tripwire</span> database to reflect the changed
+            files on your system. This is so that <span class=
+            "application">Tripwire</span> will not continually notify you hat
+            files you intentionally changed are a security violation. To do
+            this you must first <span class="command"><strong>ls -l
+            /var/lib/tripwire/report/</strong></span> and note the name of
+            the newest file which starts with your system name as presented
+            by the command <strong class="userinput"><code>uname
+            -n</code></strong> and ends in <code class=
+            "filename">.twr</code>. These files were created during report
+            creation and the most current one is needed to update the
+            <span class="application">Tripwire</span> database of your
+            system. As the <code class="systemitem">root</code> user, type in
+            the following command making the appropriate report name:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">tripwire --update --twrfile /var/lib/tripwire/report/<em class=
+          "replaceable"><code>&lt;report-name.twr&gt;</code></em></kbd></pre>
+          <p>
+            You will be placed into <span class="application">Vim</span> with
+            a copy of the report in front of you. If all the changes were
+            good, then just type <span class=
+            "command"><strong>:wq</strong></span> and after entering your
+            local key, the database will be updated. If there are files which
+            you still want to be warned about, remove the 'x' before the
+            filename in the report and type <span class=
+            "command"><strong>:wq</strong></span>.
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id10413" name="id10413"></a>ポリシーファイルの変更
+          </h4>
+          <p>
+            ポリシーファイルの設定が不適当な場合は、これを修正するか新しいものを用意します。 そして <code class=
+            "systemitem">root</code> ユーザーになって以下のコマンドを実行します。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">twadmin --create-polfile /etc/tripwire/twpol.txt &amp;&amp;
+tripwire --init</kbd></pre>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">siggen, tripwire, twadmin, twprint</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/etc/tripwire, /var/lib/tripwire,
+              /usr/share/doc/tripwire-2.4.3.7</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="siggen" name="siggen"></a><span class=
+                    "term"><span class=
+                    "command"><strong>siggen</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a signature gathering utility that displays the hash
+                    function values for the specified files
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tripwire-program" name=
+                    "tripwire-program"></a><span class="term"><span class=
+                    "command"><strong>tripwire</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the main file integrity checking program
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="twadmin" name="twadmin"></a><span class=
+                    "term"><span class=
+                    "command"><strong>twadmin</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    administrative and utility tool used to perform certain
+                    administrative functions related to <span class=
+                    "application">Tripwire</span> files and configuration
+                    options
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="twprint" name="twprint"></a><span class=
+                    "term"><span class=
+                    "command"><strong>twprint</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">Tripwire</span> のデータベースを表示します。
+                    またその内容を分かりやすいテキスト形式で出力します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="sudo.html" title="Sudo-1.9.15p4">戻る</a>
+          <p>
+            Sudo-1.9.15p4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="filesystems.html" title=
+          "ファイルシステムとディスク管理">次へ</a>
+          <p>
+            ファイルシステムとディスク管理
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="security.html" title="第4章 セキュリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      gnome-settings-daemon-45.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第33章 GNOME のライブラリとデスクトップ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gnome-keyring.html" title=
+          "gnome-keyring-42.1">戻る</a>
+          <p>
+            gnome-keyring-42.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="tecla.html" title="Tecla-45.0">次へ</a>
+          <p>
+            Tecla-45.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="core.html" title=
+          "第33章 GNOME のライブラリとデスクトップ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="gnome-settings-daemon" name=
+        "gnome-settings-daemon"></a>gnome-settings-daemon-45.0
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          GNOME Settings Daemon の概要
+        </h2>
+        <p>
+          The <span class="application">GNOME Settings Daemon</span> is
+          responsible for setting various parameters of a <span class=
+          "application">GNOME Session</span> and the applications that run
+          under it.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://download.gnome.org/sources/gnome-settings-daemon/45/gnome-settings-daemon-45.0.tar.xz">
+                https://download.gnome.org/sources/gnome-settings-daemon/45/gnome-settings-daemon-45.0.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 42114b1572f903835dbcdd4d87ea03c8
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1.4 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 31 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU（parallelism=4 利用時）
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          GNOME Settings Daemon の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="../multimedia/alsa-lib.html" title=
+          "alsa-lib-1.2.10">alsa-lib-1.2.10</a>, <a class="xref" href=
+          "../general/colord.html" title="Colord-1.4.6">colord-1.4.6</a>,
+          <a class="xref" href="../general/fontconfig.html" title=
+          "Fontconfig-2.14.2">Fontconfig-2.14.2</a>, <a class="xref" href=
+          "gcr4.html" title="Gcr-4.1.0">Gcr-4.1.0</a>, <a class="xref" href=
+          "../basicnet/geoclue2.html" title=
+          "GeoClue-2.7.1">GeoClue-2.7.1</a>, <a class="xref" href=
+          "geocode-glib.html" title=
+          "geocode-glib-3.26.4">geocode-glib-3.26.4</a>, <a class="xref"
+          href="gnome-desktop.html" title=
+          "gnome-desktop-44.0">gnome-desktop-44.0</a>, <a class="xref" href=
+          "../general/lcms2.html" title="Little CMS-2.14">Little
+          CMS-2.14</a>, <a class="xref" href="../multimedia/libcanberra.html"
+          title="libcanberra-0.30">libcanberra-0.30</a>, <a class="xref"
+          href="libgweather.html" title=
+          "libgweather-4.4.0">libgweather-4.4.0</a>, <a class="xref" href=
+          "../x/libnotify.html" title="libnotify-0.8.3">libnotify-0.8.3</a>,
+          <a class="xref" href="../general/libwacom.html" title=
+          "libwacom-2.9.0">libwacom-2.9.0</a>, <a class="xref" href=
+          "../multimedia/pulseaudio.html" title=
+          "PulseAudio-16.1">PulseAudio-16.1</a>, and <a class="xref" href=
+          "../general/upower.html" title="UPower-1.90.2">UPower-1.90.2</a>
+        </p>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../multimedia/alsa.html" title=
+          "ALSA-1.2.7">ALSA-1.2.7</a>, <a class="xref" href=
+          "../pst/cups.html" title="Cups-2.4.7">Cups-2.4.7</a>, <a class=
+          "xref" href="../basicnet/networkmanager.html" title=
+          "NetworkManager-1.44.2">NetworkManager-1.44.2</a>, <a class="xref"
+          href="../postlfs/nss.html" title="NSS-3.96.1">nss-3.96.1</a>,
+          <a class="xref" href="../general/wayland.html" title=
+          "Wayland-1.22.0">Wayland-1.22.0</a>
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            Recommended dependencies are not strictly required for this
+            package to build and function, but you may not get expected
+            results at runtime if you don't install them.
+          </p>
+        </div>
+        <h4>
+          推奨 （実行時）
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../general/blocaled.html" title=
+          "blocaled-0.5">blocaled-0.5</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="gnome-session.html" title=
+          "gnome-session-45.0">gnome-session-45.0</a>, <a class="xref" href=
+          "mutter.html" title="Mutter-45.2">Mutter-45.2</a>, <a class="xref"
+          href="../general/python-modules.html#python-dbusmock" title=
+          "dbusmock-0.30.0">dbusmock-0.30.0</a>, <a class="xref" href=
+          "../general/umockdev.html" title=
+          "Umockdev-0.17.18">umockdev-0.17.18</a>, and <span class=
+          "command"><strong>Xvfb</strong></span> (for tests, from <a class=
+          "xref" href="../x/xorg-server.html" title=
+          "Xorg-Server-21.1.10">Xorg-Server-21.1.10</a> or <a class="xref"
+          href="../x/xwayland.html" title=
+          "Xwayland-23.2.3">Xwayland-23.2.3</a>)
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          GNOME Settings Daemon のインストール
+        </h2>
+        <p>
+          Next, fix libelogind detection for tests:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -e 's/libsystemd/libelogind/' \
+    -i plugins/power/test.py</kbd></pre>
+        <p>
+          Next, fix backlight functionality in gnome-control-center:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -e 's/(backlight-&gt;logind_proxy)/(0)/' \
+    -i plugins/power/gsd-backlight.c</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">GNOME Settings Daemon</span>
+          をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+meson setup --prefix=/usr       \
+            --buildtype=release \
+            -Dsystemd=false     \
+            ..                  &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          To check the results, execute: <span class="command"><strong>ninja
+          test</strong></span>. Note that you must have <span class=
+          "application">python-dbusmock</span> installed in order for the
+          tests to complete successfully. Some tests may fail depending on
+          the init system in use.
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">ninja install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <em class="parameter"><code>--buildtype=release</code></em>:
+          本パッケージの安定版リリース向けに適したビルドタイプを指定します。
+          デフォルトにしていると、最適化されていないバイナリを生成する場合があるためです。
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libgsd.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/etc/xdg/Xwayland-session.d,
+              /usr/include/gnome-settings-daemon-45,
+              /usr/lib/gnome-settings-daemon-45,
+              /usr/share/gnome-settings-daemon</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gnome-keyring.html" title=
+          "gnome-keyring-42.1">戻る</a>
+          <p>
+            gnome-keyring-42.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="tecla.html" title="Tecla-45.0">次へ</a>
+          <p>
+            Tecla-45.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="core.html" title=
+          "第33章 GNOME のライブラリとデスクトップ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

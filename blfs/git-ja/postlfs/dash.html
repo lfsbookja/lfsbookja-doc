@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Dash-0.5.12
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第7章 シェル
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="shells.html" title="シェル">戻る</a>
+          <p>
+            シェル
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="tcsh.html" title="Tcsh-6.24.10">次へ</a>
+          <p>
+            Tcsh-6.24.10
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="shells.html" title="第7章 シェル">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="dash" name="dash"></a>Dash-0.5.12
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Dash の概要
+        </h2>
+        <p>
+          <span class="application">Dash</span> は POSIX 準拠のシェルです。 It can be
+          installed as /bin/sh or as the default shell for either
+          <code class="systemitem">root</code> or a second user with a userid
+          of 0. It depends on fewer libraries than the <span class=
+          "application">Bash</span> shell and is therefore less likely to be
+          affected by an upgrade problem or disk failure. <span class=
+          "application">Dash</span> is also useful for checking that a script
+          is completely compatible with POSIX syntax.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "http://gondor.apana.org.au/~herbert/dash/files/dash-0.5.12.tar.gz">
+                http://gondor.apana.org.au/~herbert/dash/files/dash-0.5.12.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 57222b768b84003ea4b801e5d5e0e52b
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 244 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 2.9 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: less than 0.1 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Dash の依存パッケージ
+        </h3>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="ulink" href=
+          "https://www.thrysoee.dk/editline/">libedit</a> (コマンドラインエディターライブラリ)
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Dash のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">Dash</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --bindir=/bin --mandir=/usr/share/man &amp;&amp;
+make</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+        <p>
+          If you would like to make <span class=
+          "command"><strong>dash</strong></span> the default <span class=
+          "command"><strong>sh</strong></span>, recreate the <code class=
+          "filename">/bin/sh</code> symlink as the <code class=
+          "systemitem">root</code> user:
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            If you create the symbolic link from <span class=
+            "command"><strong>dash</strong></span> to <span class=
+            "command"><strong>sh</strong></span>, you will need to reset the
+            link to <span class="command"><strong>bash</strong></span> to
+            build LFS.
+          </p>
+        </div>
+        <pre class="userinput"><kbd class=
+        "command">ln -svf dash /bin/sh</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--bindir=/bin</code></em>: This
+          parameter places the <span class=
+          "command"><strong>dash</strong></span> binary into the root
+          filesystem.
+        </p>
+        <p>
+          <code class="option">--with-libedit</code>: To compile <span class=
+          "application">Dash</span> with libedit support.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Dash の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="dash-config" name="dash-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="dash-config" name="dash-config"></a>設定ファイル
+          </h4>
+          <p>
+            <span class="application">Dash</span> sources <code class=
+            "filename">/etc/profile</code> and <code class=
+            "filename">~/.profile</code>
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id13889" name="id13889"></a>設定情報
+          </h4>
+          <p>
+            Update <code class="filename">/etc/shells</code> to include the
+            <span class="application">Dash</span> shell by issuing the
+            following command as the <code class="systemitem">root</code>
+            user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt;&gt; /etc/shells &lt;&lt; "EOF"
+<code class="literal">/bin/dash</code>
+EOF</kbd></pre>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">dash</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dash-prog" name="dash-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>dash</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    POSIX 準拠のシェル。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="shells.html" title="シェル">戻る</a>
+          <p>
+            シェル
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="tcsh.html" title="Tcsh-6.24.10">次へ</a>
+          <p>
+            Tcsh-6.24.10
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="shells.html" title="第7章 シェル">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

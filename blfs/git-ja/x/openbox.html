@@ -1,0 +1,557 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      openbox-3.6.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第27章 ウィンドウマネージャー
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="icewm.html" title="IceWM-3.4.4">戻る</a>
+          <p>
+            IceWM-3.4.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="icons.html" title="アイコン">次へ</a>
+          <p>
+            アイコン
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="wm.html" title="第27章 ウィンドウマネージャー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="openbox" name="openbox"></a>openbox-3.6.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to openbox
+        </h2>
+        <p>
+          <span class="application">Openbox</span> is a highly configurable
+          desktop window manager with extensive standards support. It allows
+          you to control almost every aspect of how you interact with your
+          desktop.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "http://openbox.org/dist/openbox/openbox-3.6.1.tar.gz">http://openbox.org/dist/openbox/openbox-3.6.1.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: b72794996c6a3ad94634727b95f9d204
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 944 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 21 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: 0.3 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Openbox Dependencies
+        </h3>
+        <h4>
+          Required
+        </h4>
+        <p class="required">
+          <a class="xref" href="installing.html" title=
+          "第24章 グラフィック環境">グラフィック環境</a> and <a class="xref" href="pango.html"
+          title="Pango-1.50.14">Pango-1.50.14</a> (compiled with support for
+          libXft)
+        </p>
+        <h4>
+          Optional
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/dbus.html" title=
+          "dbus-1.14.10">dbus-1.14.10</a> (runtime), <a class="xref" href=
+          "imlib2.html" title="imlib2-1.12.1">imlib2-1.12.1</a> (to enable
+          icons in the right click menu), <a class="xref" href=
+          "../general/imagemagick.html" title=
+          "ImageMagick-7.1.1-15">ImageMagick-7.1.1-15</a> (to show desktop
+          backgrounds as seen in the Configuration Information section
+          below), <a class="xref" href="../general/python-modules.html#pyxdg"
+          title="PyXDG-0.28">PyXDG-0.28</a>, <a class="xref" href=
+          "startup-notification.html" title=
+          "startup-notification-0.12">startup-notification-0.12</a>, and
+          <a class="xref" href="../general/librsvg.html" title=
+          "librsvg-2.57.1">librsvg-2.57.1</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of Openbox
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            If XORG_PREFIX is not <code class="filename">/usr</code>, tell
+            <span class="command"><strong>gcc</strong></span> about it:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">export LIBRARY_PATH=$XORG_PREFIX/lib</kbd></pre>
+        </div>
+        <p>
+          If you only installed the Python 3 PyXDG module convert one of the
+          scripts to Python 3:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">2to3-3.12 -w data/autostart/openbox-xdg-autostart &amp;&amp;
+sed 's/python/python3/' -i data/autostart/openbox-xdg-autostart</kbd></pre>
+        <p>
+          Install <span class="application">Openbox</span> by running the
+          following commands:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr     \
+            --sysconfdir=/etc \
+            --disable-static  \
+            --docdir=/usr/share/doc/openbox-3.6.1 &amp;&amp;
+make</kbd></pre>
+        <p>
+          This package does not come with a test suite.
+        </p>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+        <p>
+          This package creates three <code class="filename">.desktop</code>
+          files in the <code class="filename">/usr/share/xsessions/</code>
+          directory. Two of these are not appropriate in a BLFS system, so
+          prevent the extra files showing up as options in a display manager.
+          As the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">rm -v /usr/share/xsessions/openbox-{gnome,kde}.desktop</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <em class="parameter"><code>--sysconfdir=/etc</code></em>: This
+          option puts <span class="application">Openbox</span>'s
+          configuration files in /etc/xdg/openbox instead of
+          /usr/etc/xdg/openbox.
+        </p>
+        <p>
+          <em class=
+          "parameter"><code>--docdir=/usr/share/doc/openbox-3.6.1</code></em>:
+          this puts a few files in a versioned directory in <code class=
+          "filename">/usr/share/doc</code>.
+        </p>
+        <p>
+          <em class="parameter"><code>--disable-static</code></em>:
+          このスイッチはスタティックライブラリをインストールしないようにします。
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Configuring Openbox
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="openbox-config" name="openbox-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="openbox-config" name="openbox-config"></a>Config Files
+          </h4>
+          <p>
+            <code class="filename">/etc/xdg/openbox/autostart</code>,
+            <code class="filename">/etc/xdg/openbox/menu.xml</code>,
+            <code class="filename">/etc/xdg/openbox/rc.xml</code>,
+            <code class="filename">~/.config/openbox/autostart</code>,
+            <code class="filename">~/.config/openbox/menu.xml</code> and
+            <code class="filename">~/.config/openbox/rc.xml</code>
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id73124" name="id73124"></a>Configuration Information
+          </h4>
+          <p>
+            <span class="application">Openbox</span>'s right click menu can
+            be used to launch programs. The menu itself is configured with 2
+            files, <code class="filename">/etc/xdg/openbox/menu.xml</code>
+            and <code class="filename">~/.config/openbox/menu.xml</code>. To
+            make changes to the menu, copy /etc/xdg/openbox/menu.xml to
+            ~/.config/openbox/menu.xml and edit it:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">cp -rf /etc/xdg/openbox ~/.config</kbd></pre>
+          <p>
+            <code class="filename">~/.config/openbox/menu.xml</code> can be
+            edited with a text editor or you can install <a class="ulink"
+            href="https://obmenu.sourceforge.net/">Obmenu</a> (requires
+            <a class="ulink" href=
+            "https://pyxml.sourceforge.net/topics/">pyxml</a> and <a class=
+            "xref" href="../general/python-modules.html#pygtk" title=
+            "PyGTK-2.24.0">PyGTK-2.24.0</a>).
+          </p>
+          <p>
+            To have icons in your right click menu requires installing
+            <a class="xref" href="imlib2.html" title=
+            "imlib2-1.12.1">imlib2-1.12.1</a> before you install <span class=
+            "application">Openbox</span>. To set an icon for an entry in the
+            menu edit <code class=
+            "filename">~/.config/openbox/menu.xml</code> and add an icon to
+            the &lt;item&gt; tag like this:
+          </p>
+          <pre class=
+          "screen">&lt;item label="Mplayer" icon="/usr/share/pixmaps/mplayer.png"&gt;</pre>
+          <p>
+            Many other aspects of <span class="application">Openbox</span>'s
+            behavior are configured with <code class=
+            "filename">~/.config/openbox/rc.xml</code> such as what
+            keybindings are used to launch programs or which mouse button
+            launches the main menu.
+          </p>
+          <p>
+            Details of the theme that <span class=
+            "application">Openbox</span> applies to window decorations are
+            configured in <code class=
+            "filename">~/.config/openbox/rc.xml</code>. You can get a list of
+            the available themes with the command:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">ls -d /usr/share/themes/*/openbox-3 | sed 's#.*es/##;s#/o.*##'</kbd></pre>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="openbox-init" name="openbox-init"></a>
+          </h3>
+          <h4 class="title">
+            <a id="openbox-init" name="openbox-init"></a>Starting Openbox
+          </h4>
+          <p>
+            To automatically start <span class=
+            "command"><strong>openbox</strong></span> when you start
+            <span class="application">Xorg</span>:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">echo openbox &gt; ~/.xinitrc</kbd></pre>
+          <p>
+            If you want to set a background image to your desktop you can use
+            <a class="xref" href=
+            "../general/imagemagick.html#display"><span class=
+            "command"><strong>display</strong></span></a> and launch it from
+            ~/.xinitrc just before openbox:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">cat &gt; ~/.xinitrc &lt;&lt; "EOF"
+<code class=
+"literal">display -backdrop -window root /path/to/beautiful/picture.jpeg
+exec openbox</code>
+EOF</kbd></pre>
+          <p>
+            Or if you like a bit of variety, put a selection of images in a
+            folder (in this example, the directory ~/.config/backgrounds) and
+            choose one at random each time you <span class=
+            "command"><strong>xinit</strong></span>:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">cat &gt; ~/.xinitrc &lt;&lt; "EOF"
+<code class="literal"># make an array which lists the pictures:
+picture_list=(~/.config/backgrounds/*)
+# create a random integer between 0 and the number of pictures:
+random_number=$(( ${RANDOM} % ${#picture_list[@]} ))
+# display the chosen picture:
+display -backdrop -window root "${picture_list[${random_number}]}"
+exec openbox</code>
+EOF</kbd></pre>
+          <p>
+            If you like to have the numlock key set when you start Xorg,
+            install <a class="ulink" href=
+            "https://ftp.debian.org/debian/pool/main/n/numlockx/numlockx_1.2.orig.tar.gz">
+            Numlockx</a> and add that to your xinitrc. Another useful
+            application is <a class="xref" href="../general/dbus.html" title=
+            "dbus-1.14.10">dbus-1.14.10</a>:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">cat &gt; ~/.xinitrc &lt;&lt; "EOF"
+<code class="literal">. /etc/profile
+picture_list=(~/.config/backgrounds/*)
+random_number=$(( ${RANDOM} % ${#picture_list[*]} ))
+display -backdrop -window root "${picture_list[${random_number}]}"
+numlockx
+eval $(dbus-launch --auto-syntax --exit-with-session)
+lxpanel &amp;
+exec openbox</code>
+EOF</kbd></pre>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">gdm-control, gnome-panel-control,
+              obxprop, openbox, openbox-gnome-session, openbox-kde-session
+              and openbox-session</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">libobrender.so and libobt.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody">/etc/xdg/openbox, /usr/include/openbox,
+              /usr/share/doc/openbox-3.6.1 and /usr/share/themes.</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gdm-control" name="gdm-control"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gdm-control</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a command line tool to send signals to <span class=
+                    "application">GDM</span>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gnome-panel-control" name=
+                    "gnome-panel-control"></a><span class="term"><span class=
+                    "command"><strong>gnome-panel-control</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a command line utility to invoke the <span class=
+                    "application">Gnome Panel</span> run dialog/menu
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="obxprop" name="obxprop"></a><span class=
+                    "term"><span class=
+                    "command"><strong>obxprop</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool for displaying the properties on an x window.
+                    It has a similar functionality to <span class=
+                    "command"><strong>xprop</strong></span>, but allows you
+                    to see UTF-8 strings as text
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="openbox-prog" name="openbox-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>openbox</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a standards compliant, highly configurable, window
+                    manager
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="openbox-gnome-session" name=
+                    "openbox-gnome-session"></a><span class=
+                    "term"><span class=
+                    "command"><strong>openbox-gnome-session</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a script to launch an <span class=
+                    "application">Gnome</span> session with <span class=
+                    "application">Openbox</span> as your window manager from
+                    your <code class="filename">~/.xinitrc</code>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="openbox-kde-session" name=
+                    "openbox-kde-session"></a><span class="term"><span class=
+                    "command"><strong>openbox-kde-session</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a script to launch an <span class=
+                    "application">KDE</span> session with <span class=
+                    "application">Openbox</span> as your window manager from
+                    your <code class="filename">~/.xinitrc</code>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="openbox-session" name=
+                    "openbox-session"></a><span class="term"><span class=
+                    "command"><strong>openbox-session</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a script to launch an <span class=
+                    "application">Openbox</span> session from your
+                    <code class="filename">~/.xinitrc</code>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libobrender" name="libobrender"></a><span class=
+                    "term"><code class=
+                    "filename">libobrender.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains the functions used by <span class=
+                    "application">Openbox</span> for theme rendering
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libobt" name="libobt"></a><span class=
+                    "term"><code class="filename">libobt.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the <span class="application">Openbox</span> toolkit
+                    library
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="icewm.html" title="IceWM-3.4.4">戻る</a>
+          <p>
+            IceWM-3.4.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="icons.html" title="アイコン">次へ</a>
+          <p>
+            アイコン
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="wm.html" title="第27章 ウィンドウマネージャー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

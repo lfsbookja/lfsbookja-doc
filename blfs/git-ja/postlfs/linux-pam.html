@@ -1,0 +1,586 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Linux-PAM-1.5.3
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第4章 セキュリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libcap.html" title=
+          "libcap-2.69 with PAM">戻る</a>
+          <p>
+            libcap-2.69 with PAM
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="liboauth.html" title="liboauth-1.0.3">次へ</a>
+          <p>
+            liboauth-1.0.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="security.html" title="第4章 セキュリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="linux-pam" name="linux-pam"></a>Linux-PAM-1.5.3
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Linux PAM の概要
+        </h2>
+        <p>
+          <span class="application">Linux PAM</span> パッケージは、プラグイン方式の認証モジュール
+          (Pluggable Authentication Modules) を提供します。
+          これはローカルのシステム管理者が、各アプリケーションに対してどのユーザーにどのような権限を与えるかを制御する有用な機能です。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/linux-pam/linux-pam/releases/download/v1.5.3/Linux-PAM-1.5.3.tar.xz">
+                https://github.com/linux-pam/linux-pam/releases/download/v1.5.3/Linux-PAM-1.5.3.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: a913bd5fbf9edeafaacf3eb1eb86fd83
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 967 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 39 MB (with tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.4 SBU (with tests)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          追加のダウンロード
+        </h3>
+        <div class="itemizedlist">
+          <p class="title">
+            <strong>任意のドキュメント</strong>
+          </p>
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/linux-pam/linux-pam/releases/download/v1.5.3/Linux-PAM-1.5.3-docs.tar.xz">
+                https://github.com/linux-pam/linux-pam/releases/download/v1.5.3/Linux-PAM-1.5.3-docs.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: c3771fdc447be78b4c1756b875235965
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ 456 KB
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Linux PAM の依存パッケージ
+        </h3>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../basicnet/libnsl.html" title=
+          "libnsl-2.0.1">libnsl-2.0.1</a>, <a class="xref" href=
+          "../basicnet/libtirpc.html" title=
+          "libtirpc-1.3.4">libtirpc-1.3.4</a>, <a class="ulink" href=
+          "https://anduin.linuxfromscratch.org/BLFS/bdb/db-5.3.28.tar.gz">Berkeley
+          DB</a> (非推奨), <a class="ulink" href=
+          "https://github.com/linux-audit/audit-userspace">libaudit</a>, and
+          <a class="ulink" href="https://www.prelude-siem.org">Prelude</a>
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p class="required">
+            <a class="xref" href="shadow.html" title=
+            "Shadow-4.14.2">Shadow-4.14.2</a> <span class=
+            "phrase">must</span> be reinstalled and reconfigured after
+            installing and configuring <span class="application">Linux
+            PAM</span>.
+          </p>
+          <p class="recommended">
+            With Linux-PAM-1.4.0 and higher, the pam_cracklib module is not
+            installed by default. Use <a class="xref" href=
+            "libpwquality.html" title=
+            "libpwquality-1.4.5">libpwquality-1.4.5</a> to enforce strong
+            passwords.
+          </p>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Linux PAM のインストール
+        </h2>
+        <p>
+          First, prevent the installation of an unneeded systemd file:
+        </p>
+        <pre class="userinput"><kbd class="command">sed -e /service_DATA/d \
+    -i modules/pam_namespace/Makefile.am &amp;&amp;
+autoreconf</kbd></pre>
+        <p>
+          ドキュメントをダウンロードしている場合は、以下のコマンドを実行して tarball を解凍します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">tar -xf ../Linux-PAM-1.5.3-docs.tar.xz --strip-components=1</kbd></pre>
+        <p>
+          Compile and link <span class="application">Linux PAM</span> by
+          running the following commands:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr                        \
+            --sbindir=/usr/sbin                  \
+            --sysconfdir=/etc                    \
+            --libdir=/usr/lib                    \
+            --enable-securedir=/usr/lib/security \
+            --docdir=/usr/share/doc/Linux-PAM-1.5.3 &amp;&amp;
+make</kbd></pre>
+        <p>
+          コンパイル結果をテストするには、設定ファイル <code class=
+          "filename">/etc/pam.d/other</code> が適切に用意されていなければなりません。
+        </p>
+        <div class="admon caution">
+          <img alt="[注意]" src="../images/caution.png" />
+          <h3>
+            Reinstallation or Upgrade of Linux PAM
+          </h3>
+          <p>
+            If you have a system with Linux PAM installed and working, be
+            careful when modifying the files in <code class=
+            "filename">/etc/pam.d</code>, since your system may become
+            totally unusable. If you want to run the tests, you do not need
+            to create another <code class="filename">/etc/pam.d/other</code>
+            file. The existing file can be used for the tests.
+          </p>
+          <p>
+            You should also be aware that <span class="command"><strong>make
+            install</strong></span> overwrites the configuration files in
+            <code class="filename">/etc/security</code> as well as
+            <code class="filename">/etc/environment</code>. If you have
+            modified those files, be sure to back them up.
+          </p>
+        </div>
+        <p>
+          For a first-time installation, create a configuration file by
+          issuing the following commands as the <code class=
+          "systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">install -v -m755 -d /etc/pam.d &amp;&amp;
+
+cat &gt; /etc/pam.d/other &lt;&lt; "EOF"
+<code class="literal">auth     required       pam_deny.so
+account  required       pam_deny.so
+password required       pam_deny.so
+session  required       pam_deny.so</code>
+EOF</kbd></pre>
+        <p>
+          <span class="command"><strong>make check</strong></span>
+          によりテストを実行します。 Be sure the tests produced no errors before
+          continuing the installation. Note that the tests are very long.
+          Redirect the output to a log file, so you can inspect it
+          thoroughly.
+        </p>
+        <p>
+          For a first-time installation, remove the configuration file
+          created earlier by issuing the following command as the
+          <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">rm -fv /etc/pam.d/other</kbd></pre>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install &amp;&amp;
+chmod -v 4755 /usr/sbin/unix_chkpwd</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class=
+          "parameter"><code>--enable-securedir=/usr/lib/security</code></em>:
+          This switch sets the installation location for the <span class=
+          "application">PAM</span> modules.
+        </p>
+        <p>
+          <span class="command"><strong>chmod -v 4755
+          /usr/sbin/unix_chkpwd</strong></span>: パスワードヘルパープログラム <span class=
+          "command"><strong>unix_chkpwd</strong></span> に対して setuid を設定します。
+          <code class="systemitem">root</code> 権限ではないプロセスが shadow
+          ファイルにアクセスできるようにするためです。
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Linux-PAM の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="pam-config" name="pam-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="pam-config" name="pam-config"></a>設定ファイル
+          </h4>
+          <p>
+            <code class="filename">/etc/security/*</code> と <code class=
+            "filename">/etc/pam.d/*</code>
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id8039" name="id8039"></a>設定情報
+          </h4>
+          <p>
+            設定情報は <code class="filename">/etc/pam.d/</code> に保持します。 以下はその例です。
+          </p>
+          <pre class="screen"><code class="literal"># Begin /etc/pam.d/other
+
+auth            required        pam_unix.so     nullok
+account         required        pam_unix.so
+session         required        pam_unix.so
+password        required        pam_unix.so     nullok
+
+# End /etc/pam.d/other</code></pre>
+          <p>
+            Now create some generic configuration files. As the <code class=
+            "systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">install -vdm755 /etc/pam.d &amp;&amp;
+cat &gt; /etc/pam.d/system-account &lt;&lt; "EOF" &amp;&amp;
+<code class="literal"># Begin /etc/pam.d/system-account
+
+account   required    pam_unix.so
+
+# End /etc/pam.d/system-account</code>
+EOF
+
+cat &gt; /etc/pam.d/system-auth &lt;&lt; "EOF" &amp;&amp;
+<code class="literal"># Begin /etc/pam.d/system-auth
+
+auth      required    pam_unix.so
+
+# End /etc/pam.d/system-auth</code>
+EOF
+
+cat &gt; /etc/pam.d/system-session &lt;&lt; "EOF" &amp;&amp;
+<code class="literal"># Begin /etc/pam.d/system-session
+
+session   required    pam_unix.so
+
+# End /etc/pam.d/system-session</code>
+EOF
+
+cat &gt; /etc/pam.d/system-password &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/pam.d/system-password
+
+# use yescrypt hash for encryption, use shadow, and try to use any
+# previously defined authentication token (chosen password) set by any
+# prior module.
+password  required    pam_unix.so       yescrypt shadow try_first_pass
+
+# End /etc/pam.d/system-password</code>
+EOF
+</kbd></pre>
+          <p>
+            If you wish to enable strong password support, install <a class=
+            "xref" href="libpwquality.html" title=
+            "libpwquality-1.4.5">libpwquality-1.4.5</a>, and follow the
+            instructions on that page to configure the pam_pwquality PAM
+            module with strong password support.
+          </p>
+          <p>
+            Next, add a restrictive <code class=
+            "filename">/etc/pam.d/other</code> configuration file. With this
+            file, programs that are PAM aware will not run unless a
+            configuration file specifically for that application exists.
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt; /etc/pam.d/other &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/pam.d/other
+
+auth        required        pam_warn.so
+auth        required        pam_deny.so
+account     required        pam_warn.so
+account     required        pam_deny.so
+password    required        pam_warn.so
+password    required        pam_deny.so
+session     required        pam_warn.so
+session     required        pam_deny.so
+
+# End /etc/pam.d/other</code>
+EOF</kbd></pre>
+          <p>
+            The <span class="application">PAM</span> man page (<span class=
+            "command"><strong>man pam</strong></span>) provides a good
+            starting point to learn about the several fields, and allowable
+            entries. The <a class="ulink" href=
+            "https://www.docs4dev.com/docs/en/linux-pam/1.1.2/reference/Linux-PAM_SAG.html">
+            Linux-PAM System Administrators' Guide</a> is recommended for
+            additional information.
+          </p>
+          <div class="admon important">
+            <img alt="[重要]" src="../images/important.png" />
+            <h3>
+              重要
+            </h3>
+            <p>
+              You should now reinstall the <a class="xref" href="shadow.html"
+              title="Shadow-4.14.2">Shadow-4.14.2</a> <span class=
+              "phrase">package</span> .
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">faillock, mkhomedir_helper, pam_namespace_helper,
+              pam_timestamp_check, pwhistory_helper, unix_chkpwd,
+              unix_update</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libpam.so, libpamc.so, libpam_misc.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/etc/security, /usr/lib/security,
+              /usr/include/security, /usr/share/doc/Linux-PAM-1.5.3</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="faillock" name="faillock"></a><span class=
+                    "term"><span class=
+                    "command"><strong>faillock</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    displays and modifies the authentication failure record
+                    files
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mkhomedir_helper" name=
+                    "mkhomedir_helper"></a><span class="term"><span class=
+                    "command"><strong>mkhomedir_helper</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a helper binary that creates home directories
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pam_namespace_helper" name=
+                    "pam_namespace_helper"></a><span class=
+                    "term"><span class="command"><strong>pam_namespace_helper</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a helper program used to configure a private namespace
+                    for a user session
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pwhistory_helper" name=
+                    "pwhistory_helper"></a><span class="term"><span class=
+                    "command"><strong>pwhistory_helper</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a helper program that transfers password hashes from
+                    passwd or shadow to opasswd
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pam_timestamp_check" name=
+                    "pam_timestamp_check"></a><span class="term"><span class=
+                    "command"><strong>pam_timestamp_check</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to check if the default timestamp is valid
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="unix_chkpwd" name="unix_chkpwd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>unix_chkpwd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a helper binary that verifies the password of the
+                    current user
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="unix_update" name="unix_update"></a><span class=
+                    "term"><span class=
+                    "command"><strong>unix_update</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a helper binary that updates the password of a given
+                    user
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libpam" name="libpam"></a><span class=
+                    "term"><code class="filename">libpam.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    アプリケーションと PAM モジュールの間のインターフェースを提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libcap.html" title=
+          "libcap-2.69 with PAM">戻る</a>
+          <p>
+            libcap-2.69 with PAM
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="liboauth.html" title="liboauth-1.0.3">次へ</a>
+          <p>
+            liboauth-1.0.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="security.html" title="第4章 セキュリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

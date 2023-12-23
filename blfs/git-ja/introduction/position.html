@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      /usr か /usr/local かの議論
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第2章 重要な情報
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="notes-on-building.html" title=
+          "ソフトウェア構築に関するメモ">戻る</a>
+          <p>
+            ソフトウェア構築に関するメモ
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="patches.html" title="追加のパッチ">次へ</a>
+          <p>
+            追加のパッチ
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="important.html" title="第2章 重要な情報">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="position" name="position"></a>/usr か /usr/local かの議論
+      </h1>
+      <p>
+        <span class="emphasis"><em>XXX はどこにインストールすべきか? <code class=
+        "filename">/usr</code>? <code class=
+        "filename">/usr/local</code>?</em></span>
+      </p>
+      <p>
+        この問いに対する答えは、LFS ベースのシステムにおいてはあいまいにはできません。
+      </p>
+      <p>
+        従来からの Unix システムにおいて、<code class="filename">/usr</code>
+        はシステムが提供するファイル類を配置する場所であり、一方 <code class="filename">/usr/local</code>
+        は、個別の管理者が自由に取り扱う場所となっています。 現実的な決まりとして <code class=
+        "filename">/usr/local</code> は Unix
+        システムの配布物を配置する場所ではなく、ただその配下の基本的なディレクトリのみを作るというものです。
+      </p>
+      <p>
+        Red Hat や Debian のような Linux ディストリビューションにおいて定められているルールとして、<code class=
+        "filename">/usr</code>
+        はディストリビューションが提供するパッケージシステムにおいて管理される場所としていて、<code class=
+        "filename">/usr/local</code> は管理外としています。 つまりパッケージ管理のデータベースが把握しているのは
+        <code class="filename">/usr</code> 配下のファイルのみとなります。
+      </p>
+      <p>
+        LFS users build their own system and so deciding where the system
+        ends and local files begin is not straightforward. So the choice
+        should be made in order to make things easier to administer. There
+        are several reasons for dividing files between <code class=
+        "filename">/usr</code> and <code class="filename">/usr/local</code>.
+      </p>
+      <div class="itemizedlist">
+        <ul>
+          <li class="listitem">
+            <p>
+              On a network of several machines all running LFS, or mixed LFS
+              and other Linux distributions, <code class=
+              "filename">/usr/local</code> could be used to hold packages
+              that are common between all the computers in the network. It
+              can be NFS mounted or mirrored from a single server. Here local
+              indicates local to the site.
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              On a network of several computers all running an identical LFS
+              system, <code class="filename">/usr/local</code> could hold
+              packages that are different between the machines. In this case
+              local refers to the individual computers.
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Even on a single computer, <code class=
+              "filename">/usr/local</code> can be useful if you have several
+              distributions installed simultaneously, and want a place to put
+              packages that will be the same on all of them.
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Or you might regularly rebuild your LFS, but want a place to
+              put files that you don't want to rebuild each time. This way
+              you can wipe the LFS file system and start from a clean
+              partition every time without losing everything.
+            </p>
+          </li>
+        </ul>
+      </div>
+      <p>
+        独自のインストールディレクトリにインストールしてはダメなのか、と聞かれることがあります。 つまり <code class=
+        "filename">/usr/local</code> ではなく <code class=
+        "filename">/usr/site</code> ではダメなのかと。
+      </p>
+      <p>
+        そうしてはダメとする理由はありません。 各マシンでは独自のディレクトリツリー構成として構いません。
+        しかし新たなソフトウェアをインストールする際には少々やっかいなことになります。 自動インストールを行うソフトウェアでは、関連パッケージを
+        <code class="filename">/usr</code> や <code class=
+        "filename">/usr/local</code> から探し出そうとします。 もし探し出すべきファイルが <code class=
+        "filename">/usr/site</code> にあったとすると、インストーラープログラムは見つけ出せないことになります。
+        この場合にはどのディレクトリを探し出すべきかを別途指示しなければなりません。
+      </p>
+      <p>
+        <span class="emphasis"><em>BLFS ではどこにインストールするのか？</em></span>
+      </p>
+      <p>
+        BLFS でのインストール手順では、ほとんどについて <code class="filename">/usr</code>
+        にインストールを行います。 特定のパッケージについては <code class="filename">/opt</code>
+        へのインストールを行うものもあります。
+      </p>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="notes-on-building.html" title=
+          "ソフトウェア構築に関するメモ">戻る</a>
+          <p>
+            ソフトウェア構築に関するメモ
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="patches.html" title="追加のパッチ">次へ</a>
+          <p>
+            追加のパッチ
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="important.html" title="第2章 重要な情報">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

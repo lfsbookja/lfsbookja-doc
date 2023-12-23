@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      JOE-4.6
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第6章 テキストエディター
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gedit.html" title="Gedit-46.1">戻る</a>
+          <p>
+            Gedit-46.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="kate5.html" title="Kate-23.08.4">次へ</a>
+          <p>
+            Kate-23.08.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="editors.html" title="第6章 テキストエディター">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="joe" name="joe"></a>JOE-4.6
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          JOE の概要
+        </h2>
+        <p>
+          <span class="application">JOE</span> (Joe's own editor) は、WordStar,
+          <span class="application">Pico</span>, <span class=
+          "application">Emacs</span> といったエディターの機能をエミュレートする軽量なテキストエディターです。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://downloads.sourceforge.net/joe-editor/joe-4.6.tar.gz">
+                https://downloads.sourceforge.net/joe-editor/joe-4.6.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 9017484e6116830d846678b625ea5c43
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1.8 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 22 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.2 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          JOE のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">JOE</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr     \
+            --sysconfdir=/etc \
+            --docdir=/usr/share/doc/joe-4.6 &amp;&amp;
+make</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> になって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install &amp;&amp;
+
+install -vm 755 joe/util/{stringify,termidx,uniproc} /usr/bin</kbd></pre>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          JOE の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="joe-config" name="joe-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="joe-config" name="joe-config"></a>設定ファイル
+          </h4>
+          <p>
+            <code class="filename">/etc/joe/jmacsrc</code>, <code class=
+            "filename">/etc/joe/joerc</code>, <code class=
+            "filename">/etc/joe/jpicorc</code>, <code class=
+            "filename">/etc/joe/jstarrc</code>, <code class=
+            "filename">/etc/joe/rjoerc</code>, <code class=
+            "filename">~/.joerc</code>
+          </p>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">jmacs, joe, jpico, jstar, rjoe, stringify, termidx,
+              uniproc</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/etc/joe, /usr/share/joe,
+              /usr/share/doc/joe-4.6</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="jmacs" name="jmacs"></a><span class=
+                    "term"><span class=
+                    "command"><strong>jmacs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>joe</strong></span>
+                    へのシンボリックリンクであり <span class="application">Emacs</span>
+                    エミュレーションモードで起動します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="joe-prog" name="joe-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>joe</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    軽量なテキストエディターであり、WordStar, <span class=
+                    "application">Pico</span>, <span class=
+                    "application">Emacs</span> といったエディター機能をエミュレートします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="jpico" name="jpico"></a><span class=
+                    "term"><span class=
+                    "command"><strong>jpico</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>joe</strong></span>
+                    へのシンボリックリンクであり <span class="application">Pico</span>
+                    エミュレーションモードで起動します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="jstar" name="jstar"></a><span class=
+                    "term"><span class=
+                    "command"><strong>jstar</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>joe</strong></span>
+                    へのシンボリックリンクであり WordStar エミュレーションモードで起動します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rjoe" name="rjoe"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rjoe</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>joe</strong></span>
+                    へのシンボリックリンクであり、コマンドラインから指定されたファイルのみを編集するように、限定的に
+                    <span class="application">JOE</span> を起動します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="stringify" name="stringify"></a><span class=
+                    "term"><span class=
+                    "command"><strong>stringify</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a program used by <span class=
+                    "command"><strong>joe</strong></span> to convert rc and
+                    .jsf files into a C file (see
+                    /usr/share/doc/joe-4.6/util/README)
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="termidx" name="termidx"></a><span class=
+                    "term"><span class=
+                    "command"><strong>termidx</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>joe</strong></span> を利用して
+                    termcap インデックスファイルを生成します。
+                    （/usr/share/doc/joe-4.6/util/README 参照）
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="uniproc" name="uniproc"></a><span class=
+                    "term"><span class=
+                    "command"><strong>uniproc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a program used by <span class=
+                    "command"><strong>joe</strong></span> to generate joe's
+                    unicode database file unicat.c from Blocks.txt
+                    CaseFolding.txt EastAsianWidth.txt and UnicodeData.txt
+                    (find them at /usr/share/doc/joe-4.6/util; see
+                    usr/share/doc/joe-4.6/util/README)
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gedit.html" title="Gedit-46.1">戻る</a>
+          <p>
+            Gedit-46.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="kate5.html" title="Kate-23.08.4">次へ</a>
+          <p>
+            Kate-23.08.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="editors.html" title="第6章 テキストエディター">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

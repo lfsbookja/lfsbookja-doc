@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      FriBidi-1.0.13
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第10章 グラフィックスとフォントのライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="fontconfig.html" title=
+          "Fontconfig-2.14.2">戻る</a>
+          <p>
+            Fontconfig-2.14.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gegl.html" title="gegl-0.4.46">次へ</a>
+          <p>
+            gegl-0.4.46
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="graphlib.html" title=
+          "第10章 グラフィックスとフォントのライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="fribidi" name="fribidi"></a>FriBidi-1.0.13
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          FriBidi の概要
+        </h2>
+        <p>
+          <span class="application">FriBidi</span> パッケージは <a class="ulink"
+          href="https://www.unicode.org/reports/tr9/">Unicode 双方向アルゴリズム</a>
+          (Unicode Bidirectional Algorithm; bidi) を実現するものです。
+          これはアラビア語やヘブライ語を用いるパッケージにおいて活用されます。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/fribidi/fribidi/releases/download/v1.0.13/fribidi-1.0.13.tar.xz">
+                https://github.com/fribidi/fribidi/releases/download/v1.0.13/fribidi-1.0.13.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 49b17442e0d8fa2e97b5c898078f6f51
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1.1 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 21 MB (テスト込み)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU 以下 (テスト込み)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          FriBidi の依存パッケージ
+        </h3>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="ulink" href=
+          "https://www.ciselant.de/c2man/c2man.html">c2man (man ページ生成のため)</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          FriBidi のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">FriBidi</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+meson setup --prefix=/usr --buildtype=release .. &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>ninja
+          test</strong></span> を実行します。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">ninja install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <em class="parameter"><code>--buildtype=release</code></em>:
+          本パッケージの安定版リリース向けに適したビルドタイプを指定します。
+          デフォルトにしていると、最適化されていないバイナリを生成する場合があるためです。
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">fribidi</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libfribidi.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/fribidi</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fribidi-prog" name="fribidi-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fribidi</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <code class="filename">libfribidi</code>
+                    ライブラリへのコマンドラインインターフェース。 論理文字 (logical string) を視覚的に出力します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libfribidi" name="libfribidi"></a><span class=
+                    "term"><code class="filename">libfribidi.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <a class="ulink" href=
+                    "https://www.unicode.org/reports/tr9/">Unicode 双方向アルゴリズム
+                    (Unicode Bidirectional Algorithm)</a> を実装するための関数を提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="fontconfig.html" title=
+          "Fontconfig-2.14.2">戻る</a>
+          <p>
+            Fontconfig-2.14.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gegl.html" title="gegl-0.4.46">次へ</a>
+          <p>
+            gegl-0.4.46
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="graphlib.html" title=
+          "第10章 グラフィックスとフォントのライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

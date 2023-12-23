@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      ライブラリはスタティックか共有か
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第2章 重要な情報
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="la-files.html" title=
+          "About Libtool Archive (.la) files">戻る</a>
+          <p>
+            About Libtool Archive (.la) files
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="locale-issues.html" title=
+          "ロケールに関すること">次へ</a>
+          <p>
+            ロケールに関すること
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="important.html" title="第2章 重要な情報">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="libraries" name="libraries"></a>ライブラリはスタティックか共有か
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          ライブラリはスタティックか共有か
+        </h2>
+        <p>
+          The original libraries were simply an archive of routines from
+          which the required routines were extracted and linked into the
+          executable program. These are described as static libraries, with
+          names of the form <code class="filename">libfoo.a</code> on
+          UNIX-like operating systems. On some old operating systems they are
+          the only type available.
+        </p>
+        <p>
+          On almost all Linux platforms there are also <span class=
+          "quote">「<span class="quote">shared</span>」</span> (or equivalently
+          <span class="quote">「<span class="quote">dynamic</span>」</span>)
+          libraries (with names of the form <code class=
+          "filename">libfoo.so</code>) – one copy of the library is loaded
+          into virtual memory, and shared by all the programs which call any
+          of its functions. This is space efficient.
+        </p>
+        <p>
+          In the past, essential programs such as a shell were often linked
+          statically so that some form of minimal recovery system would exist
+          even if shared libraries, such as <code class=
+          "filename">libc.so</code>, became damaged (e.g. moved to
+          <code class="filename">lost+found</code> after <span class=
+          "command"><strong>fsck</strong></span> following an unclean
+          shutdown). Nowadays, most people use an alternative system install
+          or a USB stick if they have to recover. Journaling filesystems also
+          reduce the likelihood of this sort of problem.
+        </p>
+        <p>
+          Within the book, there are various places where configure switches
+          such as <em class="parameter"><code>--disable-static</code></em>
+          are employed, and other places where the possibility of using
+          system versions of libraries instead of the versions included
+          within another package is discussed. The main reason for this is to
+          simplify updates of libraries.
+        </p>
+        <p>
+          If a package is linked to a dynamic library, updating to a newer
+          library version is automatic once the newer library is installed
+          and the program is (re)started (provided the library major version
+          is unchanged, e.g. going from <code class=
+          "filename">libfoo.so.2.0</code> to <code class=
+          "filename">libfoo.so.2.1</code>. Going to <code class=
+          "filename">libfoo.so.3</code> will require recompilation –
+          <span class="command"><strong>ldd</strong></span> can be used to
+          find which programs use the old version). If a program is linked to
+          a static library, the program always has to be recompiled. If you
+          know which programs are linked to a particular static library, this
+          is merely an annoyance. But usually you will <span class=
+          "emphasis"><em>not</em></span> know which programs to recompile.
+        </p>
+        <p>
+          One way to identify when a static library is used, is to deal with
+          it at the end of the installation of every package. Write a script
+          to find all the static libraries in <code class=
+          "filename">/usr/lib</code> or wherever you are installing to, and
+          either move them to another directory so that they are no longer
+          found by the linker, or rename them so that <code class=
+          "filename">libfoo.a</code> becomes e.g. <code class=
+          "filename">libfoo.a.hidden</code>. The static library can then be
+          temporarily restored if it is ever needed, and the package needing
+          it can be identified. This shouldn't be done blindly since many
+          libraries only exist in a static version. For example, some
+          libraries from the <span class="application">glibc</span> and
+          <span class="application">gcc</span> packages should always be
+          present on the system (<code class="filename">libc_nonshared.a,
+          libg.a, libpthread_nonshared.a, libssp_nonshared.a,
+          libsupc++.a</code> as of glibc-2.36 and gcc-12.2).
+        </p>
+        <p>
+          If you use this approach, you may discover that more packages than
+          you were expecting use a static library. That was the case with
+          <span class="application">nettle-2.4</span> in its default
+          static-only configuration: It was required by <span class=
+          "application">GnuTLS-3.0.19</span>, but also linked into package(s)
+          which used <span class="application">GnuTLS</span>, such as
+          <span class="application">glib-networking-2.32.3</span>.
+        </p>
+        <p>
+          Many packages put some of their common functions into a static
+          library which is only used by the programs within the package and,
+          crucially, the library is <span class=
+          "emphasis"><em>not</em></span> installed as a standalone library.
+          These internal libraries are not a problem – if the package has to
+          be rebuilt to fix a bug or vulnerability, nothing else is linked to
+          them.
+        </p>
+        <p>
+          When BLFS mentions system libraries, it means shared versions of
+          libraries. Some packages such as <a class="xref" href=
+          "../xsoft/firefox.html" title=
+          "Firefox-115.6.0esr">Firefox-115.6.0</a> and <a class="xref" href=
+          "../pst/gs.html" title=
+          "ghostscript-10.02.1">ghostscript-10.02.1</a> bundle many other
+          libraries in their build tree. The version they ship is often older
+          than the version used in the system, so it may contain bugs –
+          sometimes developers go to the trouble of fixing bugs in their
+          included libraries, other times they do not.
+        </p>
+        <p>
+          Sometimes, deciding to use system libraries is an easy decision.
+          Other times it may require you to alter the system version (e.g.
+          for <a class="xref" href="../general/libpng.html" title=
+          "libpng-1.6.40">libpng-1.6.40</a> if used for <a class="xref" href=
+          "../xsoft/firefox.html" title=
+          "Firefox-115.6.0esr">Firefox-115.6.0</a>). Occasionally, a package
+          ships an old library and can no longer link to the current version,
+          but can link to an older version. In this case, BLFS will usually
+          just use the shipped version. Sometimes the included library is no
+          longer developed separately, or its upstream is now the same as the
+          package's upstream and you have no other packages which will use
+          it. In those cases, you'll be lead to use the included library even
+          if you usually prefer to use system libraries.
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="la-files.html" title=
+          "About Libtool Archive (.la) files">戻る</a>
+          <p>
+            About Libtool Archive (.la) files
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="locale-issues.html" title=
+          "ロケールに関すること">次へ</a>
+          <p>
+            ロケールに関すること
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="important.html" title="第2章 重要な情報">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

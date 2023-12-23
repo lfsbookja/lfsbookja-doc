@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Unbound-1.19.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第23章 その他のサーバーソフトウェア
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="openldap.html" title="OpenLDAP-2.6.6">戻る</a>
+          <p>
+            OpenLDAP-2.6.6
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="../x/x.html" title="グラフィックコンポーネント">次へ</a>
+          <p>
+            グラフィックコンポーネント
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="other.html" title=
+          "第23章 その他のサーバーソフトウェア">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="unbound" name="unbound"></a>Unbound-1.19.0
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to Unbound
+        </h2>
+        <p>
+          <span class="application">Unbound</span> is a validating,
+          recursive, and caching DNS resolver. It is designed as a set of
+          modular components that incorporate modern features, such as
+          enhanced security (DNSSEC) validation, Internet Protocol Version 6
+          (IPv6), and a client resolver library API as an integral part of
+          the architecture.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://nlnetlabs.nl/downloads/unbound/unbound-1.19.0.tar.gz">
+                https://nlnetlabs.nl/downloads/unbound/unbound-1.19.0.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: 1a8c4a4bca75eadc03e21d43089ef1ee
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 6.0 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 143 MB (with docs; add 11 MB
+                for tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: 0.3 SBU (Using parallelism=4; with
+                docs; add 0.4 SBU for tests)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Unbound Dependencies
+        </h3>
+        <h4>
+          Optional
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../basicnet/libevent.html" title=
+          "libevent-2.1.12">libevent-2.1.12</a>, <a class="xref" href=
+          "../postlfs/nettle.html" title="Nettle-3.9.1">Nettle-3.9.1</a>,
+          <a class="xref" href="../general/python2.html" title=
+          "Python-2.7.18">Python-2.7.18</a>, <a class="xref" href=
+          "../general/python-modules.html#sphinx" title=
+          "Sphinx-7.2.6">sphinx-7.2.6</a> (for Python bindings
+          documentation), <a class="xref" href="../general/swig.html" title=
+          "SWIG-4.1.1">SWIG-4.1.1</a> (for Python bindings), <a class="xref"
+          href="../general/doxygen.html" title=
+          "Doxygen-1.9.8">Doxygen-1.9.8</a> (for html documentation), and
+          <a class="ulink" href="https://dnstap.info/">dnstap</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of Unbound
+        </h2>
+        <p>
+          There should be a dedicated user and group to take control of the
+          <span class="command"><strong>unbound</strong></span> daemon after
+          it is started. Issue the following commands as the <code class=
+          "systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">groupadd -g 88 unbound &amp;&amp;
+useradd -c "Unbound DNS Resolver" -d /var/lib/unbound -u 88 \
+        -g unbound -s /bin/false unbound</kbd></pre>
+        <p>
+          Install <span class="application">Unbound</span> by running the
+          following commands:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr     \
+            --sysconfdir=/etc \
+            --disable-static  \
+            --with-pidfile=/run/unbound.pid &amp;&amp;
+make</kbd></pre>
+        <p>
+          If you have <a class="xref" href="../general/doxygen.html" title=
+          "Doxygen-1.9.8">Doxygen-1.9.8</a> package installed and want to
+          build html documentation, run the following command:
+        </p>
+        <pre class="userinput"><kbd class="command">make doc</kbd></pre>
+        <p>
+          To test the results, issue <span class="command"><strong>make
+          check</strong></span>.
+        </p>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">make install &amp;&amp;
+mv -v /usr/sbin/unbound-host /usr/bin/</kbd></pre>
+        <p>
+          If you built the documentation, install it by running the following
+          commands as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">install -v -m755 -d /usr/share/doc/unbound-1.19.0 &amp;&amp;
+install -v -m644 doc/html/* /usr/share/doc/unbound-1.19.0</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <em class="parameter"><code>--disable-static</code></em>:
+          このスイッチはスタティックライブラリをインストールしないようにします。
+        </p>
+        <p>
+          <code class="option">--with-libevent</code>: This option enables
+          libevent support allowing use of large outgoing port ranges.
+        </p>
+        <p>
+          <code class="option">--with-pyunbound</code>: This option enables
+          building of the Python bindings.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Configuring Unbound
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="unbound-config" name="unbound-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="unbound-config" name="unbound-config"></a>Config Files
+          </h4>
+          <p>
+            <code class="filename">/etc/unbound/unbound.conf</code>
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id61810" name="id61810"></a>Configuration Information
+          </h4>
+          <p>
+            In the default configuration, <span class=
+            "command"><strong>unbound</strong></span> will bind to localhost
+            (127.0.0.1 IP address) and allow recursive queries only from
+            localhost clients. If you want to use <span class=
+            "command"><strong>unbound</strong></span> for local DNS
+            resolution, run the following command as the <code class=
+            "systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">echo "nameserver 127.0.0.1" &gt; /etc/resolv.conf</kbd></pre>
+          <p>
+            For advanced configuration see <code class=
+            "filename">/etc/unbound/unbound.conf</code> file and the
+            documentation.
+          </p>
+          <p>
+            When <span class="application">Unbound</span> is installed, some
+            package builds fail if the file <code class=
+            "filename">/etc/unbound/root.key</code> is not found. This file
+            is created by running the boot script (install instructions
+            below). Alternatively, it can be created by running the following
+            command as the <code class="systemitem">root</code> user:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">unbound-anchor</kbd></pre>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="unbound-init" name="unbound-init"></a>
+          </h3>
+          <h4 class="title">
+            <a id="unbound-init" name="unbound-init"></a><span class=
+            "phrase">Boot Script</span>
+          </h4>
+          <p>
+            If you want the <span class="application">Unbound</span> server
+            to start automatically when the system is booted, install the
+            <span class="phrase"><code class=
+            "filename">/etc/rc.d/init.d/unbound</code> init script</span>
+            included in the <a class="xref" href=
+            "../introduction/bootscripts.html" title=
+            "BLFS ブートスクリプト">blfs-bootscripts-20231119</a> package:
+          </p>
+          <pre class="root"><kbd class=
+          "command">make install-unbound</kbd></pre>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">unbound, unbound-anchor,
+              unbound-checkconf, unbound-control, unbound-control-setup, and
+              unbound-host</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Library:</strong>
+              <span class="segbody">libunbound.so and (optional)
+              /usr/lib/python2.7/site-packages/_unbound.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody">/etc/unbound and
+              /usr/share/doc/unbound-1.19.0 (optional)</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="unbound-prog" name="unbound-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>unbound</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a DNS resolver daemon
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="unbound-anchor" name=
+                    "unbound-anchor"></a><span class="term"><span class=
+                    "command"><strong>unbound-anchor</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    performs setup or update of the root trust anchor for
+                    DNSSEC validation
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="unbound-checkconf" name=
+                    "unbound-checkconf"></a><span class="term"><span class=
+                    "command"><strong>unbound-checkconf</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    checks the <span class=
+                    "command"><strong>unbound</strong></span> configuration
+                    file for syntax and other errors
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="unbound-control" name=
+                    "unbound-control"></a><span class="term"><span class=
+                    "command"><strong>unbound-control</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    performs remote administration on the <span class=
+                    "command"><strong>unbound</strong></span> DNS resolver
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="unbound-control-setup" name=
+                    "unbound-control-setup"></a><span class=
+                    "term"><span class=
+                    "command"><strong>unbound-control-setup</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    generates a self-signed certificate and private keys for
+                    the server and client
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="unbound-host" name="unbound-host"></a><span class=
+                    "term"><span class=
+                    "command"><strong>unbound-host</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a DNS lookup utility similar to <span class=
+                    "command"><strong>host</strong></span> from <a class=
+                    "xref" href="../basicnet/bind-utils.html" title=
+                    "BIND Utilities-9.18.20">BIND Utilities-9.18.20</a>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libunbound" name="libunbound"></a><span class=
+                    "term"><code class="filename">libunbound.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides the <span class="application">Unbound</span> API
+                    functions to programs
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="openldap.html" title="OpenLDAP-2.6.6">戻る</a>
+          <p>
+            OpenLDAP-2.6.6
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="../x/x.html" title="グラフィックコンポーネント">次へ</a>
+          <p>
+            グラフィックコンポーネント
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="other.html" title=
+          "第23章 その他のサーバーソフトウェア">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

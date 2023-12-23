@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      libevent-2.1.12
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第17章 ネットワークライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="ldns.html" title="ldns-1.8.3">戻る</a>
+          <p>
+            ldns-1.8.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libmnl.html" title="libmnl-1.0.5">次へ</a>
+          <p>
+            libmnl-1.0.5
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="netlibs.html" title=
+          "第17章 ネットワークライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="libevent" name="libevent"></a>libevent-2.1.12
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libevent の概要
+        </h2>
+        <p>
+          <span class="application">libevent</span> は非同期のイベント通知を行うライブラリです。
+          <span class="application">libevent</span> API
+          はコールバック関数の実行メカニズムを提供します。
+          ファイル上にて指定されたイベントが発生したり、そのイベントがタイムアウトが発生したりした時のコールバック関数を呼び出します。
+          またシグナルや通常のタイムアウトのコールバックにも対応します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz">
+                https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: b5333f021f880fe76490d8a799cd79f4
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1.0 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 20 MB (テスト実施時さらには 4 MB、APIドキュメント生成時はさらに 4 MB)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.3 SBU (テスト実施時はさらに 11 SBU)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          libevent の依存パッケージ
+        </h3>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/doxygen.html" title=
+          "Doxygen-1.9.8">Doxygen-1.9.8</a> (API ドキュメント生成のため)
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libevent のインストール
+        </h2>
+        <p>
+          First, fix an issue that prevents event_rpcgen.py from working:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i 's/python/&amp;3/' event_rpcgen.py</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">libevent</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr --disable-static &amp;&amp;
+make</kbd></pre>
+        <p>
+          <a class="xref" href="../general/doxygen.html" title=
+          "Doxygen-1.9.8">Doxygen-1.9.8</a> をインストールしていて API
+          ドキュメントを生成したい場合は以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">doxygen Doxyfile</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>make
+          verify</strong></span> を実行します。 Six tests in every suite related to
+          <code class="filename">regress_ssl.c</code> and <code class=
+          "filename">regress_http.c</code> are known to fail due to
+          incompatibilities with OpenSSL-3. Some tests that are related to
+          <code class="filename">regress_dns.c</code> are also known to fail
+          intermittently due to insufficient test timeouts.
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+        <p>
+          API ドキュメントを生成した場合は <code class="systemitem">root</code>
+          ユーザーになって以下のコマンドを実行してインストールします。
+        </p>
+        <pre class="root"><kbd class=
+        "command">install -v -m755 -d /usr/share/doc/libevent-2.1.12/api &amp;&amp;
+cp      -v -R       doxygen/html/* \
+                    /usr/share/doc/libevent-2.1.12/api</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--disable-static</code></em>:
+          このスイッチはスタティックライブラリをインストールしないようにします。
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">event_rpcgen.py</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libevent_core.so, libevent_extra.so,
+              libevent_openssl.so, libevent_pthreads.so, libevent.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/event2,
+              /usr/share/doc/libevent-2.1.12</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="ldns.html" title="ldns-1.8.3">戻る</a>
+          <p>
+            ldns-1.8.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libmnl.html" title="libmnl-1.0.5">次へ</a>
+          <p>
+            libmnl-1.0.5
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="netlibs.html" title=
+          "第17章 ネットワークライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

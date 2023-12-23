@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      SWIG-4.1.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第13章 プログラミング言語
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="svnserver.html" title=
+          "Subversion サーバーの起動">戻る</a>
+          <p>
+            Subversion サーバーの起動
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="tk.html" title="Tk-8.6.13">次へ</a>
+          <p>
+            Tk-8.6.13
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="prog.html" title="第13章 プログラミング言語">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="swig" name="swig"></a>SWIG-4.1.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          SWIG の概要
+        </h2>
+        <p>
+          <span class="application">SWIG</span> (Simplified Wrapper and
+          Interface Generator) is a compiler that integrates <span class=
+          "application">C</span> and <span class="application">C++</span>
+          with languages including <span class="application">Perl</span>,
+          <span class="application">Python</span>, <span class=
+          "application">Tcl</span>, <span class="application">Ruby</span>,
+          <span class="application">PHP</span>, <span class=
+          "application">Java</span>, <span class="application">C#</span>,
+          <span class="application">D</span>, <span class=
+          "application">Go</span>, <span class="application">Lua</span>,
+          <span class="application">Octave</span>, <span class=
+          "application">R</span>, <span class="application">Scheme</span>,
+          and <span class="application">Ocaml</span>. <span class=
+          "application">SWIG</span> can also export its parse tree into
+          <span class="application">Lisp</span> s-expressions and
+          <span class="application">XML</span>.
+        </p>
+        <p>
+          <span class="application">SWIG</span> reads annotated <span class=
+          "application">C/C++</span> header files and creates wrapper code
+          (glue code) in order to make the corresponding <span class=
+          "application">C/C++</span> libraries available to the listed
+          languages, or to extend <span class="application">C/C++</span>
+          programs with a scripting language.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://downloads.sourceforge.net/swig/swig-4.1.1.tar.gz">https://downloads.sourceforge.net/swig/swig-4.1.1.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: c7d55a1bca26752f3846c85b43c1a69c
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 8.2 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 82 MB (2.1 GB with tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU (add 7.8 SBU for tests; both using
+                parallelism=4)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          SWIG の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="pcre2.html" title=
+          "PCRE2-10.42">pcre2-10.42</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="boost.html" title=
+          "Boost-1.84.0">Boost-1.84.0</a> for tests, and any of the languages
+          mentioned in the introduction, as run-time dependencies
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          SWIG のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">SWIG</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr                      \
+            --without-javascript               \
+            --without-maximum-compile-warnings &amp;&amp;
+make</kbd></pre>
+        <p>
+          To test the results, issue: <span class="command"><strong>PY3=1
+          make -k check TCL_INCLUDE=</strong></span>. The unsetting of the
+          variable <code class="envar">TCL_INCLUDE</code> is necessary since
+          it is not correctly set by <span class=
+          "emphasis"><em>configure</em></span>. The tests are only executed
+          for the languages installed on your machine, so the disk space and
+          SBU values given for the tests may vary, and should be considered
+          as mere orders of magnitude. According to <span class=
+          "application">SWIG</span>'s documentation, the failure of some
+          tests should not be considered harmful. The go tests are buggy and
+          may generate a lot of meaningless output.
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install &amp;&amp;
+install -v -m755 -d /usr/share/doc/swig-4.1.1 &amp;&amp;
+cp -v -R Doc/* /usr/share/doc/swig-4.1.1</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class=
+          "parameter"><code>--without-maximum-compile-warnings</code></em>:
+          disables compiler ansi conformance enforcement, which triggers
+          errors in the <span class="application">Lua</span> headers
+          (starting with Lua 5.3).
+        </p>
+        <p>
+          <code class="option">--without-&lt;language&gt;</code>: allows
+          disabling the building of tests and examples for &lt;language&gt;,
+          but all the languages capabilities of <span class=
+          "application">SWIG</span> are always built.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">swig, ccache-swig</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/share/doc/swig-4.1.1, /usr/share/swig</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="swig-prog" name="swig-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>swig</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    takes an interface file containing C/C++ declarations and
+                    SWIG special instructions, and generates the
+                    corresponding wrapper code needed to build extension
+                    modules
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ccache-swig" name="ccache-swig"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ccache-swig</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a compiler cache, which speeds up re-compilation of
+                    C/C++/SWIG code
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="svnserver.html" title=
+          "Subversion サーバーの起動">戻る</a>
+          <p>
+            Subversion サーバーの起動
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="tk.html" title="Tk-8.6.13">次へ</a>
+          <p>
+            Tk-8.6.13
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="prog.html" title="第13章 プログラミング言語">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

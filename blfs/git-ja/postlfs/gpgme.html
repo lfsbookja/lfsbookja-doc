@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      GPGME-1.23.2
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第4章 セキュリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gnutls.html" title="GnuTLS-3.8.2">戻る</a>
+          <p>
+            GnuTLS-3.8.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="iptables.html" title=
+          "iptables-1.8.10">次へ</a>
+          <p>
+            iptables-1.8.10
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="security.html" title="第4章 セキュリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="gpgme" name="gpgme"></a>GPGME-1.23.2
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          GPGME の概要
+        </h2>
+        <p>
+          <span class="application">GPGME</span> パッケージは C
+          言語により構築されたライブラリであり、暗号化機能をプログラムに付与することができます。 これは <span class=
+          "application">GnuPG</span> や GpgSM
+          などと同じように公開鍵暗号エンジンへのアクセスを可能とするものであり、それらよりも容易に実現できます。 <span class=
+          "application">GPGME</span> では、高レベル API
+          として、暗号化、復号化、認証、シグニチャー認証、キー管理などを提供します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-1.23.2.tar.bz2">
+                https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-1.23.2.tar.bz2</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 01a8c05b409847e87daf0543e91f8c37
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1.8 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 260 MB (with tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 1.0 SBU (with all bindings and tests; with
+                parallelism=4)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          GPGME の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/libassuan.html" title=
+          "libassuan-2.5.6">libassuan-2.5.6</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/doxygen.html" title=
+          "Doxygen-1.9.8">Doxygen-1.9.8</a> and <a class="xref" href=
+          "../general/graphviz.html" title=
+          "Graphviz-9.0.0">Graphviz-9.0.0</a> (for API documentation),
+          <a class="xref" href="gnupg.html" title=
+          "GnuPG-2.4.3">GnuPG-2.4.3</a> (required if Qt or SWIG are
+          installed; used during the test suite), <a class="xref" href=
+          "../general/clisp.html" title="Clisp-2.49">Clisp-2.49</a>,
+          (<a class="xref" href="../x/qt5.html" title=
+          "Qt-5.15.11">Qt-5.15.11</a> または <a class="xref" href=
+          "../x/qt5-alternate.html" title=
+          "qt-alternate-5.15.11">qt-alternate-5.15.11</a>), and <a class=
+          "xref" href="../general/swig.html" title=
+          "SWIG-4.1.1">SWIG-4.1.1</a> (for language bindings)
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          GPGME のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">GPGME</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+../configure --prefix=/usr --disable-gpg-test &amp;&amp;
+make PYTHONS=</kbd></pre>
+        <p>
+          If <a class="xref" href="../general/swig.html" title=
+          "SWIG-4.1.1">SWIG-4.1.1</a> is installed, build the Python 3
+          binding as a wheel:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">if swig -version &gt; /dev/null; then
+  srcdir=$PWD/../lang/python \
+  top_builddir=$PWD          \
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD/lang/python
+fi</kbd></pre>
+        <p>
+          To test the results, you should have <a class="xref" href=
+          "gnupg.html" title="GnuPG-2.4.3">GnuPG-2.4.3</a> installed and
+          remove the <code class="option">--disable-gpg-test</code> above. If
+          <a class="xref" href="../general/swig.html" title=
+          "SWIG-4.1.1">SWIG-4.1.1</a> is installed, it's necessary to adapt
+          the test suite to use the Python 3 binding just built as a wheel as
+          well. Issue:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">if swig -version &gt; /dev/null; then
+  python3 -m venv testenv                                              &amp;&amp;
+  testenv/bin/pip3 install --no-index --find-links=dist --no-cache-dir \
+                           gpg                                         &amp;&amp;
+  sed '/PYTHON/s#run-tests.py#&amp; --python-libdir=/dev/null#'            \
+      -i lang/python/tests/Makefile
+fi &amp;&amp;
+
+make -k check PYTHONS= PYTHON=$PWD/testenv/bin/python3</kbd></pre>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class=
+        "command">make install PYTHONS=</kbd></pre>
+        <p>
+          If <a class="xref" href="../general/swig.html" title=
+          "SWIG-4.1.1">SWIG-4.1.1</a> is installed, still as the <code class=
+          "systemitem">root</code> user, install the Python 3 binding:
+        </p>
+        <pre class="root"><kbd class=
+        "command">if swig -version &gt; /dev/null; then
+  pip3 install --no-index --find-links=dist --no-cache-dir --no-user gpg
+fi</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--disable-gpg-test</code></em>:
+          このパラメーターを configure 時に指定しなかった場合、<span class=
+          "command"><strong>make</strong></span> 時にテストプログラムが生成されますが、これは
+          <a class="xref" href="gnupg.html" title=
+          "GnuPG-2.4.3">GnuPG-2.4.3</a> を必要とします。 <a class="xref" href=
+          "gnupg.html" title="GnuPG-2.4.3">GnuPG-2.4.3</a>
+          をインストールしている時には本パラメーターは不要です。
+        </p>
+        <p>
+          <em class="parameter"><code>PYTHONS=</code></em>: Disable building
+          Python binding using the deprecated <span class=
+          "command"><strong>python3 setup.py build</strong></span> command.
+          The explicit instruction to build the Python 3 binding with the
+          <span class="command"><strong>pip3 wheel</strong></span> command is
+          provided.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">gpgme-json, gpgme-tool</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libgpgme.so, libgpgmepp.so, libqgpgme.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/{gpgme++,qgpgme,QGpgME},
+              /usr/lib/cmake/{Gpgmepp,QGpgme}.
+              /usr/lib/python3.12/site-packages/gpg{,-1.23.2.dist-info},
+              /usr/share/common-lisp/source/gpgme</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gpgme-json" name="gpgme-json"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gpgme-json</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    outputs <span class="application">GPGME</span> commands
+                    in JSON format
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gpgme-tool" name="gpgme-tool"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gpgme-tool</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is an assuan server exposing <span class=
+                    "application">GPGME</span> operations, such as printing
+                    fingerprints and keyids with keyservers
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libgpgme" name="libgpgme"></a><span class=
+                    "term"><code class="filename">libgpgme.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">GPGME</span> API 関数を提供します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libgpgmepp" name="libgpgmepp"></a><span class=
+                    "term"><code class="filename">libgpgmepp.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains the C++ <span class="application">GPGME</span>
+                    API functions
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libqgpgme" name="libqgpgme"></a><span class=
+                    "term"><code class="filename">libqgpgme.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains API functions for handling GPG operations in
+                    <span class="application">Qt</span> applications
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gnutls.html" title="GnuTLS-3.8.2">戻る</a>
+          <p>
+            GnuTLS-3.8.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="iptables.html" title=
+          "iptables-1.8.10">次へ</a>
+          <p>
+            iptables-1.8.10
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="security.html" title="第4章 セキュリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

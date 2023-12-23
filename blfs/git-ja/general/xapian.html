@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Xapian-1.4.24
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第9章 汎用的なライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="wv.html" title="wv-1.2.9">戻る</a>
+          <p>
+            wv-1.2.9
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="graphlib.html" title=
+          "グラフィックスとフォントのライブラリ">次へ</a>
+          <p>
+            グラフィックスとフォントのライブラリ
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="xapian" name="xapian"></a>Xapian-1.4.24
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          xapian の概要
+        </h2>
+        <p>
+          Xapian はオープンソースの検索エンジンライブラリです。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://oligarchy.co.uk/xapian/1.4.24/xapian-core-1.4.24.tar.xz">
+                https://oligarchy.co.uk/xapian/1.4.24/xapian-core-1.4.24.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: f0136a41451567099ac9d2b5ff028e77
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 3.0 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 195 MB (テスト実施時はさらに 163 MB)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.7 SBU (parallelism=4 利用; テスト実施時はさらに 16 SBU)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Xapian の依存パッケージ
+        </h3>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="valgrind.html" title=
+          "Valgrind-3.22.0">Valgrind-3.22.0</a> (テスト用)
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Xapian のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">Xapian</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr    \
+            --disable-static \
+            --docdir=/usr/share/doc/xapian-core-1.4.24 &amp;&amp;
+make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>make
+          check</strong></span> を実行します。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">copydatabase, quest, simpleexpand, simpleindex,
+              simplesearch, xapian-check, xapian-compact, xapian-config,
+              xapian-delve, xapian-metadata, xapian-pos, xapian-progsrv,
+              xapian-replicate, xapian-replicate-server, xapian-tcpsrv</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libxapian.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/xapian, /usr/lib/cmake/xapian,
+              /usr/share/doc/xapian-core-1.4.24,
+              /usr/share/xapian-core</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="copydatabase" name="copydatabase"></a><span class=
+                    "term"><span class=
+                    "command"><strong>copydatabase</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    performs a document-by-document copy of one or more
+                    <span class="application">Xapian</span> databases
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="quest" name="quest"></a><span class=
+                    "term"><span class=
+                    "command"><strong>quest</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a command line tool to search through a database
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="simpleexpand" name="simpleexpand"></a><span class=
+                    "term"><span class=
+                    "command"><strong>simpleexpand</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a simple example program demonstrating query expansion
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="simpleindex" name="simpleindex"></a><span class=
+                    "term"><span class=
+                    "command"><strong>simpleindex</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    indexes each paragraph of a text file as a <span class=
+                    "application">Xapian</span> document
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="simplesearch" name="simplesearch"></a><span class=
+                    "term"><span class=
+                    "command"><strong>simplesearch</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a simple command line search utility
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xapian-check" name="xapian-check"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xapian-check</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    checks the consistency of a database or table
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xapian-compact" name=
+                    "xapian-compact"></a><span class="term"><span class=
+                    "command"><strong>xapian-compact</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    compacts a database, or merges and compacts several
+                    databases
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xapian-config" name=
+                    "xapian-config"></a><span class="term"><span class=
+                    "command"><strong>xapian-config</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    reports information about the installed version of xapian
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xapian-delve" name="xapian-delve"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xapian-delve</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    inspects the contents of a <span class=
+                    "application">Xapian</span> database
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xapian-metadata" name=
+                    "xapian-metadata"></a><span class="term"><span class=
+                    "command"><strong>xapian-metadata</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    reads and writes user metadata
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xapian-pos" name="xapian-pos"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xapian-pos</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    inspects the contents of a flint table for development or
+                    debugging
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xapian-progsrv" name=
+                    "xapian-progsrv"></a><span class="term"><span class=
+                    "command"><strong>xapian-progsrv</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a remote server for use with <span class=
+                    "application">ProgClient</span>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xapian-replicate" name=
+                    "xapian-replicate"></a><span class="term"><span class=
+                    "command"><strong>xapian-replicate</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    replicates a database from a master server to a local
+                    copy
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xapian-replicate-server" name=
+                    "xapian-replicate-server"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xapian-replicate-server</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    services database replication requests from clients
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xapian-tcpsrv" name=
+                    "xapian-tcpsrv"></a><span class="term"><span class=
+                    "command"><strong>xapian-tcpsrv</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the TCP daemon for use with <span class=
+                    "application">Xapian</span>'s remote backend
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="wv.html" title="wv-1.2.9">戻る</a>
+          <p>
+            wv-1.2.9
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="graphlib.html" title=
+          "グラフィックスとフォントのライブラリ">次へ</a>
+          <p>
+            グラフィックスとフォントのライブラリ
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

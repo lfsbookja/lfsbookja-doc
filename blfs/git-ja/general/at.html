@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      at-3.2.5
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第12章 システムユーティリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="acpid.html" title="acpid-2.0.34">戻る</a>
+          <p>
+            acpid-2.0.34
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="autofs.html" title="autofs-5.1.9">次へ</a>
+          <p>
+            autofs-5.1.9
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="sysutils.html" title=
+          "第12章 システムユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="at" name="at"></a>at-3.2.5
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          at の概要
+        </h2>
+        <p>
+          <span class="application">at</span> パッケージは、ジョブの遅延実行やバッチ処理実行を提供します。
+          これは Linux Standards Base (LSB) に適合するために必要なものです。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://anduin.linuxfromscratch.org/BLFS/at/at_3.2.5.orig.tar.gz">
+                https://anduin.linuxfromscratch.org/BLFS/at/at_3.2.5.orig.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: ca3657a1c90d7c3d252e0bc17feddc6e
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 130 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 1.9 MB (テスト込み)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU 以下
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          at の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          An <a class="xref" href="../server/mail.html" title=
+          "第21章 メールサーバーソフトウェア">MTA</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../postlfs/linux-pam.html" title=
+          "Linux-PAM-1.5.3">Linux-PAM-1.5.3</a>
+        </p>
+        <p class="usernotes">
+          編集ノート: <a class="ulink" href=
+          "https://wiki.linuxfromscratch.org/blfs/wiki/at">https://wiki.linuxfromscratch.org/blfs/wiki/at</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          at のインストール
+        </h2>
+        <p>
+          <span class="application">at</span> のビルドにあたっては、まず <code class=
+          "systemitem">root</code> ユーザーになって <code class=
+          "systemitem">atd</code> グループおよびユーザーを生成します。 これは <span class=
+          "command"><strong>atd</strong></span> デーモンを実行するためのものです。
+        </p>
+        <pre class="root"><kbd class=
+        "command">groupadd -g 17 atd                                                  &amp;&amp;
+useradd -d /dev/null -c "atd daemon" -g atd -s /bin/false -u 17 atd</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">at</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --with-daemon_username=atd        \
+            --with-daemon_groupname=atd       \
+            --with-jobdir=/var/spool/atjobs   \
+            --with-atspool=/var/spool/atspool \
+            SENDMAIL=/usr/sbin/sendmail       &amp;&amp;
+make -j1</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>make
+          test</strong></span> を実行します。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class=
+        "command">make install docdir=/usr/share/doc/at-3.2.5 \
+             atdocdir=/usr/share/doc/at-3.2.5</kbd></pre>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          at の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="at-config" name="at-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="at-config" name="at-config"></a>設定ファイル
+          </h4>
+          <p>
+            <code class="filename">/etc/at.allow</code> と <code class=
+            "filename">/etc/at.deny</code> により、at
+            経由でのジョブ実行やバッチ処理は誰に許可されるかなどを設定します。
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id29851" name="id29851"></a>Linux PAM Configuration
+          </h4>
+          <p>
+            If <span class="application">At</span> has been built with
+            <span class="application">Linux PAM</span> support, you need to
+            create a <span class="application">PAM</span> configuration file,
+            to get it working correctly with BLFS.
+          </p>
+          <p>
+            Issue the following commands as the <code class=
+            "systemitem">root</code> user to create the configuration file
+            for <span class="application">Linux PAM</span>:
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt; /etc/pam.d/atd &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/pam.d/atd
+
+auth     required pam_unix.so
+account  required pam_unix.so
+password required pam_unix.so
+session  required pam_unix.so
+
+# End /etc/pam.d/atd</code>
+EOF</kbd></pre>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="at-init" name="at-init"></a>
+          </h3>
+          <h4 class="title">
+            <a id="at-init" name="at-init"></a><span class=
+            "phrase">ブートスクリプト</span>
+          </h4>
+          <p>
+            <a class="xref" href="../introduction/bootscripts.html" title=
+            "BLFS ブートスクリプト">blfs-bootscripts-20231119</a> パッケージにある初期化スクリプト
+            <code class="filename">/etc/init.d/atd</code> をインストールします。
+          </p>
+          <pre class="root"><kbd class="command">make install-atd</kbd></pre>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">at, atd, atq (シンボリックリンク), atrm (シンボリックリンク), atrun,
+              batch</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/share/doc/at-3.2.5</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="at-prog" name="at-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>at</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    遅延実行ジョブをキューに溜めたり、検証や削除を行ったりします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="atd" name="atd"></a><span class=
+                    "term"><span class="command"><strong>atd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    遅延実行ジョブとしてキューに溜められたものを実行するデーモン。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="atq" name="atq"></a><span class=
+                    "term"><span class="command"><strong>atq</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    lists the user's pending jobs, or all jobs, if superuser
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="atrm" name="atrm"></a><span class=
+                    "term"><span class=
+                    "command"><strong>atrm</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    deletes jobs, identified by their job number
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="atrun" name="atrun"></a><span class=
+                    "term"><span class=
+                    "command"><strong>atrun</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    遅延実行ジョブを実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="batch" name="batch"></a><span class=
+                    "term"><span class=
+                    "command"><strong>batch</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    システムのロードレベルが許容されている場合に、コマンドを実行するスクリプトです。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="acpid.html" title="acpid-2.0.34">戻る</a>
+          <p>
+            acpid-2.0.34
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="autofs.html" title="autofs-5.1.9">次へ</a>
+          <p>
+            autofs-5.1.9
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="sysutils.html" title=
+          "第12章 システムユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

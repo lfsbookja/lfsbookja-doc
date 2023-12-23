@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Sudo-1.9.15p4
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第4章 セキュリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="stunnel.html" title="stunnel-5.71">戻る</a>
+          <p>
+            stunnel-5.71
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="tripwire.html" title=
+          "Tripwire-2.4.3.7">次へ</a>
+          <p>
+            Tripwire-2.4.3.7
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="security.html" title="第4章 セキュリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="sudo" name="sudo"></a>Sudo-1.9.15p4
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Sudo の概要
+        </h2>
+        <p>
+          <span class="application">Sudo</span>
+          パッケージは、システム管理者が利用する機能として、特定のユーザー (あるいはユーザーグループ) が特定のコマンド
+          (あるいはすべてのコマンド) を <code class="systemitem">root</code>
+          ユーザーとして、あるいは他のユーザーとしてコマンド実行ができるようにする機能を提供します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://www.sudo.ws/dist/sudo-1.9.15p4.tar.gz">https://www.sudo.ws/dist/sudo-1.9.15p4.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 5403f4dad2d533f8576c8a6d3eae5cfd
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 5.1 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 53 MB (add 19 MB for tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.2 SBU (with parallelism=4; add 0.1 SBU for tests)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Sudo の依存パッケージ
+        </h3>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="linux-pam.html" title=
+          "Linux-PAM-1.5.3">Linux-PAM-1.5.3</a>, <a class="xref" href=
+          "mitkrb.html" title="MIT Kerberos V5-1.21.2">MIT Kerberos
+          V5-1.21.2</a>, <a class="xref" href="../server/openldap.html"
+          title="OpenLDAP-2.6.6">OpenLDAP-2.6.6</a>, <a class="xref" href=
+          "../server/mail.html" title="第21章 メールサーバーソフトウェア">MTA</a> (that
+          provides a <span class="command"><strong>sendmail</strong></span>
+          command), <a class="ulink" href="https://www.openafs.org/">AFS</a>,
+          <a class="ulink" href=
+          "https://github.com/linux-audit/audit-userspace">libaudit</a>,
+          <a class="ulink" href=
+          "https://downloads.sourceforge.net/opie/">Opie</a>, and <a class=
+          "ulink" href="https://sssd.io/">Sssd</a>
+        </p>
+        <p class="usernotes">
+          編集ノート: <a class="ulink" href=
+          "https://wiki.linuxfromscratch.org/blfs/wiki/sudo">https://wiki.linuxfromscratch.org/blfs/wiki/sudo</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Sudo のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">sudo</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr              \
+            --libexecdir=/usr/lib      \
+            --with-secure-path         \
+            --with-env-editor          \
+            --docdir=/usr/share/doc/sudo-1.9.15p4 \
+            --with-passprompt="[sudo] password for %p: " &amp;&amp;
+make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>env LC_ALL=C make
+          check |&amp; tee make-check.log</strong></span> を実行します。 確認は
+          <span class="command"><strong>grep failed
+          make-check.log</strong></span> により行います。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--libexecdir=/usr/lib</code></em>: This
+          switch controls where private programs are installed. Everything in
+          that directory is a library, so they belong under <code class=
+          "filename">/usr/lib</code> instead of <code class=
+          "filename">/usr/libexec</code>.
+        </p>
+        <p>
+          <em class="parameter"><code>--with-secure-path</code></em>: This
+          switch transparently adds <code class="filename">/sbin</code> and
+          <code class="filename">/usr/sbin</code> directories to the
+          <code class="envar">PATH</code> environment variable.
+        </p>
+        <p>
+          <em class="parameter"><code>--with-env-editor</code></em>: このスイッチは
+          <span class="command"><strong>visudo</strong></span> において環境変数
+          EDITOR の利用を有効にします。
+        </p>
+        <p>
+          <em class="parameter"><code>--with-passprompt</code></em>: This
+          switch sets the password prompt. The <em class=
+          "parameter"><code>%p</code></em> will be expanded to the name of
+          the user whose password is being requested.
+        </p>
+        <p>
+          <code class="option">--without-pam</code>: This switch avoids
+          building <span class="application">Linux-PAM</span> support when
+          <span class="application">Linux-PAM</span> is installed on the
+          system.
+        </p>
+        <p>
+          <code class="option">--with-all-insults</code>: This switch
+          includes all the sudo insult sets. Insults are printed if the user
+          types a bad password, and if enabled in <code class=
+          "filename">/etc/sudoers</code>. Use <code class=
+          "option">--with-insults</code> to have them enabled by default.
+          Various sets of insults can be selected with some other switches.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            <span class="application">sudo</span> の <span class=
+            "command"><strong>configure</strong></span> スクリプトにはオプションが数多くあります。
+            すべてを確認する場合は <span class="command"><strong>configure
+            --help</strong></span> を実行してその出力を参照してください。
+          </p>
+        </div>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Sudo の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="sudo-config" name="sudo-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="sudo-config" name="sudo-config"></a>設定ファイル
+          </h4>
+          <p>
+            <code class="filename">/etc/sudoers</code>
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id10185" name="id10185"></a>設定情報
+          </h4>
+          <p>
+            <code class="filename">sudoers</code> ファイルは少々込み入っています。
+            このファイル内では２つの記述項目があります。 エイリアス (基本的には変数) とユーザー指定 (誰が何を実行できるか)
+            を定めるものです。
+            インストール作業によってインストールされるこのファイルは、デフォルトの設定が行われているに過ぎず、どのユーザーにも権限は与えられていません。
+          </p>
+          <p>
+            A couple of common configuration changes are to set the path for
+            the super user and to allow members of the wheel group to execute
+            all commands after providing their own credentials. Use the
+            following commands to create the <code class=
+            "filename">/etc/sudoers.d/00-sudo</code> configuration file as
+            the <code class="systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt; /etc/sudoers.d/00-sudo &lt;&lt; "EOF"
+<code class="literal">Defaults secure_path="/usr/sbin:/usr/bin"
+%wheel ALL=(ALL) ALL</code>
+EOF</kbd></pre>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              In very simple installations where there is only one user, it
+              may be easier to just edit the <code class=
+              "filename">/etc/sudoers</code> file directly. In that case, the
+              <code class="varname">secure_path</code> entry may not be
+              needed and using <span class="command"><strong>sudo -E
+              ...</strong></span> can import the non-privileged user's full
+              environment into the privileged session.
+            </p>
+            <p>
+              The files in the <code class="filename">/etc/sudoers.d</code>
+              directory are parsed in sorted lexical order. Be careful that
+              entries in an added file do not overwrite previous entries.
+            </p>
+          </div>
+          <p>
+            詳しいことは <span class="command"><strong>man sudoers</strong></span>
+            を実行して確認してください。
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              <span class="application">Sudo</span> 開発者は <code class=
+              "filename">sudoers</code> ファイルを編集する際には <span class=
+              "command"><strong>visudo</strong></span> コマンドを利用することを強く推奨しています。
+              文法チェックやファイルパーミッションなどの基本的な整合性を確保するものであり、ちょっとしたミスによって脆弱な設定とならないようにするものです。
+            </p>
+          </div>
+          <p>
+            <span class="application">PAM</span> をインストールしている場合、<span class=
+            "application">Sudo</span> は <span class="application">PAM</span>
+            サポートを含めてビルドされます。 この場合は <code class="systemitem">root</code>
+            ユーザーになり以下のコマンドを実行して <span class="application">PAM</span>
+            設定ファイルを生成します。
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt; /etc/pam.d/sudo &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/pam.d/sudo
+
+# include the default auth settings
+auth      include     system-auth
+
+# include the default account settings
+account   include     system-account
+
+# Set default environment variables for the service user
+session   required    pam_env.so
+
+# include system session defaults
+session   include     system-session
+
+# End /etc/pam.d/sudo</code>
+EOF
+chmod 644 /etc/pam.d/sudo</kbd></pre>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">cvtsudoers, sudo, sudo_logsrvd, sudo_sendlog,
+              sudoedit (シンボリックリンク), sudoreplay, visudo</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">audit_json.so, group_file.so, libsudo_util.so,
+              sudoers.so, sudo_intercept.so, sudo_noexec.so,
+              system_group.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/etc/sudoers.d, /usr/lib/sudo,
+              /usr/share/doc/sudo-1.9.15p4, /var/lib/sudo</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cvtsudoers" name="cvtsudoers"></a><span class=
+                    "term"><span class=
+                    "command"><strong>cvtsudoers</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    converts between sudoers file formats
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sudo_prog" name="sudo_prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sudo</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    設定ファイル <code class="filename">/etc/sudoers</code>
+                    によって許可された他ユーザーとなって、コマンドを実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sudo_logsrvd" name="sudo_logsrvd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sudo_logsrvd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a sudo event and I/O log server
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sudo_sendlog" name="sudo_sendlog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sudo_sendlog</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends sudo I/O logs to the log server
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sudoedit" name="sudoedit"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sudoedit</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>sudo</strong></span>
+                    コマンドに対して <code class="option">-e</code>
+                    オプションをつけたシンボリックリンクであり、他ユーザーとなってエディターを起動します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sudoreplay" name="sudoreplay"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sudoreplay</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to play back or list the output logs created by
+                    <span class="command"><strong>sudo</strong></span>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="visudo" name="visudo"></a><span class=
+                    "term"><span class=
+                    "command"><strong>visudo</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <code class="filename">sudoers</code> ファイルを安全な形で編集します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="stunnel.html" title="stunnel-5.71">戻る</a>
+          <p>
+            stunnel-5.71
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="tripwire.html" title=
+          "Tripwire-2.4.3.7">次へ</a>
+          <p>
+            Tripwire-2.4.3.7
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="security.html" title="第4章 セキュリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Wget-1.21.4
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第15章 ネットワークプログラム
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="samba.html" title="Samba-4.19.3">戻る</a>
+          <p>
+            Samba-4.19.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="wireless-kernel.html" title=
+          "Configuring the Linux Kernel for Wireless">次へ</a>
+          <p>
+            Configuring the Linux Kernel for Wireless
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="netprogs.html" title=
+          "第15章 ネットワークプログラム">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="wget" name="wget"></a>Wget-1.21.4
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Wget の概要
+        </h2>
+        <p>
+          <span class="application">Wget</span> パッケージは、Web
+          経由でのファイルダウンロードを非対話的 (non-interactive) に実現することができるユーティリティです。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://ftp.gnu.org/gnu/wget/wget-1.21.4.tar.gz">https://ftp.gnu.org/gnu/wget/wget-1.21.4.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: e7f7ca2f215b711f76584756ebd3c853
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 4.8 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 36 MB (テスト実施時はさらに 27 MB)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.3 SBU (テスト実施時はさらに 0.3 SBU)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Wget の依存パッケージ
+        </h3>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../postlfs/make-ca.html" title=
+          "make-ca-1.13">make-ca-1.13</a> （実行時）
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../postlfs/gnutls.html" title=
+          "GnuTLS-3.8.2">GnuTLS-3.8.2</a>, <a class="xref" href=
+          "../general/perl-modules.html#perl-http-daemon" title=
+          "HTTP::Daemon-6.16">HTTP-Daemon-6.16</a> (テストスイートのため), <a class=
+          "xref" href="../general/perl-modules.html#perl-io-socket-ssl"
+          title="IO::Socket::SSL-2.084">IO-Socket-SSL-2.084</a> (テストスイートのため),
+          <a class="xref" href="../general/libidn2.html" title=
+          "libidn2-2.3.4">libidn2-2.3.4</a>, <a class="xref" href=
+          "libpsl.html" title="libpsl-0.21.2">libpsl-0.21.2</a>, <a class=
+          "xref" href="../general/pcre.html" title="PCRE-8.45">PCRE-8.45</a>
+          または <a class="xref" href="../general/pcre2.html" title=
+          "PCRE2-10.42">pcre2-10.42</a>, <a class="xref" href=
+          "../general/valgrind.html" title=
+          "Valgrind-3.22.0">Valgrind-3.22.0</a> (テストスイートのため)
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Wget のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">Wget</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr      \
+            --sysconfdir=/etc  \
+            --with-ssl=openssl &amp;&amp;
+make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>make
+          check</strong></span> を実行します。
+        </p>
+        <p>
+          Some tests may fail when Valgrind tests are enabled.
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--sysconfdir=/etc</code></em>:
+          このパラメーターは、設定ファイルの置き場所を <code class="filename">/usr/etc</code> から
+          <code class="filename">/etc</code> に変更します。
+        </p>
+        <p>
+          <em class="parameter"><code>--with-ssl=openssl</code></em>:
+          このオプションにより <a class="xref" href="../postlfs/gnutls.html" title=
+          "GnuTLS-3.8.2">GnuTLS-3.8.2</a> を用いず openssl を用いたプログラムとします。
+        </p>
+        <p>
+          <code class="option">--enable-valgrind-tests</code>: valgrind
+          のもとでテスト実行します。
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Wget の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="wget-config" name="wget-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="wget-config" name="wget-config"></a>設定ファイル
+          </h4>
+          <p>
+            <code class="filename">/etc/wgetrc</code>, <code class=
+            "filename">~/.wgetrc</code>
+          </p>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">wget</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="wget-prog" name="wget-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>wget</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    HTTP, HTTPS, FTP の各プロトコルにより Web 経由でのファイル取得を行います。
+                    これはバックグラウンド実行などのように、非対話的に実行する用途が意図されています。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="samba.html" title="Samba-4.19.3">戻る</a>
+          <p>
+            Samba-4.19.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="wireless-kernel.html" title=
+          "Configuring the Linux Kernel for Wireless">次へ</a>
+          <p>
+            Configuring the Linux Kernel for Wireless
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="netprogs.html" title=
+          "第15章 ネットワークプログラム">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

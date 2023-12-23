@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      第4章 セキュリティ
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        パート&nbsp;II.&nbsp;LFS 設定以降と追加ソフトウェア
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="random.html" title="乱数生成">戻る</a>
+          <p>
+            乱数生成
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="vulnerabilities.html" title="ぜい弱性">次へ</a>
+          <p>
+            ぜい弱性
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="postlfs.html" title=
+          "パート&nbsp;II.&nbsp;LFS 設定以降と追加ソフトウェア">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="chapter" lang="ja" xml:lang="ja">
+      <h1 class="chapter">
+        <a id="postlfs-security" name="postlfs-security"></a>セキュリティ
+      </h1>
+      <p>
+        コンピューター環境におけるセキュリティというものには、実にさまざまなものがあります。
+        基本的な議論を示した上で、本章では三種類のセキュリティ、つまりアクセス制御、予防対策、検出についての例を示します。
+      </p>
+      <p>
+        ユーザーのアクセスは通常 <span class="command"><strong>login</strong></span>
+        コマンドか、あるいはアプリケーションにて実装されたログイン機能を通じて行われます。 本章では <span class=
+        "application">PAM</span> モジュールの設定により <span class=
+        "command"><strong>login</strong></span> コマンドの拡張方法を示します。
+        ネットワークを介してのアクセスは <span class="application">iptables</span>
+        により設定されたポリシーによりセキュリティが確保されます。 これはファイアウォールとしても知られるものです。
+        ネットワークセキュリティサービス (Network Security Services; NSS) と Netscape
+        ポータブルランタイム (Netscape Portable Runtime; NSPR)
+        の各ライブラリもあり、これを使うアプリケーションから利用されます。
+        十分なセキュリティを確保できていないアプリケーションであっても、<span class=
+        "application">Stunnel</span> パッケージを用いれば、SSL
+        トンネル内にてアプリケーションデーモンをラップすることができます。
+      </p>
+      <p>
+        トロイの木馬などのようなシステムへの不正侵入を防止するには、これに対処する <span class=
+        "application">GnuPG</span> などの利用が考えられます。
+        これはパッケージに対しての認証を与えるものであり、パッケージの生成後に改ざんが為されたとしてもそれを認識できるものです。
+      </p>
+      <p>
+        最後に検出機能を実現するパッケージににも触れます。 これは (管理者が生成した) 重要なファイルに "署名" を付与し、その "署名"
+        を再生成したり、ファイルの比較により変更を検出したりします。
+      </p>
+      <div class="toc">
+        <h3>
+          目次
+        </h3>
+        <ul>
+          <li class="sect1">
+            <a href="vulnerabilities.html">ぜい弱性</a>
+          </li>
+          <li class="sect1">
+            <a href="make-ca.html">make-ca-1.13</a>
+          </li>
+          <li class="sect1">
+            <a href="cracklib.html">CrackLib-2.9.11</a>
+          </li>
+          <li class="sect1">
+            <a href="cryptsetup.html">cryptsetup-2.6.1</a>
+          </li>
+          <li class="sect1">
+            <a href="cyrus-sasl.html">Cyrus SASL-2.1.28</a>
+          </li>
+          <li class="sect1">
+            <a href="gnupg.html">GnuPG-2.4.3</a>
+          </li>
+          <li class="sect1">
+            <a href="gnutls.html">GnuTLS-3.8.2</a>
+          </li>
+          <li class="sect1">
+            <a href="gpgme.html">GPGME-1.23.2</a>
+          </li>
+          <li class="sect1">
+            <a href="iptables.html">iptables-1.8.10</a>
+          </li>
+          <li class="sect1">
+            <a href="firewall.html">ネットワークファイアウォールの設定</a>
+          </li>
+          <li class="sect1">
+            <a href="libcap.html">libcap-2.69 with PAM</a>
+          </li>
+          <li class="sect1">
+            <a href="linux-pam.html">Linux-PAM-1.5.3</a>
+          </li>
+          <li class="sect1">
+            <a href="liboauth.html">liboauth-1.0.3</a>
+          </li>
+          <li class="sect1">
+            <a href="libpwquality.html">libpwquality-1.4.5</a>
+          </li>
+          <li class="sect1">
+            <a href="mitkrb.html">MIT Kerberos V5-1.21.2</a>
+          </li>
+          <li class="sect1">
+            <a href="nettle.html">Nettle-3.9.1</a>
+          </li>
+          <li class="sect1">
+            <a href="nss.html">NSS-3.96.1</a>
+          </li>
+          <li class="sect1">
+            <a href="openssh.html">OpenSSH-9.5p1</a>
+          </li>
+          <li class="sect1">
+            <a href="p11-kit.html">p11-kit-0.25.3</a>
+          </li>
+          <li class="sect1">
+            <a href="polkit.html">Polkit-123</a>
+          </li>
+          <li class="sect1">
+            <a href="polkit-gnome.html">polkit-gnome-0.105</a>
+          </li>
+          <li class="sect1">
+            <a href="shadow.html">Shadow-4.14.2</a>
+          </li>
+          <li class="sect1">
+            <a href="ssh-askpass.html">ssh-askpass-9.5p1</a>
+          </li>
+          <li class="sect1">
+            <a href="stunnel.html">stunnel-5.71</a>
+          </li>
+          <li class="sect1">
+            <a href="sudo.html">Sudo-1.9.15p4</a>
+          </li>
+          <li class="sect1">
+            <a href="tripwire.html">Tripwire-2.4.3.7</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="random.html" title="乱数生成">戻る</a>
+          <p>
+            乱数生成
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="vulnerabilities.html" title="ぜい弱性">次へ</a>
+          <p>
+            ぜい弱性
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="postlfs.html" title=
+          "パート&nbsp;II.&nbsp;LFS 設定以降と追加ソフトウェア">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

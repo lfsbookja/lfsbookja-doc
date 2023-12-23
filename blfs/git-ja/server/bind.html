@@ -1,0 +1,1088 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      BIND-9.18.20
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第20章 代表的なサーバー
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="apache.html" title="Apache-2.4.58">戻る</a>
+          <p>
+            Apache-2.4.58
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="kea.html" title=
+          "Kea 2.4.1 DHCP Server">次へ</a>
+          <p>
+            Kea 2.4.1 DHCP Server
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="majorservers.html" title=
+          "第20章 代表的なサーバー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="bind" name="bind"></a>BIND-9.18.20
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to BIND
+        </h2>
+        <p>
+          The <span class="application">BIND</span> package provides a DNS
+          server and client utilities. If you are only interested in the
+          utilities, refer to the <a class="xref" href=
+          "../basicnet/bind-utils.html" title="BIND Utilities-9.18.20">BIND
+          Utilities-9.18.20</a>.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://ftp.isc.org/isc/bind9/9.18.20/bind-9.18.20.tar.xz">https://ftp.isc.org/isc/bind9/9.18.20/bind-9.18.20.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: 34e8f218827d07dded501075d68b6d74
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 5.3 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 132 MB (21 MB installed)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: 0.4 SBU (with parallelism=4; about 40
+                minutes somewhat processor independent, to run the complete
+                test suite)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          BIND Dependencies
+        </h3>
+        <h4>
+          Required
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/libuv.html" title=
+          "libuv-1.47.0">libuv-1.47.0</a>
+        </p>
+        <h4>
+          Recommended
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../general/json-c.html" title=
+          "JSON-C-0.17">JSON-C-0.17</a>, <a class="xref" href=
+          "../postlfs/libcap.html" title="libcap-2.69 with PAM">libcap-2.69
+          with PAM</a>, and <a class="xref" href="../basicnet/nghttp2.html"
+          title="nghttp2-1.58.0">nghttp2-1.58.0</a>
+        </p>
+        <h4>
+          Optional
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../basicnet/curl.html" title=
+          "cURL-8.5.0">cURL-8.5.0</a>, <a class="xref" href=
+          "../general/libidn2.html" title="libidn2-2.3.4">libidn2-2.3.4</a>,
+          <a class="xref" href="../general/libxml2.html" title=
+          "libxml2-2.12.3">libxml2-2.12.3</a>, <a class="xref" href=
+          "lmdb.html" title="lmdb-0.9.31">lmdb-0.9.31</a>, <a class="xref"
+          href="../postlfs/mitkrb.html" title="MIT Kerberos V5-1.21.2">MIT
+          Kerberos V5-1.21.2</a>, <a class="xref" href=
+          "../general/python-modules.html#pytest" title=
+          "Pytest-7.4.3">pytest-7.4.3</a>, <a class="xref" href=
+          "../general/python-modules.html#sphinx" title=
+          "Sphinx-7.2.6">sphinx-7.2.6</a> (required to build documentation),
+          <a class="ulink" href="https://cmocka.org/">cmocka</a>, <a class=
+          "ulink" href="https://github.com/cjheath/geoip">geoip</a>,
+          <a class="ulink" href=
+          "https://github.com/jemalloc/jemalloc">jemalloc</a>, <a class=
+          "ulink" href="http://w3m.sourceforge.net/">w3m</a>
+        </p>
+        <h4>
+          Optional database backends
+        </h4>
+        <p class="optional">
+          <a class="xref" href="mariadb.html" title=
+          "MariaDB-10.11.6">MariaDB-10.11.6</a> or <a class="ulink" href=
+          "https://www.mysql.com/">MySQL</a>, <a class="xref" href=
+          "openldap.html" title="OpenLDAP-2.6.6">OpenLDAP-2.6.6</a>,
+          <a class="xref" href="postgresql.html" title=
+          "PostgreSQL-16.1">PostgreSQL-16.1</a>, <a class="xref" href=
+          "../general/unixodbc.html" title=
+          "unixODBC-2.3.12">unixODBC-2.3.12</a>, and <a class="ulink" href=
+          "https://anduin.linuxfromscratch.org/BLFS/bdb/db-5.3.28.tar.gz">Berkeley
+          DB</a> (非推奨)
+        </p>
+        <h4>
+          Optional (to run the test suite)
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/perl-modules.html#perl-net-dns"
+          title="Net::DNS-1.41">Net-DNS-1.41</a>
+        </p>
+        <p class="usernotes">
+          Editor Notes: <a class="ulink" href=
+          "https://wiki.linuxfromscratch.org/blfs/wiki/bind">https://wiki.linuxfromscratch.org/blfs/wiki/bind</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of BIND
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            Starting with bind-9.18.20, the IP addresses for
+            B.ROOT-SERVERS.NET have changed.
+          </p>
+        </div>
+        <p>
+          Install <span class="application">BIND</span> by running the
+          following commands:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr           \
+            --sysconfdir=/etc       \
+            --localstatedir=/var    \
+            --mandir=/usr/share/man \
+            --disable-static        &amp;&amp;
+make</kbd></pre>
+        <p>
+          Issue the following commands to run the complete suite of tests.
+          First, as the <code class="systemitem">root</code> user, set up
+          some test interfaces:
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            If IPv6 is not enabled in the kernel, there will be several error
+            messages: "RTNETLINK answers: Operation not permitted". These
+            messages do not affect the tests.
+          </p>
+        </div>
+        <pre class="root"><kbd class=
+        "command">bin/tests/system/ifconfig.sh up</kbd></pre>
+        <p>
+          The test suite may indicate some skipped tests depending on what
+          configuration options are used. Some tests are marked <span class=
+          "quote">「<span class="quote">UNTESTED</span>」</span> or do even
+          fail if <a class="xref" href=
+          "../general/perl-modules.html#perl-net-dns" title=
+          "Net::DNS-1.41">Net-DNS-1.41</a> is not installed. Two tests,
+          <code class="filename">resolver</code> and <code class=
+          "filename">dispatch</code>, are known to fail. To run the tests, as
+          an unprivileged user, execute:
+        </p>
+        <pre class="userinput"><kbd class="command">make -k check</kbd></pre>
+        <p>
+          Again as <code class="systemitem">root</code>, clean up the test
+          interfaces:
+        </p>
+        <pre class="root"><kbd class=
+        "command">bin/tests/system/ifconfig.sh down</kbd></pre>
+        <p>
+          Finally, install the package as the <code class=
+          "systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <em class="parameter"><code>--sysconfdir=/etc</code></em>: This
+          parameter forces <span class="application">BIND</span> to look for
+          configuration files in <code class="filename">/etc</code> instead
+          of <code class="filename">/usr/etc</code>.
+        </p>
+        <p>
+          <code class="option">--with-libidn2</code>: This parameter enables
+          the IDNA2008 (Internationalized Domain Names in Applications)
+          support.
+        </p>
+        <p>
+          <code class="option">--enable-fetchlimit</code>: Use this option if
+          you want to be able to limit the rate of recursive client queries.
+          This may be useful on servers which receive a large number of
+          queries.
+        </p>
+        <p>
+          <code class="option">--disable-linux-caps</code>: BIND can also be
+          built without capability support by using this option, at the cost
+          of some loss of security.
+        </p>
+        <p>
+          <code class=
+          "option">--with-dlz-{mysql,bdb,filesystem,ldap,odbc,stub}</code>:
+          Use one (or more) of those options to add Dynamically Loadable
+          Zones support. For more information refer to <a class="ulink" href=
+          "https://bind-dlz.sourceforge.net/">bind-dlz.sourceforge.net</a>.
+        </p>
+        <p>
+          <code class="option">--disable-doh</code>: Use this option if you
+          do not have <a class="xref" href="../basicnet/nghttp2.html" title=
+          "nghttp2-1.58.0">nghttp2-1.58.0</a> installed and do not need
+          support for DNS over HTTPS.
+        </p>
+        <p>
+          <em class="parameter"><code>--disable-static</code></em>:
+          このスイッチはスタティックライブラリをインストールしないようにします。
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Configuring BIND
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="bind-config" name="bind-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="bind-config" name="bind-config"></a>Config files
+          </h4>
+          <p>
+            <code class="filename">named.conf</code>, <code class=
+            "filename">root.hints</code>, <code class=
+            "filename">127.0.0</code>, <code class=
+            "filename">rndc.conf</code>, and <code class=
+            "filename">resolv.conf</code>
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id57951" name="id57951"></a>Configuration Information
+          </h4>
+          <p>
+            <span class="application">BIND</span> will be configured to run
+            in a <span class="command"><strong>chroot</strong></span> jail as
+            an unprivileged user (<code class="systemitem">named</code>).
+            This configuration is more secure in that a DNS compromise can
+            only affect a few files in the <code class=
+            "systemitem">named</code> user's <code class="envar">HOME</code>
+            directory.
+          </p>
+          <p>
+            Create the unprivileged user and group <code class=
+            "systemitem">named</code>:
+          </p>
+          <pre class="root"><kbd class=
+          "command">groupadd -g 20 named &amp;&amp;
+useradd -c "BIND Owner" -g named -s /bin/false -u 20 named &amp;&amp;
+install -d -m770 -o named -g named /srv/named</kbd></pre>
+          <p>
+            Set up some files, directories and devices needed by <span class=
+            "application">BIND</span>:
+          </p>
+          <pre class="root"><kbd class=
+          "command">mkdir -p /srv/named &amp;&amp;
+cd       /srv/named &amp;&amp;
+mkdir -p dev etc/named/{slave,pz} usr/lib/engines var/run/named &amp;&amp;
+mknod /srv/named/dev/null c 1 3 &amp;&amp;
+mknod /srv/named/dev/urandom c 1 9 &amp;&amp;
+chmod 666 /srv/named/dev/{null,urandom} &amp;&amp;
+cp /etc/localtime etc</kbd></pre>
+          <p>
+            The <code class="filename">rndc.conf</code> file contains
+            information for controlling <span class=
+            "command"><strong>named</strong></span> operations with the
+            <span class="command"><strong>rndc</strong></span> utility.
+            Generate a key for use in the <code class=
+            "filename">named.conf</code> and <code class=
+            "filename">rndc.conf</code> with the <span class=
+            "command"><strong>rndc-confgen</strong></span> command:
+          </p>
+          <pre class="root"><kbd class=
+          "command">rndc-confgen -a -b 512 -t /srv/named</kbd></pre>
+          <p>
+            Create the <code class="filename">named.conf</code> file from
+            which <span class="command"><strong>named</strong></span> will
+            read the location of zone files, root name servers and secure DNS
+            keys:
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt;&gt; /srv/named/etc/named.conf &lt;&lt; "EOF"
+<code class="literal">options {
+    directory "/etc/named";
+    pid-file "/var/run/named.pid";
+    statistics-file "/var/run/named.stats";
+
+};
+zone "." {
+    type hint;
+    file "root.hints";
+};
+zone "0.0.127.in-addr.arpa" {
+    type master;
+    file "pz/127.0.0";
+};
+
+// Bind 9 now logs by default through syslog (except debug).
+// These are the default logging rules.
+
+logging {
+    category default { default_syslog; default_debug; };
+    category unmatched { null; };
+
+  channel default_syslog {
+      syslog daemon;                      // send to syslog's daemon
+                                          // facility
+      severity info;                      // only send priority info
+                                          // and higher
+  };
+
+  channel default_debug {
+      file "named.run";                   // write to named.run in
+                                          // the working directory
+                                          // Note: stderr is used instead
+                                          // of "named.run"
+                                          // if the server is started
+                                          // with the '-f' option.
+      severity dynamic;                   // log at the server's
+                                          // current debug level
+  };
+
+  channel default_stderr {
+      stderr;                             // writes to stderr
+      severity info;                      // only send priority info
+                                          // and higher
+  };
+
+  channel null {
+      null;                               // toss anything sent to
+                                          // this channel
+  };
+};</code>
+EOF</kbd></pre>
+          <p>
+            Create a zone file with the following contents:
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt; /srv/named/etc/named/pz/127.0.0 &lt;&lt; "EOF"
+<code class="literal">$TTL 3D
+@      IN      SOA     ns.local.domain. hostmaster.local.domain. (
+                        1       ; Serial
+                        8H      ; Refresh
+                        2H      ; Retry
+                        4W      ; Expire
+                        1D)     ; Minimum TTL
+                NS      ns.local.domain.
+1               PTR     localhost.</code>
+EOF</kbd></pre>
+          <p>
+            Create the <code class="filename">root.hints</code> file with the
+            following commands:
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              Caution must be used to ensure there are no leading spaces in
+              this file.
+            </p>
+          </div>
+          <pre class="root"><kbd class=
+          "command">cat &gt; /srv/named/etc/named/root.hints &lt;&lt; "EOF"
+<code class=
+"literal">.                       6D  IN      NS      A.ROOT-SERVERS.NET.
+.                       6D  IN      NS      B.ROOT-SERVERS.NET.
+.                       6D  IN      NS      C.ROOT-SERVERS.NET.
+.                       6D  IN      NS      D.ROOT-SERVERS.NET.
+.                       6D  IN      NS      E.ROOT-SERVERS.NET.
+.                       6D  IN      NS      F.ROOT-SERVERS.NET.
+.                       6D  IN      NS      G.ROOT-SERVERS.NET.
+.                       6D  IN      NS      H.ROOT-SERVERS.NET.
+.                       6D  IN      NS      I.ROOT-SERVERS.NET.
+.                       6D  IN      NS      J.ROOT-SERVERS.NET.
+.                       6D  IN      NS      K.ROOT-SERVERS.NET.
+.                       6D  IN      NS      L.ROOT-SERVERS.NET.
+.                       6D  IN      NS      M.ROOT-SERVERS.NET.
+A.ROOT-SERVERS.NET.     6D  IN      A       198.41.0.4
+A.ROOT-SERVERS.NET.     6D  IN      AAAA    2001:503:ba3e::2:30
+B.ROOT-SERVERS.NET.     6D  IN      A       170.247.170.2
+B.ROOT-SERVERS.NET.     6D  IN      AAAA    2801:1b8:10::b
+C.ROOT-SERVERS.NET.     6D  IN      A       192.33.4.12
+C.ROOT-SERVERS.NET.     6D  IN      AAAA    2001:500:2::c
+D.ROOT-SERVERS.NET.     6D  IN      A       199.7.91.13
+D.ROOT-SERVERS.NET.     6D  IN      AAAA    2001:500:2d::d
+E.ROOT-SERVERS.NET.     6D  IN      A       192.203.230.10
+E.ROOT-SERVERS.NET.     6D  IN      AAAA    2001:500:a8::e
+F.ROOT-SERVERS.NET.     6D  IN      A       192.5.5.241
+F.ROOT-SERVERS.NET.     6D  IN      AAAA    2001:500:2f::f
+G.ROOT-SERVERS.NET.     6D  IN      A       192.112.36.4
+G.ROOT-SERVERS.NET.     6D  IN      AAAA    2001:500:12::d0d
+H.ROOT-SERVERS.NET.     6D  IN      A       198.97.190.53
+H.ROOT-SERVERS.NET.     6D  IN      AAAA    2001:500:1::53
+I.ROOT-SERVERS.NET.     6D  IN      A       192.36.148.17
+I.ROOT-SERVERS.NET.     6D  IN      AAAA    2001:7fe::53
+J.ROOT-SERVERS.NET.     6D  IN      A       192.58.128.30
+J.ROOT-SERVERS.NET.     6D  IN      AAAA    2001:503:c27::2:30
+K.ROOT-SERVERS.NET.     6D  IN      A       193.0.14.129
+K.ROOT-SERVERS.NET.     6D  IN      AAAA    2001:7fd::1
+L.ROOT-SERVERS.NET.     6D  IN      A       199.7.83.42
+L.ROOT-SERVERS.NET.     6D  IN      AAAA    2001:500:9f::42
+M.ROOT-SERVERS.NET.     6D  IN      A       202.12.27.33
+M.ROOT-SERVERS.NET.     6D  IN      AAAA    2001:dc3::35</code>
+EOF</kbd></pre>
+          <p>
+            The <code class="filename">root.hints</code> file is a list of
+            root name servers. This file must be updated periodically with
+            the <span class="command"><strong>dig</strong></span> utility. A
+            current copy of root.hints can be obtained from <a class="ulink"
+            href=
+            "https://www.internic.net/domain/named.root">https://www.internic.net/domain/named.root</a>.
+            For details, consult the "BIND 9 Administrator Reference Manual".
+          </p>
+          <p>
+            Create or modify <code class="filename">resolv.conf</code> to use
+            the new name server with the following commands:
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              Replace <em class=
+              "replaceable"><code>&lt;yourdomain.com&gt;</code></em> with
+              your own valid domain name.
+            </p>
+          </div>
+          <pre class="root"><kbd class=
+          "command">cp /etc/resolv.conf /etc/resolv.conf.bak &amp;&amp;
+cat &gt; /etc/resolv.conf &lt;&lt; "EOF"
+<code class="literal">search <em class=
+"replaceable"><code>&lt;yourdomain.com&gt;</code></em>
+nameserver 127.0.0.1</code>
+EOF</kbd></pre>
+          <p>
+            Set permissions on the <span class=
+            "command"><strong>chroot</strong></span> jail with the following
+            command:
+          </p>
+          <pre class="root"><kbd class=
+          "command">chown -R named:named /srv/named</kbd></pre>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="bind-init" name="bind-init"></a>
+          </h3>
+          <h4 class="title">
+            <a id="bind-init" name="bind-init"></a><span class="phrase">Boot
+            Script</span>
+          </h4>
+          <p>
+            To start the DNS server at boot, install the <span class=
+            "phrase"><code class="filename">/etc/rc.d/init.d/bind</code> init
+            script</span> included in the <a class="xref" href=
+            "../introduction/bootscripts.html" title=
+            "BLFS ブートスクリプト">blfs-bootscripts-20231119</a> package:
+          </p>
+          <pre class="root"><kbd class=
+          "command">make install-bind</kbd></pre>
+          <p>
+            Now start <span class="application">BIND</span> with the
+            following command:
+          </p>
+          <pre class="root"><kbd class=
+          "command">/etc/rc.d/init.d/bind start</kbd></pre>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id58025" name="id58025"></a>Testing BIND
+          </h4>
+          <p>
+            Test out the new <span class="application">BIND</span> 9
+            installation. First query the local host address with
+            <span class="command"><strong>dig</strong></span>:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">dig -x 127.0.0.1</kbd></pre>
+          <p>
+            Now try an external name lookup, taking note of the speed
+            difference in repeated lookups due to the caching. Run the
+            <span class="command"><strong>dig</strong></span> command twice
+            on the same address:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">dig www.linuxfromscratch.org &amp;&amp;
+dig www.linuxfromscratch.org</kbd></pre>
+          <p>
+            You can see almost instantaneous results with the named caching
+            lookups. Consult the <span class="application">BIND</span>
+            Administrator Reference Manual (see below) for further
+            configuration options.
+          </p>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Administrator Reference Manual (ARM)
+        </h2>
+        <p>
+          The ARM documentation (do not confuse with the processor
+          architecture) is included in the source package. The documentation
+          is in .rst format which means that it can be converted in human
+          readable formats if <a class="xref" href=
+          "../general/python-modules.html#sphinx" title=
+          "Sphinx-7.2.6">sphinx-7.2.6</a> is installed.
+        </p>
+        <p>
+          When <span class="application">BIND</span> is set up, especially if
+          it is going to be operating in a real live scenario, it is
+          <span class="emphasis"><em>highly</em></span> recommended to
+          consult the ARM documentation. ISC provides an updated set of
+          excellent documentation along with every release so it can be
+          easily viewed and/or downloaded – so there is no excuse to not read
+          the docs. The formats ISC provides are PDF, epub and html at
+          <a class="ulink" href=
+          "https://downloads.isc.org/isc/bind9/9.18.20/doc/arm/">https://downloads.isc.org/isc/bind9/9.18.20/doc/arm/</a>.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">arpaname, ddns-confgen, delv, dig,
+              dnssec-cds, dnssec-dsfromkey, dnssec-importkey,
+              dnssec-keyfromlabel, dnssec-keygen, dnssec-revoke,
+              dnssec-settime, dnssec-signzone, dnssec-verify, host, mdig,
+              named, named-checkconf, named-checkzone, named-compilezone,
+              named-journalprint, named-nzd2nzf, named-rrchecker, nsec3hash,
+              nslookup, nsupdate, rndc, rndc-confgen, and tsig-keygen
+              (symlink)</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">libbind9.so, libdns.so, libirs.so,
+              libisc.so, libisccc.so, libisccfg.so, and libns.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class=
+              "segbody">/usr/include/{bind9,dns,dst,irs,isc,isccc,isccfg,ns},
+              /usr/lib/bind, and /srv/named</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="arpaname" name="arpaname"></a><span class=
+                    "term"><span class=
+                    "command"><strong>arpaname</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    translates IP addresses to the corresponding ARPA names
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ddns-confgen" name="ddns-confgen"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ddns-confgen</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    generates a key for use by nsupdate and named
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="delv" name="delv"></a><span class=
+                    "term"><span class=
+                    "command"><strong>delv</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a new debugging tool that is a successor to
+                    <span class="command"><strong>dig</strong></span>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dig" name="dig"></a><span class=
+                    "term"><span class="command"><strong>dig</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    interrogates DNS servers
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dnssec-cds" name="dnssec-cds"></a><span class=
+                    "term"><span class=
+                    "command"><strong>dnssec-cds</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    changes DS records for a child zone based on CDS/CDNSKEY
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dnssec-dsfromkey" name=
+                    "dnssec-dsfromkey"></a><span class="term"><span class=
+                    "command"><strong>dnssec-dsfromkey</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    outputs the Delegation Signer (DS) resource record (RR)
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dnssec-importkey" name=
+                    "dnssec-importkey"></a><span class="term"><span class=
+                    "command"><strong>dnssec-importkey</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    reads a public DNSKEY record and generates a pair of
+                    .key/.private files
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dnssec-keyfromlabel" name=
+                    "dnssec-keyfromlabel"></a><span class="term"><span class=
+                    "command"><strong>dnssec-keyfromlabel</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    gets keys with the given label from a cryptography
+                    hardware device and builds key files for DNSSEC
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dnssec-keymgr" name=
+                    "dnssec-keymgr"></a><span class="term"><span class=
+                    "command"><strong>dnssec-keymgr</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ensures correct DNSKEY coverage based on a defined policy
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dnssec-revoke" name=
+                    "dnssec-revoke"></a><span class="term"><span class=
+                    "command"><strong>dnssec-revoke</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sets the REVOKED bit on a DNSSEC key
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dnssec-settime" name=
+                    "dnssec-settime"></a><span class="term"><span class=
+                    "command"><strong>dnssec-settime</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sets the key timing metadata for a DNSSEC key
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dnssec-signzone" name=
+                    "dnssec-signzone"></a><span class="term"><span class=
+                    "command"><strong>dnssec-signzone</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    generates signed versions of zone files
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dnssec-verify" name=
+                    "dnssec-verify"></a><span class="term"><span class=
+                    "command"><strong>dnssec-verify</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    verifies that a zone is fully signed for each algorithm
+                    found in the DNSKEY RRset for the zone, and that the NSEC
+                    / NSEC3 chains are complete
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="host" name="host"></a><span class=
+                    "term"><span class=
+                    "command"><strong>host</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a utility for DNS lookups
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mdig" name="mdig"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mdig</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a version of dig that allows multiple queries at once
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="named" name="named"></a><span class=
+                    "term"><span class=
+                    "command"><strong>named</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the name server daemon
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="named-checkconf" name=
+                    "named-checkconf"></a><span class="term"><span class=
+                    "command"><strong>named-checkconf</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    checks the syntax of <code class=
+                    "filename">named.conf</code> files
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="named-checkzone" name=
+                    "named-checkzone"></a><span class="term"><span class=
+                    "command"><strong>named-checkzone</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    checks zone file validity
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="named-compilezone" name=
+                    "named-compilezone"></a><span class="term"><span class=
+                    "command"><strong>named-compilezone</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is similar to <span class=
+                    "command"><strong>named-checkzone</strong></span>, but it
+                    always dumps the zone contents to a specified file in a
+                    specified format
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="named-journalprint" name=
+                    "named-journalprint"></a><span class="term"><span class=
+                    "command"><strong>named-journalprint</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    prints the zone journal in human-readable form
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="named-rrchecker" name=
+                    "named-rrchecker"></a><span class="term"><span class=
+                    "command"><strong>named-rrchecker</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    reads an individual DNS resource record from standard
+                    input and checks if it is syntactically correct
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="named-nzd2nzf" name=
+                    "named-nzd2nzf"></a><span class="term"><span class=
+                    "command"><strong>named-nzd2nzf</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    converts an NZD database to NZF text format
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="nsec3hash" name="nsec3hash"></a><span class=
+                    "term"><span class=
+                    "command"><strong>nsec3hash</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    generates an NSEC3 hash based on a set of NSEC3
+                    parameters
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="nslookup" name="nslookup"></a><span class=
+                    "term"><span class=
+                    "command"><strong>nslookup</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a program used to query Internet domain nameservers
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="nsupdate" name="nsupdate"></a><span class=
+                    "term"><span class=
+                    "command"><strong>nsupdate</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to submit DNS update requests
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rndc" name="rndc"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rndc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    controls the operation of <span class=
+                    "application">BIND</span>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rndc-confgen" name="rndc-confgen"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rndc-confgen</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    generates <code class="filename">rndc.conf</code> files
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tsig-keygen" name="tsig-keygen"></a><span class=
+                    "term"><span class=
+                    "command"><strong>tsig-keygen</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a symlink to <span class=
+                    "command"><strong>ddns-confgen</strong></span>
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="apache.html" title="Apache-2.4.58">戻る</a>
+          <p>
+            Apache-2.4.58
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="kea.html" title=
+          "Kea 2.4.1 DHCP Server">次へ</a>
+          <p>
+            Kea 2.4.1 DHCP Server
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="majorservers.html" title=
+          "第20章 代表的なサーバー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

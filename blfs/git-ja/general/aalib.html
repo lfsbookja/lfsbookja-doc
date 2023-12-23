@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      AAlib-1.4rc5
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第10章 グラフィックスとフォントのライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="graphlib.html" title=
+          "グラフィックスとフォントのライブラリ">戻る</a>
+          <p>
+            グラフィックスとフォントのライブラリ
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="babl.html" title="babl-0.1.106">次へ</a>
+          <p>
+            babl-0.1.106
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="graphlib.html" title=
+          "第10章 グラフィックスとフォントのライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="aalib" name="aalib"></a>AAlib-1.4rc5
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          AAlib の概要
+        </h2>
+        <p>
+          <span class="application">AAlib</span> は、さまざまなグラフィックをアスキーアート (ASCII
+          Art) に変換するライブラリです。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://downloads.sourceforge.net/aa-project/aalib-1.4rc5.tar.gz">
+                https://downloads.sourceforge.net/aa-project/aalib-1.4rc5.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 9801095c42bba12edebd1902bcf0a990
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 388 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 6.5 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          AAlib の依存パッケージ
+        </h3>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../x/x7lib.html" title="Xorg ライブラリ">Xorg
+          ライブラリ</a>, <a class="xref" href="../x/x7legacy.html" title=
+          "Xorg Legacy">Xorg Legacy Fonts</a> (runtime), <a class="xref"
+          href="slang.html" title="slang-2.3.3">slang-2.3.3</a>, <a class=
+          "xref" href="gpm.html" title="GPM-1.20.7">GPM-1.20.7</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          AAlib のインストール
+        </h2>
+        <p>
+          インクルードしている m4 ファイルに関する問題を修正します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i -e '/AM_PATH_AALIB,/s/AM_PATH_AALIB/[&amp;]/' aalib.m4</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">AAlib</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr             \
+            --infodir=/usr/share/info \
+            --mandir=/usr/share/man   \
+            --with-ncurses=/usr       \
+            --disable-static          &amp;&amp;
+make</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">aafire, aainfo, aalib-config, aasavefont,
+              aatest</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libaa.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="aafire" name="aafire"></a><span class=
+                    "term"><span class=
+                    "command"><strong>aafire</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a demo of <span class="application">AAlib</span>,
+                    rendering an animated fire in ASCII Art
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="aainfo" name="aainfo"></a><span class=
+                    "term"><span class=
+                    "command"><strong>aainfo</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides information for your current settings related to
+                    <span class="application">AAlib</span>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="aalib-config" name="aalib-config"></a><span class=
+                    "term"><span class=
+                    "command"><strong>aalib-config</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides configuration info for <span class=
+                    "application">AAlib</span>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="aasavefont" name="aasavefont"></a><span class=
+                    "term"><span class=
+                    "command"><strong>aasavefont</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    saves a font to a file
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="aatest" name="aatest"></a><span class=
+                    "term"><span class=
+                    "command"><strong>aatest</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    shows the abilities of <span class=
+                    "application">AAlib</span> in a little test
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libaa" name="libaa"></a><span class=
+                    "term"><code class="filename">libaa.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a collection of routines to render any graphical input
+                    in portable format to ASCII Art. It can be used through
+                    many programs and has a very well documented API, so you
+                    can easily put it into your own programs
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="graphlib.html" title=
+          "グラフィックスとフォントのライブラリ">戻る</a>
+          <p>
+            グラフィックスとフォントのライブラリ
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="babl.html" title="babl-0.1.106">次へ</a>
+          <p>
+            babl-0.1.106
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="graphlib.html" title=
+          "第10章 グラフィックスとフォントのライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

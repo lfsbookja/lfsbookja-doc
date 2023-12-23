@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      XviD-1.3.7
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第42章 マルチメディアライブラリとドライバー
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="xine-lib.html" title=
+          "xine-lib-1.2.13">戻る</a>
+          <p>
+            xine-lib-1.2.13
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="audioutils.html" title="オーディオユーティリティ">次へ</a>
+          <p>
+            オーディオユーティリティ
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="libdriv.html" title=
+          "第42章 マルチメディアライブラリとドライバー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="xvid" name="xvid"></a>XviD-1.3.7
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to XviD
+        </h2>
+        <p>
+          <span class="application">XviD</span> is an MPEG-4 compliant video
+          CODEC.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://downloads.xvid.com/downloads/xvidcore-1.3.7.tar.gz">https://downloads.xvid.com/downloads/xvidcore-1.3.7.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: 5c6c19324608ac491485dbb27d4da517
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 804 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 7.1 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: 0.1 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          XviD Dependencies
+        </h3>
+        <h4>
+          Optional
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/yasm.html" title=
+          "yasm-1.3.0">yasm-1.3.0</a> or <a class="xref" href=
+          "../general/nasm.html" title="NASM-2.16.01">NASM-2.16.01</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of XviD
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            This package tarball expands to <code class=
+            "filename">xvidcore</code>, not the expected <code class=
+            "filename">xvidcore-1.3.7</code>.
+          </p>
+        </div>
+        <p>
+          Install <span class="application">XviD</span> by running the
+          following commands:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cd build/generic &amp;&amp;
+sed -i 's/^LN_S=@LN_S@/&amp; -f -v/' platform.inc.in &amp;&amp;
+
+./configure --prefix=/usr &amp;&amp;
+make</kbd></pre>
+        <p>
+          This package does not come with a test suite.
+        </p>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">sed -i '/libdir.*STATIC_LIB/ s/^/#/' Makefile &amp;&amp;
+make install &amp;&amp;
+
+chmod -v 755 /usr/lib/libxvidcore.so.4.3 &amp;&amp;
+install -v -m755 -d /usr/share/doc/xvidcore-1.3.7/examples &amp;&amp;
+install -v -m644 ../../doc/* /usr/share/doc/xvidcore-1.3.7 &amp;&amp;
+install -v -m644 ../../examples/* \
+    /usr/share/doc/xvidcore-1.3.7/examples</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <span class="command"><strong>sed -i 's/^LN_S=@LN_S@/&amp; -f -v/'
+          platform.inc.in</strong></span>: Fix error during <span class=
+          "command"><strong>make install</strong></span> if reinstalling or
+          upgrading.
+        </p>
+        <p>
+          <span class="command"><strong>sed -i '/libdir.*STATIC_LIB/ s/^/#/'
+          Makefile</strong></span>: This command disables installing the
+          static library.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">None</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Library:</strong>
+              <span class="segbody">libxvidcore.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directory:</strong>
+              <span class="segbody">/usr/share/doc/xvidcore-1.3.7</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libxvidcore" name="libxvidcore"></a><span class=
+                    "term"><code class=
+                    "filename">libxvidcore.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides functions to encode and decode most MPEG-4 video
+                    data
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="xine-lib.html" title=
+          "xine-lib-1.2.13">戻る</a>
+          <p>
+            xine-lib-1.2.13
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="audioutils.html" title="オーディオユーティリティ">次へ</a>
+          <p>
+            オーディオユーティリティ
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="libdriv.html" title=
+          "第42章 マルチメディアライブラリとドライバー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

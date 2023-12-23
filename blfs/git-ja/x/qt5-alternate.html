@@ -1,0 +1,713 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      qt-alternate-5.15.11
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第25章 グラフィック環境ライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="qt5.html" title="Qt-5.15.11">戻る</a>
+          <p>
+            Qt-5.15.11
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="qt5-components.html" title=
+          "qt-components-5.15.11">次へ</a>
+          <p>
+            qt-components-5.15.11
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="lib.html" title=
+          "第25章 グラフィック環境ライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="qt5-alternate" name="qt5-alternate"></a>qt-alternate-5.15.11
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to qt5 (alternate)
+        </h2>
+        <p>
+          <span class="application">Qt5</span> is a cross-platform
+          application framework that is widely used for developing
+          application software with a graphical user interface (GUI) (in
+          which cases <span class="application">qt5</span> is classified as a
+          widget toolkit), and also used for developing non-GUI programs such
+          as command-line tools and consoles for servers. Two of the major
+          users of <span class="application">qt</span> are <span class=
+          "application">KDE Frameworks 5 (KF5)</span> and <span class=
+          "application">LXQt</span>.
+        </p>
+        <div class="admon important">
+          <img alt="[重要]" src="../images/important.png" />
+          <h3>
+            重要
+          </h3>
+          <p>
+            The full <span class="application">qt5</span> package consists of
+            43 separate components. These instructions use a small subset of
+            the full <span class="application">qt5</span> installation
+            instructions above. They cover most, but not all, of the
+            components needed to build packages in BLFS. This page, and the
+            next, are provided to reduce the amount of time, space, and
+            dependencies needed to build these packages. They are not
+            recommended if you will build the <a class="xref" href=
+            "../kde/frameworks5.html" title=
+            "Building KDE Frameworks 5 (KF5)">KDE Frameworks-5.113.0</a>
+            based <a class="xref" href="../kde/plasma-all.html" title=
+            "Plasma 5 のビルド">Plasma-5.27.10</a> desktop environment.
+          </p>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://download.qt.io/archive/qt/5.15/5.15.11/single/qt-everywhere-opensource-src-5.15.11.tar.xz">
+                https://download.qt.io/archive/qt/5.15/5.15.11/single/qt-everywhere-opensource-src-5.15.11.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: 37b79a3764b0c9157fa3686df209b25a
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 630 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 8.6 GB (153 MB installed)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: 4.8 SBU (using parallelism=8)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Additional Downloads
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Now that <span class="application">qt5</span> updates are
+                restricted to commercial customers, upstream patches for the
+                various modules are being curated at kde. Patches for the
+                modules required by packages in BLFS have been aggregated for
+                the non-modular qt5 build we use.
+              </p>
+              <p>
+                Required patch: <a class="ulink" href=
+                "https://www.linuxfromscratch.org/patches/blfs/svn/qt-everywhere-opensource-src-5.15.11-kf5-1.patch">
+                https://www.linuxfromscratch.org/patches/blfs/svn/qt-everywhere-opensource-src-5.15.11-kf5-1.patch</a>
+              </p>
+              <p>
+                Details of the kde curation can be found at <a class="ulink"
+                href=
+                "https://dot.kde.org/2021/04/06/announcing-kdes-qt-5-patch-collection">
+                https://dot.kde.org/2021/04/06/announcing-kdes-qt-5-patch-collection</a>
+                and <a class="ulink" href=
+                "https://community.kde.org/Qt5PatchCollection">https://community.kde.org/Qt5PatchCollection</a>.
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          qt5 Dependencies
+        </h3>
+        <h4>
+          Required
+        </h4>
+        <p class="required">
+          <a class="xref" href="x7lib.html" title="Xorg ライブラリ">Xorg ライブラリ</a>
+        </p>
+        <h4>
+          Recommended
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../multimedia/alsa-lib.html" title=
+          "alsa-lib-1.2.10">alsa-lib-1.2.10</a>, <a class="xref" href=
+          "../pst/cups.html" title="Cups-2.4.7">Cups-2.4.7</a>, <span class=
+          "phrase"><a class="xref" href="../general/dbus.html" title=
+          "dbus-1.14.10">dbus-1.14.10</a>,</span> <a class="xref" href=
+          "../general/double-conversion.html" title=
+          "Double-conversion-3.3.0">double-conversion-3.3.0</a>, <a class=
+          "xref" href="../general/glib2.html" title=
+          "GLib-2.78.3">GLib-2.78.3</a>, <a class="xref" href=
+          "../general/harfbuzz.html" title=
+          "HarfBuzz-8.3.0">HarfBuzz-8.3.0</a>, <a class="xref" href=
+          "../general/icu.html" title="ICU-74.1">ICU-74.1</a>, <a class=
+          "xref" href="hicolor-icon-theme.html" title=
+          "hicolor-icon-theme-0.17">hicolor-icon-theme-0.17</a>, <a class=
+          "xref" href="mesa.html" title="Mesa-23.3.1">Mesa-23.3.1</a>,
+          <a class="xref" href="../general/libjpeg.html" title=
+          "libjpeg-turbo-3.0.1">libjpeg-turbo-3.0.1</a>, <a class="xref"
+          href="../general/libxkbcommon.html" title=
+          "libxkbcommon-1.6.0">libxkbcommon-1.6.0</a>, <a class="xref" href=
+          "../server/sqlite.html" title="SQLite-3.44.2">SQLite-3.44.2</a>,
+          <a class="xref" href="../general/wayland.html" title=
+          "Wayland-1.22.0">Wayland-1.22.0</a> (<span class=
+          "application">Mesa</span> must be built with <span class=
+          "application">Wayland</span> EGL backend), <a class="xref" href=
+          "xcb-util-image.html" title=
+          "xcb-util-image-0.4.1">xcb-util-image-0.4.1</a>, <a class="xref"
+          href="xcb-util-keysyms.html" title=
+          "xcb-util-keysyms-0.4.1">xcb-util-keysyms-0.4.1</a>, <a class=
+          "xref" href="xcb-util-renderutil.html" title=
+          "xcb-util-renderutil-0.3.10">xcb-util-renderutil-0.3.10</a>, and
+          <a class="xref" href="xcb-util-wm.html" title=
+          "xcb-util-wm-0.4.2">xcb-util-wm-0.4.2</a>
+        </p>
+        <h4>
+          Optional
+        </h4>
+        <p class="optional">
+          <a class="xref" href="gtk3.html" title=
+          "GTK+-3.24.38">GTK+-3.24.38</a>, <a class="xref" href=
+          "x7driver.html#libinput" title=
+          "libinput-1.24.0">libinput-1.24.0</a> <a class="xref" href=
+          "../server/mariadb.html" title=
+          "MariaDB-10.11.6">MariaDB-10.11.6</a> or <a class="ulink" href=
+          "https://www.mysql.com/">MySQL</a>, <a class="xref" href=
+          "../postlfs/mitkrb.html" title="MIT Kerberos V5-1.21.2">MIT
+          Kerberos V5-1.21.2</a>, <a class="xref" href=
+          "../general/mtdev.html" title="mtdev-1.1.6">mtdev-1.1.6</a>
+          <a class="xref" href="../server/postgresql.html" title=
+          "PostgreSQL-16.1">PostgreSQL-16.1</a>, and <a class="xref" href=
+          "../general/unixodbc.html" title=
+          "unixODBC-2.3.12">unixODBC-2.3.12</a>
+        </p>
+        <p class="usernotes">
+          Editor Notes: <a class="ulink" href=
+          "https://wiki.linuxfromscratch.org/blfs/wiki/qt5">https://wiki.linuxfromscratch.org/blfs/wiki/qt5</a>
+        </p>
+      </div>
+      <div class="qt5-prefix" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Setting the installation prefix
+        </h2>
+        <h3>
+          Installing in /opt/qt5
+        </h3>
+        <p>
+          The BLFS editors recommend installing <span class=
+          "application">qt5</span> in a directory other than <code class=
+          "filename">/usr</code>, i.e. <code class=
+          "filename">/opt/qt5</code>. To do this, set the following
+          environment variable:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">export QT5PREFIX=/opt/qt5</kbd></pre>
+        <div class="admon tip">
+          <img alt="[ヒント]" src="../images/tip.png" />
+          <h3>
+            ヒント
+          </h3>
+          <p>
+            Sometimes, the installation paths are hardcoded into installed
+            files. This is the reason why <code class=
+            "filename">/opt/qt5</code> is used as installation prefix instead
+            of <code class="filename">/opt/qt-5.15.11</code>. To create a
+            versioned <span class="application">qt5</span> directory after
+            the installation is complete, you may rename the directory and
+            create a symlink:
+          </p>
+          <pre class="root"><kbd class="command">mkdir -pv /opt/qt-5.15.11
+ln -sfnv qt-5.15.11 /opt/qt5</kbd></pre>
+          <p>
+            Later on, you may want to install other versions of <span class=
+            "application">qt5</span>. To do that, just remove the symlink and
+            use <code class="filename">/opt/qt5</code> as the prefix again.
+            Which version of <span class="application">qt5</span> you use
+            depends only on where the symlink points.
+          </p>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of qt5
+        </h2>
+        <div class="admon warning">
+          <img alt="[警告]" src="../images/warning.png" />
+          <h3>
+            警告
+          </h3>
+          <p>
+            If <span class="application">qt5</span> is being reinstalled into
+            the same directory as an existing instance, run the commands done
+            by <code class="systemitem">root</code>, such as <span class=
+            "command"><strong>make install</strong></span>, from a console or
+            non-qt5 based window manager. It overwrites <span class=
+            "application">qt5</span> libraries that should not be in use
+            during the install process.
+          </p>
+        </div>
+        <div class="admon caution">
+          <img alt="[注意]" src="../images/caution.png" />
+          <h3>
+            注意
+          </h3>
+          <p>
+            If you did not install some of the recommended dependencies,
+            examine <span class="command"><strong>./configure
+            --help</strong></span> output to check how to disable them or use
+            internal versions bundled in the source tarball.
+          </p>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            The BLFS editors do not recommend installing <span class=
+            "application">qt5</span> into the /usr hierarchy because it
+            becomes difficult to find components and to update to a new
+            version. If you do want to install <span class=
+            "application">qt5</span> in /usr, the directories need to be
+            specified explicitly. In this case, set QT5PREFIX=/usr and add
+            the following to the configure arguments below:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">            -archdatadir    /usr/lib/qt5                \
+            -bindir         /usr/bin                    \
+            -plugindir      /usr/lib/qt5/plugins        \
+            -importdir      /usr/lib/qt5/imports        \
+            -headerdir      /usr/include/qt5            \
+            -datadir        /usr/share/qt5              \
+            -docdir         /usr/share/doc/qt5          \
+            -translationdir /usr/share/qt5/translations \
+            -examplesdir    /usr/share/doc/qt5/examples</kbd></pre>
+        </div>
+        <p>
+          The libxkbcommon-1.6.0 package removes some definitions that are
+          not used. Remove those here also:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i '276,279d' qtbase/src/platformsupport/input/xkbcommon/qxkbcommon.cpp</kbd></pre>
+        <p>
+          Now apply a patch to pull in the fixes curated by kde for those
+          modules which are required by packages mentioned in this book:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../qt-everywhere-opensource-src-5.15.11-kf5-1.patch</kbd></pre>
+        <p>
+          The patch is supposed to be used in a git repository. Otherwise
+          some files that should be modified by <span class=
+          "command"><strong>configure</strong></span> after applying the
+          patch are not touched. Fortunately, it is enough to create a
+          <code class="filename">.git</code> directory in the <code class=
+          "filename">qmake</code> directory where the <span class=
+          "command"><strong>configure</strong></span> script is run:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mkdir -pv qtbase/.git</kbd></pre>
+        <p>
+          At this point we want to set up skipping most components. Do that
+          with:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">ls -Fd qt* | grep / | sed 's/^/-skip /;s@/@@' &gt; tempconf &amp;&amp;
+sed -i -r '/base|tools|x11extras|svg|declarative|wayland/d' tempconf</kbd></pre>
+        <p>
+          Now, install <span class="application">qt5</span> by running the
+          following commands:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure -prefix $QT5PREFIX   \
+            -sysconfdir /etc/xdg \
+            -confirm-license     \
+            -opensource          \
+            -dbus-linked         \
+            -openssl-linked      \
+            -system-harfbuzz     \
+            -system-sqlite       \
+            -nomake examples     \
+            -no-rpath            \
+            -syslog              \
+            $(cat tempconf)      \
+            &amp;&amp;
+make</kbd></pre>
+        <p>
+          This package does not come with a test suite.
+        </p>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+        <p>
+          Remove references to the build directory from installed library
+          dependency (prl) files by running the following command as the
+          <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">find $QT5PREFIX/ -name \*.prl \
+   -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;</kbd></pre>
+        <p>
+          Install images and create the menu entries for installed
+          applications. The <code class="envar">QT5BINDIR</code> variable is
+          used here to point to the directory for the executable programs. If
+          you have changed the bindir above, <code class=
+          "envar">QT5BINDIR</code> will need to be adjusted below. Be sure
+          that the <code class="envar">QT5BINDIR</code> variable is defined
+          in root's environment and as the <code class=
+          "systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">QT5BINDIR=$QT5PREFIX/bin
+
+install -v -dm755 /usr/share/pixmaps/                  &amp;&amp;
+
+install -v -Dm644 qttools/src/assistant/assistant/images/assistant-128.png \
+                  /usr/share/pixmaps/assistant-qt5.png &amp;&amp;
+
+install -v -Dm644 qttools/src/designer/src/designer/images/designer.png \
+                  /usr/share/pixmaps/designer-qt5.png  &amp;&amp;
+
+install -v -Dm644 qttools/src/linguist/linguist/images/icons/linguist-128-32.png \
+                  /usr/share/pixmaps/linguist-qt5.png  &amp;&amp;
+
+install -v -Dm644 qttools/src/qdbus/qdbusviewer/images/qdbusviewer-128.png \
+                  /usr/share/pixmaps/qdbusviewer-qt5.png &amp;&amp;
+
+install -dm755 /usr/share/applications &amp;&amp;
+
+cat &gt; /usr/share/applications/assistant-qt5.desktop &lt;&lt; EOF
+<code class="literal">[Desktop Entry]
+Name=Qt5 Assistant
+Comment=Shows Qt5 documentation and examples
+Exec=$QT5BINDIR/assistant
+Icon=assistant-qt5.png
+Terminal=false
+Encoding=UTF-8
+Type=Application
+Categories=Qt;Development;Documentation;</code>
+EOF
+
+cat &gt; /usr/share/applications/designer-qt5.desktop &lt;&lt; EOF
+<code class="literal">[Desktop Entry]
+Name=Qt5 Designer
+GenericName=Interface Designer
+Comment=Design GUIs for Qt5 applications
+Exec=$QT5BINDIR/designer
+Icon=designer-qt5.png
+MimeType=application/x-designer;
+Terminal=false
+Encoding=UTF-8
+Type=Application
+Categories=Qt;Development;</code>
+EOF
+
+cat &gt; /usr/share/applications/linguist-qt5.desktop &lt;&lt; EOF
+<code class="literal">[Desktop Entry]
+Name=Qt5 Linguist
+Comment=Add translations to Qt5 applications
+Exec=$QT5BINDIR/linguist
+Icon=linguist-qt5.png
+MimeType=text/vnd.trolltech.linguist;application/x-linguist;
+Terminal=false
+Encoding=UTF-8
+Type=Application
+Categories=Qt;Development;</code>
+EOF
+
+cat &gt; /usr/share/applications/qdbusviewer-qt5.desktop &lt;&lt; EOF
+<code class="literal">[Desktop Entry]
+Name=Qt5 QDbusViewer
+GenericName=D-Bus Debugger
+Comment=Debug D-Bus applications
+Exec=$QT5BINDIR/qdbusviewer
+Icon=qdbusviewer-qt5.png
+Terminal=false
+Encoding=UTF-8
+Type=Application
+Categories=Qt;Development;Debugger;</code>
+EOF</kbd></pre>
+        <p>
+          Some packages such as <a class="xref" href="../multimedia/vlc.html"
+          title="VLC-3.0.20">VLC-3.0.20</a> look for certain executables with
+          a -qt5 suffix. Run the following command as the <code class=
+          "systemitem">root</code> user to create the necessary symlinks:
+        </p>
+        <pre class="root"><kbd class=
+        "command">for file in moc uic rcc qmake lconvert lrelease lupdate; do
+  ln -sfvn $QT5BINDIR/$file /usr/bin/$file-qt5
+done</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <em class="parameter"><code>-confirm-license</code></em>: Accept
+          license without prompting user during configuration.
+        </p>
+        <p>
+          <em class="parameter"><code>-opensource</code></em>: Install the
+          opensource version of <span class="application">qt</span>.
+        </p>
+        <p>
+          <em class="parameter"><code>-nomake examples</code></em>: This
+          switch disables building of the example programs included in the
+          source tarball. Remove it if you want to build them.
+        </p>
+        <p>
+          <em class="parameter"><code>-system-sqlite</code></em>: This switch
+          enables use of the system version of <span class=
+          "application">SQLite</span>.
+        </p>
+        <p>
+          <em class="parameter"><code>-system-harfbuzz</code></em>: This
+          switch enables use of the system version of <span class=
+          "application">Harfbuzz</span>.
+        </p>
+        <p>
+          <em class="parameter"><code>-dbus-linked</code></em> <em class=
+          "parameter"><code>-openssl-linked</code></em>: These switches
+          enable explicit linking of the <span class=
+          "application">D-Bus</span> and <span class=
+          "application">OpenSSL</span> libraries into <span class=
+          "application">qt5</span> libraries instead of <span class=
+          "command"><strong>dlopen()</strong></span>-ing them.
+        </p>
+        <p>
+          <em class="parameter"><code>-syslog</code></em>: This switch allows
+          to send qt messages to the <span class=
+          "command"><strong>syslog</strong></span> logging system.
+        </p>
+        <p>
+          <span class="command"><strong>$(cat tempconf)</strong></span>: This
+          command provides a list of components that should not be built.
+          These entries are in the form of "-skip &lt;component&gt;".
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Configuring qt5
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="qt5-alt-config" name="qt5-alt-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="qt5-alt-config" name="qt5-alt-config"></a>Configuration
+            Information
+          </h4>
+          <p>
+            If <a class="xref" href="../postlfs/sudo.html" title=
+            "Sudo-1.9.15p4">Sudo-1.9.15p4</a> is installed, QT5DIR should be
+            available to the super user as well. Execute the following
+            commands as the <code class="systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt; /etc/sudoers.d/qt &lt;&lt; "EOF"
+<code class="literal">Defaults env_keep += QT5DIR</code>
+EOF</kbd></pre>
+          <h4>
+            If you installed qt5 in /usr
+          </h4>
+          <p>
+            If you installed <span class="application">qt5</span> in
+            <code class="filename">/usr</code>, create an environment
+            variable needed by certain packages. As the <code class=
+            "systemitem">root</code> user:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">cat &gt; /etc/profile.d/qt5.sh &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/profile.d/qt5.sh
+
+QT5DIR=/usr
+export QT5DIR
+
+# End /etc/profile.d/qt5.sh</code>
+EOF</kbd></pre>
+          <h4>
+            If you did not install qt5 in /usr
+          </h4>
+          <p>
+            If you installed <span class="application">qt5</span> in a
+            location other than <code class="filename">/usr</code>, you need
+            to update the following configuration files so that <span class=
+            "application">qt5</span> is correctly found by other packages and
+            system processes.
+          </p>
+          <p>
+            As the <code class="systemitem">root</code> user, update the
+            <code class="filename">/etc/ld.so.conf</code> file and the
+            dynamic linker's run-time cache file:
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt;&gt; /etc/ld.so.conf &lt;&lt; EOF
+<code class="literal"># Begin Qt addition
+
+/opt/qt5/lib
+
+# End Qt addition</code>
+EOF
+
+ldconfig</kbd></pre>
+          <p>
+            As the <code class="systemitem">root</code> user, create the
+            <code class="filename">/etc/profile.d/qt5.sh</code> file:
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt; /etc/profile.d/qt5.sh &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/profile.d/qt5.sh
+
+QT5DIR=/opt/qt5
+
+pathappend $QT5DIR/bin           PATH
+pathappend $QT5DIR/lib/pkgconfig PKG_CONFIG_PATH
+
+export QT5DIR
+
+# End /etc/profile.d/qt5.sh</code>
+EOF</kbd></pre>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">assistant, designer, fixqt4headers.pl,
+              lconvert, linguist, lprodump, lrelease, lrelease-pro, lupdate,
+              lupdate-pro, moc, pixeltool, qcollectiongenerator, qdbus,
+              qdbuscpp2xml, qdbusviewer, qdbusxml2cpp,
+              qdistancefieldgenerator, qdoc, qhelpgenerator, qlalr, qmake,
+              qml, qmlcachegen, qmleasing, qmlformat, qmlimportscanner,
+              qmllint, qmlmin, qmlplugindump, qmlpreview, qmlprofiler,
+              qmlscene, qmltestrunner, qmltime, qmltyperegistrar,
+              qtattributionscanner, qtdiag, qtpaths, qtplugininfo,
+              qtwaylandscanner, qvkgen, rcc, syncqt.pl, tracegen, and
+              uic</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">libQt5AccessibilitySupport.a,
+              libQt5Bootstrap.a, libQt5Concurrent.so, libQt5Core.so,
+              libQt5DBus.so, libQt5Designer.so, libQt5DesignerComponents.so,
+              libQt5DeviceDiscoverySupport.a, libQt5EdidSupport.a,
+              libQt5EglFSDeviceIntegration.so, libQt5EglFsKmsSupport.so,
+              libQt5EglSupport.a, libQt5EventDispatcherSupport.a,
+              libQt5FbSupport.a, libQt5FontDatabaseSupport.a,
+              libQt5GlxSupport.a, libQt5Gui.so, libQt5Help.so,
+              libQt5InputSupport.a, libQt5KmsSupport.a,
+              libQt5LinuxAccessibilitySupport.a, libQt5Network.so,
+              libQt5OpenGL.so, libQt5OpenGLExtensions.a,
+              libQt5PacketProtocol.a, libQt5PlatformCompositorSupport.a,
+              libQt5PrintSupport.so, libQt5Qml.so, libQt5QmlDebug.a,
+              libQt5QmlDevTools.a, libQt5QmlModels.so,
+              libQt5QmlWorkerScript.so, libQt5Quick.so,
+              libQt5QuickParticles.so, libQt5QuickShapes.so,
+              libQt5QuickTest.so, libQt5QuickWidgets.so,
+              libQt5ServiceSupport.a, libQt5Sql.so, libQt5Svg.so,
+              libQt5Test.so, libQt5ThemeSupport.a, libQt5UiTools.a,
+              libQt5WaylandClient.so, libQt5WaylandCompositor.so,
+              libQt5Widgets.so, libQt5X11Extras.so, libQt5XcbQpa.so,
+              libQt5XkbCommonSupport.a, libQt5Xml.so, and several plugins
+              under /opt/qt5/{plugins,qml}</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody">/usr/include/qt5, /usr/lib/qt5,
+              /usr/share/doc/qt5, and /usr/share/qt5 OR /opt/qt5 and
+              /opt/qt-5.15.11</span>
+            </div>
+          </div>
+        </div>
+        <h3>
+          Short Descriptions
+        </h3>
+        <p>
+          See <a class="xref" href="qt5.html#qt5-descriptions">Qt5 Short
+          Descriptions</a>
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="qt5.html" title="Qt-5.15.11">戻る</a>
+          <p>
+            Qt-5.15.11
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="qt5-components.html" title=
+          "qt-components-5.15.11">次へ</a>
+          <p>
+            qt-components-5.15.11
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="lib.html" title=
+          "第25章 グラフィック環境ライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

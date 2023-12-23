@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      About Console Fonts
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第3章 LFS 設定以降について
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="bootdisk.html" title="独自のブートデバイスの生成">戻る</a>
+          <p>
+            独自のブートデバイスの生成
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="firmware.html" title="About Firmware">次へ</a>
+          <p>
+            About Firmware
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="config.html" title=
+          "第3章 LFS 設定以降について">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="postlfs-console-fonts" name="postlfs-console-fonts"></a>About
+        Console Fonts
+      </h1>
+      <p>
+        An LFS system can be used without a graphical desktop, and unless or
+        until you install <a class="xref" href="../x/installing.html" title=
+        "第24章 グラフィック環境">グラフィック環境</a> you will have to work in the console.
+        Most, if not all, PCs boot with an 8x16 font - whatever the actual
+        screen size. There are a few things you can do to alter the display
+        on the console. Most of them involve changing the font, but the first
+        alters the commandline used by grub.
+      </p>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="grub-video" name="grub-video"></a>Setting a smaller screen
+          size in grub
+        </h2>
+        <p>
+          Modern screens often have a lot more pixels then the screens used
+          in the past. If your screen is 1600 pixels wide, an 8x16 font will
+          give you 200 columns of text - unless your monitor is enormous, the
+          text will be tiny. One of the ways to work around this is to tell
+          grub to use a smaller size, such as 1024x768 or 800x600 or even
+          640x480. Even if your screen does not have a 4:3 aspect ratio, this
+          should work.
+        </p>
+        <p>
+          To try this, you can reboot and edit grub's command-line to insert
+          a 'video=' parameter between the 'root=/dev/sdXn' and 'ro', for
+          example <code class="literal">root=/dev/sda2 video=1024x768
+          ro</code> based on the example in LFS section 10.4.4 : <a class=
+          "ulink" href=
+          "../../../../lfs/view/systemd/chapter10/grub.html">../../../../lfs/view/systemd/chapter10/grub.html</a>.
+        </p>
+        <p>
+          If you decide that you wish to do this, you can then (as the
+          <code class="systemitem">root</code> user) edit <code class=
+          "filename">/boot/grub/grub.cfg</code>.
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="psf-fonts" name="psf-fonts"></a>Using the standard psf fonts
+        </h2>
+        <p>
+          In LFS the <span class="application">kbd</span> package is used.
+          The fonts it provides are PC Screen Fonts, usually called PSF, and
+          they were installed into <code class=
+          "filename">/usr/share/consolefonts</code>. Where these include a
+          unicode mapping table, the file suffix is often changed to
+          <code class="literal">.psfu</code> although packages such as
+          <span class="application">terminus-font</span> (see below) do not
+          add the 'u'. These fonts are usually compressed with gzip to save
+          space, but that is not essential.
+        </p>
+        <p>
+          The initial PC text screens had 8 colours, or 16 colours if the
+          bright versions of the original 8 colours were used. A PSF font can
+          include up to 256 characters (technically, glyphs) while allowing
+          16 colours, or up to 512 characters (in which case, the bright
+          colours will not be available). Clearly, these console fonts cannot
+          be used to display CJK text - that would need thousands of
+          available glyphs.
+        </p>
+        <p>
+          Some fonts in <span class="application">kbd</span> can cover more
+          than 512 codepoints ('characters'), with varying degrees of
+          fidelity: unicode contains several whitespace codepoints which can
+          all be mapped to a space, varieties of dashes can be mapped to a
+          minus sign, smart quotes can map to the regular ASCII quotes rather
+          than to whatever is used for "codepoint not present or invalid",
+          and those cyrillic or greek letters which look like latin letters
+          can be mapped onto them, so 'A' can also do duty for cyrillic A and
+          greek Alpha, and 'P' can also do duty for cyrillic ER and greek
+          RHO. Unfortunately, where a font has been created from a BDF file
+          (the method in terminus and Debian's <a class="ulink" href=
+          "https://packages.debian.org/jessie/utils/console-setup">console-setup</a>
+          ) such mapping of additional codepoints onto an existing glyph is
+          not always done, although the terminus ter-vXXn fonts do this well.
+        </p>
+        <p>
+          There are over 120 combinations of font and size in <span class=
+          "application">kbd</span>: often a font is provided at several
+          character sizes, and sometimes varieties cover different subsets of
+          unicode. Most are 8 pixels wide, in heights from 8 to 16 pixels,
+          but there are a few which are 9 pixels wide, some others which are
+          12x22, and even one (<code class=
+          "filename">latarcyrheb-sun32.psfu</code>) which has been scaled up
+          to 16x32. Using a bigger font is another way of making text on a
+          large screen easier to read.
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="testing-fonts" name="testing-fonts"></a>Testing different
+          fonts
+        </h2>
+        <p>
+          You can test fonts as a normal user. If you have a font which has
+          not been installed, you can load it with :
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">setfont /path/to/yourfont.ext</kbd></pre>
+        <p>
+          For the fonts already installed you only need the name, so using
+          <code class="filename">gr737a-9x16.psfu.gz</code> as an example:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">setfont gr737a-9x16</kbd></pre>
+        <p>
+          To see the glyphs in the font, use:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">showconsolefont</kbd></pre>
+        <p>
+          If the font looks as if it might be useful, you can then go on to
+          test it more thoroughly.
+        </p>
+        <p>
+          When you find a font which you wish to use, as the <code class=
+          "systemitem">root</code> user) edit <span class=
+          "phrase"><code class="filename">/etc/sysconfig/console</code> as
+          described in LFS section 9.6.5 <a class="ulink" href=
+          "../../../../lfs/view/systemd/chapter09/usage.html">../../../../lfs/view/systemd/chapter09/usage.html</a>.</span>
+          .
+        </p>
+        <p>
+          For fonts not supplied with the <span class=
+          "application">kbd</span> package you will need to optionally
+          compress it / them with <span class=
+          "command"><strong>gzip</strong></span> and then install it / them
+          as the <code class="systemitem">root</code> user.
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="psf-tools" name="psf-tools"></a>Editing fonts using
+          psf-tools
+        </h2>
+        <p>
+          Although some console fonts are created from BDF files, which is a
+          text format with hex values for the pixels in each row of the
+          character, there are more-modern tools available for editing psf
+          fonts. The <a class="ulink" href=
+          "https://www.seasip.info/Unix/PSF/">psftools</a> package allows you
+          to dump a font to a text representation with a dash for a pixel
+          which is off (black) and a hash for a pixel which is on (white).
+          You can then edit the text file to add more characters, or reshape
+          them, or map extra codepoints onto them, and then create a new psf
+          font with your changes.
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="terminus-font" name="terminus-font"></a>Using fonts from
+          Terminus-font
+        </h2>
+        <p>
+          The <a class="ulink" href=
+          "https://terminus-font.sourceforge.net/">Terminus Font</a> package
+          provides fixed-width bitmap fonts designed for long (8 hours and
+          more per day) work with computers. Under 'Character variants' on
+          that page is a list of patches (in the <code class=
+          "filename">alt/</code> directory). If you are using a graphical
+          browser to look at that page, you can see what the patches do, e.g.
+          'll2' makes 'l' more visibly different from 'i' and '1'.
+        </p>
+        <p>
+          By default <span class="application">terminus-fonts</span> will try
+          to create several types of font, and it will fail if <span class=
+          "command"><strong>bdftopcf</strong></span> from <a class="xref"
+          href="../x/x7app.html" title="Xorg アプリケーション">Xorg アプリケーション</a> has
+          not been installed. The configure script is only really useful if
+          you go on to install <span class="emphasis"><em>all</em></span> the
+          fonts (console and X11 bitmap) to the correct directories, as in a
+          distro. To build only the PSF fonts and their dependencies, run:
+        </p>
+        <pre class="userinput"><kbd class="command">make psf</kbd></pre>
+        <p>
+          This will create more than 240 ter-*.psf fonts. The 'b' suffix
+          indicates bright, 'n' indicates normal. You can then test them to
+          see if any fit your requirements. Unless you are creating a distro,
+          there seems little point in installing them all.
+        </p>
+        <p>
+          As an example, to install the last of these fonts, you can gzip it
+          and then as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">install -v -m644 ter-v32n.psf.gz /usr/share/consolefonts</kbd></pre>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="bootdisk.html" title="独自のブートデバイスの生成">戻る</a>
+          <p>
+            独自のブートデバイスの生成
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="firmware.html" title="About Firmware">次へ</a>
+          <p>
+            About Firmware
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="config.html" title=
+          "第3章 LFS 設定以降について">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

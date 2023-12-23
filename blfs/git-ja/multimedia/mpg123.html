@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      mpg123-1.32.3
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第43章 オーディオユーティリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="lame.html" title="LAME-3.100">戻る</a>
+          <p>
+            LAME-3.100
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="pavucontrol.html" title=
+          "pavucontrol-5.0">次へ</a>
+          <p>
+            pavucontrol-5.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="audioutils.html" title=
+          "第43章 オーディオユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="mpg123" name="mpg123"></a>mpg123-1.32.3
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          mpg123 の概要
+        </h2>
+        <p>
+          The <span class="application">mpg123</span> package contains a
+          console-based MP3 player. It claims to be the fastest MP3 decoder
+          for Unix.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://downloads.sourceforge.net/mpg123/mpg123-1.32.3.tar.bz2">
+                https://downloads.sourceforge.net/mpg123/mpg123-1.32.3.tar.bz2</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 5517c4c18d896da6f57a3c3b5cf317cc
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1.1 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 16 MB (with tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.2 SBU (with tests)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          mpg123 の依存パッケージ
+        </h3>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="alsa-lib.html" title=
+          "alsa-lib-1.2.10">alsa-lib-1.2.10</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="pulseaudio.html" title=
+          "PulseAudio-16.1">PulseAudio-16.1</a>, <a class="xref" href=
+          "sdl.html" title="sdl12-compat-1.2.68">sdl12-compat-1.2.68</a>,
+          <a class="ulink" href="https://jackaudio.org">JACK</a>, <a class=
+          "ulink" href="https://openal.org/">OpenAL</a>, <a class="ulink"
+          href="http://www.portaudio.com/">PortAudio</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          mpg123 のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">mpg123</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr &amp;&amp;
+make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>make
+          check</strong></span> を実行します。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">mpg123, mpg123-id3dump, mpg123-strip, out123</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libmpg123.so, libout123.so, libsyn123.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/lib/mpg123</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mpg123-prog" name="mpg123-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mpg123</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used for playing MP3 files via the console
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mpg123-id3dump" name=
+                    "mpg123-id3dump"></a><span class="term"><span class=
+                    "command"><strong>mpg123-id3dump</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool to dump ID3 meta data from MPEG audio files
+                    using libmpg123
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mpg123-strip" name="mpg123-strip"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mpg123-strip</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    extracts only MPEG frames from a stream using libmpg123
+                    (stdin to stdout)
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="out123" name="out123"></a><span class=
+                    "term"><span class=
+                    "command"><strong>out123</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    plays raw PCM audio to an output device
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libmpg123" name="libmpg123"></a><span class=
+                    "term"><code class="filename">libmpg123.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains the <span class="application">mpg123</span> API
+                    functions
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libout123" name="libout123"></a><span class=
+                    "term"><code class="filename">libout123.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains the <span class="application">out123</span> API
+                    functions
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libsyn123" name="libsyn123"></a><span class=
+                    "term"><code class="filename">libsyn123.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains some audio signal synthesis and format
+                    conversion functions
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="lame.html" title="LAME-3.100">戻る</a>
+          <p>
+            LAME-3.100
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="pavucontrol.html" title=
+          "pavucontrol-5.0">次へ</a>
+          <p>
+            pavucontrol-5.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="audioutils.html" title=
+          "第43章 オーディオユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      libgsf-1.14.51
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第9章 汎用的なライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libgrss.html" title="libgrss-0.7.0">戻る</a>
+          <p>
+            libgrss-0.7.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libgudev.html" title="libgudev-238">次へ</a>
+          <p>
+            libgudev-238
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="libgsf" name="libgsf"></a>libgsf-1.14.51
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libgsf の概要
+        </h2>
+        <p>
+          <span class="application">libgsf</span> パッケージは、構造化されたファイルフォーマット
+          (structured file formats) に対する抽象層 (abstraction layer)
+          での入出力を拡張するライブラリを提供します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://download.gnome.org/sources/libgsf/1.14/libgsf-1.14.51.tar.xz">
+                https://download.gnome.org/sources/libgsf/1.14/libgsf-1.14.51.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 55301f17247932325c6ff572e1d70f35
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 692 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 16 MB （テスト込み）
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.3 SBU （テスト込み）
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          libgsf の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="glib2.html" title=
+          "GLib-2.78.3">GLib-2.78.3</a>, <a class="xref" href="libxml2.html"
+          title="libxml2-2.12.3">libxml2-2.12.3</a>
+        </p>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../x/gdk-pixbuf.html" title=
+          "gdk-pixbuf-2.42.10">gdk-pixbuf-2.42.10</a> (<span class=
+          "command"><strong>gsf-office-thumbnailer</strong></span> のビルドに必要)
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="gobject-introspection.html" title=
+          "gobject-introspection-1.78.1">gobject-introspection-1.78.1</a>,
+          <a class="xref" href="gtk-doc.html" title=
+          "GTK-Doc-1.33.2">GTK-Doc-1.33.2</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libgsf のインストール
+        </h2>
+        <p>
+          Fix building <span class="application">libgsf</span> against
+          <span class="application">libxml-2.12.x</span>:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -e '/tree\.h/i #include &lt;libxml/parser.h&gt;' \
+    -i gsf/gsf-libxml.h</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">libgsf</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr --disable-static &amp;&amp;
+make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>make
+          check</strong></span> を実行します。 2 つのテスト t1004-zip-zip64.pl と
+          t1005-zip-nonseekable.pl は失敗します。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--disable-static</code></em>:
+          このスイッチはスタティックライブラリをインストールしないようにします。
+        </p>
+        <p>
+          <code class="option">--enable-gtk-doc</code>: <span class=
+          "application">GTK-Doc</span> をインストール済で API ドキュメントを再構築する場合に指定します。
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">gsf, gsf-office-thumbnailer, gsf-vba-dump</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libgsf-1.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/libgsf-1, /usr/share/gtk-doc/html/gsf,
+              /usr/share/thumbnailers</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gsf" name="gsf"></a><span class=
+                    "term"><span class="command"><strong>gsf</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    簡易なアーカイブユーティリティー。tar(1) に類似するものです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gsf-office-thumbnailer" name=
+                    "gsf-office-thumbnailer"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gsf-office-thumbnailer</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">Nautilus</span> などの
+                    <span class="application">GNOME</span>
+                    アプリケーションが、その内部にて利用しているもので、数種のオフィスアプリケーションファイルに対するサムネイルを生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gsf-vba-dump" name="gsf-vba-dump"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gsf-vba-dump</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Visual Basic for Applications のマクロをファイルから抽出します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libgsf-1" name="libgsf-1"></a><span class=
+                    "term"><code class="filename">libgsf-1.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">libgsf</span> API 関数を提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libgrss.html" title="libgrss-0.7.0">戻る</a>
+          <p>
+            libgrss-0.7.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libgudev.html" title="libgudev-238">次へ</a>
+          <p>
+            libgudev-238
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

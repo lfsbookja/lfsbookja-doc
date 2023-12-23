@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Tracker-3.6.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第33章 GNOME のライブラリとデスクトップ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="evolution-data-server.html" title=
+          "evolution-data-server-3.50.2">戻る</a>
+          <p>
+            evolution-data-server-3.50.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="tracker3-miners.html" title=
+          "Tracker-miners-3.6.2">次へ</a>
+          <p>
+            Tracker-miners-3.6.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="core.html" title=
+          "第33章 GNOME のライブラリとデスクトップ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="tracker3" name="tracker3"></a>Tracker-3.6.0
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Tracker の概要
+        </h2>
+        <p>
+          <span class="application">Tracker</span> is the file indexing and
+          search provider used in the <span class="application">GNOME</span>
+          desktop environment.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://download.gnome.org/sources/tracker/3.6/tracker-3.6.0.tar.xz">
+                https://download.gnome.org/sources/tracker/3.6/tracker-3.6.0.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 7be27edcf56214277cdff6ebfd8cfbf0
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 2.4 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 51 MB（テスト込み）
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.6 SBU（テスト込み）
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Tracker の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/json-glib.html" title=
+          "JSON-GLib-1.8.0">JSON-GLib-1.8.0</a>, <a class="xref" href=
+          "../general/libseccomp.html" title=
+          "libseccomp-2.5.5">libseccomp-2.5.5</a>, <a class="xref" href=
+          "../general/vala.html" title="Vala-0.56.14">Vala-0.56.14</a>
+        </p>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../general/gobject-introspection.html" title=
+          "gobject-introspection-1.78.1">gobject-introspection-1.78.1</a>,
+          <a class="xref" href="../general/icu.html" title=
+          "ICU-74.1">ICU-74.1</a>, <a class="xref" href=
+          "../basicnet/libsoup3.html" title=
+          "libsoup-3.4.4">libsoup-3.4.4</a>, <a class="xref" href=
+          "../general/python-modules.html#pygobject3" title=
+          "PyGObject-3.46.0">PyGObject-3.46.0</a>, <a class="xref" href=
+          "../server/sqlite.html" title="SQLite-3.44.2">SQLite-3.44.2</a>,
+          <a class="xref" href="tracker3-miners.html" title=
+          "Tracker-miners-3.6.2">tracker-miners-3.6.2</a> (実行時)
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/python-modules.html#asciidoc"
+          title="Asciidoc-10.2.0">asciidoc-10.2.0</a>, <a class="xref" href=
+          "../general/graphviz.html" title=
+          "Graphviz-9.0.0">Graphviz-9.0.0</a>, <a class="xref" href=
+          "../basicnet/libsoup.html" title=
+          "libsoup-2.74.3">libsoup-2.74.3</a>, <a class="ulink" href=
+          "https://github.com/scop/bash-completion/">bash-completion</a>,
+          <a class="ulink" href=
+          "https://github.com/snowballstem/snowball/">libstemmer</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Tracker のインストール
+        </h2>
+        <p>
+          Fix the location to install the documentation into:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mv docs/reference/libtracker-sparql/doc/{Tracker-3.0,tracker-3.6.0} &amp;&amp;
+sed '/docs_name/s/Tracker-3.0/tracker-3.6.0/' \
+    -i docs/reference/libtracker-sparql/meson.build</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">Tracker</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+meson setup --prefix=/usr                 \
+            --buildtype=release           \
+            -Dman=false                   \
+            -Dsystemd_user_services=false \
+            ..                            &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">ninja install</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>meson configure
+          -Ddebug=true &amp;&amp; ninja test</strong></span> を実行します。
+          テストはグラフィックセッションから実行することが必要です。
+        </p>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--buildtype=release</code></em>:
+          本パッケージの安定版リリース向けに適したビルドタイプを指定します。
+          デフォルトにしていると、最適化されていないバイナリを生成する場合があるためです。
+        </p>
+        <p>
+          <em class="parameter"><code>-Dman=false</code></em>: This switch
+          prevents the build process from generating man pages. Omit this
+          switch if you have <a class="xref" href=
+          "../general/python-modules.html#asciidoc" title=
+          "Asciidoc-10.2.0">asciidoc-10.2.0</a> installed and wish to
+          generate and install the man pages.
+        </p>
+        <p>
+          <em class=
+          "parameter"><code>-Dsystemd_user_services=false</code></em>: This
+          switch prevents the build process from installing systemd user
+          services since they are useless on SysV systems.
+        </p>
+        <p>
+          <span class="command"><strong>meson configure
+          -Ddebug=true</strong></span>: This command enables some debug
+          checks necessary for the test suite. We don't want to enable them
+          for the installed Tracker 3 libraries and programs, so we run the
+          test suite after installation.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">tracker3</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libtracker-sparql-3.0.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/{include,lib}/tracker-3.0,
+              /usr/libexec/tracker3, /usr/share/tracker3,
+              /usr/share/doc/tracker-3.6.0 (任意インストール)</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tracker3-prog" name=
+                    "tracker3-prog"></a><span class="term"><span class=
+                    "command"><strong>tracker3</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a control program for the indexer
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libtracker3-sparql" name=
+                    "libtracker3-sparql"></a><span class="term"><code class=
+                    "filename">libtracker-sparql-3.0.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains resource management and database functions
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="evolution-data-server.html" title=
+          "evolution-data-server-3.50.2">戻る</a>
+          <p>
+            evolution-data-server-3.50.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="tracker3-miners.html" title=
+          "Tracker-miners-3.6.2">次へ</a>
+          <p>
+            Tracker-miners-3.6.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="core.html" title=
+          "第33章 GNOME のライブラリとデスクトップ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

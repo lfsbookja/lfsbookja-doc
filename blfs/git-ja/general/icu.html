@@ -1,0 +1,595 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      ICU-74.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第9章 汎用的なライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gspell.html" title="gspell-1.12.2">戻る</a>
+          <p>
+            gspell-1.12.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="inih.html" title="inih-57">次へ</a>
+          <p>
+            inih-57
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="icu" name="icu"></a>ICU-74.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          ICU の概要
+        </h2>
+        <p>
+          <span class="application">ICU</span> (International Components for
+          Unicode) パッケージは広く活用されている C/C++ ライブラリであり、アプリケーションに対しての Unicode
+          と国際化サポートを提供します。 <span class="application">ICU</span>
+          は可搬性に優れ、あらゆるプラットフォームにて同一の処理結果を実現します。
+        </p>
+        <div class="admon warning">
+          <img alt="[警告]" src="../images/warning.png" />
+          <h3>
+            警告
+          </h3>
+          <p>
+            Upgrading this package to a new major version (for example, from
+            72.1 to 74.1) will require rebuilding of many other packages. If
+            some packages that use the libraries built by icu4c-74 are
+            rebuilt, they will use the new libraries while current packages
+            will use the previous libraries. If the Linux application loader
+            (<code class="filename">/usr/lib/ld-linux-x86-64.so.2</code>)
+            determines that both the old and new libraries are needed, and a
+            symbol (name of data or function) exists in both versions of the
+            library, all references to the symbol will be resolved to the
+            version appearing earlier in the breadth-first sequence of the
+            dependency graph. This may result in the application failing if
+            the definition of the data or the behavior of the function
+            referred by the symbol differs in two versions. To avoid the
+            issue, users will need to rebuild every package linked to an ICU
+            library as soon as possible once ICU is updated to a new major
+            version.
+          </p>
+          <p>
+            To determine what external libraries are needed (directly or
+            indirectly) by an application or a library, run:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">ldd &lt;application or library&gt; </kbd></pre>
+          <p>
+            or to see only the directly needed libraries:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">readelf -d  &lt;application or library&gt; | grep NEEDED</kbd></pre>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/unicode-org/icu/releases/download/release-74-1/icu4c-74_1-src.tgz">
+                https://github.com/unicode-org/icu/releases/download/release-74-1/icu4c-74_1-src.tgz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 71e60b22697c4f35820a1897417dbab4
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 25 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 339 MB (テスト実施時はさらに 42 MB)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.5 SBU (parallelism=4 利用時。テスト実施時はさらに 1.6 SBU)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          ICU の依存パッケージ
+        </h3>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="llvm.html" title=
+          "LLVM-17.0.6">LLVM-17.0.6</a> (Clang がビルドされたもの), <a class="xref"
+          href="doxygen.html" title="Doxygen-1.9.8">Doxygen-1.9.8</a>
+          (ドキュメント生成時)
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          ICU のインストール
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            This package expands to the directory <code class=
+            "filename">icu</code>.
+          </p>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            <span class="command"><strong>clang++</strong></span>
+            が利用可能であれば用いられます。 ただしこれは <span class=
+            "command"><strong>g++</strong></span> が C++11
+            に対応していないとの思い込みによるものであり、<span class=
+            "command"><strong>configure</strong></span> がテストしているにもかかわらず発生します。
+            <span class="command"><strong>g++</strong></span> が用いられるときには
+            <span class="command"><strong>configure</strong></span>
+            処理の最後に不要な警告メッセージが出力されます。 <span class=
+            "command"><strong>g++</strong></span> によるビルドは、示されている SBU 以上を要します。
+          </p>
+        </div>
+        <p>
+          以下のコマンドを実行して <span class="application">ICU</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cd source                                    &amp;&amp;
+
+./configure --prefix=/usr                    &amp;&amp;
+make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>make
+          check</strong></span> を実行します。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">derb, escapesrc, genbrk, genccode, gencfu, gencmn,
+              gencnval, gendict, gennorm2, genrb, gensprep, icu-config,
+              icuexportdata, icuinfo, icupkg, makeconv, pkgdata, uconv</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libicudata.so, libicui18n.so, libicuio.so,
+              libicutest.so, libicutu.so, libicuuc.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/unicode, /usr/lib/icu,
+              /usr/share/icu</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="derb" name="derb"></a><span class=
+                    "term"><span class=
+                    "command"><strong>derb</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    リソースバンドル (resource bundle) をディスアセンブルします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="escapesrc" name="escapesrc"></a><span class=
+                    "term"><span class=
+                    "command"><strong>escapesrc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    converts <span class="quote">「<span class=
+                    "quote">\u</span>」</span> escaped characters into unicode
+                    characters
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="genbrk" name="genbrk"></a><span class=
+                    "term"><span class=
+                    "command"><strong>genbrk</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ICU の break iteration rules
+                    のソースファイルをバイナリデータファイルにコンパイルします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="genccode" name="genccode"></a><span class=
+                    "term"><span class=
+                    "command"><strong>genccode</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ICU データファイルから C 言語コード、あるいは特定のアセンブリ言語コードを生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gencfu" name="gencfu"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gencfu</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Unicode にて混同を生じ易い文字 (confusable character)
+                    の定義を読み込んで、バイナリデータを出力します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gencmn" name="gencmn"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gencmn</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ICU のメモリマッピングデータファイルを生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gencnval" name="gencnval"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gencnval</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    変換エイリアスファイル (converters aliases file) をコンパイルします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gendict" name="gendict"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gendict</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ワードリスト (word list) を ICU の compact trie 辞書 へコンパイルします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gennorm2" name="gennorm2"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gennorm2</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Unicode 標準データによりバイナリデータファイルを生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="genrb" name="genrb"></a><span class=
+                    "term"><span class=
+                    "command"><strong>genrb</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    リソースバンドル (resource bundle) をコンパイルします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gensprep" name="gensprep"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gensprep</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    フィルタリングされた RFC 3454 ファイルから StringPrep データを収集します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="icu-config" name="icu-config"></a><span class=
+                    "term"><span class=
+                    "command"><strong>icu-config</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ICU のビルドオプションを表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="icuinfo" name="icuinfo"></a><span class=
+                    "term"><span class=
+                    "command"><strong>icuinfo</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ICU に対しての設定情報を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="icupkg" name="icupkg"></a><span class=
+                    "term"><span class=
+                    "command"><strong>icupkg</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ICU の .dat アーカイブを抽出または修正します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="makeconv" name="makeconv"></a><span class=
+                    "term"><span class=
+                    "command"><strong>makeconv</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    コンバーターテーブル (converter table) をコンパイルします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pkgdata" name="pkgdata"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pkgdata</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ICU により用いられるパッケージデータ。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="uconv" name="uconv"></a><span class=
+                    "term"><span class=
+                    "command"><strong>uconv</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    1つのエンコーディングからなるデータを他のエンコーディングに変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libicudata" name="libicudata"></a><span class=
+                    "term"><code class="filename">libicudata.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    データライブラリ。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libicui18n" name="libicui18n"></a><span class=
+                    "term"><code class="filename">libicui18n.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    国際化 (i18n) ライブラリ。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libicuio" name="libicuio"></a><span class=
+                    "term"><code class="filename">libicuio.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ICU I/O (ユニコード標準) ライブラリ。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libicutest" name="libicutest"></a><span class=
+                    "term"><code class="filename">libicutest.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    テストライブラリ。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libicutu" name="libicutu"></a><span class=
+                    "term"><code class="filename">libicutu.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ツールユーティリティライブラリ。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libicuuc" name="libicuuc"></a><span class=
+                    "term"><code class="filename">libicuuc.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    共通ライブラリ。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gspell.html" title="gspell-1.12.2">戻る</a>
+          <p>
+            gspell-1.12.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="inih.html" title="inih-57">次へ</a>
+          <p>
+            inih-57
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

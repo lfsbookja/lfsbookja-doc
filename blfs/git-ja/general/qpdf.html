@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Qpdf-11.6.4
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第10章 グラフィックスとフォントのライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="potrace.html" title="Potrace-1.16">戻る</a>
+          <p>
+            Potrace-1.16
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="qrencode.html" title="qrencode-4.1.1">次へ</a>
+          <p>
+            qrencode-4.1.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="graphlib.html" title=
+          "第10章 グラフィックスとフォントのライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="qpdf" name="qpdf"></a>Qpdf-11.6.4
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Qpdf の概要
+        </h2>
+        <p>
+          The <span class="application">Qpdf</span> package contains
+          command-line programs and a library that does structural,
+          content-preserving transformations on PDF files.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/qpdf/qpdf/releases/download/v11.6.4/qpdf-11.6.4.tar.gz">
+                https://github.com/qpdf/qpdf/releases/download/v11.6.4/qpdf-11.6.4.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 9069259dec185fb6bc7af9c9a8c8cc0a
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 18 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 253 MB (add 1 MB for tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.5 SBU (using parallelism=4; add 0.5 SBU for tests)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Qpdf の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="libjpeg.html" title=
+          "libjpeg-turbo-3.0.1">libjpeg-turbo-3.0.1</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../pst/gs.html" title=
+          "ghostscript-10.02.1">ghostscript-10.02.1</a>, <a class="xref"
+          href="../postlfs/gnutls.html" title=
+          "GnuTLS-3.8.2">GnuTLS-3.8.2</a>, <a class="xref" href=
+          "libtiff.html" title="libtiff-4.6.0">libtiff-4.6.0</a>, <a class=
+          "xref" href="python-modules.html#sphinx" title=
+          "Sphinx-7.2.6">sphinx-7.2.6</a> with <a class="xref" href=
+          "python-modules.html#sphinx_rtd_theme" title=
+          "Sphinx_rtd_theme-2.0.0">sphinx_rtd_theme-2.0.0</a>, <a class=
+          "xref" href="../pst/texlive.html" title=
+          "texlive-20230313-source">texlive-20230313</a> or <a class="xref"
+          href="../pst/tl-installer.html" title=
+          "install-tl-unx">install-tl-unx</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Qpdf のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">Qpdf</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+cmake -DCMAKE_INSTALL_PREFIX=/usr \
+      -DCMAKE_BUILD_TYPE=Release  \
+      -DBUILD_STATIC_LIBS=OFF     \
+      -DCMAKE_INSTALL_DOCDIR=/usr/share/doc/qpdf-11.6.4 \
+      .. &amp;&amp;
+make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>ctest</strong></span>
+          を実行します。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">fix-qdf, qpdf, zlib-flate</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libqpdf.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/lib/cmake/qpdf, /usr/include/qpdf,
+              /usr/share/doc/qpdf-11.6.4</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fix-qdf" name="fix-qdf"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fix-qdf</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to repair PDF files in QDF form after editing
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qpdf-prog" name="qpdf-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>qpdf</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to convert one PDF file to another equivalent PDF
+                    file
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="zlib-flate" name="zlib-flate"></a><span class=
+                    "term"><span class=
+                    "command"><strong>zlib-flate</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a raw zlib compression program
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libqpdf" name="libqpdf"></a><span class=
+                    "term"><code class="filename">libqpdf.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">Qpdf</span> API 関数を提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="potrace.html" title="Potrace-1.16">戻る</a>
+          <p>
+            Potrace-1.16
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="qrencode.html" title="qrencode-4.1.1">次へ</a>
+          <p>
+            qrencode-4.1.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="graphlib.html" title=
+          "第10章 グラフィックスとフォントのライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

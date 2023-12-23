@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Grilo-0.3.16
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第33章 GNOME のライブラリとデスクトップ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gnome-online-accounts.html" title=
+          "gnome-online-accounts-3.48.0">戻る</a>
+          <p>
+            gnome-online-accounts-3.48.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libgdata.html" title=
+          "libgdata-0.18.1">次へ</a>
+          <p>
+            libgdata-0.18.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="core.html" title=
+          "第33章 GNOME のライブラリとデスクトップ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="grilo" name="grilo"></a>Grilo-0.3.16
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to Grilo
+        </h2>
+        <p>
+          <span class="application">Grilo</span> is a framework focused on
+          making media discovery and browsing easy for applications and
+          application developers.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://download.gnome.org/sources/grilo/0.3/grilo-0.3.16.tar.xz">
+                https://download.gnome.org/sources/grilo/0.3/grilo-0.3.16.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: e81c4d7e182eb6448b9f0458f52511a3
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 236 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 13 MB (with tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: 0.2 SBU (with tests)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Grilo Dependencies
+        </h3>
+        <h4>
+          Required
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/glib2.html" title=
+          "GLib-2.78.3">GLib-2.78.3</a> and <a class="xref" href=
+          "../general/libxml2.html" title="libxml2-2.12.3">libxml2-2.12.3</a>
+        </p>
+        <h4>
+          Recommended
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../general/gobject-introspection.html" title=
+          "gobject-introspection-1.78.1">gobject-introspection-1.78.1</a>,
+          <a class="xref" href="../x/gtk3.html" title=
+          "GTK+-3.24.38">GTK+-3.24.38</a>, <a class="xref" href=
+          "../basicnet/libsoup3.html" title=
+          "libsoup-3.4.4">libsoup-3.4.4</a>, <a class="xref" href=
+          "totem-pl-parser.html" title=
+          "totem-pl-parser-3.26.6">totem-pl-parser-3.26.6</a>, and <a class=
+          "xref" href="../general/vala.html" title=
+          "Vala-0.56.14">Vala-0.56.14</a>
+        </p>
+        <h4>
+          Optional
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../pst/docbook-utils.html" title=
+          "DocBook-utils-0.6.14">DocBook-utils-0.6.14</a>, <a class="xref"
+          href="../postlfs/liboauth.html" title=
+          "liboauth-1.0.3">liboauth-1.0.3</a>, and <a class="xref" href=
+          "../general/gtk-doc.html" title="GTK-Doc-1.33.2">GTK-Doc-1.33.2</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of Grilo
+        </h2>
+        <p>
+          Install <span class="application">Grilo</span> by running the
+          following commands:
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build    &amp;&amp;
+
+meson setup --prefix=/usr          \
+            --buildtype=release    \
+            -Denable-gtk-doc=false \
+            ..                     &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          To test the results, issue: <span class="command"><strong>ninja
+          test</strong></span>.
+        </p>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">ninja install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <em class="parameter"><code>--buildtype=release</code></em>:
+          本パッケージの安定版リリース向けに適したビルドタイプを指定します。
+          デフォルトにしていると、最適化されていないバイナリを生成する場合があるためです。
+        </p>
+        <p>
+          <em class="parameter"><code>-Denable-gtk-doc=false</code></em>:
+          This option disables generating documentation. If you have
+          <a class="xref" href="../general/gtk-doc.html" title=
+          "GTK-Doc-1.33.2">GTK-Doc-1.33.2</a> installed and wish to generate
+          documentation, remove this option.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">grilo-test-ui-0.3, grl-inspect-0.3 and
+              grl-launch-0.3</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">libgrilo-0.3.so, libgrlnet-0.3.so and
+              libgrlpls-0.3.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody">/usr/include/grilo-0.3</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grilo-test-ui" name=
+                    "grilo-test-ui"></a><span class="term"><span class=
+                    "command"><strong>grilo-test-ui-0.3</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a simple playground application that you can use to
+                    test the framework and its plugins
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grl-inspect" name="grl-inspect"></a><span class=
+                    "term"><span class=
+                    "command"><strong>grl-inspect-0.3</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool that prints out information on available Grilo
+                    sources
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grl-launch" name="grl-launch"></a><span class=
+                    "term"><span class=
+                    "command"><strong>grl-launch-0.3</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool to run <span class="application">Grilo</span>
+                    operations from command line
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libgrilo" name="libgrilo"></a><span class=
+                    "term"><code class="filename">libgrilo.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides the Grilo framework
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libgrlnet" name="libgrlnet"></a><span class=
+                    "term"><code class="filename">libgrlnet.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides Grilo networking helpers for plug-ins
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libgrlpls" name="libgrlpls"></a><span class=
+                    "term"><code class="filename">libgrlpls.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides playlist handling functions
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gnome-online-accounts.html" title=
+          "gnome-online-accounts-3.48.0">戻る</a>
+          <p>
+            gnome-online-accounts-3.48.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libgdata.html" title=
+          "libgdata-0.18.1">次へ</a>
+          <p>
+            libgdata-0.18.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="core.html" title=
+          "第33章 GNOME のライブラリとデスクトップ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

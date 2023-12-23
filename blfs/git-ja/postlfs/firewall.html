@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      ネットワークファイアウォールの設定
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第4章 セキュリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="iptables.html" title=
+          "iptables-1.8.10">戻る</a>
+          <p>
+            iptables-1.8.10
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libcap.html" title=
+          "libcap-2.69 with PAM">次へ</a>
+          <p>
+            libcap-2.69 with PAM
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="security.html" title="第4章 セキュリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="fw-firewall" name="fw-firewall"></a>ネットワークファイアウォールの設定
+      </h1>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="fw-intro" name="fw-intro"></a>Introduction to Firewall
+          Creation
+        </h2>
+        <p>
+          The purpose of a firewall is to protect a computer or a network
+          against malicious access. In a perfect world every daemon or
+          service, on every machine, is perfectly configured and immune to
+          security flaws, and all users are trusted implicitly to use the
+          equipment as intended. However, this is rarely, if ever, the case.
+          Daemons may be misconfigured, or updates may not have been applied
+          for known exploits against essential services. Additionally, you
+          may wish to choose which services are accessible by certain
+          machines or users, or you may wish to limit which machines or
+          applications are allowed external access. Alternatively, you simply
+          may not trust some of your applications or users. For these
+          reasons, a carefully designed firewall should be an essential part
+          of system security.
+        </p>
+        <p>
+          While a firewall can greatly limit the scope of the above issues,
+          do not assume that having a firewall makes careful configuration
+          redundant, or that any negligent misconfiguration is harmless. A
+          firewall does not prevent the exploitation of any service you offer
+          outside of it. Despite having a firewall, you need to keep
+          applications and daemons properly configured and up to date.
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Meaning of the Word "Firewall"
+        </h2>
+        <p>
+          The word firewall can have several different meanings.
+        </p>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id7817" name="id7817"></a>Personal Firewall
+          </h4>
+          <p>
+            This is a hardware device or software program, intended to secure
+            a home or desktop computer connected to the Internet. This type
+            of firewall is highly relevant for users who do not know how
+            their computers might be accessed via the Internet or how to
+            disable that access, especially if they are always online and
+            connected via broadband links.
+          </p>
+          <p>
+            An example configuration for a personal firewall is provided at
+            <a class="xref" href="iptables.html#fw-persFw-ipt" title=
+            "Personal Firewall">Creating a Personal Firewall With
+            iptables</a>.
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id7822" name="id7822"></a>Masquerading Router
+          </h4>
+          <p>
+            This is a system placed between the Internet and an intranet. To
+            minimize the risk of compromising the firewall itself, it should
+            generally have only one role—that of protecting the intranet.
+            Although not completely risk-free, the tasks of doing the routing
+            and IP masquerading (rewriting IP headers of the packets it
+            routes from clients with private IP addresses onto the Internet
+            so that they seem to come from the firewall itself) are commonly
+            considered relatively secure.
+          </p>
+          <p>
+            An example configuration for a masquerading firewall is provided
+            at <a class="xref" href="iptables.html#fw-masqRouter-ipt" title=
+            "Masquerading Router">Creating a Masquerading Router With
+            iptables</a>.
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id7827" name="id7827"></a>BusyBox
+          </h4>
+          <p>
+            This is often an old computer you may have retired and nearly
+            forgotten, performing masquerading or routing functions, but
+            offering non-firewall services such as a web-cache or mail. This
+            may be used for home networks, but is not to be considered as
+            secure as a firewall only machine because the combination of
+            server and router/firewall on one machine raises the complexity
+            of the setup.
+          </p>
+          <p>
+            An example configuration for a BusyBox is provided at <a class=
+            "xref" href="iptables.html#fw-busybox-ipt" title=
+            "BusyBox">Creating a BusyBox With iptables</a>.
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id7832" name="id7832"></a>Firewall with a Demilitarized
+            Zone
+          </h4>
+          <p>
+            This type of firewall performs masquerading or routing, but
+            grants public access to some branch of your network that is
+            physically separated from your regular intranet and is
+            essentially a separate network with direct Internet access. The
+            servers on this network are those which must be easily accessible
+            from both the Internet and intranet. The firewall protects both
+            networks. This type of firewall has a minimum of three network
+            interfaces.
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id7835" name="id7835"></a>Packetfilter
+          </h4>
+          <p>
+            This type of firewall does routing or masquerading but does not
+            maintain a state table of ongoing communication streams. It is
+            fast but quite limited in its ability to block undesired packets
+            without blocking desired packets.
+          </p>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Conclusion
+        </h2>
+        <div class="admon caution">
+          <img alt="[注意]" src="../images/caution.png" />
+          <h3>
+            注意
+          </h3>
+          <p>
+            The example configurations provided for <a class="xref" href=
+            "iptables.html" title="iptables-1.8.10">iptables-1.8.10</a> are
+            not intended to be a complete guide to securing systems.
+            Firewalling is a complex issue that requires careful
+            configuration. The configurations provided by BLFS are intended
+            only to give examples of how a firewall works. They are not
+            intended to fit any particular configuration and may not provide
+            complete protection from an attack.
+          </p>
+        </div>
+        <p>
+          BLFS provides an utility to manage the kernel Netfilter interface,
+          <a class="xref" href="iptables.html" title=
+          "iptables-1.8.10">iptables-1.8.10</a>. It has been around since
+          early 2.4 kernels, and has been the standard since. This is likely
+          the set of tools that will be most familiar to existing admins.
+          Other tools have been developed more recently, see the list of
+          further readings below for more details. Here you will find a list
+          of URLs that contain comprehensive information about building
+          firewalls and further securing your system.
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="fw-extra-info" name="fw-extra-info"></a>Extra Information
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id7847" name="id7847"></a>Further Reading on Firewalls
+          </h4>
+          <div class="blockquote">
+            <blockquote class="blockquote">
+              <div class="literallayout">
+                <p>
+                  <br />
+                  <a class="ulink" href=
+                  "https://www.netfilter.org/">www.netfilter.org&nbsp;-&nbsp;Homepage&nbsp;of&nbsp;the&nbsp;netfilter/iptables/nftables&nbsp;projects</a><br />
+
+                  <a class="ulink" href=
+                  "https://www.netfilter.org/documentation/FAQ/netfilter-faq.html">
+                  Netfilter&nbsp;related&nbsp;FAQ</a><br />
+                  <a class="ulink" href=
+                  "https://www.netfilter.org/documentation/index.html#HOWTO">Netfilter&nbsp;related&nbsp;HOWTO's</a><br />
+
+                  <a class="ulink" href=
+                  "https://wiki.nftables.org/wiki-nftables/index.php/Main_Page">
+                  nftables&nbsp;HOWTO</a><br />
+                  <a class="ulink" href=
+                  "https://tldp.org/LDP/nag2/x-087-2-firewall.html">tldp.org/LDP/nag2/x-087-2-firewall.html</a><br />
+
+                  <a class="ulink" href=
+                  "https://tldp.org/HOWTO/Security-HOWTO.html">tldp.org/HOWTO/Security-HOWTO.html</a><br />
+
+                  <a class="ulink" href=
+                  "https://tldp.org/HOWTO/Firewall-HOWTO.html">tldp.org/HOWTO/Firewall-HOWTO.html</a><br />
+
+                  <a class="ulink" href=
+                  "https://linuxsecurity.com/howtos">linuxsecurity.com/howtos</a><br />
+
+                  <a class="ulink" href=
+                  "http://www.e-infomax.com/ipmasq">www.e-infomax.com/ipmasq</a><br />
+
+                  <a class="ulink" href=
+                  "https://www.circlemud.org/jelson/writings/security/index.htm">
+                  www.circlemud.org/jelson/writings/security/index.htm</a><br />
+
+                  <a class="ulink" href=
+                  "https://insecure.org/reading.html">insecure.org/reading.html</a><br />
+
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </p>
+              </div>
+            </blockquote>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="iptables.html" title=
+          "iptables-1.8.10">戻る</a>
+          <p>
+            iptables-1.8.10
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libcap.html" title=
+          "libcap-2.69 with PAM">次へ</a>
+          <p>
+            libcap-2.69 with PAM
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="security.html" title="第4章 セキュリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

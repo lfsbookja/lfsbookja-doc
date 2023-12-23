@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      GDM-45.0.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第26章 ディスプレイマネージャー
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="dm.html" title="ディスプレイマネージャー">戻る</a>
+          <p>
+            ディスプレイマネージャー
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="lightdm.html" title="lightdm-1.32.0">次へ</a>
+          <p>
+            lightdm-1.32.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="dm.html" title="第26章 ディスプレイマネージャー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="gdm" name="gdm"></a>GDM-45.0.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          GDM の概要
+        </h2>
+        <p>
+          <span class="application">GDM</span> is a system service that is
+          responsible for providing graphical logins and managing local and
+          remote displays.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://download.gnome.org/sources/gdm/45/gdm-45.0.1.tar.xz">
+                https://download.gnome.org/sources/gdm/45/gdm-45.0.1.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 4912429c0231a95fedd086d1ac8f54ea
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 836 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 34 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.3 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          GDM の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/accountsservice.html" title=
+          "AccountsService-23.13.9">AccountsService-23.13.9</a>, <a class=
+          "xref" href="../gnome/dconf.html" title=
+          "DConf-0.40.0 / DConf-Editor-45.0.1">DConf-0.40.0</a>, <a class=
+          "xref" href="../multimedia/libcanberra.html" title=
+          "libcanberra-0.30">libcanberra-0.30</a> (built after <a class=
+          "xref" href="gtk3.html" title="GTK+-3.24.38">GTK+-3.24.38</a>),
+          <a class="xref" href="../postlfs/linux-pam.html" title=
+          "Linux-PAM-1.5.3">Linux-PAM-1.5.3</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/keyutils.html" title=
+          "keyutils-1.6.1">keyutils-1.6.1</a>
+        </p>
+        <h4>
+          Runtime Dependencies
+        </h4>
+        <p class="required">
+          <a class="xref" href="../gnome/gnome-session.html" title=
+          "gnome-session-45.0">gnome-session-45.0</a>, <a class="xref" href=
+          "../gnome/gnome-shell.html" title=
+          "gnome-shell-45.2">gnome-shell-45.2</a>, and <span class=
+          "phrase"><a class="xref" href="../general/elogind.html" title=
+          "elogind-252.9">elogind-252.9</a></span>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          GDM のインストール
+        </h2>
+        <p>
+          It is recommended to have a dedicated user and group to take
+          control of the <span class="command"><strong>gdm</strong></span>
+          daemon after it is started. Issue the following commands as the
+          <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">groupadd -g 21 gdm &amp;&amp;
+useradd -c "GDM Daemon Owner" -d /var/lib/gdm -u 21 \
+        -g gdm -s /bin/false gdm &amp;&amp;
+passwd -ql gdm</kbd></pre>
+        <p>
+          一般ユーザーになって、以下のコマンドを実行し <span class="application">GDM</span>
+          をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -e 's@systemd@elogind@'                                \
+    -e '/elogind/isession  required       pam_loginuid.so' \
+    -i data/pam-lfs/gdm-launch-environment.pam &amp;&amp;
+
+mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+meson setup ..                  \
+      --prefix=/usr             \
+      --buildtype=release       \
+      -Dgdm-xsession=true       \
+      -Drun-dir=/run/gdm        \
+      -Dlogind-provider=elogind \
+      -Dsystemd-journal=false   \
+      -Dsystemdsystemunitdir=no \
+      -Dsystemduserunitdir=no   &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          このパッケージに利用可能なテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーとなって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">ninja install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--buildtype=release</code></em>:
+          本パッケージの安定版リリース向けに適したビルドタイプを指定します。
+          デフォルトにしていると、最適化されていないバイナリを生成する場合があるためです。
+        </p>
+        <p>
+          <code class="option">-Dinitial-vt=7</code>: Use this switch to make
+          <span class="application">GDM</span> start on VT7 instead of the
+          first free VT.
+        </p>
+        <p>
+          <code class="option">-Ddefault-pam-config=lfs</code>: Use this
+          switch if you did not create the <code class=
+          "filename">/etc/lfs-release</code> file or distribution auto
+          detection will fail and you will be unable to use <span class=
+          "application">GDM</span>.
+        </p>
+        <p>
+          <em class="parameter"><code>-Dgdm-xsession=true</code></em>: This
+          enables the installation of the <span class=
+          "application">GDM</span> Xsession file.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          GDM の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="gdm-config" name="gdm-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="gdm-config" name="gdm-config"></a>設定ファイル
+          </h4>
+          <p>
+            <code class="filename">/etc/gdm/custom.conf</code>
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id72159" name="id72159"></a>設定情報
+          </h4>
+          <p>
+            The GDM daemon is configured using the <code class=
+            "filename">/etc/gdm/custom.conf</code> file. Default values are
+            stored in GSettings in the <code class=
+            "filename">gdm.schemas</code> file. It is recommended that
+            end-users modify the <code class=
+            "filename">/etc/gdm/custom.conf</code> file because the schemas
+            file may be overwritten when the user updates their system to
+            have a newer version of <span class="application">GDM</span>.
+          </p>
+          <p>
+            On some systems with NVIDIA GPUs, GDM will hide Wayland sessions
+            by default. This is often done to prevent users from encountering
+            problems with buggy drivers, which can result in system lockups,
+            application crashes, power management problems, and graphics
+            slowdowns. If you have an NVIDIA GPU and still want to try
+            running Wayland sessions anyway, execute the following command as
+            the <code class="systemitem">root</code> user:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">ln -s /dev/null /etc/udev/rules.d/61-gdm.rules</kbd></pre>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="gdm-init" name="gdm-init"></a>
+          </h3>
+          <h4 class="title">
+            <a id="gdm-init" name="gdm-init"></a><span class="phrase">Boot
+            Script</span>
+          </h4>
+          <p>
+            To start <span class="command"><strong>gdm</strong></span>
+            automatically when the system is switched to runlevel 5, install
+            the <code class="filename">/etc/rc.d/init.d/xdm</code> script and
+            the <code class="filename">/etc/sysconfig/xdm</code>
+            configuration file included in the <a class="xref" href=
+            "../introduction/bootscripts.html" title=
+            "BLFS ブートスクリプト">blfs-bootscripts-20231119</a> package and adjust
+            <code class="filename">/etc/inittab</code> by running as the
+            <code class="systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class="command">make install-gdm</kbd></pre>
+          <p>
+            In order to permanently set the default runlevel to 5, starting
+            the <span class="command"><strong>gdm</strong></span> greeter
+            screen automatically, you can modify <code class=
+            "filename">/etc/inittab</code>. As the <code class=
+            "systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">sed /initdefault/s/3/5/ -i /etc/inittab</kbd></pre>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">gdm, gdmflexiserver, and gdm-screenshot</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libgdm.so and pam_gdm.so (PAM Module)</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/etc/gdm, /usr/include/gdm, /usr/share/gdm, and
+              /usr/share/help/*/gdm</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gdm-prog" name="gdm-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gdm</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a login prompt for <span class=
+                    "application">GNOME</span>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gdm-screenshot" name=
+                    "gdm-screenshot"></a><span class="term"><span class=
+                    "command"><strong>gdm-screenshot</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a screenshot tool for <span class=
+                    "application">GDM</span>
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="dm.html" title="ディスプレイマネージャー">戻る</a>
+          <p>
+            ディスプレイマネージャー
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="lightdm.html" title="lightdm-1.32.0">次へ</a>
+          <p>
+            lightdm-1.32.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="dm.html" title="第26章 ディスプレイマネージャー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

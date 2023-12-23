@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      xinit-1.4.2
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第24章 グラフィック環境
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="xclock.html" title="xclock-1.1.1">戻る</a>
+          <p>
+            xclock-1.1.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="xorg-config.html" title=
+          "Xorg-7 のテストと設定">次へ</a>
+          <p>
+            Xorg-7 のテストと設定
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="installing.html" title=
+          "第24章 グラフィック環境">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="xinit" name="xinit"></a>xinit-1.4.2
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          xinit の概要
+        </h2>
+        <p>
+          <span class="application">xinit</span> パッケージは xserver
+          を起動するための種々のスクリプトを提供します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://www.x.org/pub/individual/app/xinit-1.4.2.tar.xz">https://www.x.org/pub/individual/app/xinit-1.4.2.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 0e9a1b9a82b84ab229c709c0f939c113
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 153 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 1.5 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: less than 0.1 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          xinit の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="x7lib.html" title="Xorg ライブラリ">Xorg ライブラリ</a>
+        </p>
+        <h4>
+          推奨 （実行時のみ）
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="twm.html" title="twm-1.0.12">twm-1.0.12</a>,
+          <a class="xref" href="xclock.html" title=
+          "xclock-1.1.1">xclock-1.1.1</a>, <a class="xref" href="xterm.html"
+          title="xterm-388">xterm-388</a> (used in the default <code class=
+          "filename">xinitrc</code> file)
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          xinit のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">xinit</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure $XORG_CONFIG --with-xinitdir=/etc/X11/app-defaults &amp;&amp;
+make</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install &amp;&amp;
+ldconfig</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            If starting Xorg from the command line, the default instructions
+            above start Xorg on the current virtual terminal. It may be
+            convenient to see Xorg and associated application messages on the
+            current virtual terminal, normally tty1, and start the graphical
+            environment on the first available unused virtual terminal,
+            normally tty7. To do this, set the suid bit on the Xorg
+            application as the <code class="systemitem">root</code> user:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">chmod u+s $XORG_PREFIX/bin/Xorg</kbd></pre>
+          <p>
+            At this point you can start Xorg on virtual terminal 7 with
+            <span class="command"><strong>startx &lt;client arguments&gt; --
+            vt7</strong></span>. Now you can toggle between tty1 and tty7
+            with the Ctrl-Alt-F1 and Ctrl-Alt-F7 key combinations.
+          </p>
+          <p>
+            To automatically start Xorg on the first available virtual
+            terminal, modify the <span class=
+            "command"><strong>startx</strong></span> script as the
+            <code class="systemitem">root</code> user with:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">sed -i '/$serverargs $vtarg/ s/serverargs/: #&amp;/' $XORG_PREFIX/bin/startx</kbd></pre>
+          <p>
+            After this change, the virtual terminal does not need to be
+            specified on the <span class=
+            "command"><strong>startx</strong></span> command line.
+          </p>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">xinit, startx</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="startx" name="startx"></a><span class=
+                    "term"><span class=
+                    "command"><strong>startx</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    X セッションを初期化します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xinit-bin" name="xinit-bin"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xinit</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    X ウィンドウシステムの初期化プログラムです。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="xclock.html" title="xclock-1.1.1">戻る</a>
+          <p>
+            xclock-1.1.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="xorg-config.html" title=
+          "Xorg-7 のテストと設定">次へ</a>
+          <p>
+            Xorg-7 のテストと設定
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="installing.html" title=
+          "第24章 グラフィック環境">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

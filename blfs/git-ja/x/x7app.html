@@ -1,0 +1,924 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Xorg アプリケーション
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第24章 グラフィック環境
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="xbitmaps.html" title="xbitmaps-1.1.3">戻る</a>
+          <p>
+            xbitmaps-1.1.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="xcursor-themes.html" title=
+          "xcursor-themes-1.0.7">次へ</a>
+          <p>
+            xcursor-themes-1.0.7
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="installing.html" title=
+          "第24章 グラフィック環境">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="xorg7-app" name="xorg7-app"></a>Xorg アプリケーション
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Xorg アプリケーション の概要
+        </h2>
+        <p>
+          <span class="application">Xorg</span> アプリケーションは、以前の X
+          ウィンドウシステムにて利用されてきたアプリケーションを提供します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://www.x.org/pub/individual/app/">https://www.x.org/pub/individual/app/</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 4.9 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 48 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 1.5 SBU (ignoring the time to download)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Xorg アプリケーション の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/libpng.html" title=
+          "libpng-1.6.40">libpng-1.6.40</a>, <a class="xref" href="mesa.html"
+          title="Mesa-23.3.1">Mesa-23.3.1</a>, <a class="xref" href=
+          "xbitmaps.html" title="xbitmaps-1.1.3">xbitmaps-1.1.3</a>,
+          <a class="xref" href="xcb-util.html" title=
+          "xcb-util-0.4.1">xcb-util-0.4.1</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../postlfs/linux-pam.html" title=
+          "Linux-PAM-1.5.3">Linux-PAM-1.5.3</a> and both <a class="ulink"
+          href="https://www.cairographics.org/releases/">cairo-5c</a> and
+          <a class="ulink" href="https://nickle.org/">Nickle</a> (only if you
+          wish to try to run the undocumented <span class=
+          "command"><strong>xkeyhost</strong></span> script).
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Xorg アプリケーションのダウンロード
+        </h2>
+        <p>
+          まずはダウンロードするファイル一覧を生成します。 このファイルは、ダウンロード後に各ファイルのチェックサムを確認する際にも利用します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; app-7.md5 &lt;&lt; "EOF"
+<code class="literal">5d3feaa898875484b6b340b3888d49d8  iceauth-1.0.9.tar.xz
+c4a3664e08e5a47c120ff9263ee2f20c  luit-1.1.1.tar.bz2
+fd2e6e5a297ac2bf3d7d54799bf69de0  mkfontscale-1.2.2.tar.xz
+05423bb42a006a6eb2c36ba10393de23  sessreg-1.1.3.tar.xz
+1d61c9f4a3d1486eff575bf233e5776c  setxkbmap-1.3.4.tar.xz
+9f7a4305f0e79d5a46c3c7d02df9437d  smproxy-1.0.7.tar.xz
+e96b56756990c56c24d2d02c2964456b  x11perf-1.6.1.tar.bz2
+dbcf944eb59343b84799b2cc70aace16  xauth-1.1.2.tar.xz
+#5b6405973db69c0443be2fba8e1a8ab7  xbacklight-1.2.3.tar.bz2
+82a90e2feaeab5c5e7610420930cc0f4  xcmsdb-1.0.6.tar.xz
+89e81a1c31e4a1fbd0e431425cd733d7  xcursorgen-1.0.8.tar.xz
+933e6d65f96c890f8e96a9f21094f0de  xdpyinfo-1.3.4.tar.xz
+34aff1f93fa54d6a64cbe4fee079e077  xdriinfo-1.0.7.tar.xz
+61219e492511b3d78375da76defbdc97  xev-1.2.5.tar.xz
+41afaa5a68cdd0de7e7ece4805a37f11  xgamma-1.0.7.tar.xz
+48ac13856838d34f2e7fca8cdc1f1699  xhost-1.0.9.tar.xz
+8e4d14823b7cbefe1581c398c6ab0035  xinput-1.6.4.tar.xz
+a11d4d6eeda762f13818684c0670f89f  xkbcomp-1.4.6.tar.xz
+05ce1abd8533a400572784b1186a44d0  xkbevd-1.1.5.tar.xz
+cf65ca1aaf4c28772ca7993cfd122563  xkbutils-1.0.5.tar.xz
+f62b99839249ce9a7a8bb71a5bab6f9d  xkill-1.0.6.tar.xz
+da5b7a39702841281e1d86b7349a03ba  xlsatoms-1.1.4.tar.xz
+ab4b3c47e848ba8c3e47c021230ab23a  xlsclients-1.1.5.tar.xz
+f33841b022db1648c891fdc094014aee  xmessage-1.0.6.tar.xz
+0d66e07595ea083871048c4b805d8b13  xmodmap-1.0.11.tar.xz
+9cf272cba661f7acc35015f2be8077db  xpr-1.1.0.tar.xz
+33c090d8632a300e63efbf36edd6a333  xprop-1.2.6.tar.xz
+f822a8d5f233e609d27cc22d42a177cb  xrandr-1.5.2.tar.xz
+c8629d5a0bc878d10ac49e1b290bf453  xrdb-1.2.2.tar.xz
+33b04489e417d73c90295bd2a0781cbb  xrefresh-1.0.7.tar.xz
+18ff5cdff59015722431d568a5c0bad2  xset-1.2.5.tar.xz
+fa9a24fe5b1725c52a4566a62dd0a50d  xsetroot-1.1.3.tar.xz
+d698862e9cad153c5fefca6eee964685  xvinfo-1.1.5.tar.xz
+b0081fb92ae56510958024242ed1bc23  xwd-1.0.9.tar.xz
+c91201bc1eb5e7b38933be8d0f7f16a8  xwininfo-1.1.6.tar.xz
+5ff5dc120e8e927dc3c331c7fee33fc3  xwud-1.0.6.tar.xz</code>
+EOF</kbd></pre>
+        <p>
+          必要なファイルをダウンロードするために <a class="xref" href="../basicnet/wget.html"
+          title="Wget-1.21.4">Wget-1.21.4</a> を使って以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir app &amp;&amp;
+cd app &amp;&amp;
+grep -v '^#' ../app-7.md5 | awk '{print $2}' | wget -i- -c \
+    -B https://www.x.org/pub/individual/app/ &amp;&amp;
+md5sum -c ../app-7.md5</kbd></pre>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Xorg アプリケーション のインストール
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            複数のパッケージを一つのスクリプトを使って一気にインストールする場合には、ルートユーザーとして実行することが必要となります。
+            その場合には、以下に示す３つの方法のいずれかを採用することになります。
+          </p>
+          <div class="orderedlist">
+            <ol>
+              <li class="listitem">
+                <p>
+                  スクリプトの実行自体をルートユーザーにより行う。(ただし推奨はしません。)
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  <a class="xref" href="../postlfs/sudo.html" title=
+                  "Sudo-1.9.15p4">Sudo-1.9.15p4</a> パッケージの <span class=
+                  "command"><strong>sudo</strong></span> コマンドを利用する。
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  <span class="command"><strong>su -c "コマンド
+                  引数"</strong></span> の形 (クォーテーションが必要) を利用する。
+                  この場合はコマンドの実行の都度、ルートパスワードの入力が必要になります。
+                </p>
+              </li>
+            </ol>
+          </div>
+          <p>
+            この状況を取り扱う一つの手法として、以下のような <span class=
+            "command"><strong>bash</strong></span>
+            スクリプトにより適切な方法を自動的に選択する方法が考えられます。 一度コマンドをセットしておけば、再びセットする必要はありません。
+          </p>
+          <pre class="userinput"><kbd class="command">as_root()
+{
+  if   [ $EUID = 0 ];        then $*
+  elif [ -x /usr/bin/sudo ]; then sudo $*
+  else                            su -c \\"$*\\"
+  fi
+}
+
+export -f as_root</kbd></pre>
+        </div>
+        <p>
+          まずはサブシェルを起動します。 こうしておけばエラー発生時に終了させることができます。
+        </p>
+        <pre class="userinput"><kbd class="command">bash -e</kbd></pre>
+        <p>
+          以下のコマンドを実行して個々のパッケージのインストールを行います。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">for package in $(grep -v '^#' ../app-7.md5 | awk '{print $2}')
+do
+  packagedir=${package%.tar.?z*}
+  tar -xf $package
+  pushd $packagedir
+     case $packagedir in
+       luit-[0-9]* )
+         sed -i -e "/D_XOPEN/s/5/6/" configure
+       ;;
+     esac
+
+     ./configure $XORG_CONFIG
+     make
+     as_root make install
+  popd
+  rm -rf $packagedir
+done</kbd></pre>
+        <p>
+          上で実行したサブシェルから抜けます。
+        </p>
+        <pre class="userinput"><kbd class="command">exit</kbd></pre>
+        <p>
+          Unless you installed the optional dependencies, remove an
+          undocumented script which is reported to be broken (<span class=
+          "command"><strong>xkeystone</strong></span> provided by the
+          <span class="application">xrandr</span> package).
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">as_root rm -f $XORG_PREFIX/bin/xkeystone</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">iceauth, luit, mkfontdir, mkfontscale, sessreg,
+              setxkbmap, smproxy, x11perf, x11perfcomp, xauth, xbacklight,
+              xcmsdb, xcursorgen, xdpr, xdpyinfo, xdriinfo, xev, xgamma,
+              xhost, xinput, xkbbell, xkbcomp, xkbevd, xkbvleds, xkbwatch,
+              xkill, xlsatoms, xlsclients, xmessage, xmodmap, xpr, xprop,
+              xrandr, xrdb, xrefresh, xset, xsetroot, xvinfo, xwd, xwininfo,
+              and xwud</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="iceauth-x7" name="iceauth-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>iceauth</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the ICE authority file utility
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="luit-x7" name="luit-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>luit</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Unicode ターミナルに対してロケールと ISO 2022 サポートを提供します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mkfontdir-x7" name="mkfontdir-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mkfontdir</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ディレクトリ内に X フォントファイルのインデックスを生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mkfontscale-x7" name=
+                    "mkfontscale-x7"></a><span class="term"><span class=
+                    "command"><strong>mkfontscale</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    X におけるスケーラブルフォントファイルのインデックスを生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sessreg-x7" name="sessreg-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sessreg</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    manages utmp/wtmp entries for non-init clients
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="setxkbmap-x7" name="setxkbmap-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>setxkbmap</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    XKB (X Keyboard Extension) を用いたキーボード設定を行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="smproxy-x7" name="smproxy-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>smproxy</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    セッションマネージャープロキシー (Session Manager Proxy)
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="x11perf-x7" name="x11perf-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>x11perf</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    X11 サーバーにおけるパフォーマンステストプログラム。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="x11perfcomp-x7" name=
+                    "x11perfcomp-x7"></a><span class="term"><span class=
+                    "command"><strong>x11perfcomp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    X11 サーバーにおけるパフォーマンス比較プログラム。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xauth-x7" name="xauth-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xauth</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    X 認証 (authority) ファイルユーティリティー。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xbacklight-x7" name=
+                    "xbacklight-x7"></a><span class="term"><span class=
+                    "command"><strong>xbacklight</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    adjusts backlight brightness using RandR extension
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xcmsdb-x7" name="xcmsdb-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xcmsdb</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the Device Color Characterization utility for the X
+                    Color Management System
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xcursorgen-x7" name=
+                    "xcursorgen-x7"></a><span class="term"><span class=
+                    "command"><strong>xcursorgen</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    creates an X cursor file from a collection of PNG images
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xdpr-x7" name="xdpr-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xdpr</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    dumps an X window directly to a printer
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xdpyinfo-x7" name="xdpyinfo-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xdpyinfo</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a display information utility for X
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xdriinfo-x7" name="xdriinfo-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xdriinfo</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    queries configuration information of DRI drivers
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xev-x7" name="xev-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xev</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    prints contents of X events
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xgamma-x7" name="xgamma-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xgamma</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    alters a monitor's gamma correction through the X server
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xhost-x7" name="xhost-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xhost</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a server access control program for X
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xinput-x7" name="xinput-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xinput</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a utility to configure and test X input devices
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xkbbell-x7" name="xkbbell-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xkbbell</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is an XKB utility program that raises a bell event
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xkbcomp-x7" name="xkbcomp-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xkbcomp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    compiles an XKB keyboard description
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xkbevd-x7" name="xkbevd-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xkbevd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the XKB event daemon
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xkbvleds-x7" name="xkbvleds-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xkbvleds</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    shows the XKB status of keyboard LEDs
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xkbwatch-x7" name="xkbwatch-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xkbwatch</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    monitors modifier keys and LEDs
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xkill-x7" name="xkill-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xkill</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    kills a client by its X resource
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xlsatoms-x7" name="xlsatoms-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xlsatoms</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    lists interned atoms defined on the server
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xlsclients-x7" name=
+                    "xlsclients-x7"></a><span class="term"><span class=
+                    "command"><strong>xlsclients</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    lists client applications running on a display
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xmessage-x7" name="xmessage-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xmessage</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    displays a message or query in a window
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xmodmap-x7" name="xmodmap-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xmodmap</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a utility for modifying keymaps and pointer button
+                    mappings in X
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xpr-x7" name="xpr-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xpr</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    prints an X window dump
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xprop-x7" name="xprop-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xprop</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a property displayer for X
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xrandr-x7" name="xrandr-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xrandr</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a primitive command line interface to RandR extension
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xrdb-x7" name="xrdb-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xrdb</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the X server resource database utility
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xrefresh-x7" name="xrefresh-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xrefresh</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    refreshes all or part of an X screen
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xset-x7" name="xset-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xset</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the user preference utility for X
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xsetroot-x7" name="xsetroot-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xsetroot</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the root window parameter setting utility for X
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xvinfo-x7" name="xvinfo-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xvinfo</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    prints out X-Video extension adaptor information
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xwd-x7" name="xwd-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xwd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    dumps an image of an X window
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xwininfo-x7" name="xwininfo-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xwininfo</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a window information utility for X
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xwud-x7" name="xwud-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xwud</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is an image displayer for X
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="xbitmaps.html" title="xbitmaps-1.1.3">戻る</a>
+          <p>
+            xbitmaps-1.1.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="xcursor-themes.html" title=
+          "xcursor-themes-1.0.7">次へ</a>
+          <p>
+            xcursor-themes-1.0.7
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="installing.html" title=
+          "第24章 グラフィック環境">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

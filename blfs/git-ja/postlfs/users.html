@@ -1,0 +1,836 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      システムユーザーとグループについて
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第3章 LFS 設定以降について
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="skel.html" title="ユーザー追加のための設定">戻る</a>
+          <p>
+            ユーザー追加のための設定
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="profile.html" title=
+          "Bash シェルの初期起動ファイル">次へ</a>
+          <p>
+            Bash シェルの初期起動ファイル
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="config.html" title=
+          "第3章 LFS 設定以降について">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="postlfs-users-groups" name=
+        "postlfs-users-groups"></a>システムユーザーとグループについて
+      </h1>
+      <p>
+        Throughout BLFS, many packages install programs that run as daemons
+        or in some way should have a user or group name assigned. Generally
+        these names are used to map a user ID (uid) or group ID (gid) for
+        system use. Generally the specific uid or gid numbers used by these
+        applications are not significant. The exception of course, is that
+        <code class="systemitem">root</code> has a uid and gid of 0 (zero)
+        that is indeed special. The uid values are stored in <code class=
+        "filename">/etc/passwd</code> and the gid values are found in
+        <code class="filename">/etc/group</code>.
+      </p>
+      <p>
+        Customarily, Unix systems classify users and groups into two
+        categories: system users and regular users. The system users and
+        groups are given low numbers and regular users and groups have
+        numeric values greater than all the system values. The cutoff for
+        these numbers is found in two parameters in the <code class=
+        "filename">/etc/login.defs</code> configuration file. The default
+        UID_MIN value is 1000 and the default GID_MIN value is 1000. If a
+        specific uid or gid value is not specified when creating a user with
+        <span class="command"><strong>useradd</strong></span> or a group with
+        <span class="command"><strong>groupadd</strong></span> the values
+        assigned will always be above these cutoff values.
+      </p>
+      <p>
+        Additionally, the <a class="ulink" href=
+        "https://refspecs.linuxfoundation.org/LSB_4.1.0/LSB-Core-generic/LSB-Core-generic/usernames.html">
+        Linux Standard Base</a> recommends that system uid and gid values
+        should be below 100.
+      </p>
+      <p>
+        以下に示す一覧は、LFS のインストールにおいて定義した uid、gid の値を BLFS 用の推奨値とし拡充したものです。
+      </p>
+      <div class="table">
+        <a id="uidgid" name="uidgid"></a>
+        <p class="title">
+          <strong>表3.1 UID/GID の推奨値</strong>
+        </p>
+        <div class="table-contents">
+          <table class="table" summary="UID/GID の推奨値" border="1">
+            <colgroup>
+              <col width="1.2in" />
+              <col width=".4in" />
+              <col width=".4in" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th>
+                  名前
+                </th>
+                <th>
+                  uid
+                </th>
+                <th>
+                  gid
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  bin
+                </td>
+                <td>
+                  1
+                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                  lp
+                </td>
+                <td>
+                  9
+                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                  adm
+                </td>
+                <td></td>
+                <td>
+                  16
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  atd
+                </td>
+                <td>
+                  17
+                </td>
+                <td>
+                  17
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  messagebus
+                </td>
+                <td>
+                  18
+                </td>
+                <td>
+                  18
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  lpadmin
+                </td>
+                <td>
+                  &nbsp;
+                </td>
+                <td>
+                  19
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  named
+                </td>
+                <td>
+                  20
+                </td>
+                <td>
+                  20
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  gdm
+                </td>
+                <td>
+                  21
+                </td>
+                <td>
+                  21
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  fcron
+                </td>
+                <td>
+                  22
+                </td>
+                <td>
+                  22
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  systemd-journal
+                </td>
+                <td>
+                  23
+                </td>
+                <td>
+                  23
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  apache
+                </td>
+                <td>
+                  25
+                </td>
+                <td>
+                  25
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  smmsp
+                </td>
+                <td>
+                  26
+                </td>
+                <td>
+                  26
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  polkitd
+                </td>
+                <td>
+                  27
+                </td>
+                <td>
+                  27
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  rpc
+                </td>
+                <td>
+                  28
+                </td>
+                <td>
+                  28
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  exim
+                </td>
+                <td>
+                  31
+                </td>
+                <td>
+                  31
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  postfix
+                </td>
+                <td>
+                  32
+                </td>
+                <td>
+                  32
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  postdrop
+                </td>
+                <td></td>
+                <td>
+                  33
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  sendmail
+                </td>
+                <td>
+                  34
+                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                  mail
+                </td>
+                <td></td>
+                <td>
+                  34
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  vmailman
+                </td>
+                <td>
+                  35
+                </td>
+                <td>
+                  35
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  news
+                </td>
+                <td>
+                  36
+                </td>
+                <td>
+                  36
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  kdm
+                </td>
+                <td>
+                  37
+                </td>
+                <td>
+                  37
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  fetchmail
+                </td>
+                <td>
+                  38
+                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                  mysql
+                </td>
+                <td>
+                  40
+                </td>
+                <td>
+                  40
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  postgres
+                </td>
+                <td>
+                  41
+                </td>
+                <td>
+                  41
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  dovecot
+                </td>
+                <td>
+                  42
+                </td>
+                <td>
+                  42
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  dovenull
+                </td>
+                <td>
+                  43
+                </td>
+                <td>
+                  43
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  ftp
+                </td>
+                <td>
+                  45
+                </td>
+                <td>
+                  45
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  proftpd
+                </td>
+                <td>
+                  46
+                </td>
+                <td>
+                  46
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  vsftpd
+                </td>
+                <td>
+                  47
+                </td>
+                <td>
+                  47
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  rsyncd
+                </td>
+                <td>
+                  48
+                </td>
+                <td>
+                  48
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  sshd
+                </td>
+                <td>
+                  50
+                </td>
+                <td>
+                  50
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  stunnel
+                </td>
+                <td>
+                  51
+                </td>
+                <td>
+                  51
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  dhcpcd
+                </td>
+                <td>
+                  52
+                </td>
+                <td>
+                  52
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  svn
+                </td>
+                <td>
+                  56
+                </td>
+                <td>
+                  56
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  svntest
+                </td>
+                <td></td>
+                <td>
+                  57
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  git
+                </td>
+                <td>
+                  58
+                </td>
+                <td>
+                  58
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  games
+                </td>
+                <td>
+                  60
+                </td>
+                <td>
+                  60
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  kvm
+                </td>
+                <td></td>
+                <td>
+                  61
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  wireshark
+                </td>
+                <td></td>
+                <td>
+                  62
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  lightdm
+                </td>
+                <td>
+                  63
+                </td>
+                <td>
+                  63
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  sddm
+                </td>
+                <td>
+                  64
+                </td>
+                <td>
+                  64
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  lightdm
+                </td>
+                <td>
+                  65
+                </td>
+                <td>
+                  65
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  scanner
+                </td>
+                <td></td>
+                <td>
+                  70
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  colord
+                </td>
+                <td>
+                  71
+                </td>
+                <td>
+                  71
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  systemd-journal-gateway
+                </td>
+                <td>
+                  73
+                </td>
+                <td>
+                  73
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  systemd-journal-remote
+                </td>
+                <td>
+                  74
+                </td>
+                <td>
+                  74
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  systemd-journal-upload
+                </td>
+                <td>
+                  75
+                </td>
+                <td>
+                  75
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  systemd-network
+                </td>
+                <td>
+                  76
+                </td>
+                <td>
+                  76
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  systemd-resolve
+                </td>
+                <td>
+                  77
+                </td>
+                <td>
+                  77
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  systemd-timesync
+                </td>
+                <td>
+                  78
+                </td>
+                <td>
+                  78
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  systemd-coredump
+                </td>
+                <td>
+                  79
+                </td>
+                <td>
+                  79
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  uuidd
+                </td>
+                <td>
+                  80
+                </td>
+                <td>
+                  80
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  systemd-oom
+                </td>
+                <td>
+                  81
+                </td>
+                <td>
+                  81
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  ldap
+                </td>
+                <td>
+                  83
+                </td>
+                <td>
+                  83
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  avahi
+                </td>
+                <td>
+                  84
+                </td>
+                <td>
+                  84
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  avahi-autoipd
+                </td>
+                <td>
+                  85
+                </td>
+                <td>
+                  85
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  netdev
+                </td>
+                <td></td>
+                <td>
+                  86
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  ntp
+                </td>
+                <td>
+                  87
+                </td>
+                <td>
+                  87
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  unbound
+                </td>
+                <td>
+                  88
+                </td>
+                <td>
+                  88
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  plugdev
+                </td>
+                <td></td>
+                <td>
+                  90
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  wheel
+                </td>
+                <td></td>
+                <td>
+                  97
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  anonymous
+                </td>
+                <td>
+                  98
+                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                  nobody
+                </td>
+                <td>
+                  65534
+                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                  nogroup
+                </td>
+                <td></td>
+                <td>
+                  65534
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div><br class="table-break" />
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="skel.html" title="ユーザー追加のための設定">戻る</a>
+          <p>
+            ユーザー追加のための設定
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="profile.html" title=
+          "Bash シェルの初期起動ファイル">次へ</a>
+          <p>
+            Bash シェルの初期起動ファイル
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="config.html" title=
+          "第3章 LFS 設定以降について">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

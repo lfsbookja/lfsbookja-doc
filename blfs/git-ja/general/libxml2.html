@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      libxml2-2.12.3
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第9章 汎用的なライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libxkbcommon.html" title=
+          "libxkbcommon-1.6.0">戻る</a>
+          <p>
+            libxkbcommon-1.6.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libxmlb.html" title="libxmlb-0.3.14">次へ</a>
+          <p>
+            libxmlb-0.3.14
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="libxml2" name="libxml2"></a>libxml2-2.12.3
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libxml2 の概要
+        </h2>
+        <p>
+          <span class="application">libxml2</span> パッケージは、XML
+          ファイルを解析するライブラリやユーティリティーを提供します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://download.gnome.org/sources/libxml2/2.12/libxml2-2.12.3.tar.xz">
+                https://download.gnome.org/sources/libxml2/2.12/libxml2-2.12.3.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 13871e7cf2137b4b9b9da753ffef538c
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 2.5 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 103 MB (テスト込み)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.6 SBU (parallelism=4 利用; テスト込み)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          追加のダウンロード
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                任意のテストスイート: <a class="ulink" href=
+                "https://www.w3.org/XML/Test/xmlts20130923.tar.gz">https://www.w3.org/XML/Test/xmlts20130923.tar.gz</a>
+                - これを利用すると <span class="command"><strong>make
+                check</strong></span> により完全なテストを行うことができます。
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          libxml2 の依存パッケージ
+        </h3>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="icu.html" title="ICU-74.1">ICU-74.1</a>
+          (下記参照), <a class="xref" href="valgrind.html" title=
+          "Valgrind-3.22.0">Valgrind-3.22.0</a> (テスト内で利用)
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libxml2 のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">libxml2</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr           \
+            --sysconfdir=/etc       \
+            --disable-static        \
+            --with-history          \
+            PYTHON=/usr/bin/python3 \
+            --docdir=/usr/share/doc/libxml2-2.12.3 &amp;&amp;
+make</kbd></pre>
+        <p>
+          テストスイート用のファイルをダウンロードしている場合は以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">tar xf ../xmlts20130923.tar.gz</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>make check &gt;
+          check.log</strong></span> を実行します。 このコマンドを実行すると<span class=
+          "quote">「<span class="quote"><code class="computeroutput">Failed to
+          parse xstc/...</code></span>」</span>といったエラーメッセージがいくつか出力されます。
+          ただしこれはテストファイルが一部に不足しているからであって、このエラーメッセージは無視してかまいません。 <span class=
+          "command"><strong>grep -E '^Total|expected|Ran'
+          check.log</strong></span> を実行して結果を確認することができます。 <a class="xref"
+          href="valgrind.html" title="Valgrind-3.22.0">Valgrind-3.22.0</a>
+          をインストールしていてメモリリークをチェックしたい場合は <span class=
+          "command"><strong>check</strong></span> ではなく <span class=
+          "command"><strong>check-valgrind</strong></span> に置き換えて実行します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            The tests use <a class="ulink" href=
+            "http://localhost/">http://localhost/</a> to test parsing of
+            external entities. If the machine where you run the tests serves
+            as a web site, the tests may hang, depending on the content of
+            the file served. It is therefore recommended to shut down the
+            server during the tests, as the <code class=
+            "systemitem">root</code> user:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">/etc/init.d/httpd stop</kbd></pre>
+        </div>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--disable-static</code></em>:
+          このスイッチはスタティックライブラリをインストールしないようにします。
+        </p>
+        <p>
+          <em class="parameter"><code>--with-history</code></em>: このスイッチは
+          <span class="command"><strong>xmlcatalog</strong></span> や
+          <span class="command"><strong>xmllint</strong></span>
+          をシェルモードで実行する際に <span class="application">Readline</span>
+          サポートを有効にします。
+        </p>
+        <p>
+          <em class="parameter"><code>PYTHON=/usr/bin/python3</code></em>:
+          libxml2 が Python2 でなく Python3 を利用するようにしたいときに指定します。
+        </p>
+        <p>
+          <code class="option">--with-icu</code>: Add this switch if you have
+          built <a class="xref" href="icu.html" title=
+          "ICU-74.1">ICU-74.1</a>, for better unicode support.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            If the <code class="option">--with-icu</code> switch is used, the
+            BLFS editors recommend removing unneeded references to the ICU
+            libraries. This will prevent many packages that use libxml2 from
+            unnecessarily linking to the ICU libraries. This, in turn, will
+            prevent the need for rebuilding many packages when upgrading ICU
+            to a new major version. After installing libxml2, as the
+            <code class="systemitem">root</code> user, issue:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">rm -vf /usr/lib/libxml2.la &amp;&amp;
+sed '/libs=/s/xml2.*/xml2"/' -i /usr/bin/xml2-config</kbd></pre>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">xml2-config, xmlcatalog, xmllint</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libxml2.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/libxml2, /usr/lib/cmake/libxml2,
+              /usr/share/doc/libxml2-2.12.3,
+              /usr/share/gtk-doc/html/libxml2</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xml2-config" name="xml2-config"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xml2-config</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    他のプログラムが <code class="filename">libxml2</code>
+                    を利用してコンパイルおよびリンクを行う場合に、コンパイラーフラグやリンカーフラグを決定します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xmlcatalog" name="xmlcatalog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xmlcatalog</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    XML カタログや SGML カタログを監視したり操作するために利用します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xmllint" name="xmllint"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xmllint</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    XML ファイルを精査して (オプションの指示状況に従った) 結果報告を行います。 XML
+                    記述に誤りがあれば検出し報告します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libxml2-lib" name="libxml2-lib"></a><span class=
+                    "term"><code class="filename">libxml2.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    XML 形式で書かれたファイルを精査するためのプログラム関数を提供するライブラリです。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libxkbcommon.html" title=
+          "libxkbcommon-1.6.0">戻る</a>
+          <p>
+            libxkbcommon-1.6.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libxmlb.html" title="libxmlb-0.3.14">次へ</a>
+          <p>
+            libxmlb-0.3.14
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

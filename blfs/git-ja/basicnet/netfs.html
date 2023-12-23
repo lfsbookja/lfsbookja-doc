@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      ネットワークファイルシステムの設定
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第15章 ネットワークプログラム
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="nfs-utils.html" title=
+          "NFS-Utils-2.6.4">戻る</a>
+          <p>
+            NFS-Utils-2.6.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="ntp.html" title="ntp-4.2.8p17">次へ</a>
+          <p>
+            ntp-4.2.8p17
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="netprogs.html" title=
+          "第15章 ネットワークプログラム">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="postlfs-config-netfs" name=
+        "postlfs-config-netfs"></a>ネットワークファイルシステムの設定
+      </h1>
+      <p>
+        LFS には NFS のようなネットワークファイルシステムをマウントする機能が含まれますが、初期化スクリプト <code class=
+        "filename">mountfs</code> ではマウントされません。
+        ネットワークファイルシステムはネットワークがアクティブになった後にマウントしなければなりません。
+        同じくネットワークが停止する前にアンマウントしなければなりません。 <code class="filename">netfs</code>
+        ブートスクリプトは、ネットワークの起動・停止の双方に対応づくものとして構築されています。 <code class=
+        "filename">/etc/fstab</code> ファイルの項目として <code class=
+        "option">_netdev</code> オプションが指定されていれば、ブート時にネットワークファイルシステムとしてマウントします。
+        またネットワークが停止する前にはすべてのネットワークファイルシステムをアンマウントします。
+      </p>
+      <p>
+        <code class="systemitem">root</code> ユーザーとしてログインし <a class="xref"
+        href="../introduction/bootscripts.html" title=
+        "BLFS ブートスクリプト">blfs-bootscripts-20231119</a> パッケージから <code class=
+        "filename">/etc/rc.d/init.d/netfs</code> ブートスクリプトをインストールします。
+      </p>
+      <pre class="root"><kbd class="command">make install-netfs</kbd></pre>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="nfs-utils.html" title=
+          "NFS-Utils-2.6.4">戻る</a>
+          <p>
+            NFS-Utils-2.6.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="ntp.html" title="ntp-4.2.8p17">次へ</a>
+          <p>
+            ntp-4.2.8p17
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="netprogs.html" title=
+          "第15章 ネットワークプログラム">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

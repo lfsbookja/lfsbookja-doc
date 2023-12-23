@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      gst-plugins-bad-1.22.7
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第42章 マルチメディアライブラリとドライバー
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gst10-plugins-good.html" title=
+          "gst-plugins-good-1.22.7">戻る</a>
+          <p>
+            gst-plugins-good-1.22.7
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gst10-plugins-ugly.html" title=
+          "gst-plugins-ugly-1.22.7">次へ</a>
+          <p>
+            gst-plugins-ugly-1.22.7
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="libdriv.html" title=
+          "第42章 マルチメディアライブラリとドライバー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="gst10-plugins-bad" name=
+        "gst10-plugins-bad"></a>gst-plugins-bad-1.22.7
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          GStreamer Bad Plug-ins の概要
+        </h2>
+        <p>
+          The <span class="application">GStreamer Bad Plug-ins</span> package
+          contains a set of plug-ins that aren't up to par compared to the
+          rest. They might be close to being good quality, but they're
+          missing something - be it a good code review, some documentation, a
+          set of tests, a real live maintainer, or some actual wide use.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.22.7.tar.xz">
+                https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.22.7.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 63d4e2811069a0a852782a788b494340
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 5.3 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 214 MB（テスト込み）
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 1.1 SBU（parallelism=4 利用、テスト込み）
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          GStreamer Bad Plug-ins の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="gst10-plugins-base.html" title=
+          "gst-plugins-base-1.22.7">gst-plugins-base-1.22.7</a>
+        </p>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="libdvdread.html" title=
+          "Libdvdread-6.1.3">libdvdread-6.1.3</a>, <a class="xref" href=
+          "libdvdnav.html" title="Libdvdnav-6.1.1">libdvdnav-6.1.1</a>,
+          <a class="xref" href="soundtouch.html" title=
+          "SoundTouch-2.3.2">SoundTouch-2.3.2</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/bluez.html" title=
+          "BlueZ-5.71">BlueZ-5.71</a>, <a class="xref" href=
+          "../basicnet/curl.html" title="cURL-8.5.0">cURL-8.5.0</a>,
+          <a class="xref" href="faac.html" title="FAAC-1_30">FAAC-1_30</a>,
+          <a class="xref" href="faad2.html" title=
+          "FAAD2-2.11.1">FAAD2-2.11.1</a>, <a class="xref" href=
+          "fdk-aac.html" title="fdk-aac-2.0.2">fdk-aac-2.0.2</a>, <a class=
+          "xref" href="../x/gtk3.html" title="GTK+-3.24.38">GTK+-3.24.38</a>
+          (for examples), <a class="xref" href="gst10-plugins-good.html"
+          title="gst-plugins-good-1.22.7">gst-plugins-good-1.22.7</a> (for
+          one test), <a class="xref" href="../general/json-glib.html" title=
+          "JSON-GLib-1.8.0">JSON-GLib-1.8.0</a>, <a class="xref" href=
+          "../general/lcms2.html" title="Little CMS-2.14">Little
+          CMS-2.14</a>, <a class="xref" href="libaom.html" title=
+          "libaom-3.8.0">libaom-3.8.0</a>, <a class="xref" href="libass.html"
+          title="libass-0.17.1">libass-0.17.1</a>, <a class="xref" href=
+          "../general/libexif.html" title="libexif-0.6.24">libexif-0.6.24</a>
+          (for one test), <a class="xref" href="../general/librsvg.html"
+          title="librsvg-2.57.1">librsvg-2.57.1</a>, <a class="xref" href=
+          "../basicnet/libsoup.html" title=
+          "libsoup-2.74.3">libsoup-2.74.3</a> (for one test), <a class="xref"
+          href="libsndfile.html" title=
+          "libsndfile-1.2.2">libsndfile-1.2.2</a>, <a class="xref" href=
+          "../general/libssh2.html" title=
+          "libssh2-1.11.0">libssh2-1.11.0</a>, <a class="xref" href=
+          "../general/libusb.html" title="libusb-1.0.26">libusb-1.0.26</a>,
+          <a class="xref" href="libva.html" title=
+          "libva-2.20.0">libva-2.20.0</a>, <a class="xref" href=
+          "../general/libwebp.html" title="libwebp-1.3.2">libwebp-1.3.2</a>,
+          <a class="xref" href="../general/libxkbcommon.html" title=
+          "libxkbcommon-1.6.0">libxkbcommon-1.6.0</a>, <a class="xref" href=
+          "../basicnet/neon.html" title="neon-0.32.5">neon-0.32.5</a>,
+          <a class="xref" href="../postlfs/nettle.html" title=
+          "Nettle-3.9.1">Nettle-3.9.1</a> or <a class="xref" href=
+          "../general/libgcrypt.html" title=
+          "libgcrypt-1.10.3">libgcrypt-1.10.3</a> (for SSL support in the hls
+          plugin, if both are not installed OpenSSL will be used instead),
+          <a class="xref" href="../general/opencv.html" title=
+          "opencv-4.8.1">opencv-4.8.1</a> (with additional modules),
+          <a class="xref" href="../general/openjpeg2.html" title=
+          "OpenJPEG-2.5.0">OpenJPEG-2.5.0</a>, <a class="xref" href=
+          "opus.html" title="Opus-1.4">Opus-1.4</a>, <a class="xref" href=
+          "../general/qrencode.html" title=
+          "qrencode-4.1.1">qrencode-4.1.1</a>, <a class="xref" href=
+          "sbc.html" title="SBC-2.0">SBC-2.0</a>, <a class="xref" href=
+          "sdl.html" title="sdl12-compat-1.2.68">sdl12-compat-1.2.68</a>,
+          <a class="xref" href="../general/valgrind.html" title=
+          "Valgrind-3.22.0">Valgrind-3.22.0</a>, both <a class="xref" href=
+          "../x/vulkan-loader.html" title=
+          "Vulkan-Loader-1.3.273">Vulkan-Loader-1.3.273</a> and <a class=
+          "ulink" href="https://github.com/google/shaderc">glslc</a> (for
+          Vulkan plugin), <a class="xref" href="../general/wayland.html"
+          title="Wayland-1.22.0">Wayland-1.22.0</a> (<a class="xref" href=
+          "../x/gtk3.html" title="GTK+-3.24.38">GTK+-3.24.38</a> must have
+          been compiled with wayland support), <a class="xref" href=
+          "../general/wpebackend-fdo.html" title=
+          "wpebackend-fdo-1.14.2">wpebackend-fdo-1.14.2</a>, <a class="xref"
+          href="x265.html" title="x265-20230215">x265-20230215</a>, <a class=
+          "ulink" href="https://bs2b.sourceforge.net/">bs2b</a>, <a class=
+          "ulink" href="https://acoustid.org/chromaprint">Chromaprint</a>,
+          <a class="ulink" href=
+          "https://github.com/kornelski/dssim">dssim</a>, <a class="ulink"
+          href="https://github.com/festvox/flite">Flite</a>, <a class="ulink"
+          href="https://www.fluidsynth.org/">FluidSynth</a>, <a class="ulink"
+          href="https://bitbucket.org/mpyne/game-music-emu/">Game Music
+          Emu</a>, <a class="ulink" href="https://www.quut.com/gsm/">GSM</a>,
+          <a class="ulink" href=
+          "https://pypi.org/project/hotdoc/">hotdoc</a>, <a class="ulink"
+          href="https://www.ladspa.org/">LADSPA</a>, <a class="ulink" href=
+          "https://github.com/EHfive/ldacBT">ldacBT</a>, <a class="ulink"
+          href="https://github.com/AVnu/libavtp">libavtp</a>, <a class=
+          "ulink" href=
+          "https://sourceforge.net/projects/libdc1394/files/libdc1394-2/">libdc1394-2</a>,
+          <a class="ulink" href=
+          "https://www.videolan.org/developers/libdca.html">libdca</a>,
+          <a class="ulink" href="https://www.libde265.org">libde265</a>,
+          <a class="ulink" href=
+          "https://code.google.com/archive/p/libkate/">libkate</a>, <a class=
+          "ulink" href=
+          "https://github.com/Intel-Media-SDK/MediaSDK">libmfx</a>, <a class=
+          "ulink" href="https://sourceforge.net/projects/libmms/">libmms</a>,
+          <a class="ulink" href=
+          "https://github.com/Konstanty/libmodplug">libmodplug</a>, <a class=
+          "ulink" href="https://libnice.freedesktop.org/">libnice</a>,
+          <a class="ulink" href=
+          "https://code.google.com/p/musicip-libofa/">libofa</a>, <a class=
+          "ulink" href="https://lib.openmpt.org/libopenmpt/">libopenmpt</a>,
+          <a class="ulink" href="https://structure.io/openni">libopenni</a>,
+          <a class="ulink" href=
+          "https://github.com/cisco/libsrtp">libsrtp</a>, <a class="ulink"
+          href="https://drobilla.net/software/lilv">lilv</a>, <a class=
+          "ulink" href="https://github.com/swh/LRDF">LRDF</a>, <a class=
+          "ulink" href="https://github.com/x42/ltc-tools">ltc-tools</a>,
+          <a class="ulink" href=
+          "https://github.com/videolabs/libmicrodns">microdns</a>, <a class=
+          "ulink" href="https://mjpeg.sourceforge.net/">MJPEG Tools</a>,
+          <a class="ulink" href=
+          "https://snyk.io/advisor/npm-package/mplex2">mplex2</a>, <a class=
+          "ulink" href="https://www.musepack.net/">musepack</a>, <a class=
+          "ulink" href=
+          "https://github.com/microsoft/onnxruntime">onnxruntime</a>,
+          <a class="ulink" href="https://openal.org/">OpenAL</a>, <a class=
+          "ulink" href="https://www.openexr.com/">OpenEXR</a>, <a class=
+          "ulink" href="https://www.openh264.org/">OpenH264</a>, <a class=
+          "ulink" href="https://gstreamer.freedesktop.org/src/orc/">Orc</a>,
+          <a class="ulink" href=
+          "https://rtmpdump.mplayerhq.hu/">rtmpdump</a>, <a class="ulink"
+          href="https://github.com/jart/spandsp">spandsp</a>, <a class=
+          "ulink" href="https://github.com/Haivision/srt">Srt</a>, <a class=
+          "ulink" href=
+          "https://github.com/OpenVisualCloud/SVT-HEVC/">svthevcenc</a>,
+          <a class="ulink" href=
+          "https://sourceforge.net/projects/opencore-amr/files/vo-aacenc/">VO
+          AAC</a>, <a class="ulink" href=
+          "https://sourceforge.net/projects/opencore-amr/files/vo-amrwbenc/">VO
+          AMRWB</a>, <a class="ulink" href=
+          "https://www.mindwerks.net/projects/wildmidi/">WildMidi</a>,
+          <a class="ulink" href="https://webkit.org/wpe/">WPE-WebKit</a>,
+          <a class="ulink" href="https://zbar.sourceforge.net/">ZBAR</a>,
+          <a class="ulink" href=
+          "https://zapping.sourceforge.net/ZVBI/index.html/">ZVBI</a>,
+          <a class="ulink" href="https://github.com/zxing/zxing">zxing</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          GStreamer Bad Plug-ins のインストール
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            If you need a plugin for a given dependency, that dependency
+            needs to be installed before this package.
+          </p>
+        </div>
+        <p>
+          以下のコマンドを実行して <span class="application">GStreamer Bad
+          Plug-ins</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+meson  setup ..            \
+       --prefix=/usr       \
+       --buildtype=release \
+       -Dgpl=enabled       \
+       -Dpackage-origin=https://www.linuxfromscratch.org/blfs/view/systemd/ \
+       -Dpackage-name="GStreamer 1.22.7 BLFS" &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>ninja
+          test</strong></span> を実行します。
+          いくつかのテストにおいては、グラフィカルセッションによるターミナルエミュレーターを必要とします。 Three tests,
+          <span class="emphasis"><em>elements_vacompositor</em></span>,
+          <span class="emphasis"><em>elements_netsim</em></span>, and
+          <span class="emphasis"><em>elements_dash_mpd</em></span>, are known
+          to fail. If <a class="xref" href="gst10-plugins-good.html" title=
+          "gst-plugins-good-1.22.7">gst-plugins-good-1.22.7</a> is not
+          installed, two tests <span class=
+          "emphasis"><em>elements_rtpsrc</em></span> and <span class=
+          "emphasis"><em>elements_rtpsink</em></span> will fail.
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">ninja install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <em class="parameter"><code>--buildtype=release</code></em>:
+          本パッケージの安定版リリース向けに適したビルドタイプを指定します。
+          デフォルトにしていると、最適化されていないバイナリを生成する場合があるためです。
+        </p>
+        <p>
+          <em class="parameter"><code>-Dgpl=enabled</code></em>: Without this
+          switch, plugins with dependencies on (A)GPL licensed libraries are
+          not built.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">gst-transcoder-1.0, playout</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libgstadaptivedemux-1.0.so, libgstbadaudio-1.0.so,
+              libgstbasecamerabinsrc-1.0.so, libgstcuda-1.0.so,
+              libgstcodecparsers-1.0.so, libgstcodecs-1.0.so,
+              libgstinsertbin-1.0.so, libgstisoff-1.0.so,
+              libgstmpegts-1.0.so, libgstphotography-1.0.so,
+              libgstplay-1.0.so, libgstplayer-1.0.so, libgstsctp-1.0.so,
+              libgsttranscoder-1.0.so, libgsturidownloader-1.0.so,
+              libgstva-1.0.so, libgstwayland-1.0.so, libgstwebrtc-1.0.so,
+              several plugins under /usr/lib/gstreamer-1.0</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/gstreamer-1.0/gst/{audio,basecamerabinsrc,cuda},
+              /usr/include/gstreamer-1.0/gst/{codecparsers,insertbin,interfaces},
+              /usr/include/gstreamer-1.0/gst/{isoff,mpegts,play,player,sctp}
+              /usr/include/gstreamer-1.0/gst/{transcoder,uridownloader,va},
+              /usr/include/gstreamer-1.0/gst/{wayland,webrtc}</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gst-transcoder-1.0" name=
+                    "gst-transcoder-1.0"></a><span class="term"><span class=
+                    "command"><strong>gst-transcoder-1.0</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to transcode a stream into a different format
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="playout" name="playout"></a><span class=
+                    "term"><span class=
+                    "command"><strong>playout</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is an example application used to sequentially play a
+                    list of audio-video files
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gst10-plugins-good.html" title=
+          "gst-plugins-good-1.22.7">戻る</a>
+          <p>
+            gst-plugins-good-1.22.7
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gst10-plugins-ugly.html" title=
+          "gst-plugins-ugly-1.22.7">次へ</a>
+          <p>
+            gst-plugins-ugly-1.22.7
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="libdriv.html" title=
+          "第42章 マルチメディアライブラリとドライバー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

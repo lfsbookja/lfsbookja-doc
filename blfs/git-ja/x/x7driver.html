@@ -1,0 +1,1348 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Xorg Input ドライバー
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第24章 グラフィック環境
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="xorg-server.html" title=
+          "Xorg-Server-21.1.10">戻る</a>
+          <p>
+            Xorg-Server-21.1.10
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="twm.html" title="twm-1.0.12">次へ</a>
+          <p>
+            twm-1.0.12
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="installing.html" title=
+          "第24章 グラフィック環境">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="xorg7-input-driver" name="xorg7-input-driver"></a>Xorg Input
+        ドライバー
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Xorg Input ドライバー の概要
+        </h2>
+        <p>
+          この <span class="application">Xorg Input ドライバー</span> の節では、Xorg
+          サーバーがユーザー入力に対処するために必要となる Xorg Input ドライバーのビルド手順について説明します。
+        </p>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="xorg-input-drivers" name="xorg-input-drivers"></a>
+          </h3>
+          <h4 class="title">
+            <a id="xorg-input-drivers" name="xorg-input-drivers"></a>Xorg
+            Input ドライバー
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  <a class="xref" href="x7driver.html#libevdev" title=
+                  "libevdev 1.13.1">libevdev-1.13.1</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  <a class="xref" href="x7driver.html#xorg-evdev-driver"
+                  title="Xorg Evdev Driver-2.10.6">Xorg Evdev
+                  Driver-2.10.6</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  <a class="xref" href="x7driver.html#libinput" title=
+                  "libinput-1.24.0">libinput-1.24.0</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  <a class="xref" href="x7driver.html#xorg-libinput-driver"
+                  title="Xorg Libinput Driver-1.4.0">xorg-libinput-1.4.0</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  <a class="xref" href="x7driver.html#xorg-synaptics-driver"
+                  title="Xorg Synaptics Driver-1.9.2">Xorg Synaptics
+                  Driver-1.9.2</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  <a class="xref" href="x7driver.html#xorg-wacom-driver"
+                  title="Xorg Wacom Driver-1.2.0">Xorg Wacom Driver-1.2.0</a>
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="libevdev" name="libevdev"></a>libevdev 1.13.1
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id64484" name="id64484"></a>Introduction to libevdev
+          </h4>
+          <p>
+            The <span class="application">libevdev</span> package contains
+            common functions for Xorg input drivers.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            Package Information
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  Download (HTTP): <a class="ulink" href=
+                  "https://www.freedesktop.org/software/libevdev/libevdev-1.13.1.tar.xz">
+                  https://www.freedesktop.org/software/libevdev/libevdev-1.13.1.tar.xz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  Download MD5 sum: 58fe71aa6fd5e80d0928e9b691761311
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  Download size: 448 KB
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  Estimated disk space required: 6.0 MB (with tests)
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  Estimated build time: 0.1 SBU (with tests)
+                </p>
+              </li>
+            </ul>
+          </div>
+          <h4>
+            libevdev Dependencies
+          </h4>
+          <h5>
+            Optional
+          </h5>
+          <p class="optional">
+            <a class="xref" href="../general/doxygen.html" title=
+            "Doxygen-1.9.8">Doxygen-1.9.8</a> and <a class="xref" href=
+            "../general/valgrind.html" title=
+            "Valgrind-3.22.0">Valgrind-3.22.0</a> (optional for tests)
+          </p>
+        </div>
+        <div class="kernel" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="libevdev-kernel" name="libevdev-kernel"></a>
+          </h3>
+          <h4 class="title">
+            <a id="libevdev-kernel" name="libevdev-kernel"></a>Kernel
+            Configuration
+          </h4>
+          <p>
+            Enable the following options in the kernel configuration and
+            recompile the kernel if necessary:
+          </p>
+          <pre class="screen"><span class=
+          "blue">D</span>evice Drivers ---&gt;
+  <span class="blue">I</span>nput device support ---&gt;
+    -*-   <span class=
+"blue">G</span>eneric input layer (needed for keyboard, mouse, ...)          [INPUT]
+    &lt;*/M&gt;   <span class=
+"blue">E</span>vent interface                                        [INPUT_EVDEV]</pre>
+          <p>
+            If you want to test this package with full coverage, the
+            following options are needed as well:
+          </p>
+          <pre class="screen"><span class=
+          "blue">D</span>evice Drivers ---&gt;
+  <span class="blue">I</span>nput device support ---&gt;
+    -*- <span class=
+"blue">G</span>eneric input layer (needed for keyboard, mouse, ...)            [INPUT]
+    [*]   M<span class=
+"blue">i</span>scellaneous devices ---&gt;                                [INPUT_MISC]
+      &lt;*/M&gt;   <span class=
+"blue">U</span>ser level driver support                           [INPUT_UINPUT]</pre>
+          <p>
+            If you build this as a module, it needs to be inserted before the
+            test suite runs.
+          </p>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id64529" name="id64529"></a>Installation of libevdev
+          </h4>
+          <p>
+            Install <span class="application">libevdev</span> by running the
+            following commands:
+          </p>
+          <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+meson setup ..                 \
+      --prefix=$XORG_PREFIX    \
+      --buildtype=release      \
+      -Ddocumentation=disabled &amp;&amp;
+ninja</kbd></pre>
+          <p>
+            The regression tests can be run as the <code class=
+            "systemitem">root</code> user with <span class=
+            "command"><strong>ninja test</strong></span>, in a graphical
+            session. You need to have enabled the CONFIG_INPUT_UINPUT setting
+            in the kernel for full test coverage. If it is enabled as a
+            module, the module is named <span class=
+            "command"><strong>uinput</strong></span> and needs to be loaded
+            before running the tests. Note that on some systems, the tests
+            may cause a hard lockup and require a reboot. On laptops, the
+            system will go into Sleep and need to be woken up to finish the
+            test suites.
+          </p>
+          <p>
+            Now, as the <code class="systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class="command">ninja install</kbd></pre>
+        </div>
+        <div class="content" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id64543" name="id64543"></a>Contents
+          </h4>
+          <div class="segmentedlist">
+            <div class="seglistitem">
+              <div class="seg">
+                <strong class="segtitle">Installed Xorg Programs:</strong>
+                <span class="segbody">libevdev-tweak-device, mouse-dpi-tool,
+                and touchpad-edge-detector</span>
+              </div>
+              <div class="seg">
+                <strong class="segtitle">Installed Xorg Library:</strong>
+                <span class="segbody">libevdev.so</span>
+              </div>
+              <div class="seg">
+                <strong class="segtitle">Installed Xorg Directory:</strong>
+                <span class=
+                "segbody">$XORG_PREFIX/include/libevdev-1.0</span>
+              </div>
+            </div>
+          </div>
+          <div class="variablelist">
+            <h4>
+              Short Descriptions
+            </h4>
+            <table border="0" class="variablelist">
+              <colgroup>
+                <col align="left" valign="top" />
+                <col />
+              </colgroup>
+              <tbody>
+                <tr>
+                  <td>
+                    <p>
+                      <a id="libevdev-tweak-device" name=
+                      "libevdev-tweak-device"></a><span class=
+                      "term"><span class=
+                      "command"><strong>libevdev-tweak-device</strong></span></span>
+                    </p>
+                  </td>
+                  <td>
+                    <p>
+                      is a tool to change some kernel device properties
+                    </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p>
+                      <a id="mouse-dpi-tool" name=
+                      "mouse-dpi-tool"></a><span class="term"><span class=
+                      "command"><strong>mouse-dpi-tool</strong></span></span>
+                    </p>
+                  </td>
+                  <td>
+                    <p>
+                      is a tool to estimate the resolution of a mouse
+                    </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p>
+                      <a id="touchpad-edge-detector" name=
+                      "touchpad-edge-detector"></a><span class=
+                      "term"><span class=
+                      "command"><strong>touchpad-edge-detector</strong></span></span>
+                    </p>
+                  </td>
+                  <td>
+                    <p>
+                      touchpad-edge-detector is a tool that reads the
+                      touchpad events from the kernel and calculates the
+                      minimum and maximum for the x and y coordinates,
+                      respectively
+                    </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p>
+                      <a id="libevdev-lib" name=
+                      "libevdev-lib"></a><span class="term"><code class=
+                      "filename">libevdev.so</code></span>
+                    </p>
+                  </td>
+                  <td>
+                    <p>
+                      is a library of Xorg driver input functions
+                    </p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="xorg-evdev-driver" name="xorg-evdev-driver"></a>Xorg Evdev
+          Driver-2.10.6
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id64589" name="id64589"></a>Xorg Evdev Driver の概要
+          </h4>
+          <p>
+            The <span class="application">Xorg Evdev Driver</span> package
+            contains a Generic Linux input driver for the Xorg X server. It
+            handles keyboard, mouse, touchpads and wacom devices, though for
+            touchpad and wacom advanced handling, additional drivers are
+            required.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.x.org/pub/individual/driver/xf86-input-evdev-2.10.6.tar.bz2">
+                  https://www.x.org/pub/individual/driver/xf86-input-evdev-2.10.6.tar.bz2</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: e8bd1edc6751f92e425cae7eba3c61eb
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロードサイズ: 400 KB
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  必要ディスク容量: 3.9 MB
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  概算ビルド時間: less than 0.1 SBU
+                </p>
+              </li>
+            </ul>
+          </div>
+          <h4>
+            Xorg Evdev Driver の依存パッケージ
+          </h4>
+          <h5>
+            必須
+          </h5>
+          <p class="required">
+            <a class="xref" href="x7driver.html#libevdev" title=
+            "libevdev 1.13.1">libevdev-1.13.1</a>, <a class="xref" href=
+            "../general/mtdev.html" title="mtdev-1.1.6">mtdev-1.1.6</a>,
+            <a class="xref" href="xorg-server.html" title=
+            "Xorg-Server-21.1.10">Xorg-Server-21.1.10</a>
+          </p>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id64617" name="id64617"></a>Xorg Evdev Driver のインストール
+          </h4>
+          <p>
+            以下のコマンドを実行して <span class="application">Xorg Evdev Driver</span>
+            をビルドします。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">./configure $XORG_CONFIG &amp;&amp;
+make</kbd></pre>
+          <p>
+            このパッケージにテストスイートはありません。
+          </p>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+        <div class="content" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id64628" name="id64628"></a>パッケージ構成
+          </h4>
+          <div class="segmentedlist">
+            <div class="seglistitem">
+              <div class="seg">
+                <strong class="segtitle">インストール Xorg ドライバー:</strong>
+                <span class="segbody">evdev_drv.so</span>
+              </div>
+            </div>
+          </div>
+          <div class="variablelist">
+            <h4>
+              概略説明
+            </h4>
+            <table border="0" class="variablelist">
+              <colgroup>
+                <col align="left" valign="top" />
+                <col />
+              </colgroup>
+              <tbody>
+                <tr>
+                  <td>
+                    <p>
+                      <a id="evdev_drv" name="evdev_drv"></a><span class=
+                      "term"><code class=
+                      "filename">evdev_drv.so</code></span>
+                    </p>
+                  </td>
+                  <td>
+                    <p>
+                      Linux の汎用イベントデバイス (Linux generic event devices) 用の Xorg
+                      入力ドライバー。
+                    </p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="libinput" name="libinput"></a>libinput-1.24.0
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id64649" name="id64649"></a>Introduction to Libinput
+          </h4>
+          <p>
+            <span class="application">libinput</span> is a library that
+            handles input devices for display servers and other applications
+            that need to directly deal with input devices.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            Package Information
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  Download (HTTP): <a class="ulink" href=
+                  "https://gitlab.freedesktop.org/libinput/libinput/-/archive/1.24.0/libinput-1.24.0.tar.gz">
+                  https://gitlab.freedesktop.org/libinput/libinput/-/archive/1.24.0/libinput-1.24.0.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  Download MD5 sum: ea7e111eca1d8842d92036b1de2369b6
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  Download size: 992 KB
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  Estimated disk space required: 20 MB (add 23 MB for
+                  documentation and 9.6 MB for tests)
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  Estimated build time: less than 0.1 SBU (add 0.1 SBU for
+                  documentation and 4.9 SBU for tests)
+                </p>
+              </li>
+            </ul>
+          </div>
+          <h4>
+            libinput Dependencies
+          </h4>
+          <h5>
+            Required
+          </h5>
+          <p class="required">
+            <a class="xref" href="x7driver.html#libevdev" title=
+            "libevdev 1.13.1">libevdev-1.13.1</a> and <a class="xref" href=
+            "../general/mtdev.html" title="mtdev-1.1.6">mtdev-1.1.6</a>
+          </p>
+          <h5>
+            Optional
+          </h5>
+          <p class="optional">
+            <a class="xref" href="../general/valgrind.html" title=
+            "Valgrind-3.22.0">Valgrind-3.22.0</a> (to run the tests),
+            <a class="xref" href="gtk3.html" title=
+            "GTK+-3.24.38">GTK+-3.24.38</a> (to build the GUI event viewer),
+            <a class="xref" href="../general/libunwind.html" title=
+            "libunwind-1.6.2">libunwind-1.6.2</a> (required for tests),
+            <a class="xref" href="../general/libwacom.html" title=
+            "libwacom-2.9.0">libwacom-2.9.0</a>, <a class="xref" href=
+            "../general/python-modules.html#sphinx" title=
+            "Sphinx-7.2.6">sphinx-7.2.6</a> (required to build
+            documentation), and <a class="xref" href=
+            "../general/python-modules.html#pyparsing" title=
+            "pyparsing-3.1.1">pyparsing-3.1.1</a> (for one non-root test)
+          </p>
+        </div>
+        <div class="kernel" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="libinput-kernel" name="libinput-kernel"></a>
+          </h3>
+          <h4 class="title">
+            <a id="libinput-kernel" name="libinput-kernel"></a>Kernel
+            Configuration for Running the Libinput Test Suite
+          </h4>
+          <p>
+            Although libinput works with the same kernel configuration used
+            by <a class="xref" href="x7driver.html#libevdev" title=
+            "libevdev 1.13.1">libevdev-1.13.1</a>, its extensive test suite
+            requires the presence of <code class=
+            "filename">/dev/uinput</code> (as well as both <a class="xref"
+            href="../general/valgrind.html" title=
+            "Valgrind-3.22.0">Valgrind-3.22.0</a> and <a class="xref" href=
+            "../general/libunwind.html" title=
+            "libunwind-1.6.2">libunwind-1.6.2</a>).
+          </p>
+          <p>
+            If you wish to run the full tests, enable the following option in
+            the kernel configuration and recompile the kernel if necessary:
+          </p>
+          <pre class="screen"><span class=
+          "blue">D</span>evice Drivers ---&gt;
+  <span class="blue">I</span>nput device support ---&gt;
+    -*- <span class=
+"blue">G</span>eneric input layer (needed for keyboard, mouse, ...)            [INPUT]
+    [*]   M<span class=
+"blue">i</span>scellaneous devices ---&gt;                                [INPUT_MISC]
+      &lt;*/M&gt;   <span class=
+"blue">U</span>ser level driver support                           [INPUT_UINPUT]</pre>
+          <p>
+            If you build this as a module, it needs to be inserted before the
+            test suite runs.
+          </p>
+          <p>
+            On an Xorg system you will also need to prevent the events
+            generated during the test suite from interfering with your
+            desktop. Copy the file <code class=
+            "filename">test/50-litest.conf</code> into <code class=
+            "filename">${XORG_PREFIX}/share/X11/xorg.conf.d</code> and
+            restart X. For further information see <a class="ulink" href=
+            "https://wayland.freedesktop.org/libinput/doc/1.24.0/test-suite.html">
+            libinput test suite</a>.
+          </p>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id64705" name="id64705"></a>Installation of Libinput
+          </h4>
+          <p>
+            Install <span class="application">libinput</span> by running the
+            following commands:
+          </p>
+          <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+meson setup --prefix=$XORG_PREFIX    \
+            --buildtype=release      \
+            -Ddebug-gui=false        \
+            -Dtests=false            \
+            -Dlibwacom=false         \
+            -Dudev-dir=/usr/lib/udev \
+            ..                      &amp;&amp;
+ninja</kbd></pre>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              If you want to run the full tests, remove -Dtests from the
+              <span class="command"><strong>meson</strong></span> command
+              above. Please read "kernel configuration for running the
+              libinput test suite" (above).
+            </p>
+            <p>
+              If you have enabled the full tests, you can run the main tests
+              <span class="emphasis"><em>as the root user</em></span> by
+              executing: <span class="command"><strong>ninja
+              test</strong></span>. A very large number of tests will be run.
+              One test fails on wayland.
+            </p>
+          </div>
+          <p>
+            Now, as the <code class="systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class="command">ninja install</kbd></pre>
+          <p>
+            If you have passed <code class=
+            "option">-Ddocumentation=true</code> to <span class=
+            "command"><strong>meson</strong></span>, you can install the
+            generated documentation by running the following commands as the
+            <code class="systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">install -v -dm755      /usr/share/doc/libinput-1.24.0/html &amp;&amp;
+cp -rv Documentation/* /usr/share/doc/libinput-1.24.0/html</kbd></pre>
+        </div>
+        <div class="commands" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id64727" name="id64727"></a>Command Explanations
+          </h4>
+          <p>
+            <em class="parameter"><code>--buildtype=release</code></em>:
+            本パッケージの安定版リリース向けに適したビルドタイプを指定します。
+            デフォルトにしていると、最適化されていないバイナリを生成する場合があるためです。
+          </p>
+          <p>
+            <em class="parameter"><code>-Ddebug-gui=false</code></em>: This
+            switch disables creation of a visual debug helper for libinput.
+            Remove if you want it, and you have <a class="xref" href=
+            "gtk3.html" title="GTK+-3.24.38">GTK+-3.24.38</a> installed.
+          </p>
+          <p>
+            <em class="parameter"><code>-Dtests=false</code></em>: This
+            switch disables compilation of the main tests. Even with the
+            tests defined as false, you can still run the first four minor
+            tests, as a regular user, but one will be skipped if <a class=
+            "xref" href="../general/python-modules.html#pyparsing" title=
+            "pyparsing-3.1.1">pyparsing-3.1.1</a> is not installed.
+          </p>
+          <p>
+            <em class="parameter"><code>-Dlibwacom=false</code></em>: Remove
+            this option if you have <a class="xref" href=
+            "../general/libwacom.html" title=
+            "libwacom-2.9.0">libwacom-2.9.0</a> installed, or if you are
+            installing GNOME.
+          </p>
+          <p>
+            <em class="parameter"><code>-Dudev-dir=/usr/lib/udev</code></em>:
+            In case that the value of <code class="envar">XORG_PREFIX</code>
+            is not set to <code class="filename">/usr</code>, this option
+            prevents the package from installing Udev rules and helpers into
+            <code class="filename">$XORG_PREFIX/lib/udev</code> which is not
+            searched by Udev daemon. This option is not needed for systems
+            with <code class="envar">XORG_PREFIX</code> set to <code class=
+            "filename">/usr</code>, but does no harm.
+          </p>
+          <p>
+            <code class="option">-Ddocumentation=true</code>: This switch
+            enables generation of the documentation. Add it if you want to
+            generate the documentation. You must have <a class="xref" href=
+            "../general/doxygen.html" title="Doxygen-1.9.8">Doxygen-1.9.8</a>
+            and <a class="xref" href="../general/graphviz.html" title=
+            "Graphviz-9.0.0">Graphviz-9.0.0</a> installed.
+          </p>
+        </div>
+        <div class="content" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id64751" name="id64751"></a>Contents
+          </h4>
+          <div class="segmentedlist">
+            <div class="seglistitem">
+              <div class="seg">
+                <strong class="segtitle">Installed Programs:</strong>
+                <span class="segbody">libinput</span>
+              </div>
+              <div class="seg">
+                <strong class="segtitle">Installed Libraries:</strong>
+                <span class="segbody">libinput.so</span>
+              </div>
+              <div class="seg">
+                <strong class="segtitle">Installed Directories:</strong>
+                <span class="segbody">/etc/libinput,
+                $XORG_PREFIX/libexec/libinput, $XORG_PREFIX/share/libinput,
+                and (optionally)
+                $XORG_PREFIX/share/doc/libinput-1.24.0</span>
+              </div>
+            </div>
+          </div>
+          <div class="variablelist">
+            <h3>
+              Short Descriptions
+            </h3>
+            <table border="0" class="variablelist">
+              <colgroup>
+                <col align="left" valign="top" />
+                <col />
+              </colgroup>
+              <tbody>
+                <tr>
+                  <td>
+                    <p>
+                      <a id="libinput-prog" name=
+                      "libinput-prog"></a><span class="term"><span class=
+                      "command"><strong>libinput</strong></span></span>
+                    </p>
+                  </td>
+                  <td>
+                    <p>
+                      is a set of tools to interface with the <span class=
+                      "application">libinput</span> library
+                    </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p>
+                      <a id="libinput-lib" name=
+                      "libinput-lib"></a><span class="term"><code class=
+                      "filename">libinput.so</code></span>
+                    </p>
+                  </td>
+                  <td>
+                    <p>
+                      contains API functions for handling input devices
+                    </p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="xorg-libinput-driver" name="xorg-libinput-driver"></a>Xorg
+          Libinput Driver-1.4.0
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id64784" name="id64784"></a>Xorg Libinput ドライバー の概要
+          </h4>
+          <p>
+            The <span class="application">X.Org Libinput Driver</span> is a
+            thin wrapper around libinput and allows for libinput to be used
+            for input devices in X. This driver can be used as drop-in
+            replacement for evdev and synaptics.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.x.org/pub/individual/driver/xf86-input-libinput-1.4.0.tar.xz">
+                  https://www.x.org/pub/individual/driver/xf86-input-libinput-1.4.0.tar.xz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: b52a1fc7456cf6595a9a1004287551a3
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロードサイズ: 320 KB
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  必要ディスク容量: 3.9 MB (with tests)
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  概算ビルド時間: less than 0.1 SBU (with tests)
+                </p>
+              </li>
+            </ul>
+          </div>
+          <h4>
+            Xorg Libinput ドライバー の依存パッケージ
+          </h4>
+          <h5>
+            必須
+          </h5>
+          <p class="required">
+            <a class="xref" href="x7driver.html#libinput" title=
+            "libinput-1.24.0">libinput-1.24.0</a>, <a class="xref" href=
+            "xorg-server.html" title=
+            "Xorg-Server-21.1.10">Xorg-Server-21.1.10</a>
+          </p>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id64811" name="id64811"></a>Xorg Libinput ドライバー のインストール
+          </h4>
+          <p>
+            以下のコマンドを実行して <span class="application">Xorg Libinput ドライバー</span>
+            をビルドします。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">./configure $XORG_CONFIG &amp;&amp;
+make</kbd></pre>
+          <p>
+            ビルド結果をテストする場合は <span class="command"><strong>make
+            check</strong></span> を実行します。
+          </p>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+        <div class="content" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id64823" name="id64823"></a>パッケージ構成
+          </h4>
+          <div class="segmentedlist">
+            <div class="seglistitem">
+              <div class="seg">
+                <strong class="segtitle">Installed Xorg Driver:</strong>
+                <span class="segbody">libinput_drv.so</span>
+              </div>
+            </div>
+          </div>
+          <div class="variablelist">
+            <h4>
+              Short Descriptions
+            </h4>
+            <table border="0" class="variablelist">
+              <colgroup>
+                <col align="left" valign="top" />
+                <col />
+              </colgroup>
+              <tbody>
+                <tr>
+                  <td>
+                    <p>
+                      <a id="libinput_drv" name=
+                      "libinput_drv"></a><span class="term"><code class=
+                      "filename">libinput_drv.so</code></span>
+                    </p>
+                  </td>
+                  <td>
+                    <p>
+                      is an Xorg input driver for mouse, keyboard, touchpad,
+                      touchscreen, and tablet devices
+                    </p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="xorg-synaptics-driver" name="xorg-synaptics-driver"></a>Xorg
+          Synaptics Driver-1.9.2
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id64844" name="id64844"></a>Introduction to Xorg Synaptics
+            Driver
+          </h4>
+          <p>
+            The <span class="application">Xorg Synaptics Driver</span>
+            package contains the X.Org Input Driver, support programs and SDK
+            for Synaptics touchpads. Even though the evdev driver can handle
+            touchpads very well, this driver is required if you want to use
+            advanced features like multi tapping, scrolling with touchpad,
+            turning the touchpad off while typing, etc.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            Package Information
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  Download (HTTP): <a class="ulink" href=
+                  "https://www.x.org/pub/individual/driver/xf86-input-synaptics-1.9.2.tar.xz">
+                  https://www.x.org/pub/individual/driver/xf86-input-synaptics-1.9.2.tar.xz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  Download MD5 sum: 3b95e7baf4428b114e9910f999e96601
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  Download size: 424 KB
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  Estimated disk space required: 5.2 MB
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  Estimated build time: less than 0.1 SBU
+                </p>
+              </li>
+            </ul>
+          </div>
+          <h4>
+            Xorg Synaptics Driver Dependencies
+          </h4>
+          <h5>
+            Required
+          </h5>
+          <p class="required">
+            <a class="xref" href="x7driver.html#libevdev" title=
+            "libevdev 1.13.1">libevdev-1.13.1</a> and <a class="xref" href=
+            "xorg-server.html" title=
+            "Xorg-Server-21.1.10">Xorg-Server-21.1.10</a>
+          </p>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id64871" name="id64871"></a>Installation of Xorg Synaptics
+            Driver
+          </h4>
+          <p>
+            Install <span class="application">Xorg Synaptics Driver</span> by
+            running the following commands:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">./configure $XORG_CONFIG &amp;&amp;
+make</kbd></pre>
+          <p>
+            This package does not come with a test suite.
+          </p>
+          <p>
+            Now, as the <code class="systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+        <div class="content" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id64882" name="id64882"></a>Contents
+          </h4>
+          <div class="segmentedlist">
+            <div class="seglistitem">
+              <div class="seg">
+                <strong class="segtitle">Installed Programs:</strong>
+                <span class="segbody">synclient and syndaemon</span>
+              </div>
+              <div class="seg">
+                <strong class="segtitle">Installed Xorg Driver:</strong>
+                <span class="segbody">synaptics_drv.so</span>
+              </div>
+            </div>
+          </div>
+          <div class="variablelist">
+            <h4>
+              Short Descriptions
+            </h4>
+            <table border="0" class="variablelist">
+              <colgroup>
+                <col align="left" valign="top" />
+                <col />
+              </colgroup>
+              <tbody>
+                <tr>
+                  <td>
+                    <p>
+                      <a id="synclient" name="synclient"></a><span class=
+                      "term"><span class=
+                      "command"><strong>synclient</strong></span></span>
+                    </p>
+                  </td>
+                  <td>
+                    <p>
+                      is a command line utility used to query and modify
+                      Synaptics driver options
+                    </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p>
+                      <a id="syndaemon" name="syndaemon"></a><span class=
+                      "term"><span class=
+                      "command"><strong>syndaemon</strong></span></span>
+                    </p>
+                  </td>
+                  <td>
+                    <p>
+                      is a program that monitors keyboard activity and
+                      disables the touchpad when the keyboard is being used
+                    </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p>
+                      <a id="synaptics_drv" name=
+                      "synaptics_drv"></a><span class="term"><code class=
+                      "filename">synaptics_drv.so</code></span>
+                    </p>
+                  </td>
+                  <td>
+                    <p>
+                      is an Xorg input driver for touchpads
+                    </p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="xorg-wacom-driver" name="xorg-wacom-driver"></a>Xorg Wacom
+          Driver-1.2.0
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id64919" name="id64919"></a>Introduction to Xorg Wacom
+            Driver
+          </h4>
+          <p>
+            The <span class="application">Xorg Wacom Driver</span> package
+            contains the X.Org X11 driver and SDK for Wacom and Wacom-like
+            tablets. It is not required to use a Wacom tablet, the
+            <span class="application">xf86-input-evdev</span> driver can
+            handle these devices without problems.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            Package Information
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  Download (HTTP): <a class="ulink" href=
+                  "https://github.com/linuxwacom/xf86-input-wacom/releases/download/xf86-input-wacom-1.2.0/xf86-input-wacom-1.2.0.tar.bz2">
+                  https://github.com/linuxwacom/xf86-input-wacom/releases/download/xf86-input-wacom-1.2.0/xf86-input-wacom-1.2.0.tar.bz2</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  Download MD5 sum: 9de66dbfa7dbb3897708d35776da0108
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  Download size: 636 KB
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  Estimated disk space required: 8.8 MB (with tests)
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  Estimated build time: 0.1 SBU (with tests)
+                </p>
+              </li>
+            </ul>
+          </div>
+          <h4>
+            Xorg Wacom Drivers Dependencies
+          </h4>
+          <h5>
+            Required
+          </h5>
+          <p class="required">
+            <a class="xref" href="xorg-server.html" title=
+            "Xorg-Server-21.1.10">Xorg-Server-21.1.10</a>
+          </p>
+          <h5>
+            Optional
+          </h5>
+          <p class="optional">
+            <a class="xref" href="../general/doxygen.html" title=
+            "Doxygen-1.9.8">Doxygen-1.9.8</a> and <a class="xref" href=
+            "../general/graphviz.html" title=
+            "Graphviz-9.0.0">Graphviz-9.0.0</a>
+          </p>
+        </div>
+        <div class="kernel" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="xorg-wacom-driver-kernel" name=
+            "xorg-wacom-driver-kernel"></a>
+          </h3>
+          <h4 class="title">
+            <a id="xorg-wacom-driver-kernel" name=
+            "xorg-wacom-driver-kernel"></a>Kernel Configuration
+          </h4>
+          <p>
+            To use a Wacom tablet with USB interface, enable the following
+            options in your kernel configuration and recompile. Note that
+            other configuration options could be required for tablet with a
+            serial or bluetooth interface:
+          </p>
+          <pre class="screen"><span class=
+          "blue">D</span>evice Drivers ---&gt;
+  [*] H<span class=
+"blue">I</span>D bus support ---&gt;                                         [HID_SUPPORT]
+    {*/M} H<span class=
+"blue">I</span>D bus core support                                             [HID]
+      <span class="blue">S</span>pecial HID drivers ---&gt;
+      &lt;*/M&gt;   <span class=
+"blue">W</span>acom Intuos/Graphire tablet support (USB)             [HID_WACOM]
+    <span class="blue">U</span>SB HID support ---&gt;
+      &lt;*/M&gt; <span class=
+"blue">U</span>SB HID transport layer                                    [USB_HID]
+  [*] <span class=
+"blue">U</span>SB support ---&gt;                                             [USB_SUPPORT]
+    &lt;*/M&gt; <span class=
+"blue">S</span>upport for Host-side USB                                        [USB]</pre>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id64965" name="id64965"></a>Installation of Xorg Wacom
+            Driver
+          </h4>
+          <p>
+            Install <span class="application">Xorg Wacom Driver</span> by
+            running the following commands:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">./configure $XORG_CONFIG --with-systemd-unit-dir=no &amp;&amp;
+make</kbd></pre>
+          <p>
+            To test the results, issue: <span class="command"><strong>make
+            check</strong></span>.
+          </p>
+          <p>
+            Now, as the <code class="systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+        <div class="content" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id64977" name="id64977"></a>Contents
+          </h4>
+          <div class="segmentedlist">
+            <div class="seglistitem">
+              <div class="seg">
+                <strong class="segtitle">Installed Programs:</strong>
+                <span class="segbody">isdv4-serial-debugger,
+                isdv4-serial-inputattach, and xsetwacom</span>
+              </div>
+              <div class="seg">
+                <strong class="segtitle">Installed Xorg Driver:</strong>
+                <span class="segbody">wacom_drv.so</span>
+              </div>
+            </div>
+          </div>
+          <div class="variablelist">
+            <h4>
+              Short Descriptions
+            </h4>
+            <table border="0" class="variablelist">
+              <colgroup>
+                <col align="left" valign="top" />
+                <col />
+              </colgroup>
+              <tbody>
+                <tr>
+                  <td>
+                    <p>
+                      <a id="xsetwacom" name="xsetwacom"></a><span class=
+                      "term"><span class=
+                      "command"><strong>xsetwacom</strong></span></span>
+                    </p>
+                  </td>
+                  <td>
+                    <p>
+                      is a commandline utility used to query and modify wacom
+                      driver settings
+                    </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p>
+                      <a id="wacom_drv" name="wacom_drv"></a><span class=
+                      "term"><code class=
+                      "filename">wacom_drv.so</code></span>
+                    </p>
+                  </td>
+                  <td>
+                    <p>
+                      is an Xorg input driver for Wacom devices
+                    </p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="xorg-server.html" title=
+          "Xorg-Server-21.1.10">戻る</a>
+          <p>
+            Xorg-Server-21.1.10
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="twm.html" title="twm-1.0.12">次へ</a>
+          <p>
+            twm-1.0.12
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="installing.html" title=
+          "第24章 グラフィック環境">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

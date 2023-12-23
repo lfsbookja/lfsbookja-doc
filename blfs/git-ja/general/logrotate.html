@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Logrotate-3.21.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第12章 システムユーティリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="lm_sensors.html" title=
+          "Lm-sensors-3-6-0">戻る</a>
+          <p>
+            Lm-sensors-3-6-0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="mc.html" title="MC-4.8.30">次へ</a>
+          <p>
+            MC-4.8.30
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="sysutils.html" title=
+          "第12章 システムユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="logrotate" name="logrotate"></a>Logrotate-3.21.0
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Logrotate の概要
+        </h2>
+        <p>
+          The <span class="application">logrotate</span> package allows
+          automatic rotation, compression, removal, and mailing of log files.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/logrotate/logrotate/releases/download/3.21.0/logrotate-3.21.0.tar.xz">
+                https://github.com/logrotate/logrotate/releases/download/3.21.0/logrotate-3.21.0.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 6c15f45efc3475a576c4f7e6cc481b2c
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 164.5 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 2.9 MB (テスト実行時はさらに 38 MB)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU 以下 (テスト実行時はさらに 0.2 SBU)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Logrotate の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="popt.html" title="Popt-1.19">popt-1.19</a>
+        </p>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="fcron.html" title=
+          "Fcron-3.2.1">Fcron-3.2.1</a> (実行時)
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          An <a class="xref" href="../server/mail.html" title=
+          "第21章 メールサーバーソフトウェア">MTA</a> (実行時)
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Logrotate のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">logrotate</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr &amp;&amp;
+make</kbd></pre>
+        <p>
+          To test the results, issue: <span class="command"><strong>make
+          test</strong></span>. One test fails because the very old
+          <span class="command"><strong>compress</strong></span> is not
+          present and two tests fail if an MTA is not installed.
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Logrotate の設定
+        </h2>
+        <p>
+          <span class="application">Logrotate</span> needs a configuration
+          file, which must be passed as an argument to the command when
+          executed. Create the file as the <code class=
+          "systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">cat &gt; /etc/logrotate.conf &lt;&lt; EOF
+<code class="literal"># Begin /etc/logrotate.conf
+
+# Rotate log files weekly
+weekly
+
+# Don't mail logs to anybody
+nomail
+
+# If the log file is empty, it will not be rotated
+notifempty
+
+# Number of backups that will be kept
+# This will keep the 2 newest backups only
+rotate 2
+
+# Create new empty files after rotating old ones
+# This will create empty log files, with owner
+# set to root, group set to sys, and permissions 664
+create 0664 root sys
+
+# Compress the backups with gzip
+compress
+
+# No packages own lastlog or wtmp -- rotate them here
+/var/log/wtmp {
+    monthly
+    create 0664 root utmp
+    rotate 1
+}
+
+/var/log/lastlog {
+    monthly
+    rotate 1
+}
+
+# Some packages drop log rotation info in this directory
+# so we include any file in it.
+include /etc/logrotate.d
+
+# End /etc/logrotate.conf</code>
+EOF
+
+chmod -v 0644 /etc/logrotate.conf</kbd></pre>
+        <p>
+          Now create the <code class="filename">/etc/logrotate.d</code>
+          directory as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">mkdir -p /etc/logrotate.d</kbd></pre>
+        <p>
+          At this point additional log rotation commands can be entered,
+          typically in the <code class="filename">/etc/logrotate.d</code>
+          directory. For example:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; /etc/logrotate.d/sys.log &lt;&lt; EOF
+<code class="literal">/var/log/sys.log {
+   # If the log file is larger than 100kb, rotate it
+   size   100k
+   rotate 5
+   weekly
+   postrotate
+      /bin/killall -HUP syslogd
+   endscript
+}</code>
+EOF
+
+chmod -v 0644 /etc/logrotate.d/sys.log</kbd></pre>
+        <p>
+          You can designate multiple files in one entry:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; /etc/logrotate.d/example.log &lt;&lt; EOF
+<code class="literal">file1
+file2
+file3 {
+   ...
+   postrotate
+    ...
+   endscript
+}</code>
+EOF
+
+chmod -v 0644 /etc/logrotate.d/example.log</kbd></pre>
+        <p>
+          You can use in the same line the list of files: file1 file2 file3.
+          See the logrotate man page or <a class="ulink" href=
+          "https://www.techrepublic.com/article/manage-linux-log-files-with-logrotate/">
+          https://www.techrepublic.com/article/manage-linux-log-files-with-logrotate/</a>
+          for more examples.
+        </p>
+        <p>
+          The command <span class="command"><strong>logrotate
+          /etc/logrotate.conf</strong></span> can be run manually, however,
+          the command should be run daily. Other useful commands are
+          <span class="command"><strong>logrotate -d
+          /etc/logrotate.conf</strong></span> for debugging purposes and
+          <span class="command"><strong>logrotate -f
+          /etc/logrotate.conf</strong></span> forcing the logrotate commands
+          to be run immediately. Combining the previous options <code class=
+          "option">-df</code>, you can debug the effect of the force command.
+          When debugging, the commands are only simulated and are not
+          actually run. As a result, errors about files not existing will
+          eventually appear because the files are not actually created.
+        </p>
+        <p>
+          To run the <span class="command"><strong>logrotate</strong></span>
+          command daily, <span class="phrase">if you've installed <a class=
+          "xref" href="fcron.html" title="Fcron-3.2.1">Fcron-3.2.1</a> and
+          completed the section on periodic jobs, execute</span> the
+          following commands, as the <code class="systemitem">root</code>
+          user, to create a <span class="phrase">daily cron job:</span>
+        </p>
+        <pre class="root"><kbd class=
+        "command">cat &gt; /etc/cron.daily/logrotate.sh &lt;&lt; "EOF" &amp;&amp;
+<code class="literal">#!/bin/bash
+/usr/sbin/logrotate /etc/logrotate.conf</code>
+EOF
+chmod 754 /etc/cron.daily/logrotate.sh</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">logrotate</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="logrotate-prog" name=
+                    "logrotate-prog"></a><span class="term"><span class=
+                    "command"><strong>logrotate</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    performs the log maintenance functions defined in the
+                    configuration files
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="lm_sensors.html" title=
+          "Lm-sensors-3-6-0">戻る</a>
+          <p>
+            Lm-sensors-3-6-0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="mc.html" title="MC-4.8.30">次へ</a>
+          <p>
+            MC-4.8.30
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="sysutils.html" title=
+          "第12章 システムユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

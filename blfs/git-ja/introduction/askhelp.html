@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      ヘルプと FAQ の確認
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第1章 BLFS へようこそ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="wiki.html" title="編集ノート">戻る</a>
+          <p>
+            編集ノート
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="credits.html" title="本書製作に関わる方々">次へ</a>
+          <p>
+            本書製作に関わる方々
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="welcome.html" title=
+          "第1章 BLFS へようこそ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="askhelp" name="askhelp"></a>ヘルプと FAQ の確認
+      </h1>
+      <p>
+        本書を利用した作業の中で何か問題が発生した場合、そしてその問題が FAQ (<a class="ulink" href=
+        "https://www.linuxfromscratch.org/faq">https://www.linuxfromscratch.org/faq</a>)
+        に上がっていない場合は、インターネットリレーチャット (IRC)
+        やメーリングリストに参加している方々が、あなたの手助けをしてくれるかもしれません。 LFS のメーリングリストに関しては
+        <a class="xref" href="maillists.html" title="メーリングリスト">メーリングリスト</a>
+        に示されています。 あなたが抱える問題を的確に把握し解決していくために、質問にあたっては出来る限り十分な情報を含めてください。
+      </p>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          質問する前に確認すること
+        </h2>
+        <p>
+          質問を投げる前に以下の項目を確認してください。
+        </p>
+        <div class="itemizedlist">
+          <ul>
+            <li class="listitem">
+              <p>
+                ハードウェアをサポートする機能がカーネルに含まれてビルドされていますか？
+                またはカーネルモジュールとしてビルドされていますか？ カーネルモジュールである場合、<code class=
+                "filename">modprobe.conf</code> にて適切に設定され、ロードもできていますか？
+                <code class="systemitem">root</code> ユーザーになって <span class=
+                "command"><strong>lsmod</strong></span>
+                コマンドを使えば、ロードできているかどうかは確認することができます。 <code class=
+                "filename">sys.log</code> ファイルを確認するか、<span class=
+                "command"><strong>modprobe <em class=
+                "replaceable"><code>&lt;driver&gt;</code></em></strong></span>
+                を実行し、エラーがないかを確認してください。 正しくロードできているなら、ブートスクリプトに <span class=
+                "command"><strong>modprobe</strong></span> コマンドを追加すべきかもしれません。
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                特にデバイスに対してのパーミッションは適切に設定していますか？ LFS uses groups to make these
+                settings easier, but it also adds the step of adding users to
+                groups to allow access. A simple <span class=
+                "command"><strong>usermod -G audio <em class=
+                "replaceable"><code>&lt;user&gt;</code></em></strong></span>
+                may be all that's necessary for that user to have access to
+                the sound system. Any question that starts out with
+                <span class="quote">「<span class="quote">It works as root,
+                but not as ...</span>」</span> requires a thorough review of
+                permissions prior to asking.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                BLFS では <code class="filename">/opt/<em class=
+                "replaceable"><code>&lt;パッケージ&gt;</code></em></code>
+                というディレクトリを自由に用いることができます。 The main objection to this centers
+                around the need to expand your environment variables for each
+                package placed there (e.g., PATH=$PATH:/opt/kde/bin). In most
+                cases, the package instructions will walk you through the
+                changes, but some will not. The section called <span class=
+                "quote">「<span class="quote"><a class="xref" href=
+                "beyond.html" title="BLFS のその先">BLFS のその先</a></span>」</span>
+                is available to help you check.
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          特記事項
+        </h2>
+        <p>
+          問題が発生し問い合わせをする場合には、以下に示す基本的な情報を含めてください。
+        </p>
+        <div class="itemizedlist">
+          <ul>
+            <li class="listitem">
+              <p>
+                お使いの本ブックのバージョン。 (本書の場合 r12.0-1048+)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                問題が発生したパッケージ、または本書内の該当の章または節。
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                問題となったエラーメッセージや状況に対する詳細な情報。
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                本書や LFS ブックどおりに作業しているか、逸脱していないかの情報。
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                BLFS パッケージ類を LFS システム以外にてインストールしているかどうか。
+              </p>
+            </li>
+          </ul>
+        </div>
+        <p>
+          (Note that saying that you've deviated from the book doesn't mean
+          that we won't help you. It'll just help us to see other possible
+          causes of your problem.)
+        </p>
+        <p>
+          Expect guidance instead of specific instructions. If you are
+          instructed to read something, please do so. It generally implies
+          that the answer was way too obvious and that the question would not
+          have been asked if a little research was done prior to asking. The
+          volunteers in the mailing list prefer not to be used as an
+          alternative to doing reasonable research on your end. In addition,
+          the quality of your experience with BLFS is also greatly enhanced
+          by this research, and the quality of volunteers is enhanced because
+          they don't feel that their time has been abused, so they are far
+          more likely to participate.
+        </p>
+        <p>
+          An excellent article on asking for help on the Internet in general
+          has been written by Eric S. Raymond. It is available online at
+          <a class="ulink" href=
+          "http://www.catb.org/~esr/faqs/smart-questions.html">http://www.catb.org/~esr/faqs/smart-questions.html</a>.
+          Read and follow the hints in that document and you are much more
+          likely to get a response to start with and also to get the help you
+          actually need.
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="wiki.html" title="編集ノート">戻る</a>
+          <p>
+            編集ノート
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="credits.html" title="本書製作に関わる方々">次へ</a>
+          <p>
+            本書製作に関わる方々
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="welcome.html" title=
+          "第1章 BLFS へようこそ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Cdrtools-3.02a09
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第45章 CD/DVD ライティングユーティリティー
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="cdrdao.html" title="Cdrdao-1.2.4">戻る</a>
+          <p>
+            Cdrdao-1.2.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="dvd-rw-tools.html" title=
+          "dvd+rw-tools-7.1">次へ</a>
+          <p>
+            dvd+rw-tools-7.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="cdwriteutils.html" title=
+          "第45章 CD/DVD ライティングユーティリティー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="cdrtools" name="cdrtools"></a>Cdrtools-3.02a09
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Cdrtools の概要
+        </h2>
+        <p>
+          The <span class="application">Cdrtools</span> package contains CD
+          recording utilities. These are useful for reading, creating or
+          writing (burning) CDs, DVDs, and Blu-ray discs.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://downloads.sourceforge.net/cdrtools/cdrtools-3.02a09.tar.bz2">
+                https://downloads.sourceforge.net/cdrtools/cdrtools-3.02a09.tar.bz2</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 1e224a6adbbe4ad40047b9fddbb0e60c
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 2.1 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 32 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.7 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Cdrtools の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="alsa-lib.html" title=
+          "alsa-lib-1.2.10">alsa-lib-1.2.10</a>
+        </p>
+        <p class="usernotes">
+          編集ノート: <a class="ulink" href=
+          "https://wiki.linuxfromscratch.org/blfs/wiki/Cdrtools">https://wiki.linuxfromscratch.org/blfs/wiki/Cdrtools</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Cdrtools のインストール
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            本パッケージは並行ビルドがサポートされていません。
+          </p>
+        </div>
+        <p>
+          以下のコマンドを実行して <span class="application">Cdrtools</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">export GMAKE_NOWARN=true &amp;&amp;
+make -j1 INS_BASE=/usr DEFINSUSR=root DEFINSGRP=root</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class=
+        "command">export GMAKE_NOWARN=true &amp;&amp;
+make INS_BASE=/usr MANSUFF_LIB=3cdr DEFINSUSR=root DEFINSGRP=root install &amp;&amp;
+install -v -m755 -d /usr/share/doc/cdrtools-3.02a09 &amp;&amp;
+install -v -m644 README.* READMEs/* ABOUT doc/*.ps \
+                    /usr/share/doc/cdrtools-3.02a09</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <span class="command"><strong>export
+          GMAKE_NOWARN=true</strong></span>: This variable avoids a warning
+          when using GNU make.
+        </p>
+        <p>
+          <em class="parameter"><code>INS_BASE=/usr</code></em>: This
+          parameter moves the install directory from <code class=
+          "filename">/opt/schily</code> to <code class=
+          "filename">/usr</code>.
+        </p>
+        <p>
+          <em class="parameter"><code>DEFINSUSR=root
+          DEFINSGRP=root</code></em>: These parameters install all programs
+          with root:root ownership instead of the default bin:bin.
+        </p>
+        <p>
+          <em class="parameter"><code>MANSUFF_LIB=3cdr</code></em>: This
+          parameter prevents <span class="application">Cdrtools</span> from
+          overwriting important pages which are already installed by LFS. The
+          installed man pages of section 3 will have a suffix <code class=
+          "literal">3cdr</code> and can be shown using <span class=
+          "command"><strong>man 3cdr &lt;manpage&gt;</strong></span>.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">btcflash, cdda2mp3, cdda2ogg, cdda2wav, cdrecord,
+              devdump, isodebug, isodump, isoinfo, isovfy, mkhybrid, mkisofs,
+              readcd, rscsi, scgcheck, scgskeleton</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libcdrdeflt.a, libdeflt.a, libedc_ecc.a,
+              libedc_ecc_dec.a, libfile.a, libfind.a, libhfs.a, libmdigest.a,
+              libparanoia.a, librscg.a, libscg.a, libscgcmd.a, libschily.a,
+              libsiconv.a</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/lib/{profiled,siconv},
+              /usr/include/{scg,schily},
+              /usr/share/doc/cdda2wav,cdrecord,libparanoia,mkisofs,rscsi}</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="btcflash" name="btcflash"></a><span class=
+                    "term"><span class=
+                    "command"><strong>btcflash</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    flashes the firmware on BTC DRW1008 DVD+/-RW recorder.
+                    Please exercise care with this program
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cdda2wav" name="cdda2wav"></a><span class=
+                    "term"><span class=
+                    "command"><strong>cdda2wav</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    converts Compact Disc audio into WAV sound files
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cdrecord" name="cdrecord"></a><span class=
+                    "term"><span class=
+                    "command"><strong>cdrecord</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    records audio or data Compact Discs
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="devdump" name="devdump"></a><span class=
+                    "term"><span class=
+                    "command"><strong>devdump</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a diagnostic program used to dump an ISO-9660 device
+                    or file in hex
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="isodebug" name="isodebug"></a><span class=
+                    "term"><span class=
+                    "command"><strong>isodebug</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to display the command-line parameters used to
+                    create an ISO-9660 image
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="isodump" name="isodump"></a><span class=
+                    "term"><span class=
+                    "command"><strong>isodump</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a diagnostic program used to dump a device or file
+                    based on ISO-9660
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="isoinfo" name="isoinfo"></a><span class=
+                    "term"><span class=
+                    "command"><strong>isoinfo</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to analyze or list an ISO-9660 image
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="isovfy" name="isovfy"></a><span class=
+                    "term"><span class=
+                    "command"><strong>isovfy</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to verify an ISO-9660 image
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mkhybrid" name="mkhybrid"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mkhybrid</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a symbolic link to <span class=
+                    "command"><strong>mkisofs</strong></span> used to create
+                    ISO-9660/HFS hybrid filesystem images
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mkisofs" name="mkisofs"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mkisofs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to create ISO-9660/JOLIET/HFS filesystem images,
+                    optionally with Rock Ridge attributes
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="readcd" name="readcd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>readcd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    reads or writes Compact Discs
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rscsi" name="rscsi"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rscsi</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a remote SCSI manager
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="scgcheck" name="scgcheck"></a><span class=
+                    "term"><span class=
+                    "command"><strong>scgcheck</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to check and verify the Application Binary
+                    Interface of <code class="filename">libscg</code>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libscg" name="libscg"></a><span class=
+                    "term"><code class="filename">libscg.a</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a highly portable SCSI transport library
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="cdrdao.html" title="Cdrdao-1.2.4">戻る</a>
+          <p>
+            Cdrdao-1.2.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="dvd-rw-tools.html" title=
+          "dvd+rw-tools-7.1">次へ</a>
+          <p>
+            dvd+rw-tools-7.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="cdwriteutils.html" title=
+          "第45章 CD/DVD ライティングユーティリティー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      ぜい弱性
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第4章 セキュリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="security.html" title="セキュリティ">戻る</a>
+          <p>
+            セキュリティ
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="make-ca.html" title="make-ca-1.13">次へ</a>
+          <p>
+            make-ca-1.13
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="security.html" title="第4章 セキュリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="vulnerabilities" name="vulnerabilities"></a>ぜい弱性
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          ぜい弱性について
+        </h2>
+        <p>
+          ソフトウェアにバグはつきものです。 このバグは、時には悪用されるものになります。
+          例えばユーザーが、規定されている以上の権限を得てしまうことができます。
+          (おそらくルートシェルにログインできたり、他ユーザーのファイルにアクセスできたり削除できたりといった状況です。)
+          リモートサイト上のアプリケーションを破壊 (サービス停止) したり、データを盗んだりといったこともできてしまいます。
+          このようなバグはぜい弱性と表現されます。
+        </p>
+        <p>
+          ぜい弱性に関する情報を取りまとめているサイトとして <a class="ulink" href=
+          "https://cve.mitre.org">cve.mitre.org</a> があります。 Unfortunately,
+          many vulnerability numbers (CVE-yyyy-nnnn) are initially only
+          labelled as "reserved" when distributions start issuing fixes.
+          Also, some vulnerabilities apply to particular combinations of
+          <span class="command"><strong>configure</strong></span> options, or
+          only apply to old versions of packages which have long since been
+          updated in BLFS.
+        </p>
+        <p>
+          BLFS differs from distributions—there is no BLFS security team, and
+          the editors only become aware of vulnerabilities after they are
+          public knowledge. Sometimes, a package with a vulnerability will
+          not be updated in the book for a long time. Issues can be logged in
+          the Trac system, which might speed up resolution.
+        </p>
+        <p>
+          The normal way for BLFS to fix a vulnerability is, ideally, to
+          update the book to a new fixed release of the package. Sometimes
+          that happens even before the vulnerability is public knowledge, so
+          there is no guarantee that it will be shown as a vulnerability fix
+          in the Changelog. Alternatively, a <span class=
+          "command"><strong>sed</strong></span> command, or a patch taken
+          from a distribution, may be appropriate.
+        </p>
+        <p>
+          The bottom line is that you are responsible for your own security,
+          and for assessing the potential impact of any problems.
+        </p>
+        <p>
+          The editors now issue Security Advisories for packages in BLFS (and
+          LFS), which can be found at <a class="ulink" href=
+          "https://www.linuxfromscratch.org/blfs/advisories/">BLFS Security
+          Advisories</a>, and grade the severity according to what upstream
+          reports, or to what is shown at <a class="ulink" href=
+          "https://nvd.nist.gov/">nvd.nist.gov</a> if that has details.
+        </p>
+        <p>
+          To keep track of what is being discovered, you may wish to follow
+          the security announcements of one or more distributions. For
+          example, Debian has <a class="ulink" href=
+          "https://www.debian.org/security">Debian security</a>. Fedora's
+          links on security are at <a class="ulink" href=
+          "https://fedoraproject.org/wiki/category:Security">the Fedora
+          wiki</a>. Details of Gentoo linux security announcements are
+          discussed at <a class="ulink" href=
+          "https://security.gentoo.org">Gentoo security</a>. Finally, the
+          Slackware archives of security announcements are at <a class=
+          "ulink" href="https://slackware.com/security">Slackware
+          security</a>.
+        </p>
+        <p>
+          The most general English source is perhaps <a class="ulink" href=
+          "https://seclists.org/fulldisclosure">the Full Disclosure Mailing
+          List</a>, but please read the comment on that page. If you use
+          other languages you may prefer other sites such as <a class="ulink"
+          href="https://www.heise.de/security">heise.de</a> (German) or
+          <a class="ulink" href="https://www.cert.hr">cert.hr</a> (Croatian).
+          These are not linux-specific. There is also a daily update at
+          lwn.net for subscribers (free access to the data after 2 weeks, but
+          their vulnerabilities database at <a class="ulink" href=
+          "https://lwn.net/Alerts/">lwn.net/Alerts</a> is unrestricted).
+        </p>
+        <p>
+          For some packages, subscribing to their 'announce' lists will
+          provide prompt news of newer versions.
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="security.html" title="セキュリティ">戻る</a>
+          <p>
+            セキュリティ
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="make-ca.html" title="make-ca-1.13">次へ</a>
+          <p>
+            make-ca-1.13
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="security.html" title="第4章 セキュリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

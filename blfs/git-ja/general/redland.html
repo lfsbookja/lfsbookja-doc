@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Redland-1.0.17
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第12章 システムユーティリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="rasqal.html" title="Rasqal-0.9.33">戻る</a>
+          <p>
+            Rasqal-0.9.33
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="sg3_utils.html" title=
+          "sg3_utils-1.48">次へ</a>
+          <p>
+            sg3_utils-1.48
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="sysutils.html" title=
+          "第12章 システムユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="redland" name="redland"></a>Redland-1.0.17
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Redland の概要
+        </h2>
+        <p>
+          <span class="application">Redland</span> は、リソースディスクリプションフレームワーク
+          (Resource Description Framework; RDF) をサポートするフリーソフトウェアの C ライブラリ群です。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://download.librdf.org/source/redland-1.0.17.tar.gz">https://download.librdf.org/source/redland-1.0.17.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: e5be03eda13ef68aabab6e42aa67715e
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1.6 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 18 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.2 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Redland の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="rasqal.html" title=
+          "Rasqal-0.9.33">Rasqal-0.9.33</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="libiodbc.html" title=
+          "libiodbc-3.52.15">libiodbc-3.52.15</a>, <a class="xref" href=
+          "../server/sqlite.html" title="SQLite-3.44.2">SQLite-3.44.2</a>,
+          <a class="xref" href="../server/mariadb.html" title=
+          "MariaDB-10.11.6">MariaDB-10.11.6</a> or <a class="ulink" href=
+          "https://www.mysql.com/">MySQL</a>, <a class="xref" href=
+          "../server/postgresql.html" title=
+          "PostgreSQL-16.1">PostgreSQL-16.1</a>, <a class="ulink" href=
+          "https://anduin.linuxfromscratch.org/BLFS/bdb/db-5.3.28.tar.gz">Berkeley
+          DB</a> (非推奨) <a class="ulink" href=
+          "https://downloads.sourceforge.net/virtuoso/">virtuoso</a>, and
+          <a class="ulink" href=
+          "https://sourceforge.net/projects/threestore/">3store</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Redland のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">Redland</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr --disable-static &amp;&amp;
+make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>make
+          check</strong></span> を実行します。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--disable-static</code></em>:
+          このスイッチはスタティックライブラリをインストールしないようにします。
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">rdfproc, redland-config, redland-db-upgrade</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">librdf.so,
+              /usr/lib/redland/librdf_storage_*.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/lib/redland, /usr/share/gtk-doc/html/redland,
+              /usr/share/redland</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rdfproc" name="rdfproc"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rdfproc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Redland RDF プロセッサーユーティリティ。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="redland-config" name=
+                    "redland-config"></a><span class="term"><span class=
+                    "command"><strong>redland-config</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    インストールされている Redland のバージョン情報を取得するスクリプト。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="redland-db-upgrade" name=
+                    "redland-db-upgrade"></a><span class="term"><span class=
+                    "command"><strong>redland-db-upgrade</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    古い Redland データベースを 0.9.12 フォーマットに更新します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="rasqal.html" title="Rasqal-0.9.33">戻る</a>
+          <p>
+            Rasqal-0.9.33
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="sg3_utils.html" title=
+          "sg3_utils-1.48">次へ</a>
+          <p>
+            sg3_utils-1.48
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="sysutils.html" title=
+          "第12章 システムユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

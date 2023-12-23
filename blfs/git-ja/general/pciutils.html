@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      pciutils-3.10.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第12章 システムユーティリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="pax.html" title="Pax-20201030">戻る</a>
+          <p>
+            Pax-20201030
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="pm-utils.html" title="pm-utils-1.4.1">次へ</a>
+          <p>
+            pm-utils-1.4.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="sysutils.html" title=
+          "第12章 システムユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="pciutils" name="pciutils"></a>pciutils-3.10.0
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          PCI Utils の概要
+        </h2>
+        <p>
+          <span class="application">PCI Utils</span> (PCI Utilties) パッケージは
+          PCI デバイスを取り扱うプログラム類を提供します。 PCI
+          デバイスの一覧の取得、動作ステータスの精査、設定レジスタの登録などを行うものです。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://mj.ucw.cz/download/linux/pci/pciutils-3.10.0.tar.gz">
+                https://mj.ucw.cz/download/linux/pci/pciutils-3.10.0.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: ca53b87d2a94cdbbba6e09aca90924bd
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 912 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 5.7 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU 以下
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          pciutils Dependencies
+        </h3>
+        <h4>
+          Recommended
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../basicnet/curl.html" title=
+          "cURL-8.5.0">cURL-8.5.0</a>, <a class="xref" href=
+          "../basicnet/wget.html" title="Wget-1.21.4">Wget-1.21.4</a>, or
+          <a class="xref" href="../basicnet/lynx.html" title=
+          "Lynx-2.8.9rel.1">Lynx-2.8.9rel.1</a> (for the update-pciids script
+          to function correctly).
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          PCI Utils のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">PCI Utils</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make PREFIX=/usr                \
+     SHAREDIR=/usr/share/hwdata \
+     SHARED=yes</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class=
+        "command">make PREFIX=/usr                \
+     SHAREDIR=/usr/share/hwdata \
+     SHARED=yes                 \
+     install install-lib        &amp;&amp;
+
+chmod -v 755 /usr/lib/libpci.so</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>SHARED=yes</code></em>:
+          このパラメーターはスタティックライブラリではなく共有ライブラリをビルドすることを指示します。
+        </p>
+        <p>
+          <code class="option">ZLIB=no</code>: このオプションは <code class=
+          "filename">pci.ids</code> ファイルが圧縮されないようにします。
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          PCI Utils の設定
+        </h2>
+        <p>
+          <code class="filename">pci.ids</code> データファイルは、常に更新が行われています。
+          最新版を入手する場合は <code class="systemitem">root</code> ユーザーになって
+          <span class="command"><strong>update-pciids</strong></span>
+          コマンドを実行します。 このプログラムは <a class="xref" href="../basicnet/curl.html"
+          title="cURL-8.5.0">cURL-8.5.0</a>、<a class="xref" href=
+          "../basicnet/wget.html" title=
+          "Wget-1.21.4">Wget-1.21.4</a>、<a class="xref" href=
+          "../basicnet/lynx.html" title="Lynx-2.8.9rel.1">Lynx-2.8.9rel.1</a>
+          が存在しているかどうかを調べるために <a class="xref" href="which.html" title=
+          "Which-2.21 と別の実現方法">Which-2.21</a> を用いています。
+          三つのプログラムのいずれかを使って、最新のデータファイルをダウンロードするものです。 ダウンロードが出来たら <code class=
+          "filename">/usr/share/hwdata</code> ディレクトリ配下にあるファイルが上書きされます。
+        </p>
+        <p>
+          You should update the <code class=
+          "filename">/usr/share/hwdata/pci.ids</code> file periodically.
+          <span class="phrase">If you've installed <a class="xref" href=
+          "fcron.html" title="Fcron-3.2.1">Fcron-3.2.1</a> and completed the
+          section on periodic jobs, execute</span> the following commands, as
+          the <code class="systemitem">root</code> user, to create a
+          <span class="phrase">weekly cron job:</span>
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; /etc/cron.weekly/update-pciids.sh &lt;&lt; "EOF" &amp;&amp;
+<code class="literal">#!/bin/bash
+/usr/sbin/update-pciids</code>
+EOF
+chmod 754 /etc/cron.weekly/update-pciids.sh</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">lspci, setpci, update-pciids</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libpci.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/pci, /usr/share/hwdata</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lspci" name="lspci"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lspci</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a utility for displaying information about all PCI
+                    buses in the system and all devices connected to them
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="setpci" name="setpci"></a><span class=
+                    "term"><span class=
+                    "command"><strong>setpci</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a utility for querying and configuring PCI devices
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="update-pciids" name=
+                    "update-pciids"></a><span class="term"><span class=
+                    "command"><strong>update-pciids</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    fetches the current version of the PCI ID list.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libpci" name="libpci"></a><span class=
+                    "term"><code class="filename">libpci.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a library that allows applications to access the PCI
+                    subsystem
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="pax.html" title="Pax-20201030">戻る</a>
+          <p>
+            Pax-20201030
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="pm-utils.html" title="pm-utils-1.4.1">次へ</a>
+          <p>
+            pm-utils-1.4.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="sysutils.html" title=
+          "第12章 システムユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

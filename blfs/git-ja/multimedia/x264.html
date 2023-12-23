@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      x264-20230215
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第42章 マルチメディアライブラリとドライバー
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="wireplumber.html" title=
+          "Wireplumber-0.4.17">戻る</a>
+          <p>
+            Wireplumber-0.4.17
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="x265.html" title="x265-20230215">次へ</a>
+          <p>
+            x265-20230215
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="libdriv.html" title=
+          "第42章 マルチメディアライブラリとドライバー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="x264" name="x264"></a>x264-20230215
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          x264 の概要
+        </h2>
+        <p>
+          <span class="application">x264</span> パッケージは、ビデオストリーミングを
+          H.264/MPEG-4 AVC フォーマットにエンコードするライブラリを提供します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://anduin.linuxfromscratch.org/BLFS/x264/x264-20230215.tar.xz">
+                https://anduin.linuxfromscratch.org/BLFS/x264/x264-20230215.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 24eb4eae0d6358f31228c9ff86046c6f
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 673 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 14 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.3 SBU (Using parallelism=4)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          x264 の依存パッケージ
+        </h3>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../general/nasm.html" title=
+          "NASM-2.16.01">NASM-2.16.01</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="ulink" href="https://github.com/FFMS/ffms2">ffms2</a>,
+          <a class="ulink" href=
+          "https://github.com/gpac/gpac/releases/">gpac</a> または <a class=
+          "ulink" href="https://github.com/l-smash/l-smash">liblsmash</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          x264 の概要
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">x264</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr \
+            --enable-shared \
+            --disable-cli &amp;&amp;
+make</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--disable-cli</code></em>:
+          本スイッチはコマンドライン版のエンコーダーをビルドしないようにします。 そのエンコーダーは FFmpeg
+          が取り扱う入力フォーマットをほぼ取り扱うため、冗長となるからです。
+        </p>
+        <p>
+          <code class="option">--disable-asm</code>: 本スイッチは NASM
+          をインストールしていない場合に指定します。
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libx264.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libx264" name="libx264"></a><span class=
+                    "term"><code class="filename">libx264.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ビデオストリームを H.264/MPEG-4 AVC フォーマットにエンコードするための関数を提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="wireplumber.html" title=
+          "Wireplumber-0.4.17">戻る</a>
+          <p>
+            Wireplumber-0.4.17
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="x265.html" title="x265-20230215">次へ</a>
+          <p>
+            x265-20230215
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="libdriv.html" title=
+          "第42章 マルチメディアライブラリとドライバー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

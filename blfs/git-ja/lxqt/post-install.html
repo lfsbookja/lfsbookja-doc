@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      LXQt Desktop Final Instructions
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第37章 LXQt Desktop
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="lxqt-runner.html" title=
+          "lxqt-runner-1.4.0">戻る</a>
+          <p>
+            lxqt-runner-1.4.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="lxqt-apps.html" title="LXQt アプリケーション">次へ</a>
+          <p>
+            LXQt アプリケーション
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="lxqt-desktop.html" title=
+          "第37章 LXQt Desktop">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="lxqt-post-install" name="lxqt-post-install"></a>LXQt Desktop
+        Final Instructions
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Post-Install Instructions
+        </h2>
+        <p>
+          Please follow these instructions before starting <span class=
+          "application">LXQt</span> for the first time.
+        </p>
+        <h3>
+          Dependencies to Start LXQt
+        </h3>
+        <h4>
+          Required
+        </h4>
+        <p class="required">
+          <a class="xref" href="../x/openbox.html" title=
+          "openbox-3.6.1">openbox-3.6.1</a>, or another window manager, such
+          as <a class="xref" href="../xfce/xfwm4.html" title=
+          "Xfwm4-4.18.0">Xfwm4-4.18.0</a>, or kwin from <a class="xref" href=
+          "../kde/plasma-all.html" title="Plasma 5 のビルド">Plasma-5.27.10</a>.
+          Note that <a class="xref" href="../x/icewm.html" title=
+          "IceWM-3.4.4">IceWM-3.4.4</a> is not suitable for LXQt.
+        </p>
+        <h4>
+          Recommended
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../x/breeze-icons.html" title=
+          "breeze-icons-5.113.0">breeze-icons-5.113.0</a> and <a class="xref"
+          href="../general/desktop-file-utils.html" title=
+          "desktop-file-utils-0.27">desktop-file-utils-0.27</a>
+        </p>
+        <h4>
+          Optional
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../x/lightdm.html" title=
+          "lightdm-1.32.0">lightdm-1.32.0</a> or another Display Manager,
+          e.g. <a class="xref" href="../x/sddm.html" title=
+          "sddm-0.20.0">sddm-0.20.0</a>, and <a class="xref" href=
+          "../xsoft/xscreensaver.html" title=
+          "XScreenSaver-6.08">XScreenSaver-6.08</a>
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Final Configuration
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="lxqt-final-updates" name="lxqt-final-updates"></a>
+          </h3>
+          <h4 class="title">
+            <a id="lxqt-final-updates" name="lxqt-final-updates"></a>LXQt
+            Final Database Updates
+          </h4>
+          <p>
+            The desktop databases need to be created or updated at this
+            point. Run the following commands as the <code class=
+            "systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">ldconfig                             &amp;&amp;
+update-mime-database /usr/share/mime &amp;&amp;
+xdg-icon-resource forceupdate        &amp;&amp;
+update-desktop-database -q</kbd></pre>
+        </div>
+      </div>
+      <div class="starting" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Starting LXQt
+        </h2>
+        <p>
+          You can start <span class="application">LXQt</span> from runlevel
+          3, using <a class="xref" href="../x/xinit.html" title=
+          "xinit-1.4.2">xinit-1.4.2</a>, or from runlevel 5, using a Display
+          Manager, such as <a class="xref" href="../x/lightdm.html" title=
+          "lightdm-1.32.0">lightdm-1.32.0</a>.
+        </p>
+        <p>
+          To start <span class="application">LXQt</span> using <a class=
+          "xref" href="../x/xinit.html" title="xinit-1.4.2">xinit-1.4.2</a>,
+          run the following commands:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; ~/.xinitrc &lt;&lt; "EOF"
+<code class="literal">exec startlxqt</code>
+EOF
+
+startx</kbd></pre>
+        <p>
+          The X session starts on the first unused virtual terminal, normally
+          vt1. You can switch to another vt<span class=
+          "emphasis"><em>n</em></span> by simultaneously pressing the keys
+          Ctrl-Alt-F<span class="emphasis"><em>n</em></span> (<span class=
+          "emphasis"><em>n</em></span>=2, 3, ...). To switch back to the X
+          session, normally started at vt1, use Ctrl-Alt-F1. The vt where the
+          command <span class="command"><strong>startx</strong></span> was
+          executed will display many messages, including X starting messages,
+          applications automatically started with the session, and
+          eventually, some warning and error messages, but these are hidden
+          by the graphical interface. You may prefer to redirect those
+          messages to a log file, which can be used for debugging purposes.
+          This can be done starting X with:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">startx &amp;&gt; ~/.x-session-errors</kbd></pre>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Initial Configuration
+        </h2>
+        <p>
+          When LXQt first starts, it will ask you for the window manager to
+          use. To start, the BLFS editors recommend using <span class=
+          "application">openbox</span>. At this point both the background and
+          the panel will be black. Right clicking on the background will
+          bring up a menu and selecting "Desktop Preferences" will allow you
+          to change the background color or set a background image.
+        </p>
+        <p>
+          The panel will be at the bottom of the screen. Right clicking on
+          the panel will bring up a menu that will allow you to customize the
+          panel including adding widgets and setting the background color.
+          The BLFS editors recommend installing, at a minimum, the
+          Application Manager and Task Manager widgets.
+        </p>
+        <p>
+          After LXQt has started for the first time, the BLFS editors
+          recommend going through the settings presented in the LXQt
+          Configuration Center, which can be found under LXQt Settings in the
+          Preferences menu of the application launcher.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            The user configuration files will be created in the directory
+            $HOME/.config/lxqt/. To get widget icons to display properly, the
+            lxqt.conf file may need to be manually edited to include the line
+            "icon_theme=oxygen".
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="lxqt-runner.html" title=
+          "lxqt-runner-1.4.0">戻る</a>
+          <p>
+            lxqt-runner-1.4.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="lxqt-apps.html" title="LXQt アプリケーション">次へ</a>
+          <p>
+            LXQt アプリケーション
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="lxqt-desktop.html" title=
+          "第37章 LXQt Desktop">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

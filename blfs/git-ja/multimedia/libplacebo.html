@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      libplacebo-6.338.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第42章 マルチメディアライブラリとドライバー
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libogg.html" title="libogg-1.3.5">戻る</a>
+          <p>
+            libogg-1.3.5
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libquicktime.html" title=
+          "libquicktime-1.2.4">次へ</a>
+          <p>
+            libquicktime-1.2.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="libdriv.html" title=
+          "第42章 マルチメディアライブラリとドライバー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="libplacebo" name="libplacebo"></a>libplacebo-6.338.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to libplacebo
+        </h2>
+        <p>
+          The <span class="application">libplacebo</span> package contains a
+          library for processing image and video primitives and shaders. It
+          also includes a high quality rendering pipeline that supports
+          OpenGL and Vulkan.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://github.com/haasn/libplacebo/archive/refs/tags/v6.338.1/libplacebo-6.338.1.tar.gz">
+                https://github.com/haasn/libplacebo/archive/refs/tags/v6.338.1/libplacebo-6.338.1.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: 0b92af743309c406e214e28c7b99a082
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 824 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 41 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: 0.4 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          libplacebo Dependencies
+        </h3>
+        <h4>
+          Required
+        </h4>
+        <p class="required">
+          <a class="xref" href="ffmpeg.html" title=
+          "FFmpeg-6.1">FFmpeg-6.1</a> and <a class="xref" href=
+          "../general/glad.html" title="Glad-2.0.4">Glad-2.0.4</a>
+        </p>
+        <h4>
+          Recommended
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../x/glslang.html" title=
+          "Glslang-13.1.1">Glslang-13.1.1</a> and <a class="xref" href=
+          "../x/vulkan-loader.html" title=
+          "Vulkan-Loader-1.3.273">Vulkan-Loader-1.3.273</a>
+        </p>
+        <h4>
+          Optional
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/lcms2.html" title=
+          "Little CMS-2.14">Little CMS-2.14</a> <a class="xref" href=
+          "../general/libunwind.html" title=
+          "libunwind-1.6.2">libunwind-1.6.2</a>, <a class="ulink" href=
+          "https://github.com/quietvoid/dovi_tool/">dovi_tool</a>, <a class=
+          "ulink" href=
+          "https://github.com/Immediate-Mode-UI/Nuklear">Nuklear</a>, and
+          <a class="ulink" href=
+          "https://github.com/Cyan4973/xxHash">xxHash</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of libplacebo
+        </h2>
+        <p>
+          Install <span class="application">libplacebo</span> by running the
+          following commands:
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+meson setup --prefix=/usr       \
+            --buildtype=release \
+            -Dtests=true        \
+            -Ddemos=false ..    &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          To test the results, issue: <span class="command"><strong>ninja
+          test</strong></span>.
+        </p>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">ninja install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <em class="parameter"><code>--buildtype=release</code></em>:
+          本パッケージの安定版リリース向けに適したビルドタイプを指定します。
+          デフォルトにしていると、最適化されていないバイナリを生成する場合があるためです。
+        </p>
+        <p>
+          <em class="parameter"><code>-Ddemos=false</code></em>: This switch
+          disables building the demo programs because building <span class=
+          "application">plplay</span> is currently broken.
+        </p>
+        <p>
+          <em class="parameter"><code>-Dtests=true</code></em>: This switch
+          enables building the code necessary to run the tests.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">None</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">libplacebo.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody">/usr/include/libplacebo</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libplacebo-lib" name=
+                    "libplacebo-lib"></a><span class="term"><code class=
+                    "filename">libplacebo.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    processes image and video primitives and shaders and
+                    provides a high quality rendering pipeline for OpenGL and
+                    Vulkan
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libogg.html" title="libogg-1.3.5">戻る</a>
+          <p>
+            libogg-1.3.5
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libquicktime.html" title=
+          "libquicktime-1.2.4">次へ</a>
+          <p>
+            libquicktime-1.2.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="libdriv.html" title=
+          "第42章 マルチメディアライブラリとドライバー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

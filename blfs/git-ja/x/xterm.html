@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      xterm-388
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第24章 グラフィック環境
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="twm.html" title="twm-1.0.12">戻る</a>
+          <p>
+            twm-1.0.12
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="xclock.html" title="xclock-1.1.1">次へ</a>
+          <p>
+            xclock-1.1.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="installing.html" title=
+          "第24章 グラフィック環境">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="xterm2" name="xterm2"></a>xterm-388
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          xterm の概要
+        </h2>
+        <p>
+          <span class="application">xterm</span> は、X
+          ウィンドウシステムに対する端末エミュレーターです。
+        </p>
+        <p>
+          本パッケージは、Xorg のインストールが完成した際のテストのために提供されています。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://invisible-mirror.net/archives/xterm/xterm-388.tgz">https://invisible-mirror.net/archives/xterm/xterm-388.tgz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 068e86503421adfd779b40fa522f6364
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1.5 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 14 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.2 SBU (with parallelism=4)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          xterm の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="x7app.html" title="Xorg アプリケーション">Xorg
+          アプリケーション</a>
+        </p>
+        <h4>
+          必須 (実行時)
+        </h4>
+        <p class="required">
+          A monospace TTF or OTF font such as <a class="xref" href=
+          "TTF-and-OTF-fonts.html#dejavu-fonts" title="DejaVu fonts">Dejavu
+          fonts</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../postlfs/emacs.html" title=
+          "Emacs-29.1">Emacs-29.1</a>, <a class="xref" href=
+          "../general/pcre.html" title="PCRE-8.45">PCRE-8.45</a> or <a class=
+          "xref" href="../general/pcre2.html" title=
+          "PCRE2-10.42">pcre2-10.42</a>, <a class="xref" href=
+          "../general/valgrind.html" title=
+          "Valgrind-3.22.0">Valgrind-3.22.0</a>, <a class="ulink" href=
+          "https://www.nongnu.org/man2html/">man2html</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          xterm のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">xterm</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i '/v0/{n;s/new:/new:kb=^?:/}' termcap &amp;&amp;
+printf '\tkbs=\\177,\n' &gt;&gt; terminfo &amp;&amp;
+
+TERMINFO=/usr/share/terminfo \
+./configure $XORG_CONFIG     \
+    --with-app-defaults=/etc/X11/app-defaults &amp;&amp;
+
+make</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install    &amp;&amp;
+make install-ti &amp;&amp;
+
+mkdir -pv /usr/share/applications &amp;&amp;
+cp -v *.desktop /usr/share/applications/</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <span class="command"><strong>sed -i ... termcap</strong></span>,
+          <span class="command"><strong>printf ... &gt;&gt;
+          terminfo</strong></span>: このコマンドは端末記述 (terminal description)
+          を修正します。 これはバックスペースキーが ASCII コードの 127 を送信するようにするもので Linux
+          コンソールとして一貫したものとします。
+        </p>
+        <p>
+          <code class="envar">TERMINFO=/usr/share/terminfo</code>:
+          <span class="command"><strong>xterm</strong></span> の terminfo
+          ファイルをシステム terminfo データベースにインストールするようにします。
+        </p>
+        <p>
+          <em class="parameter"><code>--with-app-defaults=...</code></em>:
+          <code class="filename">app-defaults</code> ディレクトリを設定します。
+        </p>
+        <p>
+          <span class="command"><strong>make install-ti</strong></span>:
+          本コマンドは <span class="application">xterm</span> にて用いられる terminfo
+          記述ファイルを適正なものにします。
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          xterm の設定
+        </h2>
+        <p>
+          xterm の設定方法は二通りあります。 X リソースの定義はユーザー向けとして <code class=
+          "filename">~/.Xresources</code> ファイルに設定することができます。 またはシステムワイドな
+          <code class=
+          "filename">$XORG_PREFIX/share/X11/app-defaults/Xterm</code>
+          ファイルに設定することもできます。
+        </p>
+        <p>
+          xterm が適切にロケール設定に従うように、フォントは TrueType を用います。 バックスペースキーの送信コードは Linux
+          の慣例に従います。 <code class="systemitem">root</code> ユーザーになって以下の定義を設定します。
+        </p>
+        <pre class="root"><kbd class=
+        "command">cat &gt;&gt; /etc/X11/app-defaults/XTerm &lt;&lt; "EOF"
+<code class="literal">*VT100*locale: true
+*VT100*faceName: Monospace
+*VT100*faceSize: 10
+*backarrowKeyIsErase: true
+*ptyInitialErase: true</code>
+EOF</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">koi8rxterm, resize, uxterm, xterm</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="koi8rxterm" name="koi8rxterm"></a><span class=
+                    "term"><span class=
+                    "command"><strong>koi8rxterm</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    xterm に対して KOI8-R ロケールを設定するためのラッパースクリプト。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="resize" name="resize"></a><span class=
+                    "term"><span class=
+                    "command"><strong>resize</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    xterm ウィンドウの現サイズを示す環境変数 TERM, TERMCAP
+                    を設定するためのシェルコマンドを表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="uxterm" name="uxterm"></a><span class=
+                    "term"><span class=
+                    "command"><strong>uxterm</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ロケールを UTF-8 に変更して xterm を起動するためのラッパースクリプト。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xterm-bin" name="xterm-bin"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xterm</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    X ウィンドウシステムに対する端末エミュレーターです。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="twm.html" title="twm-1.0.12">戻る</a>
+          <p>
+            twm-1.0.12
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="xclock.html" title="xclock-1.1.1">次へ</a>
+          <p>
+            xclock-1.1.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="installing.html" title=
+          "第24章 グラフィック環境">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

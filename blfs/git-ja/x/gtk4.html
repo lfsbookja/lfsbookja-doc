@@ -1,0 +1,634 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      GTK-4.12.4
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第25章 グラフィック環境ライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gtk3.html" title="GTK+-3.24.38">戻る</a>
+          <p>
+            GTK+-3.24.38
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gtk-engines.html" title=
+          "GTK Engines-2.20.2">次へ</a>
+          <p>
+            GTK Engines-2.20.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="lib.html" title=
+          "第25章 グラフィック環境ライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="gtk4" name="gtk4"></a>GTK-4.12.4
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to GTK 4
+        </h2>
+        <p>
+          The <span class="application">GTK 4</span> package contains
+          libraries used for creating graphical user interfaces for
+          applications.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://download.gnome.org/sources/gtk/4.12/gtk-4.12.4.tar.xz">
+                https://download.gnome.org/sources/gtk/4.12/gtk-4.12.4.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: 3444d68d81583a2c1d04fea0f4144ec0
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 16 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 502 MB (with docs; add 23 MB
+                for tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: 1.3 SBU (using parallelism=4; with
+                docs; add 0.9 SBU for tests)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          GTK 4 Dependencies
+        </h3>
+        <h4>
+          Required
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/fribidi.html" title=
+          "FriBidi-1.0.13">FriBidi-1.0.13</a>, <a class="xref" href=
+          "gdk-pixbuf.html" title=
+          "gdk-pixbuf-2.42.10">gdk-pixbuf-2.42.10</a>, <a class="xref" href=
+          "graphene.html" title="Graphene-1.10.8">graphene-1.10.8</a>,
+          <a class="xref" href="../general/iso-codes.html" title=
+          "ISO Codes-4.15.0">ISO Codes-4.15.0</a>, <a class="xref" href=
+          "libepoxy.html" title="libepoxy-1.5.10">libepoxy-1.5.10</a>,
+          <a class="xref" href="../general/libxkbcommon.html" title=
+          "libxkbcommon-1.6.0">libxkbcommon-1.6.0</a>, <a class="xref" href=
+          "pango.html" title="Pango-1.50.14">Pango-1.50.14</a>, <a class=
+          "xref" href="../general/python-modules.html#pygobject3" title=
+          "PyGObject-3.46.0">PyGObject-3.46.0</a>, <a class="xref" href=
+          "../general/wayland-protocols.html" title=
+          "Wayland-Protocols-1.32">wayland-protocols-1.32</a>
+        </p>
+        <h4>
+          Recommended
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="adwaita-icon-theme.html" title=
+          "adwaita-icon-theme-45.0">adwaita-icon-theme-45.0</a> (default for
+          some gtk4 settings keys), <a class="xref" href=
+          "../multimedia/gst10-plugins-bad.html" title=
+          "gst-plugins-bad-1.22.7">gst-plugins-bad-1.22.7</a>, <a class=
+          "xref" href="../multimedia/gst10-plugins-good.html" title=
+          "gst-plugins-good-1.22.7">gst-plugins-good-1.22.7</a> (runtime,
+          built with <a class="xref" href="../multimedia/libvpx.html" title=
+          "libvpx-1.13.1">libvpx-1.13.1</a>), <a class="xref" href=
+          "hicolor-icon-theme.html" title=
+          "hicolor-icon-theme-0.17">hicolor-icon-theme-0.17</a> (needed for
+          tests and for defaults), <a class="xref" href=
+          "../general/librsvg.html" title="librsvg-2.57.1">librsvg-2.57.1</a>
+        </p>
+        <h4>
+          Recommended (Required if building GNOME)
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../general/gobject-introspection.html" title=
+          "gobject-introspection-1.78.1">gobject-introspection-1.78.1</a>
+        </p>
+        <h4>
+          Optional
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/colord.html" title=
+          "Colord-1.4.6">colord-1.4.6</a>, <a class="xref" href=
+          "../pst/cups.html" title="Cups-2.4.7">Cups-2.4.7</a>, <a class=
+          "xref" href="../general/python-modules.html#docutils" title=
+          "docutils-0.20.1">docutils-0.20.1</a>, <a class="xref" href=
+          "../multimedia/ffmpeg.html" title="FFmpeg-6.1">FFmpeg-6.1</a>
+          (built with <a class="xref" href="../multimedia/libvpx.html" title=
+          "libvpx-1.13.1">libvpx-1.13.1</a>), <a class="xref" href=
+          "../general/python-modules.html#gi-docgen" title=
+          "Gi-DocGen-2023.3">Gi-DocGen-2023.3</a>, <a class="xref" href=
+          "../general/highlight.html" title=
+          "Highlight-4.10">Highlight-4.10</a> (runtime, only used by
+          <span class="command"><strong>gtk4-demo</strong></span> for syntax
+          highlighting of demo source code), <a class="xref" href=
+          "../general/libcloudproviders.html" title=
+          "libcloudproviders-0.3.5">libcloudproviders-0.3.5</a>, <a class=
+          "xref" href="../general/sassc.html" title=
+          "sassc-3.6.2">sassc-3.6.2</a>, <a class="xref" href=
+          "../gnome/tracker3.html" title="Tracker-3.6.0">Tracker-3.6.0</a>,
+          <a class="xref" href="vulkan-loader.html" title=
+          "Vulkan-Loader-1.3.273">Vulkan-Loader-1.3.273</a>, <a class="ulink"
+          href="https://github.com/OpenPrinting/cpdb-libs">cpdb</a>, and
+          <a class="ulink" href=
+          "https://wiki.gnome.org/Apps/Sysprof">sysprof</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of GTK 4
+        </h2>
+        <p>
+          Install <span class="application">GTK 4</span> by running the
+          following commands:
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+meson setup --prefix=/usr           \
+            --buildtype=release     \
+            -Dbroadway-backend=true \
+            -Dintrospection=enabled \
+            .. &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          If you have <a class="xref" href=
+          "../general/python-modules.html#gi-docgen" title=
+          "Gi-DocGen-2023.3">Gi-DocGen-2023.3</a> installed and wish to build
+          the API documentation for this package, issue:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed "s@'doc'@&amp; / 'gtk-4.12.4'@" -i ../docs/reference/meson.build &amp;&amp;
+meson configure -Ddocumentation=true                             &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          To run the tests, issue: <span class=
+          "command"><strong>dbus-run-session meson test --setup
+          x11</strong></span>. If you are in a Wayland session, replace x11
+          with wayland. Nine tests are known to fail if <a class="ulink"
+          href="https://gitlab.gnome.org/GNOME/cantarell-fonts">Cantrell
+          fonts</a> are not installed. Many tests will fail if <code class=
+          "filename">~/.config/gtk-4.0/settings.ini</code> exists and the
+          gtk-modules line is not commented out. On systems with NVIDIA
+          graphics cards, the tests may take significantly longer than the
+          above test time.
+        </p>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">ninja install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--buildtype=release</code></em>:
+          本パッケージの安定版リリース向けに適したビルドタイプを指定します。
+          デフォルトにしていると、最適化されていないバイナリを生成する場合があるためです。
+        </p>
+        <p>
+          <em class="parameter"><code>-Dbroadway-backend=true</code></em>:
+          This switch enables the HTML5 GDK backend.
+        </p>
+        <p>
+          <em class="parameter"><code>-Dintrospection=enabled</code></em>:
+          This switch enables using <a class="xref" href=
+          "../general/gobject-introspection.html" title=
+          "gobject-introspection-1.78.1">gobject-introspection-1.78.1</a> to
+          generate GIR bindings of this packages. These bindings are required
+          by GNOME.
+        </p>
+        <p>
+          <code class="option">-Dcloudproviders=enabled</code>: Use this
+          switch if you have <a class="xref" href=
+          "../general/libcloudproviders.html" title=
+          "libcloudproviders-0.3.5">libcloudproviders-0.3.5</a> installed and
+          wish to enable support for cloud providers in a file chooser
+          window.
+        </p>
+        <p>
+          <code class="option">-Dtracker=enabled</code>: Use this switch if
+          you have <a class="xref" href="../gnome/tracker3.html" title=
+          "Tracker-3.6.0">Tracker-3.6.0</a> installed and wish to use search
+          functionality when running a file chooser.
+        </p>
+        <p>
+          <code class="option">-Dcolord=enabled</code>: Use this switch if
+          you have <a class="xref" href="../general/colord.html" title=
+          "Colord-1.4.6">colord-1.4.6</a> installed and wish to use colord
+          with the CUPS printing backend.
+        </p>
+        <p>
+          <code class="option">-Dman-pages=true</code>: Use this switch if
+          you have <a class="xref" href=
+          "../general/python-modules.html#docutils" title=
+          "docutils-0.20.1">docutils-0.20.1</a> installed and wish to
+          generate the man pages.
+        </p>
+        <p>
+          <code class="option">-Dsysprof=enabled</code>: Use this switch if
+          you have <a class="ulink" href=
+          "https://wiki.gnome.org/Apps/Sysprof">sysprof</a> installed and
+          wish to enable tracing support for GTK4-based applications.
+        </p>
+        <p>
+          <code class="option">-Dvulkan=enabled</code>: Use this switch if
+          you have <a class="xref" href="vulkan-loader.html" title=
+          "Vulkan-Loader-1.3.273">Vulkan-Loader-1.3.273</a> installed and
+          wish to build the experimental Vulkan backend. Note that you must
+          have <a class="ulink" href=
+          "https://github.com/google/shaderc/blob/main/downloads.md">glslc</a>
+          installed if you decide to enable this option.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Configuring GTK 4
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="gtk4-config" name="gtk4-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="gtk4-config" name="gtk4-config"></a>Config Files
+          </h4>
+          <p>
+            <code class="filename">~/.config/gtk-4.0/settings.ini</code> and
+            <code class="filename">/usr/share/gtk-4.0/settings.ini</code>
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id68024" name="id68024"></a>Configuration Information
+          </h4>
+          <p>
+            <span class="application">GTK 4</span> themes change the way a
+            <span class="application">GTK 4</span> application looks. An icon
+            theme can be used to change the icons that appear on the
+            application's toolbar. If you have installed a <span class=
+            "application">GTK 4</span> theme (e.g. the Adwaita theme built in
+            <span class="application">GTK 4</span>), an icon theme (such as
+            <a class="xref" href="oxygen-icons.html" title=
+            "oxygen-icons-5.113.0">oxygen-icons-5.113.0</a>) and/or a font
+            (<a class="xref" href="TTF-and-OTF-fonts.html#dejavu-fonts"
+            title="DejaVu fonts">Dejavu fonts</a>), you can set your
+            preferences in <code class=
+            "filename">~/.config/gtk-4.0/settings.ini</code>, or the default
+            system-wide configuration file (as the <code class=
+            "systemitem">root</code> user), in <code class=
+            "filename">/usr/share/gtk-4.0/settings.ini</code>. For the local
+            user, an example is:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">mkdir -pv ~/.config/gtk-4.0
+cat &gt; ~/.config/gtk-4.0/settings.ini &lt;&lt; "EOF"
+<code class="literal">[Settings]
+gtk-theme-name = <em class="replaceable"><code>Adwaita</code></em>
+gtk-icon-theme-name = <em class="replaceable"><code>oxygen</code></em>
+gtk-font-name = <em class="replaceable"><code>DejaVu Sans 12</code></em>
+gtk-cursor-theme-size = <em class="replaceable"><code>18</code></em>
+gtk-xft-antialias = <em class="replaceable"><code>1</code></em>
+gtk-xft-hinting = <em class="replaceable"><code>1</code></em>
+gtk-xft-hintstyle = <em class="replaceable"><code>hintslight</code></em>
+gtk-xft-rgba = <em class="replaceable"><code>rgb</code></em>
+gtk-cursor-theme-name = <em class=
+"replaceable"><code>Adwaita</code></em></code>
+EOF</kbd></pre>
+          <p>
+            There are many settings keys, some with default values. You can
+            find them at <a class="ulink" href=
+            "https://developer.gnome.org/gtk4/stable/GtkSettings.html">Settings:
+            GTK 4 Reference Manual</a>.
+          </p>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">gtk4-broadwayd, gtk4-builder-tool,
+              gtk4-demo, gtk4-demo-application, gtk4-encode-symbolic-svg,
+              gtk4-icon-browser, gtk4-launch, gtk4-node-editor,
+              gtk4-print-editor, gtk4-query-settings, gtk4-update-icon-cache,
+              gtk4-widget-factory</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">libgtk-4.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody">/usr/include/gtk-4.0, /usr/lib/gtk-4.0,
+              /usr/share/gtk-4.0</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gtk4-broadwayd" name=
+                    "gtk4-broadwayd"></a><span class="term"><span class=
+                    "command"><strong>gtk4-broadwayd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides support for displaying GTK 4 applications in a
+                    web browser using HTML5 and web sockets
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gtk4-builder-tool" name=
+                    "gtk4-builder-tool"></a><span class="term"><span class=
+                    "command"><strong>gtk4-builder-tool</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    performs various operations on GtkBuilder .ui files
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gtk4-demo" name="gtk4-demo"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gtk4-demo</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a simple program that demonstrates some of the tasks
+                    that can be done with GTK 4
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gtk4-demo-application" name=
+                    "gtk4-demo-application"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gtk4-demo-application</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a simple GTK 4 application which is useful for testing
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gtk4-encode-symbolic-svg" name=
+                    "gtk4-encode-symbolic-svg"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gtk4-encode-symbolic-svg</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    converts symbolic SVG icons into special PNG files. GTK 4
+                    can load and recolor these PNGs, just like original SVGs,
+                    but loading them is much faster
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gtk4-icon-browser" name=
+                    "gtk4-icon-browser"></a><span class="term"><span class=
+                    "command"><strong>gtk4-icon-browser</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a utility to explore the icons in the current icon
+                    theme. It shows icons in various sizes, their symbolic
+                    variants when available, as well as a description of the
+                    icon and its context
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gtk4-launch" name="gtk4-launch"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gtk4-launch</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    launches an application using the given name. The name
+                    should match the application .desktop file name (as seen
+                    in <code class=
+                    "filename">/usr/share/applications</code>), with or
+                    without the '.desktop' extension
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gtk4-node-editor" name=
+                    "gtk4-node-editor"></a><span class="term"><span class=
+                    "command"><strong>gtk4-node-editor</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a utility to show and edit render node files. Such
+                    render node files can be obtained e.g. from the GTK
+                    inspector
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gtk4-print-editor" name=
+                    "gtk4-print-editor"></a><span class="term"><span class=
+                    "command"><strong>gtk4-print-editor</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a simple program to demonstrate printing using GTK 4
+                    applications
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gtk4-query-settings" name=
+                    "gtk4-query-settings"></a><span class="term"><span class=
+                    "command"><strong>gtk4-query-settings</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides a complete listing of all settings related to
+                    GTK 4
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gtk4-update-icon-cache" name=
+                    "gtk4-update-icon-cache"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gtk4-update-icon-cache</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is an icon theme caching utility that creates mmap()able
+                    cache files for icon themes
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gtk4-widget-factory" name=
+                    "gtk4-widget-factory"></a><span class="term"><span class=
+                    "command"><strong>gtk4-widget-factory</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a program to view GTK 4 themes and widgets
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libgtk-4" name="libgtk-4"></a><span class=
+                    "term"><code class="filename">libgtk-4.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains functions that provide an API to implement
+                    graphical user interfaces
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gtk3.html" title="GTK+-3.24.38">戻る</a>
+          <p>
+            GTK+-3.24.38
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gtk-engines.html" title=
+          "GTK Engines-2.20.2">次へ</a>
+          <p>
+            GTK Engines-2.20.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="lib.html" title=
+          "第25章 グラフィック環境ライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

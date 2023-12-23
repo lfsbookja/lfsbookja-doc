@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      lmdb-0.9.31
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第22章 データベース
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="upgradedb.html" title=
+          "Database サーバーソフトウェアのアップグレードに関する重要事項">戻る</a>
+          <p>
+            Database サーバーソフトウェアのアップグレードに関する重要事項
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="mariadb.html" title="MariaDB-10.11.6">次へ</a>
+          <p>
+            MariaDB-10.11.6
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="databases.html" title="第22章 データベース">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="lmdb" name="lmdb"></a>lmdb-0.9.31
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to lmdb
+        </h2>
+        <p>
+          The <span class="application">lmdb</span> package is a fast,
+          compact, key-value embedded data store. It uses memory-mapped
+          files, so it has the read performance of a pure in-memory database
+          while still offering the persistence of standard disk-based
+          databases, and is only limited to the size of the virtual address
+          space
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://github.com/LMDB/lmdb/archive/LMDB_0.9.31.tar.gz">https://github.com/LMDB/lmdb/archive/LMDB_0.9.31.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: 9d7f059b1624d0a4d4b2f1781d08d600
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 144 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 4.7 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: less than 0.1 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of lmdb
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            This package extracts to lmdb-LMDB_0.9.31.
+          </p>
+        </div>
+        <p>
+          Install <span class="application">lmdb</span> by running the
+          following commands:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cd libraries/liblmdb &amp;&amp;
+make                 &amp;&amp;
+sed -i 's| liblmdb.a||' Makefile</kbd></pre>
+        <p>
+          This package does not come with a test suite.
+        </p>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">make prefix=/usr install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <span class="command"><strong>sed ... liblmdb.a ...
+          Makefile</strong></span>: The package executables use a static
+          library so it must be created. This command suppresses installation
+          of the static library.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Program:</strong>
+              <span class="segbody">mdb_copy, mdb_dump, mdb_load, and
+              mdb_stat</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Library:</strong>
+              <span class="segbody">liblmdb.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody">None</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="upgradedb.html" title=
+          "Database サーバーソフトウェアのアップグレードに関する重要事項">戻る</a>
+          <p>
+            Database サーバーソフトウェアのアップグレードに関する重要事項
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="mariadb.html" title="MariaDB-10.11.6">次へ</a>
+          <p>
+            MariaDB-10.11.6
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="databases.html" title="第22章 データベース">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

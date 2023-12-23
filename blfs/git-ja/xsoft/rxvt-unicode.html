@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      rxvt-unicode-9.31
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第41章 X ベースのその他のプログラム
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="rox-filer.html" title=
+          "Rox-Filer-2.11">戻る</a>
+          <p>
+            Rox-Filer-2.11
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="thunderbird.html" title=
+          "Thunderbird-115.5.1">次へ</a>
+          <p>
+            Thunderbird-115.5.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="other.html" title=
+          "第41章 X ベースのその他のプログラム">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="rxvt-unicode" name="rxvt-unicode"></a>rxvt-unicode-9.31
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          rxvt-unicode の概要
+        </h2>
+        <p>
+          <span class="application">rxvt-unicode</span> は端末エミュレーター
+          <span class="application">rxvt</span> のクローンです。 X
+          ウィンドウシステムにおける端末エミュレーターであり、XFT や Unicode のサポートを含みます。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            Please be aware that <span class=
+            "application">rxvt-unicode</span> is affected by an issue in
+            <span class="application">perl</span> where the SIGFPE handler is
+            set to SIG_IGN (i.e. the signal is ignored). If you are building
+            an LFS system from within <span class=
+            "command"><strong>urxvt</strong></span> and running the test
+            suites, tests in <span class="application">bash</span> and
+            <span class="application">check</span> which test raising this
+            signal will fail.
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "http://dist.schmorp.de/rxvt-unicode/Attic/rxvt-unicode-9.31.tar.bz2">
+                http://dist.schmorp.de/rxvt-unicode/Attic/rxvt-unicode-9.31.tar.bz2</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 3d0ec83705c9b9ff301a4b9965b3cd9f
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 860 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 22 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.2 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          rxvt-unicode の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/libptytty.html" title=
+          "libptytty-2.0">libptytty-2.0</a>, <a class="xref" href=
+          "../x/installing.html" title="第24章 グラフィック環境">グラフィック環境</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../x/gdk-pixbuf.html" title=
+          "gdk-pixbuf-2.42.10">gdk-pixbuf-2.42.10</a> (バックグラウンドイメージのため),
+          <a class="xref" href="../x/startup-notification.html" title=
+          "startup-notification-0.12">startup-notification-0.12</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          rxvt-unicode のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">rxvt-unicode</span>
+          をインストールします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr --enable-everything &amp;&amp;
+make</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--enable-everything</code></em>: Add
+          support for all non-multichoice options. Details about the
+          different options can be found in the file <code class=
+          "filename">README.configure</code>.
+        </p>
+        <p>
+          <code class="option">--disable-xft</code>: Xft フォントへのサポートを無効にします。
+        </p>
+        <p>
+          <code class="option">--disable-perl</code>: 埋め込みの <span class=
+          "application">Perl</span> インタープリターを無効にします。
+        </p>
+        <p>
+          <code class="option">--disable-afterimage</code>: libAfterImage
+          へのサポートを無効にします。
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          rxvt-unicode の設定
+        </h2>
+        <p>
+          The <span class="application">rxvt-unicode</span> terminal emulator
+          uses the resource class <code class="classname">URxvt</code> and
+          the resource name <code class="classname">urxvt</code>. You can add
+          X resource definitions to a user's <code class=
+          "filename">~/.Xresources</code> or <code class=
+          "filename">~/.Xdefaults</code> files or to the system-wide
+          <code class="filename">/etc/X11/app-defaults/URxvt</code> file. The
+          following example will load the <code class=
+          "classname">matcher</code> <span class="application">Perl</span>
+          extension (assuming <span class="application">Perl</span> support
+          wasn't disabled), which enables a left button click to open an
+          underlined URL in the specified browser, sets a background and
+          foreground color and loads an Xft font (as the <code class=
+          "systemitem">root</code> user):
+        </p>
+        <pre class="root"><kbd class=
+        "command">cat &gt;&gt; /etc/X11/app-defaults/URxvt &lt;&lt; "EOF"
+<code class=
+"literal">! Use the specified colour as the windows background colour [default white]
+URxvt*background: black
+
+! Use the specified colour as the windows foreground colour [default black]
+URxvt*foreground: yellow
+
+! Select the fonts to be used. This is a comma separated list of font names
+URxvt*font: xft:Monospace:pixelsize=18
+
+! Comma-separated list(s) of perl extension scripts (default: "default")
+URxvt*perl-ext: matcher
+
+! Specifies the program to be started with a URL argument. Used by
+URxvt*url-launcher: firefox
+
+! When clicked with the mouse button specified in the "matcher.button" resource
+! (default 2, or middle), the program specified in the "matcher.launcher"
+! resource (default, the "url-launcher" resource, "sensible-browser") will be
+! started with the matched text as first argument.
+! Below, default modified to mouse left button.
+URxvt*matcher.button:     1</code>
+EOF</kbd></pre>
+        <p>
+          In order to view the defined X resources, issue:
+        </p>
+        <pre class="userinput"><kbd class="command">xrdb -query</kbd></pre>
+        <p>
+          In order to add the modifications of the new user configuration
+          file, keeping previously X configurations (of course, unless you
+          are changing any on previously define), issue:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">xrdb -merge ~/.Xresources</kbd></pre>
+        <p>
+          The <span class="application">rxvt-unicode</span> application can
+          also run in a daemon mode, which makes it possible to open multiple
+          terminal windows within the same process. The <span class=
+          "command"><strong>urxvtc</strong></span> client then connects to
+          the <span class="command"><strong>urxvtd</strong></span> daemon and
+          requests a new terminal window. Use this option with caution. If
+          the daemon crashes, all the running processes in the terminal
+          windows are terminated.
+        </p>
+        <p>
+          You can start the <span class=
+          "command"><strong>urxvtd</strong></span> daemon in the system or
+          personal startup <span class="command"><strong>X</strong></span>
+          session script (e.g., <code class="filename">~/.xinitrc</code>) by
+          adding the following lines near the top of the script:
+        </p>
+        <pre class="userinput"><kbd class="command"><code class=
+        "literal"># Start the urxvtd daemon
+urxvtd -q -f -o &amp;</code></kbd></pre>
+        <p>
+          For more information, examine the <span class=
+          "command"><strong>urxvt</strong></span>, <span class=
+          "command"><strong>urxvtd</strong></span>, <span class=
+          "command"><strong>urxvtc</strong></span>, and <code class=
+          "filename">urxvtperl</code> man pages.
+        </p>
+        <p>
+          If you use a Desktop Environment, a menu entry can be included,
+          issuing, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">cat &gt; /usr/share/applications/urxvt.desktop &lt;&lt; "EOF" &amp;&amp;
+<code class="literal">[Desktop Entry]
+Encoding=UTF-8
+Name=Rxvt-Unicode Terminal
+Comment=Use the command line
+GenericName=Terminal
+Exec=urxvt
+Terminal=false
+Type=Application
+Icon=utilities-terminal
+Categories=GTK;Utility;TerminalEmulator;
+#StartupNotify=true
+Keywords=console;command line;execute;</code>
+EOF
+
+update-desktop-database -q</kbd></pre>
+        <p>
+          For that, you need <a class="xref" href=
+          "../general/desktop-file-utils.html" title=
+          "desktop-file-utils-0.27">desktop-file-utils-0.27</a> and at least
+          one of <a class="xref" href="../x/gnome-icon-theme.html" title=
+          "gnome-icon-theme-3.12.0">gnome-icon-theme-3.12.0</a>, <a class=
+          "xref" href="../x/oxygen-icons.html" title=
+          "oxygen-icons-5.113.0">oxygen-icons-5.113.0</a> and <a class="xref"
+          href="../x/lxde-icon-theme.html" title=
+          "lxde-icon-theme-0.5.1">lxde-icon-theme-0.5.1</a>. Uncomment the
+          line with <span class="quote">「<span class=
+          "quote">StartupNotify=true</span>」</span> if <a class="xref" href=
+          "../x/startup-notification.html" title=
+          "startup-notification-0.12">startup-notification-0.12</a> is
+          installed.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">urxvt, urxvtd, urxvtc</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody"><code class="filename">/usr/lib/urxvt/perl</code>
+              配下に数多くの <span class="application">Perl</span> 拡張ライブラリ。</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/lib/urxvt</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="urxvt-bin" name="urxvt-bin"></a><span class=
+                    "term"><span class=
+                    "command"><strong>urxvt</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    X ウィンドウシステムにおける端末エミュレーター。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="urxvtd" name="urxvtd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>urxvtd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>urxvt</strong></span>
+                    端末デーモン。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="urxvtc" name="urxvtc"></a><span class=
+                    "term"><span class=
+                    "command"><strong>urxvtc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>urxvtd</strong></span>
+                    デーモンを制御します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="rox-filer.html" title=
+          "Rox-Filer-2.11">戻る</a>
+          <p>
+            Rox-Filer-2.11
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="thunderbird.html" title=
+          "Thunderbird-115.5.1">次へ</a>
+          <p>
+            Thunderbird-115.5.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="other.html" title=
+          "第41章 X ベースのその他のプログラム">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

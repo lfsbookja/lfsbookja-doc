@@ -1,0 +1,632 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      sendmail-8.17.2
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第21章 メールサーバーソフトウェア
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="postfix.html" title="Postfix-3.8.3">戻る</a>
+          <p>
+            Postfix-3.8.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="databases.html" title="データベース">次へ</a>
+          <p>
+            データベース
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="mail.html" title=
+          "第21章 メールサーバーソフトウェア">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="sendmail" name="sendmail"></a>sendmail-8.17.2
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          sendmail の概要
+        </h2>
+        <p>
+          <span class="application">sendmail</span> パッケージはメール転送エージェント (Mail
+          Transport Agent; MTA) を提供します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://ftp.sendmail.org/sendmail.8.17.2.tar.gz">https://ftp.sendmail.org/sendmail.8.17.2.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: eb21e7c8a1d2a69a4597e9ce6b1cb3d5
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 2.2 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 18 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          sendmail の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="openldap.html" title=
+          "OpenLDAP-2.6.6">OpenLDAP-2.6.6</a> (クライアント)
+        </p>
+        <h4>
+          Recommended
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../postlfs/cyrus-sasl.html" title=
+          "Cyrus SASL-2.1.28">Cyrus SASL-2.1.28</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../pst/gs.html" title=
+          "ghostscript-10.02.1">ghostscript-10.02.1</a> (PDF ドキュメント生成のため),
+          <a class="xref" href="../basicnet/procmail.html" title=
+          "Procmail-3.22">Procmail-3.22</a> (the configuration proposed below
+          requires that <span class=
+          "command"><strong>procmail</strong></span> be present at run-time),
+          and <a class="ulink" href="https://github.com/chaos/nph">nph</a>
+        </p>
+        <p class="usernotes">
+          編集ノート: <a class="ulink" href=
+          "https://wiki.linuxfromscratch.org/blfs/wiki/sendmail">https://wiki.linuxfromscratch.org/blfs/wiki/sendmail</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          sendmail のインストール
+        </h2>
+        <p>
+          <span class="application">sendmail</span>
+          をビルドする前に、必要となるユーザー、グループ、ディレクトリを生成します。 <code class=
+          "systemitem">root</code> ユーザーになって以下のコマンドを実行します。
+        </p>
+        <pre class="root"><kbd class=
+        "command">groupadd -g 26 smmsp                               &amp;&amp;
+useradd -c "Sendmail Daemon" -g smmsp -d /dev/null \
+        -s /bin/false -u 26 smmsp                  &amp;&amp;
+chmod -v 1777 /var/mail                            &amp;&amp;
+install -v -m700 -d /var/spool/mqueue</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            ビルドにあたって任意のパッケージをリンクする方法については、ソースツリー内の <code class=
+            "filename">sendmail/README</code> ファイルを参照してください。
+            以下は本パッケージを利用する一つの例であり、SASLサポート、StartTLS (<span class=
+            "application">OpenSSL</span>) サポート、<span class=
+            "application">OpenLDAP</span> サポートを加えるものです。
+            もちろん必要な状況に応じて設定を変えてください。
+          </p>
+        </div>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt;&gt; devtools/Site/site.config.m4 &lt;&lt; "EOF"
+<code class=
+"literal">APPENDDEF(`confENVDEF',`-DSTARTTLS -DSASL -DLDAPMAP -DHASFLOCK')
+APPENDDEF(`confLIBS', `-lssl -lcrypto -lsasl2 -lldap -llber')
+APPENDDEF(`confINCDIRS', `-I/usr/include/sasl')</code>
+EOF</kbd></pre>
+        <p>
+          Install <span class="application">sendmail</span> with the
+          following commands:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt;&gt; devtools/Site/site.config.m4 &lt;&lt; "EOF"
+<code class="literal">define(`confMANGRP',`root')
+define(`confMANOWN',`root')
+define(`confSBINGRP',`root')
+define(`confUBINGRP',`root')
+define(`confUBINOWN',`root')</code>
+EOF
+
+sed -i 's|/usr/man/man|/usr/share/man/man|' \
+    devtools/OS/Linux           &amp;&amp;
+
+cd sendmail                     &amp;&amp;
+sh Build                        &amp;&amp;
+cd ../cf/cf                     &amp;&amp;
+cp generic-linux.mc sendmail.mc &amp;&amp;
+sh Build sendmail.cf</kbd></pre>
+        <p>
+          This package does not come with a test suite.
+        </p>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">install -v -d -m755 /etc/mail &amp;&amp;
+sh Build install-cf &amp;&amp;
+
+cd ../..            &amp;&amp;
+sh Build install    &amp;&amp;
+
+install -v -m644 cf/cf/{submit,sendmail}.mc /etc/mail &amp;&amp;
+cp -v -R cf/* /etc/mail                               &amp;&amp;
+
+install -v -m755 -d /usr/share/doc/sendmail-8.17.2/{cf,sendmail} &amp;&amp;
+
+install -v -m644 CACerts FAQ KNOWNBUGS LICENSE PGPKEYS README RELEASE_NOTES \
+        /usr/share/doc/sendmail-8.17.2 &amp;&amp;
+
+install -v -m644 sendmail/{README,SECURITY,TRACEFLAGS,TUNING} \
+        /usr/share/doc/sendmail-8.17.2/sendmail &amp;&amp;
+
+install -v -m644 cf/README /usr/share/doc/sendmail-8.17.2/cf &amp;&amp;
+
+for manpage in sendmail editmap mailstats makemap praliases smrsh
+do
+    install -v -m644 $manpage/$manpage.8 /usr/share/man/man8
+done &amp;&amp;
+
+install -v -m644 sendmail/aliases.5    /usr/share/man/man5 &amp;&amp;
+install -v -m644 sendmail/mailq.1      /usr/share/man/man1 &amp;&amp;
+install -v -m644 sendmail/newaliases.1 /usr/share/man/man1 &amp;&amp;
+install -v -m644 vacation/vacation.1   /usr/share/man/man1</kbd></pre>
+        <p>
+          Install the <span class="application">sendmail</span> Installation
+          and Operations Guide with the following commands:
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            Remove <code class="filename">op.pdf</code> from the <span class=
+            "command"><strong>make</strong></span> and <span class=
+            "command"><strong>install</strong></span> commands below if you
+            don't have <span class="application">Ghostscript</span>
+            installed.
+          </p>
+        </div>
+        <pre class="userinput"><kbd class=
+        "command">cd doc/op                                       &amp;&amp;
+sed -i 's/groff/GROFF_NO_SGR=1 groff/' Makefile &amp;&amp;
+make op.txt op.pdf</kbd></pre>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">install -v -d -m755 /usr/share/doc/sendmail-8.17.2 &amp;&amp;
+install -v -m644 op.ps op.txt op.pdf /usr/share/doc/sendmail-8.17.2 &amp;&amp;
+cd ../..</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <span class="command"><strong>cat &gt; devtools/Site/site.config.m4
+          &lt;&lt; "EOF"</strong></span>: This creates a configuration file
+          changing some of the default settings.
+        </p>
+        <p>
+          <span class="command"><strong>sed ...
+          devtools/OS/Linux</strong></span>: The site.config.m4 does not
+          honor a change to the man directory, so fix it in the OS
+          definitions.
+        </p>
+        <p>
+          <span class="command"><strong>sh Build; sh Build sendmail.cf; sh
+          Build install-cf; sh Build install</strong></span>: <span class=
+          "application">sendmail</span> uses an <span class=
+          "application">m4</span> based build script to create the various
+          <code class="filename">Makefile</code>s. These commands build and
+          install the package.
+        </p>
+        <p>
+          <span class="command"><strong>for manpage in...;do...;done; install
+          ...</strong></span>: The man pages are installed already formatted
+          and <span class="command"><strong>man</strong></span> displays them
+          somewhat garbled. These commands replace the formatted pages with
+          pages <span class="command"><strong>man</strong></span> can display
+          properly.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Configuring sendmail
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="sendmail-config" name="sendmail-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="sendmail-config" name="sendmail-config"></a>Config Files
+          </h4>
+          <p>
+            <code class="filename">/etc/mail/*</code>
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id59896" name="id59896"></a>Configuration Information
+          </h4>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              Ensure you have a fully qualified domain name defined in
+              <code class="filename">/etc/hosts</code> for your system before
+              proceeding.
+            </p>
+          </div>
+          <p>
+            Create the <code class=
+            "filename">/etc/mail/local-host-names</code> and <code class=
+            "filename">/etc/mail/aliases</code> files using the following
+            commands as the <code class="systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">echo $(hostname) &gt; /etc/mail/local-host-names
+cat &gt; /etc/mail/aliases &lt;&lt; "EOF"
+<code class="literal">postmaster: root
+MAILER-DAEMON: root</code>
+
+EOF
+# Does not work if there is no database backend compiled in:
+#newaliases</kbd></pre>
+          <p>
+            <span class="application">sendmail</span>'s primary configuration
+            file, <code class="filename">/etc/mail/sendmail.cf</code>, is
+            complex and not meant to be directly edited. The recommended
+            method for changing it is to modify <code class=
+            "filename">/etc/mail/sendmail.mc</code> and various <span class=
+            "application">m4</span> files, then run the <span class=
+            "command"><strong>m4</strong></span> macro processor from within
+            <code class="filename">/etc/mail</code> as follows:
+          </p>
+          <pre class="root"><kbd class="command">cd /etc/mail &amp;&amp;
+m4 m4/cf.m4 sendmail.mc &gt; sendmail.cf</kbd></pre>
+          <p>
+            A full explanation of the files to modify, and the available
+            parameters can be found in <code class=
+            "filename">/etc/mail/README</code>.
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="sendmail-init" name="sendmail-init"></a>
+          </h3>
+          <h4 class="title">
+            <a id="sendmail-init" name="sendmail-init"></a><span class=
+            "phrase">Boot Script</span>
+          </h4>
+          <p>
+            To automate the running of <span class=
+            "application">sendmail</span> at startup, install the
+            <span class="phrase"><code class=
+            "filename">/etc/rc.d/init.d/sendmail</code> init script</span>
+            included in the <a class="xref" href=
+            "../introduction/bootscripts.html" title=
+            "BLFS ブートスクリプト">blfs-bootscripts-20231119</a> package:
+          </p>
+          <pre class="root"><kbd class=
+          "command">make install-sendmail</kbd></pre>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              The -qNm option to <span class=
+              "command"><strong>sendmail</strong></span>, where N is number
+              of minutes, controls how often <span class=
+              "application">sendmail</span> will process the mail queue. A
+              default of 5 minutes is used in the <span class="phrase">init
+              script.</span> Individual workstation users may want to set
+              this as low as 1 minute, large installations handling more mail
+              may want to set it higher.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">editmap, mailstats, makemap, praliases,
+              sendmail, smrsh, and vacation; symlinks to /usr/sbin/sendmail:
+              hoststat, mailq, newaliases, and purgestat</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">None</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody">/etc/mail,
+              /usr/share/doc/sendmail-8.17.2, and
+              /var/spool/clientmqueue</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="editmap" name="editmap"></a><span class=
+                    "term"><span class=
+                    "command"><strong>editmap</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    queries and edits <span class=
+                    "application">sendmail</span> map files
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hoststat" name="hoststat"></a><span class=
+                    "term"><span class=
+                    "command"><strong>hoststat</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    prints <span class="application">sendmail</span>'s
+                    persistent host status
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mailstats" name="mailstats"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mailstats</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    displays <span class="application">sendmail</span>
+                    statistics
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mailq-sendmail" name=
+                    "mailq-sendmail"></a><span class="term"><span class=
+                    "command"><strong>mailq</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    prints a summary of outbound mail messages waiting for
+                    delivery
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="makemap" name="makemap"></a><span class=
+                    "term"><span class=
+                    "command"><strong>makemap</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    creates <span class="application">sendmail</span> map
+                    files
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="newaliases-sendmail" name=
+                    "newaliases-sendmail"></a><span class="term"><span class=
+                    "command"><strong>newaliases</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    rebuilds <code class=
+                    "filename">/etc/mail/aliases.db</code> from the contents
+                    of <code class="filename">/etc/mail/aliases</code>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="praliases" name="praliases"></a><span class=
+                    "term"><span class=
+                    "command"><strong>praliases</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    displays current <span class=
+                    "application">sendmail</span> aliases
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="purgestat" name="purgestat"></a><span class=
+                    "term"><span class=
+                    "command"><strong>purgestat</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    causes <span class="application">sendmail</span> to clear
+                    (purge) all its host-status information
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sendmail-prog-sendmail" name=
+                    "sendmail-prog-sendmail"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sendmail</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the <span class="application">sendmail</span> mail
+                    transport agent
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="smrsh" name="smrsh"></a><span class=
+                    "term"><span class=
+                    "command"><strong>smrsh</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a restricted shell for <span class=
+                    "application">sendmail</span>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="vacation-sendmail" name=
+                    "vacation-sendmail"></a><span class="term"><span class=
+                    "command"><strong>vacation</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is an email auto responder
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="postfix.html" title="Postfix-3.8.3">戻る</a>
+          <p>
+            Postfix-3.8.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="databases.html" title="データベース">次へ</a>
+          <p>
+            データベース
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="mail.html" title=
+          "第21章 メールサーバーソフトウェア">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,538 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Vim-9.0.2103
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第6章 テキストエディター
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="nano.html" title="Nano-7.2">戻る</a>
+          <p>
+            Nano-7.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="shells.html" title="シェル">次へ</a>
+          <p>
+            シェル
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="editors.html" title="第6章 テキストエディター">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="vim" name="vim"></a>Vim-9.0.2103
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Vim の概要
+        </h2>
+        <p>
+          <span class="application">Vim</span> は VI Improved の略です。 オリジナルの
+          <span class="command"><strong>vi</strong></span>
+          に対してさまざまな機能拡張を行い、これを提供します。
+        </p>
+        <p>
+          LFS によるインストール手順では、ベースシステムを構成するものとして <span class=
+          "application">vim</span> をインストールしています。 <span class=
+          "application">X</span> アプリケーション上にて <span class=
+          "application">vim</span> を動作させたい場合は、<span class=
+          "application">vim</span> を再コンパイルして GUI モードを利用できるようにする必要があります。
+          インストール手順は特に変わることはありません。 <span class="application">X</span>
+          サポートは自動的に検出されます。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            The version of vim changes daily. To get the latest version, go
+            to <a class="ulink" href=
+            "https://github.com/vim/vim/releases">https://github.com/vim/vim/releases</a>.
+          </p>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://anduin.linuxfromscratch.org/BLFS/vim/vim-9.0.2103.tar.xz">
+                https://anduin.linuxfromscratch.org/BLFS/vim/vim-9.0.2103.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 1af1d018026234d085a82348703461ce
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 11 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 125 MB (add 67 MB for tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.3 SBU (with parallelism=4; add 3.0 SBU for tests)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Vim の依存パッケージ
+        </h3>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../x/installing.html" title=
+          "第24章 グラフィック環境">グラフィック環境</a>, <a class="xref" href="../x/gtk3.html"
+          title="GTK+-3.24.38">GTK+-3.24.38</a>, <a class="xref" href=
+          "../basicnet/rsync.html" title="rsync-3.2.7">rsync-3.2.7</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/gpm.html" title=
+          "GPM-1.20.7">GPM-1.20.7</a>, <a class="xref" href=
+          "../general/lua.html" title="Lua-5.4.6">Lua-5.4.6</a>, <a class=
+          "xref" href="../general/ruby.html" title=
+          "Ruby-3.2.2">Ruby-3.2.2</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Vim のインストール
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            <span class="application">X</span> にリンクした <span class=
+            "application">Vim</span> を再ビルドするにあたり、<span class=
+            "application">X</span>
+            ライブラリをルートパーティション以外にインストールしていた場合、緊急時にこのエディターを利用できなくなります。
+            このことに対処するには、他のエディターをインストールするか、<span class=
+            "application">Vim</span> を <span class="application">X</span>
+            にリンクさせないようにするか、あるいは現在ある <span class=
+            "command"><strong>vim</strong></span> を <code class=
+            "filename">/bin</code> に移動させて <code class="filename">vi</code>
+            などの別名にして利用するなどの方法を取る必要があります。
+          </p>
+        </div>
+        <p>
+          以下のコマンドを実行して <span class="application">Vim</span> をビルドします。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            If you intend to run the tests and have not installed Xorg in
+            /usr, append LDFLAGS='-L$XORG_PREFIX/lib' to the configure line
+            below.
+          </p>
+        </div>
+        <pre class="userinput"><kbd class=
+        "command">echo '#define SYS_VIMRC_FILE  "/etc/vimrc"' &gt;&gt;  src/feature.h &amp;&amp;
+echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' &gt;&gt; src/feature.h &amp;&amp;
+
+./configure --prefix=/usr        \
+            --with-features=huge \
+            --enable-gui=gtk3    \
+            --with-tlib=ncursesw &amp;&amp;
+make</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            グローバルな設定である <code class="filename">/etc/vimrc</code> において
+            <code class="envar">VIMRUNTIME</code>
+            環境変数が設定されている場合、テストによっては、対応するディレクトリが見つけられなくなり、ユーザー入力を促すために停止することがあります。
+            このようなことが発生した場合は、このファイルを保存しておき、いったん削除した上でテストを実施してください。 Or if
+            <a class="xref" href="../general/bubblewrap.html" title=
+            "Bubblewrap-0.8.0">bubblewrap-0.8.0</a> is installed, it's also
+            possible to create a lightweight container environment where this
+            file is hidden and run the tests in the container.
+          </p>
+        </div>
+        <p>
+          To test the results, issue: <span class="command"><strong>make -j1
+          test</strong></span>, or <span class="command"><strong>bwrap
+          --dev-bind / / --dev-bind /dev/null /etc/vimrc make -j1
+          test</strong></span> if running the tests with <a class="xref"
+          href="../general/bubblewrap.html" title=
+          "Bubblewrap-0.8.0">bubblewrap-0.8.0</a> and <code class=
+          "filename">/etc/vimrc</code> hidden. Even if one of the tests fails
+          to produce the file <code class="filename">test.out</code> in
+          <code class="filename">src/testdir</code>, the remaining tests will
+          still be executed. If all goes well, the log will report
+          <code class="literal">ALL DONE</code>. Some tests labelled as
+          <span class="quote">「<span class="quote">flaky</span>」</span> may
+          fail occasionally and can be ignored. The tests are known to fail
+          if the output is redirected to a file, and also if they are run in
+          a 'screen' session.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            Some color tests expect to be executed under the <span class=
+            "command"><strong>xterm</strong></span> terminal emulator.
+          </p>
+        </div>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+        <p>
+          デフォルトでは、Vim のドキュメントは <code class="filename">/usr/share/vim</code>
+          にインストールされます。 以下のように <code class=
+          "filename">/usr/share/doc/vim-9.0.2103</code>
+          に対してシンボリックリンクを張っておくと、他のパッケージのドキュメントと同じようにドキュメントを管理することができます。
+        </p>
+        <pre class="root"><kbd class=
+        "command">ln -snfv ../vim/vim90/doc /usr/share/doc/vim-9.0.2103</kbd></pre>
+        <p>
+          ランタイムファイルを更新したい場合は以下を実行します。 (実行には <a class="xref" href=
+          "../basicnet/rsync.html" title="rsync-3.2.7">rsync-3.2.7</a>
+          が必要です。)
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">rsync -avzcP --exclude="/dos/" --exclude="/spell/" \
+    ftp.nluug.nl::Vim/runtime/ ./runtime/</kbd></pre>
+        <p>
+          ランタイムファイルをインストールし <code class="filename">tags</code>
+          ファイルを再生成するには、<code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class=
+        "command">make -C src installruntime &amp;&amp;
+vim -c ":helptags /usr/share/doc/vim-9.0.2103" -c ":q"</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--with-features=huge</code></em>:
+          このスイッチは <span class="application">Vim</span> における追加機能を実現します。
+          マルチバイトサポートが含まれます。
+        </p>
+        <p>
+          <em class="parameter"><code>--with-tlib=ncursesw</code></em>: This
+          switch forces Vim to link against the <code class=
+          "filename">libncursesw</code> library.
+        </p>
+        <p>
+          <code class="option">--enable-gui=no</code>: このパラメーターは GUI
+          をコンパイルしないようにします。 このようにしても <span class="application">Vim</span> は
+          <span class="application">X</span> にリンクされます。 したがってクライアントサーバーモデルや
+          x11-selection (クリップボード) などの機能は利用することができます。
+        </p>
+        <p>
+          <code class="option">--without-x</code>: <span class=
+          "application">Vim</span> を <span class="application">X</span>
+          にリンクしない場合はこのパラメーターを指定します。
+        </p>
+        <p>
+          <code class="option">--enable-luainterp</code>, <code class=
+          "option">--enable-perlinterp</code>, <code class=
+          "option">--enable-python3interp=dynamic</code>, <code class=
+          "option">--enable-tclinterp --with-tclsh=tclsh</code>, <code class=
+          "option">--enable-rubyinterp</code>: These options include the Lua,
+          Perl, Python3, Tcl, or Ruby interpreters that allow using other
+          application code in <span class="application">vim</span> scripts.
+          All the <code class="option">--enable-*</code> options can accept
+          <code class="option">=dynamic</code> to dynamically load the
+          interpreter when needed. This is required for <span class=
+          "application">Python 3</span> to prevent segmentation faults. For
+          <span class="application">tcl</span>, it is necessary to indicate
+          the name of the <span class="command"><strong>tclsh</strong></span>
+          executable, since <span class=
+          "command"><strong>configure</strong></span> only searches versioned
+          names with old versions.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Vim の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="vim-config" name="vim-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="vim-config" name="vim-config"></a>設定ファイル
+          </h4>
+          <p>
+            <code class="filename">/etc/vimrc</code>, <code class=
+            "filename">~/.vimrc</code>
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="vim-init" name="vim-init"></a>
+          </h3>
+          <h4 class="title">
+            <a id="vim-init" name="vim-init"></a>設定情報
+          </h4>
+          <p>
+            <span class="application">Vim</span> には優れたスペルチェッカーがあります。 vim
+            ウィンドウ内にて以下を実行すれば、この機能を有効にできます。
+          </p>
+          <pre class="screen"><code class=
+          "literal">:setlocal spell spelllang=ru</code></pre>
+          <p>
+            この設定は、ロシア語に対するスペルチェックを可能とするものです。
+          </p>
+          <p>
+            デフォルトで <span class="application">Vim</span>
+            がインストールするスペルファイルは英語のみです。 特定の言語に対してスペルファイルがなかった場合 <span class=
+            "application">Vim</span> はプラグイン <code class=
+            "filename">$VIMRUNTIME/plugin/spellfile.vim</code> を呼び出し、vim の
+            FTP サーバーから *.spl や *.sug を取得します。 この際にはプラグイン <code class=
+            "filename">$VIMRUNTIME/plugin/netrwPlugin.vim</code> も利用されます。
+          </p>
+          <p>
+            *.spl や *.sug というファイルは <a class="ulink" href=
+            "ftp://ftp.vim.org/pub/vim/runtime/spell/">ftp://ftp.vim.org/pub/vim/runtime/spell/</a>
+            から手動でダウンロードすることもできます。 これらのファイルは <code class=
+            "filename">~/.vim/spell</code> に書き加えるか、<code class=
+            "filename">/usr/share/vim/vim90/spell/</code> ディレクトリに保存して利用します。
+          </p>
+          <p>
+            <span class="application">Vim-9.0.2103</span>
+            の最新情報については、以下のコマンドを実行して確認することができます。
+          </p>
+          <pre class="screen"><code class=
+          "literal">:help version-9.0.2103</code></pre>
+          <p>
+            <span class="application">Vim</span> の設定ファイルについての詳細は <a class=
+            "xref" href="vimrc.html" title=
+            "/etc/vimrc ファイルと ~/.vimrc ファイル">vimrc ファイル</a> や <a class=
+            "ulink" href=
+            "https://vim.fandom.com/wiki/Example_vimrc">https://vim.fandom.com/wiki/Example_vimrc</a>
+            を参照してください。
+          </p>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <p>
+          A list of the reinstalled files, along with their short
+          descriptions can be found in the <a class="ulink" href=
+          "../../../../lfs/view/systemd/chapter08/vim.html#contents-vim">LFS
+          Vim Installation Instructions</a>.
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">gview, gvim, gvimdiff, gvimtutor, rgview,
+              rgvim</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/share/vim</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gview" name="gview"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gview</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    starts <span class="command"><strong>gvim</strong></span>
+                    in read-only mode
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gvim" name="gvim"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gvim</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the editor that runs under <span class=
+                    "application">X</span> and includes a GUI
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gvimdiff" name="gvimdiff"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gvimdiff</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    edits two or three versions of a file with <span class=
+                    "command"><strong>gvim</strong></span> and shows the
+                    differences
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gvimtutor" name="gvimtutor"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gvimtutor</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    teaches the basic keys and commands of <span class=
+                    "command"><strong>gvim</strong></span>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rgview" name="rgview"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rgview</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a restricted version of <span class=
+                    "command"><strong>gview</strong></span>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rgvim" name="rgvim"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rgvim</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a restricted version of <span class=
+                    "command"><strong>gvim</strong></span>
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="nano.html" title="Nano-7.2">戻る</a>
+          <p>
+            Nano-7.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="shells.html" title="シェル">次へ</a>
+          <p>
+            シェル
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="editors.html" title="第6章 テキストエディター">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

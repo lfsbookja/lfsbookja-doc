@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      libblockdev-3.0.4
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第9章 汎用的なライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libatomic_ops.html" title=
+          "libatomic_ops-7.8.2">戻る</a>
+          <p>
+            libatomic_ops-7.8.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libbytesize.html" title=
+          "libbytesize-2.10">次へ</a>
+          <p>
+            libbytesize-2.10
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="libblockdev" name="libblockdev"></a>libblockdev-3.0.4
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libblockdev の概要
+        </h2>
+        <p>
+          libblockdev is a C library supporting GObject Introspection for
+          manipulation of block devices. It has a plugin-based architecture
+          where each technology (like LVM, Btrfs, MD RAID, Swap,...) is
+          implemented in a separate plugin, possibly with multiple
+          implementations (e.g. using LVM CLI or the new LVM DBus API).
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/storaged-project/libblockdev/releases/download/3.0.4-1/libblockdev-3.0.4.tar.gz">
+                https://github.com/storaged-project/libblockdev/releases/download/3.0.4-1/libblockdev-3.0.4.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 74eed189c000cb3b0194c73c425c418c
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1.0 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 13 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          libblockdev の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="glib2.html" title=
+          "GLib-2.78.3">GLib-2.78.3</a>
+        </p>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../postlfs/cryptsetup.html" title=
+          "cryptsetup-2.6.1">cryptsetup-2.6.1</a>, <a class="xref" href=
+          "gobject-introspection.html" title=
+          "gobject-introspection-1.78.1">gobject-introspection-1.78.1</a>
+          (GNOME にて必要), <a class="xref" href="keyutils.html" title=
+          "keyutils-1.6.1">keyutils-1.6.1</a>, <a class="xref" href=
+          "libbytesize.html" title="libbytesize-2.10">libbytesize-2.10</a>,
+          <a class="xref" href="libnvme.html" title=
+          "libnvme-1.7.1">libnvme-1.7.1</a>, <a class="xref" href=
+          "../postlfs/lvm2.html" title="LVM2-2.03.23">LVM2-2.03.23</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../postlfs/btrfs-progs.html" title=
+          "btrfs-progs-6.6.1">btrfs-progs-6.6.1</a>, <a class="xref" href=
+          "gtk-doc.html" title="GTK-Doc-1.33.2">GTK-Doc-1.33.2</a>, <a class=
+          "xref" href="../postlfs/mdadm.html" title=
+          "mdadm-4.2">mdadm-4.2</a>, <a class="xref" href=
+          "../postlfs/parted.html" title="parted-3.6">parted-3.6</a>,
+          <a class="ulink" href=
+          "https://github.com/felixonmars/volume_key">volume_key</a>,
+          <a class="ulink" href="https://github.com/pmem/ndctl">ndctl</a>,
+          <a class="ulink" href=
+          "https://github.com/Datera/targetcli">targetcli</a> (for tests)
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libblockdev のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">libblockdev</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr      \
+            --sysconfdir=/etc  \
+            --with-python3     \
+            --without-escrow   \
+            --without-gtk-doc  \
+            --without-lvm      \
+            --without-lvm_dbus \
+            --without-nvdimm   \
+            --without-tools    &amp;&amp;
+make</kbd></pre>
+        <p>
+          The test suite requires <span class="application">targetcli</span>,
+          which is not a part of BLFS.
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--without-escrow</code></em>: This
+          switch allows building <span class="application">libblockdev</span>
+          without volume_key installed.
+        </p>
+        <p>
+          <em class="parameter"><code>--without-lvm</code></em> <em class=
+          "parameter"><code>--without-lvm_dbus</code></em> <em class=
+          "parameter"><code>--without-tools</code></em>: The combination of
+          these switches allows building <span class=
+          "application">libblockdev</span> without <a class="xref" href=
+          "../postlfs/parted.html" title="parted-3.6">parted-3.6</a>
+          installed. Remove it if you've installed <a class="xref" href=
+          "../postlfs/parted.html" title="parted-3.6">parted-3.6</a> and wish
+          to build the <span class=
+          "command"><strong>lvm-cache-stats</strong></span> or <span class=
+          "command"><strong>vfat-resize</strong></span> utilities, or wish
+          <span class="application">libblockdev</span> to support logical
+          volumes.
+        </p>
+        <p>
+          <code class="option">--without-btrfs --without-mdraid
+          --without-tools</code>: The combination of these switches allows
+          building <span class="application">libblockdev</span> without
+          <a class="xref" href="libbytesize.html" title=
+          "libbytesize-2.10">libbytesize-2.10</a> installed. The <code class=
+          "option">--without-mdraid</code> option will break <a class="xref"
+          href="udisks2.html" title="UDisks-2.10.1">UDisks-2.10.1</a>, so
+          don't use it unless you really know what you are doing.
+        </p>
+        <p>
+          <code class="option">--without-crypto</code>: This switch allows
+          building <span class="application">libblockdev</span> without
+          <a class="xref" href="../postlfs/cryptsetup.html" title=
+          "cryptsetup-2.6.1">cryptsetup-2.6.1</a> or <a class="xref" href=
+          "keyutils.html" title="keyutils-1.6.1">keyutils-1.6.1</a>
+          installed. This switch will break <a class="xref" href=
+          "udisks2.html" title="UDisks-2.10.1">UDisks-2.10.1</a>, so don't
+          use it unless you really know what you are doing.
+        </p>
+        <p>
+          <code class="option">--without-dm --without-lvm --without-lvm_dbus
+          --without-mpath</code>: The combination of these switches allows
+          building <span class="application">libblockdev</span> without
+          <a class="xref" href="../postlfs/lvm2.html" title=
+          "LVM2-2.03.23">LVM2-2.03.23</a> installed. The <code class=
+          "option">--without-dm</code> and <code class=
+          "option">--without-mpath</code> options are not in the instructions
+          provided by the book because <a class="xref" href=
+          "../postlfs/lvm2.html" title="LVM2-2.03.23">LVM2-2.03.23</a> is
+          required for <a class="xref" href="../postlfs/cryptsetup.html"
+          title="cryptsetup-2.6.1">cryptsetup-2.6.1</a> and <a class="xref"
+          href="../postlfs/cryptsetup.html" title=
+          "cryptsetup-2.6.1">cryptsetup-2.6.1</a> is a recommended dependency
+          of <span class="application">libblockdev</span> anyway.
+        </p>
+        <p>
+          <code class="option">--without-nvme</code>: This switch allows
+          building <span class="application">libblockdev</span> without
+          <a class="xref" href="libnvme.html" title=
+          "libnvme-1.7.1">libnvme-1.7.1</a> installed. This switch will break
+          <a class="xref" href="udisks2.html" title=
+          "UDisks-2.10.1">UDisks-2.10.1</a>, so don't use it unless you
+          really know what you are doing.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">lvm-cache-stats, vfat-resize (both optional)</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libbd_btrfs.so, libbd_crypto.so, libbd_dm.so,
+              libbd_fs.so, libbd_loop.so, libbd_lvm.so (optional),
+              libbd_lvm-dbus.so (optional), libbd_mdraid.so, libbd_mpath.so,
+              libbd_nvme.so, libbd_part.so, libbd_swap.so, libbd_utils.so,
+              libblockdev.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/etc/libblockdev, /usr/include/blockdev,
+              /usr/share/gtk-doc/html/libblockdev (optional)</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lvm-cache-stats" name=
+                    "lvm-cache-stats"></a><span class="term"><span class=
+                    "command"><strong>lvm-cache-stats</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    LVM 論理ボリューム上のキャッシュの統計情報を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="vfat-resize" name="vfat-resize"></a><span class=
+                    "term"><span class=
+                    "command"><strong>vfat-resize</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    resizes <code class="systemitem">vfat</code> file systems
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libatomic_ops.html" title=
+          "libatomic_ops-7.8.2">戻る</a>
+          <p>
+            libatomic_ops-7.8.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libbytesize.html" title=
+          "libbytesize-2.10">次へ</a>
+          <p>
+            libbytesize-2.10
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

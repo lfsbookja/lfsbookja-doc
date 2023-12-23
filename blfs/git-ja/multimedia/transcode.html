@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Transcode-1.1.7
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第44章 Video Utilities
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="mplayer.html" title="MPlayer-1.5">戻る</a>
+          <p>
+            MPlayer-1.5
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="vlc.html" title="VLC-3.0.20">次へ</a>
+          <p>
+            VLC-3.0.20
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="videoutils.html" title=
+          "第44章 Video Utilities">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="transcode" name="transcode"></a>Transcode-1.1.7
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to Transcode
+        </h2>
+        <p>
+          <span class="application">Transcode</span> was a fast, versatile
+          and command-line based audio/video everything to everything
+          converter primarily focused on producing AVI video files with MP3
+          audio, but also including a program to read all the video and audio
+          streams from a DVD.
+        </p>
+        <p>
+          Although outdated and no longer maintained, it can still be used to
+          extract items from a DVD using only the required and recommended
+          dependencies, or to recode to AVI files.
+        </p>
+        <p>
+          Subjects to the comments below, this package is known to build and
+          minimally work using the current LFS platform.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://anduin.linuxfromscratch.org/BLFS/transcode/transcode-1.1.7.tar.bz2">
+                https://anduin.linuxfromscratch.org/BLFS/transcode/transcode-1.1.7.tar.bz2</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download (FTP): <a class="ulink" href=""></a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: 9bb25a796a8591fb764de46ee87ce505
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 2.1 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 72 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: 0.5 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Additional Downloads
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Required patch to fix some issues exposed by GCC 10 and
+                later: <a class="ulink" href=
+                "https://www.linuxfromscratch.org/patches/blfs/svn/transcode-1.1.7-gcc10_fix-1.patch">
+                https://www.linuxfromscratch.org/patches/blfs/svn/transcode-1.1.7-gcc10_fix-1.patch</a>
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Transcode Dependencies
+        </h3>
+        <h4>
+          Recommended
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="alsa-lib.html" title=
+          "alsa-lib-1.2.10">alsa-lib-1.2.10</a>, <a class="xref" href=
+          "lame.html" title="LAME-3.100">LAME-3.100</a>, <a class="xref"
+          href="libdvdread.html" title=
+          "Libdvdread-6.1.3">libdvdread-6.1.3</a>, <a class="xref" href=
+          "libmpeg2.html" title="libmpeg2-0.5.1">libmpeg2-0.5.1</a>, and
+          <a class="xref" href="../x/x7lib.html" title="Xorg ライブラリ">Xorg
+          ライブラリ</a>
+        </p>
+        <h4>
+          Optional
+        </h4>
+        <p class="optional">
+          <a class="xref" href="faac.html" title="FAAC-1_30">FAAC-1_30</a>,
+          <a class="xref" href="../general/freetype2.html" title=
+          "FreeType-2.13.2">FreeType-2.13.2</a>, <a class="ulink" href=
+          "https://legacy.imagemagick.org/script/download.php">ImageMagick-6</a>,
+          <a class="xref" href="liba52.html" title=
+          "Liba52-0.7.4">liba52-0.7.4</a>, <a class="xref" href="libdv.html"
+          title="Libdv-1.0.0">libdv-1.0.0</a>, <a class="xref" href=
+          "../general/libjpeg.html" title=
+          "libjpeg-turbo-3.0.1">libjpeg-turbo-3.0.1</a>, <a class="xref"
+          href="libogg.html" title="libogg-1.3.5">libogg-1.3.5</a>, <a class=
+          "xref" href="libquicktime.html" title=
+          "libquicktime-1.2.4">libquicktime-1.2.4</a>, <a class="xref" href=
+          "libtheora.html" title="libtheora-1.1.1">libtheora-1.1.1</a>,
+          <a class="xref" href="libvorbis.html" title=
+          "libvorbis-1.3.7">libvorbis-1.3.7</a>, <a class="xref" href=
+          "../general/libxml2.html" title=
+          "libxml2-2.12.3">libxml2-2.12.3</a>, <a class="xref" href=
+          "../general/lzo.html" title="LZO-2.10">LZO-2.10</a>, <a class=
+          "xref" href="sdl.html" title=
+          "sdl12-compat-1.2.68">sdl12-compat-1.2.68</a>, <a class="xref"
+          href="v4l-utils.html" title=
+          "v4l-utils-1.26.1">v4l-utils-1.26.1</a>, <a class="xref" href=
+          "x264.html" title="x264-20230215">x264-20230215</a>, <a class=
+          "xref" href="xvid.html" title="XviD-1.3.7">XviD-1.3.7</a> <a class=
+          "ulink" href="https://sourceforge.net/projects/mjpeg/">MJPEG
+          Tools</a>, and <a class="ulink" href=
+          "https://netlib.org/pvm3/">PVM3</a>,
+        </p>
+        <h4>
+          Optional (at runtime)
+        </h4>
+        <p class="optional">
+          <a class="ulink" href=
+          "https://sourceforge.net/projects/lsdvd/files/">lsdvd</a>
+        </p>
+        <p class="usernotes">
+          Editor Notes: <a class="ulink" href=
+          "https://wiki.linuxfromscratch.org/blfs/wiki/transcode">https://wiki.linuxfromscratch.org/blfs/wiki/transcode</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of Transcode
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            Support for most of the dependency packages requires using
+            options passed to the <span class=
+            "command"><strong>configure</strong></span> script. View the
+            <code class="filename">INSTALL</code> file and the output from
+            <span class="command"><strong>./configure --help</strong></span>
+            for complete information about enabling dependency packages.
+          </p>
+        </div>
+        <p>
+          Install <span class="application">Transcode</span> by running the
+          following commands:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i 's|doc/transcode|&amp;-$(PACKAGE_VERSION)|' \
+       $(find . -name Makefile.in -exec grep -l 'docsdir =' {} \;) &amp;&amp;
+
+patch -Np1 -i ../transcode-1.1.7-gcc10_fix-1.patch &amp;&amp;
+
+./configure --prefix=/usr     \
+            --enable-alsa     \
+            --enable-libmpeg2 \
+            --disable-ffmpeg  &amp;&amp;
+make</kbd></pre>
+        <p>
+          This package does not come with a test suite.
+        </p>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <span class="command"><strong>sed -i ...</strong></span>: Fixes
+          install location for documentation.
+        </p>
+        <p>
+          <em class="parameter"><code>--disable-ffmpeg</code></em>: This
+          switch disables support for ffmpeg because libavresample was
+          removed in ffmpeg-5.x.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">avifix, aviindex, avimerge, avisplit,
+              avisync, tccat, tcdecode, tcdemux, tcextract, tcmodinfo,
+              tcmp3cut, tcprobe, tcscan, tcxmlcheck, tcxpm2rgb, tcyait, and
+              transcode</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">None</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody">/usr/lib/transcode and
+              /usr/share/doc/transcode-1.1.7</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="avifix" name="avifix"></a><span class=
+                    "term"><span class=
+                    "command"><strong>avifix</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    fixes the header of an AVI file
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="aviindex" name="aviindex"></a><span class=
+                    "term"><span class=
+                    "command"><strong>aviindex</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    writes a text file describing the index of an AVI file
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="avimerge" name="avimerge"></a><span class=
+                    "term"><span class=
+                    "command"><strong>avimerge</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    merges AVI files of the same format. Do not try to merge
+                    AVI files of different formats, it will most likely
+                    result in errors (and format means same bitrates, too!)
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="avisplit" name="avisplit"></a><span class=
+                    "term"><span class=
+                    "command"><strong>avisplit</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    splits AVI files into multiple files
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="avisync" name="avisync"></a><span class=
+                    "term"><span class=
+                    "command"><strong>avisync</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    can shift audio in AVI files for better synchronizing of
+                    the audio and video data signal
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tccat" name="tccat"></a><span class=
+                    "term"><span class=
+                    "command"><strong>tccat</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    concatenates input files using the input plugins of
+                    <span class="application">Transcode</span>. This is
+                    useful for extracting VOB (Video OBject) files, either
+                    for a whole DVD or for selected Titles or Chapters, which
+                    can then be played or recoded
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tcdecode" name="tcdecode"></a><span class=
+                    "term"><span class=
+                    "command"><strong>tcdecode</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to decode input files to raw video and PCM audio
+                    streams
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tcdemux" name="tcdemux"></a><span class=
+                    "term"><span class=
+                    "command"><strong>tcdemux</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    demultiplexes (separates) audio/video input that contains
+                    multiple streams, e.g., VOB files
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tcextract" name="tcextract"></a><span class=
+                    "term"><span class=
+                    "command"><strong>tcextract</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    grabs single streams from a file containing multiple
+                    streams
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tcmodinfo" name="tcmodinfo"></a><span class=
+                    "term"><span class=
+                    "command"><strong>tcmodinfo</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    loads a supplied <span class=
+                    "application">Transcode</span> filter module and prints
+                    its parameters
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tcmp3cut" name="tcmp3cut"></a><span class=
+                    "term"><span class=
+                    "command"><strong>tcmp3cut</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool which can cut MP3 streams at milliseconds
+                    positions
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tcprobe" name="tcprobe"></a><span class=
+                    "term"><span class=
+                    "command"><strong>tcprobe</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    prints information about the input file format
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tcscan" name="tcscan"></a><span class=
+                    "term"><span class=
+                    "command"><strong>tcscan</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    performs several measurements on the given input data
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tcxmlcheck" name="tcxmlcheck"></a><span class=
+                    "term"><span class=
+                    "command"><strong>tcxmlcheck</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    checks information in a SMIL input file
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="transcode-prog" name=
+                    "transcode-prog"></a><span class="term"><span class=
+                    "command"><strong>transcode</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the encoder's user interface that handles the plugins
+                    and other programs, being the glue between the modules.
+                    There are several well documented usage examples on both
+                    the homepage and the documentation included in the
+                    package
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="mplayer.html" title="MPlayer-1.5">戻る</a>
+          <p>
+            MPlayer-1.5
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="vlc.html" title="VLC-3.0.20">次へ</a>
+          <p>
+            VLC-3.0.20
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="videoutils.html" title=
+          "第44章 Video Utilities">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

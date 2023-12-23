@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      乱数生成
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第3章 LFS 設定以降について
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="logon.html" title=
+          "/etc/issue を使ったログオン画面のカスタマイズ">戻る</a>
+          <p>
+            /etc/issue を使ったログオン画面のカスタマイズ
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="security.html" title="セキュリティ">次へ</a>
+          <p>
+            セキュリティ
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="config.html" title=
+          "第3章 LFS 設定以降について">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="postlfs-config-random" name="postlfs-config-random"></a>乱数生成
+      </h1>
+      <p>
+        Linux カーネルは乱数生成の機能を提供しています。 これは <code class=
+        "filename">/dev/random</code> や <code class=
+        "filename">/dev/urandom</code> を通じて利用することができます。 <span class=
+        "application">OpenSSH</span> などのような random デバイスや urandom
+        デバイスを利用するプログラムは、この機能を活用しています。
+      </p>
+      <p>
+        When a Linux system starts up without much operator interaction, the
+        entropy pool (data used to compute a random number) may be in a
+        fairly predictable state. This creates the real possibility that the
+        number generated at startup may always be the same. In order to
+        counteract this effect, you should carry the entropy pool information
+        across your shut-downs and start-ups.
+      </p>
+      <p>
+        <a class="xref" href="../introduction/bootscripts.html" title=
+        "BLFS ブートスクリプト">blfs-bootscripts-20231119</a> パッケージに含まれる <code class=
+        "filename">/etc/rc.d/init.d/random</code> ブートスクリプトを以下のようにしてインストールします。
+      </p>
+      <pre class="root"><kbd class="command">make install-random</kbd></pre>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="logon.html" title=
+          "/etc/issue を使ったログオン画面のカスタマイズ">戻る</a>
+          <p>
+            /etc/issue を使ったログオン画面のカスタマイズ
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="security.html" title="セキュリティ">次へ</a>
+          <p>
+            セキュリティ
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="config.html" title=
+          "第3章 LFS 設定以降について">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Boost-1.84.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第9章 汎用的なライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="aspell.html" title="Aspell-0.60.8.1">戻る</a>
+          <p>
+            Aspell-0.60.8.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="brotli.html" title="brotli-1.1.0">次へ</a>
+          <p>
+            brotli-1.1.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="boost" name="boost"></a>Boost-1.84.0
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Boost の概要
+        </h2>
+        <p>
+          <span class="application">Boost</span> は、公開レビューされている、移植性に優れたフリーの
+          C++ ソースライブラリです。
+          ライブラリには、線形計算、擬似乱数生成、マルチスレッド、画像イメージ処理、正規表現、ユニットテストなどが含まれます。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://boostorg.jfrog.io/artifactory/main/release/1.84.0/source/boost_1_84_0.tar.bz2">
+                https://boostorg.jfrog.io/artifactory/main/release/1.84.0/source/boost_1_84_0.tar.bz2</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 9dcd632441e4da04a461082ebbafd337
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 117 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 1.1 GB (インストールサイズは 199 MB)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 1.7 SBU (parallelism=4; テスト実施時はさらに 0.1 SBU)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Boost の依存パッケージ
+        </h3>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="which.html" title=
+          "Which-2.21 と別の実現方法">Which-2.21</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="icu.html" title="ICU-74.1">ICU-74.1</a>,
+          <a class="ulink" href="https://www.open-mpi.org/">Open MPI</a>
+        </p>
+        <p class="usernotes">
+          編集ノート: <a class="ulink" href=
+          "https://wiki.linuxfromscratch.org/blfs/wiki/boost">https://wiki.linuxfromscratch.org/blfs/wiki/boost</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Boost のインストール
+        </h2>
+        <p>
+          本パッケージは、複数ジョブ実行による並行ビルドが可能です。 以下の手順において <em class=
+          "parameter"><code>&lt;N&gt;</code></em> はそのジョブ数を表わします。 <span class=
+          "application">Boost</span> を以下のコマンドの実行によりビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./bootstrap.sh --prefix=/usr --with-python=python3 &amp;&amp;
+./b2 stage -j<em class=
+"replaceable"><code>&lt;N&gt;</code></em> threading=multi link=shared</kbd></pre>
+        <p>
+          Boost.Build の縮退テストを実施するには <span class="command"><strong>pushd
+          tools/build/test; python3 test_all.py; popd</strong></span> を実行します。
+          With python-3.11.x all 169 tests should pass. With <a class="xref"
+          href="python3.html" title="Python-3.12.1">Python-3.12.1</a>, 7
+          tests fail for undetermined reasons.
+        </p>
+        <p>
+          各ライブラリの縮退テストをすべて実施するには <span class="command"><strong>pushd status;
+          ../b2; popd</strong></span> を実行します。 失敗するテストが多少あります。 そのテストには処理時間が相当
+          (-j4 指定でも 119 SBU 以上) かかり、ディスク消費も 46 GB は必要になります。 実施する際には
+          <em class="parameter"><code>-jN</code></em>
+          スイッチを必ず指定して高速化を図るようにしてください。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            Boost installs many versioned directories in /usr/lib/cmake. If a
+            new version of <span class="application">Boost</span> is
+            installed over a previous version, the older cmake directories
+            need to be explicitly removed. To do this, run as the
+            <code class="systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">rm -rf /usr/lib/cmake/[Bb]oost*</kbd></pre>
+          <p>
+            before installing the new version.
+          </p>
+        </div>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class=
+        "command">./b2 install threading=multi link=shared</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>threading=multi</code></em>:
+          このパラメーターは、マルチスレッドサポートを含めて <span class="application">Boost</span>
+          をビルドすることを指示します。
+        </p>
+        <p>
+          <em class="parameter"><code>link=shared</code></em>:
+          このパラメーターは共有ライブラリのみを生成するようにします。 ただし libboost_exception と
+          libboost_test_exec_monitor はスタティックライブラリを生成します。
+          スタティックライブラリは通常は必要がありません。 <span class="application">Boost</span>
+          を利用するプログラムは、たいていはヘッダーファイルを単に指定するだけです。
+          もしスタティックライブラリを必要とするなら、このパラメーターを取り除いてください。
+        </p>
+        <p>
+          <em class="parameter"><code>--with-python=python3</code></em>: This
+          switch ensures Python3 is used if Python2 is installed.
+        </p>
+        <p>
+          <code class="option">-jN</code>: This switch may be added to the
+          <span class="command"><strong>b2</strong></span> command lines, to
+          run up to N processes in parallel.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libboost_atomic.so, libboost_chrono.so,
+              libboost_container.so, libboost_context.so,
+              libboost_contract.so, libboost_coroutine.so,
+              libboost_date_time.so, libboost_exception.a, libboost_fiber.so,
+              libboost_filesystem.so, libboost_graph.so,
+              libboost_iostreams.so, libboost_json.so, libboost_locale.so,
+              libboost_log_setup.so, libboost_log.so, libboost_math_c99.so,
+              libboost_math_c99f.so, libboost_math_c99l.so,
+              libboost_math_tr1.so, libboost_math_tr1f.so,
+              libboost_math_tr1l.so, libboost_nowide.so,
+              libboost_numpy312.so, libboost_prg_exec_monitor.so,
+              libboost_program_options.so, libboost_python312.so,
+              libboost_random.so, libboost_regex.so,
+              libboost_serialization.so, libboost_stacktrace_addr2line.so,
+              libboost_stacktrace_basic.so, libboost_stacktrace_noop.so,
+              libboost_system.so, libboost_test_exec_monitor.a,
+              libboost_thread.so, libboost_timer.so,
+              libboost_type_erasure.so, libboost_unit_test_framework.so,
+              libboost_url.so, libboost_wave.so,
+              libboost_wserialization.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/boost</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="aspell.html" title="Aspell-0.60.8.1">戻る</a>
+          <p>
+            Aspell-0.60.8.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="brotli.html" title="brotli-1.1.0">次へ</a>
+          <p>
+            brotli-1.1.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

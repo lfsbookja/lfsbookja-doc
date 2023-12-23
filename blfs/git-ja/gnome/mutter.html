@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Mutter-45.2
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第33章 GNOME のライブラリとデスクトップ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gnome-control-center.html" title=
+          "gnome-control-center-45.2">戻る</a>
+          <p>
+            gnome-control-center-45.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gnome-shell.html" title=
+          "gnome-shell-45.2">次へ</a>
+          <p>
+            gnome-shell-45.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="core.html" title=
+          "第33章 GNOME のライブラリとデスクトップ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="mutter" name="mutter"></a>Mutter-45.2
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Mutter の概要
+        </h2>
+        <p>
+          <span class="application">Mutter</span> は <span class=
+          "application">GNOME</span> 向けのウィンドウマネージャーです。
+          これは直接起動されるものではなく、（ハードウェアアクセラレーターによるビデオドライバーを利用するマシン上において）<span class="application">GNOME
+          Session</span> から起動されます。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://download.gnome.org/sources/mutter/45/mutter-45.2.tar.xz">
+                https://download.gnome.org/sources/mutter/45/mutter-45.2.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 5e210826424ccd997dc61ca42000872b
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 2.8 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 100 MB (with tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.7 SBU (Using parallelism=4; add 1.4 SBU for tests)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Mutter の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="gnome-settings-daemon.html" title=
+          "gnome-settings-daemon-45.0">gnome-settings-daemon-45.0</a>,
+          <a class="xref" href="../x/graphene.html" title=
+          "Graphene-1.10.8">graphene-1.10.8</a>, <a class="xref" href=
+          "../x/libei.html" title="libei-1.2.0">libei-1.2.0</a>, <a class=
+          "xref" href="../x/libxcvt.html" title=
+          "libxcvt-0.1.2">libxcvt-0.1.2</a>, <a class="xref" href=
+          "../general/libxkbcommon.html" title=
+          "libxkbcommon-1.6.0">libxkbcommon-1.6.0</a>, <a class="xref" href=
+          "../multimedia/pipewire.html" title=
+          "Pipewire-1.0.0">pipewire-1.0.0</a>
+        </p>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../general/desktop-file-utils.html" title=
+          "desktop-file-utils-0.27">desktop-file-utils-0.27</a>, <a class=
+          "xref" href="../general/gobject-introspection.html" title=
+          "gobject-introspection-1.78.1">gobject-introspection-1.78.1</a>,
+          <a class="xref" href="../x/startup-notification.html" title=
+          "startup-notification-0.12">startup-notification-0.12</a>
+        </p>
+        <h4>
+          推奨 (Required to build the Wayland compositor)
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../x/x7driver.html#libinput" title=
+          "libinput-1.24.0">libinput-1.24.0</a>, <a class="xref" href=
+          "../general/wayland.html" title=
+          "Wayland-1.22.0">Wayland-1.22.0</a>, <a class="xref" href=
+          "../general/wayland-protocols.html" title=
+          "Wayland-Protocols-1.32">wayland-protocols-1.32</a>, and <a class=
+          "xref" href="../x/xwayland.html" title=
+          "Xwayland-23.2.3">Xwayland-23.2.3</a>
+        </p>
+        <h4>
+          推奨 （実行時）
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../general/blocaled.html" title=
+          "blocaled-0.5">blocaled-0.5</a>
+        </p>
+        <h4>
+          Optional
+        </h4>
+        <p class="optional">
+          <a class="xref" href=
+          "../general/python-modules.html#python-dbusmock" title=
+          "dbusmock-0.30.0">dbusmock-0.30.0</a> (required for tests),
+          <a class="xref" href="../x/xorg-server.html" title=
+          "Xorg-Server-21.1.10">Xorg-Server-21.1.10</a> (for X11 sessions),
+          and <a class="ulink" href=
+          "https://wiki.gnome.org/Apps/Sysprof">sysprof</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Mutter のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">Mutter</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+meson setup --prefix=/usr              \
+            --buildtype=release        \
+            -Dtests=false              \
+            -Dprofiler=false           \
+            ..                         &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          The test suite requires an external program called <span class=
+          "command"><strong>xvfb-run</strong></span>. If you wish to run the
+          tests, you should download and install it before running
+          <span class="command"><strong>meson</strong></span>. You can obtain
+          it from <a class="ulink" href=
+          "https://anduin.linuxfromscratch.org/BLFS/mutter/xvfb-run">xvfb-run</a>,
+          and install it with executable permissions in <code class=
+          "filename">/usr/bin</code>. <span class=
+          "command"><strong>xvfb-run</strong></span> needs <span class=
+          "command"><strong>Xvfb</strong></span> at runtime, and <span class=
+          "command"><strong>Xvfb</strong></span> can be installed from either
+          <a class="xref" href="../x/xorg-server.html" title=
+          "Xorg-Server-21.1.10">Xorg-Server-21.1.10</a> or <a class="xref"
+          href="../x/xwayland.html" title=
+          "Xwayland-23.2.3">Xwayland-23.2.3</a>. You should also replace
+          <em class="parameter"><code>-Dtests=false</code></em> in the
+          <span class="command"><strong>meson</strong></span> command, with
+          <em class="parameter"><code>-Dtests=true
+          -Dclutter_tests=false</code></em>. The test suite requires the
+          mutter schema to be installed on the system, so it is better to run
+          the tests after installing the package.
+        </p>
+        <p>
+          You can also test basic functions of <span class=
+          "application">Mutter</span> following <a class="xref" href=
+          "mutter.html#mutter-starting" title="Starting Mutter">「Starting
+          Mutter」</a>, after installing it.
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">ninja install</kbd></pre>
+        <p>
+          If you wish to run the tests, remove the reference to <span class=
+          "application">Zenity</span> which is not a part of BLFS from one
+          test:
+        </p>
+        <pre class="test"><kbd class=
+        "command">sed 's/zenity --[a-z]*/gtk4-demo/' -i ../src/tests/x11-test.sh</kbd></pre>
+        <p>
+          Now run the test suite:
+        </p>
+        <pre class="test"><kbd class="command">ninja test</kbd></pre>
+        <p>
+          The tests require an active X or wayland session. One test named
+          <code class="filename">input-capture</code> is known to fail. A few
+          other tests may fail depending on the configuration. Don't make any
+          mouse or keyboard input while the test suite is running or some
+          tests may fail.
+        </p>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <em class="parameter"><code>--buildtype=release</code></em>:
+          本パッケージの安定版リリース向けに適したビルドタイプを指定します。
+          デフォルトにしていると、最適化されていないバイナリを生成する場合があるためです。
+        </p>
+        <p>
+          <em class="parameter"><code>-Dtests=false</code></em>: Prevents
+          building the tests, and removes a hard requirement on <span class=
+          "command"><strong>xvfb-run</strong></span>.
+        </p>
+        <p>
+          <em class="parameter"><code>-Dprofiler=false</code></em>: Allow
+          building this package without <span class=
+          "application">Sysprof</span>. Remove this option if you've
+          installed <span class="application">Sysprof</span> and want to
+          analysis the rendering performance of <span class=
+          "application">Mutter</span>.
+        </p>
+        <p>
+          <code class="option">-Dtests=true -Dclutter_tests=false</code>:
+          Building all the tests but the tests for the shipped <span class=
+          "application">Clutter</span> library. The <span class=
+          "application">Clutter</span> tests are known to fail with
+          <em class="parameter"><code>--buildtype=release</code></em>.
+        </p>
+      </div>
+      <div class="starting" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="mutter-starting" name="mutter-starting"></a>Starting Mutter
+        </h2>
+        <p>
+          <span class="application">Mutter</span> is normally used as a
+          component of <span class="application">gnome-shell</span>, but it
+          can be used as a standalone Wayland compositor too. To run
+          <span class="application">Mutter</span> as a Wayland compositor, in
+          a virtual console, issue:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mutter --wayland -- vte-2.91</kbd></pre>
+        <p>
+          Replace <span class="command"><strong>vte-2.91</strong></span> with
+          the command line for the first application you want in the Wayland
+          session. Note that once this application exits, the Wayland session
+          will be terminated.
+        </p>
+        <p>
+          <span class="application">Mutter</span> can also function as a
+          nested compositor in another Wayland session. In a terminal
+          emulator, issue:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">MUTTER_DEBUG_DUMMY_MODE_SPECS=1920x1080 mutter --wayland --nested -- vte-2.91</kbd></pre>
+        <p>
+          Replace <em class="replaceable"><code>1920x1080</code></em> with
+          the size you want for the nested Wayland session.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">mutter</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libmutter-13.so, libmutter-test-13.so
+              (optional)</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/{lib,include,libexec/installed-tests,share/{,installed-tests}}/mutter-13</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mutter-prog" name="mutter-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mutter</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a <span class="application">Clutter</span> based
+                    compositing <span class="application">GTK+</span> Window
+                    Manager
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libmutter" name="libmutter"></a><span class=
+                    "term"><code class=
+                    "filename">libmutter-13.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains the <span class="application">Mutter</span> API
+                    functions
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libmutter-test" name=
+                    "libmutter-test"></a><span class="term"><code class=
+                    "filename">libmutter-test-13.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains the <span class="application">Mutter</span> test
+                    suite API functions; this library is only installed if
+                    the test suite of this package is enabled and it is
+                    needed by <span class="application">gnome-shell</span>
+                    test suite
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gnome-control-center.html" title=
+          "gnome-control-center-45.2">戻る</a>
+          <p>
+            gnome-control-center-45.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gnome-shell.html" title=
+          "gnome-shell-45.2">次へ</a>
+          <p>
+            gnome-shell-45.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="core.html" title=
+          "第33章 GNOME のライブラリとデスクトップ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

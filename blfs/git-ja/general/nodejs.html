@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Node.js-20.10.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第9章 汎用的なライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="mtdev.html" title="mtdev-1.1.6">戻る</a>
+          <p>
+            mtdev-1.1.6
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="npth.html" title="npth-1.6">次へ</a>
+          <p>
+            npth-1.6
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="nodejs" name="nodejs"></a>Node.js-20.10.0
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Node.js の概要
+        </h2>
+        <p>
+          <span class="application">Node.js</span> is a <span class=
+          "application">JavaScript</span> runtime built on <span class=
+          "application">Chrome's</span> V8 JavaScript engine.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://nodejs.org/dist/v20.10.0/node-v20.10.0.tar.xz">https://nodejs.org/dist/v20.10.0/node-v20.10.0.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 066b989f665c8416ef52f7b14d5086ad
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 40 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 1041 MB (add 69 MB for tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 13.7 SBU (add 3.2 SBU for tests: both using
+                parallelism=8 and 8 CPUs online, parts of the tests will use
+                all online CPUs)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Node.js の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="which.html" title=
+          "Which-2.21 と別の実現方法">Which-2.21</a>
+        </p>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../basicnet/c-ares.html" title=
+          "c-ares-1.24.0">c-ares-1.24.0</a>, <a class="xref" href="icu.html"
+          title="ICU-74.1">ICU-74.1</a>, <a class="xref" href="libuv.html"
+          title="libuv-1.47.0">libuv-1.47.0</a>, <a class="xref" href=
+          "../basicnet/nghttp2.html" title=
+          "nghttp2-1.58.0">nghttp2-1.58.0</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="ulink" href=
+          "https://github.com/nodejs/http-parser">http-parser</a>, <a class=
+          "ulink" href="https://www.npmjs.com/">npm</a> (an internal copy of
+          <span class="command"><strong>npm</strong></span> will be installed
+          if not present)
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Node.js のインストール
+        </h2>
+        <p>
+          If Python-3.12 is installed, fix the <span class=
+          "command"><strong>configure</strong></span> script:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -e '/python3.11/i command -v python3.12 &gt;/dev/null &amp;&amp; exec python3.12 "$0" "$@"' \
+    -e '/3, 11/s/\(.3, 11.\)/(3, 12), \1/' \
+    -i configure</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">Node.js</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr          \
+            --shared-cares         \
+            --shared-libuv         \
+            --shared-openssl       \
+            --shared-nghttp2       \
+            --shared-zlib          \
+            --with-intl=system-icu &amp;&amp;
+make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>make
+          test-only</strong></span> を実行します。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install &amp;&amp;
+ln -sf node /usr/share/doc/node-20.10.0</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--with-intl=system-icu</code></em>: use
+          the system version of <span class="application">icu</span>. Other
+          values are <code class="option">full-icu</code> (to build a local,
+          full <span class="application">icu</span> library) and <code class=
+          "option">small-icu</code> (to build a local, minimal <span class=
+          "application">icu</span> library).
+        </p>
+        <p>
+          <em class=
+          "parameter"><code>--shared-{cares,libuv,nghttp2,openssl,zlib}</code></em>:
+          use the system installed libraries instead of local copies.
+        </p>
+        <p>
+          <code class="option">--without-npm</code>: do not build
+          <span class="application">npm</span> (use if you'd like to build a
+          separate <span class="application">npm</span> later).
+        </p>
+        <p>
+          <code class="option">--shared-http-parser</code>: use the system
+          installed library instead of a local copy.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">corepack, node, npm, npx</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/node,
+              /usr/lib/node_modules/{corepack,npm},
+              /usr/share/doc/{node,node-20.10.0},
+              /usr/share/systemtap/tapset</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="corepack" name="corepack"></a><span class=
+                    "term"><span class=
+                    "command"><strong>corepack</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is an experimental tool to help with managing versions of
+                    package managers.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="node" name="node"></a><span class=
+                    "term"><span class=
+                    "command"><strong>node</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the server-side JavaScript runtime
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="npm" name="npm"></a><span class=
+                    "term"><span class="command"><strong>npm</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the <span class="application">Node.js</span> package
+                    manager
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <span class="term"><code class=
+                    "filename">/usr/lib/node_modules/npm/</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the installation root for Node.js executables and
+                    libraries
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="mtdev.html" title="mtdev-1.1.6">戻る</a>
+          <p>
+            mtdev-1.1.6
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="npth.html" title="npth-1.6">次へ</a>
+          <p>
+            npth-1.6
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

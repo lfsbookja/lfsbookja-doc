@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      cups-browsed-2.0.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第46章 印刷
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="cups.html" title="Cups-2.4.7">戻る</a>
+          <p>
+            Cups-2.4.7
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="cups-filters.html" title=
+          "cups-filters-2.0.0">次へ</a>
+          <p>
+            cups-filters-2.0.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="printing.html" title="第46章 印刷">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="cups-browsed" name="cups-browsed"></a>cups-browsed-2.0.0
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to cups-browsed
+        </h2>
+        <p>
+          The <span class="application">cups-browsed</span> daemon is used to
+          browse the network for remote CUPS queues and IPP network printers
+          and automatically create local queues pointing to them.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://github.com/OpenPrinting/cups-browsed/releases/download/2.0.0/cups-browsed-2.0.0.tar.xz">
+                https://github.com/OpenPrinting/cups-browsed/releases/download/2.0.0/cups-browsed-2.0.0.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: 1f8dc0c5a08d8a410df0713c5adbaee9
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 416 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 6.3 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: less than 0.1 SBU (Using parallelism=4)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          cups-browsed Dependencies
+        </h3>
+        <h4>
+          Required
+        </h4>
+        <p class="required">
+          <a class="xref" href="../basicnet/avahi.html" title=
+          "Avahi-0.8">Avahi-0.8</a>, <a class="xref" href=
+          "libcupsfilters.html" title=
+          "libcupsfilters-2.0.0">libcupsfilters-2.0.0</a> and <a class="xref"
+          href="libppd.html" title="libppd-2.0.0">libppd-2.0.0</a>
+        </p>
+        <h4>
+          Optional
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../server/openldap.html" title=
+          "OpenLDAP-2.6.6">OpenLDAP-2.6.6</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of cups-browsed
+        </h2>
+        <p>
+          Install <span class="application">cups-browsed</span> by running
+          the following commands:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr                   \
+            --with-cups-rundir=/run/cups    \
+            --without-rcdir                 \
+            --disable-static                \
+            --docdir=/usr/share/doc/cups-browsed-2.0.0 &amp;&amp;
+make</kbd></pre>
+        <p>
+          This package does not come with a functional test suite.
+        </p>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <em class="parameter"><code>--disable-static</code></em>:
+          このスイッチはスタティックライブラリをインストールしないようにします。
+        </p>
+        <p>
+          <em class=
+          "parameter"><code>--with-cups-rundir=/run/cups</code></em>: Defines
+          the directory containing transient printing data. The default
+          <code class="filename">/var/run/cups</code> is obsolete.
+        </p>
+        <p>
+          <em class="parameter"><code>--without-rcdir</code></em>: This
+          switch disables installation of the bundled bootscript which is not
+          compatible with BLFS.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">cups-browsed</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">None</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody">None</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cups-browsed-prog" name=
+                    "cups-browsed-prog"></a><span class="term"><span class=
+                    "command"><strong>cups-browsed</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a daemon for browsing the Bonjour and CUPS broadcasts
+                    of shared, remote CUPS printers
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="cups.html" title="Cups-2.4.7">戻る</a>
+          <p>
+            Cups-2.4.7
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="cups-filters.html" title=
+          "cups-filters-2.0.0">次へ</a>
+          <p>
+            cups-filters-2.0.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="printing.html" title="第46章 印刷">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

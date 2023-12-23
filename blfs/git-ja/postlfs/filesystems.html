@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      第5章 ファイルシステムとディスク管理
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        パート&nbsp;II.&nbsp;LFS 設定以降と追加ソフトウェア
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="tripwire.html" title=
+          "Tripwire-2.4.3.7">戻る</a>
+          <p>
+            Tripwire-2.4.3.7
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="initramfs.html" title=
+          "initramfs について">次へ</a>
+          <p>
+            initramfs について
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="postlfs.html" title=
+          "パート&nbsp;II.&nbsp;LFS 設定以降と追加ソフトウェア">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="chapter" lang="ja" xml:lang="ja">
+      <h1 class="chapter">
+        <a id="postlfs-filesystems" name=
+        "postlfs-filesystems"></a>ファイルシステムとディスク管理
+      </h1>
+      <p>
+        ファイルシステムにジャーナリング機能があれば、アンマウントができなくなったファイルシステムであっても、修復にかける時間を最小限に抑えることができます。
+        特にサーバー機であれば、システム停止時間を少なくすることは極めて重要ですが、一方でデスクトップ環境でもこの機能は一般的になっています。
+        LFS においては拡張ファイルシステム (extended file system; ext2/3/4)
+        をデフォルトとしていますが、本章ではジャーナリング機能を持つ、別の2つのファイルシステムを説明します。
+        それらは、ディスクアレーを管理するツールも提供しています。
+      </p>
+      <div class="toc">
+        <h3>
+          目次
+        </h3>
+        <ul>
+          <li class="sect1">
+            <a href="initramfs.html">initramfs について</a>
+          </li>
+          <li class="sect1">
+            <a href="btrfs-progs.html">btrfs-progs-6.6.1</a>
+          </li>
+          <li class="sect1">
+            <a href="dosfstools.html">dosfstools-4.2</a>
+          </li>
+          <li class="sect1">
+            <a href="fuse.html">Fuse-3.16.2</a>
+          </li>
+          <li class="sect1">
+            <a href="jfsutils.html">jfsutils-1.1.15</a>
+          </li>
+          <li class="sect1">
+            <a href="lvm2.html">LVM2-2.03.23</a>
+          </li>
+          <li class="sect1">
+            <a href="aboutlvm.html">論理ボリューム管理 (LVM) について</a>
+          </li>
+          <li class="sect1">
+            <a href="raid.html">RAID について</a>
+          </li>
+          <li class="sect1">
+            <a href="mdadm.html">mdadm-4.2</a>
+          </li>
+          <li class="sect1">
+            <a href="ntfs-3g.html">ntfs-3g-2022.10.3</a>
+          </li>
+          <li class="sect1">
+            <a href="gptfdisk.html">gptfdisk-1.0.9</a>
+          </li>
+          <li class="sect1">
+            <a href="parted.html">parted-3.6</a>
+          </li>
+          <li class="sect1">
+            <a href="smartmontools.html">smartmontools-7.4</a>
+          </li>
+          <li class="sect1">
+            <a href="sshfs.html">sshfs-3.7.3</a>
+          </li>
+          <li class="sect1">
+            <a href="xfsprogs.html">xfsprogs-6.5.0</a>
+          </li>
+          <li class="sect1">
+            <span class="dummy">UEFI ブートのためのパッケージ</span>
+          </li>
+          <li class="sect1">
+            <a href="efivar.html">efivar-38</a>
+          </li>
+          <li class="sect1">
+            <a href="efibootmgr.html">efibootmgr-18</a>
+          </li>
+          <li class="sect1">
+            <a href="grub-efi.html">GRUB-2.06 for EFI</a>
+          </li>
+          <li class="sect1">
+            <a href="grub-setup.html">Using GRUB to Set Up the Boot Process
+            with UEFI</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="tripwire.html" title=
+          "Tripwire-2.4.3.7">戻る</a>
+          <p>
+            Tripwire-2.4.3.7
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="initramfs.html" title=
+          "initramfs について">次へ</a>
+          <p>
+            initramfs について
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="postlfs.html" title=
+          "パート&nbsp;II.&nbsp;LFS 設定以降と追加ソフトウェア">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

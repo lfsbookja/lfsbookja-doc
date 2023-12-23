@@ -1,0 +1,643 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Apache-2.4.58
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第20章 代表的なサーバー
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="majorservers.html" title="代表的なサーバー">戻る</a>
+          <p>
+            代表的なサーバー
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="bind.html" title="BIND-9.18.20">次へ</a>
+          <p>
+            BIND-9.18.20
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="majorservers.html" title=
+          "第20章 代表的なサーバー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="apache" name="apache"></a>Apache-2.4.58
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Apache HTTPD の概要
+        </h2>
+        <p>
+          <span class="application">Apache HTTPD</span> パッケージはオープンソースの HTTP
+          サーバーです。 ローカルなイントラネットウェブサイトでも、大規模なウェブサービスの運用にも利用することができます。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://archive.apache.org/dist/httpd/httpd-2.4.58.tar.bz2">https://archive.apache.org/dist/httpd/httpd-2.4.58.tar.bz2</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 30377ec4d7fb8361e1d1f2ab3158b467
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 7.1 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 88 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.3 SBU (Using parallelism=4)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          追加のダウンロード
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                必須のパッチ: <a class="ulink" href=
+                "https://www.linuxfromscratch.org/patches/blfs/svn/httpd-2.4.58-blfs_layout-1.patch">
+                https://www.linuxfromscratch.org/patches/blfs/svn/httpd-2.4.58-blfs_layout-1.patch</a>
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Apache HTTPD の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/apr-util.html" title=
+          "Apr-Util-1.6.3">Apr-Util-1.6.3</a>, <a class="xref" href=
+          "../general/pcre2.html" title="PCRE2-10.42">pcre2-10.42</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/brotli.html" title=
+          "brotli-1.1.0">Brotli-1.1.0</a>, <a class="xref" href=
+          "../general/doxygen.html" title="Doxygen-1.9.8">Doxygen-1.9.8</a>,
+          <a class="xref" href="../general/jansson.html" title=
+          "Jansson-2.14">jansson-2.14</a>, <a class="xref" href=
+          "../general/libxml2.html" title=
+          "libxml2-2.12.3">libxml2-2.12.3</a>, <a class="xref" href=
+          "../general/lua.html" title="Lua-5.4.6">Lua-5.4.6</a>, <a class=
+          "xref" href="../basicnet/lynx.html" title=
+          "Lynx-2.8.9rel.1">Lynx-2.8.9rel.1</a> or <a class="xref" href=
+          "../basicnet/links.html" title="Links-2.29">Links-2.29</a> or
+          <a class="ulink" href="http://elinks.or.cz">ELinks</a>, <a class=
+          "xref" href="../basicnet/nghttp2.html" title=
+          "nghttp2-1.58.0">nghttp2-1.58.0</a>, <a class="xref" href=
+          "openldap.html" title="OpenLDAP-2.6.6">OpenLDAP-2.6.6</a>
+          (<a class="xref" href="../general/apr-util.html" title=
+          "Apr-Util-1.6.3">Apr-Util-1.6.3</a> needs to be installed with ldap
+          support), <a class="xref" href="../basicnet/rsync.html" title=
+          "rsync-3.2.7">rsync-3.2.7</a>, <a class="ulink" href=
+          "https://anduin.linuxfromscratch.org/BLFS/bdb/db-5.3.28.tar.gz">Berkeley
+          DB</a> (非推奨), and <a class="ulink" href=
+          "https://sourceforge.net/projects/distcache">Distcache</a>
+        </p>
+        <p class="usernotes">
+          編集ノート: <a class="ulink" href=
+          "https://wiki.linuxfromscratch.org/blfs/wiki/apache">https://wiki.linuxfromscratch.org/blfs/wiki/apache</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Apache HTTPD のインストール
+        </h2>
+        <p>
+          セキュリティの観点から、サーバーは一般ユーザーと一般グループにより起動することが強く推奨されています。 <code class=
+          "systemitem">root</code> になり、以下のコマンドによってグループとユーザーを生成します。
+        </p>
+        <pre class="root"><kbd class=
+        "command">groupadd -g 25 apache &amp;&amp;
+useradd -c "Apache Server" -d /srv/www -g apache \
+        -s /bin/false -u 25 apache</kbd></pre>
+        <p>
+          <span class="application">Apache HTTPD</span>
+          をビルドするために、以下のコマンドを実行します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../httpd-2.4.58-blfs_layout-1.patch             &amp;&amp;
+
+sed '/dir.*CFG_PREFIX/s@^@#@' -i support/apxs.in              &amp;&amp;
+
+sed -e '/HTTPD_ROOT/s:${ap_prefix}:/etc/httpd:'       \
+    -e '/SERVER_CONFIG_FILE/s:${rel_sysconfdir}/::'   \
+    -e '/AP_TYPES_CONFIG_FILE/s:${rel_sysconfdir}/::' \
+    -i configure  &amp;&amp;
+
+sed -e '/encoding.h/a # include &lt;libxml/xmlstring.h&gt;' \
+    -i modules/filters/mod_xml2enc.c  &amp;&amp;
+
+./configure --enable-authnz-fcgi                              \
+            --enable-layout=BLFS                              \
+            --enable-mods-shared="all cgi"                    \
+            --enable-mpms-shared=all                          \
+            --enable-suexec=shared                            \
+            --with-apr=/usr/bin/apr-1-config                  \
+            --with-apr-util=/usr/bin/apu-1-config             \
+            --with-suexec-bin=/usr/lib/httpd/suexec           \
+            --with-suexec-caller=apache                       \
+            --with-suexec-docroot=/srv/www                    \
+            --with-suexec-logfile=/var/log/httpd/suexec.log   \
+            --with-suexec-uidmin=100                          \
+            --with-suexec-userdir=public_html                 &amp;&amp;
+make</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install  &amp;&amp;
+
+mv -v /usr/sbin/suexec /usr/lib/httpd/suexec &amp;&amp;
+chgrp apache           /usr/lib/httpd/suexec &amp;&amp;
+chmod 4754             /usr/lib/httpd/suexec &amp;&amp;
+
+chown -v -R apache:apache /srv/www</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <span class="command"><strong>sed
+          '/dir.*CFG_PREFIX/s@^@#@'...</strong></span>: Forces the
+          <span class="application">apxs</span> utility to use absolute
+          pathnames for modules, when instructed to do so.
+        </p>
+        <p>
+          <span class="command"><strong>sed -e '/HTTPD_ROOT/s
+          ...</strong></span>: Fixes some paths.
+        </p>
+        <p>
+          <span class="command"><strong>sed -e '/encoding.h/a
+          ...</strong></span>; Fix building against libxml-2.12.x.
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-authnz-fcgi</code></em>: Build
+          FastCGI authorizer-based authentication and authorization
+          (mod_authnz_fcgi.so fast CGI module).
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-mods-shared="all
+          cgi"</code></em>: モジュール類は動的共有オブジェクト (Dynamic Shared Objects; DSO)
+          としてビルドされ利用されます。 そして実行時の設定ファイル内のディレクティブにより設定されます。
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-mpm-shared=all</code></em>:
+          本スイッチは MPM (マルチプロセスモジュール; Multi Processing Modules) を動的共有オブジェクト
+          (Dynamic Shared Objects; DSO) としてビルドすることを指示します。
+          こうすることによって、実行時にいずれのモジュールを用いるかを設定できるようになります。
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-suexec</code></em>: 本スイッチは
+          <span class="application">Apache</span> の suEXEC モジュールをビルドするようにします。
+          suEXEC モジュールは、Web サーバーを呼び出すユーザーとは異なるユーザーのもとで、CGI や SSI
+          スクリプトを実行できるようにするものです。
+        </p>
+        <p>
+          <em class="parameter"><code>--with-suexec-*</code></em>: これらのスイッチは
+          suEXEC モジュールの挙動を制御するものです。 例えばデフォルトのドキュメントルートや最小 UID といったもので、これは
+          suEXEC のもとでスクリプトを実行するために利用されます。 ただし最小 UID が 100 であると、<code class=
+          "systemitem">apache</code> ユーザーとしては suEXEC のもとで CGI や SSI
+          を実行することはできません。
+        </p>
+        <p>
+          <span class="command"><strong>...
+          /usr/lib/httpd/suexec</strong></span>: これらのコマンドは <span class=
+          "command"><strong>suexec</strong></span> ラッパースクリプトを適切なディレクトリに移動します。
+          こうするのは、このスクリプトが直接実行されるものではないためです。 また setgid を <code class=
+          "systemitem">apache</code> とすることにより、実行モジュールのパーミッションを修正します。
+        </p>
+        <p>
+          <span class="command"><strong>chown -R apache:apache
+          /srv/www</strong></span>: デフォルトにて、インストール時にインストールされるファイル類
+          (ドキュメントファイル、エラーメッセージ、デフォルトアイコンなど) は、tar ファイルを解凍したユーザーが所有者となります。
+          この所有者を他ユーザーに変更したい場合は、この時点において実行する必要があります。
+          また必要なこととして、ドキュメントディレクトリは、パーミッション (r-x) とし <span class=
+          "command"><strong>httpd</strong></span> プロセスがアクセス可能でなければなりません。
+          また各種ファイル類は、パーミッション (r--) とし <code class="systemitem">apache</code>
+          ユーザーが読み込み可能でなければなりません。
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Apache の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="apache-config" name="apache-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="apache-config" name="apache-config"></a>設定ファイル
+          </h4>
+          <p>
+            <code class="filename">/etc/httpd/httpd.conf</code> and
+            <code class="filename">/etc/httpd/extra/*</code>
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id57677" name="id57677"></a>設定情報
+          </h4>
+          <p>
+            <span class="application">Apache</span> HTTP
+            サーバーの設定ファイルに関する設定方法の詳細は <a class="ulink" href=
+            "file:///usr/share/httpd/manual/configuring.html">file:///usr/share/httpd/manual/configuring.html</a>
+            を参照してください。
+          </p>
+          <p>
+            There is no reason, at least for internet facing sites, not to
+            use SSL encryption. Setting up a secured website does not cost
+            anything except installing one additional small tool and a few
+            minutes of configuration work. Use this guideline at <a class=
+            "ulink" href=
+            "https://wiki.linuxfromscratch.org/blfs/wiki/Securing_a_website">https://wiki.linuxfromscratch.org/blfs/wiki/Securing_a_website</a>
+            to create world-wide accepted certificates and renew them on a
+            regular basis.
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="httpd-init" name="httpd-init"></a>
+          </h3>
+          <h4 class="title">
+            <a id="httpd-init" name="httpd-init"></a><span class=
+            "phrase">ブートスクリプト</span>
+          </h4>
+          <p>
+            システム起動時に <span class="application">Apache</span> サーバーを自動で起動する場合は
+            <a class="xref" href="../introduction/bootscripts.html" title=
+            "BLFS ブートスクリプト">blfs-bootscripts-20231119</a>
+            パッケージに含まれる<span class="phrase"><code class=
+            "filename">/etc/rc.d/init.d/httpd</code>初期起動スクリプト</span>をインストールします。
+          </p>
+          <pre class="root"><kbd class=
+          "command">make install-httpd</kbd></pre>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">ab, apachectl, apxs, checkgid, dbmmanage,
+              fcgistarter, htcacheclean, htdbm, htdigest, htpasswd, httpd,
+              httxt2dbm, logresolve, rotatelogs</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">Several libraries under
+              /usr/lib/httpd/modules/</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/etc/httpd, /srv/www, /usr/include/httpd,
+              /usr/lib/httpd, /usr/share/httpd, /var/log/httpd,
+              /var/run/httpd</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ab" name="ab"></a><span class="term"><span class=
+                    "command"><strong>ab</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">Apache</span> HTTP
+                    サーバーのベンチマークを計測するツールです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="apachectl" name="apachectl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>apachectl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a front end to the <span class=
+                    "application">Apache</span> HTTP server which is designed
+                    to help the administrator control the functioning of the
+                    <span class="application">Apache</span> httpd daemon
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="apxs" name="apxs"></a><span class=
+                    "term"><span class=
+                    "command"><strong>apxs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">Apache</span> HTTP
+                    サーバーに対する追加モジュールをビルドしインストールするためのツールです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="checkgid" name="checkgid"></a><span class=
+                    "term"><span class=
+                    "command"><strong>checkgid</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a program that checks whether it can setgid to the
+                    group specified. This is to see if it is a valid group
+                    for Apache2 to use at runtime. If the user (should be run
+                    as superuser) is in that group, or can setgid to it, it
+                    will return 0
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dbmmanage" name="dbmmanage"></a><span class=
+                    "term"><span class=
+                    "command"><strong>dbmmanage</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to create and update the DBM format files used to
+                    store usernames and passwords for basic authentication of
+                    HTTP users
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fcgistarter" name="fcgistarter"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fcgistarter</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool to start a FastCGI program
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="htcacheclean" name="htcacheclean"></a><span class=
+                    "term"><span class=
+                    "command"><strong>htcacheclean</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ディスクキャッシュをクリーンアップします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="htdbm" name="htdbm"></a><span class=
+                    "term"><span class=
+                    "command"><strong>htdbm</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    DBM パスワードデータベースを操作します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="htdigest" name="htdigest"></a><span class=
+                    "term"><span class=
+                    "command"><strong>htdigest</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    HTTP におけるダイジェスト認証を行うためのファイルを生成し更新します。
+                    そのファイルはフラットファイルであり、ユーザー名、領域名、パスワードを保持します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="htpasswd" name="htpasswd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>htpasswd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to create and update the flat-files used to store
+                    usernames and passwords for basic authentication of HTTP
+                    users
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="httpd" name="httpd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>httpd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">Apache</span> HTTP サーバープログラム。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="httxt2dbm" name="httxt2dbm"></a><span class=
+                    "term"><span class=
+                    "command"><strong>httxt2dbm</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    DBM ファイルをテキストファイルから生成するもので、RewiteMap 内にて利用されます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="logresolve" name="logresolve"></a><span class=
+                    "term"><span class=
+                    "command"><strong>logresolve</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a post-processing program to resolve IP-addresses in
+                    <span class="application">Apache</span>'s access log
+                    files
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rotatelogs" name="rotatelogs"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rotatelogs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a simple program for use in conjunction with
+                    <span class="application">Apache</span>'s piped log file
+                    feature
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="suexec" name="suexec"></a><span class=
+                    "term"><span class=
+                    "command"><strong>suexec</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    allows users to run CGI and SSI applications as a
+                    different user
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="majorservers.html" title="代表的なサーバー">戻る</a>
+          <p>
+            代表的なサーバー
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="bind.html" title="BIND-9.18.20">次へ</a>
+          <p>
+            BIND-9.18.20
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="majorservers.html" title=
+          "第20章 代表的なサーバー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,3449 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Beyond Linux® From Scratch (System V 版)
+    </title>
+    <link rel="stylesheet" type="text/css" href="stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <meta name="description" content=
+    "本書は Linux From Scratch ブックに続くものです。 システムに追加していく機能として、ネットワーク、グラフィカルインターフェース、サウンド機能、プリンター、スキャナー機能などを紹介し説明していきます。" />
+
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="stylesheets/lfs-print.css" type="text/css"
+    media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div xml:lang="ja" class="book" lang="ja">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h1 class="title">
+              <a id="id1" name="id1"></a>Beyond Linux<sup>®</sup> From
+              Scratch <span class="phrase">(System V</span> 版)
+            </h1>
+          </div>
+          <div>
+            <h2 class="subtitle">
+              Version r12.0-1048+
+            </h2>
+          </div>
+          <div>
+            <div class="authorgroup">
+              <h3 class="corpauthor">
+                BLFS 開発チーム
+              </h3>
+            </div>
+          </div>
+          <div>
+            <p class="copyright">
+              <a href="legalnotice.html">製作著作</a> © 1999-2023 BLFS 開発チーム
+            </p>
+          </div>
+          <div>
+            <p class="pubdate">
+              2023-12-22 公開（日本語訳 20231223）
+            </p>
+          </div>
+          <div>
+            <table summary="改訂履歴" class="revhistory">
+              <tr>
+                <th colspan="3">
+                  <b>改訂履歴</b>
+                </th>
+              </tr>
+              <tr>
+                <td>
+                  改訂 r12.0-1048+
+                </td>
+                <td>
+                  2023-12-22
+                </td>
+                <td>
+                  進行中リリース
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  改訂 12.0
+                </td>
+                <td>
+                  2023-09-01
+                </td>
+                <td>
+                  第 28 次リリース
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  改訂 11.3
+                </td>
+                <td>
+                  2023-03-01
+                </td>
+                <td>
+                  第 27 次リリース
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  改訂 11.2
+                </td>
+                <td>
+                  2022-09-01
+                </td>
+                <td>
+                  第 26 次リリース
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  改訂 11.1
+                </td>
+                <td>
+                  2022-03-01
+                </td>
+                <td>
+                  第 25 次リリース
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  改訂 11.0
+                </td>
+                <td>
+                  2021-09-01
+                </td>
+                <td>
+                  第 24 次リリース
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  改訂 10.1
+                </td>
+                <td>
+                  2021-03-01
+                </td>
+                <td>
+                  第 23 次リリース
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  改訂 10.0
+                </td>
+                <td>
+                  2020-09-01
+                </td>
+                <td>
+                  第 22 次リリース
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  改訂 9.1
+                </td>
+                <td>
+                  2020-03-01
+                </td>
+                <td>
+                  第 21 次リリース
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  改訂 9.0
+                </td>
+                <td>
+                  2019-09-01
+                </td>
+                <td>
+                  第 20 次リリース
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  改訂 8.4
+                </td>
+                <td>
+                  2019-03-01
+                </td>
+                <td>
+                  第 19 次リリース
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  改訂 8.3
+                </td>
+                <td>
+                  2018-09-01
+                </td>
+                <td>
+                  第 18 次リリース
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  改訂 8.2
+                </td>
+                <td>
+                  2018-03-02
+                </td>
+                <td>
+                  第 17 次リリース
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  改訂 8.1
+                </td>
+                <td>
+                  2017-09-01
+                </td>
+                <td>
+                  第 16 次リリース
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  改訂 8.0
+                </td>
+                <td>
+                  2017-02-25
+                </td>
+                <td>
+                  第 15 次リリース
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  改訂 7.10
+                </td>
+                <td>
+                  2016-09-07
+                </td>
+                <td>
+                  第 14 次リリース
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  改訂 7.9
+                </td>
+                <td>
+                  2016-03-08
+                </td>
+                <td>
+                  第 13 次リリース
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  改訂 7.8
+                </td>
+                <td>
+                  2015-10-01
+                </td>
+                <td>
+                  第 12 次リリース
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  改訂 7.7
+                </td>
+                <td>
+                  2015-03-06
+                </td>
+                <td>
+                  第 11 次リリース
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  改訂 7.6
+                </td>
+                <td>
+                  2014-09-23
+                </td>
+                <td>
+                  第 10 次リリース
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  改訂 7.5
+                </td>
+                <td>
+                  2014-03-05
+                </td>
+                <td>
+                  第 9 次リリース
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  改訂 7.4
+                </td>
+                <td>
+                  2013-09-14
+                </td>
+                <td>
+                  第 8 次リリース
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  改訂 6.3
+                </td>
+                <td>
+                  2008-08-24
+                </td>
+                <td>
+                  第 7 次リリース
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  改訂 6.2
+                </td>
+                <td>
+                  2007-02-14
+                </td>
+                <td>
+                  第 6 次リリース
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  改訂 6.1
+                </td>
+                <td>
+                  2005-08-14
+                </td>
+                <td>
+                  第 5 次リリース
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  改訂 6.0
+                </td>
+                <td>
+                  2005-04-02
+                </td>
+                <td>
+                  第 4 次リリース
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  改訂 5.1
+                </td>
+                <td>
+                  2004-06-05
+                </td>
+                <td>
+                  第 3 次リリース
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  改訂 5.0
+                </td>
+                <td>
+                  2003-11-06
+                </td>
+                <td>
+                  第 2 次リリース
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  改訂 1.0
+                </td>
+                <td>
+                  2003-04-25
+                </td>
+                <td>
+                  第 1 次リリース
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div>
+            <div class="abstract">
+              <p class="title">
+                <strong>概要</strong>
+              </p>
+              <p>
+                本書は Linux From Scratch ブックに続くものです。
+                システムに追加していく機能として、ネットワーク、グラフィカルインターフェース、サウンド機能、プリンター、スキャナー機能などを紹介し説明していきます。
+              </p>
+            </div>
+          </div>
+          <div>
+            <div class="abstract">
+              <p class="title">
+                <strong>日本語訳情報</strong>
+              </p>
+              <p>
+                この日本語訳は散発的に訳出を進めている状態であり、完成とは程遠いものです。 ご了承ください。 (日本語訳： 松山 道夫)
+              </p>
+            </div>
+          </div>
+        </div>
+        <hr />
+      </div>
+      <div class="dedication">
+        <h2>
+          献辞
+        </h2>
+        <p>
+          本書を LFS コミュニティに提供します。
+        </p>
+      </div>
+      <div class="toc">
+        <h3>
+          目次
+        </h3>
+        <ul>
+          <li class="preface">
+            <h4>
+              <a href="preface/preface.html">序文</a>
+            </h4>
+            <ul>
+              <li class="sect1">
+                <a href="preface/foreword.html">はしがき</a>
+              </li>
+              <li class="sect1">
+                <a href="preface/whoread.html">本書を読むのは誰か</a>
+              </li>
+              <li class="sect1">
+                <a href="preface/organization.html">本書の構成</a>
+              </li>
+              <li class="sect1">
+                <a href="preface/japanese.html">日本語訳情報</a>
+              </li>
+            </ul>
+          </li>
+          <li class="part">
+            <h3>
+              <a href="introduction/introduction.html">I. はじめに</a>
+            </h3>
+            <ul>
+              <li class="chapter">
+                <h4>
+                  <a href="introduction/welcome.html">1. BLFS へようこそ</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="introduction/which.html">本書のどこを読んだら良いか?</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="introduction/conventions.html">本書の表記</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="introduction/version.html">本書のバージョン</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="introduction/mirrors.html">ミラーサイト</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="introduction/packages.html">ソースパッケージの入手</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="introduction/changelog.html">変更履歴</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="introduction/maillists.html">メーリングリスト</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="introduction/wiki.html">編集ノート</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="introduction/askhelp.html">ヘルプと FAQ の確認</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="introduction/credits.html">本書製作に関わる方々</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="introduction/contactinfo.html">連絡方法</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="introduction/important.html">2. 重要な情報</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href=
+                    "introduction/notes-on-building.html">ソフトウェア構築に関するメモ</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="introduction/position.html">/usr か /usr/local
+                    かの議論</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="introduction/patches.html">追加のパッチ</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="introduction/bootscripts.html">BLFS ブートスクリプト</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="introduction/la-files.html">About Libtool
+                    Archive (.la) files</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "introduction/libraries.html">ライブラリはスタティックか共有か</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="introduction/locale-issues.html">ロケールに関すること</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="introduction/beyond.html">BLFS のその先</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li class="part">
+            <h3>
+              <a href="postlfs/postlfs.html">II. LFS 設定以降と追加ソフトウェア</a>
+            </h3>
+            <ul>
+              <li class="chapter">
+                <h4>
+                  <a href="postlfs/config.html">3. LFS 設定以降について</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="postlfs/bootdisk.html">独自のブートデバイスの生成</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/console-fonts.html">About Console
+                    Fonts</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/firmware.html">About Firmware</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/devices.html">デバイスに関して</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/skel.html">ユーザー追加のための設定</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/users.html">システムユーザーとグループについて</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/profile.html">Bash シェルの初期起動ファイル</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/vimrc.html">/etc/vimrc ファイルと ~/.vimrc
+                    ファイル</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/logon.html">/etc/issue
+                    を使ったログオン画面のカスタマイズ</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/random.html">乱数生成</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="postlfs/security.html">4. セキュリティ</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="postlfs/vulnerabilities.html">ぜい弱性</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/make-ca.html">make-ca-1.13</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/cracklib.html">CrackLib-2.9.11</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/cryptsetup.html">cryptsetup-2.6.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/cyrus-sasl.html">Cyrus SASL-2.1.28</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/gnupg.html">GnuPG-2.4.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/gnutls.html">GnuTLS-3.8.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/gpgme.html">GPGME-1.23.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/iptables.html">iptables-1.8.10</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/firewall.html">ネットワークファイアウォールの設定</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/libcap.html">libcap-2.69 with PAM</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/linux-pam.html">Linux-PAM-1.5.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/liboauth.html">liboauth-1.0.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "postlfs/libpwquality.html">libpwquality-1.4.5</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/mitkrb.html">MIT Kerberos V5-1.21.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/nettle.html">Nettle-3.9.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/nss.html">NSS-3.96.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/openssh.html">OpenSSH-9.5p1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/p11-kit.html">p11-kit-0.25.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/polkit.html">Polkit-123</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "postlfs/polkit-gnome.html">polkit-gnome-0.105</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/shadow.html">Shadow-4.14.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/ssh-askpass.html">ssh-askpass-9.5p1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/stunnel.html">stunnel-5.71</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/sudo.html">Sudo-1.9.15p4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/tripwire.html">Tripwire-2.4.3.7</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="postlfs/filesystems.html">5. ファイルシステムとディスク管理</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="postlfs/initramfs.html">initramfs について</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/btrfs-progs.html">btrfs-progs-6.6.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/dosfstools.html">dosfstools-4.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/fuse.html">Fuse-3.16.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/jfsutils.html">jfsutils-1.1.15</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/lvm2.html">LVM2-2.03.23</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/aboutlvm.html">論理ボリューム管理 (LVM) について</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/raid.html">RAID について</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/mdadm.html">mdadm-4.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/ntfs-3g.html">ntfs-3g-2022.10.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/gptfdisk.html">gptfdisk-1.0.9</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/parted.html">parted-3.6</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "postlfs/smartmontools.html">smartmontools-7.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/sshfs.html">sshfs-3.7.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/xfsprogs.html">xfsprogs-6.5.0</a>
+                  </li>
+                  <li class="sect1">
+                    <span class="dummy">UEFI ブートのためのパッケージ</span>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/efivar.html">efivar-38</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/efibootmgr.html">efibootmgr-18</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/grub-efi.html">GRUB-2.06 for EFI</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/grub-setup.html">Using GRUB to Set Up
+                    the Boot Process with UEFI</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="postlfs/editors.html">6. テキストエディター</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="postlfs/bluefish.html">Bluefish-2.2.14</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/ed.html">Ed-1.19</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/emacs.html">Emacs-29.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/gedit.html">Gedit-46.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/joe.html">JOE-4.6</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/kate5.html">Kate-23.08.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/mousepad.html">Mousepad-0.5.10</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/nano.html">Nano-7.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/vim.html">Vim-9.0.2103</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="postlfs/shells.html">7. シェル</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="postlfs/dash.html">Dash-0.5.12</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/tcsh.html">Tcsh-6.24.10</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="postlfs/zsh.html">zsh-5.9</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="postlfs/virtualization.html">8. 仮想化</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="postlfs/qemu.html">qemu-8.2.0</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li class="part">
+            <h3>
+              <a href="general/general.html">III. 汎用的なライブラリとユーティリティ</a>
+            </h3>
+            <ul>
+              <li class="chapter">
+                <h4>
+                  <a href="general/genlib.html">9. 汎用的なライブラリ</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="general/appstream.html">AppStream-1.0.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/apr.html">Apr-1.7.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/apr-util.html">Apr-Util-1.6.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/aspell.html">Aspell-0.60.8.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/boost.html">Boost-1.84.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/brotli.html">brotli-1.1.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/clucene.html">CLucene-2.3.3.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/dbus-glib.html">dbus-glib-0.112</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "general/double-conversion.html">Double-conversion-3.3.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/duktape.html">duktape-2.7.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/enchant.html">enchant-2.6.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/exempi.html">Exempi-2.6.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/fftw.html">fftw-3.3.10</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/glib2.html">GLib-2.78.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/glibmm.html">GLibmm-2.66.5</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/gmime3.html">GMime-3.2.7</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "general/gobject-introspection.html">gobject-introspection-1.78.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/gsl.html">Gsl-2.7.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/gspell.html">gspell-1.12.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/icu.html">ICU-74.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/inih.html">inih-57</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "general/intel-gmmlib.html">Intel-gmmlib-22.3.14</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/jansson.html">Jansson-2.14</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/json-c.html">JSON-C-0.17</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/json-glib.html">JSON-GLib-1.8.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/keyutils.html">keyutils-1.6.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libaio.html">libaio-0.3.113</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libarchive.html">libarchive-3.7.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libassuan.html">libassuan-2.5.6</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libatasmart.html">libatasmart-0.19</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "general/libatomic_ops.html">libatomic_ops-7.8.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libblockdev.html">libblockdev-3.0.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libbytesize.html">libbytesize-2.10</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "general/libcloudproviders.html">libcloudproviders-0.3.5</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libdaemon.html">libdaemon-0.14</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libgcrypt.html">libgcrypt-1.10.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libgpg-error.html">libgpg-error-1.47</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libgrss.html">libgrss-0.7.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libgsf.html">libgsf-1.14.51</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libgudev.html">libgudev-238</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libgusb.html">libgusb-0.4.8</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libical.html">libical-3.0.17</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libidn.html">libidn-1.41</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libidn2.html">libidn2-2.3.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libiodbc.html">libiodbc-3.52.15</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libksba.html">libksba-1.6.5</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/liblinear.html">liblinear-247</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libmbim.html">libmbim-1.26.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libnvme.html">libnvme-1.7.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libpaper.html">libpaper-2.1.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libportal.html">libportal-0.7.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libptytty.html">libptytty-2.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "general/libqalculate.html">libqalculate-4.9.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libqmi.html">libqmi-1.30.8</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libseccomp.html">libseccomp-2.5.5</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libsigc.html">libsigc++-2.12.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libsigsegv.html">libsigsegv-2.14</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libssh2.html">libssh2-1.11.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libstatgrab.html">libstatgrab-0.92.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libtasn1.html">libtasn1-4.19.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libunistring.html">libunistring-1.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libunwind.html">libunwind-1.6.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/liburcu.html">liburcu-0.14.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libusb.html">libusb-1.0.26</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libuv.html">libuv-1.47.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "general/libxkbcommon.html">libxkbcommon-1.6.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libxml2.html">libxml2-2.12.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libxmlb.html">libxmlb-0.3.14</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libxslt.html">libxslt-1.1.39</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libwacom.html">libwacom-2.9.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libwpe.html">libwpe-1.14.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libyaml.html">libyaml-0.2.5</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/log4cplus.html">log4cplus-2.1.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/lzo.html">LZO-2.10</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/mtdev.html">mtdev-1.1.6</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/nodejs.html">Node.js-20.10.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/npth.html">npth-1.6</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/nspr.html">NSPR-4.35</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/pcre.html">PCRE-8.45</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/pcre2.html">PCRE2-10.42</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/popt.html">Popt-1.19</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/pth.html">Pth-2.0.7</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/qca.html">Qca-2.3.7</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/spidermonkey.html">SpiderMonkey from
+                    Firefox-115.5.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "general/spirv-headers.html">SPIRV-Headers-1.3.268.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "general/spirv-tools.html">SPIRV-Tools-2023.5.rc1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/talloc.html">Talloc-2.4.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "general/telepathy-glib.html">telepathy-glib-0.24.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/uchardet.html">Uchardet-0.0.8</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/umockdev.html">Umockdev-0.17.18</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/wayland.html">Wayland-1.22.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "general/wayland-protocols.html">Wayland-Protocols-1.32</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "general/wpebackend-fdo.html">wpebackend-fdo-1.14.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/wv.html">wv-1.2.9</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/xapian.html">Xapian-1.4.24</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="general/graphlib.html">10. グラフィックスとフォントのライブラリ</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="general/aalib.html">AAlib-1.4rc5</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/babl.html">babl-0.1.106</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/exiv2.html">Exiv2-0.28.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/freetype2.html">FreeType-2.13.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/fontconfig.html">Fontconfig-2.14.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/fribidi.html">FriBidi-1.0.13</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/gegl.html">gegl-0.4.46</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/giflib.html">giflib-5.2.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/glad.html">Glad-2.0.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/glm.html">GLM-0.9.9.8</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/graphite2.html">Graphite2-1.3.14</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/harfbuzz.html">HarfBuzz-8.3.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/jasper.html">JasPer-4.1.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/lcms2.html">Little CMS-2.14</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libavif.html">libavif-1.0.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libexif.html">libexif-0.6.24</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libgxps.html">Libgxps-0.3.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libjpeg.html">libjpeg-turbo-3.0.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libmng.html">libmng-2.0.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libmypaint.html">libmypaint-1.6.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libpng.html">libpng-1.6.40</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libraw.html">libraw-0.21.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/librsvg.html">librsvg-2.57.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libspiro.html">Libspiro-20220722</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libtiff.html">libtiff-4.6.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/libwebp.html">libwebp-1.3.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "general/mypaint-brushes.html">mypaint-brushes-1.3.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/newt.html">newt-0.52.24</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/opencv.html">opencv-4.8.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/openjpeg2.html">OpenJPEG-2.5.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/pixman.html">Pixman-0.42.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/poppler.html">Poppler-23.12.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/potrace.html">Potrace-1.16</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/qpdf.html">Qpdf-11.6.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/qrencode.html">qrencode-4.1.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/sassc.html">sassc-3.6.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "general/webp-pixbuf-loader.html">webp-pixbuf-loader-0.2.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/woff2.html">woff2-1.0.2</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="general/genutils.html">11. 汎用ユーティリティ</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="general/asciidoctor.html">Asciidoctor-2.0.20</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/bogofilter.html">Bogofilter-1.2.5</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/compface.html">Compface-1.5.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "general/desktop-file-utils.html">desktop-file-utils-0.27</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/dos2unix.html">dos2unix-7.5.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/graphviz.html">Graphviz-9.0.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/gtk-doc.html">GTK-Doc-1.33.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/highlight.html">Highlight-4.10</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/ibus.html">ibus-1.5.29</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "general/imagemagick.html">ImageMagick-7.1.1-15</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/iso-codes.html">ISO Codes-4.15.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/lsof.html">lsof-4.99.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/mandoc.html">mandoc-1.14.6</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/pinentry.html">pinentry-1.2.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/screen.html">Screen-4.9.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "general/shared-mime-info.html">shared-mime-info-2.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/sharutils.html">Sharutils-4.15.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "general/telepathy-mission-control.html">telepathy-mission-control-5.16.6</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/tidy-html5.html">tidy-html5-5.8.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/time.html">Time-1.9</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/tree.html">tree-2.1.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/unixodbc.html">unixODBC-2.3.12</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "general/xdg-dbus-proxy.html">xdg-dbus-proxy-0.1.5</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "general/xdg-user-dirs.html">Xdg-user-dirs-0.18</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="general/sysutils.html">12. システムユーティリティ</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href=
+                    "general/accountsservice.html">AccountsService-23.13.9</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/acpid.html">acpid-2.0.34</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/at.html">at-3.2.5</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/autofs.html">autofs-5.1.9</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/bluez.html">BlueZ-5.71</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/bubblewrap.html">Bubblewrap-0.8.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/colord.html">Colord-1.4.6</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/cpio.html">cpio-2.14</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "general/cups-pk-helper.html">cups-pk-helper-0.2.7</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/dbus.html">dbus-1.14.10</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/elogind.html">elogind-252.9</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/blocaled.html">blocaled-0.5</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/fcron.html">Fcron-3.2.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/gpm.html">GPM-1.20.7</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/hdparm.html">Hdparm-9.65</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/lsb-tools.html">LSB-Tools-0.10</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/lm_sensors.html">Lm-sensors-3-6-0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/logrotate.html">Logrotate-3.21.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/mc.html">MC-4.8.30</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "general/ModemManager.html">ModemManager-1.18.12</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "general/notification-daemon.html">notification-daemon-3.20.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/p7zip.html">p7zip-17.04</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/pax.html">Pax-20201030</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/pciutils.html">pciutils-3.10.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/pm-utils.html">pm-utils-1.4.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/raptor.html">Raptor-2.0.16</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/rasqal.html">Rasqal-0.9.33</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/redland.html">Redland-1.0.17</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/sg3_utils.html">sg3_utils-1.48</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/sysmon-qt.html">sysmon-qt-1.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/sysstat.html">Sysstat-12.7.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/udisks2.html">UDisks-2.10.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/unrar.html">UnRar-6.2.12</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/unzip.html">UnZip-6.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/upower.html">UPower-1.90.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/usbutils.html">usbutils-017</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/which.html">Which-2.21 と別の実現方法</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/zip.html">Zip-3.0</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="general/prog.html">13. プログラミング言語</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="general/cbindgen.html">Cbindgen-0.26.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/clisp.html">Clisp-2.49</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/cmake.html">CMake-3.28.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/doxygen.html">Doxygen-1.9.8</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/gcc.html">GCC-13.2.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/gc.html">GC-8.2.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/gdb.html">GDB-14.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/git.html">Git-2.43.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/gitserver.html">Git サーバーの起動</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/guile.html">Guile-3.0.9</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/llvm.html">LLVM-17.0.6</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/lua.html">Lua-5.4.6</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/lua52.html">Lua-5.2.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/mercurial.html">Mercurial-6.6.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/nasm.html">NASM-2.16.01</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/patchelf.html">Patchelf-0.17.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/perl-modules.html">Perl モジュール</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/perl-deps.html">Perl Module
+                    Dependencies</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/php.html">PHP-8.3.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/python2.html">Python-2.7.18</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/python3.html">Python-3.12.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/python-modules.html">Python モジュール</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/python-dependencies.html">Python
+                    Dependencies</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/ruby.html">Ruby-3.2.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/rust.html">Rustc-1.74.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/scons.html">SCons-4.6.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/slang.html">slang-2.3.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/subversion.html">Subversion-1.14.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/svnserver.html">Subversion サーバーの起動</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/swig.html">SWIG-4.1.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/tk.html">Tk-8.6.13</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/unifdef.html">unifdef-2.12</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/vala.html">Vala-0.56.14</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/valgrind.html">Valgrind-3.22.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/yasm.html">yasm-1.3.0</a>
+                  </li>
+                  <li class="sect1">
+                    <span class="dummy">Java</span>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/java.html">Java-21.0.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/openjdk.html">OpenJDK-21.0.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/ojdk-conf.html">JAVA 環境の設定</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="general/apache-ant.html">apache-ant-1.10.14</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li class="part">
+            <h3>
+              <a href="basicnet/basicnet.html">IV. ネットワークソフトウェア</a>
+            </h3>
+            <ul>
+              <li class="chapter">
+                <h4>
+                  <a href="basicnet/connect.html">14. ネットワーク接続</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="basicnet/dhcpcd.html">dhcpcd-10.0.6</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="basicnet/netprogs.html">15. ネットワークプログラム</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href=
+                    "basicnet/bridge-utils.html">bridge-utils-1.7.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/cifsutils.html">cifs-utils-7.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/ncftp.html">NcFTP-3.2.6</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/net-tools.html">Net-tools-2.10</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/nfs-utils.html">NFS-Utils-2.6.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/netfs.html">ネットワークファイルシステムの設定</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/ntp.html">ntp-4.2.8p17</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/rpcbind.html">rpcbind-1.2.6</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/rsync.html">rsync-3.2.7</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/samba.html">Samba-4.19.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/wget.html">Wget-1.21.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/wireless-kernel.html">Configuring the
+                    Linux Kernel for Wireless</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/iw.html">iw-5.19</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/wireless_tools.html">Wireless
+                    Tools-29</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "basicnet/wpa_supplicant.html">wpa_supplicant-2.10</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="basicnet/netutils.html">16. ネットワークユーティリティ</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="basicnet/avahi.html">Avahi-0.8</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/bind-utils.html">BIND
+                    Utilities-9.18.20</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "basicnet/networkmanager.html">NetworkManager-1.44.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "basicnet/network-manager-applet.html">network-manager-applet-1.34.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/nmap.html">Nmap-7.94</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/traceroute.html">Traceroute-2.1.5</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/whois.html">Whois-5.4.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/wireshark.html">Wireshark-4.2.0</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="basicnet/netlibs.html">17. ネットワークライブラリ</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="basicnet/c-ares.html">c-ares-1.24.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/curl.html">cURL-8.5.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/geoclue2.html">GeoClue-2.7.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "basicnet/glib-networking.html">glib-networking-2.78.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/kdsoap.html">kdsoap-2.1.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/ldns.html">ldns-1.8.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/libevent.html">libevent-2.1.12</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/libmnl.html">libmnl-1.0.5</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/libnl.html">libnl-3.9.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/libnma.html">libnma-1.10.6</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/libnsl.html">libnsl-2.0.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/libpcap.html">libpcap-1.10.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/libpsl.html">libpsl-0.21.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/libndp.html">libndp-1.8</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/libslirp.html">Libslirp-4.7.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/libsoup.html">libsoup-2.74.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/libsoup3.html">libsoup-3.4.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/libtirpc.html">libtirpc-1.3.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/neon.html">neon-0.32.5</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/nghttp2.html">nghttp2-1.58.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "basicnet/rpcsvc-proto.html">rpcsvc-proto-1.4.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/serf.html">Serf-1.3.10</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/uhttpmock.html">uhttpmock-0.5.3</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="basicnet/textweb.html">18. テキストウェブブラウザー</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="basicnet/links.html">Links-2.29</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/lynx.html">Lynx-2.8.9rel.1</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="basicnet/mailnews.html">19. Mail/News Clients</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="basicnet/fetchmail.html">Fetchmail-6.4.37</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/mailx.html">mailx-12.5</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/mutt.html">Mutt-2.2.12</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/procmail.html">Procmail-3.22</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="basicnet/othermn.html">Other Mail and News
+                    Programs</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li class="part">
+            <h3>
+              <a href="server/server.html">V. サーバー</a>
+            </h3>
+            <ul>
+              <li class="chapter">
+                <h4>
+                  <a href="server/majorservers.html">20. 代表的なサーバー</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="server/apache.html">Apache-2.4.58</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="server/bind.html">BIND-9.18.20</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="server/kea.html">Kea 2.4.1 DHCP Server</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="server/proftpd.html">ProFTPD-1.3.8a</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="server/vsftpd.html">vsftpd-3.0.5</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="server/mail.html">21. メールサーバーソフトウェア</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="server/dovecot.html">Dovecot-2.3.21</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="server/exim.html">Exim-4.97</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="server/postfix.html">Postfix-3.8.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="server/sendmail.html">sendmail-8.17.2</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="server/databases.html">22. データベース</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="server/upgradedb.html">Database
+                    サーバーソフトウェアのアップグレードに関する重要事項</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="server/lmdb.html">lmdb-0.9.31</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="server/mariadb.html">MariaDB-10.11.6</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="server/postgresql.html">PostgreSQL-16.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="server/sqlite.html">SQLite-3.44.2</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="server/other.html">23. その他のサーバーソフトウェア</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="server/openldap.html">OpenLDAP-2.6.6</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="server/unbound.html">Unbound-1.19.0</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li class="part">
+            <h3>
+              <a href="x/x.html">VI. グラフィックコンポーネント</a>
+            </h3>
+            <ul>
+              <li class="chapter">
+                <h4>
+                  <a href="x/installing.html">24. グラフィック環境</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="x/xorg7.html">Xorg-7 の概要</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/util-macros.html">util-macros-1.20.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/xorgproto.html">xorgproto-2023.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/libXau.html">libXau-1.0.11</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/libXdmcp.html">libXdmcp-1.1.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/xcb-proto.html">xcb-proto-1.16.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/libxcb.html">libxcb-1.16</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/x7lib.html">Xorg ライブラリ</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/libxcvt.html">libxcvt-0.1.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/xcb-util.html">xcb-util-0.4.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/xcb-util-image.html">xcb-util-image-0.4.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "x/xcb-util-keysyms.html">xcb-util-keysyms-0.4.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "x/xcb-util-renderutil.html">xcb-util-renderutil-0.3.10</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/xcb-util-wm.html">xcb-util-wm-0.4.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "x/xcb-util-cursor.html">xcb-util-cursor-0.1.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/mesa.html">Mesa-23.3.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/xbitmaps.html">xbitmaps-1.1.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/x7app.html">Xorg アプリケーション</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/xcursor-themes.html">xcursor-themes-1.0.7</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/x7font.html">Xorg フォント</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "x/xkeyboard-config.html">XKeyboardConfig-2.40</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/xwayland.html">Xwayland-23.2.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/xorg-server.html">Xorg-Server-21.1.10</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/x7driver.html">Xorg Input ドライバー</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/twm.html">twm-1.0.12</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/xterm.html">xterm-388</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/xclock.html">xclock-1.1.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/xinit.html">xinit-1.4.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/xorg-config.html">Xorg-7 のテストと設定</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/tuning-fontconfig.html">Tuning Fontconfig</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/TTF-and-OTF-fonts.html">TTF and OTF fonts</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/x7legacy.html">Xorg Legacy</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="x/lib.html">25. グラフィック環境ライブラリ</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="x/atkmm.html">Atkmm-2.28.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/at-spi2-core.html">at-spi2-core-2.50.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/cairo.html">Cairo-1.18.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/cairomm-1.0.html">libcairomm-1.0
+                    (cairomm-1.14.0)</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/colord-gtk.html">colord-gtk-0.3.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/fltk.html">FLTK-1.3.9</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/freeglut.html">Freeglut-3.4.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/gdk-pixbuf.html">gdk-pixbuf-2.42.10</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/glew.html">GLEW-2.2.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/glslang.html">Glslang-13.1.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/glu.html">GLU-9.0.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/goffice010.html">GOffice-0.10.56</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/grantlee.html">Grantlee-5.3.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/graphene.html">Graphene-1.10.8</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/gtk2.html">GTK+-2.24.33</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/gtk3.html">GTK+-3.24.38</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/gtk4.html">GTK-4.12.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/gtk-engines.html">GTK Engines-2.20.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/gtkmm3.html">Gtkmm-3.24.8</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/gtk-vnc.html">gtk-vnc-1.3.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/gtksourceview.html">gtksourceview-3.24.11</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/gtksourceview4.html">gtksourceview4-4.8.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/gtksourceview5.html">gtksourceview5-5.10.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/imlib2.html">imlib2-1.12.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/kcolorpicker.html">kColorPicker-0.2.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "x/kimageannotator.html">kImageAnnotator-0.6.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/keybinder-3.html">keybinder-3.0-0.3.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/libadwaita.html">libadwaita-1.4.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/libei.html">libei-1.2.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/libgedit-amtk.html">libgedit-amtk-5.8.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "x/libgedit-gtksourceview.html">libgedit-gtksourceview-299.0.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/libhandy1.html">libhandy-1.8.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/libdrm.html">Libdrm-2.4.118</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/libepoxy.html">libepoxy-1.5.10</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/libglade.html">libglade-2.6.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/libnotify.html">libnotify-0.8.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/libxklavier.html">libxklavier-5.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/pango.html">Pango-1.50.14</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/pangomm.html">Pangomm-2.46.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/qt5.html">Qt-5.15.11</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/qt5-alternate.html">qt-alternate-5.15.11</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/qt5-components.html">qt-components-5.15.11</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/qtwebengine.html">QtWebEngine-5.15.17</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/qt6.html">Qt-6.6.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "x/startup-notification.html">startup-notification-0.12</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/tepl.html">Tepl-6.8.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "x/vulkan-headers.html">Vulkan-Headers-1.3.273</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/vulkan-loader.html">Vulkan-Loader-1.3.273</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/webkitgtk.html">WebKitGTK-2.42.4</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="x/dm.html">26. ディスプレイマネージャー</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="x/gdm.html">GDM-45.0.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/lightdm.html">lightdm-1.32.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/sddm.html">sddm-0.20.0</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="x/wm.html">27. ウィンドウマネージャー</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="x/fluxbox.html">Fluxbox-1.3.7</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/icewm.html">IceWM-3.4.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/openbox.html">openbox-3.6.1</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="x/icons.html">28. アイコン</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href=
+                    "x/adwaita-icon-theme.html">adwaita-icon-theme-45.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/breeze-icons.html">breeze-icons-5.113.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "x/gnome-icon-theme.html">gnome-icon-theme-3.12.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "x/gnome-icon-theme-extras.html">gnome-icon-theme-extras-3.12.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "x/gnome-icon-theme-symbolic.html">gnome-icon-theme-symbolic-3.12.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "x/gnome-themes-extra.html">gnome-themes-extra-3.28</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "x/hicolor-icon-theme.html">hicolor-icon-theme-0.17</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "x/icon-naming-utils.html">icon-naming-utils-0.8.90</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "x/lxde-icon-theme.html">lxde-icon-theme-0.5.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="x/oxygen-icons.html">oxygen-icons-5.113.0</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li class="part">
+            <h3>
+              <a href="kde/kde.html">VII. KDE</a>
+            </h3>
+            <ul>
+              <li class="chapter">
+                <h4>
+                  <a href="kde/introduction.html">29. はじめに</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="kde/kdeintro.html">KDE Preliminaries</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "kde/extra-cmake-modules.html">extra-cmake-modules-5.113.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="kde/phonon.html">Phonon-4.12.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "kde/phonon-backend-vlc.html">Phonon-backend-vlc-0.12.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="kde/polkit-qt.html">Polkit-Qt-0.114.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "kde/libdbusmenu-qt.html">libdbusmenu-qt-0.9.3+16.04.20160218</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "kde/plasma-wayland-protocols.html">Plasma-wayland-protocols-1.12.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="kde/kuserfeedback.html">kuserfeedback-1.3.0</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="kde/kf5.html">30. KDE Frameworks 5</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="kde/kf5-intro.html">KDE Frameworks 5
+                    Pre-installation Configuration</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="kde/frameworks5.html">Building KDE Frameworks 5
+                    (KF5)</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="kde/kf5-apps.html">31. KDE Frameworks 5
+                  ベースのアプリケーション</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="kde/ark5.html">Ark-23.08.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="kde/kdenlive.html">Kdenlive-23.08.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="kde/kmix5.html">KMix-23.08.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="kde/kio-extras.html">kio-extras-23.08.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="kde/khelpcenter.html">Khelpcenter-23.08.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="kde/konsole5.html">Konsole-23.08.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="kde/libkexiv2.html">libkexiv2-23.08.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="kde/okular5.html">Okular-23.08.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="kde/libkdcraw.html">libkdcraw-23.08.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="kde/gwenview5.html">Gwenview-23.08.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="kde/libkcddb.html">libkcddb-23.08.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="kde/k3b.html">k3b-23.08.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="kde/add-pkgs.html">その他の KDE5 パッケージ</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="kde/plasma5.html">32. KDE Plasma 5</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="kde/plasma-all.html">Plasma 5 のビルド</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li class="part">
+            <h3>
+              <a href="gnome/gnome.html">VIII. GNOME</a>
+            </h3>
+            <ul>
+              <li class="chapter">
+                <h4>
+                  <a href="gnome/core.html">33. GNOME のライブラリとデスクトップ</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <span class="dummy">ライブラリ</span>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/gcr.html">Gcr-3.41.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/gcr4.html">Gcr-4.1.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "gnome/gsettings-desktop-schemas.html">gsettings-desktop-schemas-45.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/libsecret.html">libsecret-0.21.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/rest.html">rest-0.9.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "gnome/totem-pl-parser.html">totem-pl-parser-3.26.6</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/vte.html">VTE-0.74.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/yelp-xsl.html">yelp-xsl-42.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/geocode-glib.html">geocode-glib-3.26.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/gjs.html">Gjs-1.78.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/gnome-autoar.html">gnome-autoar-0.4.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/gnome-desktop.html">gnome-desktop-44.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/gnome-menus.html">gnome-menus-3.36.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "gnome/gnome-video-effects.html">gnome-video-effects-0.6.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "gnome/gnome-online-accounts.html">gnome-online-accounts-3.48.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/grilo.html">Grilo-0.3.16</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/libgdata.html">libgdata-0.18.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/libgee.html">libgee-0.20.6</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/libgtop.html">libgtop-2.40.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/libgweather.html">libgweather-4.4.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/libpeas.html">libpeas-1.36.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/libshumate.html">libshumate-1.1.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/libwnck.html">libwnck-43.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "gnome/evolution-data-server.html">evolution-data-server-3.50.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/tracker3.html">Tracker-3.6.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "gnome/tracker3-miners.html">Tracker-miners-3.6.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/gsound.html">GSound-1.0.3</a>
+                  </li>
+                  <li class="sect1">
+                    <span class="dummy">GNOME デスクトップ</span>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/dconf.html">DConf-0.40.0 /
+                    DConf-Editor-45.0.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "gnome/gnome-backgrounds.html">gnome-backgrounds-45.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/gvfs.html">Gvfs-1.52.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/gexiv2.html">gexiv2-0.14.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/nautilus.html">Nautilus-45.2.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "gnome/gnome-bluetooth.html">gnome-bluetooth-42.7</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/gnome-keyring.html">gnome-keyring-42.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "gnome/gnome-settings-daemon.html">gnome-settings-daemon-45.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/tecla.html">Tecla-45.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "gnome/gnome-control-center.html">gnome-control-center-45.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/mutter.html">Mutter-45.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/gnome-shell.html">gnome-shell-45.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "gnome/gnome-shell-extensions.html">gnome-shell-extensions-45.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/gnome-session.html">gnome-session-45.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/gnome-tweaks.html">gnome-tweaks-40.10</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "gnome/gnome-user-docs.html">gnome-user-docs-45.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/yelp.html">Yelp-42.2</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="gnome/applications.html">34. <span class=
+                  "phrase">GNOME アプリケーション</span></a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="gnome/baobab.html">Baobab-45.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/brasero.html">Brasero-3.12.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/eog.html">EOG-45.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/evince.html">Evince-45.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/evolution.html">Evolution-3.50.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/file-roller.html">File-Roller-43.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "gnome/gnome-calculator.html">gnome-calculator-45.0.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "gnome/gnome-color-manager.html">gnome-color-manager-3.36.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "gnome/gnome-disk-utility.html">gnome-disk-utility-45.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/gnome-maps.html">gnome-maps-45.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/gnome-nettool.html">gnome-nettool-42.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "gnome/gnome-power-manager.html">gnome-power-manager-43.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "gnome/gnome-screenshot.html">gnome-screenshot-41.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "gnome/gnome-system-monitor.html">gnome-system-monitor-45.0.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "gnome/gnome-terminal.html">gnome-terminal-3.50.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/gnome-weather.html">gnome-weather-45.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/gucharmap.html">Gucharmap-15.1.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/seahorse.html">Seahorse-43.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/snapshot.html">Snapshot-45.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="gnome/vinagre.html">Vinagre-3.22.0</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li class="part">
+            <h3>
+              <a href="xfce/xfce.html">IX. Xfce</a>
+            </h3>
+            <ul>
+              <li class="chapter">
+                <h4>
+                  <a href="xfce/xfce-core.html">35. Xfce デスクトップ</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="xfce/libxfce4util.html">libxfce4util-4.18.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="xfce/xfconf.html">Xfconf-4.18.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="xfce/libxfce4ui.html">libxfce4ui-4.18.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="xfce/exo.html">Exo-4.18.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="xfce/garcon.html">Garcon-4.18.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="xfce/xfce4-panel.html">xfce4-panel-4.18.5</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="xfce/thunar.html">thunar-4.18.8</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "xfce/thunar-volman.html">thunar-volman-4.18.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="xfce/tumbler.html">tumbler-4.18.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "xfce/xfce4-appfinder.html">xfce4-appfinder-4.18.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "xfce/xfce4-power-manager.html">xfce4-power-manager-4.18.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "xfce/xfce4-settings.html">xfce4-settings-4.18.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="xfce/xfdesktop.html">Xfdesktop-4.18.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="xfce/xfwm4.html">Xfwm4-4.18.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "xfce/xfce4-session.html">xfce4-session-4.18.3</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="xfce/xfce-apps.html">36. Xfce アプリケーション</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="xfce/parole.html">Parole-4.18.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "xfce/xfce4-terminal.html">xfce4-terminal-1.1.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="xfce/xfburn.html">Xfburn-0.7.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="xfce/ristretto.html">Ristretto-0.13.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "xfce/xfce4-dev-tools.html">xfce4-dev-tools-4.18.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="xfce/xfce4-notifyd.html">xfce4-notifyd-0.9.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "xfce/xfce4-pulseaudio-plugin.html">xfce4-pulseaudio-plugin-0.4.8</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li class="part">
+            <h3>
+              <a href="lxqt/lxqt.html">X. LXQt</a>
+            </h3>
+            <ul>
+              <li class="chapter">
+                <h4>
+                  <a href="lxqt/lxqt-desktop.html">37. LXQt Desktop</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="lxqt/pre-install.html">LXQt Desktop Pre-Install
+                    Instructions</a>
+                  </li>
+                  <li class="sect1">
+                    <span class="dummy">KF5, Plasma, and Misc
+                    Dependencies</span>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "lxqt/lxqt-kwindowsystem.html">kwindowsystem-5.113.0 for
+                    lxqt</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="lxqt/lxqt-kwayland.html">kwayland-5.113.0 for
+                    lxqt</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="lxqt/lxqt-kconfig.html">kconfig-5.113.0 for
+                    lxqt</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="lxqt/lxqt-solid.html">solid-5.113.0 for lxqt</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="lxqt/lxqt-kidletime.html">kidletime-5.113.0 for
+                    lxqt</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="lxqt/lxqt-libkscreen.html">libkscreen-5.27.10
+                    for lxqt</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="lxqt/muparser.html">muparser-2.3.4</a>
+                  </li>
+                  <li class="sect1">
+                    <span class="dummy">LXQt Desktop Components</span>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "lxqt/lxqt-build-tools.html">lxqt-build-tools-0.13.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="lxqt/libqtxdg.html">libqtxdg-3.12.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "lxqt/lxqt-menu-data.html">lxqt-menu-data-1.4.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="lxqt/liblxqt.html">liblxqt-1.4.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="lxqt/libsysstat.html">libsysstat-0.4.6</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="lxqt/qtxdg-tools.html">qtxdg-tools-3.12.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="lxqt/libfm-extra.html">libfm-extra-1.3.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="lxqt/menu-cache.html">menu-cache-1.1.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="lxqt/libfm-qt.html">libfm-qt-1.4.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="lxqt/lxqt-themes.html">lxqt-themes-1.3.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="lxqt/lxqt-qtplugin.html">lxqt-qtplugin-1.4.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="lxqt/lxqt-about.html">lxqt-about-1.4.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="lxqt/lxqt-admin.html">lxqt-admin-1.4.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "lxqt/lxqt-openssh-askpass.html">lxqt-openssh-askpass-1.4.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="lxqt/lxqt-sudo.html">lxqt-sudo-1.4.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="lxqt/lxqt-config.html">lxqt-config-1.4.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="lxqt/obconf-qt.html">obconf-qt-0.16.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "lxqt/lxqt-globalkeys.html">lxqt-globalkeys-1.4.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "lxqt/lxqt-policykit.html">lxqt-policykit-1.4.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="lxqt/lxqt-session.html">lxqt-session-1.4.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="lxqt/pcmanfm-qt.html">pcmanfm-qt-1.4.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="lxqt/lxqt-panel.html">lxqt-panel-1.4.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "lxqt/lxqt-powermanagement.html">lxqt-powermanagement-1.4.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="lxqt/lxqt-runner.html">lxqt-runner-1.4.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="lxqt/post-install.html">LXQt Desktop Final
+                    Instructions</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="lxqt/lxqt-apps.html">38. LXQt アプリケーション</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="lxqt/lximage-qt.html">lximage-qt-1.4.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="lxqt/lxqt-archiver.html">lxqt-archiver-0.9.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "lxqt/lxqt-notificationd.html">lxqt-notificationd-1.4.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "lxqt/pavucontrol-qt.html">pavucontrol-qt-1.4.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="lxqt/qps.html">qps-2.8.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="lxqt/qtermwidget.html">qtermwidget-1.4.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="lxqt/qterminal.html">qterminal-1.4.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="lxqt/screengrab.html">screengrab-2.7.0</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li class="part">
+            <h3>
+              <a href="xsoft/xsoft.html">XI. X ソフトウェア</a>
+            </h3>
+            <ul>
+              <li class="chapter">
+                <h4>
+                  <a href="xsoft/office.html">39. Office Programs</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="xsoft/AbiWord.html">AbiWord-3.0.5</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="xsoft/gnumeric.html">Gnumeric-1.12.56</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="xsoft/libreoffice.html">LibreOffice-7.6.4</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="xsoft/graphweb.html">40. グラフィカルウェブブラウザー</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="xsoft/epiphany.html">Epiphany-45.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="xsoft/falkon.html">Falkon-23.08.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="xsoft/firefox.html">Firefox-115.6.0esr</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="xsoft/seamonkey.html">Seamonkey-2.53.18</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="xsoft/other.html">41. X ベースのその他のプログラム</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="xsoft/balsa.html">Balsa-2.6.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="xsoft/feh.html">feh-3.10.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="xsoft/fontforge.html">FontForge-20230101</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="xsoft/gimp.html">Gimp-2.10.36</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="xsoft/gparted.html">Gparted-1.5.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="xsoft/hexchat.html">HexChat-2.16.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="xsoft/inkscape.html">Inkscape-1.3.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="xsoft/pidgin.html">Pidgin-2.14.12</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="xsoft/rox-filer.html">Rox-Filer-2.11</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="xsoft/rxvt-unicode.html">rxvt-unicode-9.31</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="xsoft/thunderbird.html">Thunderbird-115.5.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="xsoft/tigervnc.html">Tigervnc-1.13.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="xsoft/transmission.html">Transmission-4.0.5</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="xsoft/xarchiver.html">xarchiver-0.5.4.21</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="xsoft/xdg-utils.html">xdg-utils-1.1.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="xsoft/xscreensaver.html">XScreenSaver-6.08</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li class="part">
+            <h3>
+              <a href="multimedia/multimedia.html">XII. マルチメディア</a>
+            </h3>
+            <ul>
+              <li class="chapter">
+                <h4>
+                  <a href="multimedia/libdriv.html">42.
+                  マルチメディアライブラリとドライバー</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="multimedia/alsa.html">ALSA-1.2.7</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/alsa-lib.html">alsa-lib-1.2.10</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "multimedia/alsa-plugins.html">alsa-plugins-1.2.7.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "multimedia/alsa-utils.html">alsa-utils-1.2.10</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/alsa-tools.html">alsa-tools-1.2.5</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "multimedia/alsa-firmware.html">alsa-firmware-1.2.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/alsa-oss.html">alsa-oss-1.1.8</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/audiofile.html">AudioFile-0.3.6</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/faac.html">FAAC-1_30</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/faad2.html">FAAD2-2.11.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/fdk-aac.html">fdk-aac-2.0.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/flac.html">FLAC-1.4.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/frei0r.html">frei0r-plugins-1.8.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/gavl.html">gavl-1.4.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "multimedia/gstreamer10.html">gstreamer-1.22.7</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "multimedia/gst10-plugins-base.html">gst-plugins-base-1.22.7</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "multimedia/gst10-plugins-good.html">gst-plugins-good-1.22.7</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "multimedia/gst10-plugins-bad.html">gst-plugins-bad-1.22.7</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "multimedia/gst10-plugins-ugly.html">gst-plugins-ugly-1.22.7</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "multimedia/gst10-libav.html">gst-libav-1.22.7</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "multimedia/gstreamer10-vaapi.html">gstreamer-vaapi-1.22.7</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/id3lib.html">id3lib-3.8.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "multimedia/intel-media.html">intel-media-23.4.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "multimedia/intel-vaapi-driver.html">intel-vaapi-driver-2.4.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/liba52.html">Liba52-0.7.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/libao.html">Libao-1.2.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/libaom.html">libaom-3.8.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/libass.html">libass-0.17.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "multimedia/libcanberra.html">libcanberra-0.30</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/libcddb.html">libcddb-1.3.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/libcdio.html">libcdio-2.1.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/libdvdcss.html">libdvdcss-1.4.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/libdvdread.html">Libdvdread-6.1.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/libdvdnav.html">Libdvdnav-6.1.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/libdv.html">Libdv-1.0.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/libmad.html">libmad-0.15.1b</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/libmpeg2.html">libmpeg2-0.5.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "multimedia/libmusicbrainz.html">libmusicbrainz-2.1.5</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "multimedia/libmusicbrainz5.html">libmusicbrainz-5.1.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/libogg.html">libogg-1.3.5</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "multimedia/libplacebo.html">libplacebo-6.338.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "multimedia/libquicktime.html">libquicktime-1.2.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "multimedia/libsamplerate.html">libsamplerate-0.2.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/libsndfile.html">libsndfile-1.2.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/libtheora.html">libtheora-1.1.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/libva.html">libva-2.20.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/libvdpau.html">libvdpau-1.5</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "multimedia/libvdpau-va-gl.html">libvdpau-va-gl-0.4.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/libvorbis.html">libvorbis-1.3.7</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/libvpx.html">libvpx-1.13.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/mlt.html">MLT-7.22.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/opus.html">Opus-1.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/pipewire.html">Pipewire-1.0.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/pulseaudio.html">PulseAudio-16.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/sbc.html">SBC-2.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/sdl.html">sdl12-compat-1.2.68</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/sdl2.html">SDL2-2.28.5</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "multimedia/sound-theme-freedesktop.html">sound-theme-freedesktop-0.8</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/soundtouch.html">SoundTouch-2.3.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/speex.html">Speex-1.2.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/taglib.html">Taglib-1.13.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/v4l-utils.html">v4l-utils-1.26.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "multimedia/wireplumber.html">Wireplumber-0.4.17</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/x264.html">x264-20230215</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/x265.html">x265-20230215</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/xine-lib.html">xine-lib-1.2.13</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/xvid.html">XviD-1.3.7</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="multimedia/audioutils.html">43. オーディオユーティリティ</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="multimedia/audacious.html">Audacious-4.3.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "multimedia/cdparanoia.html">CDParanoia-III-10.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/kwave.html">kwave-23.08.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/lame.html">LAME-3.100</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/mpg123.html">mpg123-1.32.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/pavucontrol.html">pavucontrol-5.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/pnmixer.html">pnmixer-0.7.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "multimedia/vorbistools.html">vorbis-tools-1.4.2</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="multimedia/videoutils.html">44. Video
+                  Utilities</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="multimedia/ffmpeg.html">FFmpeg-6.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/mpv.html">mpv-0.37.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/mplayer.html">MPlayer-1.5</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/transcode.html">Transcode-1.1.7</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/vlc.html">VLC-3.0.20</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/xine-ui.html">xine-ui-0.99.14</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="multimedia/cdwriteutils.html">45. CD/DVD
+                  ライティングユーティリティー</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="multimedia/cdrdao.html">Cdrdao-1.2.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/cdrtools.html">Cdrtools-3.02a09</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "multimedia/dvd-rw-tools.html">dvd+rw-tools-7.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/libburn.html">libburn-1.5.6</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/libisoburn.html">libisoburn-1.5.6</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="multimedia/libisofs.html">libisofs-1.5.6</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li class="part">
+            <h3>
+              <a href="pst/pst.html">XIII. 印刷、スキャニング、組版</a>
+            </h3>
+            <ul>
+              <li class="chapter">
+                <h4>
+                  <a href="pst/printing.html">46. 印刷</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="pst/cups.html">Cups-2.4.7</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="pst/cups-browsed.html">cups-browsed-2.0.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="pst/cups-filters.html">cups-filters-2.0.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="pst/gs.html">ghostscript-10.02.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="pst/gutenprint.html">Gutenprint-5.3.4</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "pst/libcupsfilters.html">libcupsfilters-2.0.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="pst/libppd.html">libppd-2.0.0</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="pst/scanning.html">47. スキャニング</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="pst/sane.html">SANE-1.2.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="pst/simple-scan.html">Simple-scan-44.0</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="pst/sgml.html">48. Standard Generalized Markup
+                  Language (SGML)</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="pst/sgml-common.html">sgml-common-0.6.3</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="pst/docbook-3.1-dtd.html">docbook-3.1-dtd</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="pst/docbook-4.5-dtd.html">docbook-4.5-dtd</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="pst/opensp.html">OpenSP-1.5.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="pst/openjade.html">OpenJade-1.3.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="pst/docbook-dsssl.html">docbook-dsssl-1.79</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="pst/docbook-utils.html">DocBook-utils-0.6.14</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="pst/xml.html">49. 拡張可能なマーク付け言語 (XML)</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="pst/docbook.html">docbook-xml-4.5</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="pst/docbook5.html">docbook-xml-5.0</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="pst/docbook51.html">docbook-xml-5.1</a>
+                  </li>
+                  <li class="sect1">
+                    <a href=
+                    "pst/docbook-xsl.html">docbook-xsl-nons-1.79.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="pst/itstool.html">itstool-2.0.7</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="pst/xmlto.html">xmlto-0.0.28</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="pst/ps.html">50. PostScript</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="pst/enscript.html">Enscript-1.6.6</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="pst/epdfview.html">ePDFView-gtk3-20200814</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="pst/fop.html">fop-2.9</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="pst/mupdf.html">MuPDF-1.23.7</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="pst/paps.html">paps-0.7.1</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="chapter">
+                <h4>
+                  <a href="pst/typesetting.html">51. 組版処理</a>
+                </h4>
+                <ul>
+                  <li class="sect1">
+                    <a href="pst/tex-path.html">Setting the PATH for TeX
+                    Live</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="pst/tl-installer.html">install-tl-unx</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="pst/texlive.html">texlive-20230313-source</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="pst/asymptote.html">asymptote-2.86</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="pst/biber.html">biber-2.19</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="pst/dvisvgm.html">dvisvgm-3.1.2</a>
+                  </li>
+                  <li class="sect1">
+                    <a href="pst/xindy.html">xindy-2.5.1</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li class="appendix">
+            <h3>
+              <a href="appendices/creat-comm.html">A. クリエイティブコモンズライセンス</a>
+            </h3>
+          </li>
+          <li class="appendix">
+            <h3>
+              <a href="mit.html">B. MIT ライセンス</a>
+            </h3>
+          </li>
+          <li class="glossary">
+            <h3>
+              <a href="appendices/glossary.html">Glossary</a>
+            </h3>
+          </li>
+          <li class="index">
+            <h3>
+              <a href="longindex.html">項目別もくじ</a>
+            </h3>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="next">
+          <a accesskey="n" href="preface/preface.html" title="序文">次へ</a>
+          <p>
+            序文
+          </p>
+        </li>
+        <li class="up">.
+        </li>
+        <li class="home">.
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

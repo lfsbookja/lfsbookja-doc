@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      BIND Utilities-9.18.20
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第16章 ネットワークユーティリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="avahi.html" title="Avahi-0.8">戻る</a>
+          <p>
+            Avahi-0.8
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="networkmanager.html" title=
+          "NetworkManager-1.44.2">次へ</a>
+          <p>
+            NetworkManager-1.44.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="netutils.html" title=
+          "第16章 ネットワークユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="bind-utils" name="bind-utils"></a>BIND Utilities-9.18.20
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          BIND Utilities の概要
+        </h2>
+        <p>
+          <span class="application">BIND Utilities</span> is not a separate
+          package, it is a collection of the client side programs that are
+          included with <a class="xref" href="../server/bind.html" title=
+          "BIND-9.18.20">BIND-9.18.20</a>. The <span class=
+          "application">BIND</span> package includes the client side programs
+          <span class="command"><strong>nslookup</strong></span>,
+          <span class="command"><strong>dig</strong></span> and <span class=
+          "command"><strong>host</strong></span>. If you install <span class=
+          "application">BIND</span> server, these programs will be installed
+          automatically. This section is for those users who don't need the
+          complete <span class="application">BIND</span> server, but need
+          these client side applications.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://ftp.isc.org/isc/bind9/9.18.20/bind-9.18.20.tar.xz">https://ftp.isc.org/isc/bind9/9.18.20/bind-9.18.20.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 34e8f218827d07dded501075d68b6d74
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 5.3 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 98 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.2 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          BIND Utilities の依存パッケージ
+        </h3>
+        <h4>
+          Required
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/libuv.html" title=
+          "libuv-1.47.0">libuv-1.47.0</a>
+        </p>
+        <h4>
+          Recommended
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../general/json-c.html" title=
+          "JSON-C-0.17">JSON-C-0.17</a> and <a class="xref" href=
+          "nghttp2.html" title="nghttp2-1.58.0">nghttp2-1.58.0</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../postlfs/libcap.html" title=
+          "libcap-2.69 with PAM">libcap-2.69 with PAM</a>, <a class="xref"
+          href="../general/libxml2.html" title=
+          "libxml2-2.12.3">libxml2-2.12.3</a>, <a class="xref" href=
+          "../general/python-modules.html#sphinx" title=
+          "Sphinx-7.2.6">sphinx-7.2.6</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          BIND Utilities のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">BIND Utilities</span>
+          をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr &amp;&amp;
+make -C lib/isc    &amp;&amp;
+make -C lib/dns    &amp;&amp;
+make -C lib/ns     &amp;&amp;
+make -C lib/isccfg &amp;&amp;
+make -C lib/bind9  &amp;&amp;
+make -C lib/irs    &amp;&amp;
+make -C bin/dig    &amp;&amp;
+make -C doc</kbd></pre>
+        <p>
+          上のパッケージの部分に対してはテストスイートがありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class=
+        "command">make -C lib/isc    install &amp;&amp;
+make -C lib/dns    install &amp;&amp;
+make -C lib/ns     install &amp;&amp;
+make -C lib/isccfg install &amp;&amp;
+make -C lib/bind9  install &amp;&amp;
+make -C lib/irs    install &amp;&amp;
+make -C bin/dig    install &amp;&amp;
+cp -v doc/man/{dig.1,host.1,nslookup.1} /usr/share/man/man1</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <code class="option">--disable-doh</code>: Use this option if you
+          have not installed <a class="xref" href="nghttp2.html" title=
+          "nghttp2-1.58.0">nghttp2-1.58.0</a> and you don't need DNS over
+          HTTPS support.
+        </p>
+        <p>
+          <span class="command"><strong>make -C lib/...</strong></span>:
+          これらのコマンドは、クライアントプログラムが必要とするライブラリをビルドします。
+        </p>
+        <p>
+          <span class="command"><strong>make -C bin/dig</strong></span>:
+          このコマンドはクライアントプログラムをビルドします。
+        </p>
+        <p>
+          <span class="command"><strong>make -C doc</strong></span>: This
+          command builds the manual pages if the optional Python module
+          <a class="xref" href="../general/python-modules.html#sphinx" title=
+          "Sphinx-7.2.6">sphinx-7.2.6</a> is installed.
+        </p>
+        <p>
+          Use <span class="command"><strong>cp -v
+          doc/man/{dig.1,host.1,nslookup.1}
+          /usr/share/man/man1</strong></span> to install the manual pages if
+          they have been built.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">dig, host, nslookup</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+          </div>
+        </div>
+        <h3>
+          概略説明
+        </h3>
+        <p>
+          プログラムの詳細については <a class="xref" href="../server/bind.html" title=
+          "BIND-9.18.20">BIND-9.18.20</a> を参照してください。
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="avahi.html" title="Avahi-0.8">戻る</a>
+          <p>
+            Avahi-0.8
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="networkmanager.html" title=
+          "NetworkManager-1.44.2">次へ</a>
+          <p>
+            NetworkManager-1.44.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="netutils.html" title=
+          "第16章 ネットワークユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

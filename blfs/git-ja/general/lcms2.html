@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Little CMS-2.14
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第10章 グラフィックスとフォントのライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="jasper.html" title="JasPer-4.1.1">戻る</a>
+          <p>
+            JasPer-4.1.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libavif.html" title="libavif-1.0.3">次へ</a>
+          <p>
+            libavif-1.0.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="graphlib.html" title=
+          "第10章 グラフィックスとフォントのライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="lcms2" name="lcms2"></a>Little CMS-2.14
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Little CMS2 の概要
+        </h2>
+        <p>
+          The Little Color Management System is a small-footprint color
+          management engine, with special focus on accuracy and performance.
+          It uses the International Color Consortium standard (ICC), which is
+          the modern standard for color management.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/mm2/Little-CMS/releases/download/lcms2.14/lcms2-2.14.tar.gz">
+                https://github.com/mm2/Little-CMS/releases/download/lcms2.14/lcms2-2.14.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 7f7baa3e605c961b9301135105ee9a34
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 7.1 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 20 MB (テスト込み)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.2 SBU (テスト込み)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Little CMS2 の依存パッケージ
+        </h3>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="libjpeg.html" title=
+          "libjpeg-turbo-3.0.1">libjpeg-turbo-3.0.1</a>, <a class="xref"
+          href="libtiff.html" title="libtiff-4.6.0">libtiff-4.6.0</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Little CMS2 のインストール
+        </h2>
+        <p>
+          Apply the upstream fix for an issue breaking colord:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed '/BufferSize &lt; TagSize/,+1 s/goto Error/TagSize = BufferSize/' \
+    -i src/cmsio0.c</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">Little CMS2</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr --disable-static &amp;&amp;
+make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>make
+          check</strong></span> を実行します。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--disable-static</code></em>:
+          このスイッチはスタティックライブラリをインストールしないようにします。
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">jpgicc, linkicc, psicc, tificc, transicc</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">liblcms2.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="jpgicc" name="jpgicc"></a><span class=
+                    "term"><span class=
+                    "command"><strong>jpgicc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the Little CMS ICC profile applier for JPEG
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="linkicc" name="linkicc"></a><span class=
+                    "term"><span class=
+                    "command"><strong>linkicc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the Little CMS ICC device link generator
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="psicc" name="psicc"></a><span class=
+                    "term"><span class=
+                    "command"><strong>psicc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the Little CMS ICC PostScript generator
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tificc" name="tificc"></a><span class=
+                    "term"><span class=
+                    "command"><strong>tificc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the Little CMS ICC tiff generator
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="transicc" name="transicc"></a><span class=
+                    "term"><span class=
+                    "command"><strong>transicc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the Little CMS ColorSpace conversion calculator
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="liblcms2" name="liblcms2"></a><span class=
+                    "term"><code class="filename">liblcms2.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains functions that implement the lcms2 API
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="jasper.html" title="JasPer-4.1.1">戻る</a>
+          <p>
+            JasPer-4.1.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libavif.html" title="libavif-1.0.3">次へ</a>
+          <p>
+            libavif-1.0.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="graphlib.html" title=
+          "第10章 グラフィックスとフォントのライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

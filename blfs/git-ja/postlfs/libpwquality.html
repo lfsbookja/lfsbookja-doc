@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      libpwquality-1.4.5
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第4章 セキュリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="liboauth.html" title="liboauth-1.0.3">戻る</a>
+          <p>
+            liboauth-1.0.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="mitkrb.html" title=
+          "MIT Kerberos V5-1.21.2">次へ</a>
+          <p>
+            MIT Kerberos V5-1.21.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="security.html" title="第4章 セキュリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="libpwquality" name="libpwquality"></a>libpwquality-1.4.5
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libpwquality の概要
+        </h2>
+        <p>
+          The <span class="application">libpwquality</span> package provides
+          common functions for password quality checking and also scoring
+          them based on their apparent randomness. The library also provides
+          a function for generating random passwords with good
+          pronounceability.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/libpwquality/libpwquality/releases/download/libpwquality-1.4.5/libpwquality-1.4.5.tar.bz2">
+                https://github.com/libpwquality/libpwquality/releases/download/libpwquality-1.4.5/libpwquality-1.4.5.tar.bz2</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 6b70e355269aef0b9ddb2b9d17936f21
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 424 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 5.4 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          libpwquality の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="cracklib.html" title=
+          "CrackLib-2.9.11">CrackLib-2.9.11</a>
+        </p>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="linux-pam.html" title=
+          "Linux-PAM-1.5.3">Linux-PAM-1.5.3</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libpwquality のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">libpwquality</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr                      \
+            --disable-static                   \
+            --with-securedir=/usr/lib/security \
+            --disable-python-bindings          &amp;&amp;
+make &amp;&amp;
+pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD/python</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install &amp;&amp;
+pip3 install --no-index --find-links=dist --no-cache-dir --no-user pwquality</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--disable-python-bindings</code></em>:
+          This parameter disables building Python bindings with the
+          deprecated <span class="command"><strong>python3 setup.py
+          build</strong></span> command. The explicit instruction to build
+          the Python 3 binding with the <span class="command"><strong>pip3
+          wheel</strong></span> command is provided.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libpwquality の設定
+        </h2>
+        <p>
+          <span class="application">libpwquality</span> is intended to be a
+          functional replacement for the now-obsolete <code class=
+          "filename">pam_cracklib.so</code> PAM module. To configure the
+          system to use the <code class="filename">pam_pwquality</code>
+          module, execute the following commands as the <code class=
+          "systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">mv /etc/pam.d/system-password{,.orig} &amp;&amp;
+cat &gt; /etc/pam.d/system-password &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/pam.d/system-password
+
+# check new passwords for strength (man pam_pwquality)
+password  required    pam_pwquality.so   authtok_type=UNIX retry=1 difok=1 \
+                                         minlen=8 dcredit=0 ucredit=0 \
+                                         lcredit=0 ocredit=0 minclass=1 \
+                                         maxrepeat=0 maxsequence=0 \
+                                         maxclassrepeat=0 gecoscheck=0 \
+                                         dictcheck=1 usercheck=1 \
+                                         enforcing=1 badwords="" \
+                                         dictpath=/usr/lib/cracklib/pw_dict
+
+# use yescrypt hash for encryption, use shadow, and try to use any
+# previously defined authentication token (chosen password) set by any
+# prior module.
+password  required    pam_unix.so        yescrypt shadow try_first_pass
+
+# End /etc/pam.d/system-password</code>
+EOF
+</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">pwscore, pwmake</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">pam_pwquality.so, libpwquality.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/lib/python3.11/site-packages/pwquality-1.4.5.dist-info</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pwmake" name="pwmake"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pwmake</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a simple configurable tool for generating random and
+                    relatively easily pronounceable passwords
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pwscore" name="pwscore"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pwscore</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a simple tool for checking quality of a password
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libpwquality-lib" name=
+                    "libpwquality-lib"></a><span class="term"><code class=
+                    "filename">libpwquality.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains API functions for checking the password quality
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pam_pwquality" name=
+                    "pam_pwquality"></a><span class="term"><code class=
+                    "filename">pam_pwquality.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a <span class="application">Linux PAM</span> module
+                    used to perform password quality checking
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="liboauth.html" title="liboauth-1.0.3">戻る</a>
+          <p>
+            liboauth-1.0.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="mitkrb.html" title=
+          "MIT Kerberos V5-1.21.2">次へ</a>
+          <p>
+            MIT Kerberos V5-1.21.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="security.html" title="第4章 セキュリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

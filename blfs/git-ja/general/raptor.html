@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Raptor-2.0.16
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第12章 システムユーティリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="pm-utils.html" title="pm-utils-1.4.1">戻る</a>
+          <p>
+            pm-utils-1.4.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="rasqal.html" title="Rasqal-0.9.33">次へ</a>
+          <p>
+            Rasqal-0.9.33
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="sysutils.html" title=
+          "第12章 システムユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="raptor" name="raptor"></a>Raptor-2.0.16
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Raptor の概要
+        </h2>
+        <p>
+          <span class="application">Raptor</span> は C ライブラリであり、RDF (Resource
+          Description Framework) の三つの要素 ＝ トリプル (triples)
+          に対してのパーサーおよびシリアライザーを提供します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://download.librdf.org/source/raptor2-2.0.16.tar.gz">https://download.librdf.org/source/raptor2-2.0.16.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 0a71f13b6eaa0a04bf411083d89d7bc2
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1.7 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 25 MB (テスト実施時はさらに 2 MB)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU (テスト実施時はさらに 0.3 SBU)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Raptor の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="../basicnet/curl.html" title=
+          "cURL-8.5.0">cURL-8.5.0</a>, <a class="xref" href="libxslt.html"
+          title="libxslt-1.1.39">libxslt-1.1.39</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="gtk-doc.html" title=
+          "GTK-Doc-1.33.2">GTK-Doc-1.33.2</a>, <a class="xref" href=
+          "icu.html" title="ICU-74.1">ICU-74.1</a>, <a class="ulink" href=
+          "https://lloyd.github.io/yajl/">libyajl</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Raptor のインストール
+        </h2>
+        <p>
+          First, fix an incompatibility with libxml2-2.11.x:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i 's/20627/20627 \&amp;\&amp; LIBXML_VERSION &lt; 21100/' src/raptor_libxml.c</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">Raptor</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr --disable-static &amp;&amp;
+make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>make
+          check</strong></span> を実行します。 Several of the XML tests may fail.
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--disable-static</code></em>:
+          このスイッチはスタティックライブラリをインストールしないようにします。
+        </p>
+        <p>
+          <code class="option">--with-icu-config=/usr/bin/icu-config</code>:
+          <a class="xref" href="icu.html" title="ICU-74.1">ICU-74.1</a>
+          をインストールしていて、<a class="xref" href="icu.html" title=
+          "ICU-74.1">ICU-74.1</a> サポートをビルドしたい場合に本スイッチを指定します。
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">rapper</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libraptor2.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/raptor2,
+              /usr/share/gtk-doc/html/raptor2</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rapper" name="rapper"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rapper</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    RDF 解析およびシリアライズを行うユーティリティ。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libraptor2" name="libraptor2"></a><span class=
+                    "term"><code class="filename">libraptor2.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">Raptor</span> API 関数を提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="pm-utils.html" title="pm-utils-1.4.1">戻る</a>
+          <p>
+            pm-utils-1.4.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="rasqal.html" title="Rasqal-0.9.33">次へ</a>
+          <p>
+            Rasqal-0.9.33
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="sysutils.html" title=
+          "第12章 システムユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

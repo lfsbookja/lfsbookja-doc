@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      libarchive-3.7.2
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第9章 汎用的なライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libaio.html" title="libaio-0.3.113">戻る</a>
+          <p>
+            libaio-0.3.113
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libassuan.html" title=
+          "libassuan-2.5.6">次へ</a>
+          <p>
+            libassuan-2.5.6
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="libarchive" name="libarchive"></a>libarchive-3.7.2
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libarchive の概要
+        </h2>
+        <p>
+          <span class="application">libarchive</span>
+          ライブラリは、さまざまな圧縮フォーマットとの入出力を、ただ一つのインターフェースにより提供するものです。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/libarchive/libarchive/releases/download/v3.7.2/libarchive-3.7.2.tar.xz">
+                https://github.com/libarchive/libarchive/releases/download/v3.7.2/libarchive-3.7.2.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 4f4ef6a17c7b0b484aa2c95aa6deefac
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 5.0 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 42 MB (テスト実施時はさらに 34 MB)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.3 SBU (テスト実施時はさらに 0.7 SBU)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          libarchive の依存パッケージ
+        </h3>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="libxml2.html" title=
+          "libxml2-2.12.3">libxml2-2.12.3</a>, <a class="xref" href=
+          "lzo.html" title="LZO-2.10">LZO-2.10</a>, <a class="xref" href=
+          "../postlfs/nettle.html" title="Nettle-3.9.1">Nettle-3.9.1</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libarchive のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">libarchive</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr --disable-static &amp;&amp;
+make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>LC_ALL=C make
+          check</strong></span> を実行します。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーとなって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--disable-static</code></em>:
+          このスイッチはスタティックライブラリをインストールしないようにします。
+        </p>
+        <p>
+          <code class="option">--without-xml2</code>: expat と libxml2
+          の双方がインストールされている場合に、xar アーカイブフォーマットへのサポートとして、本来なら適切な libxml2 ではなく
+          expat を利用することを指定します。
+        </p>
+        <p>
+          <code class="option">--without-nettle</code>: OpenSSL と Nettle
+          の双方がインストールされている場合に、暗号化サポートとして、本来なら適切な Nettle ではなく OpenSSL
+          を利用することを指定します。
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">bsdcat, bsdcpio, bsdtar, bsdunzip</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libarchive.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="bsdcat" name="bsdcat"></a><span class=
+                    "term"><span class=
+                    "command"><strong>bsdcat</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルを拡張し標準出力に出力します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="bsdcpio" name="bsdcpio"></a><span class=
+                    "term"><span class=
+                    "command"><strong>bsdcpio</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>cpio</strong></span>
+                    と同等のツール。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="bsdtar" name="bsdtar"></a><span class=
+                    "term"><span class=
+                    "command"><strong>bsdtar</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    GNU <span class="command"><strong>tar</strong></span>
+                    と同等のツール。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="bsdunzip" name="bsdunzip"></a><span class=
+                    "term"><span class=
+                    "command"><strong>bsdunzip</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool similar to Info-ZIP <span class=
+                    "command"><strong>unzip</strong></span>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libarchive-lib" name=
+                    "libarchive-lib"></a><span class="term"><code class=
+                    "filename">libarchive.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    数々のストリーミングアーカイブ形式を生成、読み込みを行うライブラリを提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libaio.html" title="libaio-0.3.113">戻る</a>
+          <p>
+            libaio-0.3.113
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libassuan.html" title=
+          "libassuan-2.5.6">次へ</a>
+          <p>
+            libassuan-2.5.6
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      GRUB-2.06 for EFI
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第5章 ファイルシステムとディスク管理
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="efibootmgr.html" title=
+          "efibootmgr-18">戻る</a>
+          <p>
+            efibootmgr-18
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="grub-setup.html" title=
+          "Using GRUB to Set Up the Boot Process with UEFI">次へ</a>
+          <p>
+            Using GRUB to Set Up the Boot Process with UEFI
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="filesystems.html" title=
+          "第5章 ファイルシステムとディスク管理">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="grub-efi" name="grub-efi"></a>GRUB-2.06 for EFI
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          GRUB の概要
+        </h2>
+        <p>
+          The <span class="application">GRUB</span> package provides GRand
+          Unified Bootloader. In this page it will be built with UEFI
+          support, which is not enabled for GRUB built in LFS.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://ftp.gnu.org/gnu/grub/grub-2.06.tar.xz">https://ftp.gnu.org/gnu/grub/grub-2.06.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: cf0fd928b1e5479c8108ee52cb114363
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 6.3 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 183 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.4 SBU (on 64-bit LFS, using parallelism=4)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          追加のダウンロード
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Required patch: <a class="ulink" href=
+                "https://www.linuxfromscratch.org/patches/blfs/svn/grub-2.06-upstream_fixes-1.patch">
+                https://www.linuxfromscratch.org/patches/blfs/svn/grub-2.06-upstream_fixes-1.patch</a>
+              </p>
+            </li>
+          </ul>
+        </div>
+        <div class="itemizedlist">
+          <p class="title">
+            <strong>Unicode font data used to display GRUB menu</strong>
+          </p>
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://unifoundry.com/pub/unifont/unifont-15.1.04/font-builds/unifont-15.1.04.pcf.gz">
+                https://unifoundry.com/pub/unifont/unifont-15.1.04/font-builds/unifont-15.1.04.pcf.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 72f95e7ecb47a4c7ed610babe6959ead
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1.3 MB
+              </p>
+            </li>
+          </ul>
+        </div>
+        <div class="itemizedlist">
+          <p class="title">
+            <strong>GCC (only needed if building on 32-bit LFS)</strong>
+          </p>
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Refer to <a class="xref" href="../general/gcc.html" title=
+                "GCC-13.2.0">GCC-13.2.0</a> page for download info.
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          GRUB の依存パッケージ
+        </h3>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="efibootmgr.html" title=
+          "efibootmgr-18">efibootmgr-18</a> (runtime) and <a class="xref"
+          href="../general/freetype2.html" title=
+          "FreeType-2.13.2">FreeType-2.13.2</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="lvm2.html" title=
+          "LVM2-2.03.23">LVM2-2.03.23</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          GRUB のインストール
+        </h2>
+        <p>
+          まずは <code class="systemitem">root</code> ユーザーになってフォントデータをインストールします。
+        </p>
+        <pre class="root"><kbd class=
+        "command">mkdir -pv /usr/share/fonts/unifont &amp;&amp;
+gunzip -c ../unifont-15.1.04.pcf.gz &gt; /usr/share/fonts/unifont/unifont.pcf</kbd></pre>
+        <div class="admon warning">
+          <img alt="[警告]" src="../images/warning.png" />
+          <h3>
+            警告
+          </h3>
+          <p>
+            ビルドに影響が出ないように環境変数をリセットします。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">unset {C,CPP,CXX,LD}FLAGS</kbd></pre>
+          <p>
+            Don't try <span class="quote">「<span class=
+            "quote">tuning</span>」</span> this package with custom
+            compilation flags: this package is a bootloader, with low-level
+            operations in the source code which is likely to be broken by
+            some aggressive optimizations.
+          </p>
+        </div>
+        <p>
+          Fix an issue causing <span class=
+          "command"><strong>grub-install</strong></span> to fail when the
+          <code class="filename">/boot</code> partition (or the root
+          partition if <code class="filename">/boot</code> is not a separate
+          partition) is created by e2fsprogs-1.47.0 or later:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../grub-2.06-upstream_fixes-1.patch</kbd></pre>
+        <p>
+          If you are running a 32-bit LFS, prepare a 64-bit compiler:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">case $(uname -m) in i?86 )
+    <code class="literal">tar xf ../gcc-13.2.0.tar.xz
+    mkdir gcc-13.2.0/build
+    pushd gcc-13.2.0/build
+        ../configure --prefix=$PWD/../../x86_64-gcc \
+                     --target=x86_64-linux-gnu      \
+                     --with-system-zlib             \
+                     --enable-languages=c,c++       \
+                     --with-ld=/usr/bin/ld
+        make all-gcc
+        make install-gcc
+    popd
+    export TARGET_CC=$PWD/x86_64-gcc/bin/x86_64-linux-gnu-gcc</code>
+esac</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">GRUB</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr        \
+            --sysconfdir=/etc    \
+            --disable-efiemu     \
+            --enable-grub-mkfont \
+            --with-platform=efi  \
+            --target=x86_64      \
+            --disable-werror     &amp;&amp;
+unset TARGET_CC &amp;&amp;
+make</kbd></pre>
+        <p>
+          本パッケージには有効な結果となるテストスイートは含まれていません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install &amp;&amp;
+mv -v /etc/bash_completion.d/grub /usr/share/bash-completion/completions</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--enable-grub-mkfont</code></em>: Build
+          the tool named <span class=
+          "command"><strong>grub-mkfont</strong></span> to generate the font
+          file for the boot loader from the font data we've installed.
+        </p>
+        <div class="admon warning">
+          <img alt="[警告]" src="../images/warning.png" />
+          <h3>
+            警告
+          </h3>
+          <p>
+            If the recommended dependency <a class="xref" href=
+            "../general/freetype2.html" title=
+            "FreeType-2.13.2">FreeType-2.13.2</a> is not installed, it is
+            possible to omit this option and build GRUB. However, if
+            <span class="command"><strong>grub-mkfont</strong></span> is not
+            built, or the unicode font data is not available at the time GRUB
+            is built, GRUB won't install any font for the boot loader. The
+            GRUB boot menu will be displayed using a coarse font or in a
+            smaller region on the screen.
+          </p>
+        </div>
+        <p>
+          <em class="parameter"><code>--with-platform=efi</code></em>:
+          Ensures building GRUB with EFI enabled.
+        </p>
+        <p>
+          <em class="parameter"><code>--target=x86_64</code></em>: Ensures
+          building GRUB for x86_64 even if building on a 32-bit LFS system.
+          Most EFI firmware on x86_64 does not support 32-bit bootloaders.
+        </p>
+        <p>
+          <code class="option">--target=i386</code>: A few 32-bit x86
+          platforms have EFI support. And, some x86_64 platforms have a
+          32-bit EFI implementation, but they are very old and rare. Use this
+          instead of <em class="parameter"><code>--target=x86_64</code></em>
+          if you are <span class="bold"><strong>absolutely
+          sure</strong></span> that LFS is running on such a system.
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          GRUB の設定
+        </h2>
+        <p>
+          Using GRUB to make the LFS system bootable on UEFI platform will be
+          discussed in <a class="xref" href="grub-setup.html" title=
+          "Using GRUB to Set Up the Boot Process with UEFI">Using GRUB to Set
+          Up the Boot Process with UEFI</a>.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <p>
+          LFS ブックにおける GRUB のページを参照してください。
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="efibootmgr.html" title=
+          "efibootmgr-18">戻る</a>
+          <p>
+            efibootmgr-18
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="grub-setup.html" title=
+          "Using GRUB to Set Up the Boot Process with UEFI">次へ</a>
+          <p>
+            Using GRUB to Set Up the Boot Process with UEFI
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="filesystems.html" title=
+          "第5章 ファイルシステムとディスク管理">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

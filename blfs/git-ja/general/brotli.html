@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      brotli-1.1.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第9章 汎用的なライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="boost.html" title="Boost-1.84.0">戻る</a>
+          <p>
+            Boost-1.84.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="clucene.html" title="CLucene-2.3.3.4">次へ</a>
+          <p>
+            CLucene-2.3.3.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="brotli" name="brotli"></a>brotli-1.1.0
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to Brotli
+        </h2>
+        <p>
+          <span class="application">Brotli</span> provides a general-purpose
+          lossless compression algorithm that compresses data using a
+          combination of a modern variant of the LZ77 algorithm, Huffman
+          coding and 2nd order context modeling. Its libraries are
+          particularly used for WOFF2 fonts on webpages.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/google/brotli/archive/v1.1.0/brotli-1.1.0.tar.gz">
+                https://github.com/google/brotli/archive/v1.1.0/brotli-1.1.0.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 3a6a3dba82a3604792d3cb0bd41bca60
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 500 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 33 MB (python3 バイディング込み)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.3 SBU (python3 バイディング込み; parallelism=4)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Brotli の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="cmake.html" title=
+          "CMake-3.28.1">CMake-3.28.1</a>
+        </p>
+        <h4>
+          Optional
+        </h4>
+        <p class="optional">
+          <a class="xref" href="python-modules.html#pytest" title=
+          "Pytest-7.4.3">pytest-7.4.3</a> (for testing Python3 bindings)
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Brotli のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">brotli</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+cmake -DCMAKE_INSTALL_PREFIX=/usr \
+      -DCMAKE_BUILD_TYPE=Release  \
+      ..  &amp;&amp;
+make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>make
+          test</strong></span> を実行します。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+        <p>
+          必要な場合は <span class="application">Python3</span> バインディングをビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">cd .. &amp;&amp;
+sed "/c\/.*\.[ch]'/d;\
+     /include_dirs=\[/\
+     i libraries=['brotlicommon','brotlidec','brotlienc']," \
+    -i setup.py &amp;&amp;
+pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD</kbd></pre>
+        <p>
+          Install the <span class="application">Python3</span> bindings as
+          the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">pip3 install --no-index --find-links=dist --no-cache-dir --no-user Brotli</kbd></pre>
+        <p>
+          To test the <span class="application">Python3</span> binding,
+          issue: <span class="command"><strong>pytest</strong></span>.
+        </p>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <span class="command"><strong>sed ... -i setup.py</strong></span>:
+          Stop <code class="filename">setup.py</code> from rebuilding the
+          entire package all over again, use the already installed libraries
+          for the <span class="application">Python3</span> binding instead.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">brotli</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libbrotlicommon.so, libbrotlidec.so,
+              libbrotlienc.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/brotli and
+              /usr/lib/python3.12/site-packages/Brotli-1.1.0.dist-info
+              (Python3 バインディングをビルドしてインストールした場合)</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="brotli-prog" name="brotli-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>brotli</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    can compress or decompress files, or test the integrity
+                    of compressed files
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libbrotlicommon" name=
+                    "libbrotlicommon"></a><span class="term"><code class=
+                    "filename">libbrotlicommon{-static.a,.so}</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the Brotli common dictionary library
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libbrotlidec" name="libbrotlidec"></a><span class=
+                    "term"><code class=
+                    "filename">libbrotlidec{-static.a,.so}</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the Brotli decoder library
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libbrotlienc" name="libbrotlienc"></a><span class=
+                    "term"><code class=
+                    "filename">libbrotlienc{-static.a,.so}</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the Brotli common encoder library
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="boost.html" title="Boost-1.84.0">戻る</a>
+          <p>
+            Boost-1.84.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="clucene.html" title="CLucene-2.3.3.4">次へ</a>
+          <p>
+            CLucene-2.3.3.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

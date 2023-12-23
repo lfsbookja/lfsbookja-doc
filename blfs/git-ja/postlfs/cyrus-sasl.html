@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Cyrus SASL-2.1.28
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第4章 セキュリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="cryptsetup.html" title=
+          "cryptsetup-2.6.1">戻る</a>
+          <p>
+            cryptsetup-2.6.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gnupg.html" title="GnuPG-2.4.3">次へ</a>
+          <p>
+            GnuPG-2.4.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="security.html" title="第4章 セキュリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="cyrus-sasl" name="cyrus-sasl"></a>Cyrus SASL-2.1.28
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Cyrus SASL の概要
+        </h2>
+        <p>
+          The <span class="application">Cyrus SASL</span> package contains a
+          Simple Authentication and Security Layer implementation, a method
+          for adding authentication support to connection-based protocols. To
+          use SASL, a protocol includes a command for identifying and
+          authenticating a user to a server and for optionally negotiating
+          protection of subsequent protocol interactions. If its use is
+          negotiated, a security layer is inserted between the protocol and
+          the connection.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/cyrusimap/cyrus-sasl/releases/download/cyrus-sasl-2.1.28/cyrus-sasl-2.1.28.tar.gz">
+                https://github.com/cyrusimap/cyrus-sasl/releases/download/cyrus-sasl-2.1.28/cyrus-sasl-2.1.28.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 6f228a692516f5318a64505b46966cfa
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 3.9 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 28 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.2 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Cyrus SASL の依存パッケージ
+        </h3>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../server/lmdb.html" title=
+          "lmdb-0.9.31">lmdb-0.9.31</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="linux-pam.html" title=
+          "Linux-PAM-1.5.3">Linux-PAM-1.5.3</a>, <a class="xref" href=
+          "mitkrb.html" title="MIT Kerberos V5-1.21.2">MIT Kerberos
+          V5-1.21.2</a>, <a class="xref" href="../server/mariadb.html" title=
+          "MariaDB-10.11.6">MariaDB-10.11.6</a> または <a class="ulink" href=
+          "https://www.mysql.com/">MySQL</a>, <a class="xref" href=
+          "../server/openldap.html" title=
+          "OpenLDAP-2.6.6">OpenLDAP-2.6.6</a>, <a class="xref" href=
+          "../server/postgresql.html" title=
+          "PostgreSQL-16.1">PostgreSQL-16.1</a>, <a class="xref" href=
+          "../general/python-modules.html#sphinx" title=
+          "Sphinx-7.2.6">sphinx-7.2.6</a>, <a class="xref" href=
+          "../server/sqlite.html" title="SQLite-3.44.2">SQLite-3.44.2</a>,
+          <a class="ulink" href=
+          "https://anduin.linuxfromscratch.org/BLFS/bdb/db-5.3.28.tar.gz">Berkeley
+          DB</a> (非推奨), <a class="ulink" href=
+          "https://stuff.mit.edu/afs/net.mit.edu/project/attic/krb4/">krb4</a>,
+          <a class="ulink" href="https://dmalloc.com/">Dmalloc</a>, <a class=
+          "ulink" href=
+          "https://metacpan.org/pod/Pod::POM::View::Restructured">Pod::POM::View::Restructured</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Cyrus SASL のインストール
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            本パッケージは並行ビルドがサポートされていません。
+          </p>
+        </div>
+        <p>
+          以下のコマンドを実行して <span class="application">Cyrus SASL</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr        \
+            --sysconfdir=/etc    \
+            --enable-auth-sasldb \
+            --with-dblib=lmdb    \
+            --with-dbpath=/var/lib/sasl/sasldb2 \
+            --with-sphinx-build=no              \
+            --with-saslauthd=/var/run/saslauthd &amp;&amp;
+make -j1</kbd></pre>
+        <p>
+          This package does not come with a test suite. If you are planning
+          on using the GSSAPI authentication mechanism, test it after
+          installing the package using the sample server and client programs
+          which were built in the preceding step. Instructions for performing
+          the tests can be found at <a class="ulink" href=
+          "https://www.linuxfromscratch.org/hints/downloads/files/cyrus-sasl.txt">
+          https://www.linuxfromscratch.org/hints/downloads/files/cyrus-sasl.txt</a>.
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install &amp;&amp;
+install -v -dm755                          /usr/share/doc/cyrus-sasl-2.1.28/html &amp;&amp;
+install -v -m644  saslauthd/LDAP_SASLAUTHD /usr/share/doc/cyrus-sasl-2.1.28      &amp;&amp;
+install -v -m644  doc/legacy/*.html        /usr/share/doc/cyrus-sasl-2.1.28/html &amp;&amp;
+install -v -dm700 /var/lib/sasl</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class=
+          "parameter"><code>--with-dbpath=/var/lib/sasl/sasldb2</code></em>:
+          This switch forces the <span class=
+          "command"><strong>sasldb</strong></span> database to be created in
+          <code class="filename">/var/lib/sasl</code> instead of <code class=
+          "filename">/etc</code>.
+        </p>
+        <p>
+          <em class=
+          "parameter"><code>--with-saslauthd=/var/run/saslauthd</code></em>:
+          This switch forces <span class=
+          "command"><strong>saslauthd</strong></span> to use the FHS
+          compliant directory <code class=
+          "filename">/var/run/saslauthd</code> for variable run-time data.
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-auth-sasldb</code></em>: This
+          switch enables SASLDB authentication backend.
+        </p>
+        <p>
+          <code class="option">--with-dblib=gdbm</code>: This switch forces
+          <span class="application">GDBM</span> to be used instead of
+          <span class="application">LMDB</span>.
+        </p>
+        <p>
+          <code class="option">--with-ldap</code>: 本スイッチは <span class=
+          "application">OpenLDAP</span> サポートを有効にします。
+        </p>
+        <p>
+          <code class="option">--enable-ldapdb</code>: This switch enables
+          the LDAPDB authentication backend.
+        </p>
+        <p>
+          <code class="option">--enable-login</code>: 本オプションは、サポート非対象の LOGIN
+          認証を有効にします。
+        </p>
+        <p>
+          <code class="option">--enable-ntlm</code>: 本オプションは、サポート非対象の　NTLM
+          認証を有効にします。
+        </p>
+        <p>
+          <span class="command"><strong>install -v -m644 ...</strong></span>:
+          これらのコマンドは、<span class="command"><strong>make
+          install</strong></span> コマンドではインストールされないドキュメントをインストールします。
+        </p>
+        <p>
+          <span class="command"><strong>install -v -m700 -d
+          /var/lib/sasl</strong></span>: This directory must exist when
+          starting <span class="command"><strong>saslauthd</strong></span> or
+          using the sasldb plugin. If you're not going to be running the
+          daemon or using the plugins, you may omit the creation of this
+          directory.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Cyrus SASL の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="cyrus-sasl-config" name="cyrus-sasl-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="cyrus-sasl-config" name="cyrus-sasl-config"></a>設定ファイル
+          </h4>
+          <p>
+            <code class="filename">/etc/saslauthd.conf</code> (for
+            <span class="command"><strong>saslauthd</strong></span> LDAP
+            configuration) and <code class=
+            "filename">/etc/sasl2/Appname.conf</code> (where "Appname" is the
+            application defined name of the application)
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id6897" name="id6897"></a>設定情報
+          </h4>
+          <p>
+            See <a class="ulink" href=
+            "https://www.cyrusimap.org/sasl/sasl/sysadmin.html">https://www.cyrusimap.org/sasl/sasl/sysadmin.html</a>
+            for information on what to include in the application
+            configuration files.
+          </p>
+          <p>
+            See <a class="ulink" href=
+            "file:///usr/share/doc/cyrus-sasl-2.1.28/LDAP_SASLAUTHD">file:///usr/share/doc/cyrus-sasl-2.1.28/LDAP_SASLAUTHD</a>
+            for configuring <span class=
+            "command"><strong>saslauthd</strong></span> with <span class=
+            "application">OpenLDAP</span>.
+          </p>
+          <p>
+            See <a class="ulink" href=
+            "https://www.cyrusimap.org/sasl/sasl/gssapi.html#gssapi">https://www.cyrusimap.org/sasl/sasl/gssapi.html#gssapi</a>
+            for configuring <span class=
+            "command"><strong>saslauthd</strong></span> with <span class=
+            "application">Kerberos</span>.
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="cyrus-sasl-init" name="cyrus-sasl-init"></a>
+          </h3>
+          <h4 class="title">
+            <a id="cyrus-sasl-init" name="cyrus-sasl-init"></a><span class=
+            "phrase">初期化スクリプト</span>
+          </h4>
+          <p>
+            If you need to run the <span class=
+            "command"><strong>saslauthd</strong></span> daemon at system
+            startup, install the <code class=
+            "filename">/etc/rc.d/init.d/saslauthd</code> init script included
+            in the <a class="xref" href="../introduction/bootscripts.html"
+            title="BLFS ブートスクリプト">blfs-bootscripts-20231119</a> package using
+            the following command:
+          </p>
+          <pre class="root"><kbd class=
+          "command">make install-saslauthd</kbd></pre>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              You'll need to modify <code class=
+              "filename">/etc/sysconfig/saslauthd</code> and modify the
+              <code class="option">AUTHMECH</code> parameter with your
+              desired authentication mechanism.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">pluginviewer, saslauthd, sasldblistusers2,
+              saslpasswd2, testsaslauthd</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libsasl2.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/sasl, /usr/lib/sasl2,
+              /usr/share/doc/cyrus-sasl-2.1.28, /var/lib/sasl</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pluginviewer" name="pluginviewer"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pluginviewer</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to list loadable SASL plugins and their
+                    properties
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="saslauthd" name="saslauthd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>saslauthd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    SASL の認証サーバー。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sasldblistusers2" name=
+                    "sasldblistusers2"></a><span class="term"><span class=
+                    "command"><strong>sasldblistusers2</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to list the users in the SASL password database
+                    <code class="filename">sasldb2</code>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="saslpasswd2" name="saslpasswd2"></a><span class=
+                    "term"><span class=
+                    "command"><strong>saslpasswd2</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to set and delete a user's SASL password and
+                    mechanism specific secrets in the SASL password database
+                    <code class="filename">sasldb2</code>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="testsaslauthd" name=
+                    "testsaslauthd"></a><span class="term"><span class=
+                    "command"><strong>testsaslauthd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a test utility for the SASL authentication server
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libsasl2" name="libsasl2"></a><span class=
+                    "term"><code class="filename">libsasl2.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a general purpose authentication library for server
+                    and client applications
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="cryptsetup.html" title=
+          "cryptsetup-2.6.1">戻る</a>
+          <p>
+            cryptsetup-2.6.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gnupg.html" title="GnuPG-2.4.3">次へ</a>
+          <p>
+            GnuPG-2.4.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="security.html" title="第4章 セキュリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      CMake-3.28.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第13章 プログラミング言語
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="clisp.html" title="Clisp-2.49">戻る</a>
+          <p>
+            Clisp-2.49
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="doxygen.html" title="Doxygen-1.9.8">次へ</a>
+          <p>
+            Doxygen-1.9.8
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="prog.html" title="第13章 プログラミング言語">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="cmake" name="cmake"></a>CMake-3.28.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          CMake の概要
+        </h2>
+        <p>
+          <span class="application">CMake</span> パッケージは Makefile
+          を生成するための最新のツールセットを提供します。 これは自動生成される <span class=
+          "command"><strong>configure</strong></span> スクリプトに続けて利用します。
+          こうすることでプラットフォームやコンパイラーには依存しないスクリプトを生成します。 <span class=
+          "application">CMake</span> を活用している代表例が、バージョン 4 以降の <span class=
+          "application">KDE</span> です。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://cmake.org/files/v3.28/cmake-3.28.1.tar.gz">https://cmake.org/files/v3.28/cmake-3.28.1.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: db659ed92a8fcc880f95b492bde2eb44
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 11 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 427 MB（テスト実行時は 1.2 GB）
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 2.2 SBU（テスト実行時は 3.9 SBU, いずれも parallelism=4 利用時）
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          CMake の依存パッケージ
+        </h3>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../basicnet/curl.html" title=
+          "cURL-8.5.0">cURL-8.5.0</a>, <a class="xref" href="libarchive.html"
+          title="libarchive-3.7.2">libarchive-3.7.2</a>, <a class="xref"
+          href="libuv.html" title="libuv-1.47.0">libuv-1.47.0</a>, <a class=
+          "xref" href="../basicnet/nghttp2.html" title=
+          "nghttp2-1.58.0">nghttp2-1.58.0</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="gcc.html" title="GCC-13.2.0">GCC-13.2.0</a>
+          (for gfortran), <a class="xref" href="git.html" title=
+          "Git-2.43.0">git-2.43.0</a> (for use during tests), <a class="xref"
+          href="mercurial.html" title="Mercurial-6.6.1">Mercurial-6.6.1</a>
+          (for use during tests), <a class="xref" href="openjdk.html" title=
+          "OpenJDK-21.0.1">OpenJDK-21.0.1</a> (for use during tests),
+          (<a class="xref" href="../x/qt5.html" title=
+          "Qt-5.15.11">Qt-5.15.11</a> または <a class="xref" href=
+          "../x/qt5-alternate.html" title=
+          "qt-alternate-5.15.11">qt-alternate-5.15.11</a>) or <a class="xref"
+          href="../x/qt6.html" title="Qt-6.6.1">Qt-6.6.1</a> (for the
+          Qt-based GUI), <a class="xref" href="python-modules.html#sphinx"
+          title="Sphinx-7.2.6">sphinx-7.2.6</a> (for building documents),
+          <a class="xref" href="subversion.html" title=
+          "Subversion-1.14.2">Subversion-1.14.2</a> (for testing), <a class=
+          "ulink" href="https://github.com/google/cppdap/">cppdap</a>,
+          <a class="ulink" href=
+          "https://github.com/open-source-parsers/jsoncpp/">jsoncpp</a>,
+          <a class="ulink" href="https://rhash.sourceforge.net/">rhash</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          CMake のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">CMake</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i '/"lib64"/s/64//' Modules/GNUInstallDirs.cmake &amp;&amp;
+
+./bootstrap --prefix=/usr        \
+            --system-libs        \
+            --mandir=/share/man  \
+            --no-system-jsoncpp  \
+            --no-system-cppdap   \
+            --no-system-librhash \
+            --docdir=/share/doc/cmake-3.28.1 &amp;&amp;
+make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>LC_ALL=en_US.UTF-8
+          bin/ctest -j<em class="replaceable"><code>&lt;N&gt;</code></em> -O
+          cmake-3.28.1-test.log</strong></span> を実行します。 ここで <em class=
+          "replaceable"><code>&lt;N&gt;</code></em> は 1
+          からシステムコア数までの値を選んで指定します。 テストがいくつか失敗するため <code class=
+          "envar">LC_ALL</code> の設定が必要となります。 ロケール変数が英語以外のロケールに設定される場合があるためです。
+        </p>
+        <p>
+          If you want to investigate a problem with a given "problem1-test",
+          use <span class="command"><strong>bin/ctest -R
+          "problem1-test"</strong></span> and, to omit it, use <span class=
+          "command"><strong>bin/ctest -E "problem1-test"</strong></span>.
+          These options can be used together: <span class=
+          "command"><strong>bin/ctest -R "problem1-test" -E
+          "problem2-test"</strong></span>. Option <code class=
+          "option">-N</code> can be used to display all available tests, and
+          you can run <span class="command"><strong>bin/ctest</strong></span>
+          for a sub-set of tests by using separated by spaces names or
+          numbers as options. Option <code class="option">--help</code> can
+          be used to show all options.
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <span class="command"><strong>sed ...
+          Modules/GNUInstallDirs.cmake</strong></span>: This command disables
+          applications using cmake from attempting to install files in
+          /usr/lib64/.
+        </p>
+        <p>
+          <em class="parameter"><code>--system-libs</code></em>:
+          本スイッチは、システムにインストール済の <span class=
+          "application">Zlib</span>、<span class=
+          "application">Bzip2</span>、<span class=
+          "application">cURL</span>、<span class=
+          "application">nghttp2</span>、<span class=
+          "application">Expat</span>, <span class=
+          "application">libarchive</span> をリンクすることを指示します。
+        </p>
+        <p>
+          <em class="parameter"><code>--no-system-jsoncpp</code></em> and
+          <em class="parameter"><code>--no-system-cppdap</code></em>: These
+          switches remove the <span class="application">JSON-C++</span>
+          library from the list of system libraries. A bundled version of
+          that library is used instead.
+        </p>
+        <p>
+          <em class="parameter"><code>--no-system-librhash</code></em>: This
+          switch removes the <span class="application">librhash</span>
+          library from the list of system libraries used. A bundled version
+          of that library is used instead.
+        </p>
+        <p>
+          <code class=
+          "option">--no-system-{curl,libarchive,libuv,nghttp2}</code>: Use
+          the corresponding option in the list for the <span class=
+          "command"><strong>bootstrap</strong></span> if one of the
+          recommended dependencies is not installed. A bundled version of the
+          dependency will be used instead.
+        </p>
+        <p>
+          <code class="option">--qt-gui</code>: 本スイッチは <span class=
+          "application">CMake</span> の <span class=
+          "application">Qt</span>-ベースの GUI プログラムを生成することを指示します。
+        </p>
+        <p>
+          <code class="option">--parallel=</code>: This switch enables
+          performing the <span class="application">CMake</span> bootstrap
+          with multiple jobs at one time.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">ccmake, cmake, cmake-gui (任意ビルド), cpack, ctest</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/share/cmake-3.28,
+              /usr/share/doc/cmake-3.28.1</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ccmake" name="ccmake"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ccmake</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>cmake</strong></span> に対しての
+                    curses ベースの対話フロントエンドです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cmake-prog" name="cmake-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>cmake</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Makefile 生成ツールです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cmake-gui" name="cmake-gui"></a><span class=
+                    "term"><span class=
+                    "command"><strong>cmake-gui</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    (任意ビルド) <span class=
+                    "command"><strong>cmake</strong></span> の <span class=
+                    "application">Qt</span>-ベースのフロントエンドです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cpack" name="cpack"></a><span class=
+                    "term"><span class=
+                    "command"><strong>cpack</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">CMake</span> のパッケージングプログラムです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ctest" name="ctest"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ctest</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    cmake により生成されたディレクトリツリーをテストするユーティリティーです。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="clisp.html" title="Clisp-2.49">戻る</a>
+          <p>
+            Clisp-2.49
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="doxygen.html" title="Doxygen-1.9.8">次へ</a>
+          <p>
+            Doxygen-1.9.8
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="prog.html" title="第13章 プログラミング言語">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

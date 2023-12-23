@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Subversion サーバーの起動
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第13章 プログラミング言語
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="subversion.html" title=
+          "Subversion-1.14.2">戻る</a>
+          <p>
+            Subversion-1.14.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="swig.html" title="SWIG-4.1.1">次へ</a>
+          <p>
+            SWIG-4.1.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="prog.html" title="第13章 プログラミング言語">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="svnserver" name="svnserver"></a>Subversion サーバーの起動
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Subversion サーバーの起動
+        </h2>
+        <p>
+          この節では <span class="application">Subversion</span>
+          サーバーの構築、および安全な管理方法などについて説明します。
+        </p>
+        <h3>
+          Subversion サーバーの必要パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="subversion.html" title=
+          "Subversion-1.14.2">Subversion-1.14.2</a>. <a class="xref" href=
+          "../postlfs/openssh.html" title="OpenSSH-9.5p1">OpenSSH-9.5p1</a>
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Subversion サーバーの設定
+        </h2>
+        <p>
+          これ以降では <span class="application">Subversion</span>
+          サーバーのインストール手順を示します。 <span class="application">OpenSSH</span>
+          を利用すれば、セキュアなリモートアクセスを実現することもできます。 ここでは <span class=
+          "command"><strong>svnserve</strong></span> により匿名 (anonymous)
+          アクセスを行うものとします。
+        </p>
+        <p>
+          <span class="application">Subversion</span>
+          サーバーの設定は、以下に示す手順により実施します。
+        </p>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id49333" name="id49333"></a>1. ユーザー、グループ、パーミッションの設定
+          </h4>
+          <p>
+            設定を行うには、まずは <code class="systemitem">root</code> ユーザーになって操作します。
+            以下のコマンドを実行して <code class="systemitem">svn</code>
+            ユーザーおよびグループを生成します。
+          </p>
+          <pre class="root"><kbd class=
+          "command">groupadd -g 56 svn &amp;&amp;
+useradd -c "SVN Owner" -d /home/svn -m -g svn -s /bin/false -u 56 svn</kbd></pre>
+          <p>
+            複数のリポジトリを利用するなら、それらのリポジトリを取り扱うグループを1つ作っておけば、管理が容易になります。
+            以下のコマンドにより、テストリポジトリを取り扱う <code class="systemitem">svntest</code>
+            グループを生成します。 そして <code class="systemitem">svn</code>
+            ユーザーをそのグループに加えます。
+          </p>
+          <pre class="root"><kbd class=
+          "command">groupadd -g 57 svntest &amp;&amp;
+usermod -G svntest -a svn</kbd></pre>
+          <p>
+            さらに新しいファイルへの書き込み権限を与えるには、所有者とそのグループがリポジトリを取り扱えるものとしなければならず、
+            <span class="command"><strong>umask 002</strong></span>
+            を実行する必要があります。 <span class="command"><strong>svn</strong></span> と
+            <span class="command"><strong>svnserve</strong></span>
+            に対して、ラッパースクリプトを生成することで、これを確実に実現します。
+          </p>
+          <pre class="root"><kbd class=
+          "command">mv /usr/bin/svn /usr/bin/svn.orig &amp;&amp;
+mv /usr/bin/svnserve /usr/bin/svnserve.orig &amp;&amp;
+cat &gt;&gt; /usr/bin/svn &lt;&lt; "EOF"
+<code class="literal">#!/bin/sh
+umask 002
+/usr/bin/svn.orig "$@"</code>
+EOF
+cat &gt;&gt; /usr/bin/svnserve &lt;&lt; "EOF"
+<code class="literal">#!/bin/sh
+umask 002
+/usr/bin/svnserve.orig "$@"</code>
+EOF
+chmod 0755 /usr/bin/svn{,serve}</kbd></pre>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              <span class="application">Apache</span> を使ってリポジトリに対し HTTP
+              経由でのアクセスを行う場合、特に匿名アクセスも可能とする場合、 <span class=
+              "command"><strong>/usr/sbin/httpd</strong></span>
+              コマンドに対して、上と同様のラップスクリプトを生成する必要があります。
+            </p>
+          </div>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id49357" name="id49357"></a>2. Subversion リポジトリの生成
+          </h4>
+          <p>
+            There are several ways to set up a subversion repository. It is
+            recommended to have a look at the <a class="ulink" href=
+            "https://svnbook.red-bean.com/nightly/en/svn.reposadmin.html">SVN
+            Book</a> corresponding chapter. A basic repository can be set up
+            with the instructions below.
+          </p>
+          <p>
+            <span class="application">Subversion</span> の新たなリポジトリは
+            (<code class="systemitem">root</code> となって) 以下のコマンドにより生成します。
+          </p>
+          <pre class="root"><kbd class=
+          "command">install -v -m 0755 -d /srv/svn &amp;&amp;
+install -v -m 0755 -o svn -g svn -d /srv/svn/repositories &amp;&amp;
+svnadmin create /srv/svn/repositories/svntest</kbd></pre>
+          <p>
+            Now that the repository is created, it should be populated with
+            something useful. You'll need to have a predefined directory
+            layout set up exactly as you want your repository to look. For
+            example, here is a sample BLFS layout setup with a root of
+            <code class="filename">svntest/</code>. You'll need to set up a
+            directory tree similar to the following:
+          </p>
+          <pre class="screen"><code class=
+          "literal">svntest/            # The name of the repository
+   trunk/           # Contains the existing source tree
+      BOOK/
+      bootscripts/
+      edguide/
+      patches/
+      scripts/
+   branches/        # Needed for additional branches
+   tags/            # Needed for tagging release points</code></pre>
+          <p>
+            上に示したようなディレクトリレイアウトに基づいてディレクトリを生成したら、初期インポートを行います。
+          </p>
+          <pre class="root"><kbd class=
+          "command">svn import -m "Initial import." \
+    <em class=
+"replaceable"><code>&lt;/path/to/source/tree&gt;</code></em>      \
+    file:///srv/svn/repositories/svntest</kbd></pre>
+          <p>
+            リポジトリに対して、ユーザーとグループの所有を設定します。 そして一般ユーザーに対して <code class=
+            "systemitem">svn</code> と <code class="systemitem">svntest</code>
+            のグループへの設定を行います。
+          </p>
+          <pre class="root"><kbd class=
+          "command">chown -R svn:svntest /srv/svn/repositories/svntest    &amp;&amp;
+chmod -R g+w         /srv/svn/repositories/svntest    &amp;&amp;
+chmod g+s            /srv/svn/repositories/svntest/db &amp;&amp;
+usermod -G svn,svntest -a <em class=
+"replaceable"><code>&lt;username&gt;</code></em></kbd></pre>
+          <p>
+            <code class="systemitem">svntest</code> は svntest
+            リポジトリに割り当てるグループです。 As mentioned earlier, this eases
+            administration of multiple repositories when using <span class=
+            "application">OpenSSH</span> for authentication. Going forward,
+            you'll need to add your unprivileged user, and any additional
+            users that you wish to have write access to the repository, to
+            the <code class="systemitem">svn</code> and <code class=
+            "systemitem">svntest</code> groups.
+          </p>
+          <p>
+            In addition, you'll notice that the new repository's <code class=
+            "filename">db</code> directory is set-groupID. If the reasoning
+            is not immediately obvious, when using any external
+            authentication method (such as <span class=
+            "command"><strong>ssh</strong></span>), the sticky bit is set so
+            that all new files will be owned by the user, but group of
+            <code class="systemitem">svntest</code>. Anyone in the
+            <code class="systemitem">svntest</code> group can create files,
+            but still give the entire group write access to those files. This
+            avoids locking out other users from the repository.
+          </p>
+          <p>
+            一般ユーザーに戻って、新たなリポジトリを参照するために <span class=
+            "command"><strong>svnlook</strong></span> コマンドを実行します。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">svnlook tree /srv/svn/repositories/svntest/</kbd></pre>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              You may need to log out and back in again to refresh your group
+              memberships. <span class="command"><strong>su <em class=
+              "replaceable"><code>&lt;username&gt;</code></em></strong></span>
+              should work as well.
+            </p>
+          </div>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id49398" name="id49398"></a>3. サーバーの設定
+          </h4>
+          <p>
+            As mentioned previously, these instructions will configure the
+            server to use only <span class=
+            "command"><strong>ssh</strong></span> for write access to the
+            repository and to provide anonymous access using <span class=
+            "command"><strong>svnserve</strong></span>. There are several
+            other ways to provide access to the repository. These additional
+            configurations are best explained at <a class="ulink" href=
+            "https://svnbook.red-bean.com/">https://svnbook.red-bean.com/</a>.
+          </p>
+          <p>
+            Access configuration needs to be done for each repository. Create
+            the <code class="filename">svnserve.conf</code> file for the
+            svntest repository using the following commands:
+          </p>
+          <pre class="root"><kbd class=
+          "command">cp /srv/svn/repositories/svntest/conf/svnserve.conf \
+   /srv/svn/repositories/svntest/conf/svnserve.conf.default &amp;&amp;
+
+cat &gt; /srv/svn/repositories/svntest/conf/svnserve.conf &lt;&lt; "EOF"
+<code class="literal">[general]
+anon-access = read
+auth-access = write</code>
+EOF</kbd></pre>
+          <p>
+            There is not a lot to the configuration file at all. You'll
+            notice that only the general section is required. Take a look at
+            the <code class="filename">svnserve.conf.default</code> file for
+            information on using <span class=
+            "command"><strong>svnserve</strong></span>'s built-in
+            authentication method.
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="svnserver-init" name="svnserver-init"></a>
+          </h3>
+          <h4 class="title">
+            <a id="svnserver-init" name="svnserver-init"></a>4. Starting the
+            Server
+          </h4>
+          <p>
+            To start the server at boot time, install the svn bootscript
+            included in the <a class="xref" href=
+            "../introduction/bootscripts.html" title=
+            "BLFS ブートスクリプト">blfs-bootscripts-20231119</a> package:
+          </p>
+          <pre class="root"><kbd class="command">make install-svn</kbd></pre>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="subversion.html" title=
+          "Subversion-1.14.2">戻る</a>
+          <p>
+            Subversion-1.14.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="swig.html" title="SWIG-4.1.1">次へ</a>
+          <p>
+            SWIG-4.1.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="prog.html" title="第13章 プログラミング言語">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

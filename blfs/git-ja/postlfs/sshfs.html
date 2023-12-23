@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      sshfs-3.7.3
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第5章 ファイルシステムとディスク管理
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="smartmontools.html" title=
+          "smartmontools-7.4">戻る</a>
+          <p>
+            smartmontools-7.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="xfsprogs.html" title="xfsprogs-6.5.0">次へ</a>
+          <p>
+            xfsprogs-6.5.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="filesystems.html" title=
+          "第5章 ファイルシステムとディスク管理">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="sshfs" name="sshfs"></a>sshfs-3.7.3
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Sshfs の概要
+        </h2>
+        <p>
+          The <span class="application">Sshfs</span> package contains a
+          filesystem client based on the SSH File Transfer Protocol. This is
+          useful for mounting a remote computer that you have ssh access to
+          as a local filesystem. This allows you to drag and drop files or
+          run shell commands on the remote files as if they were on your
+          local computer.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/libfuse/sshfs/releases/download/sshfs-3.7.3/sshfs-3.7.3.tar.xz">
+                https://github.com/libfuse/sshfs/releases/download/sshfs-3.7.3/sshfs-3.7.3.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: f704f0d1800bdb5214030a1603e8c6d6
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 56 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 0.9 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: less than 0.1 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Sshfs の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="fuse.html" title=
+          "Fuse-3.16.2">Fuse-3.16.2</a>, <a class="xref" href=
+          "../general/glib2.html" title="GLib-2.78.3">GLib-2.78.3</a>,
+          <a class="xref" href="openssh.html" title=
+          "OpenSSH-9.5p1">OpenSSH-9.5p1</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/python-modules.html#docutils"
+          title="docutils-0.20.1">docutils-0.20.1</a> (required to build the
+          man page)
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Sshfs のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">Sshfs</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+meson setup --prefix=/usr --buildtype=release .. &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">ninja install</kbd></pre>
+      </div>
+      <div class="using" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Sshfsの利用
+        </h2>
+        <p>
+          To mount an ssh server you need to be able to log into the server.
+          For example, to mount your remote home folder to the local
+          ~/examplepath (the directory must exist and you must have
+          permissions to write to it):
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sshfs example.com:/home/userid ~/examplepath</kbd></pre>
+        <p>
+          When you've finished work and want to unmount it again:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">fusermount3 -u ~/example</kbd></pre>
+        <p>
+          You can also mount an <span class="application">sshfs</span>
+          filesystem at boot by adding an entry similar to the following in
+          the <code class="filename">/etc/fstab</code> file:
+        </p>
+        <pre class="screen"><code class=
+        "literal">userid@example.com:/path /media/path fuse.sshfs _netdev,IdentityFile=/home/userid/.ssh/id_rsa 0 0</code></pre>
+        <p>
+          See <span class="command"><strong>man 1 sshfs</strong></span> and
+          <span class="command"><strong>man 8 mount.fuse3</strong></span> for
+          all available mount options.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">sshfs</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sshfs-prog" name="sshfs-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sshfs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>ssh</strong></span>
+                    サーバーをローカルファイルシステムにマウントします。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="smartmontools.html" title=
+          "smartmontools-7.4">戻る</a>
+          <p>
+            smartmontools-7.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="xfsprogs.html" title="xfsprogs-6.5.0">次へ</a>
+          <p>
+            xfsprogs-6.5.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="filesystems.html" title=
+          "第5章 ファイルシステムとディスク管理">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

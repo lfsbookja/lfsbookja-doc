@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      第13章 プログラミング言語
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        パート&nbsp;III.&nbsp;汎用的なライブラリとユーティリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="zip.html" title="Zip-3.0">戻る</a>
+          <p>
+            Zip-3.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="cbindgen.html" title=
+          "Cbindgen-0.26.0">次へ</a>
+          <p>
+            Cbindgen-0.26.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="general.html" title=
+          "パート&nbsp;III.&nbsp;汎用的なライブラリとユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="chapter" lang="ja" xml:lang="ja">
+      <h1 class="chapter">
+        <a id="general-prog" name="general-prog"></a>プログラミング言語
+      </h1>
+      <p>
+        ベースシステムとしている LFS でも開発環境として利用することはできます。 しかし LFS には <span class=
+        "application">C</span>, <span class="application">C++</span>,
+        <span class="application">Perl</span>, <span class=
+        "application">Python</span> しか含まれていません。
+        本章では代表的なプログラミング環境を構築する手順を説明し、システム開発力を大いに繰り広げていただくことを目指しています。
+      </p>
+      <div class="toc">
+        <h3>
+          目次
+        </h3>
+        <ul>
+          <li class="sect1">
+            <a href="cbindgen.html">Cbindgen-0.26.0</a>
+          </li>
+          <li class="sect1">
+            <a href="clisp.html">Clisp-2.49</a>
+          </li>
+          <li class="sect1">
+            <a href="cmake.html">CMake-3.28.1</a>
+          </li>
+          <li class="sect1">
+            <a href="doxygen.html">Doxygen-1.9.8</a>
+          </li>
+          <li class="sect1">
+            <a href="gcc.html">GCC-13.2.0</a>
+          </li>
+          <li class="sect1">
+            <a href="gc.html">GC-8.2.4</a>
+          </li>
+          <li class="sect1">
+            <a href="gdb.html">GDB-14.1</a>
+          </li>
+          <li class="sect1">
+            <a href="git.html">Git-2.43.0</a>
+          </li>
+          <li class="sect1">
+            <a href="gitserver.html">Git サーバーの起動</a>
+          </li>
+          <li class="sect1">
+            <a href="guile.html">Guile-3.0.9</a>
+          </li>
+          <li class="sect1">
+            <a href="llvm.html">LLVM-17.0.6</a>
+          </li>
+          <li class="sect1">
+            <a href="lua.html">Lua-5.4.6</a>
+          </li>
+          <li class="sect1">
+            <a href="lua52.html">Lua-5.2.4</a>
+          </li>
+          <li class="sect1">
+            <a href="mercurial.html">Mercurial-6.6.1</a>
+          </li>
+          <li class="sect1">
+            <a href="nasm.html">NASM-2.16.01</a>
+          </li>
+          <li class="sect1">
+            <a href="patchelf.html">Patchelf-0.17.2</a>
+          </li>
+          <li class="sect1">
+            <a href="perl-modules.html">Perl モジュール</a>
+          </li>
+          <li class="sect1">
+            <a href="perl-deps.html">Perl Module Dependencies</a>
+          </li>
+          <li class="sect1">
+            <a href="php.html">PHP-8.3.0</a>
+          </li>
+          <li class="sect1">
+            <a href="python2.html">Python-2.7.18</a>
+          </li>
+          <li class="sect1">
+            <a href="python3.html">Python-3.12.1</a>
+          </li>
+          <li class="sect1">
+            <a href="python-modules.html">Python モジュール</a>
+          </li>
+          <li class="sect1">
+            <a href="python-dependencies.html">Python Dependencies</a>
+          </li>
+          <li class="sect1">
+            <a href="ruby.html">Ruby-3.2.2</a>
+          </li>
+          <li class="sect1">
+            <a href="rust.html">Rustc-1.74.1</a>
+          </li>
+          <li class="sect1">
+            <a href="scons.html">SCons-4.6.0</a>
+          </li>
+          <li class="sect1">
+            <a href="slang.html">slang-2.3.3</a>
+          </li>
+          <li class="sect1">
+            <a href="subversion.html">Subversion-1.14.2</a>
+          </li>
+          <li class="sect1">
+            <a href="svnserver.html">Subversion サーバーの起動</a>
+          </li>
+          <li class="sect1">
+            <a href="swig.html">SWIG-4.1.1</a>
+          </li>
+          <li class="sect1">
+            <a href="tk.html">Tk-8.6.13</a>
+          </li>
+          <li class="sect1">
+            <a href="unifdef.html">unifdef-2.12</a>
+          </li>
+          <li class="sect1">
+            <a href="vala.html">Vala-0.56.14</a>
+          </li>
+          <li class="sect1">
+            <a href="valgrind.html">Valgrind-3.22.0</a>
+          </li>
+          <li class="sect1">
+            <a href="yasm.html">yasm-1.3.0</a>
+          </li>
+          <li class="sect1">
+            <span class="dummy">Java</span>
+          </li>
+          <li class="sect1">
+            <a href="java.html">Java-21.0.1</a>
+          </li>
+          <li class="sect1">
+            <a href="openjdk.html">OpenJDK-21.0.1</a>
+          </li>
+          <li class="sect1">
+            <a href="ojdk-conf.html">JAVA 環境の設定</a>
+          </li>
+          <li class="sect1">
+            <a href="apache-ant.html">apache-ant-1.10.14</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="zip.html" title="Zip-3.0">戻る</a>
+          <p>
+            Zip-3.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="cbindgen.html" title=
+          "Cbindgen-0.26.0">次へ</a>
+          <p>
+            Cbindgen-0.26.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="general.html" title=
+          "パート&nbsp;III.&nbsp;汎用的なライブラリとユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      CrackLib-2.9.11
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第4章 セキュリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="make-ca.html" title="make-ca-1.13">戻る</a>
+          <p>
+            make-ca-1.13
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="cryptsetup.html" title=
+          "cryptsetup-2.6.1">次へ</a>
+          <p>
+            cryptsetup-2.6.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="security.html" title="第4章 セキュリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="cracklib" name="cracklib"></a>CrackLib-2.9.11
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          CrackLib の概要
+        </h2>
+        <p>
+          <span class="application">CrackLib</span>
+          パッケージは、強力なパスワードを実現するライブラリを提供します。 ユーザーが選び出したパスワードは、あらかじめ登録されている語句リスト
+          (word list) との比較が行われます。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/cracklib/cracklib/releases/download/v2.9.11/cracklib-2.9.11.tar.xz">
+                https://github.com/cracklib/cracklib/releases/download/v2.9.11/cracklib-2.9.11.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: a6dfb1766aab43a54e1cbd78abf0a20a
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 452 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 6.8 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          追加のダウンロード
+        </h3>
+        <div class="itemizedlist">
+          <p>
+            英語圏ユーザーに対して推奨される語句リスト (word list)
+          </p>
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://github.com/cracklib/cracklib/releases/download/v2.9.11/cracklib-words-2.9.11.xz">
+                https://github.com/cracklib/cracklib/releases/download/v2.9.11/cracklib-words-2.9.11.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: f27804022dbf2682a7f7c353317f9a53
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 4.0 MB
+              </p>
+            </li>
+          </ul>
+        </div>
+        <p>
+          上以外にも追加の用語リストがあって、例えば <a class="ulink" href=
+          "https://wiki.skullsecurity.org/index.php/Passwords">https://wiki.skullsecurity.org/index.php/Passwords</a>
+          などからダウンロードすることができます。 <span class="application">CrackLib</span>
+          では、語句リストの大小を問わず、望みのものを選んでインストールすることができます。
+        </p>
+        <div class="admon important">
+          <img alt="[重要]" src="../images/important.png" />
+          <h3>
+            重要
+          </h3>
+          <p>
+            各ユーザーがパスワードを決める際には、自国語のごく普通の単語を選びがちです。 このことはクラッカーも承知しています。
+            <span class="application">CrackLib</span>
+            はそのような不適切なパスワードを受け付けません。 <span class=
+            "application">CrackLib</span>
+            にて利用する語句リストは、パスワードとして用いそうな単語ベースでの語句の組み合わせを余すことなく収容するものでなければなりません。
+          </p>
+          <p>
+            上の語句リストは、デフォルトの語句リストとしてダウンロードし利用することが推奨されています。
+            英語圏ユーザーなら、これを利用すれば十分です。
+            他のユーザーの場合は、追加の語句リストをダウンロードするか新規に生成するかして利用することが必要です。
+          </p>
+          <p>
+            Note that word lists suitable for spell-checking are not usable
+            as <span class="application">CrackLib</span> word lists in
+            countries with non-Latin based alphabets, because of <span class=
+            "quote">「<span class="quote">word-based keystroke
+            combinations</span>」</span> that make bad passwords.
+          </p>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          CrackLib のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">CrackLib</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">autoreconf -fiv &amp;&amp;
+
+PYTHON=python3               \
+./configure --prefix=/usr    \
+            --disable-static \
+            --with-default-dict=/usr/lib/cracklib/pw_dict &amp;&amp;
+make</kbd></pre>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下のコマンドを実行します。
+          これにより、推奨されている語句リストをインストールし <span class=
+          "application">CrackLib</span> の辞書情報を生成します。
+          これ以外の語句リストでも、テキストベースであり、一語につき一行のものであれば利用することができます。 利用する場合は、そのファイルを
+          <code class="filename">/usr/share/dict</code> にインストールし <span class=
+          "command"><strong>create-cracklib-dict</strong></span>
+          コマンドを使ってそのファイルの追加登録を行います。
+        </p>
+        <pre class="root"><kbd class=
+        "command">install -v -m644 -D    ../cracklib-words-2.9.11.xz \
+                         /usr/share/dict/cracklib-words.xz    &amp;&amp;
+
+unxz -v                  /usr/share/dict/cracklib-words.xz    &amp;&amp;
+ln -v -sf cracklib-words /usr/share/dict/words                &amp;&amp;
+echo $(hostname) &gt;&gt;      /usr/share/dict/cracklib-extra-words &amp;&amp;
+install -v -m755 -d      /usr/lib/cracklib                    &amp;&amp;
+
+create-cracklib-dict     /usr/share/dict/cracklib-words \
+                         /usr/share/dict/cracklib-extra-words</kbd></pre>
+        <p>
+          必要なら以下のコマンドを実行して、一般ユーザーであってもライブラリの動作が正しく行われるかをチェックします。
+        </p>
+        <pre class="userinput"><kbd class="command">make test</kbd></pre>
+        <div class="admon important">
+          <img alt="[重要]" src="../images/important.png" />
+          <h3>
+            重要
+          </h3>
+          <p>
+            LFS を構築することで <span class="application">Shadow</span>
+            パッケージがインストールされているので、その後に <span class=
+            "application">CrackLib</span> をインストールしたら、<a class="xref" href=
+            "shadow.html" title="Shadow-4.14.2">Shadow-4.14.2</a>
+            を再インストールしてください。 これを行わないと強力なパスワードを実現することはできません。 今から <a class=
+            "xref" href="linux-pam.html" title=
+            "Linux-PAM-1.5.3">Linux-PAM-1.5.3</a>
+            パッケージをインストールしようとしている場合は、上の説明は無視して <span class=
+            "application">Linux-PAM</span> をインストールした後に <span class=
+            "application">Shadow</span> をインストールしてください。
+          </p>
+        </div>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <span class="command"><strong>autoreconf -fiv</strong></span>: The
+          configure script shipped with the package is too old to get the
+          right version string of Python 3.10 or later. This command
+          regenerates it with a more recent version of autotools, which fixes
+          the issue.
+        </p>
+        <p>
+          <code class="envar">PYTHON=python3</code>: This forces the
+          installation of python bindings for Python 3, even if Python 2 is
+          installed.
+        </p>
+        <p>
+          <em class=
+          "parameter"><code>--with-default-dict=/usr/lib/cracklib/pw_dict</code></em>:
+          このパラメーターは <span class="application">CrackLib</span> の辞書情報を
+          <code class="filename">/lib</code> ディレクトリ配下にインストールすることを指示します。
+        </p>
+        <p>
+          <em class="parameter"><code>--disable-static</code></em>:
+          このスイッチはスタティックライブラリをインストールしないようにします。
+        </p>
+        <p>
+          <span class="command"><strong>install -v -m644 -D
+          ...</strong></span>: This command creates the <code class=
+          "filename">/usr/share/dict</code> directory (if it doesn't already
+          exist) and installs the compressed word list there.
+        </p>
+        <p>
+          <span class="command"><strong>ln -v -s cracklib-words
+          /usr/share/dict/words</strong></span>: The word list is linked to
+          <code class="filename">/usr/share/dict/words</code> as
+          historically, <code class="filename">words</code> is the primary
+          word list in the <code class="filename">/usr/share/dict</code>
+          directory. Omit this command if you already have a <code class=
+          "filename">/usr/share/dict/words</code> file installed on your
+          system.
+        </p>
+        <p>
+          <span class="command"><strong>echo $(hostname)
+          &gt;&gt;...</strong></span>: The value of <span class=
+          "command"><strong>hostname</strong></span> is echoed to a file
+          called <code class="filename">cracklib-extra-words</code>. This
+          extra file is intended to be a site specific list which includes
+          easy to guess passwords such as company or department names, user
+          names, product names, computer names, domain names, etc.
+        </p>
+        <p>
+          <span class="command"><strong>create-cracklib-dict
+          ...</strong></span>: このコマンドは語句リスト (word list) から <span class=
+          "application">CrackLib</span> の辞書情報を生成します。
+          語句リストを追加インストールしたい場合は、このコマンドを修正してください。
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">cracklib-check, cracklib-format, cracklib-packer,
+              cracklib-unpacker, cracklib-update, create-cracklib-dict</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libcrack.so, _cracklib.so (<span class=
+              "application">Python</span> module)</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/lib/cracklib, /usr/share/dict,
+              /usr/share/cracklib</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cracklib-check" name=
+                    "cracklib-check"></a><span class="term"><span class=
+                    "command"><strong>cracklib-check</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to determine if a password is strong
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cracklib-format" name=
+                    "cracklib-format"></a><span class="term"><span class=
+                    "command"><strong>cracklib-format</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to format text files (lowercases all words,
+                    removes control characters and sorts the lists)
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cracklib-packer" name=
+                    "cracklib-packer"></a><span class="term"><span class=
+                    "command"><strong>cracklib-packer</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    creates a database with words read from standard input
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cracklib-unpacker" name=
+                    "cracklib-unpacker"></a><span class="term"><span class=
+                    "command"><strong>cracklib-unpacker</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    displays on standard output the database specified
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="create-cracklib-dict" name=
+                    "create-cracklib-dict"></a><span class=
+                    "term"><span class="command"><strong>create-cracklib-dict</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定された語句リスト (word list) から <span class=
+                    "application">CrackLib</span> の辞書情報を生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libcrack" name="libcrack"></a><span class=
+                    "term"><code class="filename">libcrack.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    強力なパスワード機能に対しての、高速な辞書情報の検索を実現します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="make-ca.html" title="make-ca-1.13">戻る</a>
+          <p>
+            make-ca-1.13
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="cryptsetup.html" title=
+          "cryptsetup-2.6.1">次へ</a>
+          <p>
+            cryptsetup-2.6.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="security.html" title="第4章 セキュリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

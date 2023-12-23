@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Xorg Legacy
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第24章 グラフィック環境
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="TTF-and-OTF-fonts.html" title=
+          "TTF and OTF fonts">戻る</a>
+          <p>
+            TTF and OTF fonts
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="lib.html" title="グラフィック環境ライブラリ">次へ</a>
+          <p>
+            グラフィック環境ライブラリ
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="installing.html" title=
+          "第24章 グラフィック環境">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="xorg7-legacy" name="xorg7-legacy"></a>Xorg Legacy
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to Xorg Legacy
+        </h2>
+        <p>
+          <span class="application">Xorg</span>'s ancestor (X11R1, in 1987)
+          at first only provided bitmap fonts, with a tool (<span class=
+          "command"><strong>bdftopcf</strong></span>) to assist in their
+          installation. With the introduction of <span class=
+          "application">xorg-server-1.19.0</span> and <span class=
+          "application">libXfont2</span> many people will not need them.
+          There are still a few old packages which might require, or benefit
+          from, these deprecated fonts and so the following packages are
+          shown here.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            The font-adobe-100dpi package installs 100 dots per inch versions
+            of Courier, Helvetica, New Century Schoolbook and Times fonts.
+          </p>
+          <p>
+            The remaining font packages here provide 75dpi versions of those
+            fonts, and various miscellaneous fonts - mostly for legacy
+            encodings. Those are primarily to silence warnings when testing
+            Xorg. In previous versions of BLFS a lot more legacy fonts were
+            installed.
+          </p>
+          <p>
+            Please consult the BLFS-7.10 book at <a class="ulink" href=
+            "https://www.linuxfromscratch.org/blfs/view/7.10/x/x7font.html">https://www.linuxfromscratch.org/blfs/view/7.10/x/x7font.html</a>
+            if you wish to install any of those other fonts.
+          </p>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://www.x.org/pub/individual/">https://www.x.org/pub/individual/</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 4.2 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 30 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: 0.3 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Xorg Legacy Dependencies
+        </h3>
+        <h4>
+          Required
+        </h4>
+        <p class="required">
+          <a class="xref" href="x7font.html" title="Xorg フォント">Xorg フォント</a>
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Downloading Xorg Legacy
+        </h2>
+        <p>
+          First, create a list of files to be downloaded. This file will also
+          be used to verify the integrity of the downloads when complete:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; legacy.dat &lt;&lt; "EOF"
+<code class=
+"literal">e09b61567ab4a4d534119bba24eddfb1 util/ bdftopcf-1.1.1.tar.xz
+20239f6f99ac586f10360b0759f73361 font/ font-adobe-100dpi-1.0.4.tar.xz
+2dc044f693ee8e0836f718c2699628b9 font/ font-adobe-75dpi-1.0.4.tar.xz
+2c939d5bd4609d8e284be9bef4b8b330 font/ font-jis-misc-1.0.4.tar.xz
+6300bc99a1e45fbbe6075b3de728c27f font/ font-daewoo-misc-1.0.4.tar.xz
+fe2c44307639062d07c6e9f75f4d6a13 font/ font-isas-misc-1.0.4.tar.xz
+145128c4b5f7820c974c8c5b9f6ffe94 font/ font-misc-misc-1.1.3.tar.xz</code>
+EOF</kbd></pre>
+        <p>
+          To download the needed files using <a class="xref" href=
+          "../basicnet/wget.html" title="Wget-1.21.4">Wget-1.21.4</a>, use
+          the following commands:
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir legacy &amp;&amp;
+cd    legacy &amp;&amp;
+grep -v '^#' ../legacy.dat | awk '{print $2$3}' | wget -i- -c \
+     -B https://www.x.org/pub/individual/ &amp;&amp;
+grep -v '^#' ../legacy.dat | awk '{print $1 " " $3}' &gt; ../legacy.md5 &amp;&amp;
+md5sum -c ../legacy.md5</kbd></pre>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of Xorg Legacy
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            複数のパッケージを一つのスクリプトを使って一気にインストールする場合には、ルートユーザーとして実行することが必要となります。
+            その場合には、以下に示す３つの方法のいずれかを採用することになります。
+          </p>
+          <div class="orderedlist">
+            <ol>
+              <li class="listitem">
+                <p>
+                  スクリプトの実行自体をルートユーザーにより行う。(ただし推奨はしません。)
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  <a class="xref" href="../postlfs/sudo.html" title=
+                  "Sudo-1.9.15p4">Sudo-1.9.15p4</a> パッケージの <span class=
+                  "command"><strong>sudo</strong></span> コマンドを利用する。
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  <span class="command"><strong>su -c "コマンド
+                  引数"</strong></span> の形 (クォーテーションが必要) を利用する。
+                  この場合はコマンドの実行の都度、ルートパスワードの入力が必要になります。
+                </p>
+              </li>
+            </ol>
+          </div>
+          <p>
+            この状況を取り扱う一つの手法として、以下のような <span class=
+            "command"><strong>bash</strong></span>
+            スクリプトにより適切な方法を自動的に選択する方法が考えられます。 一度コマンドをセットしておけば、再びセットする必要はありません。
+          </p>
+          <pre class="userinput"><kbd class="command">as_root()
+{
+  if   [ $EUID = 0 ];        then $*
+  elif [ -x /usr/bin/sudo ]; then sudo $*
+  else                            su -c \\"$*\\"
+  fi
+}
+
+export -f as_root</kbd></pre>
+        </div>
+        <p>
+          First, start a subshell that will exit on error:
+        </p>
+        <pre class="userinput"><kbd class="command">bash -e</kbd></pre>
+        <p>
+          Install all of the packages by running the following commands:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">for package in $(grep -v '^#' ../legacy.md5 | awk '{print $2}')
+do
+  packagedir=${package%.tar.?z*}
+  tar -xf $package
+  pushd $packagedir
+    ./configure $XORG_CONFIG
+    make
+    as_root make install
+  popd
+  rm -rf $packagedir
+  as_root /sbin/ldconfig
+done</kbd></pre>
+        <p>
+          Finally, exit the shell that was started earlier:
+        </p>
+        <pre class="userinput"><kbd class="command">exit</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">bdftopcf</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">None</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody"><code class=
+              "envar">$XORG_PREFIX</code>/share/fonts/100dpi, <code class=
+              "envar">$XORG_PREFIX</code>/share/fonts/75dpi, <code class=
+              "envar">$XORG_PREFIX</code>/share/fonts/misc</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="bdftopcf-x7" name="bdftopcf-x7"></a><span class=
+                    "term"><span class=
+                    "command"><strong>bdftopcf</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    converts an X font from Bitmap Distribution Format to
+                    Portable Compiled Format
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="TTF-and-OTF-fonts.html" title=
+          "TTF and OTF fonts">戻る</a>
+          <p>
+            TTF and OTF fonts
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="lib.html" title="グラフィック環境ライブラリ">次へ</a>
+          <p>
+            グラフィック環境ライブラリ
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="installing.html" title=
+          "第24章 グラフィック環境">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

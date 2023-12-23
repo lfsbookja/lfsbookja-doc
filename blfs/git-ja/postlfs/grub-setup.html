@@ -1,0 +1,651 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Using GRUB to Set Up the Boot Process with UEFI
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第5章 ファイルシステムとディスク管理
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="grub-efi.html" title=
+          "GRUB-2.06 for EFI">戻る</a>
+          <p>
+            GRUB-2.06 for EFI
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="editors.html" title="テキストエディター">次へ</a>
+          <p>
+            テキストエディター
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="filesystems.html" title=
+          "第5章 ファイルシステムとディスク管理">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="grub-setup" name="grub-setup"></a>Using GRUB to Set Up the
+        Boot Process with UEFI
+      </h1>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Turn Off Secure Boot
+        </h2>
+        <p>
+          BLFS does not have the essential packages to support Secure Boot.
+          To set up the boot process with GRUB and UEFI in BLFS, Secure Boot
+          must be turned off from the configuration interface of the
+          firmware. Read the documentation provided by the manufacturer of
+          your system to find out how.
+        </p>
+      </div>
+      <div class="kernel" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="uefi-kernel" name="uefi-kernel"></a>Kernel Configuration for
+          UEFI support
+        </h2>
+        <p>
+          Enable the following options in the kernel configuration and
+          recompile the kernel if necessary:
+        </p>
+        <pre class="screen"><span class=
+        "blue">P</span>rocessor type and features ---&gt;
+  [*] <span class=
+"blue">E</span>FI runtime service support                                          [EFI]
+  [*]   <span class=
+"blue">E</span>FI stub support                                              [EFI_STUB]
+
+-*- <span class=
+"blue">E</span>nable the block layer ---&gt;                                          [BLOCK]
+  <span class="blue">P</span>artition Types ---&gt;
+    [ /*] <span class=
+"blue">A</span>dvanced partition selection                      [PARTITION_ADVANCED]
+    [*]     <span class=
+"blue">E</span>FI GUID Partition support                           [EFI_PARTITION]
+
+<span class="blue">D</span>evice Drivers ---&gt;
+  <span class="blue">F</span>irmware Drivers ---&gt;
+    [*] M<span class=
+"blue">a</span>rk VGA/VBE/EFI FB as generic system framebuffer       [SYSFB_SIMPLEFB]
+  <span class="blue">G</span>raphics support ---&gt;
+    &lt;*&gt; <span class=
+"blue">D</span>irect Rendering Manager (XFree86 4.1.0 and higher DRI support) ---&gt;
+                                                                      ...  [DRM]
+    [*] <span class=
+"blue">E</span>nable legacy fbdev support for your modesetting driver
+                                                      ...  [DRM_FBDEV_EMULATION]
+    &lt;*&gt; <span class=
+"blue">S</span>imple framebuffer driver                                [DRM_SIMPLEDRM]
+    <span class="blue">C</span>onsole display driver support ---&gt;
+      [*] <span class=
+"blue">F</span>ramebuffer Console support                      [FRAMEBUFFER_CONSOLE]
+
+<span class="blue">F</span>ile systems ---&gt;
+  <span class="blue">D</span>OS/FAT/EXFAT/NT Filesystems ---&gt;
+    &lt;*/M&gt; <span class=
+"blue">V</span>FAT (Windows-95) fs support                                 [VFAT_FS]
+  <span class="blue">P</span>seudo filesystems ---&gt;
+    &lt;*/M&gt; <span class=
+"blue">E</span>FI Variable filesystem                                    [EFIVAR_FS]
+  -*- N<span class=
+"blue">a</span>tive language support ---&gt;                                         [NLS]
+    &lt;*/M&gt; <span class=
+"blue">C</span>odepage 437 (United States, Canada)                [NLS_CODEPAGE_437]
+    &lt;*/M&gt; N<span class=
+"blue">L</span>S ISO 8859-1  (Latin 1; Western European Languages)  [NLS_ISO8859_1]</pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>The meaning of the configuration options:</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>CONFIG_PARTITION_ADVANCED</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                If it's not enabled, <em class=
+                "parameter"><code>CONFIG_EFI_PARTITION</code></em> will be
+                enabled automatically. But when it's enabled, you must set
+                <em class="parameter"><code>CONFIG_EFI_PARTITION</code></em>
+                to enabled as well.
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>CONFIG_SYSFB_SIMPLEFB</code></em>, <em class=
+              "parameter"><code>CONFIG_DRM</code></em>, <em class=
+              "parameter"><code>CONFIG_DRM_FBDEV_EMULATION</code></em>,
+              <em class="parameter"><code>CONFIG_DRM_SIMPLEDRM</code></em>,
+              <em class="parameter"><code>CONFIG_FB</code></em>, and
+              <em class=
+              "parameter"><code>CONFIG_FRAMEBUFFER_CONSOLE</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                The combination of these options provides the Linux console
+                support on top of the UEFI framebuffer. To allow the kernel
+                to print debug messages at an early boot stage, they
+                shouldn't be built as kernel modules unless an initramfs will
+                be used.
+              </p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Create an Emergency Boot Disk
+        </h2>
+        <p>
+          Ensure that an emergency boot disk is ready to <span class=
+          "quote">「<span class="quote">rescue</span>」</span> the system in
+          case the system becomes un-bootable. To make an emergency boot disk
+          with GRUB for an EFI based system, find a spare USB flash drive and
+          create a <code class="systemitem">vfat</code> file system on it.
+          Install <a class="xref" href="dosfstools.html" title=
+          "dosfstools-4.2">dosfstools-4.2</a> first, then as the <code class=
+          "systemitem">root</code> user:
+        </p>
+        <div class="admon warning">
+          <img alt="[警告]" src="../images/warning.png" />
+          <h3>
+            警告
+          </h3>
+          <p>
+            The following command will erase all directories and files in the
+            partition. Make sure your USB flash drive contains no data which
+            will be needed, and change <strong class=
+            "userinput"><code>sdx1</code></strong> to the device node
+            corresponding to the first partition of the USB flash drive. Be
+            careful not to overwrite your hard drive with a typo!
+          </p>
+        </div>
+        <pre class="userinput"><kbd class=
+        "command">mkfs.vfat /dev/sdx1</kbd></pre>
+        <p>
+          Still as the <code class="systemitem">root</code> user, use the
+          <span class="command"><strong>fdisk</strong></span> utility to set
+          the first partition of the USB flash drive to be an <span class=
+          "quote">「<span class="quote">EFI system</span>」</span> partition
+          (change <strong class="userinput"><code>sdx</code></strong> to the
+          device node corresponding to your USB flash drive):
+        </p>
+        <pre class="userinput"><kbd class="command">fdisk /dev/sdx</kbd>
+<code class="literal">
+Welcome to fdisk (util-linux 2.39.1).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+
+Command (m for help): </code><kbd class="command">t</kbd>
+<code class="literal">Partition number (1-9, default 9): </code><kbd class=
+"command">1</kbd>
+<code class=
+"literal">Partition type or alias (type L to list all): </code><kbd class=
+"command">uefi</kbd>
+<code class=
+"literal">Changed type of partition 'Linux filesystem' to 'EFI System'.
+
+Command (m for help): </code><kbd class="command">w</kbd>
+<code class="literal">The partition table has been altered.
+Syncing disks.</code></pre>
+        <p>
+          Still as the <code class="systemitem">root</code> user, create a
+          mount point for the EFI partition on the USB flash drive and mount
+          it:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mount --mkdir -v -t vfat /dev/sdx1 -o codepage=437,iocharset=iso8859-1 \
+      /mnt/rescue</kbd></pre>
+        <p>
+          Install GRUB for EFI on the partition:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">grub-install --target=x86_64-efi --removable \
+             --efi-directory=/mnt/rescue --boot-directory=/mnt/rescue</kbd></pre>
+        <p>
+          Unmount the partition:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">umount /mnt/rescue</kbd></pre>
+        <p>
+          Now the USB flash drive can be used as an emergency boot disk on
+          any x86-64 UEFI platform. It will boot the system and show the GRUB
+          shell. Then you can type commands to boot your operating system
+          from the hard drive. To learn how to select the boot device, read
+          the manual of your motherboard or laptop.
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Find or Create the EFI System Partition
+        </h2>
+        <p>
+          On EFI based systems, the bootloaders are installed in a special
+          FAT32 partition called an <span class="emphasis"><em>EFI System
+          Partition</em></span> (ESP). If your system supports EFI, and a
+          recent version of some Linux distribution or Windows is
+          pre-installed, it's likely that the ESP has already been created.
+          As the <code class="systemitem">root</code> user, list all the
+          partitions on your hard drive (replace <strong class=
+          "userinput"><code>sda</code></strong> with the device corresponding
+          to the appropriate hard drive):
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">fdisk -l /dev/sda</kbd></pre>
+        <p>
+          The <span class="quote">「<span class="quote">Type</span>」</span>
+          column of the ESP should be <code class="literal">EFI
+          System</code>.
+        </p>
+        <p>
+          If the system or the hard drive is new, or it's the first
+          installation of a UEFI-booted OS on the system, the ESP may not
+          exist. In that case, install <a class="xref" href="dosfstools.html"
+          title="dosfstools-4.2">dosfstools-4.2</a> first. Then create a new
+          partition, make a <code class="systemitem">vfat</code> file system
+          on it, and set the partition type to <span class=
+          "quote">「<span class="quote">EFI system</span>」</span>. See the
+          instructions for the emergency boot device above as a reference.
+        </p>
+        <div class="admon warning">
+          <img alt="[警告]" src="../images/warning.png" />
+          <h3>
+            警告
+          </h3>
+          <p>
+            Some (old) UEFI implementations may require the ESP to be the
+            first partition on the disk.
+          </p>
+        </div>
+        <p>
+          Now, as the <code class="systemitem">root</code> user, create the
+          mount point for the ESP, and mount it (replace <strong class=
+          "userinput"><code>sda1</code></strong> with the device node
+          corresponding to the ESP):
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mount --mkdir -v -t vfat /dev/sda1 -o codepage=437,iocharset=iso8859-1 \
+      /boot/efi</kbd></pre>
+        <p>
+          If you want to mount the ESP automatically during system boot, as
+          the <code class="systemitem">root</code> user, add an entry for the
+          ESP into <code class="filename">/etc/fstab</code>:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt;&gt; /etc/fstab &lt;&lt; EOF</kbd>
+<code class=
+"literal">/dev/sda1 /boot/efi vfat codepage=437,iocharset=iso8859-1 0 1</code>
+<kbd class="command">EOF</kbd></pre>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Minimal Boot Configuration with GRUB and EFI
+        </h2>
+        <p>
+          On UEFI based systems, GRUB works by installing an EFI application
+          (a special kind of executable) into the ESP. The EFI firmware will
+          search boot loaders in EFI applications from boot entries recorded
+          in EFI variables, and additionally a hardcoded path <code class=
+          "filename">EFI/BOOT/BOOTX64.EFI</code>. Normally, a boot loader
+          should be installed into a custom path and the path should be
+          recorded in the EFI variables. The use of the hardcoded path should
+          be avoided if possible. However, in some cases we have to use the
+          hardcoded path:
+        </p>
+        <div class="itemizedlist">
+          <ul>
+            <li class="listitem">
+              <p>
+                The system is not booted with EFI yet, making EFI variables
+                inaccessible.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                The EFI firmware is 64-bit but the LFS system is 32-bit,
+                making EFI variables inaccessible because the kernel cannot
+                invoke EFI runtime services with a different virtual address
+                length.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                LFS is built for a Live USB, so we cannot rely on EFI
+                variables, which are stored in NVRAM or EEPROM on the local
+                machine.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                You are unable or unwilling to install the <span class=
+                "application">efibootmgr</span> for manipulating boot entries
+                in EFI variables.
+              </p>
+            </li>
+          </ul>
+        </div>
+        <p>
+          In these cases, follow these instructions to install the GRUB EFI
+          application into the hardcoded path and make a minimal boot
+          configuration. Otherwise it's better to skip ahead and set up the
+          boot configuration normally.
+        </p>
+        <p>
+          To install GRUB with the EFI application in the hardcoded path
+          <code class="filename">EFI/BOOT/BOOTX64.EFI</code>, first ensure
+          the boot partition is mounted at <code class=
+          "filename">/boot</code> and the ESP is mounted at <code class=
+          "filename">/boot/efi</code>. Then, as the <code class=
+          "systemitem">root</code> user, run the command:
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            This command will overwrite <code class=
+            "filename">/boot/efi/EFI/BOOT/BOOTX64.EFI</code>. It may break a
+            bootloader already installed there. Back it up if you are not
+            sure.
+          </p>
+        </div>
+        <pre class="userinput"><kbd class=
+        "command">grub-install --target=x86_64-efi --removable</kbd></pre>
+        <p>
+          This command will install the GRUB EFI application into the
+          hardcoded path <code class=
+          "filename">/boot/efi/EFI/BOOT/BOOTX64.EFI</code>, so the EFI
+          firmware can find and load it. The remaining GRUB files are
+          installed in the <code class="filename">/boot/grub</code> directory
+          and will be loaded by <code class="filename">BOOTX64.EFI</code>
+          during system boot.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            The EFI firmware usually prefers the EFI applications with a path
+            stored in EFI variables to the EFI application at the hardcoded
+            path. So you may need to invoke the boot selection menu or
+            firmware setting interface to select the newly installed GRUB
+            manually on the next boot. Read the manual of your motherboard or
+            laptop to learn how.
+          </p>
+        </div>
+        <p>
+          If you've followed the instructions in this section and set up a
+          minimal boot configuration, now skip ahead to <span class=
+          "quote">「<span class="quote">Creating the GRUB Configuration
+          File</span>」</span>.
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Mount the EFI Variable File System
+        </h2>
+        <p>
+          The installation of GRUB on a UEFI platform requires that the EFI
+          Variable file system, <code class="systemitem">efivarfs</code>, is
+          mounted. As the <code class="systemitem">root</code> user, mount it
+          if it's not already mounted:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mountpoint /sys/firmware/efi/efivars || mount -v -t efivarfs efivarfs /sys/firmware/efi/efivars</kbd></pre>
+        <p>
+          Now add an entry for the <code class="systemitem">efivarfs</code>
+          in <code class="filename">/etc/fstab</code> so it will be mounted
+          automatically during system boot:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt;&gt; /etc/fstab &lt;&lt; EOF</kbd>
+<code class=
+"literal">efivarfs /sys/firmware/efi/efivars efivarfs defaults 0 0</code>
+<kbd class="command">EOF</kbd></pre>
+        <div class="admon warning">
+          <img alt="[警告]" src="../images/warning.png" />
+          <h3>
+            警告
+          </h3>
+          <p>
+            If the system is not booted with UEFI, the directory <code class=
+            "filename">/sys/firmware/efi</code> will be missing. In this case
+            you should boot the system in UEFI mode with the emergency boot
+            disk or using a minimal boot configuration created as above, then
+            mount <code class="systemitem">efivarfs</code> and continue.
+          </p>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Setting Up the Configuration
+        </h2>
+        <p>
+          On UEFI based systems, GRUB works by installing an EFI application
+          (a special kind of executable) into <code class=
+          "filename">/boot/efi/EFI/[id]/grubx64.efi</code>, where
+          <code class="filename">/boot/efi</code> is the mount point of the
+          ESP, and <code class="literal">[id]</code> is replaced with an
+          identifier specified in the <span class=
+          "command"><strong>grub-install</strong></span> command line. GRUB
+          will create an entry in the EFI variables containing the path
+          <code class="literal">EFI/[id]/grubx64.efi</code> so the EFI
+          firmware can find <code class="filename">grubx64.efi</code> and
+          load it.
+        </p>
+        <p>
+          <code class="filename">grubx64.efi</code> is very lightweight (136
+          KB with GRUB-2.06) so it will not use much space in the ESP. A
+          typical ESP size is 100 MB (for Windows boot manager, which uses
+          about 50 MB in the ESP). Once <code class=
+          "filename">grubx64.efi</code> has been loaded by the firmware, it
+          will load GRUB modules from the boot partition. The default
+          location is <code class="filename">/boot/grub</code>.
+        </p>
+        <p>
+          As the <code class="systemitem">root</code> user, install the GRUB
+          files into <code class=
+          "filename">/boot/efi/EFI/LFS/grubx64.efi</code> and <code class=
+          "filename">/boot/grub</code>. Then set up the boot entry in the EFI
+          variables:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">grub-install --bootloader-id=LFS --recheck</kbd></pre>
+        <p>
+          If the installation is successful, the output should be:
+        </p>
+        <pre class="screen"><code class=
+        "literal">Installing for x86_64-efi platform.
+Installation finished. No error reported.</code></pre>
+        <p>
+          Issue the <span class="command"><strong>efibootmgr | cut -f
+          1</strong></span> command to recheck the EFI boot configuration. An
+          example of the output is:
+        </p>
+        <pre class="screen"><code class="literal">BootCurrent: 0000
+Timeout: 1 seconds
+BootOrder: 0005,0000,0002,0001,0003,0004
+Boot0000* ARCH
+Boot0001* UEFI:CD/DVD Drive
+Boot0002* Windows Boot Manager
+Boot0003* UEFI:Removable Device
+Boot0004* UEFI:Network Device
+Boot0005* LFS</code></pre>
+        <p>
+          Note that <code class="literal">0005</code> is the first in the
+          <code class="literal">BootOrder</code>, and <code class=
+          "literal">Boot0005</code> is <code class="literal">LFS</code>. This
+          means that on the next boot, the version of GRUB installed by LFS
+          will be used to boot the system.
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Creating the GRUB Configuration File
+        </h2>
+        <p>
+          Generate <code class="filename">/boot/grub/grub.cfg</code> to
+          configure the boot menu of GRUB:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; /boot/grub/grub.cfg &lt;&lt; EOF</kbd>
+<code class="literal"># Begin /boot/grub/grub.cfg
+set default=0
+set timeout=5
+
+insmod part_gpt
+insmod ext2
+set root=(hd0,2)
+
+insmod all_video
+if loadfont /boot/grub/fonts/unicode.pf2; then
+  terminal_output gfxterm
+fi
+
+menuentry "GNU/Linux, Linux 6.4.10-lfs-12.0"  {
+  linux   /boot/vmlinuz-6.4.10-lfs-12.0 root=/dev/sda2 ro
+}
+
+menuentry "Firmware Setup" {
+  fwsetup
+}</code>
+<kbd class="command">EOF</kbd></pre>
+        <p>
+          Refer to <a class="ulink" href=
+          "../../../../lfs/view/systemd/chapter10/grub.html">the LFS book</a>
+          for the basic knowledge about the <code class=
+          "filename">grub.cfg</code> file. <code class=
+          "literal">(hd0,2)</code>, <code class="literal">sda2</code>, and
+          <code class="literal">6.4.10-lfs-12.0</code> must match your
+          configuration.
+        </p>
+        <p>
+          The <span class="command"><strong>insmod all_video</strong></span>
+          directive loads various modules for video support. It's needed to
+          initialize the EFI framebuffer for the kernel to print messages
+          correctly before the kernel GPU driver initialization.
+        </p>
+        <p>
+          The <span class="command"><strong>terminal_output
+          gfxterm</strong></span> directive changes the display resolution of
+          the GRUB menu to match your display device. It will break the
+          rendering if the <code class="filename">unicode.pf2</code> font
+          data file is not loaded, so it's guarded by a <span class=
+          "command"><strong>if</strong></span> directive.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            From GRUB's perspective, the files are relative to the partitions
+            used. If you used a separate /boot partition, remove /boot from
+            the above paths (to kernel and to <code class=
+            "filename">unicode.pf2</code>). You will also need to change the
+            "set root" line to point to the boot partition.
+          </p>
+        </div>
+        <p>
+          The <code class="literal">Firmware Setup</code> entry can be used
+          to enter the configuration interface provided by the firmware
+          (sometimes called <span class="quote">「<span class="quote">BIOS
+          configuration</span>」</span>).
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Dual-booting with Windows
+        </h2>
+        <p>
+          Add a menu entry for Windows into <code class=
+          "filename">grub.cfg</code>:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt;&gt; /boot/grub/grub.cfg &lt;&lt; EOF</kbd>
+<code class="literal"># Begin Windows addition
+
+menuentry "Windows 11" {
+  insmod fat
+  insmod chain
+  set root=(hd0,1)
+  chainloader /EFI/Microsoft/Boot/bootmgfw.efi
+}</code>
+<kbd class="command">EOF</kbd></pre>
+        <p>
+          <code class="literal">(hd0,1)</code> should be replaced with the
+          GRUB designated name for the ESP. The <code class=
+          "literal">chainloader</code> directive can be used to tell GRUB to
+          run another EFI executable, in this case the Windows Boot Manager.
+          You may put more usable tools in EFI executable format (for
+          example, an EFI shell) into the ESP and create GRUB entries for
+          them, as well.
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="grub-efi.html" title=
+          "GRUB-2.06 for EFI">戻る</a>
+          <p>
+            GRUB-2.06 for EFI
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="editors.html" title="テキストエディター">次へ</a>
+          <p>
+            テキストエディター
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="filesystems.html" title=
+          "第5章 ファイルシステムとディスク管理">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

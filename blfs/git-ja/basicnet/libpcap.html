@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      libpcap-1.10.4
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第17章 ネットワークライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libnsl.html" title="libnsl-2.0.1">戻る</a>
+          <p>
+            libnsl-2.0.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libpsl.html" title="libpsl-0.21.2">次へ</a>
+          <p>
+            libpsl-0.21.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="netlibs.html" title=
+          "第17章 ネットワークライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="libpcap" name="libpcap"></a>libpcap-1.10.4
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libpcap の概要
+        </h2>
+        <p>
+          <span class="application">libpcap</span>
+          パッケージは、低レベルのネットワーク監視機能を利用して、ユーザーレベルでのパケットキャプチャー機能を提供します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://www.tcpdump.org/release/libpcap-1.10.4.tar.gz">https://www.tcpdump.org/release/libpcap-1.10.4.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 0322e28dd76cda8066bb6d00fee5969b
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 932 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 9.9 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU 以下
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          libpcap の依存パッケージ
+        </h3>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/bluez.html" title=
+          "BlueZ-5.71">BlueZ-5.71</a>, <a class="xref" href="libnl.html"
+          title="libnl-3.9.0">libnl-3.9.0</a>, <a class="xref" href=
+          "../general/libusb.html" title="libusb-1.0.26">libusb-1.0.26</a>,
+          Software distribution for the <a class="ulink" href=
+          "https://www.endace.com/">DAG</a>, and <a class="ulink" href=
+          "https://www.intel.com/">Septel</a> range of passive network
+          monitoring cards.
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libpcap のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">libpcap</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr &amp;&amp;
+make</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          スタティックライブラリをインストールしない場合は、以下の sed コマンドを実行します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i '/INSTALL_DATA.*libpcap.a\|RANLIB.*libpcap.a/ s/^/#/' Makefile</kbd></pre>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">pcap-config</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libpcap.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/pcap</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pcap-config" name="pcap-config"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pcap-config</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">libpcap</span> の設定情報を提供します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libpcap-lib" name="libpcap-lib"></a><span class=
+                    "term"><code class=
+                    "filename">libpcap.{a,so}</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ユーザーレベルのパケットキャプチャー機能を提供するライブラリです。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libnsl.html" title="libnsl-2.0.1">戻る</a>
+          <p>
+            libnsl-2.0.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libpsl.html" title="libpsl-0.21.2">次へ</a>
+          <p>
+            libpsl-0.21.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="netlibs.html" title=
+          "第17章 ネットワークライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

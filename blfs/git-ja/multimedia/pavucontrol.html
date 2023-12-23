@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      pavucontrol-5.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第43章 オーディオユーティリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="mpg123.html" title="mpg123-1.32.3">戻る</a>
+          <p>
+            mpg123-1.32.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="pnmixer.html" title="pnmixer-0.7.2">次へ</a>
+          <p>
+            pnmixer-0.7.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="audioutils.html" title=
+          "第43章 オーディオユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="pavucontrol" name="pavucontrol"></a>pavucontrol-5.0
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          pavucontrol の概要
+        </h2>
+        <p>
+          PulseAudio Volume Control (pavucontrol) is a simple GTK based
+          volume control tool ("mixer") for the PulseAudio sound server. In
+          contrast to classic mixer tools, this one allows you to control
+          both the volume of hardware devices and of each playback stream
+          separately.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://freedesktop.org/software/pulseaudio/pavucontrol/pavucontrol-5.0.tar.xz">
+                https://freedesktop.org/software/pulseaudio/pavucontrol/pavucontrol-5.0.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: a4a5dc51dcf4d912443faf3fe8d32b55
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 192 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 14 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.3 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          pavucontrol の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="../x/gtkmm3.html" title=
+          "Gtkmm-3.24.8">Gtkmm-3.24.8</a>, <a class="xref" href=
+          "../general/json-glib.html" title=
+          "JSON-GLib-1.8.0">JSON-GLib-1.8.0</a>, <a class="xref" href=
+          "libcanberra.html" title="libcanberra-0.30">libcanberra-0.30</a>,
+          <a class="xref" href="../general/libsigc.html" title=
+          "libsigc++-2.12.1">libsigc++-2.12.1</a>, <a class="xref" href=
+          "pulseaudio.html" title="PulseAudio-16.1">PulseAudio-16.1</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          pavucontrol のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">pavucontrol</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr --docdir=/usr/share/doc/pavucontrol-5.0 &amp;&amp;
+make</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">pavucontrol</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/share/pavucontrol,
+              /usr/share/doc/pavucontrol-5.0</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pavucontrol-prog" name=
+                    "pavucontrol-prog"></a><span class="term"><span class=
+                    "command"><strong>pavucontrol</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">pulsaudio</span> を使ったサウンド設定を行う
+                    GUI ツール。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="mpg123.html" title="mpg123-1.32.3">戻る</a>
+          <p>
+            mpg123-1.32.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="pnmixer.html" title="pnmixer-0.7.2">次へ</a>
+          <p>
+            pnmixer-0.7.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="audioutils.html" title=
+          "第43章 オーディオユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      p7zip-17.04
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第12章 システムユーティリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="notification-daemon.html" title=
+          "notification-daemon-3.20.0">戻る</a>
+          <p>
+            notification-daemon-3.20.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="pax.html" title="Pax-20201030">次へ</a>
+          <p>
+            Pax-20201030
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="sysutils.html" title=
+          "第12章 システムユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="p7zip" name="p7zip"></a>p7zip-17.04
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          p7zip の概要
+        </h2>
+        <p>
+          <span class="application">p7zip</span> は、高圧縮率を実現するファイルアーカイバー 7-Zip
+          のコマンドラインポートです。 取り扱うのは 7z, ZIP, GZIP, Brotli, BZIP2, XZ, TAR, APM,
+          ARJ, CAB, CHM, CPIO, CramFS, DEB, DMG, FAT, HFS, ISO, Lizard, LZ5,
+          LZFSE, LZH, LZMA, LZMA2, MBR, MSI, MSLZ, NSIS, NTFS, RAR, RPM,
+          SquashFS, UDF, VHD, WIM, XAR, Z, Zstd の各フォーマットです。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/p7zip-project/p7zip/archive/v17.04/p7zip-17.04.tar.gz">
+                https://github.com/p7zip-project/p7zip/archive/v17.04/p7zip-17.04.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 00acfd6be87848231722d2d53f89e4a5
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 6.5 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 55 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                %Estimatedbuildtime;: 2.3 SBU（テスト込み）
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          p7zip の依存パッケージ
+        </h3>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="ulink" href="https://www.wxwidgets.org/">wxWidgets</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          p7zip のインストール
+        </h2>
+        <p>
+          まずインストールにあたって、圧縮されたマニュアルページをインストールしないようにします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed '/^gzip/d' -i install.sh</kbd></pre>
+        <p>
+          次にセキュリティぜい弱性を修正します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i '160a if(_buffer == nullptr || _size == _pos) return E_FAIL;' CPP/7zip/Common/StreamObjects.cpp</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">p7zip</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">make all3</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>make
+          test</strong></span> を実行します。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make DEST_HOME=/usr \
+     DEST_MAN=/usr/share/man \
+     DEST_SHARE_DOC=/usr/share/doc/p7zip-17.04 install</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            DESTDIR 手法を利用する場合は DEST_DIR を用いてください。
+          </p>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">7z, 7za, 7zr</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/lib/p7zip, /usr/share/doc/p7zip-17.04</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="Sevenz" name="Sevenz"></a><span class=
+                    "term"><span class=
+                    "command"><strong>7z</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルアーカイブユーティリティー。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="Sevenza" name="Sevenza"></a><span class=
+                    "term"><span class=
+                    "command"><strong>7za</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>7z</strong></span>
+                    に比べると、取り扱うアーカイブフォーマットの少ないスタンドアロン実行モジュール。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="Sevenzr" name="Sevenzr"></a><span class=
+                    "term"><span class=
+                    "command"><strong>7zr</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    7z アーカイブのみを扱う <span class=
+                    "command"><strong>7za</strong></span> の最小バージョン。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="notification-daemon.html" title=
+          "notification-daemon-3.20.0">戻る</a>
+          <p>
+            notification-daemon-3.20.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="pax.html" title="Pax-20201030">次へ</a>
+          <p>
+            Pax-20201030
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="sysutils.html" title=
+          "第12章 システムユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

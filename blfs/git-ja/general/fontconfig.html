@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Fontconfig-2.14.2
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第10章 グラフィックスとフォントのライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="freetype2.html" title=
+          "FreeType-2.13.2">戻る</a>
+          <p>
+            FreeType-2.13.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="fribidi.html" title="FriBidi-1.0.13">次へ</a>
+          <p>
+            FriBidi-1.0.13
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="graphlib.html" title=
+          "第10章 グラフィックスとフォントのライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="fontconfig" name="fontconfig"></a>Fontconfig-2.14.2
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Fontconfig の概要
+        </h2>
+        <p>
+          <span class="application">Fontconfig</span>
+          パッケージは、フォントアクセスを設定するために利用するプログラムやライブラリを提供します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.14.2.tar.xz">
+                https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.14.2.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 95261910ea727b5dd116b06fbfd84b1f
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1.4 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 17 MB (with tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.3 SBU (with tests)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Fontconfig の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="freetype2.html" title=
+          "FreeType-2.13.2">FreeType-2.13.2</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="bubblewrap.html" title=
+          "Bubblewrap-0.8.0">bubblewrap-0.8.0</a> (used by some tests),
+          <a class="xref" href="../basicnet/curl.html" title=
+          "cURL-8.5.0">cURL-8.5.0</a> and <a class="xref" href="unzip.html"
+          title="UnZip-6.0">UnZip-6.0</a> (both used by some tests for
+          downloading and extracting test files), <a class="xref" href=
+          "json-c.html" title="JSON-C-0.17">JSON-C-0.17</a>, <a class="xref"
+          href="../pst/docbook-utils.html" title=
+          "DocBook-utils-0.6.14">DocBook-utils-0.6.14</a>, <a class="xref"
+          href="libxml2.html" title="libxml2-2.12.3">libxml2-2.12.3</a>,
+          <a class="xref" href="../pst/texlive.html" title=
+          "texlive-20230313-source">texlive-20230313</a> (または <a class="xref"
+          href="../pst/tl-installer.html" title=
+          "install-tl-unx">install-tl-unx</a>)
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            本パッケージのテストの中には、インターネット接続を必要とするものがあります。
+          </p>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            <span class="application">DocBook Utils</span> をインストール済であって、以下の
+            <span class="command"><strong>configure</strong></span>
+            スクリプトにおいてパラメーター <em class=
+            "parameter"><code>--disable-docs</code></em> を取り除くのであれば、<a class=
+            "xref" href="perl-modules.html#perl-sgmlspm" title=
+            "SGMLSpm-1.1">SGMLSpm-1.1</a> と <a class="xref" href=
+            "../pst/texlive.html" title=
+            "texlive-20230313-source">texlive-20230313</a>
+            をインストールしておかなければなりません。 そうしておかないと <span class=
+            "application">Fontconfig</span> のビルドは失敗します。
+          </p>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Fontconfig のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">Fontconfig</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr        \
+            --sysconfdir=/etc    \
+            --localstatedir=/var \
+            --disable-docs       \
+            --docdir=/usr/share/doc/fontconfig-2.14.2 &amp;&amp;
+make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>make
+          check</strong></span> を実行します。 One test is known to fail if the
+          kernel does not support user namespaces. Some tests will download
+          some font files via Internet.
+        </p>
+        <p>
+          <code class="systemitem">root</code> になって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+        <p>
+          <span class="command"><strong>configure</strong></span>
+          スクリプトにおけるパラメーター <em class=
+          "parameter"><code>--disable-docs</code></em>
+          をそのまま指定した場合は、あらかじめ生成されているドキュメントをインストールすることもできます。 これを実行するには
+          <code class="systemitem">root</code> ユーザーになって以下のコマンドを実行します。
+        </p>
+        <pre class="root"><kbd class="command">install -v -dm755 \
+        /usr/share/{man/man{1,3,5},doc/fontconfig-2.14.2/fontconfig-devel} &amp;&amp;
+install -v -m644 fc-*/*.1         /usr/share/man/man1 &amp;&amp;
+install -v -m644 doc/*.3          /usr/share/man/man3 &amp;&amp;
+install -v -m644 doc/fonts-conf.5 /usr/share/man/man5 &amp;&amp;
+install -v -m644 doc/fontconfig-devel/* \
+                                  /usr/share/doc/fontconfig-2.14.2/fontconfig-devel &amp;&amp;
+install -v -m644 doc/*.{pdf,sgml,txt,html} \
+                                  /usr/share/doc/fontconfig-2.14.2</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--disable-docs</code></em>:
+          本スイッチはドキュメントの再生成を行わないようにします。 (リリース tarball
+          には事前生成済みのドキュメントが含まれています。)
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Fontconfig の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="fontconfig-config" name="fontconfig-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="fontconfig-config" name="fontconfig-config"></a>設定ファイル
+          </h4>
+          <p>
+            <code class="filename">/etc/fonts/*, /etc/fonts/conf.d/*,
+            /usr/share/fontconfig/conf.avail/*</code>
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id23500" name="id23500"></a>設定情報
+          </h4>
+          <p>
+            <span class="application">Fontconfig</span> の主となる設定ファイルは
+            <code class="filename">/etc/fonts/fonts.conf</code> です。
+            通常、このファイルは編集する必要はありません。 設定ファイルはさらに <code class=
+            "filename">/etc/fonts/local.conf</code> と、<code class=
+            "filename">/etc/fonts/conf.d</code> ディレクトリ内のすべてのファイルが利用されます。
+            新規にフォントディレクトリの設定を追加するには、<code class=
+            "filename">/etc/fonts/local.conf</code>
+            ファイルを新規に作成するか、あるいは既にあるそのファイルを編集します。 あるいは <code class=
+            "filename">/etc/fonts/conf.d</code>
+            ディレクトリに新たなファイルを追加して、フォントディレクトリの情報を設定します。 <span class=
+            "application">Fontconfig</span>
+            がフォントの配置場所として定めるデフォルトディレクトリは以下のとおりです。
+          </p>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  /usr/share/fonts
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ~/.local/share/fonts
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ~/.fonts <span class="emphasis"><em>(this is now
+                  deprecated, but for the moment it still works)</em></span>
+                </p>
+              </li>
+            </ul>
+          </div>
+          <p>
+            <span class="application">Fontconfig</span> は <code class=
+            "filename">/etc/fonts/conf.avail</code>
+            ディレクトリ内に数多くの設定ファイルの例を提供しています。 <code class=
+            "filename">/etc/fonts/conf.d</code>
+            ディレクトリから、それらのファイルへのシンボリックリンクを作成すれば、その設定を利用できるようになります。
+            たいていのユーザーにとっては、デフォルトの設定だけでも十分です。 設定ファイルの記述方法については <code class=
+            "filename">/etc/fonts/conf.avail/README</code> を参照してください。
+          </p>
+          <p>
+            <span class="application">Fontconfig</span> の詳細な情報については、<a class=
+            "ulink" href=
+            "file:///usr/share/doc/fontconfig-2.14.2/fontconfig-user.html">file:///usr/share/doc/fontconfig-2.14.2/fontconfig-user.html</a>
+            にあるユーザーマニュアルを参照してください。
+          </p>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">fc-cache, fc-cat, fc-conflist, fc-list, fc-match,
+              fc-pattern, fc-query, fc-scan, fc-validate</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libfontconfig.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/etc/fonts, /usr/include/fontconfig,
+              /usr/share/doc/fontconfig-2.14.2, /usr/share/fontconfig,
+              /usr/share/xml/fontconfig, /var/cache/fontconfig</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fc-cache" name="fc-cache"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fc-cache</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    フォント情報のキャッシュを生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fc-cat" name="fc-cat"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fc-cat</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    フォント情報のキャッシュを読み込みます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fc-conflist" name="fc-conflist"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fc-conflist</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    shows the ruleset files' information on the system
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fc-list" name="fc-list"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fc-list</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    フォントリストを生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fc-match" name="fc-match"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fc-match</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    利用可能なフォントを、検索指定パターンを用いて検索します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fc-pattern" name="fc-pattern"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fc-pattern</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    パターンを解析し（空パターンをデフォルトとする）、解析結果を出力する。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fc-query" name="fc-query"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fc-query</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    フォントファイルを検索し結果を出力します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fc-scan" name="fc-scan"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fc-scan</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    フォントファイルとディレクトリをスキャンして、結果を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fc-validate" name="fc-validate"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fc-validate</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    フォントファイルを検証します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libfontconfig" name=
+                    "libfontconfig"></a><span class="term"><code class=
+                    "filename">libfontconfig.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    フォントへのアクセスを行ったり設定したりするための関数を提供します。 これは <span class=
+                    "application">Fontconfig</span> やその他のプログラムからも利用されます。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="freetype2.html" title=
+          "FreeType-2.13.2">戻る</a>
+          <p>
+            FreeType-2.13.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="fribidi.html" title="FriBidi-1.0.13">次へ</a>
+          <p>
+            FriBidi-1.0.13
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="graphlib.html" title=
+          "第10章 グラフィックスとフォントのライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

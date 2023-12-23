@@ -1,0 +1,588 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      SANE-1.2.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第47章 スキャニング
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="scanning.html" title="スキャニング">戻る</a>
+          <p>
+            スキャニング
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="simple-scan.html" title=
+          "Simple-scan-44.0">次へ</a>
+          <p>
+            Simple-scan-44.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="scanning.html" title="第47章 スキャニング">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="sane" name="sane"></a>SANE-1.2.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to SANE
+        </h2>
+        <p>
+          <span class="application">SANE</span> is short for Scanner Access
+          Now Easy. Scanner access, however, is far from easy, since every
+          vendor has their own protocols. The only known protocol that should
+          bring some unity into this chaos is the TWAIN interface, but this
+          is too imprecise to allow a stable scanning framework. Therefore,
+          <span class="application">SANE</span> comes with its own protocol,
+          and the vendor drivers can't be used.
+        </p>
+        <p>
+          <span class="application">SANE</span> is split into back ends and
+          front ends. The back ends are drivers for the supported scanners
+          and cameras. The front ends are user interfaces to access the
+          backends.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Back Ends Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://anduin.linuxfromscratch.org/BLFS/sane/sane-backends-1.2.1.tar.gz">
+                https://anduin.linuxfromscratch.org/BLFS/sane/sane-backends-1.2.1.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: 302159419ed1ee216c6e1edbe97c2a8c
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 6.9 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 311 MB (with tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: 0.7 SBU (Using parallelism=4; with
+                tests)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            The upstream location for this file is at <a class="ulink" href=
+            "https://gitlab.com/sane-project">https://gitlab.com/sane-project</a>
+            but the file URL uses an embedded md5sum. For convenience, the
+            package has been copied to the location above.
+          </p>
+        </div>
+        <h3>
+          SANE Dependencies
+        </h3>
+        <h4>
+          Optional (Back Ends)
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../basicnet/avahi.html" title=
+          "Avahi-0.8">Avahi-0.8</a>, <a class="xref" href="cups.html" title=
+          "Cups-2.4.7">Cups-2.4.7</a>, <a class="xref" href=
+          "../general/libjpeg.html" title=
+          "libjpeg-turbo-3.0.1">libjpeg-turbo-3.0.1</a>, <a class="xref"
+          href="../general/libtiff.html" title=
+          "libtiff-4.6.0">libtiff-4.6.0</a>, <a class="xref" href=
+          "../general/libusb.html" title="libusb-1.0.26">libusb-1.0.26</a>,
+          <a class="xref" href="../multimedia/v4l-utils.html" title=
+          "v4l-utils-1.26.1">v4l-utils-1.26.1</a>, <a class="ulink" href=
+          "http://www.net-snmp.org/">Net-SNMP</a>, <a class="ulink" href=
+          "http://cyberelk.net/tim/libieee1284/">libieee1284</a>, <a class=
+          "ulink" href="http://www.gphoto.org/">libgphoto2</a>, and <a class=
+          "xref" href="texlive.html" title=
+          "texlive-20230313-source">texlive-20230313</a> (or <a class="xref"
+          href="tl-installer.html" title="install-tl-unx">install-tl-unx</a>)
+        </p>
+      </div>
+      <div class="kernel" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="sane-kernel" name="sane-kernel"></a>Kernel Configuration,
+          Drivers and Additional Packages
+        </h2>
+        <p>
+          To access your scanner, you will probably need the related kernel
+          drivers and/or additional support packages. A SCSI scanner will
+          need SCSI drivers, a parallel port scanner needs parallel port
+          support (you should use enhanced EPP modes) and perhaps <a class=
+          "ulink" href=
+          "http://cyberelk.net/tim/libieee1284/">libieee1284</a>, and a USB
+          scanner will need the <a class="xref" href="../general/libusb.html"
+          title="libusb-1.0.26">libusb-1.0.26</a> package. For HP devices,
+          you may need <a class="ulink" href=
+          "https://sourceforge.net/projects/hplip/files/hplip/">hplip</a>.
+          Ensure you have the necessary drivers properly configured to access
+          the devices.
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of SANE
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id100243" name="id100243"></a>Installation of SANE Back
+            Ends
+          </h4>
+          <p>
+            The <span class="application">SANE</span> daemon should run with
+            its own group. Create this group by issuing the following command
+            as the <code class="systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">groupadd -g 70 scanner</kbd></pre>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              <span class="command"><strong>configure</strong></span> assumes
+              that the user building <span class=
+              "application">SANE</span>-backends is a member of the
+              <code class="systemitem">scanner</code> group for testing the
+              existence of this group. As a result, the user building the
+              package needs to be added to the <code class=
+              "systemitem">scanner</code> group. Add the user to the
+              <code class="systemitem">scanner</code> group by issuing the
+              following command as the <code class="systemitem">root</code>
+              user:
+            </p>
+            <pre class="root"><kbd class=
+            "command">usermod -G scanner -a <em class=
+            "replaceable"><code>username</code></em></kbd></pre>
+            <p>
+              After adding the <code class="systemitem">scanner</code> group
+              as above, you will need to log out and back in to activate it.
+            </p>
+          </div>
+          <p>
+            For a USB scanner, if you are linking to <a class="xref" href=
+            "../general/libusb.html" title="libusb-1.0.26">libusb-1.0.26</a>,
+            include the configure switch --enable-libusb_1_0. Install
+            <span class="application">SANE</span>-backends by running the
+            following commands:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">sg scanner -c "                                 \
+PYTHON=python3 ./configure --prefix=/usr        \
+                           --sysconfdir=/etc    \
+                           --localstatedir=/var \
+                           --with-lockdir=/run/lock \
+                           --docdir=/usr/share/doc/sane-backends-1.2.1" &amp;&amp;
+make</kbd></pre>
+          <p>
+            To test the results, issue: <span class="command"><strong>make
+            check</strong></span>.
+          </p>
+          <p>
+            Now, as the <code class="systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">make install                                         &amp;&amp;
+install -m 644 -v tools/udev/libsane.rules           \
+                  /etc/udev/rules.d/65-scanner.rules &amp;&amp;
+mkdir -p          /run/lock/sane &amp;&amp;
+chgrp -v scanner  /run/lock/sane</kbd></pre>
+          <p>
+            With the scanner on, run <span class="command"><strong>scanimage
+            -L</strong></span> and the name and location of the device should
+            appear. Of course, you need the device drivers configured, in
+            order to run this test.
+          </p>
+        </div>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <span class="command"><strong>sg scanner -c "..."</strong></span>:
+          runs the command between double quotes with principal group
+          <code class="systemitem">scanner</code>. This may be needed if the
+          user has been newly added to group scanner, and has not logged out
+          and in.
+        </p>
+        <p>
+          <em class="parameter"><code>PYTHON=python3</code></em>: This switch
+          forces the build system to use Python 3 instead of Python 2.
+        </p>
+        <p>
+          <em class="parameter"><code>--sysconfdir=/etc</code></em>: This
+          switch installs the configuration files in <code class=
+          "filename">/etc/sane.d</code> instead of <code class=
+          "filename">/usr/etc/sane.d</code>.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Configuring SANE
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="sane-config" name="sane-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="sane-config" name="sane-config"></a>Config Files
+          </h4>
+          <p>
+            <code class="filename">/etc/sane.d/*.conf</code>
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id100295" name="id100295"></a>Configuration Information
+          </h4>
+          <div class="sect4">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h5 class="title">
+                    <a id="id100297" name="id100297"></a>Backend
+                    Configuration
+                  </h5>
+                </div>
+              </div>
+            </div>
+            <p>
+              The backend configuration files are located in <code class=
+              "filename">/etc/sane.d</code>. Information for configuring the
+              various backends can be found by using the man(5) page for the
+              desired backend. Run <span class="command"><strong>man
+              sane-<em class=
+              "replaceable"><code>&lt;backend&gt;</code></em></strong></span>,
+              substituting the desired backend.
+            </p>
+            <p>
+              Add any users that will use a scanner to the <code class=
+              "systemitem">scanner</code> group.
+            </p>
+            <p>
+              If you want to access a network scanner, include two lines in
+              <code class="filename">net.conf</code>, as the <code class=
+              "systemitem">root</code> user (make sure to replace
+              &lt;server_ip&gt; by the actual value):
+            </p>
+            <pre class="root"><kbd class=
+            "command">cat &gt;&gt; /etc/sane.d/net.conf &lt;&lt; "EOF"
+<code class="literal">connect_timeout = 60
+&lt;server_ip&gt;</code>
+EOF</kbd></pre>
+            <p>
+              On the server side, include the client ip in the access list of
+              <code class="filename">/etc/sane.d/saned.conf</code>, restart
+              the <span class="command"><strong>saned</strong></span> daemon,
+              and make sure the firewall, if any, is open to the client.
+            </p>
+          </div>
+          <div class="sect4">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h5 class="title">
+                    <a id="id100314" name="id100314"></a>General Information
+                  </h5>
+                </div>
+              </div>
+            </div>
+            <p>
+              For general information about configuring and using
+              <span class="application">SANE</span>, see <span class=
+              "command"><strong>man sane</strong></span>. For information
+              about USB scanning devices, run <span class=
+              "command"><strong>man sane-usb</strong></span>. For information
+              about SCSI devices, run <span class="command"><strong>man
+              sane-scsi</strong></span>.
+            </p>
+          </div>
+          <div class="sect4">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h5 class="title">
+                    <a id="id100321" name="id100321"></a>Configuration and
+                    setup of the 'saned' daemon
+                  </h5>
+                </div>
+              </div>
+            </div>
+            <p>
+              The <span class="command"><strong>saned</strong></span> daemon
+              is not meant to be used for untrusted clients. You should
+              provide <a class="xref" href="../postlfs/firewall.html" title=
+              "ネットワークファイアウォールの設定">ファイアウォール設定</a> protection to ensure only
+              trusted clients access the daemon. Due to the complex security
+              requirements to ensure only trusted clients access the daemon,
+              BLFS does not provide instructions to configure the
+              <span class="command"><strong>saned</strong></span> daemon.
+              Some good (but outdated) information for setting up and
+              securing the <span class=
+              "command"><strong>saned</strong></span> daemon can be found at
+              <a class="ulink" href=
+              "https://penguin-breeder.org/sane/saned/">https://penguin-breeder.org/sane/saned/</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">gamma4scanimage, sane-config, saned,
+              sane-find-scanner, scanimage, and umax_pp</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">libsane.so and numerous scanner backend
+              modules</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody">/etc/sane.d,
+              /usr/{include,lib,share}/sane, and
+              /usr/share/doc/sane-1.2.1</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gamma4scanimage" name=
+                    "gamma4scanimage"></a><span class="term"><span class=
+                    "command"><strong>gamma4scanimage</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    creates a gamma table in the format expected by
+                    <span class="command"><strong>scanimage</strong></span>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sane-config-prog" name=
+                    "sane-config-prog"></a><span class="term"><span class=
+                    "command"><strong>sane-config</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool used to determine the compiler and linker flags
+                    that should be used to compile and link <span class=
+                    "application">SANE</span>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="saned" name="saned"></a><span class=
+                    "term"><span class=
+                    "command"><strong>saned</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the <span class="application">SANE</span> daemon that
+                    allows remote clients to access image acquisition devices
+                    available on the local host
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sane-find-scanner" name=
+                    "sane-find-scanner"></a><span class="term"><span class=
+                    "command"><strong>sane-find-scanner</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a command-line tool to find SCSI and USB scanners and
+                    determine their device files. Its primary purpose is to
+                    make sure that scanners can be detected by <span class=
+                    "application">SANE</span> backends
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="scanimage" name="scanimage"></a><span class=
+                    "term"><span class=
+                    "command"><strong>scanimage</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a command line interface for scanning from image
+                    acquisition devices such as flatbed scanners or cameras.
+                    It is also used to list the available backend devices
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="umax_pp" name="umax_pp"></a><span class=
+                    "term"><span class=
+                    "command"><strong>umax_pp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool used to read information from UMAX parallel
+                    port scanners. It can also be used for performing
+                    diagnostics on these scanners
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libsane" name="libsane"></a><span class=
+                    "term"><code class="filename">libsane.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the application programming interface that is used to
+                    communicate between frontends and backends
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libsane-module" name=
+                    "libsane-module"></a><span class="term"><code class=
+                    "filename">libsane-*.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    modules are backend scanning library plugins used to
+                    interface with scanning devices. See <a class="ulink"
+                    href=
+                    "http://www.sane-project.org/sane-supported-devices.html">
+                    http://www.sane-project.org/sane-supported-devices.html</a>
+                    for a list of supported backends
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="scanning.html" title="スキャニング">戻る</a>
+          <p>
+            スキャニング
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="simple-scan.html" title=
+          "Simple-scan-44.0">次へ</a>
+          <p>
+            Simple-scan-44.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="scanning.html" title="第47章 スキャニング">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

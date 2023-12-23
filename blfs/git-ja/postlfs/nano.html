@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Nano-7.2
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第6章 テキストエディター
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="mousepad.html" title=
+          "Mousepad-0.5.10">戻る</a>
+          <p>
+            Mousepad-0.5.10
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="vim.html" title="Vim-9.0.2103">次へ</a>
+          <p>
+            Vim-9.0.2103
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="editors.html" title="第6章 テキストエディター">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="nano" name="nano"></a>Nano-7.2
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Nano の概要
+        </h2>
+        <p>
+          <span class="application">nano</span>
+          パッケージは、軽量でシンプルなテキストエディターを提供します。 <span class=
+          "application">Pine</span> パッケージにおけるデフォルトのエディター <span class=
+          "application">Pico</span> に代わるものとして提供されています。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://www.nano-editor.org/dist/v7/nano-7.2.tar.xz">https://www.nano-editor.org/dist/v7/nano-7.2.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 13742c686c6ddb0b7b294634f0c13cec
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1.5 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 20 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.2 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Nano のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">Nano</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr     \
+            --sysconfdir=/etc \
+            --enable-utf8     \
+            --docdir=/usr/share/doc/nano-7.2 &amp;&amp;
+make</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install &amp;&amp;
+install -v -m644 doc/{nano.html,sample.nanorc} /usr/share/doc/nano-7.2</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--enable-utf8</code></em>: <span class=
+          "application">Nano</span> にて unicode サポートを有効にします。
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Nano の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="nano-config" name="nano-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="nano-config" name="nano-config"></a>設定ファイル
+          </h4>
+          <p>
+            <code class="filename">/etc/nanorc</code>, <code class=
+            "filename">~/.nanorc</code>
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id13544" name="id13544"></a>設定情報
+          </h4>
+          <p>
+            設定の例です。 (システム共通の <code class="filename">/etc/nanorc</code>
+            ファイルとして、または各ユーザー向けの <code class="filename">~/.nanorc</code>
+            ファイルとして生成します。)
+          </p>
+          <pre class="screen"><code class="literal">set autoindent
+set constantshow
+set fill 72
+set historylog
+set multibuffer
+set nohelp
+set positionlog
+set quickblank
+set regexp</code></pre>
+          <p>
+            ドキュメントをインストールしたディレクトリに <code class=
+            "filename">nanorc.sample</code> というファイルもあります。
+            このファイルには色の設定例や、多くの説明がコメント内にて示されています。
+          </p>
+          <p>
+            特定のファイルタイプに対しての文法ハイライト機能を実現する設定ファイルが <code class=
+            "filename">/usr/share/nano/</code> ディレクトリに用意されています。
+            例えばシェルスクリプトに対するものなどです。 個人設定やグローバル設定において <code class=
+            "option">include /usr/share/nano/sh.nanorc</code> を記述することで利用します。
+            提供されているすべての設定ファイルを指定するには <code class="option">include
+            /usr/share/nano/*.nanorc</code> と記述します。 This include does not
+            descend into the <code class="filename">extra</code> directory.
+            Move required files one level up.
+          </p>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">nano, rnano (シンボリックリンク)</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/share/nano, /usr/share/doc/nano-7.2</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="nano-prog" name="nano-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>nano</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    軽量でシンプルなテキストエディターです。 <span class=
+                    "application">Pine</span> パッケージにおけるデフォルトのエディター
+                    <span class="application">Pico</span> に代わるものとして提供されています。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rnano-prog" name="rnano-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rnano</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>nano</strong></span> を制限モード
+                    (restricted mode) で起動します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="mousepad.html" title=
+          "Mousepad-0.5.10">戻る</a>
+          <p>
+            Mousepad-0.5.10
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="vim.html" title="Vim-9.0.2103">次へ</a>
+          <p>
+            Vim-9.0.2103
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="editors.html" title="第6章 テキストエディター">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

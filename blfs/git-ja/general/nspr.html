@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      NSPR-4.35
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第9章 汎用的なライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="npth.html" title="npth-1.6">戻る</a>
+          <p>
+            npth-1.6
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="pcre.html" title="PCRE-8.45">次へ</a>
+          <p>
+            PCRE-8.45
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="nspr" name="nspr"></a>NSPR-4.35
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          NSPR の概要
+        </h2>
+        <p>
+          <span class="application">Netscape Portable Runtime</span> (NSPR)
+          は、プラットフォームには依存せず、システムレベルの libc に似た API 関数を提供します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://archive.mozilla.org/pub/nspr/releases/v4.35/src/nspr-4.35.tar.gz">
+                https://archive.mozilla.org/pub/nspr/releases/v4.35/src/nspr-4.35.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 5e0acf9fbdde85181bddd510f4624841
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1.0 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 9.6 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU 以下
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          NSPR のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">NSPR</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">cd nspr &amp;&amp;
+
+sed -ri '/^RELEASE/s/^/#/' pr/src/misc/Makefile.in &amp;&amp;
+sed -i 's#$(LIBRARY) ##'   config/rules.mk         &amp;&amp;
+
+./configure --prefix=/usr   \
+            --with-mozilla  \
+            --with-pthreads \
+            $([ $(uname -m) = x86_64 ] &amp;&amp; echo --enable-64bit) &amp;&amp;
+make</kbd></pre>
+        <p>
+          The test suite is designed for testing changes to nss or nspr and
+          is not particularly useful for checking a released version (e.g. it
+          needs to be run on a non-optimized build with both nss and nspr
+          directories existing alongside each other). For further details,
+          see the Editor Notes for nss at <a class="ulink" href=
+          "https://wiki.linuxfromscratch.org/blfs/wiki/nss">https://wiki.linuxfromscratch.org/blfs/wiki/nss</a>
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <span class="command"><strong>sed -ri '/^RELEASE/s/^/#/'
+          pr/src/misc/Makefile.in</strong></span>: これは不要なスクリプト 2
+          つをインストールしないようにします。
+        </p>
+        <p>
+          <span class="command"><strong>sed -i 's#$(LIBRARY) ##'
+          config/rules.mk</strong></span>: これはスタティックライブラリをインストールしないようにします。
+        </p>
+        <p>
+          <em class="parameter"><code>--with-mozilla</code></em>: このパラメーターは
+          Mozilla サポート機能を追加します。 (Mozilla 関連ソフトウェアをビルドし、ライブラリをリンクしたい場合に必要です。)
+        </p>
+        <p>
+          <em class="parameter"><code>--with-pthreads</code></em>:
+          システムにインストールされている pthreads ライブラリを利用することを指定します。
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-64bit</code></em>: この
+          --enable-64bit パラメーターは、x86_64 システム上にて <span class=
+          "command"><strong>configure</strong></span> コマンドを実行した際に pthread
+          サポートが無効であることを示す警告が発生するのを防ぐものです。 32 ビットシステムではこの指定は意味がないため [ $(uname
+          -m) = x86_64 ] という確認を行っています。
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">nspr-config</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libnspr4.so, libplc4.so, libplds4.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/nspr</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="nspr-config" name="nspr-config"></a><span class=
+                    "term"><span class=
+                    "command"><strong>nspr-config</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">NSPR</span>
+                    を利用する他のパッケージに対して、コンパイラーとリンカーのオプションを提供します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libnspr4" name="libnspr4"></a><span class=
+                    "term"><code class="filename">libnspr4.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains functions that provide platform independence for
+                    non-GUI operating system facilities such as threads,
+                    thread synchronization, normal file and network I/O,
+                    interval timing and calendar time, basic memory
+                    management and shared library linking
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libplc4" name="libplc4"></a><span class=
+                    "term"><code class="filename">libplc4.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    libnspr5 により提供される多くの機能を実装した関数を含みます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libplds4" name="libplds4"></a><span class=
+                    "term"><code class="filename">libplds4.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    データ構造を提供する関数を含みます。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="npth.html" title="npth-1.6">戻る</a>
+          <p>
+            npth-1.6
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="pcre.html" title="PCRE-8.45">次へ</a>
+          <p>
+            PCRE-8.45
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

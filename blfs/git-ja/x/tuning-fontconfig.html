@@ -1,0 +1,1375 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Tuning Fontconfig
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第24章 グラフィック環境
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="xorg-config.html" title=
+          "Xorg-7 のテストと設定">戻る</a>
+          <p>
+            Xorg-7 のテストと設定
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="TTF-and-OTF-fonts.html" title=
+          "TTF and OTF fonts">次へ</a>
+          <p>
+            TTF and OTF fonts
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="installing.html" title=
+          "第24章 グラフィック環境">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="tuning-fontconfig" name="tuning-fontconfig"></a>Tuning
+        Fontconfig
+      </h1>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="fontconfig-overview" name="fontconfig-overview"></a>Overview
+          of Fontconfig
+        </h2>
+        <p>
+          If you only read text in English, and are happy with the common
+          libre fonts listed on the next page, you may never need to worry
+          about the details of how <span class=
+          "application">Fontconfig</span> works. But there are many things
+          which can be altered if they do not suit your needs.
+        </p>
+        <p>
+          Although this page is long, it barely scratches the surface and you
+          will be able to find many alternative views on the web (but please
+          remember that some things have changed over the years, for example
+          the autohinter is no longer the default). The aim here is to give
+          you enough information to understand the changes you are making,
+          why they may not always work, and to identify online information
+          which is no-longer appropriate.
+        </p>
+        <p>
+          Unfortunately, some of the terminology is ambiguous (e.g. 'font
+          face' can mean a name known to Fontconfig, <span class=
+          "emphasis"><em>or</em></span> the ordinary, condensed, etc
+          variations of a font) and 'style' can be used to differentiate
+          'ordinary' from 'italic', or in describing some classes of Serif
+          fonts.
+        </p>
+        <p>
+          The following links are to assist navigation in this page.
+        </p>
+        <div class="itemizedlist">
+          <ul>
+            <li class="listitem">
+              <p>
+                <a class="xref" href=
+                "tuning-fontconfig.html#xft-font-protocol" title=
+                "The Xft Font Protocol">The Xft Font Protocol</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="tuning-fontconfig.html#useful-commands"
+                title="Useful Commands">Useful Commands</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href=
+                "tuning-fontconfig.html#the-various-files" title=
+                "The configuration files">The configuration files</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href=
+                "tuning-fontconfig.html#rules-to-choose-a-font" title=
+                "The rules to choose a font">The rules to choose a font</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href=
+                "tuning-fontconfig.html#hinting-and-antialiasing" title=
+                "Hinting and Anti-aliasing">Hinting and Anti-aliasing</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href=
+                "tuning-fontconfig.html#disabling-bitmap-fonts" title=
+                "Disabling Bitmap Fonts">Disabling Bitmap fonts</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href=
+                "tuning-fontconfig.html#synthetic-changes" title=
+                "Synthetic changes">Synthetic changes</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href=
+                "tuning-fontconfig.html#adding-extra-directories" title=
+                "Adding extra font directories">Adding extra font
+                directories</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href=
+                "tuning-fontconfig.html#preferring-certain-fonts" title=
+                "Preferring certain fonts">Preferring certain fonts</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href=
+                "tuning-fontconfig.html#fontconfig-user-docs" title=
+                "Fontconfig user documentation">Fontconfig user
+                documentation</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href=
+                "tuning-fontconfig.html#prefer-a-specific-font" title=
+                "Prefer a specific font">Prefer a specific font</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href=
+                "tuning-fontconfig.html#prefer-chosen-CJK-fonts" title=
+                "Prefer chosen CJK fonts">Preferring chosen CJK fonts</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href=
+                "tuning-fontconfig.html#editing-old-style-conf-files" title=
+                "Editing Old-Style conf files">Editing Old-Style conf
+                files</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="tuning-fontconfig.html#font-weights"
+                title="About font weights">About font weights</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href=
+                "tuning-fontconfig.html#items-which-can-override-fontconfig"
+                title="Items which can override Fontconfig">Items which can
+                override Fontconfig</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="tuning-fontconfig.html#external-links"
+                title="External Links">External Links</a>
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="xft-font-protocol" name="xft-font-protocol"></a>The Xft Font
+          Protocol
+        </h2>
+        <p>
+          The Xft font protocol provides antialiased font rendering through
+          <span class="application">freetype</span>, and fonts are controlled
+          from the client side using <span class=
+          "application">Fontconfig</span> (except for <a class="xref" href=
+          "../xsoft/rxvt-unicode.html" title=
+          "rxvt-unicode-9.31">rxvt-unicode-9.31</a> which can use fonts
+          listed in <code class="filename">~/.Xresources</code>, and
+          <a class="xref" href="../xsoft/AbiWord.html" title=
+          "AbiWord-3.0.5">AbiWord-3.0.5</a> which only uses the specified
+          font). The default search path is <code class=
+          "filename">/usr/share/fonts</code> and <code class=
+          "filename">~/.local/share/fonts</code>, although for the moment the
+          old and deprecated location <code class="filename">~/.fonts</code>
+          still works. <span class="application">Fontconfig</span> searches
+          directories in its path recursively and maintains a cache of the
+          font characteristics in each directory. If the cache appears to be
+          out of date, it is ignored, and information is fetched from the
+          fonts themselves (that can take a few seconds if you have a lot of
+          fonts installed).
+        </p>
+        <p>
+          If you've installed <span class="application">Xorg</span> in any
+          prefix other than <code class="filename">/usr</code>, any
+          <span class="application">X</span> fonts were not installed in a
+          location known to <span class="application">Fontconfig</span>.
+          Symlinks were created from the <code class="filename">OTF</code>
+          and <code class="filename">TTF</code> <span class=
+          "application">X</span> font directories to <code class=
+          "filename">/usr/share/fonts/X11-{OTF,TTF}</code> in Xorg Fonts.
+          This allows <span class="application">Fontconfig</span> to use the
+          OpenType and TrueType fonts provided by <span class=
+          "application">X</span>, although many people will prefer to use
+          more modern fonts.
+        </p>
+        <p>
+          <span class="application">Fontconfig</span> uses names to define
+          fonts. Applications generally use generic font names such as
+          "Monospace", "Sans" and "Serif". <span class=
+          "application">Fontconfig</span> resolves these names to a font that
+          has all characters that cover the orthography of the language
+          indicated by the locale settings.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="useful-commands" name="useful-commands"></a>Useful Commands
+        </h2>
+        <p>
+          The following commands may be helpful when working with
+          <span class="application">Fontconfig</span>, particularly if you
+          are interested in overriding which font will be chosen.
+        </p>
+        <p>
+          <span class="command"><strong>fc-list | less</strong></span> :
+          shows a list of all available fonts (/path/to/filename: Font
+          Name:style). If you installed a font and it doesn't show, then the
+          directory it is contained in is not readable by your user.
+        </p>
+        <p>
+          <span class="command"><strong>fc-match 'Font Name'</strong></span>
+          : tells you which font will be used if the named font is requested.
+          Typically you would use this to see what happens if a font you have
+          not installed is requested, but you can also use it if the system
+          is giving you a different font from what you expected (perhaps
+          because <span class="application">Fontconfig</span> does not think
+          that the font supports your language).
+        </p>
+        <p>
+          <span class="command"><strong>fc-match <em class=
+          "replaceable"><code>TYPE</code></em></strong></span> : shows which
+          font will be used in the current language for that <em class=
+          "replaceable"><code>TYPE</code></em> (Monospace, Sans, Serif
+          <span class="emphasis"><em>(initial capital letter is
+          optional)</em></span>). If that font does not map a codepoint,
+          <span class="application">Fontconfig</span> can take a glyph from
+          any available font, even if it is not of the specified type. Any
+          other value for <em class="replaceable"><code>TYPE</code></em> will
+          be assumed to be Sans.
+        </p>
+        <p>
+          <span class="command"><strong>fc-match 'Serif
+          :lang=ja:weight=bold'</strong></span> will tell you which font and
+          weight will be chosen for Japanese text in bold weight. It does not
+          mean that the reported font will necessarily be able to show
+          Japanese ideograms, so a fallback might be used, or some glyphs may
+          be missing. For language codes, use ISO-639 values such as 'fr',
+          'ja', 'zh-cn'. Note that an unrecognized value such as just 'zh'
+          will not return any match. To illustrate the fallback, on a system
+          where both Noto Sans Mono and DejaVu Sans Mono are installed,
+          <span class="command"><strong>fc-match 'monospace
+          :lang=en</strong></span> shows Noto Sans Mono will be used, but if
+          the lang is changed to 'ar' (arabic) DejaVu Sans will be used.
+        </p>
+        <p>
+          If you want to determine if a font file has hinting (many older
+          fonts do not, because it was patented) use <span class=
+          "command"><strong>fc-query <em class=
+          "replaceable"><code>/path/to/fontfile</code></em> | grep
+          'fonthashint:'</strong></span>: which will report 'True(s)' or
+          'False(s)'. Some recent fonts with both TTF and OTF versions will
+          have hinting in the TTF files.
+        </p>
+        <p>
+          If you wish to know which font will be used for a string of text
+          (i.e. one or more glyphs, preceded by a space), paste the following
+          command and replace the <code class="literal">xyz</code> by the
+          text you care about:
+        </p>
+        <p>
+          <span class="command"><strong>FC_DEBUG=4 pango-view
+          --font=monospace -t xyz | grep family</strong></span> : this
+          requires <a class="xref" href="pango.html" title=
+          "Pango-1.50.14">Pango-1.50.14</a> and <a class="xref" href=
+          "../general/imagemagick.html" title=
+          "ImageMagick-7.1.1-15">ImageMagick-7.1.1-15</a> - it will invoke
+          <a class="xref" href=
+          "../general/imagemagick.html#display"><span class=
+          "command"><strong>display</strong></span></a> to show the text in a
+          tiny window, and after closing that the last line of the output
+          will show which font was chosen. This is particularly useful for
+          CJK languages, and you can also pass a language, e.g.
+          PANGO_LANGUAGE=en;ja (English, then assume Japanese) or just zh-cn
+          (or other variants such as zh-sg or zh-tw).
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="the-various-files" name="the-various-files"></a>The
+          configuration files
+        </h2>
+        <p>
+          The main files are in <code class=
+          "filename">/etc/fonts/conf.d/</code>, which was intended to be a
+          directory populated by symlinks to some of the files in
+          <code class="filename">/usr/share/fontconfig/conf.avail/</code>.
+          But many people, and some packages, create the files directly. Each
+          file name must be in the form of two digits, a dash, somename.conf
+          and they are read in sequence.
+        </p>
+        <p>
+          By convention, the numbers are assigned as follows:
+        </p>
+        <div class="itemizedlist">
+          <ul>
+            <li class="listitem">
+              <p>
+                00-09 extra font directories
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                10-19 system rendering defaults (such as antialiasing)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                20-29 font rendering options
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                30-39 family substitution
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                40-49 map family to generic type
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                50-59 load alternate config files
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                60-69 generic aliases, map generic to family
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                70-79 adjust which fonts are available
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                80-89 match target scan (modify scanned patterns)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                90-99 font synthesis
+              </p>
+            </li>
+          </ul>
+        </div>
+        <p>
+          You can also have a personal <code class=
+          "filename">fonts.conf</code> in $XDG_CONFIG_HOME (which is
+          <code class="filename">~/.config/fontconfig/</code>).
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="rules-to-choose-a-font" name=
+          "rules-to-choose-a-font"></a>The rules to choose a font
+        </h2>
+        <p>
+          If the requested font is installed, and provided it contains the
+          codepoints <span class="emphasis"><em>required</em></span> for the
+          current language (in the source, see the .orth files in the
+          <code class="filename">fc-lang/</code> directory), it will be used.
+        </p>
+        <p>
+          However, if the document or page requested a font which is not
+          installed (or, occasionally, does not contain all the required
+          codepoints) the following rules come into play: First, <code class=
+          "filename">30-metric-aliases.conf</code> is used to map aliases for
+          some fonts with the same metrics (same size, etc). Note that there
+          are both weak and strong aliases so that aliases for one form such
+          as Helvetica or Times New Roman can be satisfied by the other
+          style, i.e. anything which is an alias of Arial or Times in those
+          examples. some examples of Latin fonts with the same metrics can be
+          found in the 'Substitutes' PDFs at <a class="ulink" href=
+          "http://zarniwhoop.uk/files/PDF-substitutes/">zarniwhoop.uk.</a>
+        </p>
+        <p>
+          After that, an unknown font will be searched for in <code class=
+          "filename">45-latin.conf</code>: 'Latin' covers Cyrillic and Greek,
+          and now also maps system-ui fonts which are used for User Interface
+          messages in other alphabets. If the font is found it will be mapped
+          as serif, sans-serif, monospace, fantasy, cursive, or system-ui.
+          Otherwise, 49-sansserif.conf will assume it is Sans.
+        </p>
+        <p>
+          Then <code class="filename">60-latin.conf</code> provides ordered
+          lists of the fallbacks - <a class="xref" href=
+          "TTF-and-OTF-fonts.html#noto-fonts" title="Noto fonts">Noto
+          fonts</a> will be used if you installed them. Cyrillic and Greek
+          appear to be treated in the same way.All of these files prefer
+          commercial fonts if they are present, although modern libre fonts
+          are often at least equal. Finally, if a codepoint is still not
+          found it can be taken from any available system font. The following
+          details only mention freely available fonts.
+        </p>
+        <p>
+          Default Persian fonts are dealt with in <code class=
+          "filename">65-fonts-persian.conf</code>. It looks as if all the
+          listed fonts are commercial. Using fonts that support Persian
+          (which has its own variant of the arabic alphabet, and its own font
+          styles) is outside the skills of the BLFS editors.
+        </p>
+        <p>
+          All remaining scripts for which <span class=
+          "application">Fontconfig</span> has preferences (CJK scripts, Indic
+          scripts) are dealt with in <code class=
+          "filename">65-nonlatin.conf</code>. These are again nominally
+          grouped as Serif, Sans-Serif, Monospace. Of the free fonts,
+          WenQuanYi Zen Hei (Pan-CJK Sans) comes first for both Serif and for
+          Sans. Therefore, if you install this as a fallback but want to use
+          different fonts for Japanese or Korean you will need to set up a
+          preference. Similarly, the old fireflysung Serif font is also
+          listed for Sans.
+        </p>
+        <p>
+          After Pan-CJK and Chinese fonts come several Japanese fonts and
+          then several Korean fonts (both split appropriately between Sans
+          and Serif). Finally come the various Lohit Indic families (one font
+          file per script), labelled as both Sans and Serif.
+        </p>
+        <p>
+          The Monospace fonts listed in <code class=
+          "filename">65-nonlatin.conf</code> do not include WenQuanYi Zen Hei
+          although that will be available as a fallback if installed. Several
+          Japanese Gothic fonts are listed, followed by AR PL KaitiM GB (a
+          zh-sc 'Brush' font), AR PL Serif fonts for zh-sc (SungtiL) and
+          zh-tw (Mingti2L), some Korean Sans fonts and the various Lohit
+          Indic families.
+        </p>
+        <p>
+          For UI fonts, various Noto Sans UI fonts are the only listed free
+          fonts.
+        </p>
+        <p>
+          The various Noto CJK fonts are <span class=
+          "emphasis"><em>not</em></span> among the listed fonts, possibly the
+          RedHat developers preferred other fonts. These now come in many
+          variations, and most users who use these will not install any other
+          CJK fonts.
+        </p>
+        <p>
+          Before Fontconfig-2.14, the first preferred Latin font family was
+          Bitstream Vera. In practice that was rarely used because it covered
+          so little. After that, DejaVu was the next preferred family, so
+          people were recommended to install that. That has now changed,
+          Bitstream Vera has been replaced by the relevant Noto fonts (Serif,
+          Sans, Sans Mono), so these will be preferred if they have been
+          installed, followed by DejaVu.
+        </p>
+        <p>
+          For serif, Times New Roman could have been aliased from Liberation
+          Serif or Tinos, and Times from TeX Gyre Termes, so although the
+          named fonts are not free, the metric-compatible fonts can be used.
+          Ignoring other non-free fonts, the remaining order for serif is:
+          Times New Roman, Luxi Serif, Nimbus Roman No9 L, and Times. In
+          practice, that means those fonts at the end of the list are
+          unlikely to be used unless a web page asks for them.
+        </p>
+        <p>
+          For sans-serif, the remaining order is anything mapped to Arial,
+          Luxi Sans, Nimbus Sans L, and anything mapped to Helvetica.
+        </p>
+        <p>
+          The remaining alternatives for monospace are Inconsolata, anything
+          mapped to Courier New, Luxi Mono, Nimbus Mono, and anything mapped
+          to Courier.
+        </p>
+        <p>
+          For 'fantasy' there are no free fonts, so <span class=
+          "application">Fontconfig</span> will fall back to sans-serif.
+        </p>
+        <p>
+          For 'cursive', the only free font is TeX Gyre Chorus as an alias
+          for ITC Zapf chancery, otherwise <span class=
+          "application">Fontconfig</span> will again fall back to sans-serif.
+        </p>
+        <p>
+          The system-ui category is unusual. It is for interface messages, so
+          some scripts need special versions to fit in the available space.
+          For Latin, Greek and Cyrillic an ordinary sans font should fit
+          without problems. However, the first preferred font is Cantarell,
+          followed by Noto Sans UI. Cantarell started as a Latin sans-serif
+          font, that has been forked in Gnome under the same name but they
+          only provide the source. The Noto Sans UI fonts are for other
+          languages.
+        </p>
+        <p>
+          Since Fontconfig-2.12.5, there is also generic family matching for
+          some emoji and math fonts, please see {45,60}-generic.conf.
+        </p>
+        <p>
+          In the rare cases where a font does not contain all the expected
+          codepoints, see 'Trial the First:' at <a class="xref" href=
+          "tuning-fontconfig.html#I-stared-into-the-fontconfig" title=
+          "I stared into the fontconfig ...">I stared into the fontconfig</a>
+          for the long details.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="hinting-and-antialiasing" name=
+          "hinting-and-antialiasing"></a>Hinting and Anti-aliasing
+        </h2>
+        <p>
+          It is possible to change how, or if, fonts are hinted. The
+          following example file contains the default settings, but with
+          comments. The settings are very much down to the user's preferences
+          and to the choice of fonts, so a change which improves some pages
+          may worsen others. The preferred location for this file is:
+          <code class="filename">~/.config/fontconfig/fonts.conf</code>
+        </p>
+        <p>
+          To try out different settings, you may need to exit from Xorg and
+          then run <span class="command"><strong>startx</strong></span> again
+          so that all applications use the new settings. Several things can
+          override the fontconfig settings, see <a class="xref" href=
+          "tuning-fontconfig.html#items-which-can-override-fontconfig" title=
+          "Items which can override Fontconfig">Items which can override
+          Fontconfig</a> below for more details. To explore the
+          possibilities, create a file for your user:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mkdir -pv ~/.config/fontconfig &amp;&amp;
+cat &gt; ~/.config/fontconfig/fonts.conf &lt;&lt; "EOF"
+<code class="literal">&lt;?xml version='1.0'?&gt;
+&lt;!DOCTYPE fontconfig SYSTEM 'fonts.dtd'&gt;
+&lt;fontconfig&gt;
+
+  &lt;match target="font" &gt;
+    &lt;!-- autohint was the old automatic hinter when hinting was patent
+    protected, so turn it off to ensure any hinting information in the font
+    itself is used, this is the default --&gt;
+    &lt;edit mode="assign" name="autohint"&gt;  &lt;bool&gt;false&lt;/bool&gt;&lt;/edit&gt;
+
+    &lt;!-- hinting is enabled by default --&gt;
+    &lt;edit mode="assign" name="hinting"&gt;   &lt;bool&gt;true&lt;/bool&gt;&lt;/edit&gt;
+
+    &lt;!-- for the lcdfilter see https://www.spasche.net/files/lcdfiltering/ --&gt;
+    &lt;edit mode="assign" name="lcdfilter"&gt; &lt;const&gt;lcddefault&lt;/const&gt;&lt;/edit&gt;
+
+    &lt;!-- options for hintstyle:
+    hintfull: is supposed to give a crisp font that aligns well to the
+    character-cell grid but at the cost of its proper shape. However, anything
+    using Pango &gt;= 1.44 will not support full hinting, Pango now uses harfbuzz
+    for hinting. Apps which use Skia (e.g. Chromium, Firefox) should not be
+    affected by this. 
+
+    hintmedium: is reported to be broken.
+    hintslight is the default: - supposed to be more fuzzy but retains shape.
+
+    hintnone: seems to turn hinting off.
+    The variations are marginal and results vary with different fonts --&gt;
+    &lt;edit mode="assign" name="hintstyle"&gt; &lt;const&gt;hintslight&lt;/const&gt;&lt;/edit&gt;
+
+    &lt;!-- antialiasing is on by default and really helps for faint characters
+    and also for 'xft:' fonts used in rxvt-unicode --&gt;
+    &lt;edit mode="assign" name="antialias"&gt; &lt;bool&gt;true&lt;/bool&gt;&lt;/edit&gt;
+
+    &lt;!-- subpixels are usually rgb, see
+    http://www.lagom.nl/lcd-test/subpixel.php --&gt;
+    &lt;edit mode="assign" name="rgba"&gt;      &lt;const&gt;rgb&lt;/const&gt;&lt;/edit&gt;
+
+    &lt;!-- thanks to the Arch wiki for the lcd and subpixel links --&gt;
+  &lt;/match&gt;
+
+&lt;/fontconfig&gt;</code>
+EOF</kbd></pre>
+        <p>
+          You will now need to edit the file in your preferred editor. Many
+          of the different settings give very subtle differences and the
+          results may differ for some of the fonts you use.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            Hinting, if enabled, is done in <span class=
+            "application">FreeType</span>. Since FreeType-2.7 the default
+            TrueType interpreter is v40. The original v35 hinter could be
+            enabled by an environment variable, but is only really
+            appropriate to original Microsoft TTF fonts (Arial, etc). The v38
+            hinter (Infinality) is not built by default and all the options
+            to tune it have been removed. For full details see <a class=
+            "xref" href="tuning-fontconfig.html#subpixel-hinting" title=
+            "subpixel-hinting">subpixel-hinting</a> (Spoiler: there is NO
+            sub-pixel hinting, the code simply ignores <span class=
+            "emphasis"><em>all</em></span> horizontal hinting instructions).
+          </p>
+          <p>
+            Xorg assumes screens have 96 dots per inch (DPI). Most LCD
+            screens are close to this, but some people detect colour fringing
+            if their screen diverges from that size. See <a class="xref"
+            href="tuning-fontconfig.html#calc-dpi" title=
+            "Calculating DPI">calc-dpi</a>.
+          </p>
+          <p>
+            If you have a High DPI screen (often described as '4K' or larger)
+            you will probably use larger font sizes and benefit from
+            disabling hinting.
+          </p>
+        </div>
+        <p>
+          For more examples see the blfs-support thread which started at
+          <a class="ulink" href=
+          "https://lists.linuxfromscratch.org/sympa/arc/blfs-support/2016-09/msg00128.html">
+          2016-09/00128</a>, particularly <a class="ulink" href=
+          "https://lists.linuxfromscratch.org/sympa/arc/blfs-support/2016-09/msg00137.html">
+          2016-09/00137</a>, and the original poster's preferred solution at
+          <a class="ulink" href=
+          "https://lists.linuxfromscratch.org/sympa/arc/blfs-support/2016-09/msg00147.html">
+          2016-09/00147</a>. There are other examples in <a class="xref"
+          href="tuning-fontconfig.html#arch-fontconfig" title=
+          "Fontconfig in the Arch wiki">Fontconfig in the Arch wiki</a> and
+          <a class="xref" href="tuning-fontconfig.html#gentoo-fontconfig"
+          title="Fontconfig in the Gentoo wiki">Fontconfig in the Gentoo
+          wiki</a>.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="disabling-bitmap-fonts" name=
+          "disabling-bitmap-fonts"></a>Disabling Bitmap Fonts
+        </h2>
+        <p>
+          In previous versions of BLFS, the ugly old Xorg bitmap fonts were
+          installed. Now, many people will not need to install any of them.
+          But if for some reason you have installed one or more bitmap fonts,
+          you can prevent them from being used by <span class=
+          "application">Fontconfig</span> by creating the following file as
+          the <code class="systemitem">root</code> user :
+        </p>
+        <pre class="root"><kbd class=
+        "command">cat &gt; /etc/fonts/conf.d/70-no-bitmaps.conf &lt;&lt; "EOF"
+<code class="literal">&lt;?xml version='1.0'?&gt;
+&lt;!DOCTYPE fontconfig SYSTEM 'fonts.dtd'&gt;
+&lt;fontconfig&gt;
+&lt;!-- Reject bitmap fonts --&gt;
+ &lt;selectfont&gt;
+  &lt;rejectfont&gt;
+   &lt;pattern&gt;
+     &lt;patelt name="scalable"&gt;&lt;bool&gt;false&lt;/bool&gt;&lt;/patelt&gt;
+   &lt;/pattern&gt;
+  &lt;/rejectfont&gt;
+ &lt;/selectfont&gt;
+&lt;/fontconfig&gt;</code>
+EOF</kbd></pre>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="synthetic-changes" name="synthetic-changes"></a>Synthetic
+          changes
+        </h2>
+        <p>
+          In <code class="filename">90-synthetic.conf</code> there are
+          examples of applying synthetic slanting and emboldening to a font.
+          The synthetic emboldening can be applied to a visibly faint font,
+          but the results are not always as expected: With just the embolden,
+          <span class="application">Epiphany</span> showed darker fonts while
+          <span class="application">Firefox</span> did not - so although
+          <span class="application">Cairo</span> is now used by <span class=
+          "application">firefox</span> the comment about setting Weight is
+          still valid. But setting both, <span class=
+          "application">Epiphany</span> will show bold text by default, but
+          it will show heavy text if markup for bold is used. In both cases,
+          neither <span class="application">libreOffice</span> nor
+          <span class="application">falkon</span> showed bolder text.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="adding-extra-directories" name=
+          "adding-extra-directories"></a>Adding extra font directories
+        </h2>
+        <p>
+          Normally, system fonts and user fonts are installed in directories
+          beneath the locations specified in <a class="xref" href=
+          "tuning-fontconfig.html#xft-font-protocol" title=
+          "The Xft Font Protocol">The Xft Font Protocol</a> and there is no
+          obvious reason to put them elsewhere. However, a full BLFS install
+          of <a class="xref" href="../pst/texlive.html" title=
+          "texlive-20230313-source">texlive-20230313</a> puts many fonts in
+          <code class="filename">/opt/texlive/2023/texmf-dist/fonts/</code>
+          in the <code class="filename">opentype/</code> and <code class=
+          "filename">truetype/</code> subdirectories. Although pulling in all
+          of these files may appear useful (it allows you to use them in non
+          <span class="application">TeX</span> programs), there are several
+          problems with such an approach:
+        </p>
+        <div class="orderedlist">
+          <ol>
+            <li class="listitem">
+              <p>
+                There are hundreds of files, which makes selecting fonts
+                difficult.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Some of the files do odd things, such as displaying semaphore
+                flags instead of ASCII letters, or mapping cyrillic
+                codepoints to character forms appropriate to Old Church
+                Slavonic instead of the expected current shapes: fine if that
+                is what you need, but painful for normal use.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Several fonts have multiple sizes and impenetrable short
+                names, which both make selecting the correct font even more
+                difficult.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                When a font is added to CTAN, it is accompanied by TeX
+                packages to use it in the old engines (<span class=
+                "application">xelatex</span> does not normally need this),
+                and then the version is often frozen whilst the font is
+                separately maintained. Some of these fonts such as <a class=
+                "xref" href="TTF-and-OTF-fonts.html#dejavu-fonts" title=
+                "DejaVu fonts">Dejavu fonts</a> are probably already
+                installed on your BLFS system in a newer version, and if you
+                have multiple versions of a font it is unclear which one will
+                be used by <span class="application">Fontconfig</span>.
+              </p>
+            </li>
+          </ol>
+        </div>
+        <p>
+          However, it is sometimes useful to look at these fonts in non-TeX
+          applications, if only to see whether you wish to install a current
+          version. If you have installed all of <span class=
+          "application">texlive</span>, the following example will make one
+          of the Arkandis Open Type fonts available to other applications,
+          and all three of the ParaType TrueType fonts. Adjust or repeat the
+          lines as desired, to either make all the <code class=
+          "filename">opentype/</code> or <code class=
+          "filename">truetype</code>fonts available, or to select different
+          font directories. As the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">cat &gt; /etc/fonts/conf.d/09-texlive.conf &lt;&lt; "EOF"
+<code class="literal">&lt;?xml version='1.0'?&gt;
+&lt;!DOCTYPE fontconfig SYSTEM 'fonts.dtd'&gt;
+&lt;fontconfig&gt;
+  &lt;dir&gt;/opt/texlive/2023/texmf-dist/fonts/opentype/arkandis/berenisadf&lt;/dir&gt;
+  &lt;dir&gt;/opt/texlive/2023/texmf-dist/fonts/truetype/paratype&lt;/dir&gt;
+&lt;/fontconfig&gt;</code>
+EOF</kbd></pre>
+        <p>
+          If you do this, remember to change all instances of the year in
+          that file when you upgrade <span class="application">texlive</span>
+          to a later release.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="preferring-certain-fonts" name=
+          "preferring-certain-fonts"></a>Preferring certain fonts
+        </h2>
+        <p>
+          With the exception of web pages which use WOFF fonts and either
+          supply them or link to google to download them, web pages have
+          traditionally suggested a list of preferred font family names if
+          they cared (e.g. Times New Roman, Serif). There are many reasons
+          why people may wish to have pages which specify a preferred font
+          use a different font, or prefer specific fonts in Monospace or Sans
+          or Serif. As you will expect, there a number of different ways of
+          achieving this.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="fontconfig-user-docs" name=
+          "fontconfig-user-docs"></a>Fontconfig user documentation
+        </h2>
+        <p>
+          <span class="application">Fontconfig</span> installs user
+          documentation that includes an example 'User configuration file'
+          which among other things prefers <a class="xref" href=
+          "TTF-and-OTF-fonts.html#wenquanyi-zenhei" title=
+          "WenQuanYi Zen Hei">WenQuanYi ZenHei</a> (a Sans font) if a
+          <span class="emphasis"><em>Serif</em></span> font is requested for
+          Chinese (this part might be anachronistic unless you have non-free
+          Chinese fonts, because in <code class=
+          "filename">65-nonlatin.conf</code> this font is already among the
+          preferred fonts when Serif is specified for Chinese) and to prefer
+          the modern <a class="xref" href="TTF-and-OTF-fonts.html#VLGothic"
+          title="VL Gothic">VL Gothic</a> font if a Sans font is specified on
+          a Japanese page (otherwise a couple of other fonts would be
+          preferred if they have been installed).
+        </p>
+        <p>
+          If you have installed the current version, the user documentation
+          is available in HTML, PDF, and text versions at <code class=
+          "filename">/usr/share/doc/fontconfig-2.14.2/</code> : change the
+          version if you installed a different one.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="prefer-a-specific-font" name=
+          "prefer-a-specific-font"></a>Prefer a specific font
+        </h2>
+        <p>
+          As an example, if for some reason you wished to use the <a class=
+          "ulink" href=
+          "https://www.fontsquirrel.com/fonts/nimbus-roman-no9-l">Nimbus
+          Roman No9 L</a> font wherever Times New Roman is referenced (it is
+          metrically similar, and preferred for Times Roman, but the Serif
+          font from <a class="xref" href=
+          "TTF-and-OTF-fonts.html#liberation-fonts" title=
+          "Liberation fonts">Liberation fonts</a> will be preferred for the
+          Times <span class="emphasis"><em>New</em></span> Roman font if
+          installed), as an individual user you could install the font and
+          then create the following file:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mkdir -pv ~/.config/fontconfig/conf.d &amp;&amp;
+cat &gt;  ~/.config/fontconfig/conf.d/35-prefer-nimbus-for-timesnew.conf &lt;&lt; "EOF"
+<code class="literal">&lt;?xml version='1.0'?&gt;
+&lt;!DOCTYPE fontconfig SYSTEM 'fonts.dtd'&gt;
+&lt;fontconfig&gt;
+&lt;!-- prefer Nimbus Roman No9 L for Times New Roman as well as for Times,
+ without this Tinos and Liberation Serif take precedence for Times New Roman
+ before Fontconfig falls back to whatever matches Times --&gt;
+    &lt;alias binding="same"&gt;
+        &lt;family&gt;Times New Roman&lt;/family&gt;
+        &lt;accept&gt;
+            &lt;family&gt;Nimbus Roman No9 L&lt;/family&gt;
+        &lt;/accept&gt;
+    &lt;/alias&gt;
+&lt;/fontconfig&gt;</code>
+EOF</kbd></pre>
+        <p>
+          This is something you would normally do in an individual user's
+          settings, but the file in this case has been prefixed '35-' so that
+          it could, if desired, be used system-wide in <code class=
+          "filename">/etc/fonts/conf.d/</code>.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="prefer-chosen-CJK-fonts" name=
+          "prefer-chosen-CJK-fonts"></a>Prefer chosen CJK fonts
+        </h2>
+        <p>
+          The following example of a local configuration (i.e. one that
+          applies for all users of the machine) does several things. It is
+          particularly appropriate where no language is specified, or for
+          reading CJK text in a non-CJK locale, and where the Japanese forms
+          of the codepoints shared with Chinese are preferred. In particular,
+          alternative approaches would be to specify a Chinese font ahead of
+          the Japanese font, meaning that only Kana symbols will be used from
+          the Japanese font, or to not specify DejaVu so that the first font
+          in each set of preferences is preferred for text using Latin
+          alphabets.
+        </p>
+        <div class="orderedlist">
+          <ol>
+            <li class="listitem">
+              <p>
+                If a Serif font is specified, it prefers <a class="xref"
+                href="TTF-and-OTF-fonts.html#dejavu-fonts" title=
+                "DejaVu fonts">Dejavu fonts</a>. If Han codepoints are found,
+                or the Japanese language is specified, the Mincho font from
+                <a class="xref" href="TTF-and-OTF-fonts.html#IPAex" title=
+                "IPAex fonts">IPAex fonts</a> will be used. If Hangul
+                codepoints are found or the Korean language is specified,
+                UnBatang (see <a class="xref" href=
+                "TTF-and-OTF-fonts.html#Korean-fonts" title=
+                "Korean fonts:">Korean fonts</a>) will be used: Change that
+                line If you installed a different Korean serif font. After
+                that, <a class="xref" href=
+                "TTF-and-OTF-fonts.html#wenquanyi-zenhei" title=
+                "WenQuanYi Zen Hei">WenQuanYi ZenHei</a> (Sans, but a default
+                for Serif and monospace) is used. A previous version of this
+                page mentioned using UMing which is a Traditional Chinese
+                font that ships with an old conf file preferring it for zh-tw
+                and zh-hk language codes (and for sans-serif and monospace).
+                But without the conf file, <span class=
+                "application">Fontconfig</span> will only treat it as
+                suitable for zh-hk. The conf file needs to be edited to
+                current style and will then be prepended, so specifying UMing
+                does not belong in this <code class=
+                "filename">local.conf</code> file.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                For Sans Serif preferences again start with <a class="xref"
+                href="TTF-and-OTF-fonts.html#dejavu-fonts" title=
+                "DejaVu fonts">Dejavu fonts</a>, then <a class="xref" href=
+                "TTF-and-OTF-fonts.html#VLGothic" title="VL Gothic">VL
+                Gothic</a> for Japanese before falling back to WenQuanYi Zen
+                Hei which is Sans and covers both Chinese and Korean Hangul.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                The Monospace fonts are forced to the preferred Sans fonts.
+                If the text is in Chinese or Korean then <a class="xref"
+                href="TTF-and-OTF-fonts.html#wenquanyi-zenhei" title=
+                "WenQuanYi Zen Hei">WenQuanYi ZenHei</a> will be used.
+              </p>
+            </li>
+          </ol>
+        </div>
+        <p>
+          In a non-CJK locale, the result is that suitable fonts will be used
+          for all variants of Chinese, Japanese and Hangul Korean (but
+          Japanese variants of the glyphs shared with Chinese Han will be
+          used). All other languages should already work if a font is
+          present. As the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">cat &gt; /etc/fonts/local.conf &lt;&lt; "EOF"
+<code class="literal">&lt;?xml version='1.0'?&gt;
+&lt;!DOCTYPE fontconfig SYSTEM 'fonts.dtd'&gt;
+&lt;fontconfig&gt;
+    &lt;alias&gt;
+        &lt;family&gt;serif&lt;/family&gt;
+        &lt;prefer&gt;
+            &lt;family&gt;DejaVu Serif&lt;/family&gt;
+            &lt;family&gt;IPAexMincho&lt;/family&gt;
+            &lt;!-- WenQuanYi is preferred as Serif in 65-nonlatin.conf,
+            override that so a real Korean font can be used for Serif --&gt;
+            &lt;family&gt;UnBatang&lt;/family&gt;
+        &lt;/prefer&gt;
+    &lt;/alias&gt;
+    &lt;alias&gt;
+         &lt;family&gt;sans-serif&lt;/family&gt;
+         &lt;prefer&gt;
+             &lt;family&gt;DejaVu Sans&lt;/family&gt;
+             &lt;family&gt;VL Gothic&lt;/family&gt;
+         &lt;!-- This assumes WenQuanYi is good enough for Korean Sans --&gt;
+         &lt;/prefer&gt;
+    &lt;/alias&gt;
+    &lt;alias&gt;
+         &lt;family&gt;monospace&lt;/family&gt;
+         &lt;prefer&gt;
+             &lt;family&gt;DejaVu Sans Mono&lt;/family&gt;
+             &lt;family&gt;VL Gothic&lt;/family&gt;
+         &lt;!-- This assumes WenQuanYi is good enough for Korean Monospace --&gt;
+         &lt;/prefer&gt;
+    &lt;/alias&gt;
+&lt;/fontconfig&gt;</code>
+EOF</kbd></pre>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="editing-old-style-conf-files" name=
+          "editing-old-style-conf-files"></a>Editing Old-Style conf files
+        </h2>
+        <p>
+          Some fonts, particularly Chinese fonts, ship with conf files which
+          can be installed in <code class=
+          "filename">/etc/fonts/conf.d</code>. However, if you do that and
+          then use a terminal to run any command which uses <span class=
+          "application">Fontconfig</span> you may see error messages such as
+          :
+        </p>
+        <p>
+          <code class="literal">Fontconfig warning:
+          "/etc/fonts/conf.d/69-odofonts.conf", line 14: Having multiple
+          &lt;family&gt; in &lt;alias&gt; isn't supported and may not work as
+          expected</code>.
+        </p>
+        <p>
+          In practice, these old rules do not work. For non-CJK users,
+          <span class="application">Fontconfig</span> will usually do a good
+          job <span class="emphasis"><em>without</em></span> these rules.
+          Their origin dates back to when CJK users needed handcrafted
+          bitmaps to be legible at small sizes, and those looked ugly next to
+          antialiased Latin glyphs - they preferred to use the same CJK font
+          for the Latin glyphs. There is a side-effect of doing this : the
+          (Serif) font is often also used for Sans, and in such a situation
+          the (English) text in <span class="application">Gtk</span> menus
+          will use this font - compared to system fonts, as well as being
+          serif it is both faint and rather small. That can make it
+          uncomfortable to read.
+        </p>
+        <p>
+          Nevertheless, these old conf files can be fixed if you wish to use
+          them. The following example is the first part of <code class=
+          "filename">64-arphic-uming.conf</code> from <a class="xref" href=
+          "TTF-and-OTF-fonts.html#UMing" title="UMing">UMing</a> - there are
+          many more similar items which also need changing :
+        </p>
+        <pre class="root">
+   &lt;match target="pattern"&gt;
+       &lt;test qual="any" name="lang" compare="contains"&gt;
+           &lt;string&gt;zh-cn&lt;/string&gt;
+           &lt;string&gt;zh-sg&lt;/string&gt;
+       &lt;/test&gt;
+       &lt;test qual="any" name="family"&gt;
+           &lt;string&gt;serif&lt;/string&gt;
+       &lt;/test&gt;
+       &lt;edit name="family" mode="prepend" binding="strong"&gt;
+           &lt;string&gt;AR PL UMing CN&lt;/string&gt;
+       &lt;/edit&gt;
+   &lt;/match&gt;
+</pre>
+        <p>
+          The process to correct this is straightforward but tedious - for
+          every item which produces an error message, using your editor (as
+          the <code class="systemitem">root</code> user), edit the installed
+          file to repeat the whole block as many times as there are multiple
+          variables, then reduce each example to have only one of them. You
+          may wish to work on one error at a time, save the file after each
+          fix, and from a separate term run a command such as <span class=
+          "command"><strong>fc-list 2&gt;&amp;1 | less</strong></span> to see
+          that the fix worked. For the block above, the fixed version will be
+          :
+        </p>
+        <pre class="root">
+   &lt;match target="pattern"&gt;
+       &lt;test qual="any" name="lang" compare="contains"&gt;
+           &lt;string&gt;zh-cn&lt;/string&gt;
+       &lt;/test&gt;
+       &lt;test qual="any" name="family"&gt;
+           &lt;string&gt;serif&lt;/string&gt;
+       &lt;/test&gt;
+       &lt;edit name="family" mode="prepend" binding="strong"&gt;
+           &lt;string&gt;AR PL UMing CN&lt;/string&gt;
+       &lt;/edit&gt;
+    &lt;/match&gt;
+   &lt;match target="pattern"&gt;
+       &lt;test qual="any" name="lang" compare="contains"&gt;
+           &lt;string&gt;zh-sg&lt;/string&gt;
+       &lt;/test&gt;
+       &lt;test qual="any" name="family"&gt;
+           &lt;string&gt;serif&lt;/string&gt;
+       &lt;/test&gt;
+       &lt;edit name="family" mode="prepend" binding="strong"&gt;
+           &lt;string&gt;AR PL UMing CN&lt;/string&gt;
+       &lt;/edit&gt;
+    &lt;/match&gt;
+</pre>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="font-weights" name="font-weights"></a>About font weights
+        </h2>
+        <p>
+          When this page and the next page were first created, Latin fonts
+          came with a maximum of two weights - either Regular or Book (Book
+          typically has a larger X-height to make it easier to read in large
+          blocks of text), and Bold - and perhaps an Italic (or Slant) style.
+          A few fonts also had Condensed faces (to fit more text into a line
+          and usually only used when specified). Without CSS (Cascading Style
+          Sheets) markup, text used the Regular or Book weight except when
+          &lt;b&gt; ... &lt;/b&gt; markup was used for bold text. Italic
+          styles would be invoked by &lt;i&gt; ... &lt;/i&gt; markup, along
+          with the bold markup for Bold Italic.
+        </p>
+        <p>
+          Some faces now contain up to 9 weights, possibly also with a
+          variable font (to save space by including all the alternatives in
+          one file and possibly allowing intermediate weights). For most
+          desktop users who do not need this wide range of weights for
+          creating content, it is simpler to only install one or two weights.
+          If a face has individual weights plus a variable font, the variable
+          font is usually in the top level of the supplied directory, with
+          individual weights in a <code class="filename">static/</code>
+          subdirectory. Except when initially reviewing a font, it makes no
+          sense to install both static and variable, nor all the possible
+          weights.
+        </p>
+        <p>
+          The weights are labelled from 100 (Thin) to 900 (Black or Heavy) in
+          CSS terminology, with 400 being normal and 700 bold. The full set
+          of weights is described at <a class="xref" href=
+          "tuning-fontconfig.html#css-weights" title=
+          "Table of CSS font weights">Table of CSS font weights</a>.
+        </p>
+        <p>
+          If you have installed a font with a range of weights, you can copy
+          <a class="ulink" href=
+          "https://linuxfromscratch.org/~ken/font-weights.html">font-weights.html</a>
+          to your local machine. As shipped it will use your default Serif
+          font assuming you have one. Edit it to point to a specific
+          installed font using the name known to <span class=
+          "application">Fontconfig</span> (also in the *EDITME FONTNAME* text
+          items) and open it from your desktop browser. You can also use it
+          to look at a font with only two installed weights, e.g. for testing
+          to see if you prefer other weights.
+        </p>
+        <p>
+          Despite the details in that Mozilla link, it appears that if only
+          normal and bold weights are installed, SemiBold (600) will be shown
+          using bold.
+        </p>
+        <p>
+          There seems to be a little scope for changing which weights are
+          used for normal and bold <span class="emphasis"><em>if only two
+          weights have been installed</em></span>. Firefox, and probably
+          other browsers, will look for the next weight heavier than normal.
+          If that is less than bold (Medium, maybe SemiBold - uncertain) it
+          will be used for normal and then the next higher weight, if any
+          will be used for bold, allowing you to make the fonts slightly
+          darker. Conversely, if only a weight less than normal has been
+          installed, such as Light, that will be used for both normal and
+          bold weights (the upward search happens first).
+        </p>
+        <p>
+          If you remove some weights of a system font, you may need to run
+          <span class="command"><strong>fc-cache</strong></span> as the
+          <code class="systemitem">root</code> user and then log out
+          completely to clear caches associated with your user.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="items-which-can-override-fontconfig" name=
+          "items-which-can-override-fontconfig"></a>Items which can override
+          Fontconfig
+        </h2>
+        <p>
+          Several desktop environments, as well as some programs, will use
+          <span class="application">Fontconfig</span> to find fonts but may
+          override certain things.
+        </p>
+        <p>
+          <span class="application">GNOME</span>: The settings in
+          org.gnome.desktop.interface can be updated with <span class=
+          "application">dconf-editor</span>. You can set the fonts to your
+          preference and desired point size. To use the fonts chosen by
+          <span class="application">Fontconfig</span> specify e.g. 'Sans 12',
+          Serif 11', 'Mono 10' as desired. Also review the antialiasing,
+          hinting and rgba settings. Alternatively, <a class="xref" href=
+          "../gnome/gnome-tweaks.html" title=
+          "gnome-tweaks-40.10">gnome-tweaks-40.10</a> can also update the
+          font settings in a GUI form.
+        </p>
+        <p>
+          <span class="application">LXQt</span>: Change font settings as
+          necessary to match <span class="application">Fontconfig</span> in
+          <span class="application">lxqt-config-appearance</span>.
+        </p>
+        <p>
+          <span class="application">KDE Plasma</span>: The settings can be
+          adjusted in <span class="application">System Settings</span> under
+          Appearance -&gt; Fonts. This will create or modify <code class=
+          "filename">~/.config/fontconfig/fonts.conf</code> although
+          <code class="filename">~/.config/fontconfig/fonts.conf</code>, if
+          installed, can override that.
+        </p>
+        <p>
+          <span class="application">Xfce desktop</span>: The settings can be
+          adjusted in <span class="application">Settings</span>i -&gt;
+          Appearance -&gt; Fonts. Specify your preferred fonts, e.g. 'Sans
+          Regular' (to use the normal face and weight rather than Bold and/or
+          Italic) and adjust the point size in the option. Review the
+          Rendering and DPI options.
+        </p>
+        <p>
+          <span class="application">Firefox</span>: This browser allows you
+          to specify its default fonts. For the 115esr series use the
+          'Hamburger' menu to go to Preferences, General, and under Fonts
+          -&gt; Advanced select Sans Serif, Serif or Monospace as appropriate
+          if you wish to use the fonts which match <span class=
+          "application">Fontconfig</span>. Set the point sizes as desired. In
+          later versions, the settings are at Preferences -&gt; Fonts.
+        </p>
+        <p>
+          <span class="application">Libreoffice</span>: Tests using English
+          text with an old Japanese font (HanaMinA) which supports several
+          European languages but had only one weight and no italics or slant
+          showed that although <span class="application">Libreoffice</span>
+          uses <span class="application">Fontconfig</span> to find the font,
+          it created its own bold or slanted text. It is not clear if it will
+          do the same where a font actually has bold weight or an italic
+          style. Also, documentation shows that <span class=
+          "application">Libreoffice</span> has its own substitution rules for
+          when a codepoint is not found in the selected font, but is unclear
+          if those rules apply on Linux using Fontconfig.
+        </p>
+        <p>
+          <span class="application">Pango</span>: as noted in the example
+          <code class="filename">~/.config/fontconfig</code> above, anything
+          using Pango-1.44 (from 2019) or later now uses <span class=
+          "application">Harfbuzz</span> for hinting, not <span class=
+          "application">FreeType</span>, and <code class=
+          "literal">hintfull</code> is not supported.
+        </p>
+        <p>
+          <span class="application">Thunderbird</span>: The font settings can
+          be changed by going to "Edit -&gt; Settings" and then scrolling
+          down to "Fonts &amp; Colors".
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="external-links" name="external-links"></a>External Links
+        </h2>
+        <h3>
+          <a id="I-stared-into-the-fontconfig" name=
+          "I-stared-into-the-fontconfig"></a>I stared into the fontconfig ...
+        </h3>
+        <p>
+          The blog entries by <a class="ulink" href=
+          "https://eev.ee/blog/2015/05/20/i-stared-into-the-fontconfig-and-the-fontconfig-stared-back-at-me/">
+          Eevee</a> are particularly useful if <span class=
+          "application">Fontconfig</span> does not think your chosen font
+          supports your language, and for preferring some non-MS Japanese
+          fonts when an ugly MS font is already installed.
+        </p>
+        <h3>
+          <a id="subpixel-hinting" name=
+          "subpixel-hinting"></a>subpixel-hinting
+        </h3>
+        <p>
+          The documentation of the FreeType v40 interpreter at <a class=
+          "ulink" href=
+          "https://freetype.org/freetype2/docs/hinting/subpixel-hinting.html">
+          freetype docs</a> explains how the current hinter works, and why
+          the previous (slow) Infinality interpreter was replaced.
+        </p>
+        <h3>
+          <a id="calc-dpi" name="calc-dpi"></a>Calculating DPI
+        </h3>
+        <p>
+          An old answer at <a class="ulink" href=
+          "https://askubuntu.com/questions/197828/how-to-find-and-change-the-screen-dpi/">
+          askubuntu</a> gives some detail on calculating a screen's dots per
+          inch, but essentially you just measure the width and height of the
+          visible panel, convert to inches if using metric measurements, and
+          divide by the number of pixels. You can then pass <code class=
+          "option">-dpi <em class="replaceable"><code>90</code></em></code>
+          when you start Xorg, using your own value.
+        </p>
+        <h3>
+          <a id="css-weights" name="css-weights"></a>Table of CSS font
+          weights
+        </h3>
+        <p>
+          Perhaps more than you ever wished to know is at <a class="ulink"
+          href=
+          "https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight">Mozilla
+          CSS docs</a>.
+        </p>
+        <h3>
+          <a id="ttfautohint" name="ttfautohint"></a>Applying autohinting to
+          a font
+        </h3>
+        <p>
+          If you are using hinting and have a TTF (not OTF) font which lacks
+          hints but permits you to fork it, you might be able to apply hints
+          using <a class="ulink" href=
+          "https://freetype.org/ttfautohint/">ttfautohint</a> which is based
+          on the old autohinter. As of version 1.8.4 it fails to build
+          without Qt5.
+        </p>
+        <h3>
+          <a id="arch-fontconfig" name="arch-fontconfig"></a>Fontconfig in
+          the Arch wiki
+        </h3>
+        <p>
+          Arch has a lot of information in its wiki at <a class="ulink" href=
+          "https://wiki.archlinux.org/index.php/font_configuration">font_configuration</a>.
+        </p>
+        <h3>
+          <a id="gentoo-fontconfig" name="gentoo-fontconfig"></a>Fontconfig
+          in the Gentoo wiki
+        </h3>
+        <p>
+          Gentoo has some information in its wiki at <a class="ulink" href=
+          "https://wiki.gentoo.org/wiki/Fontconfig">Fontconfig</a> although a
+          lot of the details (what to enable, and Infinality) are specific to
+          Gentoo.
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="xorg-config.html" title=
+          "Xorg-7 のテストと設定">戻る</a>
+          <p>
+            Xorg-7 のテストと設定
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="TTF-and-OTF-fonts.html" title=
+          "TTF and OTF fonts">次へ</a>
+          <p>
+            TTF and OTF fonts
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="installing.html" title=
+          "第24章 グラフィック環境">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

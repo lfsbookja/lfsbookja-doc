@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      alsa-plugins-1.2.7.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第42章 マルチメディアライブラリとドライバー
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="alsa-lib.html" title=
+          "alsa-lib-1.2.10">戻る</a>
+          <p>
+            alsa-lib-1.2.10
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="alsa-utils.html" title=
+          "alsa-utils-1.2.10">次へ</a>
+          <p>
+            alsa-utils-1.2.10
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="libdriv.html" title=
+          "第42章 マルチメディアライブラリとドライバー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="alsa-plugins" name="alsa-plugins"></a>alsa-plugins-1.2.7.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          ALSA Plugins の概要
+        </h2>
+        <p>
+          The <span class="application">ALSA Plugins</span> package contains
+          plugins for various audio libraries and sound servers.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://www.alsa-project.org/files/pub/plugins/alsa-plugins-1.2.7.1.tar.bz2">
+                https://www.alsa-project.org/files/pub/plugins/alsa-plugins-1.2.7.1.tar.bz2</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 8fb7e05b84c87f30655a8997a9a983d1
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 400 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 5.5 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU 以下
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          ALSA Plugins の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="alsa-lib.html" title=
+          "alsa-lib-1.2.10">alsa-lib-1.2.10</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="ffmpeg.html" title=
+          "FFmpeg-6.1">FFmpeg-6.1</a>, <a class="xref" href=
+          "libsamplerate.html" title=
+          "libsamplerate-0.2.2">libsamplerate-0.2.2</a>, <a class="xref"
+          href="pulseaudio.html" title="PulseAudio-16.1">PulseAudio-16.1</a>,
+          <a class="xref" href="speex.html" title=
+          "Speex-1.2.1">Speex-1.2.1</a>, <a class="ulink" href=
+          "https://jackaudio.org/">JACK</a>, <a class="ulink" href=
+          "https://github.com/AVnu/libavtp/">libavtp</a>, <a class="ulink"
+          href="http://maemo.org/">maemo</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          ALSA Plugins のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">ALSA Plugins</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --sysconfdir=/etc &amp;&amp;
+make</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">Numerous libasound_module_<em class=
+              "replaceable"><code>&lt;module&gt;</code></em>.so modules
+              including conf_pulse, ctl_arcam_av, ctl_oss, ctl_pulse,
+              pcm_a52, pcm_jack, pcm_oss, pcm_pulse, pcm_speex, pcm_upmix,
+              pcm_usb_stream, pcm_vdownmix, rate_lavrate*, rate_samplerate*,
+              rate_speexrate*</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/lib/alsa-lib</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libasound_module_pcm_oss.so" name=
+                    "libasound_module_pcm_oss.so"></a><span class=
+                    "term"><code class=
+                    "filename">libasound_module_pcm_oss.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Allows native <span class="application">ALSA</span>
+                    applications to run on <span class=
+                    "application">OSS</span>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libasound_module_pcm_upmix.so" name=
+                    "libasound_module_pcm_upmix.so"></a><span class=
+                    "term"><code class=
+                    "filename">libasound_module_pcm_upmix.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Allows upmixing sound to 4 or 6 channels
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libasound_module_pcm_vdownmix.so" name=
+                    "libasound_module_pcm_vdownmix.so"></a><span class=
+                    "term"><code class=
+                    "filename">libasound_module_pcm_vdownmix.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Allows downmixing sound from 4-6 channels to 2 channel
+                    stereo output
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libasound_module_pcm_jack.so" name=
+                    "libasound_module_pcm_jack.so"></a><span class=
+                    "term"><code class=
+                    "filename">libasound_module_pcm_jack.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Allows native <span class="application">ALSA</span>
+                    applications to work with <span class=
+                    "command"><strong>jackd</strong></span>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libasound_module_pcm_pulse.so" name=
+                    "libasound_module_pcm_pulse.so"></a><span class=
+                    "term"><code class=
+                    "filename">libasound_module_pcm_pulse.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Allows native <span class="application">ALSA</span>
+                    applications to access a <span class=
+                    "application">PulseAudio</span> sound daemon
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libasound_module_pcm_a52.so" name=
+                    "libasound_module_pcm_a52.so"></a><span class=
+                    "term"><code class=
+                    "filename">libasound_module_pcm_a52.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Converts S16 linear sound format to A52 compressed format
+                    and sends it to an SPDIF output
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libasound_module_rate_samplerate.so" name=
+                    "libasound_module_rate_samplerate.so"></a><span class=
+                    "term"><code class=
+                    "filename">libasound_module_rate_samplerate.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Provides an external rate converter through <code class=
+                    "filename">libsamplerate</code>
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="alsa-lib.html" title=
+          "alsa-lib-1.2.10">戻る</a>
+          <p>
+            alsa-lib-1.2.10
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="alsa-utils.html" title=
+          "alsa-utils-1.2.10">次へ</a>
+          <p>
+            alsa-utils-1.2.10
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="libdriv.html" title=
+          "第42章 マルチメディアライブラリとドライバー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

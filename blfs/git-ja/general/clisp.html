@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Clisp-2.49
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第13章 プログラミング言語
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="cbindgen.html" title=
+          "Cbindgen-0.26.0">戻る</a>
+          <p>
+            Cbindgen-0.26.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="cmake.html" title="CMake-3.28.1">次へ</a>
+          <p>
+            CMake-3.28.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="prog.html" title="第13章 プログラミング言語">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="clisp" name="clisp"></a>Clisp-2.49
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Clisp の概要
+        </h2>
+        <p>
+          <span class="application">GNU Clisp</span> は Common Lisp
+          の実装であり、インタープリター、コンパイラー、デバッガーなどを提供します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://ftp.gnu.org/gnu/clisp/latest/clisp-2.49.tar.bz2">https://ftp.gnu.org/gnu/clisp/latest/clisp-2.49.tar.bz2</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 1962b99d5e530390ec3829236d168649
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 7.8 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 163 MB (テスト実施時はさらに 8 MB)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.9 SBU (テスト実施時は 1.2 SBU)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Additional Downloads
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Optional patch: <a class="ulink" href=
+                "https://www.linuxfromscratch.org/patches/blfs/svn/clisp-2.49-readline7_fixes-1.patch">
+                https://www.linuxfromscratch.org/patches/blfs/svn/clisp-2.49-readline7_fixes-1.patch</a>
+                (required if building against libffcall)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Clisp Dependencies
+        </h3>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="libsigsegv.html" title=
+          "libsigsegv-2.14">libsigsegv-2.14</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../basicnet/libnsl.html" title=
+          "libnsl-2.0.1">libnsl-2.0.1</a>, <a class="ulink" href=
+          "https://www.gnu.org/software/libffcall/">libffcall</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Clisp のインストール
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            本パッケージは並行ビルドがサポートされていません。
+          </p>
+        </div>
+        <p>
+          If you are building on a 32-bit system, work around a bug in GCC
+          caused by the latest version of binutils:
+        </p>
+        <pre class="userinput"><kbd class="command">case $(uname -m) in
+    i?86) export CFLAGS="${CFLAGS:--O2 -g} -falign-functions=4" ;;
+esac</kbd></pre>
+        <p>
+          2つのテストを削除します。これらは失敗するものですが理由は分かっていません。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i -e '/socket/d' -e '/"streams"/d' tests/tests.lisp</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">Clisp</span> をビルドします。
+        </p>
+        <p>
+          If you are building <span class="application">clisp</span> against
+          <span class="application">libffcall</span>, apply the patch to fix
+          a build failure with current <span class=
+          "application">readline</span>:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../clisp-2.49-readline7_fixes-1.patch</kbd></pre>
+        <p>
+          Install <span class="application">Clisp</span> by running the
+          following commands:
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+../configure --srcdir=../                       \
+             --prefix=/usr                      \
+             --docdir=/usr/share/doc/clisp-2.49 \
+             --with-libsigsegv-prefix=/usr &amp;&amp;
+
+ulimit -s 16384 &amp;&amp;
+make -j1</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>make
+          check</strong></span> を実行します。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <span class="command"><strong>ulimit -s 16384</strong></span>:
+          スタックサイズの最大値を増やします。 <span class=
+          "command"><strong>configure</strong></span> 実行において推奨されているものです。
+        </p>
+        <p>
+          <span class=
+          "command"><strong>--docdir=/usr/share/doc/clisp-2.49</strong></span>:
+          this ensures the html documentation will go into a versioned
+          directory instead of straight into <code class=
+          "filename">/usr/share/html/</code>.
+        </p>
+        <p>
+          <span class=
+          "command"><strong>--with-libsigsegv-prefix=/usr</strong></span>:
+          use this to tell <span class=
+          "command"><strong>configure</strong></span> that you have installed
+          <span class="package">libsigsegv</span> in /usr, otherwise it will
+          not be found.
+        </p>
+        <p>
+          <code class="option">--with-libffcall-prefix=/usr</code>: use this
+          to tell <span class="command"><strong>configure</strong></span>
+          that you have installed the optional <span class=
+          "package">libffcall</span> in /usr, otherwise like <span class=
+          "package">libsigsegv</span> it will not be found.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">clisp, clisp-link</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody"><code class=
+              "filename">/usr/lib/clisp-2.49/base/</code>
+              配下にさまざまなスタティックライブラリ</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/lib/clisp-2.49 /usr/share/doc/clisp-2.49
+              /usr/share/emacs/site-lisp;</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="clisp-prog" name="clisp-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>clisp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ANSI Common Lisp コンパイラー、インタープリター、デバッガー
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="clisp-link" name="clisp-link"></a><span class=
+                    "term"><span class=
+                    "command"><strong>clisp-link</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    clisp に対して外部モジュールをリンクするために利用されます。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="cbindgen.html" title=
+          "Cbindgen-0.26.0">戻る</a>
+          <p>
+            Cbindgen-0.26.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="cmake.html" title="CMake-3.28.1">次へ</a>
+          <p>
+            CMake-3.28.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="prog.html" title="第13章 プログラミング言語">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

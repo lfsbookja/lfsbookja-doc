@@ -1,0 +1,603 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Xorg-7 のテストと設定
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第24章 グラフィック環境
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="xinit.html" title="xinit-1.4.2">戻る</a>
+          <p>
+            xinit-1.4.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="tuning-fontconfig.html" title=
+          "Tuning Fontconfig">次へ</a>
+          <p>
+            Tuning Fontconfig
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="installing.html" title=
+          "第24章 グラフィック環境">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="xorg-config" name="xorg-config"></a>Xorg-7 のテストと設定
+      </h1>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="X11-testing" name="X11-testing"></a>Xorg のテスト
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            Before starting Xorg for the first time, is useful to rebuild the
+            library cache by running <strong class=
+            "userinput"><code>ldconfig</code></strong> as the <code class=
+            "systemitem">root</code> user.
+          </p>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            Before starting Xorg for the first time, is often needed to
+            reboot the system to ensure all appropriate daemons are started
+            and appropriate security issues are properly set. As an
+            alternative, logging out and logging back in may work, but as of
+            this writing has not been tested.
+          </p>
+        </div>
+        <div class="admon warning">
+          <img alt="[警告]" src="../images/warning.png" />
+          <h3>
+            警告
+          </h3>
+          <p>
+            If Xorg hangs for some reason (for example, lacking a proper
+            input driver), the system may stop responding to any user input.
+            As a precaution, you can enable a magic <span class=
+            "keycap"><strong>SysRq</strong></span> key before testing Xorg.
+            As the <code class="systemitem">root</code> user, issue:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">echo 4 &gt; /proc/sys/kernel/sysrq</kbd></pre>
+          <p>
+            Then if Xorg hangs, it's possible to use <span class=
+            "keycap"><strong>Alt</strong></span>+<span class=
+            "keycap"><strong>SysRq</strong></span>+<span class=
+            "keycap"><strong>R</strong></span> to reset the keyboard mode.
+            Now it should be able to use <span class=
+            "keycap"><strong>Ctrl</strong></span>+<span class=
+            "keycap"><strong>Alt</strong></span>+<span class=
+            "keycap"><strong>Fx</strong></span> (replace x with a VT number)
+            to switch to another VT. If it works, login and kill Xorg using
+            command line in the new VT.
+          </p>
+        </div>
+        <p>
+          インストールした <span class="application">Xorg</span> をテストするために
+          <strong class="userinput"><code>startx</code></strong> を実行します。
+          この実行によって最も単純なウィンドウマネージャー <span class="emphasis"><em>twm</em></span>
+          が立ち上がり、X ターミナルウィンドウ3つと xclock ウィンドウ1つが表示されます。 左上に位置する xterm
+          ウィンドウはログインターミナルです。 このターミナルにて <span class=
+          "emphasis"><em>exit</em></span> を入力すると <span class="application">X
+          Window</span> セッションが終了します。 3つめの xterm ウィンドウは不要なものかもしれません。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            When testing <span class="application">Xorg</span> with the
+            <span class="application">twm</span> window manager, there will
+            be several warnings in the Xorg log file,
+            $HOME/.local/share/xorg/Xorg.0.log, about missing font files. In
+            addition, there will be several warnings on the text mode
+            terminal (usually tty1) about missing fonts. These warnings do
+            not affect functionality, but can be removed if desired by
+            installing the <a class="xref" href="x7legacy.html" title=
+            "Xorg Legacy">Xorg Legacy Fonts</a>.
+          </p>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            On systems with NVIDIA GPUs which are using the Nouveau kernel
+            driver, you may encounter occasional GPU crashes and hangs. If
+            this problem occurs, downgrade to the latest version of the Linux
+            6.1 kernel.
+          </p>
+        </div>
+        <p>
+          基本的には <span class="application">Xorg</span> に対しての特別な設定は必要ありません。
+          ただしカスタマイズは可能です。 詳しくは後述する <a class="xref" href=
+          "xorg-config.html#xconfig" title="Setting up Xorg Devices">「Setting
+          up Xorg Devices」</a> を参照してください。
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="checking-dri" name="checking-dri"></a>Checking the Direct
+          Rendering Infrastructure (DRI) Installation
+        </h2>
+        <p>
+          DRI is a framework for allowing software to access graphics
+          hardware in a safe and efficient manner. It is installed in
+          <span class="application">X</span> by default (using <span class=
+          "application">Mesa</span>) if you have a supported video card.
+        </p>
+        <p>
+          To check if DRI drivers are installed properly, check the log file
+          <code class="filename">$HOME/.local/share/xorg/Xorg.0.log</code>
+          (or <code class="filename">/var/log/Xorg.0.log</code> if you have
+          built <a class="xref" href="xorg-server.html" title=
+          "Xorg-Server-21.1.10">Xorg-Server-21.1.10</a> with the suid bit)
+          for statements such as:
+        </p>
+        <pre class="screen"><code class=
+        "literal">(II) modeset(0): [DRI2] Setup complete
+(II) modeset(0): [DRI2]   DRI driver: crocus
+(II) modeset(0): [DRI2]   VDPAU driver: va_gl</code></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            DRI configuration may differ if you are using alternate drivers,
+            such as traditional DDX drivers, or the proprietary drivers from
+            <a class="ulink" href=
+            "https://www.nvidia.com/page/home.html">NVIDIA</a> or <a class=
+            "ulink" href="https://www.amd.com/">AMD</a>.
+          </p>
+        </div>
+        <p>
+          Another way to determine if DRI is working properly is to use one
+          of the two optionally installed OpenGL demo programs in <a class=
+          "xref" href="mesa.html" title="Mesa-23.3.1">Mesa-23.3.1</a>. From
+          an X terminal, run <span class=
+          "command"><strong>glxinfo</strong></span> and look for the phrase:
+        </p>
+        <pre class="screen"><code class="computeroutput">name of display: :0
+display: :0  screen: 0
+direct rendering: Yes</code></pre>
+        <p>
+          If direct rendering is enabled, you can add verbosity by running
+          <span class="command"><strong>LIBGL_DEBUG=verbose
+          glxinfo</strong></span>. This will show the drivers, device nodes
+          and files used by the DRI system.
+        </p>
+        <p>
+          To confirm that DRI2 hardware acceleration is working, you can
+          (still in the X terminal) run the command <span class=
+          "command"><strong>glxinfo | grep -E "(OpenGL vendor|OpenGL
+          renderer|OpenGL version)"</strong></span>. If that reports
+          something <span class="emphasis"><em>other than</em></span>
+          <code class="literal">Software Rasterizer</code> then you have
+          working acceleration for the user who ran the command.
+        </p>
+        <p>
+          If your hardware does not have any DRI2 driver available, it will
+          use a Software Rasterizer for Direct Rendering. In such cases, you
+          can use a new, LLVM-accelerated, Software Rasterizer called
+          LLVMPipe. In order to build LLVMPipe just make sure that <a class=
+          "xref" href="../general/llvm.html" title=
+          "LLVM-17.0.6">LLVM-17.0.6</a> is present at Mesa build time. Note
+          that all decoding is done on the CPU instead of the GPU, so the
+          display will run slower than with hardware acceleration. To check
+          if you are using LLVMpipe, review the output of the glxinfo command
+          above. An example of the output using the Software Rasterizer is
+          shown below:
+        </p>
+        <pre class="screen"><code class=
+        "computeroutput">OpenGL vendor string: VMware, Inc.
+OpenGL renderer string: Gallium 0.4 on llvmpipe (LLVM 3.5, 256 bits)
+OpenGL version string: 3.0 Mesa 10.4.5</code></pre>
+        <p>
+          You can also force LLVMPipe by exporting the <code class=
+          "envar">LIBGL_ALWAYS_SOFTWARE=1</code> environment variable when
+          starting Xorg.
+        </p>
+        <p>
+          Again, if you have built the Mesa OpenGL demos, you can also run
+          the test program <span class=
+          "command"><strong>glxgears</strong></span>. This program brings up
+          a window with three gears turning. The X terminal will display how
+          many frames were drawn every five seconds, so this will give a
+          rough benchmark. The window is scalable, and the frames drawn per
+          second is highly dependent on the size of the window. On some
+          hardware, <span class="command"><strong>glxgears</strong></span>
+          will run synchronized with the vertical refresh signal and the
+          frame rate will be approximately the same as the monitor refresh
+          rate.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="xorg-debug" name="xorg-debug"></a>Debugging Xorg
+        </h2>
+        <p>
+          When starting xorg, there are a couple of ways to check what any
+          issues you may have. If the system comes up, you can see what
+          driver is being used by running <span class=
+          "command"><strong>xdriinfo</strong></span>. If there are issues or
+          you just want to check, look at <code class=
+          "filename">Xorg.0.log</code>.
+        </p>
+        <p>
+          The location of <code class="filename">Xorg.0.log</code> depends on
+          how Xorg is installed. If the instructions in the book are followed
+          closely and Xorg is started from the command line, it will be
+          located in the <code class=
+          "filename">$HOME/.local/share/xorg/</code> directory. If Xorg is
+          started by a display manager (e.g. <a class="xref" href=
+          "lightdm.html" title="lightdm-1.32.0">lightdm-1.32.0</a>, <a class=
+          "xref" href="sddm.html" title="sddm-0.20.0">sddm-0.20.0</a>, or
+          <a class="xref" href="gdm.html" title="GDM-45.0.1">GDM-45.0.1</a>)
+          or if <code class="filename">$XORG_PREFIX/bin/Xorg</code> has the
+          suid bit set, it will be located in the <code class=
+          "filename">/var/log/</code> directory.
+        </p>
+        <h3>
+          Xorg.0.log Issues
+        </h3>
+        <p>
+          When you look at Xorg.0.log, check for entries like (EE) or (WW).
+          Below are some common entries:
+        </p>
+        <h5>
+          (WW) Open ACPI failed (/var/run/acpid.socket)
+        </h5>
+        <p>
+          This warning is because <a class="xref" href=
+          "../general/acpid.html" title="acpid-2.0.34">acpid-2.0.34</a> is
+          not installed. If you are not on a laptop, it can be safely
+          ignored. On a laptop, install <a class="xref" href=
+          "../general/acpid.html" title="acpid-2.0.34">acpid-2.0.34</a> to
+          enable actions like recognizing when the lid is closed.
+        </p>
+        <h5>
+          (WW) VGA arbiter: cannot open kernel arbiter, no multi-card support
+        </h5>
+        <p>
+          This warning is displayed when a regular user starts Xorg. The
+          library <code class="filename">libpciaccess.so</code> issues this
+          warning when it tries to open <code class=
+          "filename">/dev/vga_arbiter</code>. If there is no more than one
+          legacy PCI (not PCIe) graphic cards on the system, it can safely be
+          ignored. If really necessary, the permissions of this device can be
+          changed by adding a udev rule and adding the local user to the
+          video group. As the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">cat &gt; /etc/udev/rules.d/99-vga-arbiter.rules &lt;&lt; EOF
+# /etc/udev/rules.d/99-vga-arbiter.rules: Set vga_arbiter group/mode
+
+ACTION=="add", KERNEL=="vga_arbiter", GROUP="video" MODE="0660"
+EOF
+
+usermod -a -G video &lt;user running xorg&gt;</kbd></pre>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="hybrid-graphics" name="hybrid-graphics"></a>Hybrid Graphics
+        </h2>
+        <p>
+          Hybrid Graphics is still in experimental state for Linux. Xorg
+          Developers have developed a technology called PRIME that can be
+          used for switching between integrated and muxless discrete GPU at
+          will. Automatic switching is not possible at the moment.
+        </p>
+        <p>
+          In order to use PRIME for GPU switching, make sure that you are
+          using Linux Kernel 3.4 or later (recommended). You will need latest
+          DRI and DDX drivers for your hardware and <span class=
+          "application">Xorg Server</span> 1.13 or later.
+        </p>
+        <p>
+          <span class="application">Xorg Server</span> should load both GPU
+          drivers automatically. You can check that by running:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">xrandr --listproviders</kbd></pre>
+        <p>
+          There should be two (or more) providers listed, for example:
+        </p>
+        <pre class="screen"><code class=
+        "computeroutput">Providers: number : 2
+Provider 0: id: 0x7d cap: 0xb, Source Output, Sink Output, Sink Offload crtcs: 3 outputs: 4 associated providers: 1 name:modesetting
+Provider 1: id: 0x56 cap: 0xf, Source Output, Sink Output, Source Offload, Sink Offload crtcs: 6 outputs: 1 associated providers: 1 name:modesetting</code></pre>
+        <p>
+          In order to be able to run a GLX application on a discrete GPU, you
+          will need to run the following command, where &lt;provider&gt; is
+          the id of the more powerful discrete card, and &lt;sink&gt; is the
+          id of card which has a display connected:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">xrandr --setprovideroffloadsink <em class=
+        "replaceable"><code>&lt;provider&gt; &lt;sink&gt;</code></em></kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            With the <span class="application">Xorg</span> modesetting
+            driver, which is DRI3 capable, the above command is no longer
+            necessary. It does no harm however.
+          </p>
+        </div>
+        <p>
+          Then, you will need to export the <code class=
+          "envar">DRI_PRIME=1</code> environment variable each time you want
+          the powerful GPU to be used. For example,
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">DRI_PRIME=1 glxinfo | grep -E "(OpenGL vendor|OpenGL renderer|OpenGL version)"</kbd></pre>
+        <p>
+          will show OpenGL vendor, renderer and version for the discrete GPU.
+        </p>
+        <p>
+          If the last command reports same OpenGL renderer with and without
+          <code class="envar">DRI_PRIME=1</code>, you will need to check your
+          installation.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="xconfig" name="xconfig"></a>Setting up Xorg Devices
+        </h2>
+        <p>
+          For most hardware configurations, modern Xorg will automatically
+          get the server configuration correct without any user intervention.
+          There are, however, some cases where auto-configuration will be
+          incorrect. Following are some example manual configuration items
+          that may be of use in these instances.
+        </p>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="xinput" name="xinput"></a>
+          </h3>
+          <h4 class="title">
+            <a id="xinput" name="xinput"></a>Setting up X Input Devices
+          </h4>
+          <p>
+            For most input devices, no additional configuration will be
+            necessary. This section is provided for informational purposes
+            only.
+          </p>
+          <p>
+            A sample default XKB setup could look like the following
+            (executed as the <code class="systemitem">root</code> user):
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt; /etc/X11/xorg.conf.d/xkb-defaults.conf &lt;&lt; "EOF"
+<code class="literal">Section "InputClass"
+    Identifier "XKB Defaults"
+    MatchIsKeyboard "yes"
+    Option "XkbLayout" "fr"
+    Option "XkbOptions" "terminate:ctrl_alt_bksp"
+EndSection</code>
+EOF</kbd></pre>
+          <p>
+            The <span class="quote">「<span class=
+            "quote">XkbLayout</span>」</span> line is an example for a French
+            (AZERTY) keyboard. Change it to your keyboard model. That line is
+            not needed for a QWERTY (US) keyboard.
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="xdisplay" name="xdisplay"></a>
+          </h3>
+          <h4 class="title">
+            <a id="xdisplay" name="xdisplay"></a>画面設定のチューニング
+          </h4>
+          <p>
+            If you want to set the monitor resolution for Xorg, first run
+            <span class="command"><strong>xrandr</strong></span> in a X
+            terminal to list the supported resolutions and the corresponding
+            refresh rates. For example, it outputs the following for one
+            monitor:
+          </p>
+          <pre class="screen"><code class=
+          "computeroutput">Screen 0: minimum 16 x 16, current 5760 x 2160, maximum 32767 x 32767
+DP-1 connected primary 3840x2160+0+0 (normal left inverted right x axis y axis) 600mm x 340mm
+   3840x2160     59.98*+
+   2048x1536     59.95
+   1920x1440     59.90
+   1600x1200     59.87
+   1440x1080     59.99
+   1400x1050     59.98
+   1280x1024     59.89
+   1280x960      59.94
+   1152x864      59.96
+   1024x768      59.92
+   800x600       59.86
+   640x480       59.38</code></pre>
+          <p>
+            From the output we can see the monitor is identified <code class=
+            "literal">DP-1</code>. Select a suitable resolution from the
+            output list, for example <code class="literal">1920x1440</code>.
+            Then as the <code class="systemitem">root</code> user, create a
+            configuration file for the Xorg server:
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt; /etc/X11/xorg.conf.d/monitor-DP-1.conf &lt;&lt; "EOF"
+<code class="literal">Section "Monitor"
+    Identifier  "DP-1"
+    Option      "PerferredMode" "1920x1440"
+EndSection</code>
+EOF</kbd></pre>
+          <p>
+            Sometimes <span class="command"><strong>xrandr</strong></span>
+            may fail to detect some resolution settings supported by the
+            monitor. It usually happens with virtual monitors of virtual
+            machine managers like <a class="xref" href="../postlfs/qemu.html"
+            title="qemu-8.2.0">qemu-8.2.0</a> or VMWare: a virtual monitor
+            actually supports all pairs of integers in a range as the
+            resolution, but <span class=
+            "command"><strong>xrandr</strong></span> will only list a few. To
+            use a resolution not listed by <span class=
+            "command"><strong>xrandr</strong></span>, first run <span class=
+            "command"><strong>cvt</strong></span> to get the mode line for
+            the resolution. For example:
+          </p>
+          <pre class="userinput"><kbd class="command">cvt 1600 900</kbd>
+<code class="computeroutput"><code class=
+"literal"># 1600x900 59.95 Hz (CVT 1.44M9) hsync: 55.99 kHz; pclk: 118.25 MHz
+Modeline "1600x900_60.00"  118.25  1600 1696 1856 2112  900 903 908 934 -hsync +vsync</code></code></pre>
+          <p>
+            As the <code class="systemitem">root</code> user, create a Xorg
+            server configuration file containing this mode line, and specify
+            the mode as preferred mode:
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt; /etc/X11/xorg.conf.d/monitor-DP-1.conf &lt;&lt; "EOF"
+<code class="literal">Section "Monitor"
+    Identifier  "DP-1"
+    Modeline    "1600x900_60.00"  118.25  1600 1696 1856 2112  900 903 908 934 -hsync +vsync
+    Option      "PerferredMode"   "1600x900_60.00"
+EndSection</code>
+EOF</kbd></pre>
+          <p>
+            Some high-end LCD monitors support a refresh rate higher than 100
+            Hz but <span class="command"><strong>xrandr</strong></span> may
+            fail to recognize the supported refresh rate and use 60 Hz
+            instead. This issue would prevent you from utilizing the full
+            capability of the monitor, and may cause the screen to flicker or
+            show <span class="quote">「<span class=
+            "quote">artifacts</span>」</span> like meshes or grids. To resolve
+            the issue, again use <span class=
+            "command"><strong>cvt</strong></span> to get the mode line with a
+            custom refresh rate:
+          </p>
+          <pre class="userinput"><kbd class="command">cvt 3840 2160 144</kbd>
+<code class="computeroutput"><code class=
+"literal"># 3840x2160 143.94 Hz (CVT) hsync: 338.25 kHz; pclk: 1829.25 MHz
+Modeline "3840x2160_144.00"  1829.25  3840 4200 4624 5408  2160 2163 2168 2350 -hsync +vsync</code></code></pre>
+          <p>
+            Then paste it into the Xorg server configuration file and set it
+            as the preferred mode.
+          </p>
+          <p>
+            Another common setup is having multiple server layouts for use in
+            different environments. Though the server will automatically
+            detect the presence of another monitor, it may get the order
+            incorrect:
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt; /etc/X11/xorg.conf.d/server-layout.conf &lt;&lt; "EOF"
+<code class="literal">Section "ServerLayout"
+    Identifier     "DefaultLayout"
+    Screen      0  "Screen0" 0 0
+    Screen      1  "Screen1" LeftOf "Screen0"
+    Option         "Xinerama"
+EndSection</code>
+EOF</kbd></pre>
+          <p>
+            When you drag a window in twm (or any non-compositing window
+            manager) horizontally, you may observe that the vertical borders
+            of the window are broken into multiple segments. This is an
+            example of the visual artifacts called <span class=
+            "emphasis"><em>screen tearing</em></span>. To resolve the screen
+            tearing problems, create a configuration file that enables the
+            TearFree option. Note that you must have the Tearfree patch
+            applied from <a class="xref" href="xorg-server.html" title=
+            "Xorg-Server-21.1.10">Xorg-Server-21.1.10</a> for this to
+            function properly, and it may increase memory allocation and
+            reduce performance.
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt; /etc/X11/xorg.conf.d/20-tearfree.conf &lt;&lt; "EOF"
+<code class="literal">Section "Device"
+   Identifier "Graphics Adapter"
+   Driver     "modesetting"
+   Option     "TearFree" "true"
+EndSection</code>
+EOF</kbd></pre>
+          <p>
+            With modern Xorg, little or no additional graphic card
+            configuration is necessary. If you should need extra options
+            passed to your video driver, add them into the <code class=
+            "literal">Device</code> section as well. The options supported by
+            the modesetting driver are documented in the man page
+            <code class="filename">modesetting(4)</code>.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="xinit.html" title="xinit-1.4.2">戻る</a>
+          <p>
+            xinit-1.4.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="tuning-fontconfig.html" title=
+          "Tuning Fontconfig">次へ</a>
+          <p>
+            Tuning Fontconfig
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="installing.html" title=
+          "第24章 グラフィック環境">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

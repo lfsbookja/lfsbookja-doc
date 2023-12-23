@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Xfdesktop-4.18.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第35章 Xfce デスクトップ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="xfce4-settings.html" title=
+          "xfce4-settings-4.18.4">戻る</a>
+          <p>
+            xfce4-settings-4.18.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="xfwm4.html" title="Xfwm4-4.18.0">次へ</a>
+          <p>
+            Xfwm4-4.18.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="xfce-core.html" title=
+          "第35章 Xfce デスクトップ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="xfdesktop" name="xfdesktop"></a>Xfdesktop-4.18.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to Xfdesktop
+        </h2>
+        <p>
+          <span class="application">Xfdesktop</span> is a desktop manager for
+          the <span class="application">Xfce</span> Desktop Environment.
+          <span class="application">Xfdesktop</span> sets the background
+          image / color, creates the right click menu and window list and
+          displays the file icons on the desktop using <span class=
+          "application">Thunar</span> libraries.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://archive.xfce.org/src/xfce/xfdesktop/4.18/xfdesktop-4.18.1.tar.bz2">
+                https://archive.xfce.org/src/xfce/xfdesktop/4.18/xfdesktop-4.18.1.tar.bz2</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: e675c2989436dc724fef402d1db0125d
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 2.1 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 21 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: 0.1 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Xfdesktop Dependencies
+        </h3>
+        <h4>
+          Required
+        </h4>
+        <p class="required">
+          <a class="xref" href="exo.html" title="Exo-4.18.0">Exo-4.18.0</a>
+          and <a class="xref" href="../gnome/libwnck.html" title=
+          "libwnck-43.0">libwnck-43.0</a>
+        </p>
+        <h4>
+          Recommended
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../x/libnotify.html" title=
+          "libnotify-0.8.3">libnotify-0.8.3</a>, <a class="xref" href=
+          "../x/startup-notification.html" title=
+          "startup-notification-0.12">startup-notification-0.12</a> and
+          <a class="xref" href="thunar.html" title=
+          "thunar-4.18.8">thunar-4.18.8</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of Xfdesktop
+        </h2>
+        <p>
+          Install <span class="application">Xfdesktop</span> by running the
+          following commands:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr &amp;&amp;
+make</kbd></pre>
+        <p>
+          This package does not come with a test suite.
+        </p>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">xfdesktop and xfdesktop-settings</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">None</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody">/usr/share/backgrounds/xfce and
+              /usr/share/pixmaps/xfdesktop</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xfdesktop-prog" name=
+                    "xfdesktop-prog"></a><span class="term"><span class=
+                    "command"><strong>xfdesktop</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the <span class="application">Xfce</span> Desktop
+                    Environment's desktop manager
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xfdesktop-settings" name=
+                    "xfdesktop-settings"></a><span class="term"><span class=
+                    "command"><strong>xfdesktop-settings</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a <span class="application">GTK+ 3</span> application
+                    that allows you to change your desktop background, some
+                    preferences for the right click menu and what icons are
+                    displayed on the desktop
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="xfce4-settings.html" title=
+          "xfce4-settings-4.18.4">戻る</a>
+          <p>
+            xfce4-settings-4.18.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="xfwm4.html" title="Xfwm4-4.18.0">次へ</a>
+          <p>
+            Xfwm4-4.18.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="xfce-core.html" title=
+          "第35章 Xfce デスクトップ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

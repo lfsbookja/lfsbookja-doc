@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Screen-4.9.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第11章 汎用ユーティリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="pinentry.html" title="pinentry-1.2.1">戻る</a>
+          <p>
+            pinentry-1.2.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="shared-mime-info.html" title=
+          "shared-mime-info-2.4">次へ</a>
+          <p>
+            shared-mime-info-2.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genutils.html" title=
+          "第11章 汎用ユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="screen" name="screen"></a>Screen-4.9.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Screen の概要
+        </h2>
+        <p>
+          <span class="application">Screen</span> is a terminal multiplexor
+          that runs several separate processes, typically interactive shells,
+          on a single physical character-based terminal. Each virtual
+          terminal emulates a DEC VT100 plus several ANSI X3.64 and ISO 2022
+          functions and also provides configurable input and output
+          translation, serial port support, configurable logging, multi-user
+          support, and many character encodings, including UTF-8. Screen
+          sessions can be detached and resumed later on a different terminal.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://ftp.gnu.org/gnu/screen/screen-4.9.1.tar.gz">https://ftp.gnu.org/gnu/screen/screen-4.9.1.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 9a9bdc956bd93e4f0cb9e48678889e26
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1020 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 9.5 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Screen の依存パッケージ
+        </h3>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../postlfs/linux-pam.html" title=
+          "Linux-PAM-1.5.3">Linux-PAM-1.5.3</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Screen のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">Screen</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sh autogen.sh                                 &amp;&amp;
+./configure --prefix=/usr                     \
+            --infodir=/usr/share/info         \
+            --mandir=/usr/share/man           \
+            --with-socket-dir=/run/screen     \
+            --with-pty-group=5                \
+            --with-sys-screenrc=/etc/screenrc &amp;&amp;
+
+sed -i -e "s%/usr/local/etc/screenrc%/etc/screenrc%" {etc,doc}/* &amp;&amp;
+make</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install &amp;&amp;
+install -m 644 etc/etcscreenrc /etc/screenrc</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class=
+          "parameter"><code>--with-socket-dir=/run/screen</code></em>: This
+          option places the per-user sockets in a standard location.
+        </p>
+        <p>
+          <em class=
+          "parameter"><code>--with-sys-screenrc=/etc/screenrc</code></em>:
+          This option places the global screenrc file in <code class=
+          "filename">/etc</code>.
+        </p>
+        <p>
+          <em class="parameter"><code>--with-pty-group=5</code></em>: This
+          option sets the gid to the value used by LFS.
+        </p>
+        <p>
+          <span class="command"><strong>sed -i -e
+          "s%/usr/local/etc/screenrc%/etc/screenrc%"
+          {etc,doc}/*</strong></span>: This command corrects the
+          configuration and documentation files to the location that is used
+          here for the global screenrc file.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Screen の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="screen-config" name="screen-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="screen-config" name="screen-config"></a>設定ファイル
+          </h4>
+          <p>
+            <code class="filename">/etc/screenrc</code>, <code class=
+            "filename">~/.screenrc</code>
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id28770" name="id28770"></a>設定情報
+          </h4>
+          <p>
+            You may want to look at the example configuration file that was
+            installed and customize it for your needs.
+          </p>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">screen (シンボリックリンク), screen-4.9.1</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/share/screen, /run/screen</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="screen-prog" name="screen-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>screen</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a terminal multiplexor with VT100/ANSI terminal
+                    emulation
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="pinentry.html" title="pinentry-1.2.1">戻る</a>
+          <p>
+            pinentry-1.2.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="shared-mime-info.html" title=
+          "shared-mime-info-2.4">次へ</a>
+          <p>
+            shared-mime-info-2.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genutils.html" title=
+          "第11章 汎用ユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

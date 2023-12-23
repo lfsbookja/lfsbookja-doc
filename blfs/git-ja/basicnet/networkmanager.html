@@ -1,0 +1,748 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      NetworkManager-1.44.2
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第16章 ネットワークユーティリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="bind-utils.html" title=
+          "BIND Utilities-9.18.20">戻る</a>
+          <p>
+            BIND Utilities-9.18.20
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="network-manager-applet.html" title=
+          "network-manager-applet-1.34.0">次へ</a>
+          <p>
+            network-manager-applet-1.34.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="netutils.html" title=
+          "第16章 ネットワークユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="NetworkManager" name=
+        "NetworkManager"></a>NetworkManager-1.44.2
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          NetworkManager の概要
+        </h2>
+        <p>
+          <span class="application">NetworkManager</span> is a set of
+          co-operative tools that make networking simple and straightforward.
+          Whether you use WiFi, wired, 3G, or Bluetooth, NetworkManager
+          allows you to quickly move from one network to another: Once a
+          network has been configured and joined once, it can be detected and
+          re-joined automatically the next time it's available.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://download.gnome.org/sources/NetworkManager/1.44/NetworkManager-1.44.2.tar.xz">
+                https://download.gnome.org/sources/NetworkManager/1.44/NetworkManager-1.44.2.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: bd6c9cb0ecd0fb7f516cde7bf4dee3fb
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 6.6 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 904 MB (テストとドキュメント込み)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 1.2 SBU (テスト込み、parallelism=4 利用)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          NetworkManager の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/jansson.html" title=
+          "Jansson-2.14">jansson-2.14</a>, <a class="xref" href="libndp.html"
+          title="libndp-1.8">libndp-1.8</a>
+        </p>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="curl.html" title="cURL-8.5.0">cURL-8.5.0</a>,
+          <a class="xref" href="dhcpcd.html" title=
+          "dhcpcd-10.0.6">dhcpcd-10.0.6</a>, <a class="xref" href=
+          "../general/gobject-introspection.html" title=
+          "gobject-introspection-1.78.1">gobject-introspection-1.78.1</a>,
+          <a class="xref" href="../postlfs/iptables.html" title=
+          "iptables-1.8.10">iptables-1.8.10</a>, <a class="xref" href=
+          "../general/newt.html" title="newt-0.52.24">newt-0.52.24</a> (for
+          <span class="command"><strong>nmtui</strong></span>), <a class=
+          "xref" href="../postlfs/nss.html" title=
+          "NSS-3.96.1">nss-3.96.1</a>, <a class="xref" href=
+          "../postlfs/polkit.html" title="Polkit-123">Polkit-123</a>
+          (runtime), <a class="xref" href=
+          "../general/python-modules.html#pygobject3" title=
+          "PyGObject-3.46.0">PyGObject-3.46.0</a>, <span class=
+          "phrase"><a class="xref" href="../general/elogind.html" title=
+          "elogind-252.9">elogind-252.9</a>,</span> <a class="xref" href=
+          "../general/vala.html" title="Vala-0.56.14">Vala-0.56.14</a>, and
+          <a class="xref" href="wpa_supplicant.html" title=
+          "wpa_supplicant-2.10">wpa_supplicant-2.10</a> (runtime, built with
+          D-Bus support)
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/bluez.html" title=
+          "BlueZ-5.71">BlueZ-5.71</a>, <a class="xref" href=
+          "../general/python-modules.html#dbus-python" title=
+          "D-Bus Python-1.3.2">D-Bus Python-1.3.2</a> (for the test suite),
+          <a class="xref" href="../postlfs/gnutls.html" title=
+          "GnuTLS-3.8.2">GnuTLS-3.8.2</a> (can be used instead of <a class=
+          "xref" href="../postlfs/nss.html" title=
+          "NSS-3.96.1">nss-3.96.1</a>), <a class="xref" href=
+          "../general/gtk-doc.html" title=
+          "GTK-Doc-1.33.2">GTK-Doc-1.33.2</a>, <a class="xref" href=
+          "libpsl.html" title="libpsl-0.21.2">libpsl-0.21.2</a>, (<a class=
+          "xref" href="../x/qt5.html" title="Qt-5.15.11">Qt-5.15.11</a> or
+          <a class="xref" href="../x/qt5-components.html" title=
+          "qt-components-5.15.11">qt-components-5.15.11</a> with qtdoc) (for
+          examples), <a class="xref" href="../general/ModemManager.html"
+          title="ModemManager-1.18.12">ModemManager-1.18.12</a>, <a class=
+          "xref" href="../general/upower.html" title=
+          "UPower-1.90.2">UPower-1.90.2</a>, <a class="xref" href=
+          "../general/valgrind.html" title=
+          "Valgrind-3.22.0">Valgrind-3.22.0</a>, <a class="ulink" href=
+          "https://thekelleys.org.uk/dnsmasq/doc.html">dnsmasq</a>, <a class=
+          "ulink" href="https://firewalld.org/">firewalld</a>, <a class=
+          "ulink" href="https://github.com/Distrotech/libaudit">libaudit</a>,
+          <a class="ulink" href=
+          "https://github.com/jpirko/libteam">libteam</a>, <a class="ulink"
+          href=
+          "https://download.gnome.org/sources/mobile-broadband-provider-info/">
+          mobile-broadband-provider-info</a>, <a class="ulink" href=
+          "https://www.samba.org/ftp/ppp/">PPP</a>, <a class="ulink" href=
+          "https://dianne.skoll.ca/projects/rp-pppoe/">RP-PPPoE</a>
+        </p>
+      </div>
+      <div class="kernel" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="NetworkManager-kernel" name=
+          "NetworkManager-kernel"></a>Kernel Configuration
+        </h2>
+        <p>
+          If you wish to run the tests, check that at least the following
+          options are enabled in the kernel configuration. Those options have
+          been determined to be necessary, but may not be sufficient.
+          Recompile the kernel if necessary:
+        </p>
+        <pre class="screen">[*] N<span class=
+        "blue">e</span>tworking support ---&gt;                                                [NET]
+  N<span class="blue">e</span>tworking options ---&gt;
+    [*]   <span class=
+"blue">T</span>CP/IP networking                                               [INET]
+    &lt;*/M&gt;   <span class=
+"blue">I</span>P: tunneling                                             [NET_IPIP]
+    &lt;*/M&gt;   <span class=
+"blue">I</span>P: GRE demultiplexer                              [NET_IPGRE_DEMUX]
+    &lt;*/M&gt;   <span class=
+"blue">I</span>P: GRE tunnels over IP                                  [NET_IPGRE]
+    &lt;*&gt;     <span class=
+"blue">T</span>he IPv6 protocol ---&gt;                                        [IPV6]
+      &lt;*/M&gt;   <span class=
+"blue">I</span>Pv6: IPv6-in-IPv4 tunnel (SIT driver)                  [IPV6_SIT]
+      &lt;*/M&gt;   <span class=
+"blue">I</span>Pv6: GRE tunnel                                        [IPV6_GRE]
+      [*]     <span class=
+"blue">I</span>Pv6: Multiple Routing Tables               [IPV6_MULTIPLE_TABLES]
+    [*]     M<span class=
+"blue">P</span>TCP: Multipath TCP                                         [MPTCP]
+    [*]       M<span class=
+"blue">P</span>TCP: IPv6 support for Multipath TCP                 [MPTCP_IPV6]
+    &lt;*/M&gt; 802.1<span class=
+"blue">Q</span>/802.1ad VLAN Support                               [VLAN_8021Q]
+    [*]   <span class=
+"blue">Q</span>oS and/or fair queueing ---&gt;                              [NET_SCHED]
+      &lt;*&gt; <span class=
+"blue">S</span>tochastic Fairness Queueing (SFQ)                       [NET_SCH_SFQ]
+      &lt;*&gt; <span class=
+"blue">T</span>oken Bucket Filter (TBF)                                [NET_SCH_TBF]
+      &lt;*&gt; <span class=
+"blue">F</span>air Queue Controlled Delay AQM (FQ_CODEL)          [NET_SCH_FQ_CODEL]
+      &lt;*&gt; <span class=
+"blue">I</span>ngress/classifier-action Qdisc                      [NET_SCH_INGRESS]
+
+<span class="blue">D</span>evice Drivers ---&gt;
+  [*] N<span class=
+"blue">e</span>twork device support ---&gt;                                   [NETDEVICES]
+    [*]   N<span class=
+"blue">e</span>twork core driver support                                 [NET_CORE]
+    &lt;*/M&gt;   <span class=
+"blue">B</span>onding driver support                                     [BONDING]
+    &lt;*/M&gt;   <span class=
+"blue">D</span>ummy net driver support                                     [DUMMY]
+    &lt;*/M&gt;   <span class=
+"blue">E</span>thernet team driver support ---&gt;                         [NET_TEAM]
+    &lt;*/M&gt;   M<span class=
+"blue">A</span>C-VLAN support                                           [MACVLAN]
+    &lt;*/M&gt;     M<span class=
+"blue">A</span>C-VLAN based tap driver                                [MACVTAP]
+    &lt;*/M&gt;   <span class=
+"blue">I</span>P-VLAN support                                             [IPVLAN]
+    &lt;*/M&gt;   <span class=
+"blue">V</span>irtual eXtensible Local Area Network (VXLAN)                [VXLAN]
+    &lt;*/M&gt;   <span class=
+"blue">V</span>irtual ethernet pair device                                  [VETH]
+    &lt;*/M&gt;   <span class=
+"blue">V</span>irtual Routing and Forwarding (Lite)                      [NET_VRF]</pre>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          NetworkManager のインストール
+        </h2>
+        <p>
+          If <a class="xref" href="../x/qt5.html" title=
+          "Qt-5.15.11">Qt-5.15.11</a> is installed and the Qt based examples
+          are desired, fix two meson.build files:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -e 's/-qt4/-qt5/'              \
+    -e 's/moc_location/host_bins/' \
+    -i examples/C/qt/meson.build   &amp;&amp;
+
+sed -e 's/Qt/&amp;5/'                  \
+    -i meson.build</kbd></pre>
+        <p>
+          Fix the python scripts so that they use <span class=
+          "application">Python 3</span>:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">grep -rl '^#!.*python$' | xargs sed -i '1s/python/&amp;3/'</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">NetworkManager</span>
+          をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+CXXFLAGS+="-O2 -fPIC"            \
+meson setup ..                   \
+      --prefix=/usr              \
+      --buildtype=release        \
+      -Dlibaudit=no              \
+      -Dlibpsl=false             \
+      -Dnmtui=true               \
+      -Dovs=false                \
+      -Dppp=false                \
+      -Dselinux=false            \
+      -Dsession_tracking=elogind \
+      -Dmodem_manager=false      \
+      -Dsystemdsystemunitdir=no  \
+      -Dsystemd_journal=false    \
+      -Dqt=false                 &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          An already active graphical session with a bus address is necessary
+          to run the tests. To test the results, issue <span class=
+          "command"><strong>ninja test</strong></span>.
+        </p>
+        <p>
+          A few tests may fail, depending on enabled kernel options.
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">ninja install &amp;&amp;
+mv -v /usr/share/doc/NetworkManager{,-1.44.2}</kbd></pre>
+        <p>
+          If you have not passed the <code class="option">-Ddocs=true</code>
+          option to <span class="command"><strong>meson</strong></span>, you
+          can install the pregenerated manual pages with (as the <code class=
+          "systemitem">root</code> user):
+        </p>
+        <pre class="root"><kbd class=
+        "command">for file in $(echo ../man/*.[1578]); do
+    section=${file##*.} &amp;&amp;
+    install -vdm 755 /usr/share/man/man$section
+    install -vm 644 $file /usr/share/man/man$section/
+done</kbd></pre>
+        <p>
+          If you have not used <code class="option">-Ddocs=true</code>, the
+          pregenerated HTML documentation can also be installed with (as the
+          <code class="systemitem">root</code> user):
+        </p>
+        <pre class="root"><kbd class=
+        "command">cp -Rv ../docs/{api,libnm} /usr/share/doc/NetworkManager-1.44.2</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <code class="envar">CXXFLAGS="-O2 -fPIC"</code>: These compiler
+          options are necessary to build the Qt5 based examples.
+        </p>
+        <p>
+          <em class="parameter"><code>--buildtype=release</code></em>:
+          本パッケージの安定版リリース向けに適したビルドタイプを指定します。
+          デフォルトにしていると、最適化されていないバイナリを生成する場合があるためです。
+        </p>
+        <p>
+          <code class="option">-Ddocs=true</code>: Use this switch to enable
+          building man pages and documentation if <a class="xref" href=
+          "../general/gtk-doc.html" title="GTK-Doc-1.33.2">GTK-Doc-1.33.2</a>
+          is installed.
+        </p>
+        <p>
+          <em class="parameter"><code>-Dnmtui=true</code></em>: This switch
+          enables building <span class=
+          "command"><strong>nmtui</strong></span>.
+        </p>
+        <p>
+          <em class="parameter"><code>-Dsystemdsystemunitdir=no</code></em>
+          and <em class=
+          "parameter"><code>-Dsystemd_journal=false</code></em>: systemd is
+          not used for sysv init systems, so prevent installing units and
+          using the systemd journal.
+        </p>
+        <p>
+          <em class="parameter"><code>-Dlibpsl=false</code></em> and
+          <em class="parameter"><code>-Dovs=false</code></em>: These switches
+          disable building with the respective libraries. Remove these if you
+          have the needed libraries installed on your system.
+        </p>
+        <p>
+          <em class="parameter"><code>-Dmodem_manager=false</code></em>: This
+          switch is required if <span class="application">ModemManager</span>
+          is not installed. Omit this switch if you have built <span class=
+          "application">ModemManager</span> and <span class=
+          "application">mobile-broadband-provider-info</span>.
+        </p>
+        <p>
+          <em class="parameter"><code>-Dsession_tracking=elogind</code></em>:
+          This switch is used to set <span class=
+          "command"><strong>elogind</strong></span> as the default program
+          for session tracking.
+        </p>
+        <p>
+          <em class="parameter"><code>-Dppp=false</code></em>: This switch
+          disables <span class="application">PPP</span> support in
+          <span class="application">NetworkManager</span> since the programs
+          necessary for it are not installed. Remove this switch if you need
+          PPP support and have <span class="application">PPP</span>
+          installed.
+        </p>
+        <p>
+          <em class="parameter"><code>-Dlibaudit=no</code></em> and
+          <em class="parameter"><code>-Dselinux=false</code></em>: This
+          switch disables support for libaudit and SELinux since they are not
+          used in BLFS.
+        </p>
+        <p>
+          <em class="parameter"><code>-Dqt=false</code></em>: This switch
+          disables the <span class="application">Qt</span> examples. Omit if
+          you have <span class="application">Qt</span> available and wish to
+          install the examples.
+        </p>
+        <p>
+          <code class="option">-Dcrypto=gnutls</code>: Use this switch if you
+          have GnuTLS installed and want to use it for certificate and key
+          operations in NetworkManager, instead of using NSS (the default).
+        </p>
+        <p>
+          <code class="option">-Dcrypto=null</code>: Use this switch if
+          neither NSS nor GnuTLS is installed but you want to build
+          NetworkManager anyway. This switch will make NetworkManager lack
+          some features (for example 802.1X).
+        </p>
+        <p>
+          <code class="option">-Dsuspend_resume=upower</code>: Use this
+          switch if you have <a class="xref" href="../general/upower.html"
+          title="UPower-1.90.2">UPower-1.90.2</a> installed and want to use
+          it (instead of <span class="phrase"><a class="xref" href=
+          "../general/elogind.html" title=
+          "elogind-252.9">elogind-252.9</a></span> ) for suspend and resume
+          support.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          NetworkManager の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="NetworkManager-config" name="NetworkManager-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="NetworkManager-config" name=
+            "NetworkManager-config"></a>設定ファイル
+          </h4>
+          <p>
+            <code class=
+            "filename">/etc/NetworkManager/NetworkManager.conf</code>
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id54009" name="id54009"></a>設定情報
+          </h4>
+          <p>
+            For <span class="application">NetworkManager</span> to work, at
+            least a minimal configuration file must be present. Such a file
+            is not installed with <span class="command"><strong>make
+            install</strong></span>. Issue the following command as the
+            <code class="systemitem">root</code> user to create a minimal
+            <code class="filename">NetworkManager.conf</code> file:
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt;&gt; /etc/NetworkManager/NetworkManager.conf &lt;&lt; "EOF"
+<code class="literal">[main]
+plugins=keyfile</code>
+EOF</kbd></pre>
+          <p>
+            This file should not be modified directly by users of the system.
+            Instead, system specific changes should be made using
+            configuration files in the <code class=
+            "filename">/etc/NetworkManager/conf.d</code> directory.
+          </p>
+          <p>
+            To allow polkit to manage authorizations, add the following
+            configuration file:
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt; /etc/NetworkManager/conf.d/polkit.conf &lt;&lt; "EOF"
+<code class="literal">[main]
+auth-polkit=true</code>
+EOF</kbd></pre>
+          <p>
+            To use something other than the built-in dhcp client (recommended
+            if using only <span class=
+            "command"><strong>nmcli</strong></span>), use the following
+            configuration (valid values include either dhcpcd or internal):
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">cat &gt; /etc/NetworkManager/conf.d/dhcp.conf &lt;&lt; "EOF"
+<code class="literal">[main]
+dhcp=</code><em class="replaceable"><code>dhcpcd</code></em>
+EOF</kbd></pre>
+          <p>
+            To prevent <span class="application">NetworkManager</span> from
+            updating the <code class="filename">/etc/resolv.conf</code> file,
+            add the following configuration file:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">cat &gt; /etc/NetworkManager/conf.d/no-dns-update.conf &lt;&lt; "EOF"
+<code class="literal">[main]
+dns=none</code>
+EOF</kbd></pre>
+          <p>
+            For additional configuration options, see <span class=
+            "command"><strong>man 5 NetworkManager.conf</strong></span>.
+          </p>
+          <p>
+            To allow regular users to configure network connections, you
+            should add them to the <code class="systemitem">netdev</code>
+            group, and create a <span class="application">polkit</span> rule
+            that grants access. Run the following commands as the
+            <code class="systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">groupadd -fg 86 netdev &amp;&amp;
+/usr/sbin/usermod -a -G netdev <em class=
+"replaceable"><code>&lt;username&gt;</code></em>
+
+cat &gt; /usr/share/polkit-1/rules.d/org.freedesktop.NetworkManager.rules &lt;&lt; "EOF"
+<code class="literal">polkit.addRule(function(action, subject) {
+    if (action.id.indexOf("org.freedesktop.NetworkManager.") == 0 &amp;&amp; subject.isInGroup("netdev")) {
+        return polkit.Result.YES;
+    }
+});</code>
+EOF</kbd></pre>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="NetworkManager-init" name="NetworkManager-init"></a>
+          </h3>
+          <h4 class="title">
+            <a id="NetworkManager-init" name=
+            "NetworkManager-init"></a><span class="phrase">ブートスクリプト</span>
+          </h4>
+          <p>
+            To automatically start the <span class=
+            "command"><strong>NetworkManager</strong></span> daemon when the
+            system is rebooted, install the <code class=
+            "filename">/etc/rc.d/init.d/networkmanager</code>bootscript from
+            the <a class="xref" href="../introduction/bootscripts.html"
+            title="BLFS ブートスクリプト">blfs-bootscripts-20231119</a> package.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              If using <span class="application">Network Manager</span> to
+              manage an interface, any previous configuration for that
+              interface should be removed, and the interface brought down
+              prior to starting <span class="application">Network
+              Manager</span>.
+            </p>
+          </div>
+          <pre class="root"><kbd class=
+          "command">make install-networkmanager</kbd></pre>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">NetworkManager, nmcli, nm-online, nmtui, and,
+              symlinked to nmtui: nmtui-connect, nmtui-edit, and
+              nmtui-hostname</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libnm.so, /usr/lib/NetworkManager 配下の数種のモジュール</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/etc/NetworkManager, /usr/include/libnm,
+              /usr/lib/NetworkManager, /usr/share/doc/NetworkManager-1.44.2,
+              /usr/share/gtk-doc/html/{libnm,NetworkManager} (if the
+              documentation is built), /var/lib/NetworkManager</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="nmcli" name="nmcli"></a><span class=
+                    "term"><span class=
+                    "command"><strong>nmcli</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a command-line tool for controlling <span class=
+                    "application">NetworkManager</span> and getting its
+                    status
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="nm-online" name="nm-online"></a><span class=
+                    "term"><span class=
+                    "command"><strong>nm-online</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is an utility to determine whether you are online
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="nmtui" name="nmtui"></a><span class=
+                    "term"><span class=
+                    "command"><strong>nmtui</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is an interactive ncurses-based user interface for
+                    <span class="application">nmcli</span>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="nmtui-connect" name=
+                    "nmtui-connect"></a><span class="term"><span class=
+                    "command"><strong>nmtui-connect</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is an interactive ncurses-based user interface to
+                    activate/deactivate connections
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="nmtui-edit" name="nmtui-edit"></a><span class=
+                    "term"><span class=
+                    "command"><strong>nmtui-edit</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is an interactive ncurses-based user interface to edit
+                    connections
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="nmtui-hostname" name=
+                    "nmtui-hostname"></a><span class="term"><span class=
+                    "command"><strong>nmtui-hostname</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is an interactive ncurses-based user interface to edit
+                    the hostname
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="NetworkManager-prog" name=
+                    "NetworkManager-prog"></a><span class="term"><span class=
+                    "command"><strong>NetworkManager</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the network management daemon
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libnm" name="libnm"></a><span class=
+                    "term"><code class="filename">libnm.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains functions used by <span class=
+                    "application">NetworkManager</span>
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="bind-utils.html" title=
+          "BIND Utilities-9.18.20">戻る</a>
+          <p>
+            BIND Utilities-9.18.20
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="network-manager-applet.html" title=
+          "network-manager-applet-1.34.0">次へ</a>
+          <p>
+            network-manager-applet-1.34.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="netutils.html" title=
+          "第16章 ネットワークユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

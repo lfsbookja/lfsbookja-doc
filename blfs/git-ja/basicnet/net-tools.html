@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Net-tools-2.10
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第15章 ネットワークプログラム
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="ncftp.html" title="NcFTP-3.2.6">戻る</a>
+          <p>
+            NcFTP-3.2.6
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="nfs-utils.html" title=
+          "NFS-Utils-2.6.4">次へ</a>
+          <p>
+            NFS-Utils-2.6.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="netprogs.html" title=
+          "第15章 ネットワークプログラム">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="net-tools" name="net-tools"></a>Net-tools-2.10
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Net-tools の概要
+        </h2>
+        <p>
+          <span class="application">Net-tools</span> パッケージは、Linux
+          カーネルのネットワーク関連システムを制御するためのプログラムを提供します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://downloads.sourceforge.net/project/net-tools/net-tools-2.10.tar.xz">
+                https://downloads.sourceforge.net/project/net-tools/net-tools-2.10.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 78aae762c95e2d731faf88d482e4cde5
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 228 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 7.5 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: less than 0.1 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Net-tools のインストール
+        </h2>
+        <p>
+          <a id="net-tools-automate-example" name=
+          "net-tools-automate-example"></a> The instructions below automate
+          the configuration process by piping <span class=
+          "command"><strong>yes</strong></span> to the <span class=
+          "command"><strong>make</strong></span> command. If you wish to run
+          the interactive configuration process (by changing the instruction
+          to just <span class="command"><strong>make</strong></span>), but
+          you are not sure how to answer all the questions, then just accept
+          the defaults. This will be just fine in the majority of cases. What
+          you're asked here is a bunch of questions about which network
+          protocols you've enabled in your kernel. The default answers will
+          enable the tools from this package to work with the most common
+          protocols: TCP, PPP, and several others. You still need to actually
+          enable these protocols in the kernel—what you do here is merely
+          tell the package to include support for those protocols in its
+          programs, but it's up to the kernel to make the protocols
+          available.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            This package has several unneeded protocols and hardware device
+            specific functions that are obsolete. To only build the minimum
+            needed for your system, skip the <span class=
+            "command"><strong>yes</strong></span> command and answer each
+            question interactively. The minimum needed options are 'UNIX
+            protocol family' and 'INET (TCP/IP) protocol family'.
+          </p>
+        </div>
+        <p>
+          For this package, we use the DESTDIR method of installation in
+          order to easily remove files from the build that overwrite those
+          that we want to keep or are not appropriate for our system.
+        </p>
+        <p>
+          以下のコマンドを実行して <span class="application">Net-tools</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">export BINDIR='/usr/bin' SBINDIR='/usr/bin' &amp;&amp;
+yes "" | make -j1                           &amp;&amp;
+make DESTDIR=$PWD/install -j1 install       &amp;&amp;
+rm    install/usr/bin/{nis,yp}domainname    &amp;&amp;
+rm    install/usr/bin/{hostname,dnsdomainname,domainname,ifconfig} &amp;&amp;
+rm -r install/usr/share/man/man1            &amp;&amp;
+rm    install/usr/share/man/man8/ifconfig.8 &amp;&amp;
+unset BINDIR SBINDIR</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class=
+        "command">chown -R root:root install &amp;&amp;
+cp -a install/* /</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <span class="command"><strong>export BINDIR='/usr/bin'
+          SBINDIR='/usr/bin'</strong></span>: Ensure the executables are
+          installed in the correct location.
+        </p>
+        <p>
+          <span class="command"><strong>yes "" | make</strong></span> :
+          Piping <span class="command"><strong>yes</strong></span> to
+          <span class="command"><strong>make config</strong></span> skips the
+          interactive configuration and accepts the defaults.
+        </p>
+        <p>
+          <span class="command"><strong>rm ...</strong></span>: Remove
+          unneeded programs and man pages.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">arp, ipmaddr, iptunnel, mii-tool, nameif, netstat,
+              plipconfig, rarp, route, and slattach</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="arp" name="arp"></a><span class=
+                    "term"><span class="command"><strong>arp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to manipulate the kernel's ARP cache, usually to
+                    add or delete an entry, or to dump the entire cache
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ipmaddr" name="ipmaddr"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ipmaddr</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    adds, deletes and shows an interface's multicast
+                    addresses
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="iptunnel" name="iptunnel"></a><span class=
+                    "term"><span class=
+                    "command"><strong>iptunnel</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    adds, changes, deletes and shows an interface's tunnels
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mii-tool" name="mii-tool"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mii-tool</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    checks or sets the status of a network interface's Media
+                    Independent Interface (MII) unit
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="nameif" name="nameif"></a><span class=
+                    "term"><span class=
+                    "command"><strong>nameif</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    names network interfaces based on MAC addresses
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="netstat" name="netstat"></a><span class=
+                    "term"><span class=
+                    "command"><strong>netstat</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to report network connections, routing tables,
+                    and interface statistics
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="plipconfig" name="plipconfig"></a><span class=
+                    "term"><span class=
+                    "command"><strong>plipconfig</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to fine tune the PLIP device parameters, to
+                    improve its performance
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rarp" name="rarp"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rarp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to manipulate the kernel's RARP table
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="route" name="route"></a><span class=
+                    "term"><span class=
+                    "command"><strong>route</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to manipulate the IP routing table
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="slattach" name="slattach"></a><span class=
+                    "term"><span class=
+                    "command"><strong>slattach</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    attaches a network interface to a serial line. This
+                    allows you to use normal terminal lines for
+                    point-to-point links to others computers
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="ncftp.html" title="NcFTP-3.2.6">戻る</a>
+          <p>
+            NcFTP-3.2.6
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="nfs-utils.html" title=
+          "NFS-Utils-2.6.4">次へ</a>
+          <p>
+            NFS-Utils-2.6.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="netprogs.html" title=
+          "第15章 ネットワークプログラム">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

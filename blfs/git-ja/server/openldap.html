@@ -1,0 +1,964 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      OpenLDAP-2.6.6
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第23章 その他のサーバーソフトウェア
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="other.html" title="その他のサーバーソフトウェア">戻る</a>
+          <p>
+            その他のサーバーソフトウェア
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="unbound.html" title="Unbound-1.19.0">次へ</a>
+          <p>
+            Unbound-1.19.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="other.html" title=
+          "第23章 その他のサーバーソフトウェア">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="openldap" name="openldap"></a>OpenLDAP-2.6.6
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          OpenLDAP の概要
+        </h2>
+        <p>
+          <span class="application">OpenLDAP</span> パッケージはオープンソース実装による "軽量"
+          ディレクトリアクセスプロトコル (Lightweight Directory Access Protocol) を提供します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.6.6.tgz">
+                https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.6.6.tgz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 5259e75484be71563e3f5c33d64a274d
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 6.2 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 60 MB (client and server)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.4 SBU (client), 1.1 SBU (server)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          追加のダウンロード
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                必須のパッチ: <a class="ulink" href=
+                "https://www.linuxfromscratch.org/patches/blfs/svn/openldap-2.6.6-consolidated-1.patch">
+                https://www.linuxfromscratch.org/patches/blfs/svn/openldap-2.6.6-consolidated-1.patch</a>
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          OpenLDAP の依存パッケージ
+        </h3>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../postlfs/cyrus-sasl.html" title=
+          "Cyrus SASL-2.1.28">Cyrus SASL-2.1.28</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../postlfs/gnutls.html" title=
+          "GnuTLS-3.8.2">GnuTLS-3.8.2</a>, <a class="xref" href=
+          "../general/pth.html" title="Pth-2.0.7">Pth-2.0.7</a>, <a class=
+          "xref" href="../general/unixodbc.html" title=
+          "unixODBC-2.3.12">unixODBC-2.3.12</a>, <a class="xref" href=
+          "mariadb.html" title="MariaDB-10.11.6">MariaDB-10.11.6</a> or
+          <a class="xref" href="postgresql.html" title=
+          "PostgreSQL-16.1">PostgreSQL-16.1</a> or <a class="ulink" href=
+          "https://www.mysql.com/">MySQL</a>, <a class="ulink" href=
+          "http://www.openslp.org/">OpenSLP</a>, <a class="ulink" href=
+          "https://docs.mongodb.com/manual/core/wiredtiger/">WiredTiger</a>,
+          and <a class="ulink" href=
+          "https://anduin.linuxfromscratch.org/BLFS/bdb/db-5.3.28.tar.gz">Berkeley
+          DB</a> (非推奨) (for slapd, also deprecated)
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          OpenLDAP のインストール
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            If you only need to install the client side <span class=
+            "command"><strong>ldap*</strong></span> binaries, corresponding
+            man pages, libraries and header files (referred to as a
+            <span class="quote">「<span class=
+            "quote">client-only</span>」</span> install), issue these commands
+            instead of the following ones (no test suite available):
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">patch -Np1 -i ../openldap-2.6.6-consolidated-1.patch &amp;&amp;
+autoconf &amp;&amp;
+
+./configure --prefix=/usr        \
+            --sysconfdir=/etc    \
+            --disable-static     \
+            --enable-dynamic     \
+            --disable-versioning \
+            --disable-debug      \
+            --disable-slapd &amp;&amp;
+
+make depend &amp;&amp;
+make</kbd></pre>
+          <p>
+            Then, as the <code class="systemitem">root</code> user:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">make install</kbd></pre>
+        </div>
+        <p>
+          There should be a dedicated user and group to take control of the
+          <span class="command"><strong>slapd</strong></span> daemon after it
+          is started. Issue the following commands as the <code class=
+          "systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">groupadd -g 83 ldap &amp;&amp;
+useradd  -c "OpenLDAP Daemon Owner" \
+         -d /var/lib/openldap -u 83 \
+         -g ldap -s /bin/false ldap</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">OpenLDAP</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../openldap-2.6.6-consolidated-1.patch &amp;&amp;
+autoconf &amp;&amp;
+
+./configure --prefix=/usr         \
+            --sysconfdir=/etc     \
+            --localstatedir=/var  \
+            --libexecdir=/usr/lib \
+            --disable-static      \
+            --disable-versioning  \
+            --disable-debug       \
+            --with-tls=openssl    \
+            --with-cyrus-sasl     \
+            --without-systemd     \
+            --enable-dynamic      \
+            --enable-crypt        \
+            --enable-spasswd      \
+            --enable-slapd        \
+            --enable-modules      \
+            --enable-rlookups     \
+            --enable-backends=mod \
+            --disable-sql         \
+            --disable-wt          \
+            --enable-overlays=mod &amp;&amp;
+
+make depend &amp;&amp;
+make</kbd></pre>
+        <p>
+          The tests are fragile, and errors may cause the tests to abort
+          prior to finishing. Some errors may happen due to timing problems.
+          The tests take around an hour, and the time is CPU independent due
+          to delays in the tests. On most systems, the tests will run up to
+          the <code class="filename">test065-proxyauth for mdb</code> test.
+          To test the results, issue: <span class="command"><strong>make
+          test</strong></span>.
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install &amp;&amp;
+
+sed -e "s/\.la/.so/" -i /etc/openldap/slapd.{conf,ldif}{,.default} &amp;&amp;
+
+install -v -dm700 -o ldap -g ldap /var/lib/openldap     &amp;&amp;
+
+install -v -dm700 -o ldap -g ldap /etc/openldap/slapd.d &amp;&amp;
+chmod   -v    640     /etc/openldap/slapd.{conf,ldif}   &amp;&amp;
+chown   -v  root:ldap /etc/openldap/slapd.{conf,ldif}   &amp;&amp;
+
+install -v -dm755 /usr/share/doc/openldap-2.6.6 &amp;&amp;
+cp      -vfr      doc/{drafts,rfc,guide} \
+                  /usr/share/doc/openldap-2.6.6</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--disable-static</code></em>:
+          このスイッチはスタティックライブラリをインストールしないようにします。
+        </p>
+        <p>
+          <em class="parameter"><code>--disable-debug</code></em>: このスイッチは
+          <span class="application">OpenLDAP</span> におけるデバッグコードを無効にします。
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-dynamic</code></em>: This
+          switch forces the <span class="application">OpenLDAP</span>
+          libraries to be dynamically linked to the executable programs.
+        </p>
+        <p>
+          <em class="parameter"><code>--disable-versioning</code></em>: This
+          switch disables symbol versioning in the <span class=
+          "application">OpenLDAP</span> libraries.
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-crypt</code></em>: This switch
+          enables using <span class=
+          "command"><strong>crypt(3)</strong></span> passwords.
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-spasswd</code></em>: This
+          switch enables <span class="application">SASL</span> password
+          verification.
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-modules</code></em>: This
+          switch enables dynamic module support.
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-rlookups</code></em>: This
+          switch enables reverse lookups of client hostnames.
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-backends</code></em>: This
+          switch enables all available backends.
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-overlays</code></em>: This
+          switch enables all available overlays.
+        </p>
+        <p>
+          <em class="parameter"><code>--disable-sql</code></em>: This switch
+          explicitly disables the SQL backend. Omit this switch if a SQL
+          server is installed and you are going to use a SQL backend.
+        </p>
+        <p>
+          <em class="parameter"><code>--disable-wt</code></em>: This switch
+          explicitly disables the WiredTiger backend. Omit this switch if
+          WiredTiger is installed and you are going to use a WiredTiger
+          backend.
+        </p>
+        <p>
+          <em class="parameter"><code>--libexecdir=/usr/lib</code></em>: This
+          switch controls where the <code class=
+          "filename">/usr/lib/openldap</code> directory is installed.
+          Everything in that directory is a library, so it belongs under
+          <code class="filename">/usr/lib</code> instead of <code class=
+          "filename">/usr/libexec</code>.
+        </p>
+        <p>
+          <code class="option">--enable-slp</code>: This switch enables SLPv2
+          support. Use it if you have installed <a class="ulink" href=
+          "http://www.openslp.org/">OpenSLP</a>.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            You can run <span class="command"><strong>./configure
+            --help</strong></span> to see if there are other switch you can
+            pass to the <span class=
+            "command"><strong>configure</strong></span> command to enable
+            other options or dependency packages.
+          </p>
+        </div>
+        <p>
+          <span class="command"><strong>install ...</strong></span>,
+          <span class="command"><strong>chown ...</strong></span>, and
+          <span class="command"><strong>chmod ...</strong></span>: Having
+          slapd configuration files and ldap databases in /var/lib/openldap
+          readable by anyone is a SECURITY ISSUE, especially since a file
+          stores the admin password in PLAIN TEXT. That's why mode 640 and
+          root:ldap ownership were used. The owner is root, so only root can
+          modify the file, and group is ldap, so that the group which owns
+          slapd daemon could read but not modify the file in case of a
+          security breach.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          OpenLDAP の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="openldap-config" name="openldap-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="openldap-config" name="openldap-config"></a>設定ファイル
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  For LDAP client: <code class=
+                  "filename">/etc/openldap/ldap.conf</code> and <code class=
+                  "filename">~/.ldaprc</code>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  For LDAP server, two configuration mechanisms are used: a
+                  legacy <code class=
+                  "filename">/etc/openldap/slapd.conf</code> configuration
+                  file and the recommended <span class=
+                  "emphasis"><em>slapd-config</em></span> system, using an
+                  LDIF database stored in <code class=
+                  "filename">/etc/openldap/slapd.d</code>.
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id61494" name="id61494"></a>設定情報
+          </h4>
+          <p>
+            Configuring the <span class=
+            "command"><strong>slapd</strong></span> servers can be complex.
+            Securing the LDAP directory, especially if you are storing
+            non-public data such as password databases, can also be a
+            challenging task. In order to set up <span class=
+            "application">OpenLDAP</span>, you'll need to modify either the
+            <code class="filename">/etc/openldap/slapd.conf</code> file (old
+            method), or the <code class=
+            "filename">/etc/openldap/slapd.ldif</code> file and then use
+            <span class="command"><strong>ldapadd</strong></span> to create
+            the LDAP configuration database in <code class=
+            "filename">/etc/openldap/slapd.d</code> (recommended by the
+            OpenLDAP documentation).
+          </p>
+          <div class="admon warning">
+            <img alt="[警告]" src="../images/warning.png" />
+            <h3>
+              警告
+            </h3>
+            <p>
+              The instructions above install an empty LDAP structure and a
+              default <code class="filename">/etc/openldap/slapd.conf</code>
+              file, which are suitable for testing the build and other
+              packages using LDAP. Do not use them on a production server.
+            </p>
+          </div>
+          <p>
+            Resources to assist you with topics such as choosing a directory
+            configuration, backend and database definitions, access control
+            settings, running as a user other than <code class=
+            "systemitem">root</code> and setting a <span class=
+            "command"><strong>chroot</strong></span> environment include:
+          </p>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  The <span class="strong"><strong>slapd(8)</strong></span>
+                  man page.
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  The <span class=
+                  "strong"><strong>slapd.conf(5)</strong></span> and
+                  <span class=
+                  "strong"><strong>slapd-config(5)</strong></span> man pages.
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  The <a class="ulink" href=
+                  "https://www.openldap.org/doc/admin26/">OpenLDAP 2.6
+                  Administrator's Guide</a> (also installed locally in
+                  <code class=
+                  "filename">/usr/share/doc/openldap-2.6.6/guide/admin</code>).
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  Documents located at <a class="ulink" href=
+                  "https://www.openldap.org/pub/">https://www.openldap.org/pub/</a>.
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="openldap-init" name="openldap-init"></a>
+          </h3>
+          <h4 class="title">
+            <a id="openldap-init" name="openldap-init"></a><span class=
+            "phrase">ブートスクリプト</span>
+          </h4>
+          <p>
+            LDAP サーバーをシステムブート時に自動起動するには <a class="xref" href=
+            "../introduction/bootscripts.html" title=
+            "BLFS ブートスクリプト">blfs-bootscripts-20231119</a>
+            パッケージに含まれる<span class="phrase">初期起動スクリプト <code class=
+            "filename">/etc/rc.d/init.d/slapd</code></span> を用います。
+            これを以下のコマンドによりインストールします。
+          </p>
+          <pre class="root"><kbd class=
+          "command">make install-slapd</kbd></pre>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              You'll need to modify <span class="phrase"><code class=
+              "filename">/etc/sysconfig/slapd</code></span> to include the
+              parameters needed for your specific configuration. See the
+              <span class="command"><strong>slapd</strong></span> man page
+              for parameter information.
+            </p>
+          </div>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id61540" name="id61540"></a>設定のテスト
+          </h4>
+          <p>
+            <span class="phrase">初期化スクリプト</span>を使って LDAP サーバーを起動します。
+          </p>
+          <pre class="root"><kbd class=
+          "command">/etc/rc.d/init.d/slapd start</kbd></pre>
+          <p>
+            以下のコマンド実行により LDAP サーバーへのアクセスを確認します。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">ldapsearch -x -b '' -s base '(objectclass=*)' namingContexts</kbd></pre>
+          <p>
+            確認結果は以下のようになります。
+          </p>
+          <pre class="screen"><code class="computeroutput"># extended LDIF
+#
+# LDAPv3
+# base &lt;&gt; with scope baseObject
+# filter: (objectclass=*)
+# requesting: namingContexts
+#
+
+#
+dn:
+namingContexts: dc=my-domain,dc=com
+
+# search result
+search: 2
+result: 0 Success
+
+# numResponses: 2
+# numEntries: 1</code></pre>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">ldapadd, ldapcompare, ldapdelete, ldapexop,
+              ldapmodify, ldapmodrdn, ldappasswd, ldapsearch, ldapurl,
+              ldapvc, ldapwhoami, slapacl, slapadd, slapauth, slapcat, slapd,
+              slapdn, slapindex, slapmodify, slappasswd, slapschema, and
+              slaptest</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">liblber.so, libldap.so, /usr/lib/openldap
+              配下に数種のライブラリ</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/etc/openldap, /{usr,var}/lib/openldap,
+              /usr/share/doc/openldap-2.6.6</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ldapadd" name="ldapadd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ldapadd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    opens a connection to an LDAP server, binds and adds
+                    entries
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ldapcompare" name="ldapcompare"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ldapcompare</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    opens a connection to an LDAP server, binds and performs
+                    a compare using specified parameters
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ldapdelete" name="ldapdelete"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ldapdelete</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    opens a connection to an LDAP server, binds and deletes
+                    one or more entries
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ldapexop" name="ldapexop"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ldapexop</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    issues the LDAP extended operation specified by oid or
+                    one of the special keywords whoami, cancel, or refresh
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ldapmodify" name="ldapmodify"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ldapmodify</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    opens a connection to an LDAP server, binds and modifies
+                    entries
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ldapmodrdn" name="ldapmodrdn"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ldapmodrdn</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    opens a connection to an LDAP server, binds and modifies
+                    the RDN of entries
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ldappasswd" name="ldappasswd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ldappasswd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool used to set the password of an LDAP user
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ldapsearch" name="ldapsearch"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ldapsearch</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    opens a connection to an LDAP server, binds and performs
+                    a search using specified parameters
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ldapurl" name="ldapurl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ldapurl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a command that allows to either compose or decompose
+                    LDAP URIs
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ldapvc" name="ldapvc"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ldapvc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    verifies LDAP credentials
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ldapwhoami" name="ldapwhoami"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ldapwhoami</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    opens a connection to an LDAP server, binds and displays
+                    whoami information
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="slapacl" name="slapacl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>slapacl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to check the behavior of slapd by verifying
+                    access to directory data according to the access control
+                    list directives defined in its configuration
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="slapadd" name="slapadd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>slapadd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to add entries specified in LDAP Directory
+                    Interchange Format (LDIF) to an LDAP database
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="slapauth" name="slapauth"></a><span class=
+                    "term"><span class=
+                    "command"><strong>slapauth</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to check the behavior of the slapd in mapping
+                    identities for authentication and authorization purposes,
+                    as specified in slapd.conf
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="slapcat" name="slapcat"></a><span class=
+                    "term"><span class=
+                    "command"><strong>slapcat</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to generate an LDAP LDIF output based upon the
+                    contents of a slapd database
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="slapd" name="slapd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>slapd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the standalone LDAP server
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="slapdn" name="slapdn"></a><span class=
+                    "term"><span class=
+                    "command"><strong>slapdn</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    checks a list of string-represented DNs based on schema
+                    syntax
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="slapindex" name="slapindex"></a><span class=
+                    "term"><span class=
+                    "command"><strong>slapindex</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to regenerate slapd indexes based upon the
+                    current contents of a database
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="slapmodify" name="slapmodify"></a><span class=
+                    "term"><span class=
+                    "command"><strong>slapmodify</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    modifies entries in a slapd database
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="slappasswd" name="slappasswd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>slappasswd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is an <span class="application">OpenLDAP</span> password
+                    utility
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="slapschema" name="slapschema"></a><span class=
+                    "term"><span class=
+                    "command"><strong>slapschema</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to check schema compliance of the contents of a
+                    slapd database
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="slaptest" name="slaptest"></a><span class=
+                    "term"><span class=
+                    "command"><strong>slaptest</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    checks the sanity of the <code class=
+                    "filename">slapd.conf</code> file
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="liblber" name="liblber"></a><span class=
+                    "term"><code class="filename">liblber.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a set of Lightweight Basic Encoding Rules routines.
+                    These routines are used by the LDAP library routines to
+                    encode and decode LDAP protocol elements using the
+                    (slightly simplified) Basic Encoding Rules defined by
+                    LDAP. They are not normally used directly by an LDAP
+                    application program except in the handling of controls
+                    and extended operations
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libldap" name="libldap"></a><span class=
+                    "term"><code class="filename">libldap.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    supports the LDAP programs and provide functionality for
+                    other programs interacting with LDAP
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="other.html" title="その他のサーバーソフトウェア">戻る</a>
+          <p>
+            その他のサーバーソフトウェア
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="unbound.html" title="Unbound-1.19.0">次へ</a>
+          <p>
+            Unbound-1.19.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="other.html" title=
+          "第23章 その他のサーバーソフトウェア">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

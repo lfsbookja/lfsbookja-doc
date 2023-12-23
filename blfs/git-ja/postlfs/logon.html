@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      /etc/issue を使ったログオン画面のカスタマイズ
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第3章 LFS 設定以降について
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="vimrc.html" title=
+          "/etc/vimrc ファイルと ~/.vimrc ファイル">戻る</a>
+          <p>
+            /etc/vimrc ファイルと ~/.vimrc ファイル
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="random.html" title="乱数生成">次へ</a>
+          <p>
+            乱数生成
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="config.html" title=
+          "第3章 LFS 設定以降について">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="postlfs-config-logon" name=
+        "postlfs-config-logon"></a>/etc/issue を使ったログオン画面のカスタマイズ
+      </h1>
+      <p>
+        新たに作り出した LFS システムを起動するとログオン画面が表示されます。 これはすっきりとしたシンプルなものです。
+        (ベアボーンシステムではこうでなければならないものでしょう。) しかしログイン時に何かのメッセージを表示させたいという人が結構います。
+        これは <code class="filename">/etc/issue</code> ファイルを利用すれば実現できます。
+      </p>
+      <p>
+        <code class="filename">/etc/issue</code> は単純なテキストファイルです。
+        そのファイルには特定のエスケープシーケンス (下記参照) を記述することが可能で、システムに関する情報を含めることができます。 また
+        <code class="filename">issue.net</code>
+        というファイルも利用可能で、これはリモートからのログオン時に利用されます。 ただし <span class=
+        "command"><strong>ssh</strong></span>
+        による接続時の場合は、設定ファイルを通じてオプション設定を行った時に限って、それらのファイルが利用されるものであり、かつ以下に示すエスケープシーケンスは解釈<span class="emphasis"><em>されません</em></span>
+        。
+      </p>
+      <p>
+        どなたもがまず望むことと言えば、ログオンのたびに画面をクリアすることです。 これを実現するには <code class=
+        "filename">/etc/issue</code> ファイル内に "クリア" を表すエスケープシーケンスを含めるのが最も簡単です。
+        実際には <span class="command"><strong>clear &gt;
+        /etc/issue</strong></span> というコマンドの実行により実現できます。 これは対応するエスケープシーケンスを
+        <code class="filename">/etc/issue</code> ファイルの先頭に挿入します。
+        これを実行した後にこのファイルを編集した場合には、ファイル内の先頭にある文字 (通常は '^[[H^[[2J' というもの)
+        をそのまま残しておくことが必要です。
+      </p>
+      <div class="admon note">
+        <img alt="[注記]" src="../images/note.png" />
+        <h3>
+          注記
+        </h3>
+        <p>
+          端末エスケープシーケンスは、端末上にて解釈される特殊コードです。 ここで ^[ というのは ASCII コードの ESC
+          文字を表します。 そして ESC [ H というのは、カーソルを画面左上に移動させるもので ESC 2 J
+          は画面をクリアするものです。 端末エスケープシーケンスの詳細については <a class="ulink" href=
+          "http://rtfm.etla.org/xterm/ctlseq.html">http://rtfm.etla.org/xterm/ctlseq.html</a>
+          を参照してください。
+        </p>
+      </div>
+      <p>
+        以下のシーケンスは <span class="command"><strong>agetty</strong></span>
+        コマンドにより認識されるものです。 (このコマンドは <code class="filename">/etc/issue</code>
+        を取り扱います。) こういった情報は <span class="command"><strong>man
+        agetty</strong></span> を実行すれば得られます。 さらにそこでは、ログオン時のさらに詳細な情報を確認できます。
+      </p>
+      <p>
+        <code class="filename">issue</code> ファイルには、特定のエスケープシーケンスを記述することができます。
+        これを使えば画面上にさまざまな情報を表示させることができます。 <code class="filename">issue</code>
+        シーケンスは、バックスラッシュと英字 1 文字により構成されます。 以下がその詳細です。 (例えば <code class=
+        "filename">/etc/issue</code> に <code class="option">\d</code>
+        を記述すれば、現在日付が表示されることになります。)
+      </p>
+      <pre class="screen"><code class=
+      "literal">b   現在行のボーレート (baudrate) を表示します。
+d   現在日付を表示します。
+s   システム名、つまりOS名を表示します。
+l   現在の TTY 行の名前を表示します。
+m   マシンアーキテクチャー名、例えば i686 などを表示します。
+n   Insert the nodename of the machine, also known as the hostname.
+o   Insert the domainname of the machine.
+r   Insert the release number of the kernel, e.g., 2.6.11.12.
+t   Insert the current time.
+u   Insert the number of current users logged in.
+U   Insert the string "1 user" or "&lt;n&gt; users" where &lt;n&gt; is the
+    number of current users logged in.
+v   Insert the version of the OS, e.g., the build-date etc.</code></pre>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="vimrc.html" title=
+          "/etc/vimrc ファイルと ~/.vimrc ファイル">戻る</a>
+          <p>
+            /etc/vimrc ファイルと ~/.vimrc ファイル
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="random.html" title="乱数生成">次へ</a>
+          <p>
+            乱数生成
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="config.html" title=
+          "第3章 LFS 設定以降について">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

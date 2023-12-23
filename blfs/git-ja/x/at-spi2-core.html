@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      at-spi2-core-2.50.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第25章 グラフィック環境ライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="atkmm.html" title="Atkmm-2.28.3">戻る</a>
+          <p>
+            Atkmm-2.28.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="cairo.html" title="Cairo-1.18.0">次へ</a>
+          <p>
+            Cairo-1.18.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="lib.html" title=
+          "第25章 グラフィック環境ライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="at-spi2-core" name="at-spi2-core"></a>at-spi2-core-2.50.0
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          At-Spi2 Core の概要
+        </h2>
+        <p>
+          The <span class="application">At-Spi2 Core</span> package contains
+          a comprehensive accessibility framework for the Assistive
+          Technologies available on the <span class=
+          "application">GNOME</span> platform. This includes a set of
+          interfaces which are implemented by other toolkits and
+          applications.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://download.gnome.org/sources/at-spi2-core/2.50/at-spi2-core-2.50.0.tar.xz">
+                https://download.gnome.org/sources/at-spi2-core/2.50/at-spi2-core-2.50.0.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 1d82a5295c30b3ec70d533ba318a07e2
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 556 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 24 MB (with tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.4 SBU (with tests)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          At-Spi2 Core の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/dbus.html" title=
+          "dbus-1.14.10">dbus-1.14.10</a>, <a class="xref" href=
+          "../general/glib2.html" title="GLib-2.78.3">GLib-2.78.3</a>,
+          <a class="xref" href="../gnome/gsettings-desktop-schemas.html"
+          title=
+          "gsettings-desktop-schemas-45.0">gsettings-desktop-schemas-45.0</a>
+          (Runtime), and <a class="xref" href="x7lib.html" title=
+          "Xorg ライブラリ">Xorg ライブラリ</a>
+        </p>
+        <h4>
+          任意 (GNOME ビルド時には必須)
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/gobject-introspection.html" title=
+          "gobject-introspection-1.78.1">gobject-introspection-1.78.1</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/python-modules.html#gi-docgen"
+          title="Gi-DocGen-2023.3">Gi-DocGen-2023.3</a>, <a class="xref"
+          href="../general/python-modules.html#sphinx" title=
+          "Sphinx-7.2.6">sphinx-7.2.6</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          At-Spi2 Core のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">At-Spi2 Core</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+meson setup ..            \
+      --prefix=/usr       \
+      --buildtype=release \
+      -Dsystemd_user_dir=/tmp &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          The test suite also requires the glib schemas of the package to be
+          installed already. To test the results, install the package first,
+          then issue: <span class="command"><strong>dbus-run-session ninja
+          test</strong></span>. One test, <code class=
+          "filename">atk-test</code>, is known to timeout on some systems.
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">ninja install &amp;&amp;
+rm /tmp/at-spi-dbus-bus.service</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--buildtype=release</code></em>:
+          本パッケージの安定版リリース向けに適したビルドタイプを指定します。
+          デフォルトにしていると、最適化されていないバイナリを生成する場合があるためです。
+        </p>
+        <p>
+          <em class="parameter"><code>-Dsystemd_user_dir=/tmp</code></em>:
+          This flag puts the systemd unit file in /tmp where it will be
+          removed. SysV is unable to use this file.
+        </p>
+        <p>
+          <code class="option">-Ddocs=true</code>: Use this switch if you
+          want to build the documentation. Note that you must have both
+          <a class="xref" href="../general/python-modules.html#gi-docgen"
+          title="Gi-DocGen-2023.3">Gi-DocGen-2023.3</a> and <a class="xref"
+          href="../general/python-modules.html#sphinx" title=
+          "Sphinx-7.2.6">sphinx-7.2.6</a> installed on your system.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libatk-1.0.so, libatk-bridge-2.0.so, libatspi.so,
+              /usr/lib/gtk-2.0/modules/libatk-bridge.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/atk-1.0, /usr/include/at-spi-2.0,
+              /usr/include/at-spi2-atk, /usr/lib/gnome-settings-daemon-3.0,
+              /usr/share/defaults/at-spi2, /usr/share/gtk-doc/html/libatspi
+              (optional)</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libatk-1.0" name="libatk-1.0"></a><span class=
+                    "term"><code class="filename">libatk-1.0.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains functions that are used by assistive
+                    technologies to interact with desktop applications
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libatk-bridge" name=
+                    "libatk-bridge"></a><span class="term"><code class=
+                    "filename">libatk-bridge.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains the Accessibility Toolkit GTK+-2 bridge
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libatk-bridge-2.0" name=
+                    "libatk-bridge-2.0"></a><span class="term"><code class=
+                    "filename">libatk-bridge-2.0.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains the Accessibility Toolkit GTK+ module
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libatspi" name="libatspi"></a><span class=
+                    "term"><code class="filename">libatspi.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">At-Spi2</span> API 関数を提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="atkmm.html" title="Atkmm-2.28.3">戻る</a>
+          <p>
+            Atkmm-2.28.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="cairo.html" title="Cairo-1.18.0">次へ</a>
+          <p>
+            Cairo-1.18.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="lib.html" title=
+          "第25章 グラフィック環境ライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

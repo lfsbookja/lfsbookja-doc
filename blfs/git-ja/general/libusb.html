@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      libusb-1.0.26
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第9章 汎用的なライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="liburcu.html" title="liburcu-0.14.0">戻る</a>
+          <p>
+            liburcu-0.14.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libuv.html" title="libuv-1.47.0">次へ</a>
+          <p>
+            libuv-1.47.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="libusb" name="libusb"></a>libusb-1.0.26
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libusb の概要
+        </h2>
+        <p>
+          <span class="application">libusb</span> パッケージは、USB
+          デバイスへのアクセスを行うアプリケーションが利用するライブラリを提供します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/libusb/libusb/releases/download/v1.0.26/libusb-1.0.26.tar.bz2">
+                https://github.com/libusb/libusb/releases/download/v1.0.26/libusb-1.0.26.tar.bz2</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 9c75660dfe1d659387c37b28c91e3160
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 608 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 5.8 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU 以下
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          libusb の依存パッケージ
+        </h3>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="doxygen.html" title=
+          "Doxygen-1.9.8">Doxygen-1.9.8</a>
+        </p>
+      </div>
+      <div class="kernel" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Configuring Libusb
+        </h2>
+        <p>
+          <a id="libusb-kernel" name="libusb-kernel"></a> To access raw USB
+          devices (those not treated as a disk by the mass-storage driver),
+          appropriate support must be available in the kernel. Check your
+          kernel configuration:
+        </p>
+        <pre class="screen"><span class="blue">D</span>evice Drivers ---&gt;
+  [*] <span class=
+"blue">U</span>SB support ---&gt;                                             [USB_SUPPORT]
+    &lt;*/M&gt;   <span class=
+"blue">S</span>upport for Host-side USB                                      [USB]
+    # These are most common USB controller drivers for PC-like systems.
+    # For modern systems often [USB_XHCI_HCD] is the only one needed
+    # even if the system has USB 2.0 ports:
+    &lt; /*/M&gt; <span class=
+"blue">x</span>HCI HCD (USB 3.0) support                            [USB_XHCI_HCD]
+    &lt; /*/M&gt; <span class=
+"blue">E</span>HCI HCD (USB 2.0) support                            [USB_EHCI_HCD]
+    &lt; /*/M&gt; <span class=
+"blue">O</span>HCI HCD (USB 1.1) support                            [USB_OHCI_HCD]</pre>
+        <p>
+          For more details on setting up USB devices, see <a class="xref"
+          href="../postlfs/devices.html#usb-device-issues" title=
+          "USB デバイスの問題">USB デバイスの問題</a>.
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libusb のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">libusb</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr --disable-static &amp;&amp;
+make</kbd></pre>
+        <p>
+          <span class="application">Doxygen</span> をインストールしていて API
+          ドキュメントをビルドしたい場合は、以下のコマンドを実行します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">pushd doc                &amp;&amp;
+  doxygen -u doxygen.cfg &amp;&amp;
+  make docs              &amp;&amp;
+popd</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+        <p>
+          API ドキュメントをビルドした場合、<code class="systemitem">root</code>
+          ユーザーのまま、以下を実行してドキュメントをインストールします。
+        </p>
+        <pre class="root"><kbd class=
+        "command">install -v -d -m755 /usr/share/doc/libusb-1.0.26/apidocs &amp;&amp;
+install -v -m644    doc/api-1.0/* \
+                    /usr/share/doc/libusb-1.0.26/apidocs</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libusb-1.0.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/libusb-1.0,
+              /usr/share/doc/libusb-1.0.26</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libusb-lib" name="libusb-lib"></a><span class=
+                    "term"><code class="filename">libusb-1.0.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    USB ハードウェアにアクセスするための API 関数を提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="liburcu.html" title="liburcu-0.14.0">戻る</a>
+          <p>
+            liburcu-0.14.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libuv.html" title="libuv-1.47.0">次へ</a>
+          <p>
+            libuv-1.47.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

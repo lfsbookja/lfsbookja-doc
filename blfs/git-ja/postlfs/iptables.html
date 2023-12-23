@@ -1,0 +1,927 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      iptables-1.8.10
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第4章 セキュリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gpgme.html" title="GPGME-1.23.2">戻る</a>
+          <p>
+            GPGME-1.23.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="firewall.html" title=
+          "ネットワークファイアウォールの設定">次へ</a>
+          <p>
+            ネットワークファイアウォールの設定
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="security.html" title="第4章 セキュリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="iptables" name="iptables"></a>iptables-1.8.10
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          iptables の概要
+        </h2>
+        <p>
+          <span class="application">iptables</span> is a userspace command
+          line program used to configure the Linux 2.4 and later kernel
+          packet filtering ruleset.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://www.netfilter.org/projects/iptables/files/iptables-1.8.10.tar.xz">
+                https://www.netfilter.org/projects/iptables/files/iptables-1.8.10.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 5eaa3bb424dd3a13c98c0cb026314029
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 628 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 16 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          iptables の依存パッケージ
+        </h3>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../basicnet/libpcap.html" title=
+          "libpcap-1.10.4">libpcap-1.10.4</a> (required for BPF compiler or
+          nfsynproxy support), <a class="ulink" href=
+          "https://github.com/tadamdam/bpf-utils">bpf-utils</a> (required for
+          Berkeley Packet Filter support), <a class="ulink" href=
+          "https://netfilter.org/projects/libnfnetlink/">libnfnetlink</a>
+          (required for connlabel support), <a class="ulink" href=
+          "https://netfilter.org/projects/libnetfilter_conntrack/">libnetfilter_conntrack</a>
+          (required for connlabel support), and <a class="ulink" href=
+          "https://netfilter.org/projects/nftables/">nftables</a>
+        </p>
+      </div>
+      <div class="kernel" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="iptables-kernel" name="iptables-kernel"></a>カーネルの設定
+        </h2>
+        <p>
+          Linux におけるファイアウォールは netfilter インターフェースを通じて実現されます。 <span class=
+          "application">iptables</span> を利用して netfilter
+          を設定するには、以下に示すカーネル設定パラメーターが必要です。
+        </p>
+        <pre class="screen">[*] N<span class=
+        "blue">e</span>tworking support ---&gt;                                                [NET]
+  N<span class="blue">e</span>tworking options ---&gt;
+    [*] N<span class=
+"blue">e</span>twork packet filtering framework (Netfilter) ---&gt;          [NETFILTER]
+      [*] <span class=
+"blue">A</span>dvanced netfilter configuration                  [NETFILTER_ADVANCED]
+      <span class="blue">C</span>ore Netfilter Configuration ---&gt;
+        &lt;*/M&gt; N<span class=
+"blue">e</span>tfilter connection tracking support               [NF_CONNTRACK]
+        &lt;*/M&gt; N<span class=
+"blue">e</span>tfilter Xtables support (required for ip_tables)
+                                                        ...  [NETFILTER_XTABLES]
+        &lt;*/M&gt;   <span class=
+"blue">L</span>OG target support                     [NETFILTER_XT_TARGET_LOG]
+      <span class="blue">I</span>P: Netfilter Configuration ---&gt;
+        &lt;*/M&gt; <span class=
+"blue">I</span>P tables support (required for filtering/masq/NAT)
+                                                           ...  [IP_NF_IPTABLES]</pre>
+        <p>
+          Include any connection tracking protocols that will be used, as
+          well as any protocols that you wish to use for match support under
+          the "Core Netfilter Configuration" section. The above options are
+          enough for running <a class="xref" href=
+          "iptables.html#fw-persFw-ipt" title="Personal Firewall">Creating a
+          Personal Firewall With iptables</a> below.
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          iptables のインストール
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            The installation below does not include building some specialized
+            extension libraries which require the raw headers in the
+            <span class="application">Linux</span> source code. If you wish
+            to build the additional extensions (if you aren't sure, then you
+            probably don't), you can look at the <code class=
+            "filename">INSTALL</code> file to see an example of how to change
+            the <em class="parameter"><code>KERNEL_DIR=</code></em> parameter
+            to point at the <span class="application">Linux</span> source
+            code. Note that if you upgrade the kernel version, you may also
+            need to recompile <span class="application">iptables</span> and
+            that the BLFS team has not tested using the raw kernel headers.
+          </p>
+        </div>
+        <p>
+          <span class="application">iptables</span> をインストールするために以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr      \
+            --disable-nftables \
+            --enable-libipq    &amp;&amp;
+make</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--disable-nftables</code></em>: This
+          switch disables building nftables compatibility.
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-libipq</code></em>: 本スイッチは
+          <code class="filename">libipq.so</code> をビルドするようにします。 これは BLFS
+          には含めていない他のパッケージにて利用されています。
+        </p>
+        <p>
+          <code class="option">--enable-nfsynproxy</code>: This switch
+          enables installation of <span class="application">nfsynproxy</span>
+          SYNPROXY configuration tool.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          iptables の設定
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            In the following example configurations, <span class=
+            "strong"><strong>LAN1</strong></span> is used for the internal
+            LAN interface, and <span class=
+            "strong"><strong>WAN1</strong></span> is used for the external
+            interface connected to the Internet. You will need to replace
+            these values with appropriate interface names for your system.
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="fw-persFw-ipt" name="fw-persFw-ipt"></a>
+          </h3>
+          <h4 class="title">
+            <a id="fw-persFw-ipt" name="fw-persFw-ipt"></a>Personal Firewall
+          </h4>
+          <p>
+            A Personal Firewall is designed to let you access all the
+            services offered on the Internet while keeping your computer
+            secure and your data private.
+          </p>
+          <p>
+            Below is a slightly modified version of Rusty Russell's
+            recommendation from the <a class="ulink" href=
+            "https://www.netfilter.org/documentation/HOWTO/packet-filtering-HOWTO.html">
+            Linux 2.4 Packet Filtering HOWTO</a>. It is still applicable to
+            the Linux 6.x kernels.
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt; /etc/rc.d/rc.iptables &lt;&lt; "EOF"
+<code class="literal">#!/bin/sh
+
+# Begin rc.iptables
+
+# Insert connection-tracking modules
+# (not needed if built into the kernel)
+modprobe nf_conntrack
+modprobe xt_LOG
+
+# Enable broadcast echo Protection
+echo 1 &gt; /proc/sys/net/ipv4/icmp_echo_ignore_broadcasts
+
+# Disable Source Routed Packets
+echo 0 &gt; /proc/sys/net/ipv4/conf/all/accept_source_route
+echo 0 &gt; /proc/sys/net/ipv4/conf/default/accept_source_route
+
+# Enable TCP SYN Cookie Protection
+echo 1 &gt; /proc/sys/net/ipv4/tcp_syncookies
+
+# Disable ICMP Redirect Acceptance
+echo 0 &gt; /proc/sys/net/ipv4/conf/default/accept_redirects
+
+# Do not send Redirect Messages
+echo 0 &gt; /proc/sys/net/ipv4/conf/all/send_redirects
+echo 0 &gt; /proc/sys/net/ipv4/conf/default/send_redirects
+
+# Drop Spoofed Packets coming in on an interface, where responses
+# would result in the reply going out a different interface.
+echo 1 &gt; /proc/sys/net/ipv4/conf/all/rp_filter
+echo 1 &gt; /proc/sys/net/ipv4/conf/default/rp_filter
+
+# Log packets with impossible addresses.
+echo 1 &gt; /proc/sys/net/ipv4/conf/all/log_martians
+echo 1 &gt; /proc/sys/net/ipv4/conf/default/log_martians
+
+# be verbose on dynamic ip-addresses  (not needed in case of static IP)
+echo 2 &gt; /proc/sys/net/ipv4/ip_dynaddr
+
+# disable Explicit Congestion Notification
+# too many routers are still ignorant
+echo 0 &gt; /proc/sys/net/ipv4/tcp_ecn
+
+# Set a known state
+iptables -P INPUT   DROP
+iptables -P FORWARD DROP
+iptables -P OUTPUT  DROP
+
+# These lines are here in case rules are already in place and the
+# script is ever rerun on the fly. We want to remove all rules and
+# pre-existing user defined chains before we implement new rules.
+iptables -F
+iptables -X
+iptables -Z
+
+iptables -t nat -F
+
+# Allow local-only connections
+iptables -A INPUT  -i lo -j ACCEPT
+
+# Free output on any interface to any ip for any service
+# (equal to -P ACCEPT)
+iptables -A OUTPUT -j ACCEPT
+
+# Permit answers on already established connections
+# and permit new connections related to established ones
+# (e.g. port mode ftp)
+iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+
+# Drop any incoming MULTICAST or BROADCAST packet before logging:
+# The box outputs several of them when using netbios or mDNS, and those
+# appear immediately as incoming, which clutters the log.
+iptables -A INPUT -m addrtype --dst-type BROADCAST,MULTICAST -j DROP
+
+# Log everything else.
+iptables -A INPUT -j LOG --log-prefix "FIREWALL:INPUT "
+
+# End $rc_base/rc.iptables</code>
+EOF
+chmod 700 /etc/rc.d/rc.iptables</kbd></pre>
+          <p>
+            This script is quite simple, it drops all traffic coming into
+            your computer that wasn't initiated from your computer, but as
+            long as you are simply surfing the Internet you are unlikely to
+            exceed its limits.
+          </p>
+          <p>
+            If you frequently encounter certain delays at accessing FTP
+            servers, take a look at <a class="xref" href=
+            "iptables.html#fw-BB-4-ipt">BusyBox with iptables example number
+            4</a>.
+          </p>
+          <p>
+            Even if you have daemons or services running on your system,
+            these will be inaccessible everywhere but from your computer
+            itself. If you want to allow access to services on your machine,
+            such as <span class="command"><strong>ssh</strong></span> or
+            <span class="command"><strong>ping</strong></span>, take a look
+            at <a class="xref" href="iptables.html#fw-busybox-ipt" title=
+            "BusyBox">Creating a BusyBox With iptables</a>.
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="fw-masqRouter-ipt" name="fw-masqRouter-ipt"></a>
+          </h3>
+          <h4 class="title">
+            <a id="fw-masqRouter-ipt" name=
+            "fw-masqRouter-ipt"></a>Masquerading Router
+          </h4>
+          <p>
+            A Network Firewall has two interfaces, one connected to an
+            intranet, in this example <span class=
+            "strong"><strong>LAN1</strong></span>, and one connected to the
+            Internet, here <span class="strong"><strong>WAN1</strong></span>.
+            To provide the maximum security for the firewall itself, make
+            sure that there are no unnecessary servers running on it such as
+            <span class="application">X11</span>. As a general principle, the
+            firewall itself should not access any untrusted service (think of
+            a remote server giving answers that makes a daemon on your system
+            crash, or even worse, that implements a worm via a
+            buffer-overflow).
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt; /etc/rc.d/rc.iptables &lt;&lt; "EOF"
+<code class="literal">#!/bin/sh
+
+# Begin rc.iptables
+
+echo
+echo "You're using the example configuration for a setup of a firewall"
+echo "from Beyond Linux From Scratch."
+echo "This example is far from being complete, it is only meant"
+echo "to be a reference."
+echo "Firewall security is a complex issue, that exceeds the scope"
+echo "of the configuration rules below."
+echo "You can find additional information"
+echo "about firewalls in Chapter 4 of the BLFS book."
+echo "https://www.linuxfromscratch.org/blfs"
+echo
+
+# Insert iptables modules (not needed if built into the kernel).
+
+modprobe nf_conntrack
+modprobe nf_conntrack_ftp
+modprobe xt_conntrack
+modprobe xt_LOG
+modprobe xt_state
+
+# Enable broadcast echo Protection
+echo 1 &gt; /proc/sys/net/ipv4/icmp_echo_ignore_broadcasts
+
+# Disable Source Routed Packets
+echo 0 &gt; /proc/sys/net/ipv4/conf/all/accept_source_route
+
+# Enable TCP SYN Cookie Protection
+echo 1 &gt; /proc/sys/net/ipv4/tcp_syncookies
+
+# Disable ICMP Redirect Acceptance
+echo 0 &gt; /proc/sys/net/ipv4/conf/all/accept_redirects
+
+# Don't send Redirect Messages
+echo 0 &gt; /proc/sys/net/ipv4/conf/default/send_redirects
+
+# Drop Spoofed Packets coming in on an interface where responses
+# would result in the reply going out a different interface.
+echo 1 &gt; /proc/sys/net/ipv4/conf/default/rp_filter
+
+# Log packets with impossible addresses.
+echo 1 &gt; /proc/sys/net/ipv4/conf/all/log_martians
+
+# Be verbose on dynamic ip-addresses  (not needed in case of static IP)
+echo 2 &gt; /proc/sys/net/ipv4/ip_dynaddr
+
+# Disable Explicit Congestion Notification
+# Too many routers are still ignorant
+echo 0 &gt; /proc/sys/net/ipv4/tcp_ecn
+
+# Set a known state
+iptables -P INPUT   DROP
+iptables -P FORWARD DROP
+iptables -P OUTPUT  DROP
+
+# These lines are here in case rules are already in place and the
+# script is ever rerun on the fly. We want to remove all rules and
+# pre-existing user defined chains before we implement new rules.
+iptables -F
+iptables -X
+iptables -Z
+
+iptables -t nat -F
+
+# Allow local connections
+iptables -A INPUT  -i lo -j ACCEPT
+iptables -A OUTPUT -o lo -j ACCEPT
+
+# Allow forwarding if the initiated on the intranet
+iptables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+iptables -A FORWARD ! -i WAN1 -m conntrack --ctstate NEW       -j ACCEPT
+
+# Do masquerading
+# (not needed if intranet is not using private ip-addresses)
+iptables -t nat -A POSTROUTING -o WAN1 -j MASQUERADE
+
+# Log everything for debugging
+# (last of all rules, but before policy rules)
+iptables -A INPUT   -j LOG --log-prefix "FIREWALL:INPUT "
+iptables -A FORWARD -j LOG --log-prefix "FIREWALL:FORWARD "
+iptables -A OUTPUT  -j LOG --log-prefix "FIREWALL:OUTPUT "
+
+# Enable IP Forwarding
+echo 1 &gt; /proc/sys/net/ipv4/ip_forward</code>
+EOF
+chmod 700 /etc/rc.d/rc.iptables</kbd></pre>
+          <p>
+            With this script your intranet should be reasonably secure
+            against external attacks. No one should be able to setup a new
+            connection to any internal service and, if it's masqueraded,
+            makes your intranet invisible to the Internet. Furthermore, your
+            firewall should be relatively safe because there are no services
+            running that a cracker could attack.
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="fw-busybox-ipt" name="fw-busybox-ipt"></a>
+          </h3>
+          <h4 class="title">
+            <a id="fw-busybox-ipt" name="fw-busybox-ipt"></a>BusyBox
+          </h4>
+          <p>
+            This scenario isn't too different from the <a class="xref" href=
+            "iptables.html#fw-masqRouter-ipt" title=
+            "Masquerading Router">Creating a Masquerading Router With
+            iptables</a>, but additionally offers some services to your
+            intranet. Examples of this can be when you want to administer
+            your firewall from another host on your intranet or use it as a
+            proxy or a name server.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              Outlining specifically how to protect a server that offers
+              services on the Internet goes far beyond the scope of this
+              document. See the references in <a class="xref" href=
+              "firewall.html#fw-extra-info" title="Extra Information">「Extra
+              Information」</a> for more information.
+            </p>
+          </div>
+          <p>
+            Be cautious. Every service you have enabled makes your setup more
+            complex and your firewall less secure. You are exposed to the
+            risks of misconfigured services or running a service with an
+            exploitable bug. A firewall should generally not run any extra
+            services. See the introduction to the <a class="xref" href=
+            "iptables.html#fw-masqRouter-ipt" title=
+            "Masquerading Router">Creating a Masquerading Router With
+            iptables</a> for some more details.
+          </p>
+          <p>
+            If you want to add services such as internal Samba or name
+            servers that do not need to access the Internet themselves, the
+            additional statements are quite simple and should still be
+            acceptable from a security standpoint. Just add the following
+            lines into the script <span class=
+            "emphasis"><em>before</em></span> the logging rules.
+          </p>
+          <pre class="screen"><code class=
+          "literal">iptables -A INPUT  -i ! WAN1  -j ACCEPT
+iptables -A OUTPUT -o ! WAN1  -j ACCEPT</code></pre>
+          <p>
+            If daemons, such as squid, have to access the Internet
+            themselves, you could open OUTPUT generally and restrict INPUT.
+          </p>
+          <pre class="screen"><code class=
+          "literal">iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+iptables -A OUTPUT -j ACCEPT</code></pre>
+          <p>
+            However, it is generally not advisable to leave OUTPUT
+            unrestricted. You lose any control over trojans who would like to
+            "call home", and a bit of redundancy in case you've
+            (mis-)configured a service so that it broadcasts its existence to
+            the world.
+          </p>
+          <p>
+            To accomplish this, you should restrict INPUT and OUTPUT on all
+            ports except those that it's absolutely necessary to have open.
+            Which ports you have to open depends on your needs: mostly you
+            will find them by looking for failed accesses in your log files.
+          </p>
+          <div class="itemizedlist">
+            <p class="title">
+              <strong>Have a Look at the Following Examples:</strong>
+            </p>
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  Squid is caching the web:
+                </p>
+                <pre class="screen"><code class=
+                "literal">iptables -A OUTPUT -p tcp --dport 80 -j ACCEPT
+iptables -A INPUT  -p tcp --sport 80 -m conntrack --ctstate ESTABLISHED \
+  -j ACCEPT</code></pre>
+              </li>
+              <li class="listitem">
+                <p>
+                  Your caching name server (e.g., named) does its lookups via
+                  UDP:
+                </p>
+                <pre class="screen"><code class=
+                "literal">iptables -A OUTPUT -p udp --dport 53 -j ACCEPT</code></pre>
+              </li>
+              <li class="listitem">
+                <p>
+                  You want to be able to ping your computer to ensure it's
+                  still alive:
+                </p>
+                <pre class="screen"><code class=
+                "literal">iptables -A INPUT  -p icmp -m icmp --icmp-type echo-request -j ACCEPT
+iptables -A OUTPUT -p icmp -m icmp --icmp-type echo-reply   -j ACCEPT</code></pre>
+              </li>
+              <li class="listitem">
+                <p>
+                  <a id="fw-BB-4-ipt" name="fw-BB-4-ipt"></a> If you are
+                  frequently accessing FTP servers or enjoy chatting, you
+                  might notice delays because some implementations of these
+                  daemons query an identd daemon on your system to obtain
+                  usernames. Although there's really little harm in this,
+                  having an identd running is not recommended because many
+                  security experts feel the service gives out too much
+                  additional information.
+                </p>
+                <p>
+                  To avoid these delays you could reject the requests with a
+                  'tcp-reset' response:
+                </p>
+                <pre class="screen"><code class=
+                "literal">iptables -A INPUT  -p tcp --dport 113 -j REJECT --reject-with tcp-reset</code></pre>
+              </li>
+              <li class="listitem">
+                <p>
+                  To log and drop invalid packets (packets that came in after
+                  netfilter's timeout or some types of network scans) insert
+                  these rules at the top of the chain:
+                </p>
+                <pre class="screen"><code class=
+                "literal">iptables -I INPUT 0 -p tcp -m conntrack --ctstate INVALID \
+  -j LOG --log-prefix "FIREWALL:INVALID "
+iptables -I INPUT 1 -p tcp -m conntrack --ctstate INVALID -j DROP</code></pre>
+              </li>
+              <li class="listitem">
+                <p>
+                  Anything coming from the outside should not have a private
+                  address, this is a common attack called IP-spoofing:
+                </p>
+                <pre class="screen"><code class=
+                "literal">iptables -A INPUT -i WAN1 -s 10.0.0.0/8     -j DROP
+iptables -A INPUT -i WAN1 -s 172.16.0.0/12  -j DROP
+iptables -A INPUT -i WAN1 -s 192.168.0.0/16 -j DROP</code></pre>
+                <p>
+                  There are other addresses that you may also want to drop:
+                  0.0.0.0/8, 127.0.0.0/8, 224.0.0.0/3 (multicast and
+                  experimental), 169.254.0.0/16 (Link Local Networks), and
+                  192.0.2.0/24 (IANA defined test network).
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  If your firewall is a DHCP client, you need to allow those
+                  packets:
+                </p>
+                <pre class="screen"><code class=
+                "literal">iptables -A INPUT  -i WAN1 -p udp -s 0.0.0.0 --sport 67 \
+   -d 255.255.255.255 --dport 68 -j ACCEPT</code></pre>
+              </li>
+              <li class="listitem">
+                <p>
+                  To simplify debugging and be fair to anyone who'd like to
+                  access a service you have disabled, purposely or by
+                  mistake, you could REJECT those packets that are dropped.
+                </p>
+                <p>
+                  Obviously this must be done directly after logging as the
+                  very last lines before the packets are dropped by policy:
+                </p>
+                <pre class="screen"><code class=
+                "literal">iptables -A INPUT -j REJECT</code></pre>
+              </li>
+            </ul>
+          </div>
+          <p>
+            These are only examples to show you some of the capabilities of
+            the firewall code in Linux. Have a look at the man page of
+            iptables. There you will find much more information. The port
+            numbers needed for this can be found in <code class=
+            "filename">/etc/services</code>, in case you didn't find them by
+            trial and error in your log file.
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="iptables-init" name="iptables-init"></a>
+          </h3>
+          <h4 class="title">
+            <a id="iptables-init" name="iptables-init"></a><span class=
+            "phrase">Boot Script</span>
+          </h4>
+          <p>
+            To set up the iptables firewall at boot, install the <code class=
+            "filename">/etc/rc.d/init.d/iptables</code> init script included
+            in the <a class="xref" href="../introduction/bootscripts.html"
+            title="BLFS ブートスクリプト">blfs-bootscripts-20231119</a> package.
+          </p>
+          <pre class="root"><kbd class=
+          "command">make install-iptables</kbd></pre>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">ip6tables, ip6tables-apply,
+              ip6tables-legacy, ip6tables-legacy-restore,
+              ip6tables-legacy-save, ip6tables-restore, ip6tables-save,
+              iptables, iptables-apply, iptables-legacy,
+              iptables-legacy-restore, iptables-legacy-apply,
+              iptables-restore, iptables-save, iptables-xml, nfsynproxy
+              (optional), and xtables-multi</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">libip4tc.so, libip6tc.so, libipq.so,
+              libiptc.so, and libxtables.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody">/lib/xtables and
+              /usr/include/libiptc</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="iptables-prog" name=
+                    "iptables-prog"></a><span class="term"><span class=
+                    "command"><strong>iptables</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to set up, maintain, and inspect the tables of IP
+                    packet filter rules in the Linux kernel
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="iptables-apply" name=
+                    "iptables-apply"></a><span class="term"><span class=
+                    "command"><strong>iptables-apply</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a safer way to update iptables remotely
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="iptables-legacy" name=
+                    "iptables-legacy"></a><span class="term"><span class=
+                    "command"><strong>iptables-legacy</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to interact with iptables using the legacy
+                    command set
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="iptables-legacy-restore" name=
+                    "iptables-legacy-restore"></a><span class=
+                    "term"><span class=
+                    "command"><strong>iptables-legacy-restore</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to restore a set of legacy iptables rules
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="iptables-legacy-save" name=
+                    "iptables-legacy-save"></a><span class=
+                    "term"><span class="command"><strong>iptables-legacy-save</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to save a set of legacy iptables rules
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="iptables-restore" name=
+                    "iptables-restore"></a><span class="term"><span class=
+                    "command"><strong>iptables-restore</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to restore IP Tables from data specified on
+                    STDIN. Use I/O redirection provided by your shell to read
+                    from a file
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="iptables-save" name=
+                    "iptables-save"></a><span class="term"><span class=
+                    "command"><strong>iptables-save</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to dump the contents of an IP Table in easily
+                    parseable format to STDOUT. Use I/O-redirection provided
+                    by your shell to write to a file
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="iptables-xml" name="iptables-xml"></a><span class=
+                    "term"><span class=
+                    "command"><strong>iptables-xml</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to convert the output of <span class=
+                    "command"><strong>iptables-save</strong></span> to an XML
+                    format. Using the <code class=
+                    "filename">iptables.xslt</code> stylesheet converts the
+                    XML back to the format of <span class=
+                    "command"><strong>iptables-restore</strong></span>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ip6tables" name="ip6tables"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ip6tables*</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    are a set of commands for IPV6 that parallel the iptables
+                    commands above
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="nfsynproxy" name="nfsynproxy"></a><span class=
+                    "term"><span class=
+                    "command"><strong>nfsynproxy</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    (optional) configuration tool. SYNPROXY target makes
+                    handling of large SYN floods possible without the large
+                    performance penalties imposed by the connection tracking
+                    in such cases
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xtables-multi" name=
+                    "xtables-multi"></a><span class="term"><span class=
+                    "command"><strong>xtables-multi</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a binary that behaves according to the name it is
+                    called by
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gpgme.html" title="GPGME-1.23.2">戻る</a>
+          <p>
+            GPGME-1.23.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="firewall.html" title=
+          "ネットワークファイアウォールの設定">次へ</a>
+          <p>
+            ネットワークファイアウォールの設定
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="security.html" title="第4章 セキュリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

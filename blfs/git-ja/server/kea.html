@@ -1,0 +1,863 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Kea 2.4.1 DHCP Server
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第20章 代表的なサーバー
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="bind.html" title="BIND-9.18.20">戻る</a>
+          <p>
+            BIND-9.18.20
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="proftpd.html" title="ProFTPD-1.3.8a">次へ</a>
+          <p>
+            ProFTPD-1.3.8a
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="majorservers.html" title=
+          "第20章 代表的なサーバー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="kea" name="kea"></a>Kea 2.4.1 DHCP Server
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to ISC Kea DHCP Server
+        </h2>
+        <p>
+          The <span class="application">ISC Kea</span> package contains the
+          server programs for DHCP. It is the successor of the old ISC DHCP
+          server which is end-of-life since December 2022.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://downloads.isc.org/isc/kea/2.4.1/kea-2.4.1.tar.gz">https://downloads.isc.org/isc/kea/2.4.1/kea-2.4.1.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: ad23d02b3ce0475eb077da05b0ae2429
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 10 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 1.5 GB (332 MB installed; add
+                4 GB for tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: 4.1 SBU (with parallelism=4; add 12 SBU
+                for tests)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Kea Dependencies
+        </h3>
+        <h4>
+          Required
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/boost.html" title=
+          "Boost-1.84.0">Boost-1.84.0</a> and <a class="xref" href=
+          "../general/log4cplus.html" title=
+          "log4cplus-2.1.1">log4cplus-2.1.1</a>
+        </p>
+        <h4>
+          Optional
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../postlfs/mitkrb.html" title=
+          "MIT Kerberos V5-1.21.2">MIT Kerberos V5-1.21.2</a>, <a class=
+          "xref" href="../general/valgrind.html" title=
+          "Valgrind-3.22.0">Valgrind-3.22.0</a>; for documentation: <a class=
+          "xref" href="../general/doxygen.html" title=
+          "Doxygen-1.9.8">Doxygen-1.9.8</a>, <a class="xref" href=
+          "../general/graphviz.html" title=
+          "Graphviz-9.0.0">Graphviz-9.0.0</a>, and <a class="xref" href=
+          "../general/python-modules.html#sphinx_rtd_theme" title=
+          "Sphinx_rtd_theme-2.0.0">sphinx_rtd_theme-2.0.0</a>; for tests:
+          <a class="ulink" href=
+          "https://google.github.io/googletest/">GoogleTest</a>
+        </p>
+        <h4>
+          Optional database backends
+        </h4>
+        <p class="optional">
+          <a class="xref" href="mariadb.html" title=
+          "MariaDB-10.11.6">MariaDB-10.11.6</a> or <a class="ulink" href=
+          "https://www.mysql.com/">MySQL</a>, and <a class="xref" href=
+          "postgresql.html" title="PostgreSQL-16.1">PostgreSQL-16.1</a>
+        </p>
+      </div>
+      <div class="kernel" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="kea-dhcp-kernel" name="kea-dhcp-kernel"></a>Kernel
+          Configuration
+        </h2>
+        <p>
+          You must have Packet Socket support. IPv6 support is optional.
+        </p>
+        <pre class="screen">[*] N<span class=
+        "blue">e</span>tworking support ---&gt;                                                [NET]
+  N<span class="blue">e</span>tworking options ---&gt;
+    &lt;*/M&gt; <span class=
+"blue">P</span>acket socket                                                 [PACKET]
+    [*]   <span class=
+"blue">T</span>CP/IP networking                                               [INET]
+    &lt;*&gt;     <span class=
+"blue">T</span>he IPv6 protocol ---&gt;                                        [IPV6]</pre>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of ISC Kea DHCP Server
+        </h2>
+        <p>
+          First fix detection of Python-3.12 by the build system:
+        </p>
+        <pre class="userinput"><kbd class="command">sed -e 's/:3/:4/' \
+    -i configure</kbd></pre>
+        <p>
+          Remove one installation step that uses an obsolete python module:
+        </p>
+        <pre class="userinput"><kbd class="command">sed -e '/dlist="/d' \
+    -i src/bin/shell/Makefile.in</kbd></pre>
+        <p>
+          Install <span class="application">ISC Kea DHCP Server</span> by
+          running the following commands:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr        \
+            --sysconfdir=/etc    \
+            --localstatedir=/var \
+            --enable-shell       \
+            --with-openssl       \
+            --disable-static     \
+            --docdir=/usr/share/doc/kea-2.4.1 &amp;&amp;
+make</kbd></pre>
+        <p>
+          To test the results, you must have installed GoogleTest and kept
+          its source. You should also have passed <code class=
+          "option">--with-gtest-source=/path/to/googletest/sourcedir</code>
+          to <span class="command"><strong>configure</strong></span> above.
+          Run the tests with <span class="command"><strong>make
+          check</strong></span>. Three tests in the TLSTest suite are known
+          to fail.
+        </p>
+        <p>
+          To install the <span class="application">ISC Kea DHCP Server</span>
+          suite, issue the following commands as the <code class=
+          "systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">make -j1 install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <em class="parameter"><code>--enable-shell</code></em>: Allows
+          building <span class="command"><strong>kea-shell</strong></span>, a
+          command line interface for the control agent.
+        </p>
+        <p>
+          <em class="parameter"><code>--with-openssl</code></em>: Allows
+          using OpenSSL for communicating with the control-agent and for DNS
+          updates.
+        </p>
+        <p>
+          <em class="parameter"><code>--disable-static</code></em>:
+          このスイッチはスタティックライブラリをインストールしないようにします。
+        </p>
+        <p>
+          <code class="option">--with-pgsql</code> or <code class=
+          "option">--with-mysql</code>: <span class="application">ISC
+          Kea</span> can store the leases on a database. This might be useful
+          in large environments running a cluster of DHCP servers. Using the
+          <span class="emphasis"><em>memfile</em></span> backend (which is a
+          CSV file stored locally) is possible anyhow.
+        </p>
+        <p>
+          <code class="option">--enable-generate-docs</code>: If
+          documentation is to be rebuilt, add that option. Several
+          dependencies must be installed for generating the documentation.
+        </p>
+        <p>
+          <span class="command"><strong>make -j1 install</strong></span>: ISC
+          does not recommend any form of parallel or job server options when
+          doing the install.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Configuring ISC Kea DHCP Server
+        </h2>
+        <p>
+          The support of IPv4, IPv6 and DDNS has been split into separate
+          servers which runs independently from each other. Each of them has
+          its own configuration file. <span class="phrase">Additional
+          configuration files come from the keactrl agent which is used to
+          control the servers in an easy way.</span>
+        </p>
+        <p>
+          Consult the <a class="ulink" href=
+          "https://kea.readthedocs.io/en/kea-2.4.1/">Kea Administrator
+          Reference Manual</a> for detailed information about the
+          configuration of <span class="application">ISC Kea</span> as it is
+          a quite capable system. The configuration shown below is a bare
+          minimum to get a DHCP server running but it already includes
+          configuration for DDNS (Dynamic DNS). That setup might be working
+          for small networks with a few clients and low traffic. For greater
+          installations with thousands of clients, <span class=
+          "application">ISC Kea</span> can be configured to use databases
+          (mariadb or postgresql) to store the leases and build a cluster
+          with multiple nodes. It can be integrated to <a class="ulink" href=
+          "https://www.isc.org/categories/stork/">ISC Stork</a> which is a
+          management dashboard to <span class="application">ISC Kea</span>.
+        </p>
+        <p>
+          If you want to start the DHCP Server at boot, install the
+          <span class="phrase"><code class=
+          "filename">/etc/rc.d/init.d/kea-dhcpd</code> init script</span>
+          included in the <a class="xref" href=
+          "../introduction/bootscripts.html" title=
+          "BLFS ブートスクリプト">blfs-bootscripts-20231119</a> package:
+        </p>
+        <pre class="root"><kbd class=
+        "command">make install-kea-dhcpd</kbd></pre>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="kea-dhcp-config" name="kea-dhcp-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="kea-dhcp-config" name="kea-dhcp-config"></a>Config Files
+          </h4>
+          <p>
+            <span class="phrase"><code class=
+            "filename">/etc/kea/keactrl.conf</code>,</span> <code class=
+            "filename">/etc/kea/kea-ctrl-agent.conf</code>, <code class=
+            "filename">/etc/kea/kea-dhcp4.conf</code>, <code class=
+            "filename">/etc/kea/kea-dhcp6.conf</code>, and <code class=
+            "filename">/etc/kea/kea-dhcp-ddns.conf</code>
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="keactrl-config" name="keactrl-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="keactrl-config" name="keactrl-config"></a>Kea Control
+            Configuration
+          </h4>
+          <p>
+            <span class="command"><strong>keactrl</strong></span> is used to
+            control the independent servers (IPv4, IPv6, DDNS). Its
+            configuration file <code class=
+            "filename">/etc/kea/keactrl.conf</code> is installed by default
+            and includes many path settings which are defined due to the
+            <span class="command"><strong>configure</strong></span> at build
+            time. It also includes settings to specify which of the servers
+            should be started.
+          </p>
+          <div class="itemizedlist">
+            <ul>
+              <li class="listitem">
+                <p>
+                  Control Agent
+                </p>
+                <p>
+                  The Control Agent is a daemon which allows the
+                  (re)configuration of the Kea DHCP service via REST API. Set
+                  <code class="literal">ctrl_agent=yes</code> to start the
+                  control agent (service providing a REST API), set
+                  <code class="literal">ctrl_agent=no</code> in case the
+                  control agent is not needed.
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  IPv4 DHCP server
+                </p>
+                <p>
+                  This daemon handles requests for IPv4 addresses. Set
+                  <code class="literal">dhcp4=yes</code> to start it, set
+                  <code class="literal">dhcp4=no</code> in case DHCP service
+                  for IPv4 is not wanted.
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  IPv6 DHCP server
+                </p>
+                <p>
+                  This daemon handles requests for IPv6 addresses. Set
+                  <code class="literal">dhcp6=yes</code> to start it, set
+                  <code class="literal">dhcp6=no</code> in case DHCP service
+                  for IPv6 is not wanted.
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  Dynamic DNS
+                </p>
+                <p>
+                  This daemon is used to update a DNS server dynamically when
+                  Kea assigns an IP address to a device. Set <code class=
+                  "literal">dhcp_ddns=yes</code> to enable it, set
+                  <code class="literal">dhcp_ddns=no</code> in case dynamic
+                  DNS updates are not wanted.
+                </p>
+              </li>
+            </ul>
+          </div>
+          <p>
+            The Netconf service is not installed because required
+            dependencies are not covered by the current BLFS book. .
+          </p>
+          <p>
+            With the following command, Kea will be configured to start the
+            dhcp service for IPv4 and the dynamic DNS update, while the
+            control agent and the dhcp service for IPv6 remain down. Tweak
+            the command to match your needs on started services and execute
+            as the <code class="systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">sed -e "s/^dhcp4=.*/dhcp4=yes/" \
+    -e "s/^dhcp6=.*/dhcp6=no/" \
+    -e "s/^dhcp_ddns=.*/dhcp_ddns=yes/" \
+    -e "s/^ctrl_agent=.*/ctrl_agent=no/" \
+    -i /etc/kea/keactrl.conf
+</kbd></pre>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="kea-ctrl-agent-config" name="kea-ctrl-agent-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="kea-ctrl-agent-config" name=
+            "kea-ctrl-agent-config"></a>Control Agent Configuration
+          </h4>
+          <p>
+            The provided configuration could be used without changes but in
+            BLFS, objects like sockets are stored in <code class=
+            "filename">/run</code> rather than in <code class=
+            "filename">/tmp</code>.
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">cat &gt; /etc/kea/kea-ctrl-agent.conf &lt;&lt; "EOF"
+<code class="literal">// Begin /etc/kea/kea-ctrl-agent.conf
+{
+  // This is a basic configuration for the Kea Control Agent.
+  // RESTful interface to be available at http://127.0.0.1:8000/
+  "Control-agent": {
+    "http-host": "127.0.0.1",
+    "http-port": 8000,
+    "control-sockets": {
+      "dhcp4": {
+        "socket-type": "unix",
+        "socket-name": "/run/kea4-ctrl-socket"
+      },
+      "dhcp6": {
+        "socket-type": "unix",
+        "socket-name": "/run/kea6-ctrl-socket"
+      },
+      "d2": {
+        "socket-type": "unix",
+        "socket-name": "/run/kea-ddns-ctrl-socket"
+      }
+    },
+
+    "loggers": [
+      {
+        "name": "kea-ctrl-agent",
+        "output_options": [
+          {
+            "output": "/var/log/kea-ctrl-agent.log",
+            "pattern": "%D{%Y-%m-%d %H:%M:%S.%q} %-5p %m\n"
+          }
+        ],
+        "severity": "INFO",
+        "debuglevel": 0
+      }
+    ]
+  }
+}
+// End /etc/kea/kea-ctrl-agent.conf</code>
+EOF</kbd></pre>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="kea-dhcp4-config" name="kea-dhcp4-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="kea-dhcp4-config" name="kea-dhcp4-config"></a>IPv4 DHCP
+            Server Configuration
+          </h4>
+          <p>
+            A sample configuration file is created in <code class=
+            "filename">/etc/kea/kea-dhcp4.conf</code>. Adjust the file to
+            suit your needs or overwrite it by running the following command
+            as the <code class="systemitem">root</code> user (you'll need to
+            edit this file anyway: at least the <span class=
+            "emphasis"><em>interfaces</em></span> field, the <span class=
+            "emphasis"><em>ddns-qualifying-suffix</em></span> field, and
+            almost all the fields in <span class=
+            "emphasis"><em>Subnet4</em></span>:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">cat &gt; /etc/kea/kea-dhcp4.conf &lt;&lt; "EOF"
+<code class="literal">// Begin /etc/kea/kea-dhcp4.conf
+{
+  "Dhcp4": {
+    // Add names of your network interfaces to listen on.
+    "interfaces-config": {
+      "interfaces": [ "eth0", "eth2" ]
+    },
+
+    "control-socket": {
+      "socket-type": "unix",
+      "socket-name": "/run/kea4-ctrl-socket"
+    },
+
+    "lease-database": {
+      "type": "memfile",
+      "lfc-interval": 3600
+    },
+
+    "expired-leases-processing": {
+      "reclaim-timer-wait-time": 10,
+      "flush-reclaimed-timer-wait-time": 25,
+      "hold-reclaimed-time": 3600,
+      "max-reclaim-leases": 100,
+      "max-reclaim-time": 250,
+      "unwarned-reclaim-cycles": 5
+    },
+
+    "renew-timer": 900,
+    "rebind-timer": 1800,
+    "valid-lifetime": 3600,
+
+    // Enable DDNS - Kea will dynamically update the DNS
+    "ddns-send-updates" : true,
+    "ddns-qualifying-suffix": "your.domain.tld",
+    "dhcp-ddns" : {
+      "enable-updates": true
+    },
+
+    "subnet4": [
+      {
+        "subnet": "192.168.56.0/24",
+        "pools": [ { "pool": "192.168.56.16 - 192.168.56.254" } ],
+        "option-data": [
+          {
+            "name": "domain-name",
+            "data": "your.domain.tld"
+          },
+          {
+            "name": "domain-name-servers",
+            "data": "192.168.56.2, 192.168.3.7"
+          },
+          {
+            "name": "domain-search",
+            "data": "your.domain.tld"
+          },
+          {
+            "name": "routers",
+            "data": "192.168.56.2"
+          }
+        ]
+      }
+    ],
+
+    "loggers": [
+      {
+        "name": "kea-dhcp4",
+        "output_options": [
+          {
+            "output": "/var/log/kea-dhcp4.log",
+            "pattern": "%D{%Y-%m-%d %H:%M:%S.%q} %-5p %m\n"
+          }
+        ],
+        "severity": "INFO",
+        "debuglevel": 0
+      }
+    ]
+  }
+}
+// End /etc/kea/kea-dhcp4.conf</code>
+EOF</kbd></pre>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="kea-dhcp6-config" name="kea-dhcp6-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="kea-dhcp6-config" name="kea-dhcp6-config"></a>IPv6 DHCP
+            Server Configuration
+          </h4>
+          <p>
+            The configuration for IPv6 is similar to the configuration of
+            IPv4. The configuration file is <code class=
+            "filename">/etc/kea/kea-dhcp6.conf</code>.
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="kea-dhcp-ddns-config" name="kea-dhcp-ddns-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="kea-dhcp-ddns-config" name=
+            "kea-dhcp-ddns-config"></a>Dynamic DNS Configuration
+          </h4>
+          <p>
+            If there is a <a class="xref" href="bind.html" title=
+            "BIND-9.18.20">BIND-9.18.20</a> server running, <span class=
+            "application">ISC Kea</span> can update the DNS when it gives an
+            IP address to a client. A sample configuration file is created in
+            <code class="filename">/etc/kea/kea-dhcp-ddns.conf</code>. Adjust
+            the file to suit your needs or overwrite it by running the
+            following command as the <code class="systemitem">root</code>
+            user:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">cat &gt; /etc/kea/kea-dhcp-ddns.conf &lt;&lt; "EOF"
+<code class="literal">// Begin /etc/kea/kea-dhcp-ddns.conf
+{
+  "DhcpDdns": {
+    "ip-address": "127.0.0.1",
+    "port": 53001,
+    "control-socket": {
+      "socket-type": "unix",
+      "socket-name": "/run/kea-ddns-ctrl-socket"
+    },
+
+    "tsig-keys": [
+      {
+        "name"      : "rndc-key",
+        "algorithm" : "hmac-sha256",
+        "secret"    : "1FU5hD7faYaajQCjSdA54JkTPQxbbPrRnzOKqHcD9cM="
+      }
+    ],
+
+    "forward-ddns" : {
+      "ddns-domains" : [
+        {
+          "name" : "your.domain.tld.",
+          "key-name": "rndc-key",
+          "dns-servers" : [
+            {
+              "ip-address" : "127.0.0.1",
+              "port" : 53
+            }
+          ]
+        }
+      ]
+    },
+
+    "reverse-ddns" : {
+      "ddns-domains" : [
+        {
+          "name" : "56.168.192.in-addr.arpa.",
+          "key-name": "rndc-key",
+          "dns-servers" : [
+            {
+              "ip-address" : "127.0.0.1",
+              "port" : 53
+            }
+          ]
+        }
+      ]
+    },
+
+    "loggers": [
+      {
+        "name": "kea-dhcp-ddns",
+        "output_options": [
+          {
+            "output": "/var/log/kea-ddns.log",
+            "pattern": "%D{%Y-%m-%d %H:%M:%S.%q} %-5p %m\n"
+          }
+        ],
+        "severity": "INFO",
+        "debuglevel": 0
+      }
+    ]
+  }
+}
+// End /etc/kea/kea-dhcp-ddns.conf</code>
+EOF</kbd></pre>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              The value of <code class="literal">secret</code> is just an
+              example. Generate the key for your installation by using the
+              <span class="command"><strong>rndc-confgen -a</strong></span>
+              command or the <span class=
+              "command"><strong>tsig-keygen</strong></span> command which
+              both are provided by <a class="xref" href="bind.html" title=
+              "BIND-9.18.20">BIND-9.18.20</a>.
+            </p>
+            <p>
+              In this example configuration, it is assumed that the DNS
+              server runs on the same machine as Kea does (accessible via
+              <code class="literal">127.0.0.1</code>) and that this machine
+              has the IP <code class="literal">192.168.56.2</code>.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">keactrl, kea-admin, kea-ctrl-agent,
+              kea-dhcp4, kea-dhcp6, kea-dhcp-ddns, kea-lfc, kea-shell</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">libkea-asiodns.so, libkea-asiolink.so,
+              libkea-cc.so, libkea-cgfclient.so, libkea-cryptolink.so,
+              libkea-d2srv.so, libkea-database.so, libkea-dhcp_ddns.so,
+              libkea-dhcp++.so, libkea-dhcpsrv.so, libkea-dns++.so,
+              libkea-eval.so, libkea-exceptions.so, libkea-hooks.so,
+              libkea-http.so, libkea-log.so, libkea-process.so,
+              libkea-stats.so, libkea-tcp.so, libkea-util.so, and
+              libkea-util-io.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody">/etc/kea, /usr/include/kea, /usr/lib/kea,
+              /usr/lib/python3.12/site-packages/kea, /usr/share/kea,
+              /usr/share/doc/kea-2.4.1, and /var/lib/kea</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="keactrl" name="keactrl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>keactrl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Tool to control (start/stop) the server processes.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="kea-admin" name="kea-admin"></a><span class=
+                    "term"><span class=
+                    "command"><strong>kea-admin</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    kea-admin is a shell script which offers database
+                    maintenance.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="kea-ctrl-agent" name=
+                    "kea-ctrl-agent"></a><span class="term"><span class=
+                    "command"><strong>kea-ctrl-agent</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Daemon which exposes a RESTful control interface for
+                    managing Kea servers.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="kea-dhcp4" name="kea-dhcp4"></a><span class=
+                    "term"><span class=
+                    "command"><strong>kea-dhcp4</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    The server daemon providing IPv4 addresses.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="kea-dhcp6" name="kea-dhcp6"></a><span class=
+                    "term"><span class=
+                    "command"><strong>kea-dhcp6</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    The server daemon providing IPv6 addresses.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="kea-dhcp-ddns" name=
+                    "kea-dhcp-ddns"></a><span class="term"><span class=
+                    "command"><strong>kea-dhcp-ddns</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    The server daemon performing the dynamic DNS updates.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="kea-lfc" name="kea-lfc"></a><span class=
+                    "term"><span class=
+                    "command"><strong>kea-lfc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    The kea-lfc service process removes redundant information
+                    from the files used to provide persistent storage for the
+                    memfile database backend. It is run by the Kea DHCP
+                    server.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="keashell" name="keashell"></a><span class=
+                    "term"><span class=
+                    "command"><strong>keashell</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    RESTful client to the <span class="application">ISC
+                    Kea</span> services.
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="bind.html" title="BIND-9.18.20">戻る</a>
+          <p>
+            BIND-9.18.20
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="proftpd.html" title="ProFTPD-1.3.8a">次へ</a>
+          <p>
+            ProFTPD-1.3.8a
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="majorservers.html" title=
+          "第20章 代表的なサーバー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

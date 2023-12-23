@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      libgcrypt-1.10.3
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第9章 汎用的なライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libdaemon.html" title=
+          "libdaemon-0.14">戻る</a>
+          <p>
+            libdaemon-0.14
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libgpg-error.html" title=
+          "libgpg-error-1.47">次へ</a>
+          <p>
+            libgpg-error-1.47
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="libgcrypt" name="libgcrypt"></a>libgcrypt-1.10.3
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libgcrypt の概要
+        </h2>
+        <p>
+          <span class="application">libgcrypt</span> パッケージは <span class=
+          "application">GnuPG</span> にて用いられるコードに基づいた、汎用的な暗号化ライブラリです。
+          このライブラリは、拡張性と柔軟性に優れた API 関数を利用して、暗号化に対しての高度なインターフェースを提供します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://www.gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.10.3.tar.bz2">
+                https://www.gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.10.3.tar.bz2</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: a8cada0b343e10dbee51c9e92d856a94
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 3.6 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 131 MB (テスト込み)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.3 SBU (ドキュメント込み、テスト実施時はさらに 0.4 SBU)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          libgcrypt の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="libgpg-error.html" title=
+          "libgpg-error-1.47">libgpg-error-1.47</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="pth.html" title="Pth-2.0.7">Pth-2.0.7</a>,
+          <a class="xref" href="../pst/texlive.html" title=
+          "texlive-20230313-source">texlive-20230313</a> (または <a class="xref"
+          href="../pst/tl-installer.html" title=
+          "install-tl-unx">install-tl-unx</a>)
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libgcrypt のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">libgcrypt</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr &amp;&amp;
+make                      &amp;&amp;
+
+make -C doc html                                                       &amp;&amp;
+makeinfo --html --no-split -o doc/gcrypt_nochunks.html doc/gcrypt.texi &amp;&amp;
+makeinfo --plaintext       -o doc/gcrypt.txt           doc/gcrypt.texi</kbd></pre>
+        <p>
+          ビルド結果をテストするなら <span class="command"><strong>make
+          check</strong></span> を実行します。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install &amp;&amp;
+install -v -dm755   /usr/share/doc/libgcrypt-1.10.3 &amp;&amp;
+install -v -m644    README doc/{README.apichanges,fips*,libgcrypt*} \
+                    /usr/share/doc/libgcrypt-1.10.3 &amp;&amp;
+
+install -v -dm755   /usr/share/doc/libgcrypt-1.10.3/html &amp;&amp;
+install -v -m644 doc/gcrypt.html/* \
+                    /usr/share/doc/libgcrypt-1.10.3/html &amp;&amp;
+install -v -m644 doc/gcrypt_nochunks.html \
+                    /usr/share/doc/libgcrypt-1.10.3      &amp;&amp;
+install -v -m644 doc/gcrypt.{txt,texi} \
+                    /usr/share/doc/libgcrypt-1.10.3</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <code class="option">--with-capabilities</code>: 本オプションは libcap2
+          サポートを有効にします。 Note that this breaks <a class="xref" href=
+          "../postlfs/cryptsetup.html" title=
+          "cryptsetup-2.6.1">cryptsetup-2.6.1</a>
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">dumpsexp, hmac256, libgcrypt-config, mpicalc</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libgcrypt.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/share/doc/libgcrypt-1.10.3</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dumpsexp" name="dumpsexp"></a><span class=
+                    "term"><span class=
+                    "command"><strong>dumpsexp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a debug tool for S-expressions
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hmac256" name="hmac256"></a><span class=
+                    "term"><span class=
+                    "command"><strong>hmac256</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a standalone HMAC-SHA-256 implementation used to
+                    compute an HMAC-SHA-256 authentication code
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libgcrypt-config" name=
+                    "libgcrypt-config"></a><span class="term"><span class=
+                    "command"><strong>libgcrypt-config</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    determines the compile and linker flags that should be
+                    used to compile and link programs that use <code class=
+                    "filename">libgcrypt</code>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mpicalc" name="mpicalc"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mpicalc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a RPN (Reverse Polish Notation) calculator
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libgcrypt-lib" name=
+                    "libgcrypt-lib"></a><span class="term"><code class=
+                    "filename">libgcrypt.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    暗号化 API 関数を提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libdaemon.html" title=
+          "libdaemon-0.14">戻る</a>
+          <p>
+            libdaemon-0.14
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libgpg-error.html" title=
+          "libgpg-error-1.47">次へ</a>
+          <p>
+            libgpg-error-1.47
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

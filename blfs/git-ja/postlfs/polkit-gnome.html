@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      polkit-gnome-0.105
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第4章 セキュリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="polkit.html" title="Polkit-123">戻る</a>
+          <p>
+            Polkit-123
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="shadow.html" title="Shadow-4.14.2">次へ</a>
+          <p>
+            Shadow-4.14.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="security.html" title="第4章 セキュリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="polkit-gnome" name="polkit-gnome"></a>polkit-gnome-0.105
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Polkit GNOME の概要
+        </h2>
+        <p>
+          <span class="application">Polkit GNOME</span> パッケージは <span class=
+          "application">Polkit</span> に対する認証エージェント (Authentication Agent)
+          機能を提供するものです。 これは <span class="application">GNOME</span>
+          デスクトップ環境に統合され利用されます。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://download.gnome.org/sources/polkit-gnome/0.105/polkit-gnome-0.105.tar.xz">
+                https://download.gnome.org/sources/polkit-gnome/0.105/polkit-gnome-0.105.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 50ecad37c8342fb4a52f590db7530621
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 305 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 5.0 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Additional Downloads
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Required patch: <a class="ulink" href=
+                "https://www.linuxfromscratch.org/patches/blfs/svn/polkit-gnome-0.105-consolidated_fixes-1.patch">
+                https://www.linuxfromscratch.org/patches/blfs/svn/polkit-gnome-0.105-consolidated_fixes-1.patch</a>
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Polkit GNOME の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/accountsservice.html" title=
+          "AccountsService-23.13.9">AccountsService-23.13.9</a>, <a class=
+          "xref" href="../x/gtk3.html" title="GTK+-3.24.38">GTK+-3.24.38</a>,
+          <a class="xref" href="polkit.html" title=
+          "Polkit-123">Polkit-123</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Polkit GNOME のインストール
+        </h2>
+        <p>
+          First, apply some fixes that allow for the proper user icon to be
+          used, as well as some security fixes:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../polkit-gnome-0.105-consolidated_fixes-1.patch</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">polkit-gnome</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr &amp;&amp;
+make</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Polkit GNOME の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id9606" name="id9606"></a>自動起動
+          </h4>
+          <p>
+            For the authentication framework to work, <span class=
+            "command"><strong>polkit-gnome-authentication-agent-1</strong></span>
+            needs to be started. However, <span class="command"><strong>make
+            install</strong></span> did not install a startup file for the
+            <span class="application">Polkit GNOME</span> so you have to
+            create it by yourself.
+          </p>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下のコマンドを実行します。 これにより
+            <span class="application">Polkit GNOME</span> の起動ファイルを生成します。
+          </p>
+          <pre class="root"><kbd class=
+          "command">mkdir -p /etc/xdg/autostart &amp;&amp;
+cat &gt; /etc/xdg/autostart/polkit-gnome-authentication-agent-1.desktop &lt;&lt; "EOF"
+<code class="literal">[Desktop Entry]
+Name=PolicyKit Authentication Agent
+Comment=PolicyKit Authentication Agent
+Exec=/usr/libexec/polkit-gnome-authentication-agent-1
+Terminal=false
+Type=Application
+Categories=
+NoDisplay=true
+OnlyShowIn=GNOME;XFCE;Unity;
+AutostartCondition=GNOME3 unless-session gnome</code>
+EOF</kbd></pre>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">polkit-gnome-authentication-agent-1</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="polkit-gnome-authentication-agent-1" name=
+                    "polkit-gnome-authentication-agent-1"></a><span class=
+                    "term"><span class=
+                    "command"><strong>polkit-gnome-authentication-agent-1</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">Polkit</span> 認証エージェント
+                    (Authentication Agent)。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="polkit.html" title="Polkit-123">戻る</a>
+          <p>
+            Polkit-123
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="shadow.html" title="Shadow-4.14.2">次へ</a>
+          <p>
+            Shadow-4.14.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="security.html" title="第4章 セキュリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      autofs-5.1.9
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第12章 システムユーティリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="at.html" title="at-3.2.5">戻る</a>
+          <p>
+            at-3.2.5
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="bluez.html" title="BlueZ-5.71">次へ</a>
+          <p>
+            BlueZ-5.71
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="sysutils.html" title=
+          "第12章 システムユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="autofs" name="autofs"></a>autofs-5.1.9
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Autofs の概要
+        </h2>
+        <p>
+          <span class="application">Autofs</span> controls the operation of
+          the automount daemons. The automount daemons automatically mount
+          filesystems when they are accessed and unmount them after a period
+          of inactivity. This is done based on a set of pre-configured maps.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://www.kernel.org/pub/linux/daemons/autofs/v5/autofs-5.1.9.tar.xz">
+                https://www.kernel.org/pub/linux/daemons/autofs/v5/autofs-5.1.9.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 06fb59a03c82364a0d788435b6853d70
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 328 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 5.7 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: less than 0.1 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Autofs の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="../basicnet/libtirpc.html" title=
+          "libtirpc-1.3.4">libtirpc-1.3.4</a>, <a class="xref" href=
+          "../basicnet/rpcsvc-proto.html" title=
+          "rpcsvc-proto-1.4.4">rpcsvc-proto-1.4.4</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../basicnet/nfs-utils.html" title=
+          "NFS-Utils-2.6.4">nfs-utils-2.6.4</a>, <a class="xref" href=
+          "../basicnet/libnsl.html" title="libnsl-2.0.1">libnsl-2.0.1</a>,
+          <a class="xref" href="libxml2.html" title=
+          "libxml2-2.12.3">libxml2-2.12.3</a>, <a class="xref" href=
+          "../postlfs/mitkrb.html" title="MIT Kerberos V5-1.21.2">MIT
+          Kerberos V5-1.21.2</a>, <a class="xref" href=
+          "../server/openldap.html" title="OpenLDAP-2.6.6">OpenLDAP-2.6.6</a>
+          (クライアントのみ), <a class="xref" href="../postlfs/cyrus-sasl.html"
+          title="Cyrus SASL-2.1.28">Cyrus SASL-2.1.28</a>
+        </p>
+      </div>
+      <div class="kernel" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="autofs-kernel" name="autofs-kernel"></a>カーネルの設定
+        </h2>
+        <p>
+          カーネルにて自動マウント (automaounter) サポートが有効になっていることを確認してください。
+        </p>
+        <pre class="screen"><span class="blue">F</span>ile systems ---&gt;
+  &lt;*/M&gt; <span class=
+"blue">K</span>ernel automounter support (supports v3, v4 and v5)          [AUTOFS_FS]</pre>
+        <p>
+          任意の設定として、カーネル設定にて以下のオプションを有効にします。
+        </p>
+        <pre class="screen"><span class="blue">F</span>ile systems ---&gt;
+  [*] N<span class=
+"blue">e</span>twork File Systems ---&gt;                            [NETWORK_FILESYSTEMS]
+    &lt;*/M&gt; N<span class=
+"blue">F</span>S client support                                            [NFS_FS]
+    &lt;*/M&gt; <span class=
+"blue">S</span>MB3 and CIFS support (advanced network filesystem)             [CIFS]</pre>
+        <p>
+          必要な場合は、カーネルを再コンパイル、再インストールします。
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Autofs のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">Autofs</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr             \
+            --with-mapdir=/etc/autofs \
+            --with-libtirpc           \
+            --without-openldap        \
+            --mandir=/usr/share/man   &amp;&amp;
+make</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+        <div class="admon caution">
+          <img alt="[注意]" src="../images/caution.png" />
+          <h3>
+            注意
+          </h3>
+          <p>
+            If <span class="application">autofs</span> is already installed
+            on your system, be sure to backup your configuration files.
+            They'll be overwritten by the following command.
+          </p>
+        </div>
+        <p>
+          Install the default configuration files, still as the <code class=
+          "systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">make install_samples</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--with-libtirpc</code></em>: This
+          switch forces the package to use libtirpc for RPC functionality
+          instead of relying on implementation from Glibc, which was removed
+          in LFS 8.1.
+        </p>
+        <p>
+          <em class="parameter"><code>--without-openldap</code></em>: This
+          switch disables openldap if found. If openldap is desired, omit
+          this switch. Note that openldap support in autofs requires
+          <a class="xref" href="../postlfs/mitkrb.html" title=
+          "MIT Kerberos V5-1.21.2">MIT Kerberos V5-1.21.2</a>.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Autofs の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="autofs-config" name="autofs-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="autofs-config" name="autofs-config"></a>設定ファイル
+          </h4>
+          <p>
+            <code class="filename">/etc/sysconfig/autofs.conf</code>,
+            <code class="filename">/etc/autofs/auto.master</code>,
+            <code class="filename">/etc/autofs/auto.misc</code>, <code class=
+            "filename">/etc/autofs/auto.net</code>
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id30022" name="id30022"></a>設定情報
+          </h4>
+          <p>
+            The installation process creates <code class=
+            "filename">auto.master</code>, <code class=
+            "filename">auto.misc</code>, <code class=
+            "filename">auto.smb</code>, and <code class=
+            "filename">auto.net</code>. Replace the <code class=
+            "filename">auto.master</code> file with the following commands as
+            the <code class="systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">mv /etc/autofs/auto.master /etc/autofs/auto.master.bak &amp;&amp;
+cat &gt; /etc/autofs/auto.master &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/autofs/auto.master
+
+/media/auto  /etc/autofs/auto.misc  --ghost
+#/home        /etc/autofs/auto.home
+
+# End /etc/autofs/auto.master</code>
+EOF</kbd></pre>
+          <p>
+            This file creates a new media directory, <code class=
+            "filename">/media/auto</code> that will overlay any existing
+            directory of the same name. In this example, the file,
+            <code class="filename">/etc/autofs/auto.misc</code>, has a line:
+          </p>
+          <pre class=
+          "screen">cd   -fstype=iso9660,ro,nosuid,nodev :/dev/cdrom</pre>
+          <p>
+            that will mount a cdrom as <code class=
+            "filename">/media/auto/cd</code> if that directory is accessed.
+            The <code class="option">--ghost</code> option tells the
+            automounter to create <span class="quote">「<span class=
+            "quote">ghost</span>」</span> versions (i.e. empty directories) of
+            all the mount points listed in the configuration file regardless
+            whether any of the file systems are actually mounted or not. This
+            is very convenient and highly recommended, because it will show
+            you the available auto-mountable file systems as existing
+            directories, even when their file systems aren't currently
+            mounted. Without the <code class="option">--ghost</code> option,
+            you'll have to remember the names of the directories. As soon as
+            you try to access one of them, the directory will be created and
+            the file system will be mounted. When the file system gets
+            unmounted again, the directory is destroyed too, unless the
+            <code class="option">--ghost</code> option was given.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              An alternative method would be to specify another automount
+              location such as <code class=
+              "filename">/var/lib/auto/cdrom</code> and create a symbolic
+              link from <code class="filename">/media/cdrom</code> to the
+              automount location.
+            </p>
+          </div>
+          <p>
+            The <code class="filename">auto.misc</code> file must be
+            configured to your working hardware. The loaded configuration
+            file should load your cdrom if <code class=
+            "filename">/dev/cdrom</code> is active or it can be edited to
+            match your device setup. Examples for floppies are available in
+            the file and easily activated. Documentation for this file is
+            available using the <span class="command"><strong>man 5
+            autofs</strong></span> command.
+          </p>
+          <p>
+            In the second line, if enabled, a user's home directory would be
+            mounted via NFS upon login. The <code class=
+            "filename">/etc/home.auto</code> would need to exist and have an
+            entry similar to:
+          </p>
+          <pre class="screen">joe  example.org:/export/home/joe</pre>
+          <p>
+            where the directory <code class=
+            "filename">/export/home/joe</code> is exported via NFS from the
+            system example.org. NFS shares are covered on the next page.
+          </p>
+          <p>
+            This package could also be used to mount SMB shares, however that
+            feature is not configured in these instructions. For additional
+            configuration information, see the man pages for auto.master(5).
+            There are also web resources such as this <a class="ulink" href=
+            "https://wiki.gentoo.org/wiki/AutoFS">AUTOFS HOWTO</a> available.
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="autofs-init" name="autofs-init"></a>
+          </h3>
+          <h4 class="title">
+            <a id="autofs-init" name="autofs-init"></a><span class=
+            "phrase">ブートスクリプト</span>
+          </h4>
+          <p>
+            <span class="application">autofs</span> installs its own boot
+            script, but it has no capability for logging or visual
+            conformance with other BLFS scripts. It will be replaced by an
+            enhanced version.
+          </p>
+          <p>
+            Install the <code class="filename">/etc/init.d/autofs</code>
+            mount script included with the <a class="xref" href=
+            "../introduction/bootscripts.html" title=
+            "BLFS ブートスクリプト">blfs-bootscripts-20231119</a> package.
+          </p>
+          <pre class="root"><kbd class=
+          "command">make install-autofs</kbd></pre>
+          <p>
+            The time-out variable is set in <code class=
+            "filename">/etc/sysconfig/autofs.conf</code>. The installed file
+            sets a default of 60 seconds of inactivity before unmounting the
+            device. A much shorter time may be necessary to protect buffer
+            writing to a floppy if users tend to remove the media prior to
+            the timeout setting.
+          </p>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">automount</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libautofs.so. lookup_dir.so, lookup_file.so,
+              lookup_files.so (symlink to lookup_file.so), lookup_hosts.so,
+              lookup_ldap.so (optional), lookup_multi.so, lookup_nis.so
+              (symlink to lookup_yp.so), lookup_program.so,
+              lookup_userhome.so, lookup_yp.so, mount_afs.so,
+              mount_autofs.so, mount_bind.so, mount_changer.so,
+              mount_ext2.so, mount_ext3.so (symlink to mount_ext2.so),
+              mount_ext4.so (symlink to mount_ext2.so), mount_generic.so,
+              mount_nfs.so, mount_nfs4.so (symlink to mount_nfs.so),
+              parse_amd.so, parse_sun.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/lib/autofs, /etc/autofs</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="automount" name="automount"></a><span class=
+                    "term"><span class=
+                    "command"><strong>automount</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the daemon that performs the mounting when a request
+                    is made for the device
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="at.html" title="at-3.2.5">戻る</a>
+          <p>
+            at-3.2.5
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="bluez.html" title="BlueZ-5.71">次へ</a>
+          <p>
+            BlueZ-5.71
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="sysutils.html" title=
+          "第12章 システムユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      elogind-252.9
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1048+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
+        V</span> 版) - Version r12.0-1048+
+      </h4>
+      <h3>
+        第12章 システムユーティリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="dbus.html" title="dbus-1.14.10">戻る</a>
+          <p>
+            dbus-1.14.10
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="blocaled.html" title="blocaled-0.5">次へ</a>
+          <p>
+            blocaled-0.5
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="sysutils.html" title=
+          "第12章 システムユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="elogind" name="elogind"></a>elogind-252.9
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          elogind の概要
+        </h2>
+        <p>
+          <span class="application">elogind</span> is the <span class=
+          "application">systemd</span> project's "logind", extracted to be a
+          standalone daemon. It integrates with <a class="xref" href=
+          "../postlfs/linux-pam.html" title=
+          "Linux-PAM-1.5.3">Linux-PAM-1.5.3</a> to track all the users logged
+          in to a system, and whether they are logged in graphically, on the
+          console, or remotely. <span class="application">Elogind</span>
+          exposes this information via the standard org.freedesktop.login1
+          <span class="application">D-Bus</span> interface, and also through
+          the file system using systemd's standard <code class=
+          "filename">/run/systemd</code> layout.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/elogind/elogind/archive/v252.9/elogind-252.9.tar.gz">
+                https://github.com/elogind/elogind/archive/v252.9/elogind-252.9.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 2be2c43298e2fc41c5bee33dde605f01
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1.8 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 45 MB (with tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.3 SBU (with parallelism=4)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          elogind の依存パッケージ
+        </h3>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="dbus.html" title=
+          "dbus-1.14.10">dbus-1.14.10</a> (runtime), <a class="xref" href=
+          "../postlfs/linux-pam.html" title=
+          "Linux-PAM-1.5.3">Linux-PAM-1.5.3</a> (required for Xorg),
+          <a class="xref" href="../postlfs/polkit.html" title=
+          "Polkit-123">Polkit-123</a> (runtime), <a class="xref" href=
+          "../pst/docbook.html" title="docbook-xml-4.5">docbook-xml-4.5</a>,
+          <a class="xref" href="../pst/docbook-xsl.html" title=
+          "docbook-xsl-nons-1.79.2">docbook-xsl-nons-1.79.2</a>, and
+          <a class="xref" href="libxslt.html" title=
+          "libxslt-1.1.39">libxslt-1.1.39</a> (all three to build the man
+          pages)
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="python-modules.html#lxml" title=
+          "lxml-4.9.4">lxml-4.9.4</a>, <a class="xref" href=
+          "../postlfs/zsh.html" title="zsh-5.9">zsh-5.9</a>, <a class="xref"
+          href="valgrind.html" title="Valgrind-3.22.0">Valgrind-3.22.0</a>
+          (needed for tests), <a class="ulink" href=
+          "https://github.com/linux-audit/audit-userspace">audit-userspace</a>,
+          <a class="ulink" href=
+          "https://github.com/scop/bash-completion">bash-completion</a>,
+          <a class="ulink" href=
+          "https://mirrors.edge.kernel.org/pub/linux/utils/kernel/kexec/">kexec</a>,
+          and <a class="ulink" href=
+          "https://selinuxproject.org/page/Main_Page">SELinux</a>
+        </p>
+        <p class="usernotes">
+          Editor Notes: <a class="ulink" href=
+          "https://wiki.linuxfromscratch.org/blfs/wiki/Logind">https://wiki.linuxfromscratch.org/blfs/wiki/Logind</a>
+        </p>
+      </div>
+      <div class="kernel" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="elogind-kernel" name="elogind-kernel"></a>カーネルの設定
+        </h2>
+        <p>
+          Enable the following options in the kernel configuration and
+          recompile the kernel if necessary:
+        </p>
+        <pre class="screen"><span class="blue">F</span>ile systems ---&gt;
+  [*] <span class=
+"blue">I</span>notify support for userspace                               [INOTIFY_USER]
+  <span class="blue">P</span>seudo filesystems ---&gt;
+    [*] <span class=
+"blue">T</span>mpfs virtual memory file system support (former shm fs)         [TMPFS]
+    [*]   <span class=
+"blue">T</span>mpfs POSIX Access Control Lists                     [TMPFS_POSIX_ACL]</pre>
+        <p>
+          In addition, some tests need the userspace cryptographic kernel
+          API, which is enabled with:
+        </p>
+        <pre class="screen">-*- <span class=
+        "blue">C</span>ryptographic API ---&gt;                                              [CRYPTO]
+  <span class="blue">C</span>rypto core or helper ---&gt;
+    &lt;*/M&gt; <span class=
+"blue">U</span>serspace cryptographic algorithm configuration          [CRYPTO_USER]
+  <span class="blue">U</span>serspace interface ---&gt;
+    &lt;*/M&gt; H<span class=
+"blue">a</span>sh algorithms                                 [CRYPTO_USER_API_HASH]</pre>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          elogind のインストール
+        </h2>
+        <p>
+          Install <span class="application">elogind</span> by running the
+          following commands:
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+meson setup ..                              \
+      --prefix=/usr                         \
+      --buildtype=release                   \
+      -Dman=auto                            \
+      -Ddocdir=/usr/share/doc/elogind-252.9 \
+      -Dcgroup-controller=elogind           \
+      -Ddev-kvm-mode=0660                   \
+      -Ddbuspolicydir=/etc/dbus-1/system.d &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          To test the results, issue: <span class="command"><strong>ninja
+          test</strong></span>. A few tests are skipped if not run with
+          <code class="systemitem">root</code> privileges. Two tests named
+          <code class="filename">test-fs-util</code> and <code class=
+          "filename">test-id128</code> require the <code class=
+          "filename">/etc/machine-id</code> symlink, so they will fail if
+          this symlink is not created following the instruction in <a class=
+          "xref" href="dbus.html" title="dbus-1.14.10">dbus-1.14.10</a> yet.
+        </p>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">ninja install                                           &amp;&amp;
+ln -sfv  libelogind.pc /usr/lib/pkgconfig/libsystemd.pc &amp;&amp;
+ln -sfvn elogind /usr/include/systemd</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class=
+          "parameter"><code>-Ddocdir=/usr/share/doc/elogind-252.9</code></em>:
+          This is needed to install documentation in a versioned directory.
+        </p>
+        <p>
+          <em class=
+          "parameter"><code>-Dcgroup-controller=elogind</code></em>: This
+          switch is necessary to build this package when the kernel is not
+          built with <code class="option">CONFIG_CGROUPS</code> enabled. Note
+          that <span class="application">elogind</span> strictly needs a
+          kernel with <code class="option">CONFIG_CGROUPS</code> enabled at
+          runtime, but this switch will allow building the package first.
+        </p>
+        <p>
+          <em class=
+          "parameter"><code>-Ddbuspolicydir=/etc/dbus-1/system.d</code></em>:
+          This switch sets the location of the <span class=
+          "application">D-Bus</span> policy directory.
+        </p>
+        <p>
+          <em class="parameter"><code>-Ddev-kvm-mode=0660</code></em>: The
+          LFS udev rule sets the mode of <code class=
+          "filename">/dev/kvm</code> to 0660. This option ensures the elogind
+          udev rules consistent with the LFS configuration.
+        </p>
+        <p>
+          <em class="parameter"><code>-Dman=auto</code></em>: The default
+          value of this switch is <span class=
+          "emphasis"><em>false</em></span>. Setting it to <span class=
+          "emphasis"><em>auto</em></span> allows building and installing the
+          man pages if the recommended dependencies are installed.
+        </p>
+        <p>
+          <code class="option">-Dhtml=auto</code>: The default value of this
+          switch is <span class="emphasis"><em>false</em></span>. Setting it
+          to <span class="emphasis"><em>auto</em></span> allows building and
+          installing the html documentation if the recommended dependencies
+          are installed.
+        </p>
+        <p>
+          <code class="option">-Ddefault-kill-user-processes=false</code>:
+          Determines whether the processes of a user should be killed when
+          the user logs out. The default is <span class=
+          "emphasis"><em>true</em></span>, but this defeats the traditional
+          use of <span class="command"><strong>screen</strong></span> or
+          <span class="command"><strong>tmux</strong></span>. This can also
+          be changed in the configuration file (see below).
+        </p>
+        <p>
+          <span class="command"><strong>ln -s ...</strong></span>: These
+          commands install symlinks so that software packages can find the
+          systemd-compatible library and headers.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          elogind の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="elogind-config" name="elogind-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="elogind-config" name="elogind-config"></a>設定ファイル
+          </h4>
+          <p>
+            <code class="filename">/etc/elogind/logind.conf</code>
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id31094" name="id31094"></a>設定情報
+          </h4>
+          <p>
+            The installed file <code class=
+            "filename">/etc/elogind/logind.conf</code> contains all the
+            possible options with their defaults, commented out. You may wish
+            to disable automatically killing user processes when the user
+            logs out, by running, as the <code class="systemitem">root</code>
+            user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">sed -e '/\[Login\]/a KillUserProcesses=no' \
+    -i /etc/elogind/logind.conf</kbd></pre>
+          <p>
+            Each user will need to register a user session using <span class=
+            "application">Linux-PAM</span> at login. The <code class=
+            "filename">/etc/pam.d/system-session</code> file needs to be
+            modified and a new file must be created in order for <span class=
+            "command"><strong>elogind</strong></span> to work correctly. Run
+            the following commands as the <code class=
+            "systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt;&gt; /etc/pam.d/system-session &lt;&lt; "EOF" &amp;&amp;
+<code class="literal"># Begin elogind addition
+
+session  required    pam_loginuid.so
+session  optional    pam_elogind.so
+
+# End elogind addition</code>
+EOF
+cat &gt; /etc/pam.d/elogind-user &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/pam.d/elogind-user
+
+account  required    pam_access.so
+account  include     system-account
+
+session  required    pam_env.so
+session  required    pam_limits.so
+session  required    pam_unix.so
+session  required    pam_loginuid.so
+session  optional    pam_keyinit.so force revoke
+session  optional    pam_elogind.so
+
+auth     required    pam_deny.so
+password required    pam_deny.so
+
+# End /etc/pam.d/elogind-user</code>
+EOF</kbd></pre>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">busctl, elogind-inhibit, loginctl</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libelogind.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/lib/elogind, /etc/elogind, /usr/include/elogind,
+              /usr/share/doc/elogind-252.9</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="busctl" name="busctl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>busctl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to introspect and monitor the D-Bus bus
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="elogind-inhibit" name=
+                    "elogind-inhibit"></a><span class="term"><span class=
+                    "command"><strong>elogind-inhibit</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to execute a program with a shutdown, sleep or
+                    idle inhibitor lock taken
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="loginctl" name="loginctl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>loginctl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to introspect and control the state of the
+                    elogind Login Manager
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libelogind" name="libelogind"></a><span class=
+                    "term"><code class="filename">libelogind.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the main elogind utility library
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="dbus.html" title="dbus-1.14.10">戻る</a>
+          <p>
+            dbus-1.14.10
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="blocaled.html" title="blocaled-0.5">次へ</a>
+          <p>
+            blocaled-0.5
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="sysutils.html" title=
+          "第12章 システムユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
