@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      GC-8.2.4
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第13章 プログラミング言語
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gcc.html" title="GCC-13.2.0">戻る</a>
+          <p>
+            GCC-13.2.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gdb.html" title="GDB-14.1">次へ</a>
+          <p>
+            GDB-14.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="prog.html" title="第13章 プログラミング言語">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="gc" name="gc"></a>GC-8.2.4
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          GC の概要
+        </h2>
+        <p>
+          The <span class="application">GC</span> package contains the
+          Boehm-Demers-Weiser conservative garbage collector, which can be
+          used as a garbage collecting replacement for the C malloc function
+          or C++ new operator. It allows you to allocate memory basically as
+          you normally would, without explicitly deallocating memory that is
+          no longer useful. The collector automatically recycles memory when
+          it determines that it can no longer be otherwise accessed. The
+          collector is also used by a number of programming language
+          implementations that either use C as intermediate code, want to
+          facilitate easier interoperation with C libraries, or just prefer
+          the simple collector interface. Alternatively, the garbage
+          collector may be used as a leak detector for C or C++ programs,
+          though that is not its primary goal.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/ivmai/bdwgc/releases/download/v8.2.4/gc-8.2.4.tar.gz">
+                https://github.com/ivmai/bdwgc/releases/download/v8.2.4/gc-8.2.4.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 8901a6ed29ac35842420054772ea3441
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1.2 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 9.9 MB (テスト込み)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.2 SBU (テスト込み)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="libatomic_ops.html" title=
+          "libatomic_ops-7.8.2">libatomic_ops-7.8.2</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          GC のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">GC</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr      \
+            --enable-cplusplus \
+            --disable-static   \
+            --docdir=/usr/share/doc/gc-8.2.4 &amp;&amp;
+make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>make
+          check</strong></span> を実行します。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install &amp;&amp;
+install -v -m644 doc/gc.man /usr/share/man/man3/gc_malloc.3</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class=
+          "parameter"><code>--docdir=/usr/share/doc/gc-8.2.4</code></em>:
+          This option is used so the package will install the documentation
+          in a versioned directory.
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-cplusplus</code></em>: This
+          parameter enables the building and installing of the C++ library
+          along with the standard C library.
+        </p>
+        <p>
+          <em class="parameter"><code>--disable-static</code></em>:
+          このスイッチはスタティックライブラリをインストールしないようにします。
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libcord.so, libgc.so, libgccpp.so, libgctba.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/gc, /usr/share/doc/gc-8.2.4</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libcord" name="libcord"></a><span class=
+                    "term"><code class="filename">libcord.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains a tree-based string library
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libgc" name="libgc"></a><span class=
+                    "term"><code class="filename">libgc.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains a C interface to the conservative garbage
+                    collector, primarily designed to replace the C malloc
+                    function
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libgccpp" name="libgccpp"></a><span class=
+                    "term"><code class="filename">libgccpp.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains a C++ interface to the conservative garbage
+                    collector
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libgctba" name="libgctba"></a><span class=
+                    "term"><code class="filename">libgctba.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains a C++ interface to throw bad allocations
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gcc.html" title="GCC-13.2.0">戻る</a>
+          <p>
+            GCC-13.2.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gdb.html" title="GDB-14.1">次へ</a>
+          <p>
+            GDB-14.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="prog.html" title="第13章 プログラミング言語">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

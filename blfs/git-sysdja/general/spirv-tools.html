@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      SPIRV-Tools-2023.5.rc1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第9章 汎用的なライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="spirv-headers.html" title=
+          "SPIRV-Headers-1.3.268.0">戻る</a>
+          <p>
+            SPIRV-Headers-1.3.268.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="talloc.html" title="Talloc-2.4.1">次へ</a>
+          <p>
+            Talloc-2.4.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="spirv-tools" name="spirv-tools"></a>SPIRV-Tools-2023.5.rc1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          SPIRV-Tools の概要
+        </h2>
+        <p>
+          The <span class="application">SPIRV-Tools</span> package contains
+          libraries and utilities for processing SPIR-V modules.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/KhronosGroup/SPIRV-Tools/archive/refs/tags/v2023.5.rc1/SPIRV-Tools-2023.5.rc1.tar.gz">
+                https://github.com/KhronosGroup/SPIRV-Tools/archive/refs/tags/v2023.5.rc1/SPIRV-Tools-2023.5.rc1.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 13d654053bd8145f9e438c38e9021b30
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 3.0 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 69 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 1.2 SBU (parallelism=8 利用)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          SPIRV-Tools の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="cmake.html" title=
+          "CMake-3.28.1">CMake-3.28.1</a>, <a class="xref" href=
+          "spirv-headers.html" title=
+          "SPIRV-Headers-1.3.268.0">SPIRV-Headers-1.3.268.0</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          SPIRV-Tools のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">SPIRV-Tools</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+cmake -DCMAKE_INSTALL_PREFIX=/usr     \
+      -DCMAKE_BUILD_TYPE=Release      \
+      -DSPIRV_WERROR=OFF              \
+      -DBUILD_SHARED_LIBS=ON          \
+      -DSPIRV_TOOLS_BUILD_STATIC=OFF  \
+      -DSPIRV-Headers_SOURCE_DIR=/usr \
+      -G Ninja .. &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>ninja
+          test</strong></span> を実行します。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">ninja install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>-DSPIRV_WERROR=OFF</code></em>: This
+          switch stops the build system from treating warnings as errors.
+        </p>
+        <p>
+          <em class="parameter"><code>-DBUILD_SHARED_LIBS=ON</code></em>:
+          This switch forces the build system to install shared libraries
+          instead of static libraries.
+        </p>
+        <p>
+          <em class=
+          "parameter"><code>-DSPIRV_TOOLS_BUILD_STATIC=OFF</code></em>: This
+          switch disables building static versions of the libraries.
+        </p>
+        <p>
+          <em class="parameter"><code>-DSPIRV-Headers_SOURCE_DIR</code></em>:
+          This switch tells the build system that <a class="xref" href=
+          "spirv-headers.html" title=
+          "SPIRV-Headers-1.3.268.0">SPIRV-Headers-1.3.268.0</a> is installed
+          in /usr. This is needed since the build system tries to use an
+          internal copy by default.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">spirv-as, spirv-cfg, spirv-dis, spirv-lesspipe.sh,
+              spirv-link, spirv-lint, spirv-objdump, spirv-opt, spirv-reduce,
+              spirv-val</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libSPIRV-Tools-diff.so, libSPIRV-Tools-link.so,
+              libSPIRV-Tools-lint.so, libSPIRV-Tools-opt.so,
+              libSPIRV-Tools-reduce.so, libSPIRV-Tools-shared.so,
+              libSPIRV-Tools.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/spirv-tools,
+              /usr/lib/cmake/SPIRV-Tools</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="spirv-as" name="spirv-as"></a><span class=
+                    "term"><span class=
+                    "command"><strong>spirv-as</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    creates a SPIR-V binary module from SPIR-V assembly text
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="spirv-cfg" name="spirv-cfg"></a><span class=
+                    "term"><span class=
+                    "command"><strong>spirv-cfg</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    shows the control flow graph in "dot" format
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="spirv-dis" name="spirv-dis"></a><span class=
+                    "term"><span class=
+                    "command"><strong>spirv-dis</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    disassembles a SPIR-V binary module
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="spirv-lesspipe.sh" name=
+                    "spirv-lesspipe.sh"></a><span class="term"><span class=
+                    "command"><strong>spirv-lesspipe.sh</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    automatically disassembles a .SPV file for 'less'
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="spirv-link" name="spirv-link"></a><span class=
+                    "term"><span class=
+                    "command"><strong>spirv-link</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    links SPIR-V binary files together
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="spirv-lint" name="spirv-lint"></a><span class=
+                    "term"><span class=
+                    "command"><strong>spirv-lint</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    checks a SPIR-V binary module for errors
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="spirv-objdump" name=
+                    "spirv-objdump"></a><span class="term"><span class=
+                    "command"><strong>spirv-objdump</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    dumps information from a SPIR-V binary
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="spirv-opt" name="spirv-opt"></a><span class=
+                    "term"><span class=
+                    "command"><strong>spirv-opt</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    performs optimizations on SPIR-V binary files
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="spirv-reduce" name="spirv-reduce"></a><span class=
+                    "term"><span class=
+                    "command"><strong>spirv-reduce</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    reduces a SPIR-V binary file
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="spirv-val" name="spirv-val"></a><span class=
+                    "term"><span class=
+                    "command"><strong>spirv-val</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    validates a SPIR-V binary file
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libSPIRV-Tools" name=
+                    "libSPIRV-Tools"></a><span class="term"><code class=
+                    "filename">libSPIRV-Tools.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains functions for processing SPIR-V modules
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="spirv-headers.html" title=
+          "SPIRV-Headers-1.3.268.0">戻る</a>
+          <p>
+            SPIRV-Headers-1.3.268.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="talloc.html" title="Talloc-2.4.1">次へ</a>
+          <p>
+            Talloc-2.4.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

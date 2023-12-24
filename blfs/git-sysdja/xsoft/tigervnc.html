@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Tigervnc-1.13.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第41章 X ベースのその他のプログラム
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="thunderbird.html" title=
+          "Thunderbird-115.5.1">戻る</a>
+          <p>
+            Thunderbird-115.5.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="transmission.html" title=
+          "Transmission-4.0.5">次へ</a>
+          <p>
+            Transmission-4.0.5
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="other.html" title=
+          "第41章 X ベースのその他のプログラム">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="tigervnc" name="tigervnc"></a>Tigervnc-1.13.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to Tigervnc
+        </h2>
+        <p>
+          <span class="application">Tigervnc</span> is an advanced VNC
+          (Virtual Network Computing) implementation. It allows creation of
+          an Xorg server not tied to a physical console and also provides a
+          client for viewing of the remote graphical desktop.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://github.com/TigerVNC/tigervnc/archive/v1.13.1/tigervnc-1.13.1.tar.gz">
+                https://github.com/TigerVNC/tigervnc/archive/v1.13.1/tigervnc-1.13.1.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: 3a794e3a063443e07250de8e99e2e05a
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 1.8 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 97 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: 0.4 SBU (Using parallelism=4)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Additional Downloads
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Required file: <a class="ulink" href=
+                "https://www.x.org/pub/individual/xserver/xorg-server-21.1.6.tar.xz">
+                https://www.x.org/pub/individual/xserver/xorg-server-21.1.6.tar.xz</a>
+              </p>
+            </li>
+          </ul>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            The version of <span class="application">Xorg</span> may
+            eventually be a few versions out of date, but is required for the
+            customizations needed for this package.
+          </p>
+        </div>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Required patch: <a class="ulink" href=
+                "https://www.linuxfromscratch.org/patches/blfs/svn/tigervnc-1.13.1-configuration_fixes-1.patch">
+                https://www.linuxfromscratch.org/patches/blfs/svn/tigervnc-1.13.1-configuration_fixes-1.patch</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Optional file to start the server without a display manager:
+                <a class="ulink" href=
+                "https://anduin.linuxfromscratch.org/BLFS/tigervnc/Xsession">https://anduin.linuxfromscratch.org/BLFS/tigervnc/Xsession</a>
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Tigervnc Dependencies
+        </h3>
+        <h4>
+          Required
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/cmake.html" title=
+          "CMake-3.28.1">CMake-3.28.1</a>, <a class="xref" href=
+          "../x/fltk.html" title="FLTK-1.3.9">FLTK-1.3.9</a>, <a class="xref"
+          href="../postlfs/gnutls.html" title=
+          "GnuTLS-3.8.2">GnuTLS-3.8.2</a>, <a class="xref" href=
+          "../general/libgcrypt.html" title=
+          "libgcrypt-1.10.3">libgcrypt-1.10.3</a>, <a class="xref" href=
+          "../general/libjpeg.html" title=
+          "libjpeg-turbo-3.0.1">libjpeg-turbo-3.0.1</a>, <a class="xref"
+          href="../general/pixman.html" title=
+          "Pixman-0.42.2">Pixman-0.42.2</a>, <span class="phrase"><a class=
+          "xref" href="../general/systemd.html" title=
+          "Systemd-255">Systemd-255</a> (with <a class="xref" href=
+          "../postlfs/linux-pam.html" title=
+          "Linux-PAM-1.5.3">Linux-PAM-1.5.3</a>),</span> <a class="xref"
+          href="../x/x7app.html" title="Xorg アプリケーション">Xorg アプリケーション</a>,
+          <a class="xref" href="../x/xinit.html" title=
+          "xinit-1.4.2">xinit-1.4.2</a>, and <a class="xref" href=
+          "../x/x7legacy.html" title="Xorg Legacy">Xorg Legacy Fonts</a>
+        </p>
+        <h4>
+          Recommended
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../general/imagemagick.html" title=
+          "ImageMagick-7.1.1-15">ImageMagick-7.1.1-15</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of Tigervnc
+        </h2>
+        <p>
+          First, make adjustments to the configuration files to make them
+          compatible with LFS systems:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../tigervnc-1.13.1-configuration_fixes-1.patch</kbd></pre>
+        <p>
+          Install <span class="application">tigervnc</span> by running the
+          following commands:
+        </p>
+        <pre class="userinput"><kbd class="command"># Put code in place
+mkdir -p unix/xserver &amp;&amp;
+tar -xf ../xorg-server-21.1.6.tar.xz \
+    --strip-components=1              \
+    -C unix/xserver                   &amp;&amp;
+( cd unix/xserver &amp;&amp;
+  patch -Np1 -i ../xserver21.1.1.patch ) &amp;&amp;
+
+# Build viewer
+cmake -G "Unix Makefiles"         \
+      -DCMAKE_INSTALL_PREFIX=/usr \
+      -DCMAKE_BUILD_TYPE=Release  \
+      -Wno-dev . &amp;&amp;
+make &amp;&amp;
+
+# Build server
+pushd unix/xserver &amp;&amp;
+  autoreconf -fiv  &amp;&amp;
+
+  CPPFLAGS="-I/usr/include/drm"       \
+  ./configure $XORG_CONFIG            \
+      --disable-xwayland    --disable-dri        --disable-dmx         \
+      --disable-xorg        --disable-xnest      --disable-xvfb        \
+      --disable-xwin        --disable-xephyr     --disable-kdrive      \
+      --disable-devel-docs  --disable-config-hal --disable-config-udev \
+      --disable-unit-tests  --disable-selective-werror                 \
+      --disable-static      --enable-dri3                              \
+      --without-dtrace      --enable-dri2        --enable-glx          \
+      --with-pic &amp;&amp;
+  make  &amp;&amp;
+popd</kbd></pre>
+        <p>
+          This package does not come with a test suite.
+        </p>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">#Install viewer
+make install &amp;&amp;
+
+#Install server
+( cd unix/xserver/hw/vnc &amp;&amp; make install ) &amp;&amp;
+
+[ -e /usr/bin/Xvnc ] || ln -svf $XORG_PREFIX/bin/Xvnc /usr/bin/Xvnc</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <span class="command"><strong>tar -xf ..
+          xorg-server...</strong></span>: This command extracts the standard
+          Xorg package into the tree in a location needed for modification.
+        </p>
+        <p>
+          <em class="parameter"><code>--disable ...</code></em>: Most options
+          that are usually needed for the standard Xorg server are not needed
+          for the Xvnc instance being built.
+        </p>
+        <p>
+          <span class="command"><strong>[ -e /usr/bin/Xvnc ] || ln ...
+          Xvnc</strong></span>: If the Xvnc server is not installed in the
+          <code class="filename">/usr/bin</code> directory, then create a
+          link so the <span class="command"><strong>vncserver</strong></span>
+          script can find it.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Configuring Tigervnc
+        </h2>
+        <h3>
+          Server Configuration
+        </h3>
+        <p>
+          On systemd systems, another method of configuration is available.
+          This configuration provides the added benefit of making tigervnc
+          systemd aware for VNC sessions and allows desktop environments like
+          <span class="application">GNOME</span> to autostart services once
+          the VNC session is started. This configuration also gives the added
+          benefit of starting VNC Sessions on system startup. To set up the
+          VNC server in this fashion, follow these instructions.
+        </p>
+        <p>
+          First, install a rudimentary Xsession file so that the VNC server
+          can initialize X sessions properly:
+        </p>
+        <pre class="root"><kbd class=
+        "command">install -vdm755 /etc/X11/tigervnc &amp;&amp;
+install -v -m755 ../Xsession /etc/X11/tigervnc</kbd></pre>
+        <p>
+          Next, set up a user mapping in <code class=
+          "filename">/etc/tigervnc/vncserver.users</code>. This tells the VNC
+          Server which session is allocated to a user.
+        </p>
+        <pre class="root"><kbd class=
+        "command">echo ":1=$(whoami)" &gt;&gt; /etc/tigervnc/vncserver.users</kbd></pre>
+        <p>
+          Next, set up a configuration file to tell <span class=
+          "application">vncserver</span> which desktop environment should be
+          used and what display geometry should be used. There are several
+          other options that can be defined in this file, but they are
+          outside the scope of BLFS.
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">install -vdm 755 ~/.vnc &amp;&amp;
+cat &gt; ~/.vnc/config &lt;&lt; EOF
+<code class="literal"># Begin ~/.vnc/config
+# The session must match one listed in /usr/share/xsessions.
+# Ensure that there are no spaces at the end of the lines.
+
+session=LXDE
+geometry=1024x768
+
+# End ~/.vnc/config</code>
+EOF</kbd></pre>
+        <p>
+          To start the VNC Server, run the following command:
+        </p>
+        <pre class="root"><kbd class=
+        "command">systemctl start vncserver@:1</kbd></pre>
+        <p>
+          To start the VNC Server when the system boots, run the following
+          command:
+        </p>
+        <pre class="root"><kbd class=
+        "command">systemctl enable vncserver@:1</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">Xvnc, vncconfig, vncpasswd, vncserver,
+              vncviewer, and x0vncserver</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">libvnc.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody">/usr/share/doc/tigervnc-1.13.1</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xvnc" name="xvnc"></a><span class=
+                    "term"><span class=
+                    "command"><strong>Xvnc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a X VNC (Virtual Network Computing) server. It is
+                    based on a standard X server, but it has a <span class=
+                    "quote">「<span class="quote">virtual</span>」</span>
+                    screen rather than a physical one
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="vncconfig" name="vncconfig"></a><span class=
+                    "term"><span class=
+                    "command"><strong>vncconfig</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a program to configure and control a VNC server
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="vncpasswd" name="vncpasswd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>vncpasswd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    allows you to set the password used to access VNC
+                    desktops
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="vncserver" name="vncserver"></a><span class=
+                    "term"><span class=
+                    "command"><strong>vncserver</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a perl script used to start or stop a VNC server
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="vncviewer" name="vncviewer"></a><span class=
+                    "term"><span class=
+                    "command"><strong>vncviewer</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a client used to connect to VNC desktops
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="x0vncserver" name="x0vncserver"></a><span class=
+                    "term"><span class=
+                    "command"><strong>x0vncserver</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a program to make an X display on a physical terminal
+                    accessible via TigerVNC or compatible viewers
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="thunderbird.html" title=
+          "Thunderbird-115.5.1">戻る</a>
+          <p>
+            Thunderbird-115.5.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="transmission.html" title=
+          "Transmission-4.0.5">次へ</a>
+          <p>
+            Transmission-4.0.5
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="other.html" title=
+          "第41章 X ベースのその他のプログラム">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

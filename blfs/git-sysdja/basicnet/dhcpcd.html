@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      dhcpcd-10.0.6
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第14章 ネットワーク接続
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="advanced-network.html" title=
+          "Advanced Network Setup">戻る</a>
+          <p>
+            Advanced Network Setup
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="netprogs.html" title="ネットワークプログラム">次へ</a>
+          <p>
+            ネットワークプログラム
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="connect.html" title="第14章 ネットワーク接続">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="dhcpcd" name="dhcpcd"></a>dhcpcd-10.0.6
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          dhcpcd の概要
+        </h2>
+        <p>
+          <span class="application">dhcpcd</span> は、RFC2131 にて定義されている DHCP
+          クライアントの実装です。 DHCP クライアントは、DHCP
+          を利用してネットワークアドレスが割り当てられたネットワークへのアクセスに用いられます。 dhcpcd
+          は十分な機能を有すると同時に、大変軽量な DHCP クライアントです。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/NetworkConfiguration/dhcpcd/releases/download/v10.0.6/dhcpcd-10.0.6.tar.xz">
+                https://github.com/NetworkConfiguration/dhcpcd/releases/download/v10.0.6/dhcpcd-10.0.6.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: ef8356d711b17701928ead7206d15234
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 264 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 3.0 MB (with tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU 以下 (テスト込み)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          dhcpcd の依存パッケージ
+        </h3>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/llvm.html" title=
+          "LLVM-17.0.6">LLVM-17.0.6</a> (with Clang), <a class="xref" href=
+          "ntp.html" title="ntp-4.2.8p17">ntp-4.2.8p17</a>, <a class="ulink"
+          href="https://chrony.tuxfamily.org/">chronyd</a>, and <a class=
+          "ulink" href="https://github.com/thkukuk/ypbind-mt/">ypbind</a>
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="dhcpcd-privsep" name="dhcpcd-privsep"></a>Privilege
+          separation
+        </h2>
+        <p>
+          Recent releases of <span class="application">dhcpcd</span>
+          optionally support privilege separation. As the practical security
+          benefits of this are unclear for a program like <span class=
+          "application">dhcpcd</span> and the setup is more complicated, the
+          book currently defaults to disable it.
+        </p>
+        <p>
+          If you however would like to use privilege separation, additional
+          installation steps are necessary to set up the proper environment.
+          Issue the following commands as the <code class=
+          "systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">install  -v -m700 -d /var/lib/dhcpcd &amp;&amp;
+
+groupadd -g 52 dhcpcd        &amp;&amp;
+useradd  -c 'dhcpcd PrivSep' \
+         -d /var/lib/dhcpcd  \
+         -g dhcpcd           \
+         -s /bin/false       \
+         -u 52 dhcpcd &amp;&amp;
+chown    -v dhcpcd:dhcpcd /var/lib/dhcpcd </kbd></pre>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          dhcpcd のインストール
+        </h2>
+        <p>
+          Build <span class="application">dhcpcd</span> without privilege
+          separation by running the following command:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr                \
+            --sysconfdir=/etc            \
+            --libexecdir=/usr/lib/dhcpcd \
+            --dbdir=/var/lib/dhcpcd      \
+            --runstatedir=/run           \
+            --disable-privsep         &amp;&amp;
+make</kbd></pre>
+        <p>
+          Alternatively, build <span class="application">dhcpcd</span> with
+          privilege separation by running the following commands:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr                \
+            --sysconfdir=/etc            \
+            --libexecdir=/usr/lib/dhcpcd \
+            --dbdir=/var/lib/dhcpcd      \
+            --runstatedir=/run           \
+            --privsepuser=dhcpcd         &amp;&amp;
+make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>make
+          test</strong></span> を実行します。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class=
+          "parameter"><code>--libexecdir=/usr/lib/dhcpcd</code></em>: This
+          switch sets a better location for the dhcpcd internal libraries.
+        </p>
+        <p>
+          <em class="parameter"><code>--dbdir=/var/lib/dhcpcd</code></em>:
+          This switch adjusts the database directory because the default
+          directory, <code class="filename">/var/db</code>, is not
+          FHS-compliant.
+        </p>
+        <p>
+          <em class="parameter"><code>--runstatedir=/run</code></em>: This
+          switch sets the runtime state directory because the default
+          <code class="filename">/var/run</code> is a symbolic link to
+          <code class="filename">/run</code>, and using <code class=
+          "filename">/var/run</code> is deprecated.
+        </p>
+        <p>
+          <em class="parameter"><code>--disable-privsep</code></em>: This
+          switch disables privilege separation, which is the default in
+          dhcpcd. This switch is not used in the build configuration where
+          privilege separation is used.
+        </p>
+        <p>
+          <em class="parameter"><code>--privsepuser=dhcpcd</code></em>: This
+          switch sets the privilege separation user in the build
+          configuration where privilege escalation is used.
+        </p>
+        <p>
+          <code class="option">--with-hook=...</code>: You can optionally
+          install more hooks, for example to install some configuration files
+          such as <code class="filename">ntp.conf</code>. A set of hooks can
+          be found in the <code class="filename">dhcpcd-hooks</code>
+          directory in the build tree.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          dhcpcd の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="dhcpcd-config" name="dhcpcd-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="dhcpcd-config" name="dhcpcd-config"></a>設定ファイル
+          </h4>
+          <p>
+            <code class="filename">/etc/dhcpcd.conf</code>
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="dhcpcd-init3" name="dhcpcd-init3"></a>
+          </h3>
+          <h4 class="title">
+            <a id="dhcpcd-init3" name="dhcpcd-init3"></a>全般的な設定情報
+          </h4>
+          <p>
+            If you want to configure network interfaces at boot using
+            <span class="command"><strong>dhcpcd</strong></span>, you need to
+            install the systemd unit included in <a class="xref" href=
+            "../introduction/systemd-units.html" title=
+            "BLFS Systemd ユニット">blfs-systemd-units-20231205</a> package by
+            running the following command as the <code class=
+            "systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">make install-dhcpcd</kbd></pre>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              <a id="dhcpcd-config5" name="dhcpcd-config5"></a> The default
+              behavior of <span class=
+              "command"><strong>dhcpcd</strong></span> is to set the hostname
+              and the mtu. It also overwrites <code class=
+              "filename">/etc/resolv.conf</code> and <code class=
+              "filename">/etc/ntp.conf</code>. These modifications to system
+              configuration files are done by hooks which are stored in
+              <code class="filename">/usr/lib/dhcpcd/dhcpcd-hooks</code>. You
+              can change this behavior by removing or adding hooks from/to
+              that directory. The execution of hooks can be disabled by using
+              the <code class="option">--nohook</code> (<code class=
+              "option">-C</code>) command line option or by the <code class=
+              "option">nohook</code> option in the <code class=
+              "filename">/etc/dhcpcd.conf</code> file.
+            </p>
+          </div>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              Make sure that you disable the <span class=
+              "command"><strong>systemd-networkd</strong></span> service or
+              configure it not to manage the interfaces you want to manage
+              with <span class="application">dhcpcd</span>.
+            </p>
+          </div>
+          <p>
+            At this point you can test if <span class=
+            "command"><strong>dhcpcd</strong></span> is behaving as expected
+            by running the following command as the <code class=
+            "systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">systemctl start dhcpcd@<em class=
+          "replaceable"><code>eth0</code></em></kbd></pre>
+          <p>
+            To start <span class="command"><strong>dhcpcd</strong></span> on
+            a specific interface at boot, enable the previously installed
+            systemd unit by running the following command as the <code class=
+            "systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">systemctl enable dhcpcd@<em class=
+          "replaceable"><code>eth0</code></em></kbd></pre>
+          <p>
+            Replace <em class="replaceable"><code>eth0</code></em> with the
+            actual interface name.
+          </p>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">dhcpcd</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">/usr/lib/dhcpcd/dev/udev.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/{usr,var}/lib/dhcpcd, /usr/share/dhcpcd</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dhcpcd-prog" name="dhcpcd-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>dhcpcd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    RFC2131 にて定義されている DHCP クライアントの実装です。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dhcpcd-udev" name="dhcpcd-udev"></a><span class=
+                    "term"><code class="filename">udev.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    adds udev support for interface arrival and departure;
+                    this is because udev likes to rename the interface, which
+                    it can't do if dhcpcd grabs it first
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="advanced-network.html" title=
+          "Advanced Network Setup">戻る</a>
+          <p>
+            Advanced Network Setup
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="netprogs.html" title="ネットワークプログラム">次へ</a>
+          <p>
+            ネットワークプログラム
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="connect.html" title="第14章 ネットワーク接続">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

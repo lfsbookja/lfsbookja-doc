@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      /etc/vimrc ファイルと ~/.vimrc ファイル
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第3章 LFS 設定以降について
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="profile.html" title=
+          "Bash シェルの初期起動ファイル">戻る</a>
+          <p>
+            Bash シェルの初期起動ファイル
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="logon.html" title=
+          "/etc/issue を使ったログオン画面のカスタマイズ">次へ</a>
+          <p>
+            /etc/issue を使ったログオン画面のカスタマイズ
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="config.html" title=
+          "第3章 LFS 設定以降について">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="postlfs-config-vimrc" name=
+        "postlfs-config-vimrc"></a>/etc/vimrc ファイルと ~/.vimrc ファイル
+      </h1>
+      <p>
+        LFS ブックではテキストエディターとして <span class="application">Vim</span>
+        をインストールしました。 エディターと言えば他にも<span class=
+        "emphasis"><em>たくさんの</em></span>ものが存在し、例えば <span class=
+        "application">Emacs</span>、<span class=
+        "application">nano</span>、<span class="application">Joe</span>
+        などがあります。 どなたでもインターネット (あるいは特に USENET) をちょっとでも調べてみると、すぐに行き着く話題があります。
+        かつて激しく行われた論争です。 特に <span class="application">Vim</span> ユーザーと
+        <span class="application">Emacs</span> ユーザーの間に繰り広げられたものです！
+      </p>
+      <p>
+        LFS ブックでは基本となる <code class="filename">vimrc</code> ファイルを生成しました。
+        本節ではこのファイルの拡張方法を示します。 まず <span class=
+        "command"><strong>vim</strong></span> はグローバルな設定ファイル (<code class=
+        "filename">/etc/vimrc</code>) を読み込み、同時にユーザー設定ファイル (<code class=
+        "filename">~/.vimrc</code>) を読み込みます。
+        これらのファイルはともに、利用するシステムでの目的に合わせて設定を行います。
+      </p>
+      <p>
+        ここでは <code class="filename">~/.vimrc</code>
+        として配置するユーザー設定ファイルに、多少の拡張を加えることで設定を変更します。 これを <code class=
+        "filename">/etc/skel/.vimrc</code>
+        に配置することにすれば、この後にあなたが新たにユーザーを加えた際には、そのユーザーに対してその設定を提供できることになります。
+        あるいは既に存在しているユーザー (<code class="systemitem">root</code> ユーザーも含む)
+        に対して、<code class="filename">/etc/skel/.vimrc</code>
+        をそのホームディレクトリにコピーする方法もあります。 <code class="filename">/etc/skel</code>
+        からファイルをコピーした際には、ファイルのパーミッション、所有者、所有グループについて考慮するのを忘れないでください。
+      </p>
+      <pre class="screen"><code class="literal">" Begin .vimrc
+
+set columns=80
+set wrapmargin=8
+set ruler
+
+" End .vimrc</code></pre>
+      <p>
+        コメントを表す記号は、ごく普通には # や // が用いられますが、ここでは " であることに注意してください。
+        これは誤りでもなんでもなく <code class="filename">vimrc</code> における文法が少々変わっているのです。
+      </p>
+      <p>
+        以下に説明するのは、このファイル例に示している内容です。
+      </p>
+      <div class="itemizedlist">
+        <ul>
+          <li class="listitem">
+            <p>
+              <code class="option">set columns=80</code>:
+              これは端末画面上での文字カラム数を定めるものです。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              <code class="option">set wrapmargin=8</code>:
+              これは、画面右端からどれくらいの文字数になったら改行を始めるかを指定するものです。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              <code class="option">set ruler</code>: これは <span class=
+              "command"><strong>vim</strong></span>
+              の画面最下段の右端に、現在の行とカラム位置を表示するようにするものです。
+            </p>
+          </li>
+        </ul>
+      </div>
+      <p>
+        <span class="command"><strong>vim</strong></span> には <span class=
+        "emphasis"><em>たくさん</em></span> のオプションがあります。 これに対する詳細な情報は
+        <span class="command"><strong>vim</strong></span>
+        の実行中にヘルプとして参照することができます。 <span class=
+        "command"><strong>vim</strong></span> にて <span class=
+        "command"><strong>:</strong></span><code class="option">help</code>
+        と入力してください。 ヘルプ画面が表示されます。 または <span class=
+        "command"><strong>:</strong></span><code class="option">help
+        usr_toc.txt</code> と入力すれば、ユーザーマニュアルの目次を参照することもできます。
+      </p>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="profile.html" title=
+          "Bash シェルの初期起動ファイル">戻る</a>
+          <p>
+            Bash シェルの初期起動ファイル
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="logon.html" title=
+          "/etc/issue を使ったログオン画面のカスタマイズ">次へ</a>
+          <p>
+            /etc/issue を使ったログオン画面のカスタマイズ
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="config.html" title=
+          "第3章 LFS 設定以降について">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

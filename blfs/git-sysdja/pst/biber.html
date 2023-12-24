@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      biber-2.19
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第51章 組版処理
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="asymptote.html" title=
+          "asymptote-2.86">戻る</a>
+          <p>
+            asymptote-2.86
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="dvisvgm.html" title="dvisvgm-3.1.2">次へ</a>
+          <p>
+            dvisvgm-3.1.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="typesetting.html" title="第51章 組版処理">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="biber" name="biber"></a>biber-2.19
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          biber の概要
+        </h2>
+        <p>
+          Biber is a BibTeX replacement for users of biblatex, written in
+          <span class="application">Perl</span>, with full Unicode support.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/plk/biber/archive/v2.19/biber-2.19.tar.gz">
+                https://github.com/plk/biber/archive/v2.19/biber-2.19.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 898661d715ebb202e5b9d3ece354672e
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1.6 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 16 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.4 SBU including tests
+              </p>
+            </li>
+          </ul>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            If you have updated to a new release of texlive-source, biber and
+            its perl dependencies are still present in <code class=
+            "filename">/usr</code> and do not need to be rebuilt. However,
+            biblatex installs in <code class=
+            "filename">/opt/texlive/2023</code> and does need to be
+            reinstalled.
+          </p>
+          <p>
+            If you installed the above dependencies using the BLFS
+            instructions for each of them, <span class="command"><strong>perl
+            ./Build.PL</strong></span> will complain that Mozilla::CA is not
+            installed, but that is not needed unless CPAN was used to install
+            the modules. BLFS patches LWP::Protocol::https to use the system
+            certificates, Mozilla::CA uses old certificates.
+          </p>
+        </div>
+        <h3>
+          Biber の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href=
+          "../general/perl-modules.html#perl-autovivification" title=
+          "autovivification-0.18">autovivification-0.18</a> <a class="xref"
+          href="../general/perl-modules.html#perl-business-isbn" title=
+          "Business::ISBN-3.008">Business-ISBN-3.008</a> <a class="xref"
+          href="../general/perl-modules.html#perl-business-ismn" title=
+          "Business::ISMN-1.203">Business-ISMN-1.203</a> <a class="xref"
+          href="../general/perl-modules.html#perl-business-issn" title=
+          "Business::ISSN-1.005">Business-ISSN-1.005</a> <a class="xref"
+          href="../general/perl-modules.html#perl-class-accessor" title=
+          "Class::Accessor-0.51">Class-Accessor-0.51</a> <a class="xref"
+          href="../general/perl-modules.html#perl-data-compare" title=
+          "Data::Compare-1.29">Data-Compare-1.29</a> <a class="xref" href=
+          "../general/perl-modules.html#perl-data-dump" title=
+          "Data::Dump-1.25">Data-Dump-1.25</a> <a class="xref" href=
+          "../general/perl-modules.html#perl-data-uniqid" title=
+          "Data::Uniqid-0.12">Data-Uniqid-0.12</a> <a class="xref" href=
+          "../general/perl-modules.html#perl-datetime-calendar-julian" title=
+          "DateTime::Calendar::Julian-0.107">DateTime-Calendar-Julian-0.107</a>
+          <a class="xref" href=
+          "../general/perl-modules.html#perl-datetime-format-builder" title=
+          "DateTime::Format::Builder-0.83">DateTime-Format-Builder-0.83</a>
+          <a class="xref" href=
+          "../general/perl-modules.html#perl-encode-eucjpascii" title=
+          "Encode::EUCJPASCII-0.03">Encode-EUCJPASCII-0.03</a> <a class=
+          "xref" href="../general/perl-modules.html#perl-encode-hanextra"
+          title="Encode::HanExtra-0.23">Encode-HanExtra-0.23</a> <a class=
+          "xref" href="../general/perl-modules.html#perl-encode-jis2k" title=
+          "Encode::JIS2K-0.05">Encode-JIS2K-0.05</a> <a class="xref" href=
+          "../general/perl-modules.html#perl-file-slurper" title=
+          "File::Slurper-0.014">File-Slurper-0.014</a> <a class="xref" href=
+          "../general/perl-modules.html#perl-io-string" title=
+          "IO::String-1.08">IO-String-1.08</a> <a class="xref" href=
+          "../general/perl-modules.html#perl-ipc-run3" title=
+          "IPC::Run3-0.048">IPC-Run3-0.048</a> <a class="xref" href=
+          "../general/perl-modules.html#perl-lingua-translit" title=
+          "Lingua::Translit-0.29">Lingua-Translit-0.29</a> <a class="xref"
+          href="../general/perl-modules.html#perl-list-allutils" title=
+          "List::AllUtils-0.19">List-AllUtils-0.19</a> <a class="xref" href=
+          "../general/perl-modules.html#perl-list-moreutils" title=
+          "List::MoreUtils-0.430">List-MoreUtils-0.430</a> <a class="xref"
+          href="../general/perl-modules.html#perl-log-log4perl" title=
+          "Log::Log4perl-1.57">Log-Log4perl-1.57</a> <a class="xref" href=
+          "../general/perl-modules.html#perl-lwp-protocol-https" title=
+          "LWP::Protocol::https-6.11">LWP-Protocol-https-6.11</a> <a class=
+          "xref" href="../general/perl-modules.html#perl-module-build" title=
+          "Module::Build-0.4232">Module-Build-0.4232</a> <a class="xref"
+          href="../general/perl-modules.html#perl-parse-recdescent" title=
+          "Parse::RecDescent-1.967015">Parse-RecDescent-1.967015</a>
+          <a class="xref" href=
+          "../general/perl-modules.html#perl-perlio-utf8_strict" title=
+          "PerlIO::utf8_strict-0.010">PerlIO-utf8_strict-0.010</a> <a class=
+          "xref" href="../general/perl-modules.html#perl-regexp-common"
+          title="Regexp::Common-2017060201">Regexp-Common-2017060201</a>
+          <a class="xref" href="../general/perl-modules.html#perl-sort-key"
+          title="Sort::Key-1.33">Sort-Key-1.33</a> <a class="xref" href=
+          "../general/perl-modules.html#perl-text-bibtex" title=
+          "Text::BibTeX-0.89">Text-BibTeX-0.89</a> <a class="xref" href=
+          "../general/perl-modules.html#perl-text-csv" title=
+          "Text::CSV-2.04">Text-CSV-2.04</a> <a class="xref" href=
+          "../general/perl-modules.html#perl-text-roman" title=
+          "Text::Roman-3.5">Text-Roman-3.5</a> <a class="xref" href=
+          "../general/perl-modules.html#perl-unicode-collate" title=
+          "Unicode::Collate-1.31">Unicode-Collate-1.31</a> <a class="xref"
+          href="../general/perl-modules.html#perl-unicode-linebreak" title=
+          "Unicode::LineBreak-2019.001">Unicode-LineBreak-2019.001</a>
+          <a class="xref" href=
+          "../general/perl-modules.html#perl-xml-libxml-simple" title=
+          "XML::LibXML::Simple-1.01">XML-LibXML-Simple-1.01</a> <a class=
+          "xref" href="../general/perl-modules.html#perl-xml-libxslt" title=
+          "XML::LibXSLT-2.002001">XML-LibXSLT-2.002001</a> <a class="xref"
+          href="../general/perl-modules.html#perl-xml-writer" title=
+          "XML::Writer-0.900">XML-Writer-0.900</a>
+        </p>
+        <h4>
+          推奨 (テストスイートに必要)
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../general/perl-modules.html#perl-file-which"
+          title="File::Which-1.27">File-Which-1.27</a>, <a class="xref" href=
+          "../general/perl-modules.html#perl-test-differences" title=
+          "Test::Differences-0.71">Test-Differences-0.71</a>
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            It is possible to install all missing dependencies automatically.
+            You must first install <a class="xref" href=
+            "../general/perl-modules.html#perl-module-build" title=
+            "Module::Build-0.4232">Module-Build-0.4232</a> using <a class=
+            "xref" href="../general/perl-modules.html#perl-auto-install"
+            title="Automatic Installation of Perl Modules.">automatic
+            installation of perl modules</a>. Then run <span class=
+            "command"><strong>perl ./Build.PL</strong></span> and when it
+            prompts you, become the <code class="systemitem">root</code> user
+            and run <span class="command"><strong>./Build
+            installdeps</strong></span> - this will use CPAN and as noted
+            above it will use Mozilla::CA instead of using system
+            certificates.
+          </p>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Biber のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">Biber</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">perl ./Build.PL &amp;&amp;
+./Build</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>./Build
+          test</strong></span> を実行します。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">./Build install</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">biber</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/lib/perl5/site_perl/5.*{,/&lt;arch&gt;-linux/auto}/Biber</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="biber-prog" name="biber-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>biber</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used for producing bibliographies in LaTeX documents
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="asymptote.html" title=
+          "asymptote-2.86">戻る</a>
+          <p>
+            asymptote-2.86
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="dvisvgm.html" title="dvisvgm-3.1.2">次へ</a>
+          <p>
+            dvisvgm-3.1.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="typesetting.html" title="第51章 組版処理">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

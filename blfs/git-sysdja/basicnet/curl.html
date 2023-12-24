@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      cURL-8.5.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第17章 ネットワークライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="c-ares.html" title="c-ares-1.24.0">戻る</a>
+          <p>
+            c-ares-1.24.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="geoclue2.html" title="GeoClue-2.7.1">次へ</a>
+          <p>
+            GeoClue-2.7.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="netlibs.html" title=
+          "第17章 ネットワークライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="curl" name="curl"></a>cURL-8.5.0
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          cURL の概要
+        </h2>
+        <p>
+          The <span class="application">cURL</span> package contains an
+          utility and a library used for transferring files with URL syntax
+          to any of the following protocols: DICT, FILE, FTP, FTPS, GOPHER,
+          GOPHERS, HTTP, HTTPS, IMAP, IMAPS, LDAP, LDAPS, MQTT, POP3, POP3S,
+          RTSP, SMB, SMBS, SMTP, SMPTS, TELNET, and TFTP. Its ability to both
+          download and upload files can be incorporated into other programs
+          to support functions like streaming media.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://curl.se/download/curl-8.5.0.tar.xz">https://curl.se/download/curl-8.5.0.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 3e9e5c2db494e7dbd4e7024b149021c9
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 2.6 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 53 MB (add 18 MB for tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.3 SBU (with parallelism=4; add 15 SBU for tests
+                (without valgrind, add 36 SBU with valgrind)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          cURL の依存パッケージ
+        </h3>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../postlfs/make-ca.html" title=
+          "make-ca-1.13">make-ca-1.13</a> (実行時)
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/brotli.html" title=
+          "brotli-1.1.0">Brotli-1.1.0</a>, <a class="xref" href="c-ares.html"
+          title="c-ares-1.24.0">c-ares-1.24.0</a>, <a class="xref" href=
+          "../postlfs/gnutls.html" title="GnuTLS-3.8.2">GnuTLS-3.8.2</a>,
+          <a class="xref" href="../general/libidn2.html" title=
+          "libidn2-2.3.4">libidn2-2.3.4</a>, <a class="xref" href=
+          "libpsl.html" title="libpsl-0.21.2">libpsl-0.21.2</a>, <a class=
+          "xref" href="../general/libssh2.html" title=
+          "libssh2-1.11.0">libssh2-1.11.0</a>, <a class="xref" href=
+          "../postlfs/mitkrb.html" title="MIT Kerberos V5-1.21.2">MIT
+          Kerberos V5-1.21.2</a>, <a class="xref" href="nghttp2.html" title=
+          "nghttp2-1.58.0">nghttp2-1.58.0</a>, <a class="xref" href=
+          "../server/openldap.html" title=
+          "OpenLDAP-2.6.6">OpenLDAP-2.6.6</a>, <a class="xref" href=
+          "samba.html" title="Samba-4.19.3">Samba-4.19.3</a> (runtime, for
+          NTLM authentication), <a class="ulink" href=
+          "https://www.gnu.org/software/gsasl/">gsasl</a>, <a class="ulink"
+          href=
+          "https://www.secureauth.com/labs/open-source-tools/impacket/">impacket</a>,
+          <a class="ulink" href=
+          "https://launchpad.net/libmetalink/">libmetalink</a>, <a class=
+          "ulink" href="https://rtmpdump.mplayerhq.hu/">librtmp</a>,
+          <a class="ulink" href=
+          "https://github.com/ngtcp2/ngtcp2/">ngtcp2</a>, <a class="ulink"
+          href="https://github.com/cloudflare/quiche">quiche</a>, <a class=
+          "ulink" href="https://spnego.sourceforge.net/">SPNEGO</a>
+        </p>
+        <h4>
+          Optional if Running the Test Suite
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../server/apache.html" title=
+          "Apache-2.4.58">Apache-2.4.58</a> and <a class="xref" href=
+          "../postlfs/stunnel.html" title="stunnel-5.71">stunnel-5.71</a>
+          (for the HTTPS and FTPS tests), <a class="xref" href=
+          "../postlfs/openssh.html" title="OpenSSH-9.5p1">OpenSSH-9.5p1</a>,
+          and <a class="xref" href="../general/valgrind.html" title=
+          "Valgrind-3.22.0">Valgrind-3.22.0</a> (this will slow the tests
+          down and may cause failures.)
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          cURL のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">cURL</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr                           \
+            --disable-static                        \
+            --with-openssl                          \
+            --enable-threaded-resolver              \
+            --with-ca-path=/etc/ssl/certs &amp;&amp;
+make</kbd></pre>
+        <p>
+          To run the test suite, issue: <span class="command"><strong>make
+          test</strong></span>. One test, <code class="filename">1477</code>,
+          is known to fail due to a missing file in the curl tarball. Some
+          tests are flaky, so if some tests have failed it's possible to run
+          a test again with: <span class="command"><strong>(cd tests;
+          ./runtests.pl <em class="replaceable"><code>&lt;test
+          ID&gt;</code></em>)</strong></span> (the ID of failed tests are
+          shown in the <span class="quote">「<span class="quote"><code class=
+          "computeroutput">These test cases failed:</code></span>」</span>
+          message).
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install &amp;&amp;
+
+rm -rf docs/examples/.deps &amp;&amp;
+
+find docs \( -name Makefile\* -o  \
+             -name \*.1       -o  \
+             -name \*.3       -o  \
+             -name CMakeLists.txt \) -delete &amp;&amp;
+
+cp -v -R docs -T /usr/share/doc/curl-8.5.0</kbd></pre>
+        <p>
+          To run some simple verification tests on the newly installed
+          <span class="command"><strong>curl</strong></span>, issue the
+          following commands: <span class="command"><strong>curl
+          --trace-ascii debugdump.txt
+          https://www.example.com/</strong></span> and <span class=
+          "command"><strong>curl --trace-ascii d.txt --trace-time
+          https://example.com/</strong></span>. Inspect the locally created
+          trace files <code class="filename">debugdump.txt</code> and
+          <code class="filename">d.txt</code>, which contains version
+          information, downloaded files information, etc. One file has the
+          time for each action logged.
+        </p>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--disable-static</code></em>:
+          このスイッチはスタティックライブラリをインストールしないようにします。
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-threaded-resolver</code></em>:
+          This switch enables <span class="application">cURL</span>'s builtin
+          threaded DNS resolver.
+        </p>
+        <p>
+          <em class=
+          "parameter"><code>--with-ca-path=/etc/ssl/certs</code></em>: This
+          switch sets the location of the BLFS Certificate Authority store.
+        </p>
+        <p>
+          <em class="parameter"><code>--with-openssl</code></em>: This
+          parameter chooses <span class="application">OpenSSL</span> as
+          SSL/TLS implementation. This seems mandatory now.
+        </p>
+        <p>
+          <code class="option">--with-gssapi</code>: このパラメーターは <code class=
+          "filename">libcurl</code> に対して <span class="application">Kerberos
+          5</span> サポートを追加します。
+        </p>
+        <p>
+          <code class="option">--without-ssl --with-gnutls</code>: SSL/TLS
+          に対して <span class="application">OpenSSL</span> ではなく <span class=
+          "application">GnuTLS</span> を用いてビルドすることを指示します。
+        </p>
+        <p>
+          <code class=
+          "option">--with-ca-bundle=/etc/pki/tls/certs/ca-bundle.crt</code>:
+          Use this switch instead of <em class=
+          "parameter"><code>--with-ca-path</code></em> if building with
+          <span class="application">GnuTLS</span> support instead of
+          <span class="application">OpenSSL</span> for SSL/TLS.
+        </p>
+        <p>
+          <code class="option">--with-libssh2</code>: This parameter adds
+          <span class="application">SSH</span> support to cURL. This is
+          disabled by default.
+        </p>
+        <p>
+          <code class="option">--enable-ares</code>: This parameter adds
+          support for DNS resolution through the c-ares library. It overrides
+          <em class="parameter"><code>--enable-threaded-resolver</code></em>
+          and is not widely tested by the editors.
+        </p>
+        <p>
+          <span class="command"><strong>find docs ... -exec rm {}
+          \;</strong></span>: このコマンドはドキュメントディレクトリにある <code class=
+          "filename">Makefiles</code> ファイルと man ファイルを削除します。
+          そして以下に示すコマンドによりドキュメントをインストールします。
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">curl, curl-config</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libcurl.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/curl, /usr/share/doc/curl-8.5.0</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="curl-prog" name="curl-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>curl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a command line tool for transferring files with URL
+                    syntax
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="curl-config" name="curl-config"></a><span class=
+                    "term"><span class=
+                    "command"><strong>curl-config</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    リンクされているライブラリやプレフィックスなど、コンパイル時の情報を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libcurl" name="libcurl"></a><span class=
+                    "term"><code class="filename">libcurl.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>curl</strong></span>
+                    や他のプログラムが必要としている API 関数を提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="c-ares.html" title="c-ares-1.24.0">戻る</a>
+          <p>
+            c-ares-1.24.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="geoclue2.html" title="GeoClue-2.7.1">次へ</a>
+          <p>
+            GeoClue-2.7.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="netlibs.html" title=
+          "第17章 ネットワークライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

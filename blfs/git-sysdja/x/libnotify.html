@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      libnotify-0.8.3
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第25章 グラフィック環境ライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libglade.html" title="libglade-2.6.4">戻る</a>
+          <p>
+            libglade-2.6.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libxklavier.html" title=
+          "libxklavier-5.4">次へ</a>
+          <p>
+            libxklavier-5.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="lib.html" title=
+          "第25章 グラフィック環境ライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="libnotify" name="libnotify"></a>libnotify-0.8.3
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libnotify の概要
+        </h2>
+        <p>
+          <span class="application">libnotify</span> ライブラリは、デスクトップ通知 (desktop
+          notifications) を通知デーモン (notification daemon) に送信します。 これはデスクトップ通知仕様
+          (Desktop Notifications spec) にて定義されます。
+          デスクトップ通知は、ユーザーに対して情報を伝えたり、ユーザーの操作によらず情報表示したりするために利用されます。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://download.gnome.org/sources/libnotify/0.8/libnotify-0.8.3.tar.xz">
+                https://download.gnome.org/sources/libnotify/0.8/libnotify-0.8.3.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 952e55f45067b6a5b9eab4310c9cd658
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 104 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 2.3 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          libnotify の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="gtk3.html" title=
+          "GTK+-3.24.38">GTK+-3.24.38</a>
+        </p>
+        <h4>
+          任意 (GNOME のビルド時に必要)
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/gobject-introspection.html" title=
+          "gobject-introspection-1.78.1">gobject-introspection-1.78.1</a>
+        </p>
+        <h4>
+          Optional
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/python-modules.html#gi-docgen"
+          title="Gi-DocGen-2023.3">Gi-DocGen-2023.3</a> and <a class="xref"
+          href="../pst/xmlto.html" title="xmlto-0.0.28">xmlto-0.0.28</a>
+        </p>
+        <h4>
+          必須 （実行時）
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/notification-daemon.html" title=
+          "notification-daemon-3.20.0">notification-daemon-3.20.0</a>,
+          <a class="xref" href="../xfce/xfce4-notifyd.html" title=
+          "xfce4-notifyd-0.9.3">xfce4-notifyd-0.9.3</a>, または <a class="xref"
+          href="../lxqt/lxqt-notificationd.html" title=
+          "lxqt-notificationd-1.4.0">lxqt-notificationd-1.4.0</a>
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            <span class="application">GNOME Shell</span> と <span class=
+            "application">KDE KWin</span> には独自の通知デーモン (notification daemons)
+            があります。
+          </p>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libnotify のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">libnotify</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+meson setup --prefix=/usr       \
+            --buildtype=release \
+            -Dgtk_doc=false     \
+            -Dman=false         \
+            ..                  &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          If you have <a class="xref" href=
+          "../general/python-modules.html#gi-docgen" title=
+          "Gi-DocGen-2023.3">Gi-DocGen-2023.3</a> installed and wish to build
+          the API documentation for this package, issue:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed "/docs_dir =/s@\$@ / 'libnotify'@" \
+    -i ../docs/reference/meson.build   &amp;&amp;
+meson configure -Dgtk_doc=true         &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">ninja install &amp;&amp;
+if [ -e /usr/share/doc/libnotify ]; then
+  rm -rf /usr/share/doc/libnotify-0.8.3
+  mv -v  /usr/share/doc/libnotify{,-0.8.3}
+fi</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--buildtype=release</code></em>:
+          本パッケージの安定版リリース向けに適したビルドタイプを指定します。
+          デフォルトにしていると、最適化されていないバイナリを生成する場合があるためです。
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">notify-send</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libnotify.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/libnotify,
+              /usr/share/gtk-doc/html/libnotify</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="notify-send" name="notify-send"></a><span class=
+                    "term"><span class=
+                    "command"><strong>notify-send</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    通知を送信するコマンド。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libnotify-lib" name=
+                    "libnotify-lib"></a><span class="term"><code class=
+                    "filename">libnotify.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    通知 API 関数 (notify API functions) を提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libglade.html" title="libglade-2.6.4">戻る</a>
+          <p>
+            libglade-2.6.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libxklavier.html" title=
+          "libxklavier-5.4">次へ</a>
+          <p>
+            libxklavier-5.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="lib.html" title=
+          "第25章 グラフィック環境ライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

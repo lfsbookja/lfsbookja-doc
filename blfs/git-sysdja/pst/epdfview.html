@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      ePDFView-gtk3-20200814
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第50章 PostScript
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="enscript.html" title="Enscript-1.6.6">戻る</a>
+          <p>
+            Enscript-1.6.6
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="fop.html" title="fop-2.9">次へ</a>
+          <p>
+            fop-2.9
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="ps.html" title="第50章 PostScript">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="epdfview" name="epdfview"></a>ePDFView-gtk3-20200814
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to ePDFView-gtk3
+        </h2>
+        <p>
+          <span class="application">ePDFView-gtk3</span> is a fork of the old
+          <span class="application">ePDFView</span> program. Although the
+          github repository <a class="ulink" href=
+          "https://github.com/Flow-It/epdfview_old.git">https://github.com/Flow-It/epdfview_old.git</a>
+          names it as 'old', it is the gtk3 fork. It is a lightweight
+          replacement for <span class="application">Evince</span> as it does
+          not rely upon <span class="application">GNOME</span> libraries and
+          is more capable than <span class="application">MuPDF</span>.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://anduin.linuxfromscratch.org/BLFS/epdfview-gtk3/epdfview-gtk3-20200814.tar.xz">
+                https://anduin.linuxfromscratch.org/BLFS/epdfview-gtk3/epdfview-gtk3-20200814.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: d222a3dc26c2faf6f862018bb478fb36
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 184 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 3.5 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: less than 0.1 SBU (using parallelism=4)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          ePDFView Dependencies
+        </h3>
+        <h4>
+          Required
+        </h4>
+        <p class="required">
+          <a class="xref" href="../x/gtk3.html" title=
+          "GTK+-3.24.38">GTK+-3.24.38</a> and <a class="xref" href=
+          "../general/poppler.html" title=
+          "Poppler-23.12.0">Poppler-23.12.0</a>
+        </p>
+        <h4>
+          Recommended
+        </h4>
+        <p class="Recommended">
+          <a class="xref" href="cups.html" title="Cups-2.4.7">Cups-2.4.7</a>
+          (to access print queues), <a class="xref" href=
+          "../general/desktop-file-utils.html" title=
+          "desktop-file-utils-0.27">desktop-file-utils-0.27</a>, and
+          <a class="xref" href="../x/hicolor-icon-theme.html" title=
+          "hicolor-icon-theme-0.17">hicolor-icon-theme-0.17</a> (both for the
+          icons this installs)
+        </p>
+        <h4>
+          Optional
+        </h4>
+        <p class="optional">
+          The home page of the project's repository mentions that there are
+          optional dependencies, which are enabled by switches. These are for
+          building the documentation and running the test suite, <a class=
+          "xref" href="../general/doxygen.html" title=
+          "Doxygen-1.9.8">Doxygen-1.9.8</a> and <a class="ulink" href=
+          "https://freedesktop.org/wiki/Software/cppunit/">Cppunit</a>. Note
+          that <span class="application">doxygen</span> only installs a
+          skeletal page about itself, which contains no package
+          documentation, and the test code does not compile with recent
+          versions of C++.
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of ePDFView-gtk3
+        </h2>
+        <p>
+          Install <span class="application">ePDFView-gtk3</span> by running
+          the following commands:
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+meson setup --prefix=/usr          \
+            --buildtype=release    \
+            -Denable-printing=true \
+            ..                     &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          This package does not come with a buildable test suite.
+        </p>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">ninja install</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            This package installs icon files into the <code class=
+            "filename">/usr/share/icons/hicolor</code> hierarchy and desktop
+            files into the <code class=
+            "filename">/usr/share/applications</code> hierarchy. You can
+            improve system performance and memory usage by updating
+            <code class=
+            "filename">/usr/share/icons/hicolor/index.theme</code> and
+            <code class=
+            "filename">/usr/share/applications/mimeinfo.cache</code>. To
+            perform the update you must have <a class="xref" href=
+            "../x/gtk3.html" title="GTK+-3.24.38">GTK+-3.24.38</a> installed
+            (for the icon cache) and <a class="xref" href=
+            "../general/desktop-file-utils.html" title=
+            "desktop-file-utils-0.27">desktop-file-utils-0.27</a> (for the
+            desktop cache) and issue the following commands as the
+            <code class="systemitem">root</code> user:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">gtk-update-icon-cache -qtf /usr/share/icons/hicolor &amp;&amp;
+update-desktop-database -q</kbd></pre>
+        </div>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <span class=
+          "command"><strong>-Denable-printing=true</strong></span>: builds
+          the code to link to the <span class="application">cups</span> print
+          queue(s). Omit this if you have not installed <span class=
+          "application">cups</span>.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Configuring ePDFView-gtk3
+        </h2>
+        <p>
+          ePDFView-gtk3 has several keyboard hotkeys for optional features.
+          Most of them are 'off' by default, including the toolbar, and if it
+          has been closed with the menu disabled, the program can start with
+          all options not being visible until the relevant function keys are
+          pressed.
+        </p>
+        <div class="itemizedlist">
+          <ul>
+            <li class="listitem">
+              <p>
+                [F6] - toggle toolbar
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                [F7] - toggle menu
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                [F8] - toggle invert-colors
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                [F9] - toggle show-index
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                [F11] - toggle fullscreen
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Program:</strong>
+              <span class="segbody">epdfview</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">None</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directory:</strong>
+              <span class="segbody">/usr/share/epdfview</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="epdfview-prog" name=
+                    "epdfview-prog"></a><span class="term"><span class=
+                    "command"><strong>epdfview</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a <span class="application">Gtk+-3</span> program for
+                    viewing PDF documents
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="enscript.html" title="Enscript-1.6.6">戻る</a>
+          <p>
+            Enscript-1.6.6
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="fop.html" title="fop-2.9">次へ</a>
+          <p>
+            fop-2.9
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="ps.html" title="第50章 PostScript">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

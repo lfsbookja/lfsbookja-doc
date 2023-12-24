@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      fftw-3.3.10
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第9章 汎用的なライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="exempi.html" title="Exempi-2.6.4">戻る</a>
+          <p>
+            Exempi-2.6.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="glib2.html" title="GLib-2.78.3">次へ</a>
+          <p>
+            GLib-2.78.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="fftw" name="fftw"></a>fftw-3.3.10
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          fftw の概要
+        </h2>
+        <p>
+          FFTW is a C subroutine library for computing the discrete Fourier
+          transform (DFT) in one or more dimensions, of arbitrary input size,
+          and of both real and complex data (as well as of even/odd data,
+          i.e. the discrete cosine/sine transforms or DCT/DST).
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://www.fftw.org/fftw-3.3.10.tar.gz">https://www.fftw.org/fftw-3.3.10.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 8ccbf6a5ea78a16dbc3e1306e234cc5c
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 4.0 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 59 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 1.6 SBU（テスト実施時はさらに 3.4 SBU, いずれも parallelism=4 利用時）
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          fftw のインストール
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            We build fftw three times for different libraries in different
+            numerical precisions: the default double precision floating
+            point, the older 32-bit (single precision) version named float
+            which sacrifices precision for speed, and the long double which
+            offers increased precision at the cost of slower execution.
+          </p>
+        </div>
+        <p>
+          1 回めのビルドは倍精度演算向けです。 以下のコマンドを実行して <span class=
+          "application">fftw</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr    \
+            --enable-shared  \
+            --disable-static \
+            --enable-threads \
+            --enable-sse2    \
+            --enable-avx     \
+            --enable-avx2    &amp;&amp;
+make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>make
+          check</strong></span> を実行します。 32 ビットシステムにおけるテストは、64
+          ビットシステムに比べて処理時間が多くかかります。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+        <p>
+          次に単精度演算向けをビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">make clean &amp;&amp;
+
+./configure --prefix=/usr    \
+            --enable-shared  \
+            --disable-static \
+            --enable-threads \
+            --enable-sse2    \
+            --enable-avx     \
+            --enable-avx2    \
+            --enable-float   &amp;&amp;
+make</kbd></pre>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+        <p>
+          最後に倍精度演算向けをビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">make clean &amp;&amp;
+
+./configure --prefix=/usr    \
+            --enable-shared  \
+            --disable-static \
+            --enable-threads \
+            --enable-long-double &amp;&amp;
+make</kbd></pre>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--enable-shared</code></em> <em class=
+          "parameter"><code>--disable-static</code></em>: Use shared libs
+          instead of static libs.
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-threads</code></em>: This
+          enables <code class="filename">libfftw3_threads.so</code> to be
+          compiled. It is used by e.g. the <span class=
+          "application">gimp</span> plugin from <a class="ulink" href=
+          "https://gmic.eu/">G'MIC</a>.
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-{sse2,avx,avx2}</code></em>:
+          These enables building the optimized routines using SSE2, AVX, and
+          AVX2 instructions. FFTW will check if these routines can be really
+          used on the current CPU when the FFTW library is loaded, so a FFTW
+          build with these routines enabled can still run on a CPU without
+          SSE2, AVX, or AVX512. These options are not compatible with
+          <em class="parameter"><code>--enable-long-double</code></em>.
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-float</code></em>: This
+          enables building the library that uses single precision floating
+          point arithmetic. It is faster but less precise than the default
+          double precision library. The library will be called <code class=
+          "filename">libfftw3f.so</code> needed by <a class="xref" href=
+          "../multimedia/pulseaudio.html" title=
+          "PulseAudio-16.1">PulseAudio-16.1</a>.
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-long-double</code></em>: This
+          enables building the library that uses higher precision long-double
+          floating point arithmetic. The library will be called <code class=
+          "filename">libfftw3l.so</code>.
+        </p>
+        <p>
+          <code class="option">--enable-avx512</code>: This enables building
+          the optimized routines using AVX512F instructions. FFTW will check
+          if these routines can be really used on the current CPU when the
+          FFTW library is loaded, so a FFTW build with these routines enabled
+          can still run on a CPU without AVX512F. Use this option if the FFTW
+          build will be used on a CPU with AVX512F. This option is not
+          compatible with <em class=
+          "parameter"><code>--enable-long-double</code></em>.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">fftw-wisdom, fftw-wisdom-to-conf</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libfftw3.so, libfftw3_threads.so, libfftw3f.so,
+              libfftw3f_threads.so, libfftw3l.so, libfftw3l_threads.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fftw-wisdom" name="fftw-wisdom"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fftw-wisdom</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a utility to generate FFTW wisdom files, which contain
+                    saved information about how to optimally compute
+                    (Fourier) transforms of various sizes
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fftw-wisdom-to-conf" name=
+                    "fftw-wisdom-to-conf"></a><span class="term"><span class=
+                    "command"><strong>fftw-wisdom-to-conf</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a utility to generate C configuration routines from
+                    FFTW wisdom files, where the latter contain saved
+                    information about how to optimally compute (Fourier)
+                    transforms of various sizes
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libfftw3" name="libfftw3"></a><span class=
+                    "term"><code class="filename">libfftw3.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the Fast Fourier Transform library
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libfftw3_threads" name=
+                    "libfftw3_threads"></a><span class="term"><code class=
+                    "filename">libfftw3_threads.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the threaded Fast Fourier Transform library
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libfftw3f" name="libfftw3f"></a><span class=
+                    "term"><code class="filename">libfftw3f.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the single-precision Fast Fourier Transform library,
+                    described as <span class="quote">「<span class=
+                    "quote">float</span>」</span> for historic reasons
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libfftw3f_threads" name=
+                    "libfftw3f_threads"></a><span class="term"><code class=
+                    "filename">libfftw3f_threads.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the threaded single-precision Fast Fourier Transform
+                    library
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libfftw3l" name="libfftw3l"></a><span class=
+                    "term"><code class="filename">libfftw3l.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the long double Fast Fourier Transform library
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libfftw3l_threads" name=
+                    "libfftw3l_threads"></a><span class="term"><code class=
+                    "filename">libfftw3l_threads.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the threaded long double Fast Fourier Transform
+                    library
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="exempi.html" title="Exempi-2.6.4">戻る</a>
+          <p>
+            Exempi-2.6.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="glib2.html" title="GLib-2.78.3">次へ</a>
+          <p>
+            GLib-2.78.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

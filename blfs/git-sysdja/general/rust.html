@@ -1,0 +1,817 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Rustc-1.74.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第13章 プログラミング言語
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="ruby.html" title="Ruby-3.2.2">戻る</a>
+          <p>
+            Ruby-3.2.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="scons.html" title="SCons-4.6.0">次へ</a>
+          <p>
+            SCons-4.6.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="prog.html" title="第13章 プログラミング言語">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="rust" name="rust"></a>Rustc-1.74.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Rust の概要
+        </h2>
+        <p>
+          <span class="application">Rust</span>
+          は安全性、並行処理を組み入れた実用的なプログラミング言語です。
+        </p>
+        <p>
+          This package is updated on a six-weekly release cycle. Because it
+          is such a large and slow package to build, is at the moment only
+          required by a few packages in this book, and particularly because
+          newer versions tend to break older mozilla packages, the BLFS
+          editors take the view that it should only be updated when that is
+          necessary (either to fix problems, or to allow a new version of a
+          package to build).
+        </p>
+        <p>
+          As with many other programming languages, rustc (the rust compiler)
+          needs a binary from which to bootstrap. It will download a stage0
+          binary at the start of the build, so you cannot compile it without
+          an Internet connection.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            Although BLFS usually installs in <code class=
+            "filename">/usr</code>, when you later upgrade to a newer version
+            of <span class="application">rust</span> the old libraries in
+            <code class="filename">/usr/lib/rustlib</code> will remain, with
+            various hashes in their names, but will not be usable and will
+            waste space. The editors recommend placing the files in the
+            <code class="filename">/opt</code> directory. In particular, if
+            you have reason to rebuild with a modified configuration (e.g.
+            using the shipped LLVM after building with shared LLVM, perhaps
+            to compile crates for architectures which the BLFS LLVM build
+            does not support) it is possible for the install to leave a
+            broken <span class="command"><strong>cargo</strong></span>
+            program. In such a situation, either remove the existing
+            installation first, or use a different prefix such as
+            /opt/rustc-1.74.1-build2.
+          </p>
+          <p>
+            If you prefer, you can of course change the prefix to
+            <code class="filename">/usr</code>.
+          </p>
+        </div>
+        <p>
+          The current <span class="application">rustbuild</span> build-system
+          will use all processors, although it does not scale well and often
+          falls back to just using one core while waiting for a library to
+          compile. However it can be mostly limited to a specified number of
+          processors by a combination of adding the switch <code class=
+          "literal">--jobs &lt;N&gt;</code> (e.g. '--jobs 4' to limit to 4
+          processors) on each invocation of <span class=
+          "command"><strong>python3 x.py</strong></span> <span class=
+          "emphasis"><em>and</em></span> using an environment variable
+          <code class="envar">CARGO_BUILD_JOBS=&lt;N&gt;</code>. At the
+          moment this is not effective when some of the rustc tests are run.
+        </p>
+        <p>
+          The current version of rust's num_cpus crate now recognizes that
+          cgroups can be used to restrict which processors it is allowed to
+          use. So if your machine lacks DRAM (typically, less than 2GB DRAM
+          per core) that might be an alternative to taking CPUs offline. Read
+          <a class="xref" href=
+          "../introduction/notes-on-building.html#build-in-cgroup" title=
+          "Use Linux Control Group to Limit the Resource Usage">「Use Linux
+          Control Group to Limit the Resource Usage」</a> for how to use a
+          cgroup.
+        </p>
+        <p>
+          At the moment <span class="application">Rust</span> does not
+          provide any guarantees of a stable ABI.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            Rustc defaults to building for ALL supported architectures, using
+            a shipped copy of LLVM. In BLFS the build is only for the X86
+            architecture. If you intend to develop rust crates, this build
+            may not be good enough for your purposes.
+          </p>
+          <p>
+            The build times of this version when repeated on the same machine
+            are often reasonably consistent, but as with all compilations
+            using <span class="command"><strong>rustc</strong></span> there
+            can be some very slow outliers.
+          </p>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://static.rust-lang.org/dist/rustc-1.74.1-src.tar.xz">https://static.rust-lang.org/dist/rustc-1.74.1-src.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: ed0a20a070a3470b63bc612c82ea23fa
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 149 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 8.9 GB (298 MB installed); add 6.4 GB if running
+                the tests
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 6.7 SBU (including download time; add 6.2 SBU for
+                tests, both using parallelism=8)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Rust の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="cmake.html" title=
+          "CMake-3.28.1">CMake-3.28.1</a>, <a class="xref" href=
+          "../basicnet/curl.html" title="cURL-8.5.0">cURL-8.5.0</a>
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            本パッケージのビルドには、インターネット接続が必要になります。
+          </p>
+        </div>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="libssh2.html" title=
+          "libssh2-1.11.0">libssh2-1.11.0</a>, <a class="xref" href=
+          "llvm.html" title="LLVM-17.0.6">LLVM-17.0.6</a> (built with
+          -DLLVM_LINK_LLVM_DYLIB=ON so that rust can link to system LLVM
+          instead of building its shipped version)
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            If a recommended dependency is not installed, a shipped copy in
+            the Rustc source tarball will be built and used.
+          </p>
+        </div>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="gdb.html" title="GDB-14.1">GDB-14.1</a> (used
+          by the test suite if it is present), <a class="xref" href=
+          "git.html" title="Git-2.43.0">git-2.43.0</a> (required by the test
+          suite), <a class="ulink" href="https://libgit2.org/">libgit2</a>
+        </p>
+        <p class="usernotes">
+          編集ノート: <a class="ulink" href=
+          "https://wiki.linuxfromscratch.org/blfs/wiki/rust">https://wiki.linuxfromscratch.org/blfs/wiki/rust</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Rust のインストール
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            Currently the rust compiler produces SSE2 instructions for 32-bit
+            x86, causing the generated code to be broken on 32-bit systems
+            without a SSE2-capable processor. All x86 processor models
+            released after 2004 should be SSE2-capable. Run <span class=
+            "command"><strong>lscpu | grep sse2</strong></span> as a test. If
+            it outputs anything, your CPU is SSE2-capable and OK. Otherwise
+            you may try to build this package <span class="emphasis"><em>on a
+            SSE2-capable system</em></span> with the following fix applied:
+          </p>
+          <pre class="screen"><code class=
+          "computeroutput">sed 's@pentium4@pentiumpro@' -i \
+    compiler/rustc_target/src/spec/i686_unknown_linux_gnu.rs</code></pre>
+          <p>
+            And copy the resulting <code class=
+            "filename">/opt/rustc-1.74.1</code> to the system without SSE2
+            capability. But this change is still under upstream review and
+            not tested by BLFS editors.
+          </p>
+        </div>
+        <p>
+          To install into the <code class="filename">/opt</code> directory,
+          remove any existing <code class="filename">/opt/rustc</code>
+          symlink and create a new directory (i.e. with a different name if
+          trying a modified build of the same version). As the <code class=
+          "systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">mkdir -pv /opt/rustc-1.74.1      &amp;&amp;
+ln -svfn rustc-1.74.1 /opt/rustc</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            If multiple versions of <span class="application">Rust</span> are
+            installed in <code class="filename">/opt</code>, changing to
+            another version only requires changing the <code class=
+            "filename">/opt/rustc</code> symbolic link and then running
+            <span class="command"><strong>ldconfig</strong></span>.
+          </p>
+        </div>
+        <p>
+          Create a suitable <code class="filename">config.toml</code> file
+          which will configure the build.
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &lt;&lt; EOF &gt; config.toml
+<code class="literal"># see config.toml.example for more possible options
+# See the 8.4 book for an old example using shipped LLVM
+# e.g. if not installing clang, or using a version before 13.0
+
+# tell x.py to not keep printing an annoying warning
+changelog-seen = 2
+
+[llvm]
+# by default, rust will build for a myriad of architectures
+targets = "X86"
+
+# When using system llvm prefer shared libraries
+link-shared = true
+
+[build]
+# omit docs to save time and space (default is to build them)
+docs = false
+
+# install extended tools: cargo, clippy, etc
+extended = true
+
+# Do not query new versions of dependencies online.
+locked-deps = true
+
+# Specify which extended tools (those from the default install).
+tools = ["cargo", "clippy", "rustdoc", "rustfmt"]
+
+# Use the source code shipped in the tarball for the dependencies.
+# The combination of this and the "locked-deps" entry avoids downloading
+# many crates from Internet, and makes the Rustc build more stable.
+vendor = true
+
+[install]
+prefix = "/opt/rustc-1.74.1"
+docdir = "share/doc/rustc-1.74.1"
+
+[rust]
+channel = "stable"
+description = "for BLFS r12.0-1055+"
+
+# BLFS used to not install the FileCheck executable from llvm,
+# so disabled codegen tests.  The assembly tests rely on FileCheck
+# and cannot easily be disabled, so those will anyway fail if
+# FileCheck has not been installed.
+#codegen-tests = false
+
+[target.x86_64-unknown-linux-gnu]
+# NB the output of llvm-config (i.e. help options) may be
+# dumped to the screen when config.toml is parsed.
+llvm-config = "/usr/bin/llvm-config"
+
+[target.i686-unknown-linux-gnu]
+# NB the output of llvm-config (i.e. help options) may be
+# dumped to the screen when config.toml is parsed.
+llvm-config = "/usr/bin/llvm-config"</code>
+EOF</kbd></pre>
+        <p>
+          Compile <span class="application">Rust</span> by running the
+          following commands:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">{ [ ! -e /usr/include/libssh2.h ] ||
+  export LIBSSH2_SYS_USE_PKG_CONFIG=1; } &amp;&amp;
+python3 x.py build</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            The test suite will generate some messages in the <span class=
+            "phrase">systemd journal</span> for traps on invalid opcodes, and
+            for segmentation faults. In themselves these are nothing to worry
+            about, just a way for the test to be terminated.
+          </p>
+        </div>
+        <p>
+          To run the tests (again using all available CPUs) issue:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">SSL_CERT_DIR=/etc/ssl/certs \
+python3 x.py test --verbose --no-fail-fast | tee rustc-testlog</kbd></pre>
+        <p>
+          Two tests,<code class=
+          "filename">tests/ui/issues/issue-21763.rs</code> and <code class=
+          "filename">tests/debuginfo/regression-bad-location-list-67992.rs</code>,
+          are known to fail.
+        </p>
+        <p>
+          If <span class="command"><strong>FileCheck</strong></span> from
+          <span class="application">LLVM</span> has not been installed, all
+          47 tests from the <span class="quote">「<span class=
+          "quote">assembly</span>」</span> suite will fail.
+        </p>
+        <p>
+          As with all large test suites, other tests might fail on some
+          machines - if the number of additional failures is low, check the
+          log for 'failures:' and review lines above that, particularly the
+          'stderr:' lines. Any mention of SIGSEGV or signal 11 in a failing
+          test is a cause for concern.
+        </p>
+        <p>
+          If you get any <span class="emphasis"><em>other</em></span> failing
+          test which reports an issue number then you should search for that
+          issue. For example, when rustc &gt;= 1.41.1 was built with a
+          version of sysllvm before 10.0 the test for issue 69225 failed
+          <a class="ulink" href=
+          "https://github.com/rust-lang/rust/issues/69225">https://github.com/rust-lang/rust/issues/69225</a>
+          and that should be regarded as a critical failure (they released
+          1.41.1 because of it). Most other failures will not be critical.
+        </p>
+        <p>
+          Therefore, you should determine the number of failures.
+        </p>
+        <p>
+          The number of tests which passed and failed can be found by
+          running:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">grep '^test result:' rustc-testlog |
+ awk '{sum1 += $4; sum2 += $6} END { print sum1 " passed; " sum2 " failed" }'</kbd></pre>
+        <p>
+          The other available fields are $8 for those which were ignored
+          (i.e. skipped), $10 for 'measured' and $12 for 'filtered out' but
+          both those last two are probably zero.
+        </p>
+        <p>
+          Now, as the <code class="systemitem">root</code> user, install the
+          package:
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            If <span class="command"><strong>sudo</strong></span> or
+            <span class="command"><strong>su</strong></span> is invoked for
+            switching to the <code class="systemitem">root</code> user,
+            ensure <code class="envar">LIBSSH2_SYS_USE_PKG_CONFIG</code> is
+            correctly passed or the following command may completely rebuild
+            this package. For <span class=
+            "command"><strong>sudo</strong></span>, use the <code class=
+            "option">--preserve-env=LIBSSH2_SYS_USE_PKG_CONFIG</code> option.
+            For <span class="command"><strong>su</strong></span>, do
+            <span class="emphasis"><em>not</em></span> use the <code class=
+            "option">-</code> or <code class="option">--login</code>.
+          </p>
+        </div>
+        <pre class="root"><kbd class=
+        "command">python3 x.py install</kbd></pre>
+        <p>
+          The building system attempts to install some files twice, and
+          during the second attempt it renames the old one (installed in the
+          first attempt) with the <code class="filename">.old</code> suffix.
+          As the <code class="systemitem">root</code> user, remove these
+          files:
+        </p>
+        <pre class="root"><kbd class=
+        "command">find /opt/rustc-1.74.1 -name "*.old" -delete</kbd></pre>
+        <p>
+          Still as the <code class="systemitem">root</code> user, symlink a
+          <span class="application">Zsh</span> completion file into the
+          correct location:
+        </p>
+        <pre class="root"><kbd class=
+        "command">install -vdm755 /usr/share/zsh/site-functions      &amp;&amp;
+ln -sfv /opt/rustc/share/zsh/site-functions/_cargo \
+        /usr/share/zsh/site-functions</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <span class="command"><strong>ln -svfn rustc-1.74.1
+          /opt/rustc</strong></span>: if this is not the first use of the
+          <code class="filename">/opt/rustc</code> symlink, overwrite it by
+          forcing, and use the '-n' flag to avoid getting confusing results
+          from e.g. <span class="command"><strong>ls -l</strong></span>.
+        </p>
+        <p>
+          <code class="literal">targets = "X86"</code>: this avoids building
+          all the available linux cross-compilers (AArch64, MIPS, PowerPC,
+          SystemZ, etc). Unfortunately, rust insists on installing source
+          files for these below <code class=
+          "filename">/opt/rustc/lib/src</code>.
+        </p>
+        <p>
+          <code class="literal">extended = true</code>: this installs several
+          tools (specified by the <code class="literal">tools</code> entry)
+          alongside <span class="command"><strong>rustc</strong></span>.
+        </p>
+        <p>
+          <code class="literal">tools = ["cargo", "clippy", "rustdoc",
+          "rustfmt"]</code>: only build the tools from the 'default' profile
+          in binary command <span class=
+          "command"><strong>rustup</strong></span> which are recommended for
+          most users. The other tools are unlikely to be useful unless using
+          (old) code analyzers or editing the standard library.
+        </p>
+        <p>
+          <code class="literal">channel = "stable"</code>: this ensures only
+          stable features can be used, the default in <code class=
+          "filename">config.toml</code> is to use development features, which
+          is not appropriate for a released version.
+        </p>
+        <p>
+          <code class="literal">[target.x86_64-unknown-linux-gnu]</code>: the
+          syntax of <code class="filename">config.toml</code> requires an
+          <code class="literal">llvm-config</code> entry for each target for
+          which system-llvm is to be used. Change the target to <code class=
+          "literal">[target.i686-unknown-linux-gnu]</code> if you are
+          building on 32-bit x86. This whole section may be omitted if you
+          wish to build against the shipped llvm, or do not have clang, but
+          the resulting build will be larger and take longer.
+        </p>
+        <p>
+          <span class="command"><strong>export
+          LIBSSH2_SYS_USE_PKG_CONFIG=1</strong></span>: Allow <span class=
+          "command"><strong>cargo</strong></span> to link to system libssh2.
+        </p>
+        <p>
+          <code class="envar">SSL_CERT_DIR=/etc/ssl/certs</code>: Work around
+          an issue causing test failures with the CA certificate store layout
+          used by <a class="xref" href="../postlfs/make-ca.html" title=
+          "make-ca-1.13">make-ca-1.13</a>.
+        </p>
+        <p>
+          <em class="parameter"><code>--verbose</code></em>: this switch can
+          sometimes provide more information about a test which fails.
+        </p>
+        <p>
+          <em class="parameter"><code>--no-fail-fast</code></em>: this switch
+          ensures that the test suite will not stop at the first error.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Configuring Rust
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="rustc-config" name="rustc-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="rustc-config" name="rustc-config"></a>Configuration
+            Information
+          </h4>
+          <p>
+            If you installed <span class="application">rustc</span> in
+            <code class="filename">/opt</code>, you need to update the
+            following configuration files so that <span class=
+            "application">rustc</span> is correctly found by other packages
+            and system processes.
+          </p>
+          <p>
+            As the <code class="systemitem">root</code> user, create the
+            <code class="filename">/etc/profile.d/rustc.sh</code> file:
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt; /etc/profile.d/rustc.sh &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/profile.d/rustc.sh
+
+pathprepend /opt/rustc/bin           PATH
+
+# Include /opt/rustc/man in the MANPATH variable to access manual pages
+pathappend  /opt/rustc/share/man     MANPATH
+
+# End /etc/profile.d/rustc.sh</code>
+EOF</kbd></pre>
+          <p>
+            Immediately after installation, update the current PATH for your
+            current shell as a normal user:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">source /etc/profile.d/rustc.sh</kbd></pre>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">cargo-clippy, cargo-fmt, cargo, clippy-driver,
+              rust-gdb, rust-gdbgui, rust-lldb, rustc, rustdoc,
+              rustfmt</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">librustc-driver-&lt;16-byte-hash&gt;.so,
+              libstd-&lt;16-byte-hash&gt;.so,
+              libtest-&lt;16-byte-hash&gt;.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">~/.cargo, /opt/rustc, symbolic link to
+              /opt/rustc-1.74.1</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cargo-clippy" name="cargo-clippy"></a><span class=
+                    "term"><span class=
+                    "command"><strong>cargo-clippy</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides lint checks for a cargo package
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cargo-fmt" name="cargo-fmt"></a><span class=
+                    "term"><span class=
+                    "command"><strong>cargo-fmt</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    formats all bin and lib files of the current crate using
+                    rustfmt
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cargo" name="cargo"></a><span class=
+                    "term"><span class=
+                    "command"><strong>cargo</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the Package Manager for Rust
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="clippy-driver" name=
+                    "clippy-driver"></a><span class="term"><span class=
+                    "command"><strong>clippy-driver</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides lint checks for Rust
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rust-gdb" name="rust-gdb"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rust-gdb</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a wrapper script for gdb, pulling in Python
+                    pretty-printing modules installed in <code class=
+                    "filename">/opt/rustc-1.74.1/lib/rustlib/etc</code>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rust-gdbgui" name="rust-gdbgui"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rust-gdbgui</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a wrapper script for a graphical front end to gdb that
+                    runs in a browser
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rust-lldb" name="rust-lldb"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rust-lldb</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a wrapper script for LLDB (the LLVM debugger) pulling
+                    in the Python pretty-printing modules
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rustc" name="rustc"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rustc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    rust コンパイラー。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rustdoc" name="rustdoc"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rustdoc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    rust ソースコードからドキュメントを生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rustfmt" name="rustfmt"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rustfmt</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    formats rust code
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libstd" name="libstd"></a><span class=
+                    "term"><code class=
+                    "filename">libstd-&lt;16-byte-hash&gt;.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    rust 標準ライブラリ (Rust Standard Library)。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="ruby.html" title="Ruby-3.2.2">戻る</a>
+          <p>
+            Ruby-3.2.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="scons.html" title="SCons-4.6.0">次へ</a>
+          <p>
+            SCons-4.6.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="prog.html" title="第13章 プログラミング言語">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

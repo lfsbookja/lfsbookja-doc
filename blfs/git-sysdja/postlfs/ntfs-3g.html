@@ -1,0 +1,617 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      ntfs-3g-2022.10.3
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第5章 ファイルシステムとディスク管理
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="mdadm.html" title="mdadm-4.2">戻る</a>
+          <p>
+            mdadm-4.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gptfdisk.html" title="gptfdisk-1.0.9">次へ</a>
+          <p>
+            gptfdisk-1.0.9
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="filesystems.html" title=
+          "第5章 ファイルシステムとディスク管理">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ntfs-3g" name="ntfs-3g"></a>ntfs-3g-2022.10.3
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Ntfs-3g の概要
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            <a id="ntfs3-kernel" name="ntfs3-kernel"></a> A new read-write
+            driver for NTFS, called NTFS3, has been added into the Linux
+            kernel since the 5.15 release. The performance of NTFS3 is much
+            better than ntfs-3g. To enable NTFS3, enable the following
+            options in the kernel configuration and recompile the kernel if
+            necessary:
+          </p>
+          <pre class="screen"><span class="blue">F</span>ile systems ---&gt;
+  <span class="blue">D</span>OS/FAT/EXFAT/NT Filesystems ---&gt;
+    &lt;*/M&gt; N<span class=
+"blue">T</span>FS Read-Write file system support                         [NTFS3_FS]</pre>
+          <p>
+            To ensure the <span class="command"><strong>mount</strong></span>
+            command uses NTFS3 for ntfs partitions, create a wrapper script:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">cat &gt; /usr/sbin/mount.ntfs &lt;&lt; "EOF" &amp;&amp;
+<code class="literal">#!/bin/sh
+exec mount -t ntfs3 "$@"</code>
+EOF
+chmod -v 755 /usr/sbin/mount.ntfs</kbd></pre>
+          <p>
+            With the kernel support available, ntfs-3g is only needed if you
+            need the utilities from it (for example, to create NTFS
+            filesystems).
+          </p>
+        </div>
+        <p>
+          The <span class="application">Ntfs-3g</span> package contains a
+          stable, read-write open source driver for NTFS partitions. NTFS
+          partitions are used by most Microsoft operating systems. Ntfs-3g
+          allows you to mount NTFS partitions in read-write mode from your
+          Linux system. It uses the FUSE kernel module to be able to
+          implement NTFS support in userspace. The package also contains
+          various utilities useful for manipulating NTFS partitions.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://tuxera.com/opensource/ntfs-3g_ntfsprogs-2022.10.3.tgz">
+                https://tuxera.com/opensource/ntfs-3g_ntfsprogs-2022.10.3.tgz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: a038af61be7584b79f8922ff11244090
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1.3 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 22 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.2 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Ntfs-3g の依存パッケージ
+        </h3>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="ulink" href="https://github.com/libfuse/libfuse">fuse
+          2.x</a> (this disables user mounts)
+        </p>
+      </div>
+      <div class="kernel" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="ntfs-3g-kernel" name="ntfs-3g-kernel"></a>カーネルの設定
+        </h2>
+        <p>
+          以下に示すカーネル設定オプションを有効にします。 必要に応じてカーネルを再コンパイルしてください。
+        </p>
+        <pre class="screen"><span class="blue">F</span>ile systems ---&gt;
+  &lt;*/M&gt; <span class=
+"blue">F</span>USE (Filesystem in Userspace) support                         [FUSE_FS]</pre>
+        <p>
+          Note that it is only needed for mounting NTFS partitions with
+          ntfs-3g. If you will use the in-kernel NTFS3 driver for mounting
+          NTFS partitions (as the BLFS editors recommend) instead, you can
+          skip this configuration item.
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Ntfs-3g のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">Ntfs-3g</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr        \
+            --disable-static     \
+            --with-fuse=internal \
+            --docdir=/usr/share/doc/ntfs-3g-2022.10.3 &amp;&amp;
+make</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class=
+        "command">make install &amp;&amp;</kbd></pre>
+        <p>
+          It's recommended to use the in-kernel NTFS3 driver for mounting
+          NTFS filesystems, instead of ntfs-3g (see the note at the start of
+          this page). However, if you want to use ntfs-3g to mount the NTFS
+          filesystems anyway, create a symlink for the <span class=
+          "command"><strong>mount</strong></span> command:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">ln -sv ../bin/ntfs-3g /usr/sbin/mount.ntfs &amp;&amp;
+ln -sv ntfs-3g.8 /usr/share/man/man8/mount.ntfs.8</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--disable-static</code></em>:
+          このスイッチはスタティックライブラリをインストールしないようにします。
+        </p>
+        <p>
+          <em class="parameter"><code>--with-fuse=internal</code></em>: This
+          switch dynamically forces <span class="application">ntfs-3g</span>
+          to use an internal copy of the <span class=
+          "application">fuse-2.x</span> library. This is required if you wish
+          to allow users to mount NTFS partitions.
+        </p>
+        <p>
+          <code class="option">--disable-ntfsprogs</code>: Disables
+          installation of various utilities used to manipulate NTFS
+          partitions.
+        </p>
+        <p>
+          <span class="command"><strong>chmod -v 4755
+          /usr/bin/ntfs-3g</strong></span>: Making mount.ntfs setuid root
+          allows non root users to mount NTFS partitions.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Using Ntfs-3g
+        </h2>
+        <p>
+          To mount a Windows partition at boot time, put a line like this in
+          /etc/fstab:
+        </p>
+        <pre class="screen">/dev/sda1 /mnt/windows auto defaults 0 0</pre>
+        <p>
+          To allow users to mount a usb stick with an NTFS filesystem on it,
+          put a line similar to this (change sdc1 to whatever a usb stick
+          would be on your system) in /etc/fstab:
+        </p>
+        <pre class=
+        "screen">/dev/sdc1 /mnt/usb auto user,noauto,umask=0,utf8 0 0</pre>
+        <p>
+          In order for a user to be able to mount the usb stick, they will
+          need to be able to write to <code class="filename">/mnt/usb</code>,
+          so as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">chmod -v 777 /mnt/usb</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">lowntfs-3g, mkfs.ntfs, mkntfs,
+              mount.lowntfs-3g, mount.ntfs, mount.ntfs-3g, ntfs-3g,
+              ntfs-3g.probe, ntfscat, ntfsclone, ntfscluster, ntfscmp,
+              ntfscp, ntfsfix, ntfsinfo, ntfslabel, ntfsls, ntfsresize and
+              ntfsundelete</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Library:</strong>
+              <span class="segbody">libntfs-3g.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody">/usr/include/ntfs-3g and
+              /usr/share/doc/ntfs-3g</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lowntfs-3g" name="lowntfs-3g"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lowntfs-3g</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is similar to ntfs-3g but uses the Fuse low-level
+                    interface
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mkfs.ntfs" name="mkfs.ntfs"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mkfs.ntfs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a symlink to mkntfs
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mkntfs" name="mkntfs"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mkntfs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    creates an NTFS file system
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mount.lowntfs-3g" name=
+                    "mount.lowntfs-3g"></a><span class="term"><span class=
+                    "command"><strong>mount.lowntfs-3g</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a symlink to lowntfs-3g
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mount.ntfs" name="mount.ntfs"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mount.ntfs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    mounts an NTFS filesystem
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mount.ntfs-3g" name=
+                    "mount.ntfs-3g"></a><span class="term"><span class=
+                    "command"><strong>mount.ntfs-3g</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a symbolic link to ntfs-3g
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ntfs-3g-prog" name="ntfs-3g-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ntfs-3g</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is an NTFS driver, which can create, remove, rename, move
+                    files, directories, hard links, and streams. It can also
+                    read and write files, including streams, sparse files and
+                    transparently compressed files. It can also handle
+                    special files like symbolic links, devices, and FIFOs;
+                    moreover it provides standard management of file
+                    ownership and permissions, including POSIX ACLs
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ntfs-3g.probe" name=
+                    "ntfs-3g.probe"></a><span class="term"><span class=
+                    "command"><strong>ntfs-3g.probe</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    tests if an NTFS volume is mountable read only or
+                    read-write, and exits with a status value accordingly.
+                    The volume can be a block device or image file
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ntfscluster" name="ntfscluster"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ntfscluster</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    identifies files in a specified region of an NTFS volume
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ntfscp" name="ntfscp"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ntfscp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    copies a file to an NTFS volume
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ntfsfix" name="ntfsfix"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ntfsfix</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    fixes common errors and forces Windows to check an NTFS
+                    partition
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ntfsls" name="ntfsls"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ntfsls</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    lists directory contents on an NTFS filesystem
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ntfscat" name="ntfscat"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ntfscat</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    prints NTFS files and streams on the standard output
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ntfsclone" name="ntfsclone"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ntfsclone</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    clones an NTFS filesystem
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ntfscmp" name="ntfscmp"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ntfscmp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    compares two NTFS filesystems and shows the differences
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ntfsinfo" name="ntfsinfo"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ntfsinfo</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    dumps a file's attributes
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ntfslabel" name="ntfslabel"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ntfslabel</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    displays or changes the label on an ntfs file system
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ntfsresize" name="ntfsresize"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ntfsresize</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    resizes an NTFS filesystem without data loss
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ntfsundelete" name="ntfsundelete"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ntfsundelete</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    recovers a deleted file from an NTFS volume
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libntfs-3g" name="libntfs-3g"></a><span class=
+                    "term"><code class="filename">libntfs-3g.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains the Ntfs-3g API functions
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="mdadm.html" title="mdadm-4.2">戻る</a>
+          <p>
+            mdadm-4.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gptfdisk.html" title="gptfdisk-1.0.9">次へ</a>
+          <p>
+            gptfdisk-1.0.9
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="filesystems.html" title=
+          "第5章 ファイルシステムとディスク管理">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

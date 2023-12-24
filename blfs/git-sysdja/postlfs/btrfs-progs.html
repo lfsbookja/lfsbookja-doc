@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      btrfs-progs-6.6.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第5章 ファイルシステムとディスク管理
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="initramfs.html" title=
+          "initramfs について">戻る</a>
+          <p>
+            initramfs について
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="dosfstools.html" title=
+          "dosfstools-4.2">次へ</a>
+          <p>
+            dosfstools-4.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="filesystems.html" title=
+          "第5章 ファイルシステムとディスク管理">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="btrfs-progs" name="btrfs-progs"></a>btrfs-progs-6.6.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          btrfs-progs の概要
+        </h2>
+        <p>
+          <span class="application">btrfs-progs</span> パッケージは B ツリーファイルシステム
+          (btffs) の管理およびデバッグを行うツールを提供します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v6.6.1.tar.xz">
+                https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v6.6.1.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: cd1c0f12ca3d00c1293c5283218aabdd
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 2.4 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 62 MB (transient files created during tests need up
+                to 10 GB)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.3 SBU (with parallelism=4; add 3.7 SBU for tests,
+                up to 14 SBU on slow disks)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Btrfs-progs の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/lzo.html" title=
+          "LZO-2.10">LZO-2.10</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="lvm2.html" title=
+          "LVM2-2.03.23">LVM2-2.03.23</a> (テストにて <span class=
+          "command"><strong>dmsetup</strong></span> が利用される), <a class="xref"
+          href="../general/python-modules.html#sphinx" title=
+          "Sphinx-7.2.6">sphinx-7.2.6</a> (ドキュメントビルドに必要), <a class="ulink"
+          href=
+          "https://mirrors.edge.kernel.org/pub/linux/kernel/people/jeffm/reiserfsprogs/">
+          reiserfsprogs</a> (テストのため).
+        </p>
+      </div>
+      <div class="kernel" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="btrfs-progs-kernel" name="btrfs-progs-kernel"></a>カーネルの設定
+        </h2>
+        <p>
+          カーネル設定における以下のオプションを有効にして、カーネルを再コンパイルします。
+        </p>
+        <pre class="screen"><span class="blue">F</span>ile systems ---&gt;
+  &lt;*/M&gt; <span class=
+"blue">B</span>trfs filesystem support                                      [BTRFS_FS]</pre>
+        <p>
+          In addition to the above and to the options required for <a class=
+          "xref" href="lvm2.html" title="LVM2-2.03.23">LVM2-2.03.23</a>, the
+          following options must be enabled for running tests:
+        </p>
+        <pre class="screen"><span class="blue">F</span>ile systems ---&gt;
+  &lt;*/M&gt; <span class=
+"blue">B</span>trfs filesystem support                                      [BTRFS_FS]
+  [*]     <span class=
+"blue">B</span>trfs POSIX Access Control Lists                  [BTRFS_FS_POSIX_ACL]</pre>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          btrfs-progs のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">btrfs-progs</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr           \
+            --disable-static        \
+            --disable-documentation &amp;&amp;
+make</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            Some tests require grep built with perl regular expressions. To
+            obtain this, rebuild grep with the LFS Chapter 8 instructions
+            after installing <a class="xref" href="../general/pcre2.html"
+            title="PCRE2-10.42">pcre2-10.42</a>.
+          </p>
+        </div>
+        <p>
+          Before running tests, build a support program:
+        </p>
+        <pre class="userinput"><kbd class="command">make fssum</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は (<code class="systemitem">root</code> ユーザーになって)
+          以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">pushd tests
+   ./fsck-tests.sh
+   ./mkfs-tests.sh
+   ./cli-tests.sh
+   ./convert-tests.sh
+   ./misc-tests.sh
+   ./fuzz-tests.sh
+popd</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            If the above mentioned kernel options are not enabled, some tests
+            fail, and prevent all the remaining tests from running because
+            the test disk image is not cleanly unmounted.
+          </p>
+        </div>
+        <p>
+          <code class="systemitem">root</code> ユーザーになってパッケージをインストールします。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+        <p>
+          If you have passed <em class=
+          "parameter"><code>--disable-documentation</code></em> to
+          <span class="command"><strong>configure</strong></span> and you
+          need the manual pages, install them by running, as the <code class=
+          "systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">for i in 5 8; do
+   install Documentation/*.$i /usr/share/man/man$i
+done</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--disable-static</code></em>:
+          このスイッチはスタティックライブラリをインストールしないようにします。
+        </p>
+        <p>
+          <em class="parameter"><code>--disable-documentation</code></em>:
+          This switch disables rebuilding the manual pages, because it
+          requires <a class="xref" href=
+          "../general/python-modules.html#sphinx" title=
+          "Sphinx-7.2.6">sphinx-7.2.6</a>.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">btrfs, btrfs-convert, btrfs-find-root, btrfs-image,
+              btrfs-map-logical, btrfs-select-super, btrfsck (link to btrfs),
+              btrfstune, fsck.btrfs, mkfs.btrfs</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libbtrfs.so, libbtrfsutil.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/btrfs</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="btrfs-prog" name="btrfs-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>btrfs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the main interface into btrfs filesystem operations
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="btrfs-convert" name=
+                    "btrfs-convert"></a><span class="term"><span class=
+                    "command"><strong>btrfs-convert</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    converts from an ext2/3/4 or reiserfs filesystem to btrfs
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="btrfs-find-root" name=
+                    "btrfs-find-root"></a><span class="term"><span class=
+                    "command"><strong>btrfs-find-root</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a filter to find btrfs root
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="btrfs-map-logical" name=
+                    "btrfs-map-logical"></a><span class="term"><span class=
+                    "command"><strong>btrfs-map-logical</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    maps btrfs logical extent to physical extent
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="btrfs-select-super" name=
+                    "btrfs-select-super"></a><span class="term"><span class=
+                    "command"><strong>btrfs-select-super</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    overwrites the primary superblock with a backup copy
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="btrfstune" name="btrfstune"></a><span class=
+                    "term"><span class=
+                    "command"><strong>btrfstune</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    tunes various filesystem parameters
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fsck.btrfs" name="fsck.btrfs"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fsck.btrfs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    does nothing, but is present for consistency with fstab
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mkfs.btrfs" name="mkfs.btrfs"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mkfs.btrfs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    creates a btrfs file system
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="initramfs.html" title=
+          "initramfs について">戻る</a>
+          <p>
+            initramfs について
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="dosfstools.html" title=
+          "dosfstools-4.2">次へ</a>
+          <p>
+            dosfstools-4.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="filesystems.html" title=
+          "第5章 ファイルシステムとディスク管理">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

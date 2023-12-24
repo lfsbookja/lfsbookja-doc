@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      RAID について
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第5章 ファイルシステムとディスク管理
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="aboutlvm.html" title=
+          "論理ボリューム管理 (LVM) について">戻る</a>
+          <p>
+            論理ボリューム管理 (LVM) について
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="mdadm.html" title="mdadm-4.2">次へ</a>
+          <p>
+            mdadm-4.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="filesystems.html" title=
+          "第5章 ファイルシステムとディスク管理">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="raid" name="raid"></a>RAID について
+      </h1>
+      <p>
+        RAID (Redundant Array of Independent Disks)
+        として知られるストレージ技術は、複数の物理的なディスクを論理ユニットとして構成します。
+        ドライバーモジュールによりデータの冗長構成を実現したり、物理ディスクの容量以上の論理ユニットサイズを実現したりできます。
+        またシステムを無停止のまま、ハードウェアの保守を可能とします。
+      </p>
+      <p>
+        RAID 構成の種類については <a class="ulink" href=
+        "https://raid.wiki.kernel.org/index.php/Overview#The_RAID_levels">RAID
+        Wiki</a> にて説明されています。
+      </p>
+      <p>
+        Note that while RAID provides protection against disk failures, it is
+        not a substitute for backups. A file deleted is still deleted on all
+        the disks of a RAID array. Modern backups are generally done via
+        <a class="xref" href="../basicnet/rsync.html" title=
+        "rsync-3.2.7">rsync-3.2.7</a>.
+      </p>
+      <p>
+        RAID の実現方式としては、主にハードウェア RAID、BIOS ベース RAID、ソフトウェア RAID の三つがあります。
+      </p>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="hwraid" name="hwraid"></a>ハードウェア RAID
+        </h2>
+        <p>
+          ハードウェアベースの RAID は、ハードウェアベンダーが提供するハードウェアやデータ構成を通じて機能実現されます。
+          制御および設定は、一般にデバイスメイカーにより提供される実行モジュールやファームウェアを通じて行います。 機能実現にあたっては PCI
+          カード経由により行われるのが通常ですが、中にはマザーボードに RAID コンポーネントが含まれるものもあります。
+          あるいはスタンドアロンな装置として提供されるものもあります。
+        </p>
+        <p>
+          ハードウェアベース RAID
+          の長所は、オペレーティングシステムに対しそのドライブが論理ドライブとして提供されるため、オペレーティングシステム上での設定は不要となる点です。
+        </p>
+        <p>
+          短所としては、そのドライブの他システムへの移設、ファームウェアの更新、障害発生した RAID
+          デバイスの交換などに手間ひまを要することが挙げられます。
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="biosraid" name="biosraid"></a>BIOS-based RAID
+        </h2>
+        <p>
+          Some computers offer a hardware-like RAID implementation in the
+          system BIOS. Sometime this is referred to as 'fake' RAID as the
+          capabilities are generally incorporated into firmware without any
+          hardware acceleration.
+        </p>
+        <p>
+          The advantages and disadvantages of BIOS-based RAID are generally
+          the same as hardware RAID with the additional disadvantage that
+          there is no hardware acceleration.
+        </p>
+        <p>
+          In some cases, BIOS-based RAID firmware is enabled by default (e.g.
+          some DELL systems). If software RAID is desired, this option must
+          be explicitly disabled in the BIOS.
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="swraid" name="swraid"></a>Software RAID
+        </h2>
+        <p>
+          Software based RAID is the most flexible form of RAID. It is easy
+          to install and update and provides full capability on all or part
+          of any drives available to the system. In BLFS, the RAID software
+          is found in <a class="xref" href="mdadm.html" title=
+          "mdadm-4.2">mdadm-4.2</a>.
+        </p>
+        <p>
+          Configuring a RAID device is straightforward using <span class=
+          "application">mdadm</span>. Generally devices are created in the
+          <code class="filename">/dev</code> directory as <code class=
+          "filename">/dev/mdx</code> where <span class=
+          "emphasis"><em>x</em></span> is an integer.
+        </p>
+        <p>
+          The first step in creating a RAID array is to use partitioning
+          software such as <strong class=
+          "userinput"><code>fdisk</code></strong> or <a class="xref" href=
+          "parted.html" title="parted-3.6">parted-3.6</a> to define the
+          partitions needed for the array. Usually, there will be one
+          partition on each drive participating in the RAID array, but that
+          is not strictly necessary. For this example, there will be four
+          disk drives: <code class="filename">/dev/sda</code>, <code class=
+          "filename">/dev/sdb</code>, <code class="filename">/dev/sdc</code>,
+          and <code class="filename">/dev/sdd</code>. They will be
+          partitioned as follows:
+        </p>
+        <pre class="screen"><code class=
+        "literal">Partition Size     Type                Use
+sda1:     100 MB   fd Linux raid auto  /boot    (RAID 1) /dev/md0
+sda2:      10 GB   fd Linux raid auto  /        (RAID 1) /dev/md1
+sda3:       2 GB   83 Linux swap       swap
+sda4      300 GB   fd Linux raid auto  /home    (RAID 5) /dev/md2
+
+sdb1:     100 MB   fd Linux raid auto  /boot    (RAID 1) /dev/md0
+sdb2:      10 GB   fd Linux raid auto  /        (RAID 1) /dev/md1
+sdb3:       2 GB   83 Linux swap       swap
+sdb4      300 GB   fd Linux raid auto  /home    (RAID 5) /dev/md2
+
+sdc1:      12 GB   fd Linux raid auto  /usr/src (RAID 0) /dev/md3
+sdc2:     300 GB   fd Linux raid auto  /home    (RAID 5) /dev/md2
+
+sdd1:      12 GB   fd Linux raid auto  /usr/src (RAID 0) /dev/md3
+sdd2:     300 GB   fd Linux raid auto  /home    (RAID 5) /dev/md2 </code></pre>
+        <p>
+          In this arrangement, a separate boot partition is created as the
+          first small RAID array and a root filesystem as the secong RAID
+          array, both mirrored. The third partition is a large (about 1TB)
+          array for the <code class="filename">/home</code> directory. This
+          provides an ability to stripe data across multiple devices,
+          improving speed for both reading and writing large files. Finally,
+          a fourth array is created that concatenates two partitions into a
+          larger device.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            All <span class="application">mdadm</span> commands must be run
+            as the <code class="systemitem">root</code> user.
+          </p>
+        </div>
+        <p>
+          To create these RAID arrays the commands are:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">/sbin/mdadm -Cv /dev/md0 --level=1 --raid-devices=2 /dev/sda1 /dev/sdb1
+/sbin/mdadm -Cv /dev/md1 --level=1 --raid-devices=2 /dev/sda2 /dev/sdb2
+/sbin/mdadm -Cv /dev/md3 --level=0 --raid-devices=2 /dev/sdc1 /dev/sdd1
+/sbin/mdadm -Cv /dev/md2 --level=5 --raid-devices=4 \
+        /dev/sda4 /dev/sdb4 /dev/sdc2 /dev/sdd2 </kbd></pre>
+        <p>
+          The devices created can be examined by device. For example, to see
+          the details of <code class="filename">/dev/md1</code>, use
+          <strong class="userinput"><code>/sbin/mdadm --detail
+          /dev/md1</code></strong>:
+        </p>
+        <pre class="screen"><code class="literal">        Version : 1.2
+  Creation Time : Tue Feb  7 17:08:45 2012
+     Raid Level : raid1
+     Array Size : 10484664 (10.00 GiB 10.74 GB)
+  Used Dev Size : 10484664 (10.00 GiB 10.74 GB)
+   Raid Devices : 2
+  Total Devices : 2
+    Persistence : Superblock is persistent
+
+    Update Time : Tue Feb  7 23:11:53 2012
+          State : clean
+ Active Devices : 2
+Working Devices : 2
+ Failed Devices : 0
+  Spare Devices : 0
+
+           Name : core2-blfs:0  (local to host core2-blfs)
+           UUID : fcb944a4:9054aeb2:d987d8fe:a89121f8
+         Events : 17
+
+    Number   Major   Minor   RaidDevice State
+       0       8        1        0      active sync   /dev/sda1
+       1       8       17        1      active sync   /dev/sdb1</code></pre>
+        <p>
+          From this point, the partitions can be formatted with the
+          filesystem of choice (e.g. ext3, ext4, <a class="xref" href=
+          "xfsprogs.html" title="xfsprogs-6.5.0">xfsprogs-6.5.0</a>, etc).
+          The formatted partitions can then be mounted. The <code class=
+          "filename">/etc/fstab</code> file can use the devices created for
+          mounting at boot time and the linux command line in <code class=
+          "filename">/boot/grub/grub.cfg</code> can specify <code class=
+          "option">root=/dev/md1</code>.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            The swap devices should be specified in the <code class=
+            "filename">/etc/fstab</code> file as normal. The kernel normally
+            stripes swap data across multiple swap files and should not be
+            made part of a RAID array.
+          </p>
+        </div>
+        <p>
+          For further options and management details of RAID devices, refer
+          to <strong class="userinput"><code>man mdadm</code></strong>.
+        </p>
+        <p>
+          Additional details for monitoring RAID arrays and dealing with
+          problems can be found at the <a class="ulink" href=
+          "https://raid.wiki.kernel.org/index.php/Linux_Raid">Linux RAID
+          Wiki</a>.
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="aboutlvm.html" title=
+          "論理ボリューム管理 (LVM) について">戻る</a>
+          <p>
+            論理ボリューム管理 (LVM) について
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="mdadm.html" title="mdadm-4.2">次へ</a>
+          <p>
+            mdadm-4.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="filesystems.html" title=
+          "第5章 ファイルシステムとディスク管理">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

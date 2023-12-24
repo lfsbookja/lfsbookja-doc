@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Lua-5.4.6
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第13章 プログラミング言語
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="llvm.html" title="LLVM-17.0.6">戻る</a>
+          <p>
+            LLVM-17.0.6
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="lua52.html" title="Lua-5.2.4">次へ</a>
+          <p>
+            Lua-5.2.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="prog.html" title="第13章 プログラミング言語">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="lua" name="lua"></a>Lua-5.4.6
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Lua の概要
+        </h2>
+        <p>
+          <span class="application">Lua</span> is a powerful light-weight
+          programming language designed for extending applications. It is
+          also frequently used as a general-purpose, stand-alone language.
+          <span class="application">Lua</span> is implemented as a small
+          library of C functions, written in ANSI C, and compiles unmodified
+          in all known platforms. The implementation goals are simplicity,
+          efficiency, portability, and low embedding cost. The result is a
+          fast language engine with small footprint, making it ideal in
+          embedded systems too.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://www.lua.org/ftp/lua-5.4.6.tar.gz">https://www.lua.org/ftp/lua-5.4.6.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 25a429319dff20dfbfb9956c2b5be911
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 356 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 3.8 MB（基本テスト込み）
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU 以下（基本テスト込み）
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          追加のダウンロード
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                必須のパッチ: <a class="ulink" href=
+                "https://www.linuxfromscratch.org/patches/blfs/svn/lua-5.4.6-shared_library-1.patch">
+                https://www.linuxfromscratch.org/patches/blfs/svn/lua-5.4.6-shared_library-1.patch</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Optional Test Suite Download (HTTP): <a class="ulink" href=
+                "https://www.lua.org/tests/lua-5.4.6-tests.tar.gz">https://www.lua.org/tests/lua-5.4.6-tests.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Optional Test Suite Download MD5 sum:
+                e10a3da28b05d0e8d25ad08b7820c213
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Optional Test Suite Download size: 134 KB
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Lua のインストール
+        </h2>
+        <p>
+          Some packages check for the <span class=
+          "application">pkg-config</span> file for <span class=
+          "application">Lua</span>, which is created with:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; lua.pc &lt;&lt; "EOF"
+<code class="literal">V=5.4
+R=5.4.6
+
+prefix=/usr
+INSTALL_BIN=${prefix}/bin
+INSTALL_INC=${prefix}/include
+INSTALL_LIB=${prefix}/lib
+INSTALL_MAN=${prefix}/share/man/man1
+INSTALL_LMOD=${prefix}/share/lua/${V}
+INSTALL_CMOD=${prefix}/lib/lua/${V}
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: Lua
+Description: An Extensible Extension Language
+Version: ${R}
+Requires:
+Libs: -L${libdir} -llua -lm -ldl
+Cflags: -I${includedir}</code>
+EOF</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">Lua</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../lua-5.4.6-shared_library-1.patch &amp;&amp;
+make linux</kbd></pre>
+        <p>
+          To test the results, issue: <span class="command"><strong>make
+          test</strong></span>. <span class="quote">「<span class="quote">This
+          will run the interpreter and print its version</span>」</span>. More
+          comprehensive tests can be performed if you downloaded the "Test
+          suite" tarball. Those tests need to be executed after the package
+          is installed, thus we defer to the description below.
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class=
+        "command">make INSTALL_TOP=/usr                \
+     INSTALL_DATA="cp -d"            \
+     INSTALL_MAN=/usr/share/man/man1 \
+     TO_LIB="liblua.so liblua.so.5.4 liblua.so.5.4.6" \
+     install &amp;&amp;
+
+mkdir -pv                      /usr/share/doc/lua-5.4.6 &amp;&amp;
+cp -v doc/*.{html,css,gif,png} /usr/share/doc/lua-5.4.6 &amp;&amp;
+
+install -v -m644 -D lua.pc /usr/lib/pkgconfig/lua.pc</kbd></pre>
+        <p>
+          Here we describe only the "Basic tests". Untar the tarball and
+          change to the <code class="filename">lua-5.4.6-tests</code>
+          directory, then issue <span class="command"><strong>lua -e
+          "_U=true" all.lua</strong></span>. If the tests finish without
+          error, you will see a message containing the string "final OK".
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">lua, luac</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">liblua.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/{lib,share}/lua, /usr/share/doc/lua-5.4.6</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lua-prog" name="lua-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lua</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    スタンドアロンの Lua インタープリター。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="luac" name="luac"></a><span class=
+                    "term"><span class=
+                    "command"><strong>luac</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Lua コンパイラー。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="liblua" name="liblua"></a><span class=
+                    "term"><code class="filename">liblua.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">Lua</span> API 関数を提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="llvm.html" title="LLVM-17.0.6">戻る</a>
+          <p>
+            LLVM-17.0.6
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="lua52.html" title="Lua-5.2.4">次へ</a>
+          <p>
+            Lua-5.2.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="prog.html" title="第13章 プログラミング言語">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

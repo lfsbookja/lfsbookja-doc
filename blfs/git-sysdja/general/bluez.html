@@ -1,0 +1,544 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      BlueZ-5.71
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第12章 システムユーティリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="autofs.html" title="autofs-5.1.9">戻る</a>
+          <p>
+            autofs-5.1.9
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="bubblewrap.html" title=
+          "Bubblewrap-0.8.0">次へ</a>
+          <p>
+            Bubblewrap-0.8.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="sysutils.html" title=
+          "第12章 システムユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="bluez" name="bluez"></a>BlueZ-5.71
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          BlueZ の概要
+        </h2>
+        <p>
+          <span class="application">BlueZ</span> パッケージは Linux における Bluetooth
+          プロトコルへの対応を行います。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://www.kernel.org/pub/linux/bluetooth/bluez-5.71.tar.xz">
+                https://www.kernel.org/pub/linux/bluetooth/bluez-5.71.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 00a0dcb5b106f5dc85859a14ef62b85d
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 2.3 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 164 MB (with tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.4 SBU (using parallelism=4; with tests)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          BlueZ の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="dbus.html" title=
+          "dbus-1.14.10">dbus-1.14.10</a>, <a class="xref" href="glib2.html"
+          title="GLib-2.78.3">GLib-2.78.3</a>, <a class="xref" href=
+          "libical.html" title="libical-3.0.17">libical-3.0.17</a>
+        </p>
+        <h4>
+          Optional
+        </h4>
+        <p class="optional">
+          <a class="xref" href="python-modules.html#docutils" title=
+          "docutils-0.20.1">docutils-0.20.1</a> (to generate man pages)
+        </p>
+      </div>
+      <div class="kernel" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="bluez-kernel" name="bluez-kernel"></a>カーネルの設定
+        </h2>
+        <p>
+          If you are building this package to use bluetooth devices (rather
+          than as a build dependency), enable the following options in the
+          kernel configuration, also the options in the <span class=
+          "quote">「<span class="quote">Cryptographic API</span>」</span>
+          section if you intend to run the tests, and recompile the kernel if
+          necessary:
+        </p>
+        <pre class="screen"><span class="blue">G</span>eneral setup ---&gt;
+  # If it is disabled, [TIMERFD] and [EVENTFD] will be hidden and
+  # enabled implicitly.  We DO NOT recommend to enable [EXPERT]
+  # unless you are really an expert user:
+  [ /*] <span class=
+"blue">C</span>onfigure standard kernel features (expert users) ---&gt;          [EXPERT]
+    [*] <span class=
+"blue">E</span>nable timerfd() system call                                   [TIMERFD]
+    [*] <span class=
+"blue">E</span>nable eventfd() system call                                   [EVENTFD]
+
+[*] N<span class=
+"blue">e</span>tworking support ---&gt;                                                [NET]
+  &lt;*/M&gt; <span class=
+"blue">B</span>luetooth subsystem support ---&gt;                                    [BT]
+    [*]   <span class=
+"blue">B</span>luetooth Classic (BR/EDR) features                         [BT_BREDR]
+    &lt;*/M&gt;   <span class=
+"blue">R</span>FCOMM protocol support                                  [BT_RFCOMM]
+    [*]       <span class=
+"blue">R</span>FCOMM TTY support                                 [BT_RFCOMM_TTY]
+    &lt;*/M&gt;   <span class=
+"blue">B</span>NEP protocol support                                      [BT_BNEP]
+    [*]       M<span class=
+"blue">u</span>lticast filter support                       [BT_BNEP_MC_FILTER]
+    [*]       <span class=
+"blue">P</span>rotocol filter support                     [BT_BNEP_PROTO_FILTER]
+    &lt;*/M&gt;   H<span class=
+"blue">I</span>DP protocol support                                      [BT_HIDP]
+    <span class="blue">B</span>luetooth device drivers ---&gt;
+      # Select the appropriate drivers for your bluetooth hardware.
+      # There are more vendor-specific drivers not listed here:
+      &lt; /*/M&gt; H<span class=
+"blue">C</span>I USB driver                                       [BT_HCIBTUSB]
+      &lt; /*/M&gt; H<span class=
+"blue">C</span>I SDIO driver                                     [BT_HCIBTSDIO]
+      &lt; /*/M&gt; H<span class=
+"blue">C</span>I UART driver                                       [BT_HCIUART]
+  &lt;*/M&gt; <span class=
+"blue">R</span>F switch subsystem support ---&gt;                                [RFKILL]
+
+-*- <span class=
+"blue">C</span>ryptographic API ---&gt;                                              [CRYPTO]
+  <span class="blue">C</span>rypto core or helper ---&gt;
+    &lt;*/M&gt; <span class=
+"blue">U</span>serspace cryptographic algorithm configuration          [CRYPTO_USER]
+  <span class="blue">B</span>lock ciphers ---&gt;
+    &lt;*/M&gt; <span class=
+"blue">A</span>ES (Advanced Encryption Standard)                        [CRYPTO_AES]
+  <span class=
+"blue">A</span>EAD (authenticated encryption with associated data) ciphers ---&gt;
+    &lt;*/M&gt; <span class=
+"blue">C</span>CM (Counter with Cipher Block Chaining-MAC)              [CRYPTO_CCM]
+  H<span class="blue">a</span>shes, digests, and MACs ---&gt;
+    &lt;*/M&gt; <span class=
+"blue">C</span>MAC (Cipher-based MAC)                                  [CRYPTO_CMAC]
+  <span class="blue">U</span>serspace interface ---&gt;
+    &lt;*/M&gt; H<span class=
+"blue">a</span>sh algorithms                                 [CRYPTO_USER_API_HASH]
+    &lt;*/M&gt; <span class=
+"blue">S</span>ymmetric key cipher algorithms             [CRYPTO_USER_API_SKCIPHER]
+    &lt;*/M&gt; <span class=
+"blue">A</span>EAD cipher algorithms                          [CRYPTO_USER_API_AEAD]</pre>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          BlueZ のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">BlueZ</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr         \
+            --sysconfdir=/etc     \
+            --localstatedir=/var  \
+            --disable-manpages    \
+            --enable-library      &amp;&amp;
+make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <strong class="userinput"><code>make
+          check</code></strong> を実行します。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install &amp;&amp;
+ln -svf ../libexec/bluetooth/bluetoothd /usr/sbin</kbd></pre>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって、主要な設定ファイルをインストールします。
+        </p>
+        <pre class="root"><kbd class=
+        "command">install -v -dm755 /etc/bluetooth &amp;&amp;
+install -v -m644 src/main.conf /etc/bluetooth/main.conf</kbd></pre>
+        <p>
+          API ドキュメントが必要な場合は <code class="systemitem">root</code>
+          ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class=
+        "command">install -v -dm755 /usr/share/doc/bluez-5.71 &amp;&amp;
+install -v -m644 doc/*.txt /usr/share/doc/bluez-5.71</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--disable-manpages</code></em>: This
+          switch disables generating the manual pages because of the reliance
+          on 'rst2man' in docutils. Remove this switch if you have <a class=
+          "xref" href="python-modules.html#docutils" title=
+          "docutils-0.20.1">docutils-0.20.1</a> installed and wish to
+          generate the manual pages.
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-library</code></em>: This
+          switch enables building the <span class="application">BlueZ</span>
+          4 compatibility library which is required by some applications.
+        </p>
+        <p>
+          <span class="command"><strong>ln -svf
+          ../libexec/bluetooth/bluetoothd /usr/sbin</strong></span>: This
+          command makes access to the bluetooth daemon more convenient.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          BlueZ の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="bluez-config" name="bluez-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="bluez-config" name="bluez-config"></a>設定ファイル
+          </h4>
+          <p>
+            <code class="filename">/etc/bluetooth/main.conf</code> is
+            installed automatically during the installation. Additionally,
+            there are two supplementary configuration files. You can
+            optionally install the following files as the <code class=
+            "systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt; /etc/bluetooth/rfcomm.conf &lt;&lt; "EOF"</kbd>
+<code class="literal"># Start rfcomm.conf
+# Set up the RFCOMM configuration of the Bluetooth subsystem in the Linux kernel.
+# Use one line per command
+# See the rfcomm man page for options
+
+
+# End of rfcomm.conf</code>
+EOF</pre>
+          <pre class="root"><kbd class=
+          "command">cat &gt; /etc/bluetooth/uart.conf &lt;&lt; "EOF"</kbd>
+<code class="literal"># Start uart.conf
+# Attach serial devices via UART HCI to BlueZ stack
+# Use one line per device
+# See the hciattach man page for options
+
+# End of uart.conf</code>
+EOF</pre>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="bluez-init" name="bluez-init"></a>
+          </h3>
+          <h4 class="title">
+            <a id="bluez-init" name="bluez-init"></a> <span class=
+            "phrase">Systemd Bluez Services</span>
+          </h4>
+          <p>
+            To start the <span class=
+            "command"><strong>bluetoothd</strong></span> daemon at boot,
+            enable the previously installed systemd unit by running the
+            following command as the <code class="systemitem">root</code>
+            user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">systemctl enable bluetooth</kbd></pre>
+          <p>
+            To start the <span class="command"><strong>obexd</strong></span>
+            daemon for a user session (to support some Bluetooth programs
+            using it), enable the previously installed systemd unit for all
+            users by running the following command as the <code class=
+            "systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">systemctl enable --global obex</kbd></pre>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              <span class="application">Systemd</span> will start the
+              Bluetooth daemon only when a bluetooth device is detected on
+              the system.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">bluemoon, bluetoothctl, bluetoothd (symlink),
+              btattach, btmon, hex2hcd, l2ping, l2test, mpris-proxy, and
+              rctest</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libbluetooth.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/etc/bluetooth, /usr/{include,libexec}/bluetooth, and
+              /usr/share/doc/bluez-5.71</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="bluemoon" name="bluemoon"></a><span class=
+                    "term"><span class=
+                    "command"><strong>bluemoon</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a Bluemoon configuration utility
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="bluetoothctl" name="bluetoothctl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>bluetoothctl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the interactive Bluetooth control program
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="bluetoothd" name="bluetoothd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>bluetoothd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the Bluetooth daemon
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="btmon" name="btmon"></a><span class=
+                    "term"><span class=
+                    "command"><strong>btmon</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides access to the Bluetooth subsystem monitor
+                    infrastructure for reading HCI traces
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hex2hcd" name="hex2hcd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>hex2hcd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to convert a file needed by Broadcom devices to
+                    hcd (Broadcom bluetooth firmware) format
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="l2ping" name="l2ping"></a><span class=
+                    "term"><span class=
+                    "command"><strong>l2ping</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to send a L2CAP echo request to the Bluetooth MAC
+                    address given in dotted hex notation
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="l2test" name="l2test"></a><span class=
+                    "term"><span class=
+                    "command"><strong>l2test</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a L2CAP testing program
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rctest" name="rctest"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rctest</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to test RFCOMM communications on the Bluetooth
+                    stack
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libbluetooth" name="libbluetooth"></a><span class=
+                    "term"><code class=
+                    "filename">libbluetooth.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains the <span class="application">BlueZ</span> 4 API
+                    functions
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="autofs.html" title="autofs-5.1.9">戻る</a>
+          <p>
+            autofs-5.1.9
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="bubblewrap.html" title=
+          "Bubblewrap-0.8.0">次へ</a>
+          <p>
+            Bubblewrap-0.8.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="sysutils.html" title=
+          "第12章 システムユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

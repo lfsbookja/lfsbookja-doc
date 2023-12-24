@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      パート&nbsp;II.&nbsp;LFS 設定以降と追加ソフトウェア
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="../introduction/beyond.html" title=
+          "BLFS のその先">戻る</a>
+          <p>
+            BLFS のその先
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="config.html" title="LFS 設定以降について">次へ</a>
+          <p>
+            LFS 設定以降について
+          </p>
+        </li>
+        <li class="up">.
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="part">
+      <h1 class="part">
+        <a id="postlfs" name="postlfs"></a>LFS 設定以降と追加ソフトウェア
+      </h1>
+      <div class="toc">
+        <h3>
+          目次
+        </h3>
+        <ul>
+          <li class="chapter">
+            <h4>
+              <a href="config.html">3. LFS 設定以降について</a>
+            </h4>
+            <ul>
+              <li class="sect1">
+                <a href="bootdisk.html">独自のブートデバイスの生成</a>
+              </li>
+              <li class="sect1">
+                <a href="console-fonts.html">About Console Fonts</a>
+              </li>
+              <li class="sect1">
+                <a href="firmware.html">About Firmware</a>
+              </li>
+              <li class="sect1">
+                <a href="devices.html">デバイスに関して</a>
+              </li>
+              <li class="sect1">
+                <a href="skel.html">ユーザー追加のための設定</a>
+              </li>
+              <li class="sect1">
+                <a href="users.html">システムユーザーとグループについて</a>
+              </li>
+              <li class="sect1">
+                <a href="profile.html">Bash シェルの初期起動ファイル</a>
+              </li>
+              <li class="sect1">
+                <a href="vimrc.html">/etc/vimrc ファイルと ~/.vimrc ファイル</a>
+              </li>
+              <li class="sect1">
+                <a href="logon.html">/etc/issue を使ったログオン画面のカスタマイズ</a>
+              </li>
+            </ul>
+          </li>
+          <li class="chapter">
+            <h4>
+              <a href="security.html">4. セキュリティ</a>
+            </h4>
+            <ul>
+              <li class="sect1">
+                <a href="vulnerabilities.html">ぜい弱性</a>
+              </li>
+              <li class="sect1">
+                <a href="make-ca.html">make-ca-1.13</a>
+              </li>
+              <li class="sect1">
+                <a href="cracklib.html">CrackLib-2.9.11</a>
+              </li>
+              <li class="sect1">
+                <a href="cryptsetup.html">cryptsetup-2.6.1</a>
+              </li>
+              <li class="sect1">
+                <a href="cyrus-sasl.html">Cyrus SASL-2.1.28</a>
+              </li>
+              <li class="sect1">
+                <a href="gnupg.html">GnuPG-2.4.3</a>
+              </li>
+              <li class="sect1">
+                <a href="gnutls.html">GnuTLS-3.8.2</a>
+              </li>
+              <li class="sect1">
+                <a href="gpgme.html">GPGME-1.23.2</a>
+              </li>
+              <li class="sect1">
+                <a href="iptables.html">iptables-1.8.10</a>
+              </li>
+              <li class="sect1">
+                <a href="firewall.html">ネットワークファイアウォールの設定</a>
+              </li>
+              <li class="sect1">
+                <a href="libcap.html">libcap-2.69 with PAM</a>
+              </li>
+              <li class="sect1">
+                <a href="linux-pam.html">Linux-PAM-1.5.3</a>
+              </li>
+              <li class="sect1">
+                <a href="liboauth.html">liboauth-1.0.3</a>
+              </li>
+              <li class="sect1">
+                <a href="libpwquality.html">libpwquality-1.4.5</a>
+              </li>
+              <li class="sect1">
+                <a href="mitkrb.html">MIT Kerberos V5-1.21.2</a>
+              </li>
+              <li class="sect1">
+                <a href="nettle.html">Nettle-3.9.1</a>
+              </li>
+              <li class="sect1">
+                <a href="nss.html">NSS-3.96.1</a>
+              </li>
+              <li class="sect1">
+                <a href="openssh.html">OpenSSH-9.5p1</a>
+              </li>
+              <li class="sect1">
+                <a href="p11-kit.html">p11-kit-0.25.3</a>
+              </li>
+              <li class="sect1">
+                <a href="polkit.html">Polkit-123</a>
+              </li>
+              <li class="sect1">
+                <a href="polkit-gnome.html">polkit-gnome-0.105</a>
+              </li>
+              <li class="sect1">
+                <a href="shadow.html">Shadow-4.14.2</a>
+              </li>
+              <li class="sect1">
+                <a href="ssh-askpass.html">ssh-askpass-9.5p1</a>
+              </li>
+              <li class="sect1">
+                <a href="stunnel.html">stunnel-5.71</a>
+              </li>
+              <li class="sect1">
+                <a href="sudo.html">Sudo-1.9.15p4</a>
+              </li>
+              <li class="sect1">
+                <a href="tripwire.html">Tripwire-2.4.3.7</a>
+              </li>
+            </ul>
+          </li>
+          <li class="chapter">
+            <h4>
+              <a href="filesystems.html">5. ファイルシステムとディスク管理</a>
+            </h4>
+            <ul>
+              <li class="sect1">
+                <a href="initramfs.html">initramfs について</a>
+              </li>
+              <li class="sect1">
+                <a href="btrfs-progs.html">btrfs-progs-6.6.1</a>
+              </li>
+              <li class="sect1">
+                <a href="dosfstools.html">dosfstools-4.2</a>
+              </li>
+              <li class="sect1">
+                <a href="fuse.html">Fuse-3.16.2</a>
+              </li>
+              <li class="sect1">
+                <a href="jfsutils.html">jfsutils-1.1.15</a>
+              </li>
+              <li class="sect1">
+                <a href="lvm2.html">LVM2-2.03.23</a>
+              </li>
+              <li class="sect1">
+                <a href="aboutlvm.html">論理ボリューム管理 (LVM) について</a>
+              </li>
+              <li class="sect1">
+                <a href="raid.html">RAID について</a>
+              </li>
+              <li class="sect1">
+                <a href="mdadm.html">mdadm-4.2</a>
+              </li>
+              <li class="sect1">
+                <a href="ntfs-3g.html">ntfs-3g-2022.10.3</a>
+              </li>
+              <li class="sect1">
+                <a href="gptfdisk.html">gptfdisk-1.0.9</a>
+              </li>
+              <li class="sect1">
+                <a href="parted.html">parted-3.6</a>
+              </li>
+              <li class="sect1">
+                <a href="smartmontools.html">smartmontools-7.4</a>
+              </li>
+              <li class="sect1">
+                <a href="sshfs.html">sshfs-3.7.3</a>
+              </li>
+              <li class="sect1">
+                <a href="xfsprogs.html">xfsprogs-6.5.0</a>
+              </li>
+              <li class="sect1">
+                <span class="dummy">UEFI ブートのためのパッケージ</span>
+              </li>
+              <li class="sect1">
+                <a href="efivar.html">efivar-38</a>
+              </li>
+              <li class="sect1">
+                <a href="efibootmgr.html">efibootmgr-18</a>
+              </li>
+              <li class="sect1">
+                <a href="grub-efi.html">GRUB-2.12 for EFI</a>
+              </li>
+              <li class="sect1">
+                <a href="grub-setup.html">Using GRUB to Set Up the Boot
+                Process with UEFI</a>
+              </li>
+            </ul>
+          </li>
+          <li class="chapter">
+            <h4>
+              <a href="editors.html">6. テキストエディター</a>
+            </h4>
+            <ul>
+              <li class="sect1">
+                <a href="bluefish.html">Bluefish-2.2.14</a>
+              </li>
+              <li class="sect1">
+                <a href="ed.html">Ed-1.19</a>
+              </li>
+              <li class="sect1">
+                <a href="emacs.html">Emacs-29.1</a>
+              </li>
+              <li class="sect1">
+                <a href="gedit.html">Gedit-46.1</a>
+              </li>
+              <li class="sect1">
+                <a href="joe.html">JOE-4.6</a>
+              </li>
+              <li class="sect1">
+                <a href="kate5.html">Kate-23.08.4</a>
+              </li>
+              <li class="sect1">
+                <a href="mousepad.html">Mousepad-0.5.10</a>
+              </li>
+              <li class="sect1">
+                <a href="nano.html">Nano-7.2</a>
+              </li>
+              <li class="sect1">
+                <a href="vim.html">Vim-9.0.2103</a>
+              </li>
+            </ul>
+          </li>
+          <li class="chapter">
+            <h4>
+              <a href="shells.html">7. シェル</a>
+            </h4>
+            <ul>
+              <li class="sect1">
+                <a href="dash.html">Dash-0.5.12</a>
+              </li>
+              <li class="sect1">
+                <a href="tcsh.html">Tcsh-6.24.10</a>
+              </li>
+              <li class="sect1">
+                <a href="zsh.html">zsh-5.9</a>
+              </li>
+            </ul>
+          </li>
+          <li class="chapter">
+            <h4>
+              <a href="virtualization.html">8. 仮想化</a>
+            </h4>
+            <ul>
+              <li class="sect1">
+                <a href="qemu.html">qemu-8.2.0</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="../introduction/beyond.html" title=
+          "BLFS のその先">戻る</a>
+          <p>
+            BLFS のその先
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="config.html" title="LFS 設定以降について">次へ</a>
+          <p>
+            LFS 設定以降について
+          </p>
+        </li>
+        <li class="up">.
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

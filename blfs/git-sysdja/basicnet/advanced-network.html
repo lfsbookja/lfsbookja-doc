@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Advanced Network Setup
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第14章 ネットワーク接続
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="connect.html" title="ネットワーク接続">戻る</a>
+          <p>
+            ネットワーク接続
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="dhcpcd.html" title="dhcpcd-10.0.6">次へ</a>
+          <p>
+            dhcpcd-10.0.6
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="connect.html" title="第14章 ネットワーク接続">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="advanced-network" name="advanced-network"></a>Advanced Network
+        Setup
+      </h1>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="network-bridge" name="network-bridge"></a>Network Bridge
+        </h2>
+        <div class="kernel" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="advanced-network-bridge-kernel" name=
+            "advanced-network-bridge-kernel"></a>
+          </h3>
+          <h4 class="title">
+            <a id="advanced-network-bridge-kernel" name=
+            "advanced-network-bridge-kernel"></a>Kernel Configuration
+          </h4>
+          <p>
+            Enable the following options in the kernel configuration and
+            recompile the kernel if necessary:
+          </p>
+          <pre class="screen"><code class="literal">Networking support: Y
+  Networking options:
+    802.1d Ethernet Bridging: M or Y</code></pre>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id50523" name="id50523"></a>Setting up a Network Bridge
+          </h4>
+          <p>
+            In this section we are going to discuss how to set up a network
+            bridge using <span class=
+            "command"><strong>systemd-networkd</strong></span>. In the
+            examples below, <em class="replaceable"><code>eth0</code></em>
+            represents the external interface that is being bridged, while
+            <em class="replaceable"><code>br0</code></em> represents the
+            bridge interface.
+          </p>
+          <p>
+            To create a bridge interface, create the following configuration
+            file by running the following command as the <code class=
+            "systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt; /etc/systemd/network/50-br0.netdev &lt;&lt; EOF
+<code class="literal">[NetDev]
+Name=<em class="replaceable"><code>br0</code></em>
+Kind=bridge</code>
+EOF</kbd></pre>
+          <p>
+            To assign a network interface to a bridge, create the following
+            configuration file by running the following command as the
+            <code class="systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt; /etc/systemd/network/51-eth0.network &lt;&lt; EOF
+<code class="literal">[Match]
+Name=<em class="replaceable"><code>eth0</code></em>
+
+[Network]
+Bridge=<em class="replaceable"><code>br0</code></em></code>
+EOF</kbd></pre>
+          <p>
+            Repeat the process for any other interfaces that need to be
+            bridged. Note that it is important that nothing assigns any
+            addresses to the bridged interfaces. If you are using <a class=
+            "xref" href="networkmanager.html" title=
+            "NetworkManager-1.44.2">NetworkManager-1.44.2</a>, make sure you
+            configure them to ignore the bridged interfaces, as well as the
+            bridge interface itself.
+          </p>
+          <p>
+            If you are on a network which uses DHCP for assigning ip
+            addresses, create the following configuration file by running the
+            following command as the <code class="systemitem">root</code>
+            user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt; /etc/systemd/network/60-br0.network &lt;&lt; EOF
+<code class="literal">[Match]
+Name=<em class="replaceable"><code>br0</code></em>
+
+[Network]
+DHCP=yes</code>
+EOF</kbd></pre>
+          <p>
+            Alternatively, if using a static ip setup, create the following
+            configuration file by running the following command as the
+            <code class="systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt; /etc/systemd/network/60-br0.network &lt;&lt; EOF
+<code class="literal">[Match]
+Name=<em class="replaceable"><code>br0</code></em>
+
+[Network]
+Address=192.168.0.2/24
+Gateway=192.168.0.1
+DNS=192.168.0.1</code>
+EOF</kbd></pre>
+          <p>
+            To bring up the bridge interface, simply restart the <span class=
+            "command"><strong>systemd-networkd</strong></span> daemon by
+            running the following command as the <code class=
+            "systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">systemctl restart systemd-networkd</kbd></pre>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="connect.html" title="ネットワーク接続">戻る</a>
+          <p>
+            ネットワーク接続
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="dhcpcd.html" title="dhcpcd-10.0.6">次へ</a>
+          <p>
+            dhcpcd-10.0.6
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="connect.html" title="第14章 ネットワーク接続">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

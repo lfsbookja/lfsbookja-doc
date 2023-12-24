@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Doxygen-1.9.8
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第13章 プログラミング言語
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="cmake.html" title="CMake-3.28.1">戻る</a>
+          <p>
+            CMake-3.28.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gcc.html" title="GCC-13.2.0">次へ</a>
+          <p>
+            GCC-13.2.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="prog.html" title="第13章 プログラミング言語">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="doxygen" name="doxygen"></a>Doxygen-1.9.8
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Doxygen の概要
+        </h2>
+        <p>
+          The <span class="application">Doxygen</span> package contains a
+          documentation system for C++, C, Java, Objective-C, Corba IDL and
+          to some extent PHP, C# and D. It is useful for generating HTML
+          documentation and/or an off-line reference manual from a set of
+          documented source files. There is also support for generating
+          output in RTF, PostScript, hyperlinked PDF, compressed HTML, and
+          Unix man pages. The documentation is extracted directly from the
+          sources, which makes it much easier to keep the documentation
+          consistent with the source code.
+        </p>
+        <p>
+          You can also configure <span class="application">Doxygen</span> to
+          extract the code structure from undocumented source files. This is
+          very useful to quickly find your way in large source distributions.
+          Used along with <span class="application">Graphviz</span>, you can
+          also visualize the relations between the various elements by means
+          of include dependency graphs, inheritance diagrams, and
+          collaboration diagrams, which are all generated automatically.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://doxygen.nl/files/doxygen-1.9.8.src.tar.gz">https://doxygen.nl/files/doxygen-1.9.8.src.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 5e608271e39108728b2e408a14f2991a
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 7.7 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 246 MB (with tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 1.7 SBU (using parallelism=4; with tests)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Doxygen の依存パッケージ
+        </h3>
+        <h4>
+          Required
+        </h4>
+        <p class="required">
+          <a class="xref" href="cmake.html" title=
+          "CMake-3.28.1">CMake-3.28.1</a>, <a class="xref" href="git.html"
+          title="Git-2.43.0">git-2.43.0</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="graphviz.html" title=
+          "Graphviz-9.0.0">Graphviz-9.0.0</a>, <a class="xref" href=
+          "../pst/gs.html" title=
+          "ghostscript-10.02.1">ghostscript-10.02.1</a>, <a class="xref"
+          href="libxml2.html" title="libxml2-2.12.3">libxml2-2.12.3</a>
+          (required for the tests), <a class="xref" href="llvm.html" title=
+          "LLVM-17.0.6">LLVM-17.0.6</a> (with clang), (<a class="xref" href=
+          "../x/qt5.html" title="Qt-5.15.11">Qt-5.15.11</a> または <a class=
+          "xref" href="../x/qt5-alternate.html" title=
+          "qt-alternate-5.15.11">qt-alternate-5.15.11</a>) (for doxywizard),
+          <a class="xref" href="../pst/texlive.html" title=
+          "texlive-20230313-source">texlive-20230313</a> (or <a class="xref"
+          href="../pst/tl-installer.html" title=
+          "install-tl-unx">install-tl-unx</a>), <a class="xref" href=
+          "xapian.html" title="Xapian-1.4.24">xapian-1.4.24</a> (for
+          doxyindexer), and <a class="ulink" href=
+          "https://javacc.github.io/javacc/">javacc</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Doxygen のインストール
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            When untarring this package, you may see messages such as
+            <span class="quote">「<span class="quote">Ignoring unknown
+            extended header keyword
+            'LIBARCHIVE.xattr.com.apple.TextEncoding'</span>」</span>. These
+            messages are harmless, and can be safely ignored.
+          </p>
+        </div>
+        <p>
+          First, fix up some python scripts:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">grep -rl '^#!.*python$' | xargs sed -i '1s/python/&amp;3/'</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">Doxygen</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir -v build &amp;&amp;
+cd       build &amp;&amp;
+
+cmake -G "Unix Makefiles"         \
+      -DCMAKE_BUILD_TYPE=Release  \
+      -DCMAKE_INSTALL_PREFIX=/usr \
+      -Wno-dev .. &amp;&amp;
+
+make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>make
+          tests</strong></span> を実行します。
+        </p>
+        <p>
+          If you wish to generate the package documentation, you must have
+          <span class="application">Python</span>, <span class=
+          "application">TeX Live</span> (for HTML docs) and <span class=
+          "application">Ghostscript</span> (for PDF docs) installed, then
+          issue the following command:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cmake -DDOC_INSTALL_DIR=share/doc/doxygen-1.9.8 -Dbuild_doc=ON .. &amp;&amp;
+
+make docs</kbd></pre>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install &amp;&amp;
+install -vm644 ../doc/*.1 /usr/share/man/man1</kbd></pre>
+        <p>
+          If you have generated the package documentation, then the man pages
+          are automatically installed, and you do not need to run the last
+          <span class="command"><strong>install ...</strong></span> command.
+        </p>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <code class="option">-Dbuild_wizard=ON</code>: Use this switch if
+          <span class="application">Qt5</span> is installed and you wish to
+          build the GUI front-end.
+        </p>
+        <p>
+          <code class="option">-Dbuild_search=ON</code>: Use this switch if
+          <span class="application">xapian</span> is installed and you wish
+          to build external search tools (<span class=
+          "command"><strong>doxysearch.cgi</strong></span> and <span class=
+          "command"><strong>doxyindexer)</strong></span>.
+        </p>
+        <p>
+          <code class="option">-Duse_libclang=ON</code>: Use this switch if
+          <span class="application">llvm</span> with <span class=
+          "application">clang</span> are installed, to add support for
+          libclang parsing.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Doxygen の設定
+        </h2>
+        <p>
+          There is no real configuration necessary for the <span class=
+          "application">Doxygen</span> package although three additional
+          packages are required if you wish to use extended capabilities. If
+          you require formulas to create PDF documentation, then you must
+          have <a class="xref" href="../pst/texlive.html" title=
+          "texlive-20230313-source">texlive-20230313</a> installed. If you
+          require formulas to convert PostScript files to bitmaps, then you
+          must have <a class="xref" href="../pst/gs.html" title=
+          "ghostscript-10.02.1">ghostscript-10.02.1</a> installed.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">doxygen, 任意ビルドとして doxywizard,
+              doxyindexer, doxysearch.cgi</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directory:</strong>
+              <span class="segbody">/usr/share/doc/doxygen-1.9.8</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="doxygen-prog" name="doxygen-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>doxygen</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a command-line based utility used to generate template
+                    configuration files and then generate documentation from
+                    these templates. Use <span class=
+                    "command"><strong>doxygen --help</strong></span> for an
+                    explanation of the command-line parameters
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="doxywizard" name="doxywizard"></a><span class=
+                    "term"><span class=
+                    "command"><strong>doxywizard</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>doxygen</strong></span>
+                    の設定および実行を行う GUI フロントエンド。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="doxyindexer" name="doxyindexer"></a><span class=
+                    "term"><span class=
+                    "command"><strong>doxyindexer</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    generates a search index called <code class=
+                    "filename">doxysearch.db</code> from one or more search
+                    data files produced by <span class=
+                    "command"><strong>doxygen</strong></span>. See, e.g.
+                    <a class="ulink" href=
+                    "https://javacc.github.io/javacc/">https://javacc.github.io/javacc/</a>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="doxysearch.cgi" name=
+                    "doxysearch.cgi"></a><span class="term"><span class=
+                    "command"><strong>doxysearch.cgi</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a CGI program to search the data indexed by
+                    <span class="command"><strong>doxyindexer</strong></span>
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="cmake.html" title="CMake-3.28.1">戻る</a>
+          <p>
+            CMake-3.28.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gcc.html" title="GCC-13.2.0">次へ</a>
+          <p>
+            GCC-13.2.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="prog.html" title="第13章 プログラミング言語">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

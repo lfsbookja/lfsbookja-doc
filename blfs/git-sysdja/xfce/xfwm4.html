@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Xfwm4-4.18.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第35章 Xfce デスクトップ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="xfdesktop.html" title=
+          "Xfdesktop-4.18.1">戻る</a>
+          <p>
+            Xfdesktop-4.18.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="xfce4-session.html" title=
+          "xfce4-session-4.18.3">次へ</a>
+          <p>
+            xfce4-session-4.18.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="xfce-core.html" title=
+          "第35章 Xfce デスクトップ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="xfwm4" name="xfwm4"></a>Xfwm4-4.18.0
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Xfwm4 の概要
+        </h2>
+        <p>
+          <span class="application">Xfwm4</span> は <span class=
+          "application">Xfce</span> のウィンドウマネージャーです。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://archive.xfce.org/src/xfce/xfwm4/4.18/xfwm4-4.18.0.tar.bz2">
+                https://archive.xfce.org/src/xfce/xfwm4/4.18/xfwm4-4.18.0.tar.bz2</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 181415e457c86124fa5f8aa5d715b967
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1.2 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 27 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.2 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Xfwm4 の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="../gnome/libwnck.html" title=
+          "libwnck-43.0">libwnck-43.0</a>, <a class="xref" href=
+          "libxfce4ui.html" title="libxfce4ui-4.18.4">libxfce4ui-4.18.4</a>
+        </p>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../x/startup-notification.html" title=
+          "startup-notification-0.12">startup-notification-0.12</a>
+        </p>
+        <p class="usernotes">
+          編集ノート: <a class="ulink" href=
+          "https://wiki.linuxfromscratch.org/blfs/wiki/xfwm4">https://wiki.linuxfromscratch.org/blfs/wiki/xfwm4</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Xfwm4 のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">Xfwm4</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr &amp;&amp;
+make</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">xfwm4, xfwm4-settings, xfwm4-tweaks-settings,
+              xfwm4-workspace-settings</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/lib/xfce4/xfwm4,
+              /usr/share/themes/{Daloa,Default{,-hdpi,-xhdpi},Kokodi,Moheli},
+              /usr/share/xfwm4</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xfwm4-prog" name="xfwm4-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xfwm4</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">Xfce</span> ウィンドウマネージャー。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xfwm4-settings" name=
+                    "xfwm4-settings"></a><span class="term"><span class=
+                    "command"><strong>xfwm4-settings</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a <span class="application">GTK+ 3</span> application
+                    that allows setting some preferences such as your theme,
+                    keyboard shortcuts and mouse focus behavior
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xfwm4-tweaks-settings" name=
+                    "xfwm4-tweaks-settings"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xfwm4-tweaks-settings</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a <span class="application">GTK+ 3</span> application
+                    that allows setting some more preferences for
+                    <span class="application">Xfwm4</span>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xfwm4-workspace-settings" name=
+                    "xfwm4-workspace-settings"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xfwm4-workspace-settings</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a <span class="application">GTK+ 3</span> application
+                    that allows setting your workspace preferences
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="xfdesktop.html" title=
+          "Xfdesktop-4.18.1">戻る</a>
+          <p>
+            Xfdesktop-4.18.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="xfce4-session.html" title=
+          "xfce4-session-4.18.3">次へ</a>
+          <p>
+            xfce4-session-4.18.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="xfce-core.html" title=
+          "第35章 Xfce デスクトップ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

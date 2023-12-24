@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Setting the PATH for TeX Live
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第51章 組版処理
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="typesetting.html" title="組版処理">戻る</a>
+          <p>
+            組版処理
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="tl-installer.html" title=
+          "install-tl-unx">次へ</a>
+          <p>
+            install-tl-unx
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="typesetting.html" title="第51章 組版処理">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="tex-path" name="tex-path"></a>Setting the PATH for TeX Live
+      </h1>
+      <p>
+        Before starting to build TeX Live, set up your PATH so that the
+        system can properly find the files. If you set up your login scripts
+        as recommended in <a class="xref" href="../postlfs/profile.html"
+        title="Bash シェルの初期起動ファイル">Bash シェルの初期起動ファイル</a>, update the needed
+        paths by creating the <code class="filename">texlive.sh</code>
+        script. The programs are always installed in an &lt;ARCH&gt;-linux
+        subdirectory and on 32-bit x86 this is always i386-linux. For x86_64
+        and i?86 we can generate this as $TEXARCH:
+      </p>
+      <div class="admon note">
+        <img alt="[注記]" src="../images/note.png" />
+        <h3>
+          注記
+        </h3>
+        <p>
+          If upgrading from a previous year's version, you should manually
+          edit <code class="filename">texlive.sh</code> to ensure that the
+          version for the year you wish to use is the only TeX present (some
+          people need to keep multiple years available to ensure there are no
+          regressions in their documents).
+        </p>
+      </div>
+      <p>
+        Now, create the texlive.sh script as the <code class=
+        "systemitem">root</code> user:
+      </p>
+      <pre class="root"><kbd class=
+      "command">TEXARCH=$(uname -m | sed -e 's/i.86/i386/' -e 's/$/-linux/')
+
+cat &gt; /etc/profile.d/texlive.sh &lt;&lt; EOF
+<code class="literal"># Begin texlive setup
+TEXLIVE_PREFIX=/opt/texlive/2023
+export TEXLIVE_PREFIX
+
+pathappend \$TEXLIVE_PREFIX/texmf-dist/doc/man  MANPATH
+pathappend \$TEXLIVE_PREFIX/texmf-dist/doc/info INFOPATH
+pathappend \$TEXLIVE_PREFIX/bin/$TEXARCH
+
+# End texlive setup</code>
+EOF
+
+unset TEXARCH</kbd></pre>
+      <div class="admon note">
+        <img alt="[注記]" src="../images/note.png" />
+        <h3>
+          注記
+        </h3>
+        <p>
+          The standard MANPATH and INFOPATH path are specified above to
+          ensure they are included. If they are already set in the boot
+          script procedure, the pathappend function will ensure duplicates
+          are removed, so including them here will do no harm.
+        </p>
+      </div>
+      <div class="admon note">
+        <img alt="[注記]" src="../images/note.png" />
+        <h3>
+          注記
+        </h3>
+        <p>
+          The backslashes before the dollar signs in the script above are to
+          facilitate a copy/paste operation. The backslashes should not
+          appear in the actual script.
+        </p>
+      </div>
+      <p>
+        The new paths can be immediately activated by running:
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">source /etc/profile</kbd></pre>
+      <p>
+        The shared libraries will be installed into a texlive directory. As
+        the <code class="systemitem">root</code> user, add it to your
+        <code class="filename">/etc/ld.so.conf</code>:
+      </p>
+      <pre class="root"><kbd class=
+      "command">cat &gt;&gt; /etc/ld.so.conf &lt;&lt; EOF
+<code class="literal"># Begin texlive addition
+
+$TEXLIVE_PREFIX/lib
+
+# End texlive addition</code>
+EOF</kbd></pre>
+      <p>
+        You should now proceed either to <a class="xref" href=
+        "tl-installer.html" title="install-tl-unx">install-tl-unx</a> for a
+        binary installation of texlive, or to <a class="xref" href=
+        "texlive.html" title="texlive-20230313-source">texlive-20230313</a>
+        to begin installing from source.
+      </p>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="typesetting.html" title="組版処理">戻る</a>
+          <p>
+            組版処理
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="tl-installer.html" title=
+          "install-tl-unx">次へ</a>
+          <p>
+            install-tl-unx
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="typesetting.html" title="第51章 組版処理">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,1008 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      OpenJDK-21.0.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第13章 プログラミング言語
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="java.html" title="Java-21.0.1">戻る</a>
+          <p>
+            Java-21.0.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="ojdk-conf.html" title="JAVA 環境の設定">次へ</a>
+          <p>
+            JAVA 環境の設定
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="prog.html" title="第13章 プログラミング言語">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="openjdk" name="openjdk"></a>OpenJDK-21.0.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to OpenJDK
+        </h2>
+        <p>
+          <span class="application">OpenJDK</span> is an open-source
+          implementation of Oracle's Java Standard Edition platform.
+          <span class="application">OpenJDK</span> is useful for developing
+          <span class="application">Java</span> programs, and provides a
+          complete runtime environment to run <span class=
+          "application">Java</span> programs.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <p>
+          OpenJDK is GPL'd code, with a special exception made for non-free
+          projects to use these classes in their proprietary products. In
+          similar fashion to the LGPL, which allows non-free programs to link
+          to libraries provided by free software, the <a class="ulink" href=
+          "https://openjdk.org/legal/gplv2+ce.html">GNU General Public
+          License, version 2, with the Classpath Exception</a> allows third
+          party programs to use classes provided by free software without the
+          requirement that the third party software also be free. As with the
+          LGPL, any modifications made to the free software portions of a
+          third party application, must also be made freely available.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            The <span class="application">OpenJDK</span> source includes a
+            very thorough, open source test suite using the <span class=
+            "application">JTreg</span> test harness. The testing instructions
+            below allow testing the just built JDK for reasonable
+            compatibility with the proprietary Oracle JDK. However, in order
+            for an independent implementation to claim compatibility, it must
+            pass a proprietary <span class="application">JCK/TCK</span> test
+            suite. No claims of compatibility, or even partial compatibility,
+            may be made without passing an approved test suite.
+          </p>
+          <p>
+            Oracle does provide free community access, on a case by case
+            basis, to a closed toolkit to ensure 100% compatibility with its
+            proprietary JDK. Neither the binary version provided on the
+            <a class="xref" href="java.html" title=
+            "Java-21.0.1">Java-21.0.1</a> page nor the JVM built with the
+            instructions below have been tested against the <a class="ulink"
+            href=
+            "https://openjdk.java.net/groups/conformance/JckAccess/jck-access.html">
+            TCK</a>. Any version that is built using the instructions given,
+            cannot claim to be compatible with the proprietary JDK, without
+            the user applying for, and completing the compatibility tests
+            themselves.
+          </p>
+          <p>
+            With that in mind, the binaries produced using this build method
+            are regularly tested against the TCK by the members listed on the
+            site above. In addition to the community license above, an
+            educational, non-commercial license for the TCK can be obtained
+            <a class="ulink" href=
+            "https://www.oracle.com/technetwork/java/index-137188.html">here</a>.
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://github.com/openjdk/jdk21u/archive/jdk-21.0.1-ga.tar.gz">
+                https://github.com/openjdk/jdk21u/archive/jdk-21.0.1-ga.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: 3c39c7d14a03b0b3d0aaaecb98ce307e
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download Size: 107 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 3.7 GB (add 569 MB for tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: 5.2 SBU with 4 jobs (add 33 SBU for
+                tests with 4 jobs)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Additional Downloads
+        </h3>
+        <p>
+          <span class="strong"><strong>Optional test harness</strong></span>
+        </p>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                <a class="ulink" href=
+                "https://anduin.linuxfromscratch.org/BLFS/OpenJDK/OpenJDK-21.0.1/jtreg-7.2+1.tar.gz">
+                https://anduin.linuxfromscratch.org/BLFS/OpenJDK/OpenJDK-21.0.1/jtreg-7.2+1.tar.gz</a>
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          OpenJDK Dependencies
+        </h3>
+        <h4>
+          Required Dependencies
+        </h4>
+        <p class="required">
+          An existing binary (<a class="xref" href="java.html" title=
+          "Java-21.0.1">Java-21.0.1</a> or an earlier built version of this
+          package. The instructions below assume that you are using <a class=
+          "xref" href="ojdk-conf.html" title="JAVA 環境の設定">JAVA 環境の設定</a>),
+          <a class="xref" href="../multimedia/alsa-lib.html" title=
+          "alsa-lib-1.2.10">alsa-lib-1.2.10</a>, <a class="xref" href=
+          "cpio.html" title="cpio-2.14">cpio-2.14</a>, <a class="xref" href=
+          "../pst/cups.html" title="Cups-2.4.7">Cups-2.4.7</a>, <a class=
+          "xref" href="unzip.html" title="UnZip-6.0">UnZip-6.0</a>, <a class=
+          "xref" href="which.html" title="Which-2.21 と別の実現方法">Which-2.21</a>,
+          <a class="xref" href="../x/x7lib.html" title="Xorg ライブラリ">Xorg
+          ライブラリ</a>, and <a class="xref" href="zip.html" title=
+          "Zip-3.0">Zip-3.0</a>
+        </p>
+        <h4>
+          Recommended
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../postlfs/make-ca.html" title=
+          "make-ca-1.13">make-ca-1.13</a>, <a class="xref" href="giflib.html"
+          title="giflib-5.2.1">giflib-5.2.1</a>, <a class="xref" href=
+          "harfbuzz.html" title="HarfBuzz-8.3.0">HarfBuzz-8.3.0</a>,
+          <a class="xref" href="lcms2.html" title="Little CMS-2.14">Little
+          CMS-2.14</a>, <a class="xref" href="libjpeg.html" title=
+          "libjpeg-turbo-3.0.1">libjpeg-turbo-3.0.1</a>, <a class="xref"
+          href="libpng.html" title="libpng-1.6.40">libpng-1.6.40</a>, and
+          <a class="xref" href="../basicnet/wget.html" title=
+          "Wget-1.21.4">Wget-1.21.4</a>
+        </p>
+        <h4>
+          Optional
+        </h4>
+        <p class="optional">
+          <a class="xref" href="git.html" title="Git-2.43.0">git-2.43.0</a>,
+          <a class="xref" href="graphviz.html" title=
+          "Graphviz-9.0.0">Graphviz-9.0.0</a>, <a class="xref" href=
+          "mercurial.html" title="Mercurial-6.6.1">Mercurial-6.6.1</a>,
+          <a class="ulink" href="https://ccache.dev/">ccache</a>, <a class=
+          "ulink" href="https://pandoc.org/">pandoc</a>, and <a class="ulink"
+          href="https://zlib.net/pigz">pigz</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of OpenJDK
+        </h2>
+        <p>
+          If you have downloaded the optional test harness, unpack it now:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">tar -xf ../jtreg-7.2+1.tar.gz</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            Before proceeding, you should ensure that your environment
+            <code class="envar">PATH</code> variable contains the location of
+            the Java compiler used for bootstrapping <span class=
+            "application">OpenJDK</span>. This is the only requirement for
+            the environment. Modern Java installations do not need
+            <code class="envar">JAVA_HOME</code> and <code class=
+            "envar">CLASSPATH</code> is not used here. Furthermore, OpenJDK
+            developers recommend unsetting <code class=
+            "envar">JAVA_HOME</code>.
+          </p>
+          <p>
+            The build system does not allow the <code class=
+            "option">-j</code> switch in <code class=
+            "envar">MAKEFLAGS</code>. See the command explanation for
+            <code class="option">--with-jobs=</code> for more information on
+            customizing parallelization.
+          </p>
+        </div>
+        <p>
+          Configure and build the package with the following commands:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">unset JAVA_HOME                             &amp;&amp;
+bash configure --enable-unlimited-crypto    \
+               --disable-warnings-as-errors \
+               --with-stdc++lib=dynamic     \
+               --with-giflib=system         \
+               --with-harfbuzz=system       \
+               --with-jtreg=$PWD/jtreg      \
+               --with-lcms=system           \
+               --with-libjpeg=system        \
+               --with-libpng=system         \
+               --with-zlib=system           \
+               --with-version-build="12"    \
+               --with-version-pre=""        \
+               --with-version-opt=""        \
+               --with-cacerts-file=/etc/pki/tls/java/cacerts &amp;&amp;
+make images</kbd></pre>
+        <p>
+          To test the results, you will need to execute the jtreg program.
+          You can set the number of concurrent tests by adding the <em class=
+          "parameter"><code>-conc:<em class=
+          "replaceable"><code>&lt;X&gt;</code></em></code></em> value in the
+          below command (tests will run sequentially otherwise):
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">export JT_JAVA=$(echo $PWD/build/*/jdk) &amp;&amp;
+jtreg/bin/jtreg -jdk:$JT_JAVA -automatic -ignore:quiet -v1 \
+    test/jdk:tier1 test/langtools:tier1 &amp;&amp;
+unset JT_JAVA</kbd></pre>
+        <p>
+          For more control over the test suite, review the documentation
+          available in <code class=
+          "filename">jtreg/doc/jtreg/usage.txt</code>. To review the results,
+          see the files <code class=
+          "filename">JTreport/test_{jdk,langtools}/text/stats.txt</code> and
+          <code class=
+          "filename">JTreport/test_{jdk,langtools}/text/summary.txt</code>.
+          You should expect to see around 60 failures and 10 errors.
+        </p>
+        <p>
+          Install the package with the following commands as the <code class=
+          "systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">install -vdm755 /opt/jdk-21.0.1+12             &amp;&amp;
+cp -Rv build/*/images/jdk/* /opt/jdk-21.0.1+12 &amp;&amp;
+chown -R root:root /opt/jdk-21.0.1+12          &amp;&amp;
+for s in 16 24 32 48; do
+  install -vDm644 src/java.desktop/unix/classes/sun/awt/X11/java-icon${s}.png \
+                  /usr/share/icons/hicolor/${s}x${s}/apps/java.png
+done</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            If you only wish to install the Java Runtime Environment, you can
+            substitute <code class="filename">build/*/images/jre</code> in
+            the above <span class="command"><strong>cp</strong></span>
+            command.
+          </p>
+        </div>
+        <p>
+          There are now two <span class="application">OpenJDK</span> SDKs
+          installed in <code class="filename">/opt</code>. You should decide
+          on which one you would like to use as the default. Normally, you
+          would opt for the just installed <span class=
+          "application">OpenJDK</span>. If so, do the following as the
+          <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">ln -v -nsf jdk-21.0.1+12 /opt/jdk</kbd></pre>
+        <p>
+          If desired, you can create .desktop files to add entries in the
+          menu for <span class="command"><strong>java</strong></span> and
+          <span class="command"><strong>jconsole</strong></span>. The needed
+          icons have already been installed. As the <code class=
+          "systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">mkdir -pv /usr/share/applications &amp;&amp;
+
+cat &gt; /usr/share/applications/openjdk-java.desktop &lt;&lt; "EOF" &amp;&amp;
+<code class="literal">[Desktop Entry]
+Name=OpenJDK Java 21.0.1 Runtime
+Comment=OpenJDK Java 21.0.1 Runtime
+Exec=/opt/jdk/bin/java -jar
+Terminal=false
+Type=Application
+Icon=java
+MimeType=application/x-java-archive;application/java-archive;application/x-jar;
+NoDisplay=true</code>
+EOF
+cat &gt; /usr/share/applications/openjdk-jconsole.desktop &lt;&lt; "EOF"
+<code class="literal">[Desktop Entry]
+Name=OpenJDK Java 21.0.1 Console
+Comment=OpenJDK Java 21.0.1 Console
+Keywords=java;console;monitoring
+Exec=/opt/jdk/bin/jconsole
+Terminal=false
+Type=Application
+Icon=java
+Categories=Application;System;</code>
+EOF</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <span class="command"><strong>bash configure...</strong></span>:
+          the top level <code class="filename">configure</code> is a wrapper
+          around the autotools one. It is not executable and must be run
+          through <span class="command"><strong>bash</strong></span>.
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-unlimited-crypto</code></em>:
+          Because of limitations on the usage of cryptography in some
+          countries, there is the possibility to limit the size of encryption
+          keys and the use of some algorithms in a policy file. This switch
+          allows to ship a policy file with no restriction. It is the
+          responsibility of the user to ensure proper adherence to the law.
+        </p>
+        <p>
+          <em class=
+          "parameter"><code>--disable-warnings-as-errors</code></em>: This
+          switch disables use of <code class="envar">-Werror</code> in the
+          build.
+        </p>
+        <p>
+          <em class="parameter"><code>--with-stdc++lib=dynamic</code></em>:
+          This switch forces the build system to link to <code class=
+          "filename">libstdc++.so</code> (dynamic) instead of <code class=
+          "filename">libstdc++.a</code> (static).
+        </p>
+        <p>
+          <code class="option">--with-jobs=<em class=
+          "replaceable"><code>&lt;X&gt;</code></em></code>: The <em class=
+          "parameter"><code>-j</code></em> passed to make does not work with
+          make as invoked here. By default, the build system will use the
+          number of CPUs - 1.
+        </p>
+        <p>
+          <em class="parameter"><code>--with-jtreg=$PWD/jtreg</code></em>:
+          This switch tells configure where to find jtreg. Omit if you have
+          not downloaded the optional test suite.
+        </p>
+        <p>
+          <em class=
+          "parameter"><code>--with-{giflib,harfbuzz,lcms,libjpeg,libpng,zlib}=system</code></em>:
+          These switches force the build system to use the system libraries
+          instead of the bundled versions.
+        </p>
+        <p>
+          <em class="parameter"><code>--with-version-build</code></em>:
+          Currently, the build system does not include the build number in
+          the version string. It has to be specified here.
+        </p>
+        <p>
+          <em class="parameter"><code>--with-version-pre</code></em>: This
+          switch allows you to prefix the version string with a custom
+          string.
+        </p>
+        <p>
+          <em class="parameter"><code>--with-version-opt</code></em>: This
+          switch allows you to add an optional build description to the
+          version string.
+        </p>
+        <p>
+          <em class=
+          "parameter"><code>--with-cacerts-file=/etc/pki/tls/java/cacerts</code></em>:
+          Specifies where to find a <code class="filename">cacerts</code>
+          file, <code class="filename">/etc/pki/tls/java/</code> on a BLFS
+          system. Otherwise, an empty one is created. You can use the
+          <span class="command"><strong>/usr/sbin/make-ca
+          --force</strong></span> command to generate it, once you have
+          installed the Java binaries.
+        </p>
+        <p>
+          <code class="option">--with-boot-jdk</code>: This switch provides
+          the location of the temporary <span class="application">JDK</span>.
+          It is normally not needed if <span class=
+          "command"><strong>java</strong></span> is found in the <code class=
+          "envar">PATH</code>.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="openjdk-config" name="openjdk-config"></a>Configuring
+          OpenJDK
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id50058" name="id50058"></a>Configuration Information
+          </h4>
+          <p>
+            Normally, the JAVA environment has been configured after
+            installing the binary version, and can be used with the just
+            built package as well. Review <a class="xref" href=
+            "ojdk-conf.html" title="JAVA 環境の設定">JAVA 環境の設定</a> in case you
+            want to modify something.
+          </p>
+          <p>
+            To test if the man pages are correctly installed, issue
+            <span class="command"><strong>source /etc/profile</strong></span>
+            and <span class="command"><strong>man java</strong></span> to
+            display the respective man page.
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id50065" name="id50065"></a> Setting up the JRE
+            Certificate Authority Certificates (cacerts) file
+          </h4>
+          <p>
+            If you have run the instructions on the <a class="xref" href=
+            "../postlfs/make-ca.html" title="make-ca-1.13">make-ca-1.13</a>
+            page, you only need to create a symlink in the default location
+            for the <code class="filename">cacerts</code> file. As user
+            <code class="systemitem">root</code>:
+          </p>
+          <pre class="root"><kbd class=
+          "command">ln -sfv /etc/pki/tls/java/cacerts /opt/jdk/lib/security/cacerts</kbd></pre>
+          <p>
+            To check the installation, issue:
+          </p>
+          <pre class="root"><kbd class="command">cd /opt/jdk
+bin/keytool -list -cacerts</kbd></pre>
+          <p>
+            At the prompt <code class="computeroutput">Enter keystore
+            password:</code>, enter <strong class=
+            "userinput"><code>changeit</code></strong> (the default) or just
+            press the <span class="quote">「<span class=
+            "quote">Enter</span>」</span> key. If the <code class=
+            "filename">cacerts</code> file was installed correctly, you will
+            see a list of the certificates with related information for each
+            one. If not, you need to reinstall them.
+          </p>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">jar, jarsigner, java, javac, javadoc,
+              javap, jcmd, jconsole, jdb, jdeprscan, jdeps, jfr, jhsdb,
+              jimage, jinfo, jlink, jmap, jmod, jpackage, jps, jrunscript,
+              jshell, jstack, jstat, jstatd, jwebserver, keytool,
+              rmiregistry, and serialver</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">37 libraries in
+              /opt/jdk-21.0.1+12/lib/</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directory:</strong>
+              <span class="segbody">/opt/jdk-21.0.1+12</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="jar" name="jar"></a><span class=
+                    "term"><span class="command"><strong>jar</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    combines multiple files into a single jar archive
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="jarsigner" name="jarsigner"></a><span class=
+                    "term"><span class=
+                    "command"><strong>jarsigner</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    signs jar files and verifies the signatures and integrity
+                    of a signed jar file
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="java-prog" name="java-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>java</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    launches a Java application by starting a Java runtime
+                    environment, loading a specified class and invoking its
+                    main method
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="javac" name="javac"></a><span class=
+                    "term"><span class=
+                    "command"><strong>javac</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    reads class and interface definitions, written in the
+                    Java programming language, and compiles them into
+                    bytecode class files
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="javadoc" name="javadoc"></a><span class=
+                    "term"><span class=
+                    "command"><strong>javadoc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    parses the declarations and documentation comments in a
+                    set of Java source files and produces a corresponding set
+                    of HTML pages describing the classes, interfaces,
+                    constructors, methods, and fields
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="javap" name="javap"></a><span class=
+                    "term"><span class=
+                    "command"><strong>javap</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    disassembles a Java class file
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="jcmd" name="jcmd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>jcmd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a utility to send diagnostic command requests to a
+                    running Java Virtual Machine
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="jconsole" name="jconsole"></a><span class=
+                    "term"><span class=
+                    "command"><strong>jconsole</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a graphical console tool to monitor and manage both
+                    local and remote Java applications and virtual machines
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="jdb" name="jdb"></a><span class=
+                    "term"><span class="command"><strong>jdb</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a simple command-line debugger for Java classes
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="jdeprscan" name="jdeprscan"></a><span class=
+                    "term"><span class=
+                    "command"><strong>jdeprscan</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    scans class or jar files for uses of deprecated API
+                    elements
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="jdeps" name="jdeps"></a><span class=
+                    "term"><span class=
+                    "command"><strong>jdeps</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    shows the package-level or class-level dependencies of
+                    Java class files
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="jfr" name="jfr"></a><span class=
+                    "term"><span class="command"><strong>jfr</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool for working with <span class=
+                    "quote">「<span class="quote">Flight
+                    Recorder</span>」</span> files
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="jhsdb" name="jhsdb"></a><span class=
+                    "term"><span class=
+                    "command"><strong>jhsdb</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool to analyze the content of a core dump from a
+                    crashed Java Virtual Machine (JVM)
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="jimage" name="jimage"></a><span class=
+                    "term"><span class=
+                    "command"><strong>jimage</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to list, extract, verify, or get information
+                    about modules in <span class=
+                    "emphasis"><em>jimage</em></span> format
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="jinfo" name="jinfo"></a><span class=
+                    "term"><span class=
+                    "command"><strong>jinfo</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    prints Java configuration information for a given Java
+                    process, core file, or a remote debug server
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="jlink" name="jlink"></a><span class=
+                    "term"><span class=
+                    "command"><strong>jlink</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to assemble and optimize a set of modules and
+                    their dependencies into a custom runtime image
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="jmap" name="jmap"></a><span class=
+                    "term"><span class=
+                    "command"><strong>jmap</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    prints shared object memory maps or heap memory details
+                    of a given process, core file, or a remote debug server
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="jmod" name="jmod"></a><span class=
+                    "term"><span class=
+                    "command"><strong>jmod</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    creates JMOD files and lists the content of existing JMOD
+                    files
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="jpackage" name="jpackage"></a><span class=
+                    "term"><span class=
+                    "command"><strong>jpackage</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    generates java application packages and images
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="jps" name="jps"></a><span class=
+                    "term"><span class="command"><strong>jps</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    lists the instrumented JVMs on the target system
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="jrunscript" name="jrunscript"></a><span class=
+                    "term"><span class=
+                    "command"><strong>jrunscript</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a command line script shell
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="jshell" name="jshell"></a><span class=
+                    "term"><span class=
+                    "command"><strong>jshell</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is an interactive tool for learning the Java programming
+                    language and prototyping Java code
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="jstack" name="jstack"></a><span class=
+                    "term"><span class=
+                    "command"><strong>jstack</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    prints Java stack traces of Java threads for a given Java
+                    process, core file, or a remote debug server
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="jstat" name="jstat"></a><span class=
+                    "term"><span class=
+                    "command"><strong>jstat</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    displays performance statistics for an instrumented JVM
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="jstatd" name="jstatd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>jstatd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is an RMI server application that monitors for the
+                    creation and termination of instrumented JVMs
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="jwebserver" name="jwebserver"></a><span class=
+                    "term"><span class=
+                    "command"><strong>jwebserver</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides a minimal HTTP server, designed to be used for
+                    prototyping, testing, and debugging
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="keytool" name="keytool"></a><span class=
+                    "term"><span class=
+                    "command"><strong>keytool</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a key and certificate management utility
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rmiregistry" name="rmiregistry"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rmiregistry</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    creates and starts a remote object registry on the
+                    specified port on the current host
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="serialver" name="serialver"></a><span class=
+                    "term"><span class=
+                    "command"><strong>serialver</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    returns the serialVersionUID for one or more classes in a
+                    form suitable for copying into an evolving class
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="java.html" title="Java-21.0.1">戻る</a>
+          <p>
+            Java-21.0.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="ojdk-conf.html" title="JAVA 環境の設定">次へ</a>
+          <p>
+            JAVA 環境の設定
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="prog.html" title="第13章 プログラミング言語">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

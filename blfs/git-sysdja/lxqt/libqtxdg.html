@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      libqtxdg-3.12.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第37章 LXQt Desktop
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="lxqt-build-tools.html" title=
+          "lxqt-build-tools-0.13.0">戻る</a>
+          <p>
+            lxqt-build-tools-0.13.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="lxqt-menu-data.html" title=
+          "lxqt-menu-data-1.4.0">次へ</a>
+          <p>
+            lxqt-menu-data-1.4.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="lxqt-desktop.html" title=
+          "第37章 LXQt Desktop">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="libqtxdg" name="libqtxdg"></a>libqtxdg-3.12.0
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to libqtxdg
+        </h2>
+        <p>
+          The <span class="application">libqtxdg</span> is a Qt
+          implementation of the freedesktop.org xdg specifications.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://github.com/lxqt/libqtxdg/releases/download/3.12.0/libqtxdg-3.12.0.tar.xz">
+                https://github.com/lxqt/libqtxdg/releases/download/3.12.0/libqtxdg-3.12.0.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: 6cb85091630b7d84278b2430e92a62bb
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 72 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 6.3 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: 0.2 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          libqtxdg Dependencies
+        </h3>
+        <h4>
+          Required
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/cmake.html" title=
+          "CMake-3.28.1">CMake-3.28.1</a> and (<a class="xref" href=
+          "../x/qt5.html" title="Qt-5.15.11">Qt-5.15.11</a> または <a class=
+          "xref" href="../x/qt5-alternate.html" title=
+          "qt-alternate-5.15.11">qt-alternate-5.15.11</a>)
+        </p>
+        <h4>
+          Optional (runtime)
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../x/gtk3.html" title=
+          "GTK+-3.24.38">GTK+-3.24.38</a> (for <span class=
+          "command"><strong>gtk-update-icon-cache</strong></span>)
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of libqtxdg
+        </h2>
+        <p>
+          Install <span class="application">libqtxdg</span> by running the
+          following commands:
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir -v build &amp;&amp;
+cd       build &amp;&amp;
+
+cmake -DCMAKE_INSTALL_PREFIX=/usr \
+      -DCMAKE_BUILD_TYPE=Release  \
+      -DCMAKE_INSTALL_LIBDIR=lib  \
+      ..       &amp;&amp;
+
+make</kbd></pre>
+        <p>
+          This package does not come with a test suite.
+        </p>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <code class="option">-DBUILD_TESTS=ON</code>: Use this option if
+          you wish to build tests. If you pass this option, you can run the
+          tests by executing: <span class="command"><strong>make
+          test</strong></span>.
+        </p>
+        <p>
+          <code class="option">-DBUILD_DEV_UTILS=ON</code>: Use this switch
+          if you wish to build and install the development utilities.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">None</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Library:</strong>
+              <span class="segbody">libQt5Xdg.so and
+              libQt5XdgIconLoader.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody">/usr/include/{qt5xdg,qt5xdgiconloader}
+              and /usr/share/cmake/{qt5xdg,qt5xdgiconloader}</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libQt5Xdg-lib" name=
+                    "libQt5Xdg-lib"></a><span class="term"><code class=
+                    "filename">libQt5Xdg.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains the <span class="application">libQt5Xdg</span>
+                    API functions
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libQt5XdgIconLoader-lib" name=
+                    "libQt5XdgIconLoader-lib"></a><span class=
+                    "term"><code class=
+                    "filename">libQt5XdgIconLoader.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains the <span class=
+                    "application">libQt5XdgIconLoader</span> API functions
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="lxqt-build-tools.html" title=
+          "lxqt-build-tools-0.13.0">戻る</a>
+          <p>
+            lxqt-build-tools-0.13.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="lxqt-menu-data.html" title=
+          "lxqt-menu-data-1.4.0">次へ</a>
+          <p>
+            lxqt-menu-data-1.4.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="lxqt-desktop.html" title=
+          "第37章 LXQt Desktop">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

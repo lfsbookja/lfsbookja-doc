@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      本書の表記
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第1章 BLFS へようこそ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="which.html" title="本書のどこを読んだら良いか?">戻る</a>
+          <p>
+            本書のどこを読んだら良いか?
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="version.html" title="本書のバージョン">次へ</a>
+          <p>
+            本書のバージョン
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="welcome.html" title=
+          "第1章 BLFS へようこそ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="conventions" name="conventions"></a>本書の表記
+      </h1>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          表記規則
+        </h2>
+        <p>
+          本書では、特定の表記を用いて分かりやすく説明を行っていきます。 利用する表記にはいくつかあります。以下にその例を示します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr</kbd></pre>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <p>
+              この表記は特に説明がない限りは、そのまま入力するテキストを示しています。 またコマンドの説明を行うために用いる場合もあります。
+            </p>
+          </blockquote>
+        </div>
+        <pre class="screen"><code class=
+        "computeroutput">install-info: unknown option
+`--dir-file=/mnt/lfs/usr/info/dir'</code></pre>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <p>
+              上の表記は固定幅フォントで示されており、たいていはコマンド入力の結果として出力される端末メッセージを示しています。 あるいは
+              <code class="filename">/boot/grub/grub.conf</code>
+              といったファイル名を示すのに利用する場合もあります。
+            </p>
+          </blockquote>
+        </div>
+        <p>
+          <span class="emphasis"><em>Emphasis</em></span>
+        </p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <p>
+              上の表記は様々な意図で用いています。 特に重要なポイントや入力サンプルなどを表わします。
+            </p>
+          </blockquote>
+        </div>
+        <p>
+          <a class="ulink" href=
+          "https://www.linuxfromscratch.org/">https://www.linuxfromscratch.org/</a>
+        </p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <p>
+              この表記は 外部サイトへのハイパーリンクを示します。 そこには<span class=
+              "quote">「<span class="quote">ハウツー</span>」</span>やダウンロードサイトやウェブサイトなどが含まれます。
+            </p>
+          </blockquote>
+        </div>
+        <p>
+          <a class="xref" href="../xsoft/seamonkey.html" title=
+          "Seamonkey-2.53.18">seamonkey-2.53.18</a>
+        </p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <p>
+              この表記は本書内の別のページへのリンクを表わします。 別のパッケージを説明している別セクションなどです。
+            </p>
+          </blockquote>
+        </div>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; $LFS/etc/group &lt;&lt; "EOF"
+<code class="literal">root:x:0:
+bin:x:1:
+......</code>
+EOF</kbd></pre>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <p>
+              この表記は設定ファイル類を生成する場合などにおいて示します。 １行目のコマンドは太字で表記され <code class=
+              "filename">$LFS/etc/group</code> というファイルを生成することを指示しています。
+              そのファイルへは2行目以降 EOF が記述されるまでのテキストが出力されます。
+              したがってこの表記は通常そのままタイプ入力します。 コピーしてペーストするだけですぐに使えます。
+            </p>
+          </blockquote>
+        </div>
+        <p>
+          <em class="replaceable"><code>&lt;REPLACED TEXT&gt;</code></em>
+        </p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <p>
+              上の表記は入力するテキストを仮に表現したものです。
+              したがって修正が必要なものであるため、そのまま入力したり、コピー、ペースト操作で貼り付けないでください。
+              山カッコも含めて適切なものに置き換えてください。
+            </p>
+          </blockquote>
+        </div>
+        <p>
+          <code class="systemitem">root</code>
+        </p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <p>
+              この表記は、特定のシステムユーザーやグループを表わすものです。
+            </p>
+          </blockquote>
+        </div>
+        <p>
+          &nbsp;
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Conventions Used for Package Dependencies
+        </h2>
+        <p>
+          When new packages are created, the software's authors depend on
+          prior work. In order to build a package in BLFS, these dependencies
+          must be built before the desired package can be compiled. For each
+          package, prerequisites are listed in one or more separate sections:
+          Required, Recommended, and Optional.
+        </p>
+        <h3>
+          Required Dependencies
+        </h3>
+        <p>
+          These dependencies are the bare minimum needed to build the
+          package. Packages in LFS, and the required dependencies of these
+          required packages, are omitted from this list. Always remember to
+          check for nested dependencies. If a dependency is said to be
+          <span class="quote">「<span class="quote">runtime</span>」</span>,
+          then it is not needed for building the package, but only to use it
+          after installation.
+        </p>
+        <h3>
+          Recommended Dependencies
+        </h3>
+        <p>
+          These are dependencies the BLFS editors have determined are
+          important to give the package reasonable capabilities. If a
+          recommended dependency is not said to be <span class=
+          "quote">「<span class="quote">runtime</span>」</span>, package
+          installation instructions assume it is installed. If it is not
+          installed, the instructions may require modification, to
+          accommodate the missing package. A recommended <span class=
+          "quote">「<span class="quote">runtime</span>」</span> dependency does
+          not need to be installed before building the package, but must be
+          built afterwards for running the package with reasonable
+          capabilities.
+        </p>
+        <h3>
+          Optional Dependencies
+        </h3>
+        <p>
+          These are dependencies the package <span class=
+          "emphasis"><em>may</em></span> use. Integration of optional
+          dependencies may be automatic by the package, or additional steps
+          not presented by BLFS may be necessary. Optional dependencies are
+          sometimes listed without explicit BLFS instructions. In this case
+          you must determine how to perform the installation yourself.
+        </p>
+        <p>
+          &nbsp;
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Conventions Used for Kernel Configuration Options
+        </h2>
+        <p>
+          Some packages require specific kernel configuration options. The
+          general layout for these looks like this:
+        </p>
+        <pre class="screen">M<span class="blue">a</span>ster section ---&gt;
+  <span class="blue">S</span>ubsection ---&gt;
+    [*]     <span class=
+"blue">R</span>equired parameter                                        [REQU_PAR]
+    &lt;*&gt;     <span class=
+"blue">R</span>equired parameter (not as module)                   [REQU_PAR_NMOD]
+    &lt;*/M&gt;   <span class=
+"blue">R</span>equired parameter (could be a module)                [REQU_PAR_MOD]
+    &lt;M&gt;     <span class=
+"blue">R</span>equired parameter (as a module)                 [REQU_PAR_MOD_ONLY]
+    &lt; /*/M&gt; <span class=
+"blue">O</span>ptional parameter                                         [OPT_PAR]
+    &lt; /M&gt;   <span class=
+"blue">O</span>ptional parameter (as a module if enabled)       [OPT_PAR_MOD_ONLY]
+    [ ]     <span class=
+"blue">I</span>ncompatible parameter                                  [INCOMP_PAR]
+    &lt; &gt;     <span class=
+"blue">I</span>ncompatible parameter (even as module)             [INCOMP_PAR_MOD]</pre>
+        <p>
+          [...] on the right gives the symbolic name of the option, so you
+          can easily check whether it is set in your <code class=
+          "filename">.config</code> file. Note that the <code class=
+          "filename">.config</code> file contains a <code class=
+          "literal">CONFIG_</code> prefix before all symbolic names. The
+          meaning of the various entries is:
+        </p>
+        <div class="blockquote">
+          <blockquote class="blockquote">
+            <div class="informaltable">
+              <table class="informaltable" border="0">
+                <colgroup>
+                  <col align="left" />
+                  <col align="left" />
+                </colgroup>
+                <tbody>
+                  <tr>
+                    <td align="left">
+                      <span class="bold"><strong>Master
+                      section</strong></span>
+                    </td>
+                    <td align="left">
+                      top level menu item
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="left">
+                      <span class="bold"><strong>Subsection</strong></span>
+                    </td>
+                    <td align="left">
+                      submenu item
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="left">
+                      <span class="bold"><strong>Required
+                      parameter</strong></span>
+                    </td>
+                    <td align="left">
+                      the option can either be built-in, or not selected: it
+                      must be selected
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="left">
+                      <span class="bold"><strong>Required parameter (not as
+                      module)</strong></span>
+                    </td>
+                    <td align="left">
+                      the option can be built-in, a module, or not selected
+                      (tri-state): it must be selected as built-in
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="left">
+                      <span class="bold"><strong>Required parameter (could be
+                      a module)</strong></span>
+                    </td>
+                    <td align="left">
+                      the option can be built-in, a module, or not selected:
+                      it must be selected, either as built-in or as a module
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="left">
+                      <span class="bold"><strong>Required parameter (as a
+                      module)</strong></span>
+                    </td>
+                    <td align="left">
+                      the option can be built-in, a module, or not selected:
+                      it must be selected as a module; selecting it as
+                      built-in may cause unwanted effects
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="left">
+                      <span class="bold"><strong>Optional
+                      parameter</strong></span>
+                    </td>
+                    <td align="left">
+                      the option can be built-in, a module, or not selected:
+                      it may be selected as a module or built-in if you need
+                      it for driving the hardware or optional kernel features
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="left">
+                      <span class="bold"><strong>Optional
+                      parameter</strong></span>
+                    </td>
+                    <td align="left">
+                      the option can be built-in, a module, or not selected:
+                      it may be selected as a module if you need it for
+                      driving the hardware or optional kernel features, but
+                      selecting it as built-in may cause unwanted effects
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="left">
+                      <span class="bold"><strong>Incompatible
+                      parameter</strong></span>
+                    </td>
+                    <td align="left">
+                      the option can either be built-in or not selected: it
+                      must <span class="emphasis"><em>not</em></span> be
+                      selected
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="left">
+                      <span class="bold"><strong>Incompatible parameter (even
+                      as module)</strong></span>
+                    </td>
+                    <td align="left">
+                      the option can be built-in, a module, or not selected:
+                      it must <span class="emphasis"><em>not</em></span> be
+                      selected
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </blockquote>
+        </div>
+        <p>
+          Note that, depending on other selections, the angle brackets
+          (&lt;&gt;) in the configuration menu may appear as braces ({}) if
+          the option cannot be unselected, or even as dashes (-*- or -M-),
+          when the choice is imposed. The help text describing the option
+          specifies the other selections on which this option relies, and how
+          those other selections are set.
+        </p>
+        <p>
+          The letter in <span class="blue">blue</span> is the hotkey for this
+          option. If you are running <span class="command"><strong>make
+          menuconfig</strong></span>, you can press a key to quickly traverse
+          all the options with this key as the hotkey on the screen.
+        </p>
+        <p>
+          &nbsp;
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          SBU values in BLFS
+        </h2>
+        <p>
+          As in LFS, each package in BLFS has a build time listed in Standard
+          Build Units (SBUs). These times are relative to the time it took to
+          build binutils in LFS, and are intended to provide some insight
+          into how long it will take to build a package. Most times listed
+          are for a single processor or core to build the package. In some
+          cases, large, long running builds tested on multi-core systems have
+          SBU times listed with comments such as '(parallelism=4)'. These
+          values indicate testing was done using multiple cores. Note that
+          while this speeds up the build on systems with the appropriate
+          hardware, the speedup is not linear and to some extent depends on
+          the individual package and the specific hardware used.
+        </p>
+        <p>
+          For packages which use ninja (i.e., anything using meson) or rust,
+          by default all cores are used; similar comments will be seen on
+          such packages even when the build time is minimal.
+        </p>
+        <p>
+          Where even a parallel build takes more than 15 SBU, on certain
+          machines the time may be considerably greater even when the build
+          does not use swap. In particular, different micro-architectures
+          will build some files at different relative speeds, and this can
+          introduce delays when certain make targets wait for another file to
+          be created. Where a large build uses a lot of C++ files, processors
+          with Simultaneous Multi Threading will share the Floating Point
+          Unit and can take 45% longer than when using four 'prime' cores
+          (measured on an intel i7 using taskset and keeping the other cores
+          idle).
+        </p>
+        <p>
+          Some packages do not support parallel builds; for these, the make
+          command must specify -j1. Packages that are known to impose such
+          limits are so marked in the text.
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="which.html" title="本書のどこを読んだら良いか?">戻る</a>
+          <p>
+            本書のどこを読んだら良いか?
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="version.html" title="本書のバージョン">次へ</a>
+          <p>
+            本書のバージョン
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="welcome.html" title=
+          "第1章 BLFS へようこそ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      独自のブートデバイスの生成
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第3章 LFS 設定以降について
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="config.html" title="LFS 設定以降について">戻る</a>
+          <p>
+            LFS 設定以降について
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="console-fonts.html" title=
+          "About Console Fonts">次へ</a>
+          <p>
+            About Console Fonts
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="config.html" title=
+          "第3章 LFS 設定以降について">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="postlfs-config-bootdisk" name=
+        "postlfs-config-bootdisk"></a>独自のブートデバイスの生成
+      </h1>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          最近の復旧用ブートデバイスの必要性
+        </h2>
+        <p>
+          この節で説明するのは <span class="bold"><strong>復旧用</strong></span> デバイス
+          (<span class="emphasis"><em>rescue</em></span> device) についてです。 なぜ
+          <span class="bold"><strong>復旧用</strong></span> と呼ばれるかは以下のとおりです。
+          例えばパーティションの情報が失われたりファイルが壊れたりして、システムに何か問題が発生したとします。
+          そのような場合、システムのブートやその後の操作が正常に行えなくなります。
+          このことから、何とか「復旧」させたホストのリソースに依存することはできません。
+          つまり特定のパーティションやハードドライブが、いつまでも利用し続けられると思うのが間違いです。
+        </p>
+        <p>
+          最近のシステムでは、復旧用デバイスとして利用できるものがいくつもあります。
+          それはフロッピー、CDROM、USBデバイスなどであり、ネットワークカードですら、その用途で利用することもできます。
+          どのデバイスを利用するかは、手元のハードウェアの存在と BIOS によるところです。
+          かつてであれば、復旧用デバイスとして使えるのはフロッピーディスクくらいでした。
+          それが最近では、フロッピードライブがそもそもないシステムの方が多くなっています。
+        </p>
+        <p>
+          復旧用デバイスを完璧に用意することは、実は大変な作業です。 多くのやり方がありますが、それは LFS
+          システムを構築するのにも匹敵します。
+          これまでに示してきた情報の繰り返しにもなるため、ここでは復旧用デバイスイメージの構築手順については示しません。
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          復旧用フロッピーの生成
+        </h2>
+        <p>
+          最近のシステムソフトウェアは巨大化しています。 Linux 2.6 ではフロッピーディスクからの直接起動はサポートされなくなりました。
+          とは言っても、古い Linux バージョンを利用すれば解決方法があります。 最良の方法として Tom 氏の Root/Boot
+          ディスクが <a class="ulink" href=
+          "http://www.toms.net/rb/">http://www.toms.net/rb/</a> にあります。 これは 1
+          つのフロッピーディスク内に最小の Linux システムを収納し、必要に応じてハードディスク内容を書き換える機能を提供しています。
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          起動用 CD-ROM の生成
+        </h2>
+        <p>
+          復旧用 CD-ROM の生成を行う情報源がいくつかあります。 商用ディストリビューションの CD-ROM や DVD
+          でも動作するでしょう。 その例として RedHat、Ubuntu、SuSE があります。 また有用な選択肢として Knoppix
+          があります。
+        </p>
+        <p>
+          Also, the LFS Community has developed its own LiveCD available at
+          <a class="ulink" href=
+          "https://www.linuxfromscratch.org/livecd/">https://www.linuxfromscratch.org/livecd/</a>.
+          This LiveCD, is no longer capable of building an entire LFS/BLFS
+          system, but is still a good rescue CD-ROM. If you download the ISO
+          image, use <a class="xref" href=
+          "../multimedia/libisoburn.html#xorriso"><span class=
+          "command"><strong>xorriso</strong></span></a> to copy the image to
+          a CD-ROM.
+        </p>
+        <p>
+          The instructions for using GRUB2 to make a custom rescue CD-ROM are
+          also available in <a class="ulink" href=
+          "../../../../lfs/view/systemd/chapter10/grub.html">LFS Chapter
+          10</a>.
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          起動用 USB ドライブの生成
+        </h2>
+        <p>
+          A USB Pen drive, sometimes called a Thumb drive, is recognized by
+          Linux as a SCSI device. Using one of these devices as a rescue
+          device has the advantage that it is usually large enough to hold
+          more than a minimal boot image. You can save critical data to the
+          drive as well as use it to diagnose and recover a damaged system.
+          Booting such a drive requires BIOS support, but building the system
+          consists of formatting the drive, adding <span class=
+          "application">GRUB</span> as well as the Linux kernel and
+          supporting files.
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="config.html" title="LFS 設定以降について">戻る</a>
+          <p>
+            LFS 設定以降について
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="console-fonts.html" title=
+          "About Console Fonts">次へ</a>
+          <p>
+            About Console Fonts
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="config.html" title=
+          "第3章 LFS 設定以降について">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

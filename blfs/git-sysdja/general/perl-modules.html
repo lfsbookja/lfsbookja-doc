@@ -1,0 +1,4436 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Perl モジュール
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第13章 プログラミング言語
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="patchelf.html" title=
+          "Patchelf-0.17.2">戻る</a>
+          <p>
+            Patchelf-0.17.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="perl-deps.html" title=
+          "Perl Module Dependencies">次へ</a>
+          <p>
+            Perl Module Dependencies
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="prog.html" title="第13章 プログラミング言語">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="perl-modules" name="perl-modules"></a>Perl モジュール
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Perl モジュール の概要
+        </h2>
+        <p>
+          The <span class="application">Perl</span> module packages (also
+          referred to as Distributions, because each can contain multiple
+          modules) add useful objects to the <span class=
+          "application">Perl</span> language. The packages listed on this
+          page are required or recommended for other packages in the book. If
+          they have dependent modules, those are either on this page or else
+          on the next page (<a class="xref" href="perl-deps.html" title=
+          "Perl Module Dependencies">Perl Module Dependencies</a>).
+        </p>
+        <p>
+          In many cases, only the required or recommended dependencies are
+          listed - there might be other modules which allow more tests to be
+          run, but omitting them will still allow the tests to <code class=
+          "literal">PASS</code>.
+        </p>
+        <p>
+          For a few modules, the BLFS editors have determined that other
+          modules still listed as prerequisites are not required, and omitted
+          them.
+        </p>
+        <p>
+          Where an alphabetically-earlier dependency of the same module pulls
+          in a dependency, it is not mentioned for the later dependencies of
+          the same module. You should build the listed dependencies in order.
+        </p>
+        <p>
+          It is generally worth running the tests for perl modules, they
+          often can show problems such as missing dependencies which are
+          required to use the module. Here, the editors have attempted to
+          separate those dependencies which are only required for running
+          test suites, but they will not be mentioned for a module where one
+          of its dependencies uses that module for its own test suite. That
+          is to say, if you intend to run the test suites, please run them
+          for each dependency of the module.
+        </p>
+        <p>
+          It is possible to automatically install the current versions of a
+          module and <span class="emphasis"><em>all</em></span> missing or
+          too-old dependencies <span class="emphasis"><em>recommended by
+          upstream</em></span> using CPAN. See <a class="xref" href=
+          "perl-modules.html#perl-alternatives" title=
+          "CPAN automated install of perl modules">CPAN automated install of
+          perl modules</a> at the end of this page.
+        </p>
+        <p>
+          Most of these modules only install files below <code class=
+          "filename">/usr/lib/perl5/site_perl/5.xx.y</code> and those will
+          not be documented. One or two install programs (mostly, perl
+          scripts), or a library, into <code class=
+          "filename">/usr/bin/</code> or <code class=
+          "filename">/usr/lib/</code> and these <span class=
+          "emphasis"><em>are</em></span> documented.
+        </p>
+        <p class="usernotes">
+          Editor Notes: <a class="ulink" href=
+          "https://wiki.linuxfromscratch.org/blfs/wiki/perl-modules">https://wiki.linuxfromscratch.org/blfs/wiki/perl-modules</a>
+        </p>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-archive-zip"
+                title="Archive::Zip-1.68">Archive-Zip-1.68</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href=
+                "perl-modules.html#perl-autovivification" title=
+                "autovivification-0.18">autovivification-0.18</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-business-isbn"
+                title="Business::ISBN-3.008">Business-ISBN-3.008</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-business-ismn"
+                title="Business::ISMN-1.203">Business-ISMN-1.203</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-business-issn"
+                title="Business::ISSN-1.005">Business-ISSN-1.005</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-class-accessor"
+                title="Class::Accessor-0.51">Class-Accessor-0.51</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-data-compare"
+                title="Data::Compare-1.29">Data-Compare-1.29</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-data-dump"
+                title="Data::Dump-1.25">Data-Dump-1.25</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-data-uniqid"
+                title="Data::Uniqid-0.12">Data-Uniqid-0.12</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href=
+                "perl-modules.html#perl-datetime-calendar-julian" title=
+                "DateTime::Calendar::Julian-0.107">DateTime-Calendar-Julian-0.107</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href=
+                "perl-modules.html#perl-datetime-format-builder" title=
+                "DateTime::Format::Builder-0.83">DateTime-Format-Builder-0.83</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href=
+                "perl-modules.html#perl-encode-eucjpascii" title=
+                "Encode::EUCJPASCII-0.03">Encode-EUCJPASCII-0.03</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-encode-hanextra"
+                title="Encode::HanExtra-0.23">Encode-HanExtra-0.23</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-encode-jis2k"
+                title="Encode::JIS2K-0.05">Encode-JIS2K-0.05</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-file-fcntllock"
+                title="File::FcntlLock-0.22">File-FcntlLock-0.22</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-file-slurper"
+                title="File::Slurper-0.014">File-Slurper-0.014</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-file-which"
+                title="File::Which-1.27">File-Which-1.27</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-html-parser"
+                title="HTML::Parser-3.81">HTML-Parser-3.81</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-http-daemon"
+                title="HTTP::Daemon-6.16">HTTP-Daemon-6.16</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-io-socket-ssl"
+                title="IO::Socket::SSL-2.084">IO-Socket-SSL-2.084</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-io-string"
+                title="IO::String-1.08">IO-String-1.08</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-ipc-run3" title=
+                "IPC::Run3-0.048">IPC-Run3-0.048</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-json" title=
+                "JSON-4.10">JSON-4.10</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-libwww-perl"
+                title="LWP (libwww-perl-6.72)">libwww-perl-6.72</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-lingua-translit"
+                title="Lingua::Translit-0.29">Lingua-Translit-0.29</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-list-allutils"
+                title="List::AllUtils-0.19">List-AllUtils-0.19</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-list-moreutils"
+                title="List::MoreUtils-0.430">List-MoreUtils-0.430</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-log-log4perl"
+                title="Log::Log4perl-1.57">Log-Log4perl-1.57</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href=
+                "perl-modules.html#perl-lwp-protocol-https" title=
+                "LWP::Protocol::https-6.11">LWP-Protocol-https-6.11</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-module-build"
+                title="Module::Build-0.4232">Module-Build-0.4232</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-net-dns" title=
+                "Net::DNS-1.41">Net-DNS-1.41</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href=
+                "perl-modules.html#perl-parse-recdescent" title=
+                "Parse::RecDescent-1.967015">Parse-RecDescent-1.967015</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-parse-yapp"
+                title="Parse::Yapp-1.21">Parse-Yapp-1.21</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href=
+                "perl-modules.html#perl-perlio-utf8_strict" title=
+                "PerlIO::utf8_strict-0.010">PerlIO-utf8_strict-0.010</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-regexp-common"
+                title=
+                "Regexp::Common-2017060201">Regexp-Common-2017060201</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-sgmlspm" title=
+                "SGMLSpm-1.1">SGMLSpm-1.1</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-sort-key" title=
+                "Sort::Key-1.33">Sort-Key-1.33</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-test-command"
+                title="Test::Command-0.11">Test-Command-0.11</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href=
+                "perl-modules.html#perl-test-differences" title=
+                "Test::Differences-0.71">Test-Differences-0.71</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-text-bibtex"
+                title="Text::BibTeX-0.89">Text-BibTeX-0.89</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-text-csv" title=
+                "Text::CSV-2.04">Text-CSV-2.04</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-text-roman"
+                title="Text::Roman-3.5">Text-Roman-3.5</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-unicode-collate"
+                title="Unicode::Collate-1.31">Unicode-Collate-1.31</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href=
+                "perl-modules.html#perl-unicode-linebreak" title=
+                "Unicode::LineBreak-2019.001">Unicode-LineBreak-2019.001</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-uri" title=
+                "URI-5.21">URI-5.21</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href=
+                "perl-modules.html#perl-xml-libxml-simple" title=
+                "XML::LibXML::Simple-1.01">XML-LibXML-Simple-1.01</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-xml-libxslt"
+                title="XML::LibXSLT-2.002001">XML-LibXSLT-2.002001</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-xml-simple"
+                title="XML::Simple-2.25">XML-Simple-2.25</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-xml-writer"
+                title="XML::Writer-0.900">XML-Writer-0.900</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="perl-modules.html#perl-alternatives"
+                title="CPAN automated install of perl modules">CPAN automated
+                install of perl modules</a>
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-archive-zip" name=
+          "perl-archive-zip"></a>Archive::Zip-1.68
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37204" name="id37204"></a>Archive::Zip の概要
+          </h4>
+          <p>
+            The Archive::Zip module allows a Perl program to create,
+            manipulate, read, and write Zip archive files.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/P/PH/PHRED/Archive-Zip-1.68.tar.gz">
+                  https://www.cpan.org/authors/id/P/PH/PHRED/Archive-Zip-1.68.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: a33993309322164867c99e04a4000ee3
+                </p>
+              </li>
+            </ul>
+          </div>
+          <h4>
+            Archive::Zip の依存パッケージ
+          </h4>
+          <h5>
+            Recommended (for the test suite)
+          </h5>
+          <p class="required">
+            <a class="xref" href="unzip.html" title="UnZip-6.0">UnZip-6.0</a>
+            (with its patch)
+          </p>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37220" name="id37220"></a>Archive::Zip のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+        <div class="content" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37228" name="id37228"></a>パッケージ構成
+          </h4>
+          <div class="segmentedlist">
+            <div class="seglistitem">
+              <div class="seg">
+                <strong class="segtitle">インストールプログラム:</strong> <span class=
+                "segbody">crc32</span>
+              </div>
+            </div>
+          </div>
+          <div class="variablelist">
+            <h3>
+              概略説明
+            </h3>
+            <table border="0" class="variablelist">
+              <colgroup>
+                <col align="left" valign="top" />
+                <col />
+              </colgroup>
+              <tbody>
+                <tr>
+                  <td>
+                    <p>
+                      <a id="crc32-prog" name="crc32-prog"></a><span class=
+                      "term"><span class=
+                      "command"><strong>crc32</strong></span></span>
+                    </p>
+                  </td>
+                  <td>
+                    <p>
+                      computes and prints to stdout the CRC-32 values of the
+                      given files
+                    </p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-autovivification" name=
+          "perl-autovivification"></a>autovivification-0.18
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37247" name="id37247"></a>autovivification モジュール の概要
+          </h4>
+          <p>
+            This module allows you disable autovivification (the automatic
+            creation and population of new arrays and hashes whenever
+            undefined variables are dereferenced), and optionally throw a
+            warning or an error when it would have occurred.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/V/VP/VPIT/autovivification-0.18.tar.gz">
+                  https://www.cpan.org/authors/id/V/VP/VPIT/autovivification-0.18.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: 8dec994e1e7d368e055f21a5777385a0
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37259" name="id37259"></a>autovivification のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-business-isbn" name=
+          "perl-business-isbn"></a>Business::ISBN-3.008
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37271" name="id37271"></a>Business::ISBN の概要
+          </h4>
+          <p>
+            The Business::ISBN module provides functions for working with
+            International Standard Book Numbers.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/B/BD/BDFOY/Business-ISBN-3.008.tar.gz">
+                  https://www.cpan.org/authors/id/B/BD/BDFOY/Business-ISBN-3.008.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: 6a602922a1902dd9915cac3e0c479dfc
+                </p>
+              </li>
+            </ul>
+          </div>
+          <h4>
+            Business::ISBN の依存パッケージ
+          </h4>
+          <h5>
+            必須
+          </h5>
+          <p class="required">
+            <a class="xref" href="perl-deps.html#perl-business-isbn-data"
+            title=
+            "Business::ISBN::Data-20230426.001">Business-ISBN-Data-20230426.001</a>
+          </p>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37287" name="id37287"></a>Business::ISBN のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-business-ismn" name=
+          "perl-business-ismn"></a>Business::ISMN-1.203
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37299" name="id37299"></a>Business::ISMN の概要
+          </h4>
+          <p>
+            The Business::ISMN module is for work with International Standard
+            Music Numbers.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/B/BD/BDFOY/Business-ISMN-1.203.tar.gz">
+                  https://www.cpan.org/authors/id/B/BD/BDFOY/Business-ISMN-1.203.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: 45edcba290b1a058ece76cbd090479b4
+                </p>
+              </li>
+            </ul>
+          </div>
+          <h4>
+            Business::ISMN の依存パッケージ
+          </h4>
+          <h5>
+            必須
+          </h5>
+          <p class="required">
+            <a class="xref" href="perl-deps.html#perl-tie-cycle" title=
+            "Tie::Cycle-1.227">Tie-Cycle-1.227</a>
+          </p>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37315" name="id37315"></a>Business::ISMN のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-business-issn" name=
+          "perl-business-issn"></a>Business::ISSN-1.005
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37327" name="id37327"></a>Business::ISSN の概要
+          </h4>
+          <p>
+            The Business::ISSN module is for work with International Standard
+            Serial Numbers.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/B/BD/BDFOY/Business-ISSN-1.005.tar.gz">
+                  https://www.cpan.org/authors/id/B/BD/BDFOY/Business-ISSN-1.005.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: f46bf5585d6c3aa9fb32127edb13151a
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37339" name="id37339"></a>Business::ISSN のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-class-accessor" name=
+          "perl-class-accessor"></a>Class::Accessor-0.51
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37351" name="id37351"></a>Class::Accessor の概要
+          </h4>
+          <p>
+            Class::Accessor generates accessors/mutators for your class.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/K/KA/KASEI/Class-Accessor-0.51.tar.gz">
+                  https://www.cpan.org/authors/id/K/KA/KASEI/Class-Accessor-0.51.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: 1f1e5990f87cad7659b292fed7dc0407
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37363" name="id37363"></a>Class::Accessor のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-data-compare" name=
+          "perl-data-compare"></a>Data::Compare-1.29
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37375" name="id37375"></a>Data::Compare の概要
+          </h4>
+          <p>
+            The Data::Compare module compares two <span class=
+            "application">perl</span> data structures.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/D/DC/DCANTRELL/Data-Compare-1.29.tar.gz">
+                  https://www.cpan.org/authors/id/D/DC/DCANTRELL/Data-Compare-1.29.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: ce9cb42ba6af634f5ab51f13f37e2ddb
+                </p>
+              </li>
+            </ul>
+          </div>
+          <h4>
+            Data::Compare の依存パッケージ
+          </h4>
+          <h5>
+            必須
+          </h5>
+          <p class="required">
+            <a class="xref" href="perl-deps.html#perl-clone" title=
+            "Clone-0.46">Clone-0.46</a>, <a class="xref" href=
+            "perl-deps.html#perl-file-find-rule" title=
+            "File::Find::Rule-0.34">File-Find-Rule-0.34</a>
+          </p>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37393" name="id37393"></a>Data::Compare のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-data-dump" name="perl-data-dump"></a>Data::Dump-1.25
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37405" name="id37405"></a>Data::Dump の概要
+          </h4>
+          <p>
+            Data::Dump provides pretty printing of data structures.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/G/GA/GARU/Data-Dump-1.25.tar.gz">
+                  https://www.cpan.org/authors/id/G/GA/GARU/Data-Dump-1.25.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: 9bd7131ef0441e1e0e001bf85e9fae31
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37417" name="id37417"></a>Data::Dump のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-data-uniqid" name=
+          "perl-data-uniqid"></a>Data::Uniqid-0.12
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37429" name="id37429"></a>Data::Uniqid の概要
+          </h4>
+          <p>
+            Data::Uniqid provides three simple routines for generating unique
+            IDs.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/M/MW/MWX/Data-Uniqid-0.12.tar.gz">
+                  https://www.cpan.org/authors/id/M/MW/MWX/Data-Uniqid-0.12.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: 6bab3b5da09fedfdf60ce2629a7367db
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37441" name="id37441"></a>Data::Uniqid のインストール
+          </h4>
+          <p>
+            Although the final test fails and reports an Error, the test
+            suite returns a status of 0. The error can safely be ignored.
+          </p>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-datetime-calendar-julian" name=
+          "perl-datetime-calendar-julian"></a>DateTime::Calendar::Julian-0.107
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37454" name="id37454"></a>DateTime::Calendar::Julian の概要
+          </h4>
+          <p>
+            DateTime::Calendar::Julian implements the Julian Calendar.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/W/WY/WYANT/DateTime-Calendar-Julian-0.107.tar.gz">
+                  https://www.cpan.org/authors/id/W/WY/WYANT/DateTime-Calendar-Julian-0.107.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: abd775d1d82f0f45d4fd6214cf7bbed8
+                </p>
+              </li>
+            </ul>
+          </div>
+          <h4>
+            DateTime::Calendar::Julian の依存パッケージ
+          </h4>
+          <h5>
+            必須
+          </h5>
+          <p class="required">
+            <a class="xref" href="perl-deps.html#perl-datetime" title=
+            "DateTime-1.59">DateTime-1.59</a>
+          </p>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37470" name="id37470"></a>DateTime::Calendar::Julian
+            のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-datetime-format-builder" name=
+          "perl-datetime-format-builder"></a>DateTime::Format::Builder-0.83
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37482" name="id37482"></a>DateTime::Format::Builder の概要
+          </h4>
+          <p>
+            DateTime::Format::Builder created DateTime parser classes and
+            objects.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/D/DR/DROLSKY/DateTime-Format-Builder-0.83.tar.gz">
+                  https://www.cpan.org/authors/id/D/DR/DROLSKY/DateTime-Format-Builder-0.83.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: aa41917ca9ad69b3898728ce9c2fb477
+                </p>
+              </li>
+            </ul>
+          </div>
+          <h4>
+            DateTime::Format::Builder の依存パッケージ
+          </h4>
+          <h5>
+            必須
+          </h5>
+          <p class="required">
+            <a class="xref" href=
+            "perl-deps.html#perl-datetime-format-strptime" title=
+            "DateTime::Format::Strptime-1.79">DateTime-Format-Strptime-1.79</a>,
+            <a class="xref" href="perl-deps.html#perl-params-validate" title=
+            "Params::Validate-1.31">Params-Validate-1.31</a>
+          </p>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37499" name="id37499"></a>DateTime::Format::Builder
+            のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-encode-eucjpascii" name=
+          "perl-encode-eucjpascii"></a>Encode::EUCJPASCII-0.03
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37511" name="id37511"></a>Encode::EUCJPASCII の概要
+          </h4>
+          <p>
+            Encode::EUCJPASCII provides an eucJP-open (Extended Unix Code,
+            Japanese) mapping.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/N/NE/NEZUMI/Encode-EUCJPASCII-0.03.tar.gz">
+                  https://www.cpan.org/authors/id/N/NE/NEZUMI/Encode-EUCJPASCII-0.03.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: 5daa65f55b7c2050bb0713d9e95f239d
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37523" name="id37523"></a>Encode::EUCJPASCII のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-encode-hanextra" name=
+          "perl-encode-hanextra"></a>Encode::HanExtra-0.23
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37535" name="id37535"></a>Encode::HanExtra の概要
+          </h4>
+          <p>
+            The Encode::HanExtra module provides extra sets of Chinese
+            Encodings which are not included in the core Encode module
+            because of size issues.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/A/AU/AUDREYT/Encode-HanExtra-0.23.tar.gz">
+                  https://www.cpan.org/authors/id/A/AU/AUDREYT/Encode-HanExtra-0.23.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: e1d3bc32c1c8ee304235a06fbcd5d5a4
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37547" name="id37547"></a>Encode::HanExtra のインストール
+          </h4>
+          <p>
+            This module uses the 'unsafe' build and installation instructions
+            (In <span class="application">perl-5.26.0</span> the use of the
+            current directory in <code class="literal">@INC</code> was
+            removed for security reasons and this module has not been
+            updated) :
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">PERL_USE_UNSAFE_INC=1 perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-encode-jis2k" name=
+          "perl-encode-jis2k"></a>Encode::JIS2K-0.05
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37561" name="id37561"></a>Encode::JIS2K の概要
+          </h4>
+          <p>
+            The Encode::JIS2K module provides JIS X 0212 (aka JIS 2000)
+            Encodings.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/D/DA/DANKOGAI/Encode-JIS2K-0.05.tar.gz">
+                  https://www.cpan.org/authors/id/D/DA/DANKOGAI/Encode-JIS2K-0.05.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: 06acd9e878d41ffc354258e265db2875
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37573" name="id37573"></a>Encode::JIS2K のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-file-fcntllock" name=
+          "perl-file-fcntllock"></a>File::FcntlLock-0.22
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37585" name="id37585"></a>File::FcntlLock の概要
+          </h4>
+          <p>
+            File::FcntlLock is a module to do file locking in an object
+            oriented fashion using the fcntl(2) system call. This allows
+            locks on parts of a file as well as on the whole file and
+            overcomes some known problems with flock(2), on which Perls
+            flock() function is based per default.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/J/JT/JTT/File-FcntlLock-0.22.tar.gz">
+                  https://www.cpan.org/authors/id/J/JT/JTT/File-FcntlLock-0.22.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: 579698d735d864ee403674f1175f789d
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37597" name="id37597"></a>File::FcntlLock のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-file-slurper" name=
+          "perl-file-slurper"></a>File::Slurper-0.014
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37609" name="id37609"></a>File::Slurper の概要
+          </h4>
+          <p>
+            File::Slurper is a simple, sane and efficient module to slurp a
+            file.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/L/LE/LEONT/File-Slurper-0.014.tar.gz">
+                  https://www.cpan.org/authors/id/L/LE/LEONT/File-Slurper-0.014.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: d43bc5f069035eff3b6b7c418b4cedc4
+                </p>
+              </li>
+            </ul>
+          </div>
+          <h4>
+            File::Slurper の依存パッケージ
+          </h4>
+          <h5>
+            推奨 (テストスイートに必要)
+          </h5>
+          <p class="recommended">
+            <a class="xref" href="perl-deps.html#perl-test-warnings" title=
+            "Test::Warnings-0.031">Test-Warnings-0.031</a>
+          </p>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37625" name="id37625"></a>File::Slurper のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-file-which" name="perl-file-which"></a>File::Which-1.27
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37637" name="id37637"></a>File::Which の概要
+          </h4>
+          <p>
+            File::Which provides a portable implementation of the 'which'
+            utility.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/P/PL/PLICEASE/File-Which-1.27.tar.gz">
+                  https://www.cpan.org/authors/id/P/PL/PLICEASE/File-Which-1.27.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: d5c9154262b93398f0750ec364207639
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37649" name="id37649"></a>File::Which のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-html-parser" name=
+          "perl-html-parser"></a>HTML::Parser-3.81
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37661" name="id37661"></a>HTML::Parser の概要
+          </h4>
+          <p>
+            The HTML::Parser distribution is a collection of modules that
+            parse and extract information from HTML documents.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/O/OA/OALDERS/HTML-Parser-3.81.tar.gz">
+                  https://www.cpan.org/authors/id/O/OA/OALDERS/HTML-Parser-3.81.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: b9f5dd3b14632f7a60541a2b61389c06
+                </p>
+              </li>
+            </ul>
+          </div>
+          <h4>
+            HTML::Parser の依存パッケージ
+          </h4>
+          <h5>
+            必須
+          </h5>
+          <p class="required">
+            <a class="xref" href="perl-deps.html#perl-html-tagset" title=
+            "HTML::Tagset-3.20">HTML-Tagset-3.20</a> <a class="xref" href=
+            "perl-deps.html#perl-http-message" title=
+            "HTTP::Message-6.44">HTTP-Message-6.44</a> (stritly speaking, not
+            required for building, but its module HTTP::Headers is required
+            for tests and a run-time requirement for HTML::HeadParser from
+            this distribution).
+          </p>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37678" name="id37678"></a>HTML::Parser のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-http-daemon" name=
+          "perl-http-daemon"></a>HTTP::Daemon-6.16
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37690" name="id37690"></a>HTTP::Daemon の概要
+          </h4>
+          <p>
+            Instances of the HTTP::Daemon class are HTTP/1.1 servers that
+            listen on a socket for incoming requests. The HTTP::Daemon is a
+            subclass of IO::Socket::INET, so you can perform socket
+            operations directly on it too.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/O/OA/OALDERS/HTTP-Daemon-6.16.tar.gz">
+                  https://www.cpan.org/authors/id/O/OA/OALDERS/HTTP-Daemon-6.16.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: 51425462790165aeafc2819a7359706f
+                </p>
+              </li>
+            </ul>
+          </div>
+          <h4>
+            HTTP::Daemon の依存パッケージ
+          </h4>
+          <h5>
+            必須
+          </h5>
+          <p class="required">
+            <a class="xref" href="perl-deps.html#perl-http-message" title=
+            "HTTP::Message-6.44">HTTP-Message-6.44</a>
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              Makefile.PL and running the tests will complain that
+              Module::Build::Tiny is missing, but that is only needed for
+              <code class="filename">Build.PL</code> which is used if the
+              system lacks a C compiler.
+            </p>
+          </div>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37709" name="id37709"></a>HTTP::Daemon のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-io-socket-ssl" name=
+          "perl-io-socket-ssl"></a>IO::Socket::SSL-2.084
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37721" name="id37721"></a>IO::Socket::SSL の概要
+          </h4>
+          <p>
+            IO::Socket::SSL makes using SSL/TLS much easier by wrapping the
+            necessary functionality into the familiar IO::Socket interface
+            and providing secure defaults whenever possible.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/S/SU/SULLR/IO-Socket-SSL-2.084.tar.gz">
+                  https://www.cpan.org/authors/id/S/SU/SULLR/IO-Socket-SSL-2.084.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: 67d2dfb438f05a6b54de4d16b8578dce
+                </p>
+              </li>
+            </ul>
+          </div>
+          <h4>
+            IO::Socket::SSL の依存パッケージ
+          </h4>
+          <h5>
+            必須
+          </h5>
+          <p class="required">
+            <a class="xref" href="../postlfs/make-ca.html" title=
+            "make-ca-1.13">make-ca-1.13</a>, <a class="xref" href=
+            "perl-deps.html#perl-net-ssleay" title=
+            "Net::SSLeay-1.92">Net-SSLeay-1.92</a>
+          </p>
+          <h5>
+            推奨
+          </h5>
+          <p class="recommended">
+            <a class="xref" href="perl-modules.html#perl-uri" title=
+            "URI-5.21">URI-5.21</a> (to access international domain names)
+          </p>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37741" name="id37741"></a>IO::Socket::SSL のインストール
+          </h4>
+          <p>
+            This module uses a variant of the standard build and installation
+            instructions:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">yes | perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            Now, as the <code class="systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+        <div class="commands" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37749" name="id37749"></a>コマンド説明
+          </h4>
+          <p>
+            <span class="command"><strong>yes</strong></span>: Perl will ask
+            if you wish to run external tests, which will 'fail soft' if
+            there are network problems. The default is 'y', this allows you
+            to script the build.
+          </p>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-io-string" name="perl-io-string"></a>IO::String-1.08
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37757" name="id37757"></a>IO::String の概要
+          </h4>
+          <p>
+            IO::String - Emulate file interface for in-core strings.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/G/GA/GAAS/IO-String-1.08.tar.gz">
+                  https://www.cpan.org/authors/id/G/GA/GAAS/IO-String-1.08.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: 250e5424f290299fc3d6b5d1e9da3835
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37769" name="id37769"></a>IO::String のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-ipc-run3" name="perl-ipc-run3"></a>IPC::Run3-0.048
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37781" name="id37781"></a>IPC::Run3 の概要
+          </h4>
+          <p>
+            IPC::Run3 is used to run a subprocess with input/output
+            redirection.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/R/RJ/RJBS/IPC-Run3-0.048.tar.gz">
+                  https://www.cpan.org/authors/id/R/RJ/RJBS/IPC-Run3-0.048.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: 5a8cec571c51a118b265cf6e24e55761
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37793" name="id37793"></a>IPC::Run3 のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-json" name="perl-json"></a>JSON-4.10
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37805" name="id37805"></a>JSON の概要
+          </h4>
+          <p>
+            JSON provides a simple wrapper for JSON::XS-compatible modules
+            with some additional features.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/I/IS/ISHIGAKI/JSON-4.10.tar.gz">
+                  https://www.cpan.org/authors/id/I/IS/ISHIGAKI/JSON-4.10.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: a709b32e194d0eb38f788cb49f422c4e
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37817" name="id37817"></a>JSON のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-lingua-translit" name=
+          "perl-lingua-translit"></a>Lingua::Translit-0.29
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37829" name="id37829"></a>Lingua::Translit の概要
+          </h4>
+          <p>
+            Lingua::Translit and its <span class=
+            "command"><strong>translit</strong></span> program transliterate
+            text between writing systems.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/A/AL/ALINKE/Lingua-Translit-0.29.tar.gz">
+                  https://www.cpan.org/authors/id/A/AL/ALINKE/Lingua-Translit-0.29.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: 605a82f06b05fef4fc18bf069b1be511
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37842" name="id37842"></a>Lingua::Translit のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+        <div class="content" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37850" name="id37850"></a>パッケージ構成
+          </h4>
+          <div class="segmentedlist">
+            <div class="seglistitem">
+              <div class="seg">
+                <strong class="segtitle">インストールプログラム:</strong> <span class=
+                "segbody">translit</span>
+              </div>
+            </div>
+          </div>
+          <div class="variablelist">
+            <h3>
+              概略説明
+            </h3>
+            <table border="0" class="variablelist">
+              <colgroup>
+                <col align="left" valign="top" />
+                <col />
+              </colgroup>
+              <tbody>
+                <tr>
+                  <td>
+                    <p>
+                      <a id="translit-prog" name=
+                      "translit-prog"></a><span class="term"><span class=
+                      "command"><strong>translit</strong></span></span>
+                    </p>
+                  </td>
+                  <td>
+                    <p>
+                      transliterates text between writing systems using
+                      various standards
+                    </p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-libwww-perl" name="perl-libwww-perl"></a>LWP
+          (libwww-perl-6.72)
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37869" name="id37869"></a>Introduction to LWP - The
+            World-wide Web library for <span class="application">Perl</span>
+          </h4>
+          <p>
+            The libwww-perl collection is a set of Perl modules which
+            provides a simple and consistent application programming
+            interface (API) to the World-Wide Web. The main focus of the
+            library is to provide classes and functions that allow you to
+            write WWW clients. The library also contains modules that are of
+            more general use and even classes that help you implement simple
+            HTTP servers.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/O/OA/OALDERS/libwww-perl-6.72.tar.gz">
+                  https://www.cpan.org/authors/id/O/OA/OALDERS/libwww-perl-6.72.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: ea683625d1c875c583ae8859602bac66
+                </p>
+              </li>
+            </ul>
+          </div>
+          <h4>
+            libwww-perl の依存パッケージ
+          </h4>
+          <h5>
+            必須
+          </h5>
+          <p class="required">
+            <a class="xref" href="perl-deps.html#perl-file-listing" title=
+            "File::Listing-6.15">File-Listing-6.15</a>, <a class="xref" href=
+            "perl-deps.html#perl-http-cookiejar" title=
+            "HTTP::CookieJar-0.014">HTTP-CookieJar-0.014</a>, <a class="xref"
+            href="perl-deps.html#perl-http-cookies" title=
+            "HTTP::Cookies-6.10">HTTP-Cookies-6.10</a>, <a class="xref" href=
+            "perl-modules.html#perl-http-daemon" title=
+            "HTTP::Daemon-6.16">HTTP-Daemon-6.16</a>, <a class="xref" href=
+            "perl-deps.html#perl-http-negotiate" title=
+            "HTTP::Negotiate-6.01">HTTP-Negotiate-6.01</a>, <a class="xref"
+            href="perl-modules.html#perl-html-parser" title=
+            "HTML::Parser-3.81">HTML-Parser-3.81</a>, <a class="xref" href=
+            "perl-deps.html#perl-net-http" title=
+            "Net::HTTP-6.23">Net-HTTP-6.23</a>, <a class="xref" href=
+            "perl-deps.html#perl-try-tiny" title=
+            "Try::Tiny-0.31">Try-Tiny-0.31</a>, <a class="xref" href=
+            "perl-deps.html#perl-www-robotrules" title=
+            "WWW::RobotRules-6.02">WWW-RobotRules-6.02</a>
+          </p>
+          <h5>
+            推奨 (テストスイートに必要)
+          </h5>
+          <p class="recommended">
+            <a class="xref" href="perl-deps.html#perl-test-fatal" title=
+            "Test::Fatal-0.017">Test-Fatal-0.017</a>, <a class="xref" href=
+            "perl-deps.html#perl-test-needs" title=
+            "Test::Needs-0.002010">Test-Needs-0.002010</a> and <a class=
+            "xref" href="perl-deps.html#perl-test-requiresinternet" title=
+            "Test::RequiresInternet-0.05">Test-RequiresInternet-0.05</a>
+          </p>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37899" name="id37899"></a>libwww-perl のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+          <p>
+            After installing this package, if you want HTTPS protocol support
+            install <a class="xref" href=
+            "perl-modules.html#perl-lwp-protocol-https" title=
+            "LWP::Protocol::https-6.11">LWP-Protocol-https-6.11</a>.
+          </p>
+        </div>
+        <div class="content" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37909" name="id37909"></a>パッケージ構成
+          </h4>
+          <div class="segmentedlist">
+            <div class="seglistitem">
+              <div class="seg">
+                <strong class="segtitle">インストールプログラム:</strong> <span class=
+                "segbody">lwp-download, lwp-dump, lwp-mirror,
+                lwp-request</span>
+              </div>
+            </div>
+          </div>
+          <div class="variablelist">
+            <h3>
+              概略説明
+            </h3>
+            <table border="0" class="variablelist">
+              <colgroup>
+                <col align="left" valign="top" />
+                <col />
+              </colgroup>
+              <tbody>
+                <tr>
+                  <td>
+                    <p>
+                      <a id="lwp-download-prog" name=
+                      "lwp-download-prog"></a><span class="term"><span class=
+                      "command"><strong>lwp-download</strong></span></span>
+                    </p>
+                  </td>
+                  <td>
+                    <p>
+                      is a script to fetch a large file from the web
+                    </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p>
+                      <a id="lwp-dump-prog" name=
+                      "lwp-dump-prog"></a><span class="term"><span class=
+                      "command"><strong>lwp-dump</strong></span></span>
+                    </p>
+                  </td>
+                  <td>
+                    <p>
+                      is used to see what headers and content is returned for
+                      a URL
+                    </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p>
+                      <a id="lwp-mirror-prog" name=
+                      "lwp-mirror-prog"></a><span class="term"><span class=
+                      "command"><strong>lwp-mirror</strong></span></span>
+                    </p>
+                  </td>
+                  <td>
+                    <p>
+                      is a simple mirror utility
+                    </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p>
+                      <a id="lwp-request-prog" name=
+                      "lwp-request-prog"></a><span class="term"><span class=
+                      "command"><strong>lwp-request</strong></span></span>
+                    </p>
+                  </td>
+                  <td>
+                    <p>
+                      is a simple command line user agent
+                    </p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-list-allutils" name=
+          "perl-list-allutils"></a>List::AllUtils-0.19
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37949" name="id37949"></a>List::AllUtils の概要
+          </h4>
+          <p>
+            The List::Allutils module combines List::Util and List::MoreUtils
+            in one bite-sized package.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/D/DR/DROLSKY/List-AllUtils-0.19.tar.gz">
+                  https://www.cpan.org/authors/id/D/DR/DROLSKY/List-AllUtils-0.19.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: 86469b1f6819ba181a8471eb932965f2
+                </p>
+              </li>
+            </ul>
+          </div>
+          <h4>
+            List::AllUtils の依存パッケージ
+          </h4>
+          <h5>
+            必須
+          </h5>
+          <p class="required">
+            <a class="xref" href="perl-deps.html#perl-list-someutils" title=
+            "List::SomeUtils-0.59">List-SomeUtils-0.59</a>, <a class="xref"
+            href="perl-deps.html#perl-list-utilsby" title=
+            "List::UtilsBy-0.12">List-UtilsBy-0.12</a>
+          </p>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37966" name="id37966"></a>List::AllUtils のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-list-moreutils" name=
+          "perl-list-moreutils"></a>List::MoreUtils-0.430
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37978" name="id37978"></a>List::MoreUtils の概要
+          </h4>
+          <p>
+            List::MoreUtils provides the stuff missing in List::Util.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/R/RE/REHSACK/List-MoreUtils-0.430.tar.gz">
+                  https://www.cpan.org/authors/id/R/RE/REHSACK/List-MoreUtils-0.430.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: daccd6310021231b827dcc943ff1c6b7
+                </p>
+              </li>
+            </ul>
+          </div>
+          <h4>
+            List::MoreUtils の依存パッケージ
+          </h4>
+          <h5>
+            必須
+          </h5>
+          <p class="required">
+            <a class="xref" href="perl-deps.html#perl-exporter-tiny" title=
+            "Exporter::Tiny-1.006000">Exporter-Tiny-1.006000</a>, <a class=
+            "xref" href="perl-deps.html#perl-list-moreutils-xs" title=
+            "List::MoreUtils::XS-0.430">List-MoreUtils-XS-0.430</a>
+          </p>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id37995" name="id37995"></a>List::MoreUtils のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-log-log4perl" name=
+          "perl-log-log4perl"></a>Log::Log4perl-1.57
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38007" name="id38007"></a>Log::Log4perl の概要
+          </h4>
+          <p>
+            Log::Log4perl provides a Log4j implementation for <span class=
+            "application">perl</span>.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/E/ET/ETJ/Log-Log4perl-1.57.tar.gz">
+                  https://www.cpan.org/authors/id/E/ET/ETJ/Log-Log4perl-1.57.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: acbe29cbaf03f4478a13579a275b0011
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38020" name="id38020"></a>Log::Log4perl のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+        <div class="content" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38028" name="id38028"></a>パッケージ構成
+          </h4>
+          <div class="segmentedlist">
+            <div class="seglistitem">
+              <div class="seg">
+                <strong class="segtitle">インストールプログラム:</strong> <span class=
+                "segbody">l4p-templ</span>
+              </div>
+            </div>
+          </div>
+          <div class="variablelist">
+            <h3>
+              概略説明
+            </h3>
+            <table border="0" class="variablelist">
+              <colgroup>
+                <col align="left" valign="top" />
+                <col />
+              </colgroup>
+              <tbody>
+                <tr>
+                  <td>
+                    <p>
+                      <a id="l4p-templ-prog" name=
+                      "l4p-templ-prog"></a><span class="term"><span class=
+                      "command"><strong>l4p-templ</strong></span></span>
+                    </p>
+                  </td>
+                  <td>
+                    <p>
+                      prints out the text of a template Log4perl
+                      configuration for starting a new Log4perl configuration
+                      file
+                    </p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-lwp-protocol-https" name=
+          "perl-lwp-protocol-https"></a>LWP::Protocol::https-6.11
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38047" name="id38047"></a>LWP::Protocol::https の概要
+          </h4>
+          <p>
+            LWP::Protocol::https provides https support for LWP::UserAgent
+            (i.e. <a class="xref" href="perl-modules.html#perl-libwww-perl"
+            title="LWP (libwww-perl-6.72)">libwww-perl-6.72</a>). Once the
+            module is installed LWP is able to access sites using HTTP over
+            SSL/TLS.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/O/OA/OALDERS/LWP-Protocol-https-6.11.tar.gz">
+                  https://www.cpan.org/authors/id/O/OA/OALDERS/LWP-Protocol-https-6.11.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: 6615a250c8963a2333ea6d0fbbec306b
+                </p>
+              </li>
+            </ul>
+          </div>
+          <h4>
+            LWP::Protocol::https の依存パッケージ
+          </h4>
+          <h5>
+            必須
+          </h5>
+          <p class="required">
+            <a class="xref" href="perl-modules.html#perl-io-socket-ssl"
+            title="IO::Socket::SSL-2.084">IO-Socket-SSL-2.084</a>, <a class=
+            "xref" href="perl-modules.html#perl-libwww-perl" title=
+            "LWP (libwww-perl-6.72)">libwww-perl-6.72</a>, <a class="xref"
+            href="../postlfs/make-ca.html" title=
+            "make-ca-1.13">make-ca-1.13</a> with <code class=
+            "literal">/etc/pki/tls/certs/ca-bundle.crt</code>.
+          </p>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38067" name="id38067"></a>LWP::Protocol::https のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-module-build" name=
+          "perl-module-build"></a>Module::Build-0.4232
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38079" name="id38079"></a>Module::Build の概要
+          </h4>
+          <p>
+            Module::Build allows perl modules to be built without a
+            <span class="command"><strong>make</strong></span> command being
+            present.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://cpan.metacpan.org/authors/id/L/LE/LEONT/Module-Build-0.4232.tar.gz">
+                  https://cpan.metacpan.org/authors/id/L/LE/LEONT/Module-Build-0.4232.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: 144885f1cbaf9420017bbed696ec6b83
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38092" name="id38092"></a>Module::Build のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+          <p>
+            Note that this module can also be built using <code class=
+            "filename">Build.PL</code>
+          </p>
+        </div>
+        <div class="content" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38102" name="id38102"></a>パッケージ構成
+          </h4>
+          <div class="segmentedlist">
+            <div class="seglistitem">
+              <div class="seg">
+                <strong class="segtitle">インストールプログラム:</strong> <span class=
+                "segbody">config_data</span>
+              </div>
+            </div>
+          </div>
+          <div class="variablelist">
+            <h3>
+              概略説明
+            </h3>
+            <table border="0" class="variablelist">
+              <colgroup>
+                <col align="left" valign="top" />
+                <col />
+              </colgroup>
+              <tbody>
+                <tr>
+                  <td>
+                    <p>
+                      <a id="config-data-prog" name=
+                      "config-data-prog"></a><span class="term"><span class=
+                      "command"><strong>config_data</strong></span></span>
+                    </p>
+                  </td>
+                  <td>
+                    <p>
+                      is used to query or change the configuration of perl
+                      modules
+                    </p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-net-dns" name="perl-net-dns"></a>Net::DNS-1.41
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38121" name="id38121"></a>Net::DNS の概要
+          </h4>
+          <p>
+            Net::DNS is a DNS resolver implemented in <span class=
+            "application">Perl</span>. It can be used to perform nearly any
+            type of DNS query from a <span class="application">Perl</span>
+            script.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/N/NL/NLNETLABS/Net-DNS-1.41.tar.gz">
+                  https://www.cpan.org/authors/id/N/NL/NLNETLABS/Net-DNS-1.41.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: da5f486a08e7a417b53c503d3ff481f2
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38135" name="id38135"></a>Net::DNS のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-parse-recdescent" name=
+          "perl-parse-recdescent"></a>Parse::RecDescent-1.967015
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38147" name="id38147"></a>Parse::RecDescent の概要
+          </h4>
+          <p>
+            Parse::RecDescent incrementally generates top-down
+            recursive-descent text parsers from simple yacc-like grammar
+            specifications.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/J/JT/JTBRAUN/Parse-RecDescent-1.967015.tar.gz">
+                  https://www.cpan.org/authors/id/J/JT/JTBRAUN/Parse-RecDescent-1.967015.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: 7a36d45d62a9b68603edcdbd276006cc
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38159" name="id38159"></a>Parse::RecDescent のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-parse-yapp" name="perl-parse-yapp"></a>Parse::Yapp-1.21
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38171" name="id38171"></a>Parse::Yapp の概要
+          </h4>
+          <p>
+            Parse::Yapp is a Perl extension for generating and using LALR
+            parsers.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/W/WB/WBRASWELL/Parse-Yapp-1.21.tar.gz">
+                  https://www.cpan.org/authors/id/W/WB/WBRASWELL/Parse-Yapp-1.21.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: 69584d5b0f0304bb2a23cffcd982c5de
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38183" name="id38183"></a>Parse::Yapp のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+        <div class="content" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38191" name="id38191"></a>パッケージ構成
+          </h4>
+          <div class="segmentedlist">
+            <div class="seglistitem">
+              <div class="seg">
+                <strong class="segtitle">インストールプログラム:</strong> <span class=
+                "segbody">yapp</span>
+              </div>
+            </div>
+          </div>
+          <div class="variablelist">
+            <h3>
+              概略説明
+            </h3>
+            <table border="0" class="variablelist">
+              <colgroup>
+                <col align="left" valign="top" />
+                <col />
+              </colgroup>
+              <tbody>
+                <tr>
+                  <td>
+                    <p>
+                      <a id="yapp-prog" name="yapp-prog"></a><span class=
+                      "term"><span class=
+                      "command"><strong>yapp</strong></span></span>
+                    </p>
+                  </td>
+                  <td>
+                    <p>
+                      is a frontend to the Parse::Yapp module, which lets you
+                      create a Perl OO parser from an input grammar file
+                    </p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-perlio-utf8_strict" name=
+          "perl-perlio-utf8_strict"></a>PerlIO::utf8_strict-0.010
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38210" name="id38210"></a>PerlIO::utf8_strict の概要
+          </h4>
+          <p>
+            PerlIO::utf8_strict provides a fast and correct UTF-8 PerlIO
+            layer. Unlike Perl's default :utf8 layer it checks the input for
+            correctness.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/L/LE/LEONT/PerlIO-utf8_strict-0.010.tar.gz">
+                  https://www.cpan.org/authors/id/L/LE/LEONT/PerlIO-utf8_strict-0.010.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: d90ca967f66e05ad9221c79060868346
+                </p>
+              </li>
+            </ul>
+          </div>
+          <h4>
+            PerlIO::utf8_strict の依存パッケージ
+          </h4>
+          <h5>
+            推奨 (テストスイートに必要)
+          </h5>
+          <p class="recommended">
+            <a class="xref" href="perl-deps.html#perl-test-exception" title=
+            "Test::Exception-0.43">Test-Exception-0.43</a>
+          </p>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38226" name="id38226"></a>PerlIO::utf8_strict のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-regexp-common" name=
+          "perl-regexp-common"></a>Regexp::Common-2017060201
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38238" name="id38238"></a>Regexp::Common の概要
+          </h4>
+          <p>
+            Regexp::Common provides commonly requested regular expressions.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/A/AB/ABIGAIL/Regexp-Common-2017060201.tar.gz">
+                  https://www.cpan.org/authors/id/A/AB/ABIGAIL/Regexp-Common-2017060201.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: b1bb40759b84154990f36a160160fb94
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38250" name="id38250"></a>Regexp::Common のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-sgmlspm" name="perl-sgmlspm"></a>SGMLSpm-1.1
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38262" name="id38262"></a>SGMLSpm の概要
+          </h4>
+          <p>
+            The SGMLSpm module is a <span class="application">Perl</span>
+            library used for parsing the output from James Clark's SGMLS and
+            NSGMLS parsers.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/R/RA/RAAB/SGMLSpm-1.1.tar.gz">
+                  https://www.cpan.org/authors/id/R/RA/RAAB/SGMLSpm-1.1.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: 746c74ae969992cedb1a2879b4168090
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38275" name="id38275"></a>SGMLSpm のインストール
+          </h4>
+          <p>
+            Before beginning the build, issue the following command to
+            prevent an error:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">chmod -v 644 MYMETA.yml</kbd></pre>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+          <p>
+            After the package has been installed, run the following command
+            as the <code class="systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">ln -sv sgmlspl.pl /usr/bin/sgmlspl</kbd></pre>
+        </div>
+        <div class="content" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38290" name="id38290"></a>パッケージ構成
+          </h4>
+          <div class="segmentedlist">
+            <div class="seglistitem">
+              <div class="seg">
+                <strong class="segtitle">インストールプログラム:</strong> <span class=
+                "segbody">sgmlspl.pl, sgmlspl</span>
+              </div>
+            </div>
+          </div>
+          <div class="variablelist">
+            <h3>
+              概略説明
+            </h3>
+            <table border="0" class="variablelist">
+              <colgroup>
+                <col align="left" valign="top" />
+                <col />
+              </colgroup>
+              <tbody>
+                <tr>
+                  <td>
+                    <p>
+                      <a id="sgmlspl.pl" name="sgmlspl.pl"></a><span class=
+                      "term"><span class=
+                      "command"><strong>sgmlspl.pl</strong></span></span>
+                    </p>
+                  </td>
+                  <td>
+                    <p>
+                      is an SGML processor
+                    </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p>
+                      <a id="sgmlspl-prog" name=
+                      "sgmlspl-prog"></a><span class="term"><span class=
+                      "command"><strong>sgmlspl</strong></span></span>
+                    </p>
+                  </td>
+                  <td>
+                    <p>
+                      is a symbolic link used during the install of <a class=
+                      "xref" href="../pst/docbook-utils.html" title=
+                      "DocBook-utils-0.6.14">DocBook-utils-0.6.14</a>
+                    </p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-sort-key" name="perl-sort-key"></a>Sort::Key-1.33
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38318" name="id38318"></a>Sort::Key の概要
+          </h4>
+          <p>
+            Sort::Key provides a set of functions to sort lists of values by
+            some calculated key value.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/S/SA/SALVA/Sort-Key-1.33.tar.gz">
+                  https://www.cpan.org/authors/id/S/SA/SALVA/Sort-Key-1.33.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: a37ab0da0cfdc26e57b4c79e39f6d98f
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38330" name="id38330"></a>Sort::Key のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-test-command" name=
+          "perl-test-command"></a>Test::Command-0.11
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38342" name="id38342"></a>Test::Command の概要
+          </h4>
+          <p>
+            Test::Command tests the exit status, STDOUT, or STDERR, of an
+            external command.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/D/DA/DANBOO/Test-Command-0.11.tar.gz">
+                  https://www.cpan.org/authors/id/D/DA/DANBOO/Test-Command-0.11.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: 9ab83c4695961dbe92cd86efe08f0634
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38354" name="id38354"></a>Test::Command のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-test-differences" name=
+          "perl-test-differences"></a>Test::Differences-0.71
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38366" name="id38366"></a>Test::Differences の概要
+          </h4>
+          <p>
+            Test::Differences tests strings and data structures and shows the
+            differences if they do not match.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/D/DC/DCANTRELL/Test-Differences-0.71.tar.gz">
+                  https://www.cpan.org/authors/id/D/DC/DCANTRELL/Test-Differences-0.71.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: 23a54d5ada6ffe0850f42cd768b4b3c1
+                </p>
+              </li>
+            </ul>
+          </div>
+          <h4>
+            Test::Differences の依存パッケージ
+          </h4>
+          <h5>
+            必須
+          </h5>
+          <p class="required">
+            <a class="xref" href="perl-deps.html#perl-text-diff" title=
+            "Text::Diff-1.45">Text-Diff-1.45</a>
+          </p>
+          <h5>
+            推奨 (テストスイートに必要)
+          </h5>
+          <p class="recommended">
+            <a class="xref" href="perl-deps.html#perl-capture-tiny" title=
+            "Capture::Tiny-0.48">Capture-Tiny-0.48</a>
+          </p>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38385" name="id38385"></a>Test::Differences のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-text-bibtex" name=
+          "perl-text-bibtex"></a>Text::BibTeX-0.89
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38397" name="id38397"></a>Text::BibTeX の概要
+          </h4>
+          <p>
+            Text::BibTeX provides an interface to read and parse <span class=
+            "application">BibTeX</span> files.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/A/AM/AMBS/Text-BibTeX-0.89.tar.gz">
+                  https://www.cpan.org/authors/id/A/AM/AMBS/Text-BibTeX-0.89.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: 67fa6d9c03c659627d9fd58bb380c1fe
+                </p>
+              </li>
+            </ul>
+          </div>
+          <h4>
+            Text::BibTeX の依存パッケージ
+          </h4>
+          <h5>
+            必須
+          </h5>
+          <p class="required">
+            <a class="xref" href="perl-deps.html#perl-config-autoconf" title=
+            "Config::AutoConf-0.320">Config-AutoConf-0.320</a>, <a class=
+            "xref" href="perl-deps.html#perl-extutils-libbuilder" title=
+            "ExtUtils::LibBuilder-0.08">ExtUtils-LibBuilder-0.08</a>
+          </p>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38415" name="id38415"></a>Text::BibTeX のインストール
+          </h4>
+          <p>
+            本モジュールは <code class="filename">Build.PL</code> を使って以下のようにビルドします。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Build.PL &amp;&amp;
+./Build       &amp;&amp;
+./Build test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">./Build install</kbd></pre>
+        </div>
+        <div class="content" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38424" name="id38424"></a>パッケージ構成
+          </h4>
+          <div class="segmentedlist">
+            <div class="seglistitem">
+              <div class="seg">
+                <strong class="segtitle">インストールプログラム:</strong> <span class=
+                "segbody">biblex, libparse, dumpnames</span>
+              </div>
+              <div class="seg">
+                <strong class="segtitle">インストールライブラリ:</strong> <span class=
+                "segbody">libtparse.so</span>
+              </div>
+            </div>
+          </div>
+          <div class="variablelist">
+            <h3>
+              概略説明
+            </h3>
+            <table border="0" class="variablelist">
+              <colgroup>
+                <col align="left" valign="top" />
+                <col />
+              </colgroup>
+              <tbody>
+                <tr>
+                  <td>
+                    <p>
+                      <a id="biblex-prog" name="biblex-prog"></a><span class=
+                      "term"><span class=
+                      "command"><strong>biblex</strong></span></span>
+                    </p>
+                  </td>
+                  <td>
+                    <p>
+                      performs lexical analysis on a BibTeX file
+                    </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p>
+                      <a id="bibparse-prog" name=
+                      "bibparse-prog"></a><span class="term"><span class=
+                      "command"><strong>bibparse</strong></span></span>
+                    </p>
+                  </td>
+                  <td>
+                    <p>
+                      parses a series of BibTeX files with command line
+                      options to control the string post-processing behavior
+                    </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p>
+                      <a id="dumpnames-prog" name=
+                      "dumpnames-prog"></a><span class="term"><span class=
+                      "command"><strong>dumpnames</strong></span></span>
+                    </p>
+                  </td>
+                  <td>
+                    <p>
+                      parses a BibTeX file, splitting 'author' and 'editor'
+                      fields into lists of names, and then dumps everything
+                      to stdout
+                    </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p>
+                      <a id="libbtparse-lib" name=
+                      "libbtparse-lib"></a><span class="term"><code class=
+                      "filename">libbtparse.so</code></span>
+                    </p>
+                  </td>
+                  <td>
+                    <p>
+                      is a library for parsing and processing BibTeX data
+                      files
+                    </p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-text-csv" name="perl-text-csv"></a>Text::CSV-2.04
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38466" name="id38466"></a>Text::CSV の概要
+          </h4>
+          <p>
+            Text::CSV is a comma-separated values manipulator, using XS
+            (eXternal Subroutine - for subroutines written in C or C++) or
+            pure perl.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/I/IS/ISHIGAKI/Text-CSV-2.04.tar.gz">
+                  https://www.cpan.org/authors/id/I/IS/ISHIGAKI/Text-CSV-2.04.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: 500b1cd1349e2186877c39aa404230dc
+                </p>
+              </li>
+            </ul>
+          </div>
+          <h4>
+            Text::CSV の依存パッケージ
+          </h4>
+          <h5>
+            推奨
+          </h5>
+          <p class="recommended">
+            <a class="xref" href="perl-deps.html#perl-text-csv_xs" title=
+            "Text::CSV_XS-1.53">Text-CSV_XS-1.53</a> (required by <a class=
+            "xref" href="../pst/biber.html" title=
+            "biber-2.19">biber-2.19</a>)
+          </p>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38483" name="id38483"></a>Text::CSV のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-text-roman" name="perl-text-roman"></a>Text::Roman-3.5
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38495" name="id38495"></a>Text::Roman
+          </h4>
+          <p>
+            Text::Roman allows conversion between Roman and Arabic algorisms
+            (number systems, e.g. MCMXLV and 1945).
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/S/SY/SYP/Text-Roman-3.5.tar.gz">
+                  https://www.cpan.org/authors/id/S/SY/SYP/Text-Roman-3.5.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: 1f6b09c0cc1f4425b565ff787a39fd83
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38507" name="id38507"></a>Text::Roman のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-unicode-collate" name=
+          "perl-unicode-collate"></a>Unicode::Collate-1.31
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38519" name="id38519"></a>Unicode::Collate の概要
+          </h4>
+          <p>
+            Unicode::Collate provides a Unicode collation algorithm.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              This is a core module. If you are using <span class=
+              "application">perl-5.28.0</span> or later, its version is good
+              enough for <a class="xref" href="../pst/biber.html" title=
+              "biber-2.19">biber-2.19</a> and you do not need to reinstall
+              this module.
+            </p>
+          </div>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/S/SA/SADAHIRO/Unicode-Collate-1.31.tar.gz">
+                  https://www.cpan.org/authors/id/S/SA/SADAHIRO/Unicode-Collate-1.31.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: ee4d960d057c5e5b02ebb49d0286db8f
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38535" name="id38535"></a>Unicode::Collate のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-unicode-linebreak" name=
+          "perl-unicode-linebreak"></a>Unicode::LineBreak-2019.001
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38547" name="id38547"></a>Unicode::LineBreak の概要
+          </h4>
+          <p>
+            Unicode::LineBreak provides a UAX #14 Unicode Line Breaking
+            Algorithm.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/N/NE/NEZUMI/Unicode-LineBreak-2019.001.tar.gz">
+                  https://www.cpan.org/authors/id/N/NE/NEZUMI/Unicode-LineBreak-2019.001.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: 003d6da7a13700e069afed9238c864b9
+                </p>
+              </li>
+            </ul>
+          </div>
+          <h4>
+            Unicode::LineBreak の依存パッケージ
+          </h4>
+          <h5>
+            必須
+          </h5>
+          <p class="required">
+            <a class="xref" href="perl-deps.html#perl-mime-charset" title=
+            "MIME::Charset-1.013.1">MIME-Charset-1.013.1</a>, also <a class=
+            "xref" href="../basicnet/wget.html" title=
+            "Wget-1.21.4">Wget-1.21.4</a> (to download two files from
+            unicode.org in the test suite)
+          </p>
+          <h5>
+            任意
+          </h5>
+          <p class="recommended">
+            <a class="ulink" href=
+            "https://linux.thai.net/projects/libthai/">libthai</a> (to break
+            Thai words into segments)
+          </p>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38567" name="id38567"></a>Unicode::LineBreak のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-uri" name="perl-uri"></a>URI-5.21
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38579" name="id38579"></a>URI の概要
+          </h4>
+          <p>
+            This module implements the URI class. Objects of this class
+            represent "Uniform Resource Identifier references" as specified
+            in RFC 2396 (and updated by RFC 2732). A Uniform Resource
+            Identifier is a compact string of characters that identifies an
+            abstract or physical resource. A Uniform Resource Identifier can
+            be further classified as either a Uniform Resource Locator (URL)
+            or a Uniform Resource Name (URN). The distinction between URL and
+            URN does not matter to the URI class interface. A "URI-reference"
+            is a URI that may have additional information attached in the
+            form of a fragment identifier.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/O/OA/OALDERS/URI-5.21.tar.gz">
+                  https://www.cpan.org/authors/id/O/OA/OALDERS/URI-5.21.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: 9b45e7635f0968deabe377fc4c99a8b5
+                </p>
+              </li>
+            </ul>
+          </div>
+          <h4>
+            URI の依存パッケージ
+          </h4>
+          <h5>
+            推奨 (テストスイートに必要)
+          </h5>
+          <p class="recommended">
+            <a class="xref" href="perl-deps.html#perl-test-fatal" title=
+            "Test::Fatal-0.017">Test-Fatal-0.017</a>, <a class="xref" href=
+            "perl-deps.html#perl-test-needs" title=
+            "Test::Needs-0.002010">Test-Needs-0.002010</a>, <a class="xref"
+            href="perl-deps.html#perl-test-warnings" title=
+            "Test::Warnings-0.031">Test-Warnings-0.031</a>
+          </p>
+          <h5>
+            Optional
+          </h5>
+          <p class="optional">
+            <a class="xref" href="perl-modules.html#perl-business-isbn"
+            title="Business::ISBN-3.008">Business-ISBN-3.008</a>
+          </p>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38600" name="id38600"></a>URI のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-xml-libxml-simple" name=
+          "perl-xml-libxml-simple"></a>XML::LibXML::Simple-1.01
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38612" name="id38612"></a>XML::LibXML::Simple の概要
+          </h4>
+          <p>
+            The XML::LibXML::Simple module is a rewrite of XML::Simple to use
+            the XML::LibXML parser for XML structures, instead of the plain
+            <span class="application">Perl</span> or SAX parsers.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/M/MA/MARKOV/XML-LibXML-Simple-1.01.tar.gz">
+                  https://www.cpan.org/authors/id/M/MA/MARKOV/XML-LibXML-Simple-1.01.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: faad5ed26cd83998f6514be199c56c38
+                </p>
+              </li>
+            </ul>
+          </div>
+          <h4>
+            XML::LibXML::Simple の依存パッケージ
+          </h4>
+          <h5>
+            必須
+          </h5>
+          <p class="required">
+            <a class="xref" href="perl-deps.html#perl-xml-libxml" title=
+            "XML::LibXML-2.0208">XML-LibXML-2.0208</a>
+          </p>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38629" name="id38629"></a>XML::LibXML::Simple のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-xml-libxslt" name=
+          "perl-xml-libxslt"></a>XML::LibXSLT-2.002001
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38641" name="id38641"></a>XML::LibXSLT の概要
+          </h4>
+          <p>
+            XML-LibXSLT provides an interface to <a class="xref" href=
+            "libxslt.html" title="libxslt-1.1.39">libxslt-1.1.39</a>
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/S/SH/SHLOMIF/XML-LibXSLT-2.002001.tar.gz">
+                  https://www.cpan.org/authors/id/S/SH/SHLOMIF/XML-LibXSLT-2.002001.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: b47ac3a69b58fa43386c4f39be5d7bd5
+                </p>
+              </li>
+            </ul>
+          </div>
+          <h4>
+            XML::LibXSLT の依存パッケージ
+          </h4>
+          <h5>
+            必須
+          </h5>
+          <p class="required">
+            <a class="xref" href="libxslt.html" title=
+            "libxslt-1.1.39">libxslt-1.1.39</a>, <a class="xref" href=
+            "perl-deps.html#perl-xml-libxml" title=
+            "XML::LibXML-2.0208">XML-LibXML-2.0208</a>
+          </p>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38659" name="id38659"></a>XML::LibXSLT のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-xml-simple" name="perl-xml-simple"></a>XML::Simple-2.25
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38671" name="id38671"></a>XML::Simple の概要
+          </h4>
+          <p>
+            XML::Simple provides an easy API to read and write XML
+            (especially config files). It is deprecated and its use is
+            discouraged.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/G/GR/GRANTM/XML-Simple-2.25.tar.gz">
+                  https://www.cpan.org/authors/id/G/GR/GRANTM/XML-Simple-2.25.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: bb841dce889a26c89a1c2739970e9fbc
+                </p>
+              </li>
+            </ul>
+          </div>
+          <h4>
+            XML::Simple の依存パッケージ
+          </h4>
+          <h5>
+            任意
+          </h5>
+          <p class="optional">
+            <a class="xref" href="perl-deps.html#perl-xml-sax" title=
+            "XML::SAX-1.02">XML-SAX-1.02</a> (for an alternative parser which
+            will be used if available, otherwise <span class=
+            "application">XML::Parser</span> which was installed in LFS will
+            be used),
+          </p>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38688" name="id38688"></a>XML::Simple のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-xml-writer" name=
+          "perl-xml-writer"></a>XML::Writer-0.900
+        </h2>
+        <div class="package" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38700" name="id38700"></a>XML::Writer の概要
+          </h4>
+          <p>
+            XML::Writer provides a <span class="application">Perl</span>
+            extension for writing XML documents.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+              開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+            </p>
+          </div>
+          <h4>
+            パッケージ情報
+          </h4>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  ダウンロード (HTTP): <a class="ulink" href=
+                  "https://www.cpan.org/authors/id/J/JO/JOSEPHW/XML-Writer-0.900.tar.gz">
+                  https://www.cpan.org/authors/id/J/JO/JOSEPHW/XML-Writer-0.900.tar.gz</a>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ダウンロード MD5 sum: 2457214360cefda445742a608dd6195e
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id38713" name="id38713"></a>XML::Writer のインストール
+          </h4>
+          <p>
+            本モジュールは、標準的なビルドとインストールの手順に従います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">perl Makefile.PL &amp;&amp;
+make             &amp;&amp;
+make test</kbd></pre>
+          <p>
+            <code class="systemitem">root</code> ユーザーになって以下を実行します。
+          </p>
+          <pre class="root"><kbd class="command">make install</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="perl-alternatives" name="perl-alternatives"></a>CPAN
+          automated install of perl modules
+        </h2>
+        <div class="installation" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="perl-auto-install" name="perl-auto-install"></a>
+          </h3>
+          <h4 class="title">
+            <a id="perl-auto-install" name="perl-auto-install"></a> Automatic
+            Installation of Perl Modules.
+          </h4>
+          <p>
+            There is an alternate way of installing the modules using the
+            <span class="command"><strong>cpan</strong></span> shell
+            <span class="command"><strong>install</strong></span> command.
+            The command automatically downloads the latest source from the
+            CPAN archive for the module and any missing prerequisite modules
+            listed by upstream. Then for each module it extracts it, runs the
+            compilation, the tests and installs it.
+          </p>
+          <p>
+            You still need to install any non-perl dependencies before
+            running the automated installation method. You may wish to clean
+            out the <code class="filename">build/</code> directory after
+            installing, to free up the space. If any post-install actions
+            such as creating a symlink are mentioned, you should also do
+            those.
+          </p>
+          <p>
+            The first time you run <span class=
+            "command"><strong>cpan</strong></span>, you'll be prompted to
+            enter some information regarding download locations and methods.
+            This information is retained in files located in <code class=
+            "filename">~/.cpan</code>.
+          </p>
+          <p>
+            In particular, you may wish to configure it so that <a class=
+            "xref" href="../postlfs/sudo.html" title=
+            "Sudo-1.9.15p4">Sudo-1.9.15p4</a> is used for the installs,
+            allowing you to build and test as a regular user. The following
+            examples have not used that approach.
+          </p>
+          <p>
+            Start the <span class="command"><strong>cpan</strong></span>
+            shell by issuing '<span class=
+            "command"><strong>cpan</strong></span>' as the <code class=
+            "systemitem">root</code> user. Any module may now be installed
+            from the <span class="underlined"><code class=
+            "prompt">cpan&gt;&nbsp;</code></span> prompt with the command:
+          </p>
+          <pre class="root"><kbd class="command">install <em class=
+          "replaceable"><code>&lt;Module::Name&gt;</code></em></kbd></pre>
+          <p>
+            For additional commands and help, issue '<span class=
+            "command"><strong>help</strong></span>' from the <span class=
+            "underlined"><code class="prompt">cpan&gt;&nbsp;</code></span>
+            prompt.
+          </p>
+          <p>
+            Alternatively, for scripted or non-interactive installations, use
+            the following syntax as the <code class="systemitem">root</code>
+            user to install one or more modules:
+          </p>
+          <pre class="root"><kbd class="command">cpan -i <em class=
+          "replaceable"><code>&lt;Module1::Name&gt; &lt;Module2::Name&gt;</code></em></kbd></pre>
+          <p>
+            Review the <code class="filename">cpan.1</code> man page for
+            additional parameters you can pass to <span class=
+            "command"><strong>cpan</strong></span> on the command line.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="patchelf.html" title=
+          "Patchelf-0.17.2">戻る</a>
+          <p>
+            Patchelf-0.17.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="perl-deps.html" title=
+          "Perl Module Dependencies">次へ</a>
+          <p>
+            Perl Module Dependencies
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="prog.html" title="第13章 プログラミング言語">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

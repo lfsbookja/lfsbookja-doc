@@ -1,0 +1,603 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Mesa-23.3.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第24章 グラフィック環境
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="xcb-util-cursor.html" title=
+          "xcb-util-cursor-0.1.4">戻る</a>
+          <p>
+            xcb-util-cursor-0.1.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="xbitmaps.html" title="xbitmaps-1.1.3">次へ</a>
+          <p>
+            xbitmaps-1.1.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="installing.html" title=
+          "第24章 グラフィック環境">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="mesa" name="mesa"></a>Mesa-23.3.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Mesa の概要
+        </h2>
+        <p>
+          <span class="application">Mesa</span> は OpenGL 互換の 3D
+          グラフィックライブラリです。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            <span class="application">Mesa</span> は頻繁に更新されています。 mesa の最新バージョン
+            23.3.x があれば、それを利用することもできます。
+          </p>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://mesa.freedesktop.org/archive/mesa-23.3.1.tar.xz">https://mesa.freedesktop.org/archive/mesa-23.3.1.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 2abfce1ef9d9ae3ab780da12b27f72ea
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 18 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 621 MB (ドキュメント込み, テスト実施時はさらに 266 MB)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 3.1 SBU (ドキュメント込み、テスト実施時はさらに 0.6 SBU, いずれも
+                parallelism=4)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          追加のダウンロード
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                推奨パッチ: <a class="ulink" href=
+                "https://www.linuxfromscratch.org/patches/blfs/svn/mesa-add_xdemos-2.patch">
+                https://www.linuxfromscratch.org/patches/blfs/svn/mesa-add_xdemos-2.patch</a>
+                (installs 2 demo programs for testing Mesa - not needed if
+                you install the <a class="ulink" href=
+                "https://archive.mesa3d.org/demos/">mesa-demos</a> package)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Mesa の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="x7lib.html" title="Xorg ライブラリ">Xorg
+          ライブラリ</a>, <a class="xref" href="libdrm.html" title=
+          "Libdrm-2.4.118">libdrm-2.4.118</a>, <a class="xref" href=
+          "../general/python-modules.html#Mako" title=
+          "Mako-1.3.0">Mako-1.3.0</a>
+        </p>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="glslang.html" title=
+          "Glslang-13.1.1">Glslang-13.1.1</a> (required for Vulkan support),
+          <a class="xref" href="../multimedia/libva.html" title=
+          "libva-2.20.0">libva-2.20.0</a> (to provide VA-API support for some
+          gallium drivers, note that there is a circular dependency. You must
+          build <span class="application">libva</span> first without EGL and
+          GLX support, install this package, and rebuild <span class=
+          "application">libva</span>), <a class="xref" href=
+          "../multimedia/libvdpau.html" title="libvdpau-1.5">libvdpau-1.5</a>
+          (to build VDPAU drivers), <a class="xref" href=
+          "../general/llvm.html" title="LLVM-17.0.6">LLVM-17.0.6</a>
+          (required for Gallium3D, nouveau, and radeonsi drivers and for
+          swrast, the software rasterizer which is sometimes referred to as
+          llvmpipe. See <a class="ulink" href=
+          "https://docs.mesa3d.org/systems.html">https://docs.mesa3d.org/systems.html</a>
+          for more information), <a class="xref" href=
+          "../general/wayland-protocols.html" title=
+          "Wayland-Protocols-1.32">wayland-protocols-1.32</a> (required for
+          <a class="xref" href="../kde/plasma-all.html" title=
+          "Plasma 5 のビルド">Plasma-5.27.10</a>, GNOME, and recommended for
+          <a class="xref" href="gtk3.html" title=
+          "GTK+-3.24.38">GTK+-3.24.38</a>), and <a class="xref" href=
+          "vulkan-loader.html" title=
+          "Vulkan-Loader-1.3.273">Vulkan-Loader-1.3.273</a> (required for
+          Vulkan support)
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/libgcrypt.html" title=
+          "libgcrypt-1.10.3">libgcrypt-1.10.3</a>, <a class="xref" href=
+          "../general/libunwind.html" title=
+          "libunwind-1.6.2">libunwind-1.6.2</a>, <a class="xref" href=
+          "../general/lm_sensors.html" title=
+          "Lm-sensors-3-6-0">lm-sensors-3-6-0</a> , <a class="xref" href=
+          "../postlfs/nettle.html" title="Nettle-3.9.1">Nettle-3.9.1</a>,
+          <a class="xref" href="../general/valgrind.html" title=
+          "Valgrind-3.22.0">Valgrind-3.22.0</a>, <a class="ulink" href=
+          "https://archive.mesa3d.org/demos/">mesa-demos</a> (provides more
+          than 300 extra demos to test <span class="application">Mesa</span>;
+          this includes the same programs added by the patch above),
+          <a class="ulink" href="https://omxil.sourceforge.net/">Bellagio
+          OpenMAX Integration Layer</a> (for mobile platforms), and <a class=
+          "ulink" href=
+          "https://github.com/tizonia/tizonia-openmax-il/wiki/Tizonia-OpenMAX-IL/">
+          libtizonia</a>,
+        </p>
+      </div>
+      <div class="kernel" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="mesa-kernel" name="mesa-kernel"></a>Kernel Configuration
+        </h2>
+        <p>
+          Enable the following options in the kernel configuration and
+          recompile the kernel if necessary:
+        </p>
+        <pre class="screen"><span class="blue">D</span>evice Drivers ---&gt;
+  <span class="blue">G</span>raphics support ---&gt;
+    &lt;*/M&gt;   <span class=
+"blue">D</span>irect Rendering Manager (XFree86 4.1.0 and higher DRI support) ---&gt;
+                                                                      ...  [DRM]
+    # For r300 or r600:
+    &lt; /*/M&gt; <span class=
+"blue">A</span>TI Radeon                                              [DRM_RADEON]
+    # For radeonsi:
+    &lt; /*/M&gt; <span class=
+"blue">A</span>MD GPU                                                 [DRM_AMDGPU]
+    [*]       <span class=
+"blue">E</span>nable amdgpu support for SI parts                 [DRM_AMDGPU_SI]
+    [*]       <span class=
+"blue">E</span>nable amdgpu support for CIK parts               [DRM_AMDGPU_CIK]
+      <span class="blue">D</span>isplay Engine Configuration ---&gt;
+      [*]   <span class=
+"blue">A</span>MD DC - Enable new display engine                      [DRM_AMD_DC]
+    # For nouveau:
+    &lt; /*/M&gt; N<span class=
+"blue">o</span>uveau (NVIDIA) cards                                 [DRM_NOUVEAU]
+    # For i915, crocus, or iris:
+    &lt; /*/M&gt; <span class=
+"blue">I</span>ntel 8xx/9xx/G3x/G4x/HD Graphics                         [DRM_I915]
+    # For swrast:
+    &lt; /*/M&gt; <span class=
+"blue">V</span>irtual GEM provider                                      [DRM_VGEM]
+    # For svga:
+    &lt; /*/M&gt; <span class=
+"blue">D</span>RM driver for VMware Virtual GPU                       [DRM_VMWGFX]</pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            The corresponding Mesa Gallium3D driver name is provided as the
+            comment for the configuration entries. If you don't know the name
+            of the Mesa Gallium3D driver for your GPU, see <a class="xref"
+            href="mesa.html#mesa-gallium-drivers">Mesa Gallium3D Drivers</a>
+            below.
+          </p>
+          <p>
+            <code class="option">CONFIG_DRM_RADEON</code>, <code class=
+            "option">CONFIG_DRM_AMDGPU</code>, <code class=
+            "option">CONFIG_DRM_NOUVEAU</code>, and <code class=
+            "option">CONFIG_DRM_I915</code> may require firmware. See
+            <a class="xref" href="../postlfs/firmware.html" title=
+            "About Firmware">About Firmware</a> for details.
+          </p>
+          <p>
+            Selecting <code class="option">CONFIG_DRM_RADEON</code> or
+            <code class="option">CONFIG_DRM_AMDGPU</code> as <span class=
+            "quote">「<span class="quote"><code class=
+            "literal">y</code></span>」</span> is not recommended. If it is,
+            any required firmware must be built as a part of the kernel image
+            or the initramfs for the driver to function correctly.
+          </p>
+          <p>
+            The sub-entries under <code class=
+            "option">CONFIG_DRM_AMDGPU</code> are used to ensure the AMDGPU
+            kernel driver supports all GPUs using the <code class=
+            "literal">radeonsi</code> driver. They are not needed if you
+            won't need <code class="option">CONFIG_DRM_AMDGPU</code> itself.
+            They may be unneeded for some GPU models.
+          </p>
+          <p>
+            For <code class="literal">swrast</code>, <code class=
+            "option">CONFIG_DRM_VGEM</code> is not strictly needed but
+            recommended as an optimization.
+          </p>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Mesa のインストール
+        </h2>
+        <p>
+          If you have downloaded the xdemos patch (needed if testing the Xorg
+          installation per BLFS instructions), apply it by running the
+          following command:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../mesa-add_xdemos-2.patch</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">Mesa</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+meson setup                   \
+      --prefix=$XORG_PREFIX   \
+      --buildtype=release     \
+      -Dplatforms=x11,wayland \
+      -Dgallium-drivers=auto  \
+      -Dvulkan-drivers=auto   \
+      -Dvalgrind=disabled     \
+      -Dlibunwind=disabled    \
+      ..                      &amp;&amp;
+
+ninja</kbd></pre>
+        <p>
+          To test the results, issue: <span class="command"><strong>meson
+          configure -Dbuild-tests=true &amp;&amp; ninja test</strong></span>.
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">ninja install</kbd></pre>
+        <p>
+          任意インストールのドキュメントを導入したい場合は、<code class="systemitem">root</code>
+          ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class=
+        "command">cp -rv ../docs -T /usr/share/doc/mesa-23.3.1</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--buildtype=release</code></em>: This
+          switch ensures a fully-optimized build, and disables debug
+          assertions which will severely slow down the libraries in certain
+          use-cases. Without this switch, build sizes can span into the 2GB
+          range.
+        </p>
+        <p>
+          <a id="mesa-gallium-drivers" name="mesa-gallium-drivers"></a>
+          <em class="parameter"><code>-Dgallium-drivers=auto</code></em>:
+          This parameter controls which Gallium3D drivers should be built.
+          <code class="literal">auto</code> selects all Gallium3D drivers
+          available for x86: <code class="literal">r300</code> (for ATI
+          Radeon 9000 or Radeon X series), <code class="literal">r600</code>
+          (for AMD/ATI Radeon HD 2000-6000 series), <code class=
+          "literal">radeonsi</code> (for AMD Radeon HD 7000 or newer AMD GPU
+          models), <code class="literal">nouveau</code> (for Supported NVIDIA
+          GPUs, they are listed as all <span class="quote">「<span class=
+          "quote">3D features</span>」</span> either <span class=
+          "quote">「<span class="quote">DONE</span>」</span> or <span class=
+          "quote">「<span class="quote">N/A</span>」</span> in <a class="ulink"
+          href="https://nouveau.freedesktop.org/FeatureMatrix.html">the
+          Nouveau status page</a>), <code class="literal">virgl</code> (for
+          QEMU virtual GPU with <span class="application">virglrender</span>
+          support; note that BLFS <a class="xref" href="../postlfs/qemu.html"
+          title="qemu-8.2.0">qemu-8.2.0</a> is not built with <span class=
+          "application">virglrender</span>), <code class=
+          "literal">svga</code> (for VMWare virtual GPU), <code class=
+          "literal">swrast</code> (using CPU for 3D rasterisation; note that
+          it's much slower than using a modern 3D-capable GPU, so it should
+          be only used if the GPU is not supported by other drivers),
+          <code class="literal">iris</code> (for Intel GPUs shipped with
+          Broadwell or newer CPUs), <code class="literal">crocus</code> (for
+          Intel GMA 3000, X3000 series, 4000 series, or X4000 series GPUs
+          shipped with chipsets, or Intel HD GPUs shipped with pre-Broadwell
+          CPUs), <code class="literal">i915</code> (for Intel GMA 900, 950,
+          3100, or 3150 GPUs shipped with chipsets or Atom D/N 4xx/5xx CPUs).
+          You may replace <code class="literal">auto</code> with a
+          comma-separated list to build only a subset of these drivers if you
+          precisely know which drivers you need, for example <code class=
+          "option">-Dgallium-drivers=radeonsi,iris,swrast</code>.
+        </p>
+        <p>
+          <em class="parameter"><code>-Dplatforms=...</code></em>: This
+          parameter controls which windowing systems will be supported.
+          Available linux platforms are x11 and wayland.
+        </p>
+        <p>
+          <em class="parameter"><code>-Dvulkan-drivers=auto</code></em>: This
+          switch enables support for the Vulkan graphics API. It
+          automatically builds all graphics drivers that are available for
+          Vulkan. If you wish to build specific drivers, valid options
+          include 'amd', 'intel', 'intel_hasvk', and 'swrast'. If you do not
+          want Vulkan support, change 'auto' to "".
+        </p>
+        <p>
+          <em class="parameter"><code>-Dvalgrind=disabled</code></em>: This
+          parameter disables the usage of Valgrind during the build process.
+          Remove this parameter if you have Valgrind installed, and wish to
+          check for memory leaks.
+        </p>
+        <p>
+          <em class="parameter"><code>-Dlibunwind=disabled</code></em>: This
+          parameter disables the usage of libunwind.
+        </p>
+        <p>
+          <span class="command"><strong>meson configure
+          -Dbuild-tests=true</strong></span>: This command will reconfigure
+          the build to set <code class="option">-Dbuild-tests=true</code>,
+          but keep the other options specified in the <span class=
+          "command"><strong>meson setup</strong></span> command unchanged. It
+          allows <span class="command"><strong>ninja test</strong></span> to
+          build and run unit tests.
+        </p>
+        <p>
+          <code class="option">-Degl-native-platform="..."</code>: This
+          parameter controls which Embedded Graphics Library support will be
+          built. Available linux options are auto (default), x11, wayland,
+          surfaceless, and drm.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">glxgears and glxinfo</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libEGL.so, libGL.so, libGLESv1_CM.so, libGLESv2.so,
+              libgbm.so, libglapi.so, and libxatracker.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed DRI Drivers:</strong>
+              <span class="segbody">crocus_dri.so, i915_dri.so, iris_dri.so,
+              kms_swrast_dri.so, nouveau_dri.so, nouveau_drv_video.so,
+              r300_dri.so, r600_dri.so, r600_drv_video.so, radeonsi_dri.so,
+              radeonsi_drv_video.so, swrast_dri.so, virtio_gpu_dri.so,
+              virtio_gpu_drv_video.so, and vmwgfx_dri.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed VDPAU Drivers:</strong>
+              <span class="segbody">libvdpau_nouveau.so, libvdpau_r300.so
+              libvdpau_r600.so, and libvdpau_radeonsi.so
+              libvdpau_virtio_gpu.so (Many of these drivers are
+              hard-linked).</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Vulkan Drivers:</strong>
+              <span class="segbody">libvulkan_intel_hasvk.so,
+              libvulkan_intel.so, libvulkan_lvp.so, and
+              libvulkan_radeon.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">$XORG_PREFIX/{include/{EGL,GLES,GLES2,GLES3,KHR},
+              $XORG_PREFIX/lib/{dri,vdpau}}, $XORG_PREFIX/share/drirc.d
+              (contains workarounds for various applications, particularly
+              browsers and games), $XORG_PREFIX/share/vulkan, and
+              /usr/share/doc/mesa-23.3.1</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="glxgears" name="glxgears"></a><span class=
+                    "term"><span class=
+                    "command"><strong>glxgears</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    GL のデモプログラム。グラフィックにて何か問題があった場合のトラブルシューティングとなります。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="glxinfo" name="glxinfo"></a><span class=
+                    "term"><span class=
+                    "command"><strong>glxinfo</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    グラフィックハードウェアや、インストールされている GL ライブラリの情報を表示する診断プログラムです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libEGL" name="libEGL"></a><span class=
+                    "term"><code class="filename">libEGL.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides a native platform graphics interface as defined
+                    by the EGL-1.4 specification
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libgbm" name="libgbm"></a><span class=
+                    "term"><code class="filename">libgbm.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the <span class="application">Mesa</span> Graphics
+                    Buffer Manager library
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libGLESv1_CM" name="libGLESv1_CM"></a><span class=
+                    "term"><code class=
+                    "filename">libGLESv1_CM.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the <span class="application">Mesa</span> OpenGL ES
+                    1.1 library
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libGLES2" name="libGLES2"></a><span class=
+                    "term"><code class="filename">libGLES2.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the <span class="application">Mesa</span> OpenGL ES
+                    2.0 library
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libGL" name="libGL"></a><span class=
+                    "term"><code class="filename">libGL.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    主要な <span class="application">Mesa</span> OpenGL ライブラリ。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="xcb-util-cursor.html" title=
+          "xcb-util-cursor-0.1.4">戻る</a>
+          <p>
+            xcb-util-cursor-0.1.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="xbitmaps.html" title="xbitmaps-1.1.3">次へ</a>
+          <p>
+            xbitmaps-1.1.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="installing.html" title=
+          "第24章 グラフィック環境">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      babl-0.1.106
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第10章 グラフィックスとフォントのライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="aalib.html" title="AAlib-1.4rc5">戻る</a>
+          <p>
+            AAlib-1.4rc5
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="exiv2.html" title="Exiv2-0.28.1">次へ</a>
+          <p>
+            Exiv2-0.28.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="graphlib.html" title=
+          "第10章 グラフィックスとフォントのライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="babl" name="babl"></a>babl-0.1.106
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Babl の概要
+        </h2>
+        <p>
+          <span class="application">Babl</span>
+          パッケージは、ピクセルフォーマットを様々な方法により、動的に変換するライブラリを提供します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://download.gimp.org/pub/babl/0.1/babl-0.1.106.tar.xz">https://download.gimp.org/pub/babl/0.1/babl-0.1.106.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: f0932832cdc4cf9b09c0f97ff48fea07
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 308 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 12 MB (テスト込み)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU (parallelism=4 利用; テスト込み)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Babl Dependencies
+        </h3>
+        <h4>
+          Recommended
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="gobject-introspection.html" title=
+          "gobject-introspection-1.78.1">gobject-introspection-1.78.1</a> and
+          <a class="xref" href="librsvg.html" title=
+          "librsvg-2.57.1">librsvg-2.57.1</a>
+        </p>
+        <h4>
+          Optional
+        </h4>
+        <p class="optional">
+          <a class="xref" href="lcms2.html" title="Little CMS-2.14">Little
+          CMS-2.14</a> and <a class="ulink" href=
+          "http://w3m.sourceforge.net/">w3m</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Babl のインストール
+        </h2>
+        <p>
+          以下のコマンドを入力して <span class="application">Babl</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir bld &amp;&amp;
+cd    bld &amp;&amp;
+
+meson setup --prefix=/usr --buildtype=release .. &amp;&amp;
+ninja </kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>ninja
+          test</strong></span> を実行します。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">ninja install &amp;&amp;
+
+install -v -m755 -d                         /usr/share/gtk-doc/html/babl/graphics &amp;&amp;
+install -v -m644 docs/*.{css,html}          /usr/share/gtk-doc/html/babl          &amp;&amp;
+install -v -m644 docs/graphics/*.{html,svg} /usr/share/gtk-doc/html/babl/graphics</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <span class="command"><strong>install -v -m755 -d
+          /usr/share/gtk-doc/html/babl/graphics</strong></span>:
+          このコマンドとそれに続くコマンドは、ライブラリの HTML ドキュメントをインストールするものであり、多くの gtk
+          パッケージにて、プログラマー向けのドキュメントが配置されるディレクトリ <code class=
+          "filename">/usr/share/gtk-doc/html</code> にインストールするものです。
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libbabl-0.1.so, /usr/lib/babl-0.1 配下に数種のライブラリ</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/{include,lib}/babl-0.1,
+              /usr/share/gtk-doc/html/babl</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libbabl" name="libbabl"></a><span class=
+                    "term"><code class=
+                    "filename">libbabl-0.1.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    各種フォーマットを変換するために BablFish にアクセスする関数を提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="aalib.html" title="AAlib-1.4rc5">戻る</a>
+          <p>
+            AAlib-1.4rc5
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="exiv2.html" title="Exiv2-0.28.1">次へ</a>
+          <p>
+            Exiv2-0.28.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="graphlib.html" title=
+          "第10章 グラフィックスとフォントのライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

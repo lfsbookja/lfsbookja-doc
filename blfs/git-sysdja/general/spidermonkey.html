@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      SpiderMonkey from Firefox-115.5.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第9章 汎用的なライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="qca.html" title="Qca-2.3.7">戻る</a>
+          <p>
+            Qca-2.3.7
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="spirv-headers.html" title=
+          "SPIRV-Headers-1.3.268.0">次へ</a>
+          <p>
+            SPIRV-Headers-1.3.268.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="spidermonkey" name="spidermonkey"></a>SpiderMonkey from
+        Firefox-115.5.0
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          SpiderMonkey の概要
+        </h2>
+        <p>
+          <span class="application">SpiderMonkey</span> is Mozilla's
+          JavaScript and WebAssembly Engine, written in C++ and Rust. In
+          BLFS, the source code of SpiderMonkey is taken from Firefox.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://archive.mozilla.org/pub/firefox/releases/115.5.0esr/source/firefox-115.5.0esr.source.tar.xz">
+                https://archive.mozilla.org/pub/firefox/releases/115.5.0esr/source/firefox-115.5.0esr.source.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: d85e552e25f6fdd8ef38c9bc7fbf44f9
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 489 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 3.5 GB (40 MB installed after removing 36MB static
+                lib; additional 31 MB for the main tests and 40 MB for the
+                jit tests with parallelism=4)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 2.2 SBU (with parallelism=4; additional 1.6 SBU for
+                the main test and 2.3 SBU for the jit test)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          SpiderMonkey の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="icu.html" title="ICU-74.1">ICU-74.1</a>,
+          <a class="xref" href="rust.html" title=
+          "Rustc-1.74.1">rustc-1.74.1</a>, <a class="xref" href=
+          "python-modules.html#six" title="six-1.16.0">six-1.16.0</a>,
+          <a class="xref" href="which.html" title=
+          "Which-2.21 と別の実現方法">Which-2.21</a>
+        </p>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="llvm.html" title=
+          "LLVM-17.0.6">LLVM-17.0.6</a> (with <span class=
+          "application">Clang</span>, required for 32-bit systems without
+          SSE2 capabilities)
+        </p>
+        <div class="admon important">
+          <img alt="[重要]" src="../images/important.png" />
+          <h3>
+            重要
+          </h3>
+          <p>
+            If you are building this package on a 32-bit system, and Clang is
+            not installed or you're overriding the default compiler choice
+            with the environment variable <code class="envar">CXX</code>,
+            please read the Command Explanations section first.
+          </p>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          SpiderMonkey のインストール
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            Unlike most other packages in BLFS, the instructions below
+            require you to untar <code class=
+            "filename">firefox-115.5.0esr.tar.xz</code> and change into the
+            <code class="filename">firefox-115.5.0</code> folder.
+          </p>
+          <p>
+            Extracting the tarball will reset the permissions of the current
+            directory to 0755 if you have permission to do that. If you do
+            this in a directory where the sticky bit is set, such as
+            <code class="filename">/tmp</code> it will end with error
+            messages:
+          </p>
+          <div class="literallayout">
+            <p>
+              tar:&nbsp;.:&nbsp;Cannot&nbsp;utime:&nbsp;Operation&nbsp;not&nbsp;permitted<br />
+
+              tar:&nbsp;.:&nbsp;Cannot&nbsp;change&nbsp;mode&nbsp;to&nbsp;rwxr-xr-t:&nbsp;Operation&nbsp;not&nbsp;permitted<br />
+
+              tar:&nbsp;Exiting&nbsp;with&nbsp;failure&nbsp;status&nbsp;due&nbsp;to&nbsp;previous&nbsp;errors<br />
+            </p>
+          </div>
+          <p>
+            This does finish with non-zero status, but it does <span class=
+            "emphasis"><em>NOT</em></span> mean there is a real problem. Do
+            not untar as the <code class="systemitem">root</code> user in a
+            directory where the sticky bit is set - that will unset it.
+          </p>
+        </div>
+        <p>
+          The building system ships several internal copies of the Python 3
+          module <code class="filename">six.py</code>. The shipped copies are
+          too old to work well with Python 3.12 or later. Replace them with
+          the symlinks to <a class="xref" href="python-modules.html#six"
+          title="six-1.16.0">six-1.16.0</a> already installed on the system:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">for i in $(find -name six.py); do
+  ln -sfv /usr/lib/python3.12/site-packages/six.py $i;
+done</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">SpiderMonkey</span> をビルドします。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            If you are compiling this package in chroot you must ensure that
+            <code class="filename">/dev/shm</code> is mounted. If you do not
+            do this, the <span class="application">Python</span>
+            configuration will fail with a traceback report referencing
+            <code class=
+            "filename">/usr/lib/pythonN.N/multiprocessing/synchronize.py</code>.
+            As the <code class="systemitem">root</code> user, run:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">mountpoint -q /dev/shm || mount -t tmpfs devshm /dev/shm</kbd></pre>
+          <p>
+            Compiling the C++ code respects $MAKEFLAGS and defaults to 'j1',
+            the rust code will use all processors.
+          </p>
+        </div>
+        <pre class="userinput"><kbd class="command">mkdir obj &amp;&amp;
+cd    obj &amp;&amp;
+
+../js/src/configure --prefix=/usr            \
+                    --disable-debug-symbols  \
+                    --disable-jemalloc       \
+                    --enable-readline        \
+                    --enable-rust-simd       \
+                    --with-intl-api          \
+                    --with-system-icu        \
+                    --with-system-zlib       &amp;&amp;
+make</kbd></pre>
+        <p>
+          To run the SpiderMonkey test suite, issue: <span class=
+          "command"><strong>make -C js/src check-jstests
+          JSTESTS_EXTRA_ARGS="--timeout 300 --wpt=disabled"</strong></span>.
+          It's recommended to redirect the output into a log. Because we are
+          building with system ICU, 41 tests (out of a total of more than
+          50,000) are known to fail. The test suite is executed with all CPU
+          cores available: even in a cgroup with less cores assigned, it
+          still attempts to spawn as many testing jobs as the number of
+          <span class="emphasis"><em>all</em></span> cores in the system;
+          fortunately the kernel still won't run these jobs on cores not
+          assigned to the cgroup so the CPU usage is still controlled.
+        </p>
+        <p>
+          To run the JIT test suite, issue: <span class=
+          "command"><strong>make -C js/src check-jit-test
+          JITTEST_EXTRA_ARGS="--timeout 300"</strong></span>. Like the
+          SpiderMonkey test suite, the number of test jobs is same as the
+          number of all CPU cores in the system even if a cgroup is used. To
+          make things worse, there are six tests each of them will use 3 GB
+          of system memory, so the peak memory usage may be up to 18 GB if
+          the number of cores is six or more. Running the JIT test suite
+          without enough memory may invoke the kernel OOM killer and cause
+          stability issues. If you don't have enough system memory available,
+          append <code class="option">-jN</code> after <code class=
+          "option">--timeout 300</code> with N replaced by the number of
+          parallel test jobs you want to start. For example, if you have 16
+          GB system memory available and 8 CPU cores, issue <span class=
+          "command"><strong>make -C js/src check-jit-test
+          JITTEST_EXTRA_ARGS="--timeout=300 -j5"</strong></span> to run the
+          test with 5 parallel jobs so the memory usage won't exceed 15 GB.
+        </p>
+        <div class="admon caution">
+          <img alt="[注意]" src="../images/caution.png" />
+          <h3>
+            注意
+          </h3>
+          <p>
+            An issue in the installation process causes any running program
+            which links to SpiderMonkey shared library (for example, GNOME
+            Shell) to crash if SpiderMonkey is reinstalled, or upgraded or
+            downgraded without a change of the major version number (115 in
+            115.5.0). To work around this issue, remove the old version of
+            the SpiderMonkey shared library before installation:
+          </p>
+          <pre class="root"><kbd class=
+          "command">rm -fv /usr/lib/libmozjs-115.so</kbd></pre>
+        </div>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install &amp;&amp;
+rm -v /usr/lib/libjs_static.ajs &amp;&amp;
+sed -i '/@NSPR_CFLAGS@/d' /usr/bin/js115-config</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--disable-debug-symbols</code></em>:
+          Don't generate debug symbols since they are very large and most
+          users won't need it. Remove it if you want to debug SpiderMonkey.
+        </p>
+        <p>
+          <em class="parameter"><code>--disable-jemalloc</code></em>: This
+          switch disables the internal memory allocator used in SpiderMonkey.
+          jemalloc is only intended for the Firefox browser environment. For
+          other applications using SpiderMonkey, the application may crash as
+          items allocated in the jemalloc allocator are freed on the system
+          (glibc) allocator.
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-readline</code></em>: This
+          switch enables Readline support in the SpiderMonkey command line
+          interface.
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-rust-simd</code></em>: This
+          switch enables SIMD optimization in the shipped encoding_rs crate.
+        </p>
+        <p>
+          <em class="parameter"><code>--with-intl-api</code></em>: This
+          enables the internationalization functions required by <span class=
+          "application">Gjs</span>.
+        </p>
+        <p>
+          <em class="parameter"><code>--with-system-*</code></em>: These
+          parameters allow the build system to use system versions of the
+          above libraries. These are required for stability.
+        </p>
+        <p>
+          <span class="command"><strong>rm -v
+          /usr/lib/libjs_static.ajs</strong></span>: Remove a large static
+          library which is not used by any BLFS package.
+        </p>
+        <p>
+          <span class="command"><strong>sed -i '/@NSPR_CFLAGS@/d'
+          /usr/bin/js115-config</strong></span>: Prevent <span class=
+          "command"><strong>js115-config</strong></span> from using buggy
+          CFLAGS.
+        </p>
+        <p>
+          <code class="option"><code class="envar">CC=gcc
+          CXX=g++</code></code>: BLFS used to prefer to use gcc and g++
+          instead of upstream's defaults of the <span class=
+          "application">clang</span> programs. With the release of gcc-12 the
+          build takes longer with gcc and g++, primarily because of extra
+          warnings, and is bigger. Pass these environment variables to the
+          configure script if you wish to continue to use gcc, g++ (by
+          exporting them and unset them after the installation, or simply
+          prepending them before the <span class=
+          "command"><strong>../js/src/configure</strong></span> command). If
+          you are building on a 32-bit system, also see below.
+        </p>
+        <p>
+          <code class="option"><code class="envar">CXXFLAGS="-msse2
+          -mfpmath=sse"</code></code>: Use SSE2 instead of 387 for
+          double-precision floating-point operations. It's needed by GCC to
+          satisfy the expectations of upstream (Mozilla) developers with
+          floating-point arithmetic. Use it if you are building this package
+          on a 32-bit system with GCC (if Clang is not installed or GCC is
+          explicitly specified). Note that this will cause SpiderMonkey to
+          crash on a processor without SSE2 capability. If you are running
+          the system on such an old processor, Clang is strictly needed. This
+          setting is not needed on 64-bit systems because all 64-bit x86
+          processors support SSE2 and the 64-bit compilers (both Clang and
+          GCC) use SSE2 by default.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">js115, js115-config</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libmozjs-115.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/mozjs-115</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="js115" name="js115"></a><span class=
+                    "term"><span class=
+                    "command"><strong>js115</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides a command line interface to the <span class=
+                    "application">JavaScript</span> engine
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="js115-config" name="js115-config"></a><span class=
+                    "term"><span class=
+                    "command"><strong>js115-config</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to find the SpiderMonkey compiler and linker
+                    flags
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libmozjs-115" name="libmozjs-115"></a>
+                    <span class="term"><code class=
+                    "filename">libmozjs-115.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains the Mozilla JavaScript API functions
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="qca.html" title="Qca-2.3.7">戻る</a>
+          <p>
+            Qca-2.3.7
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="spirv-headers.html" title=
+          "SPIRV-Headers-1.3.268.0">次へ</a>
+          <p>
+            SPIRV-Headers-1.3.268.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

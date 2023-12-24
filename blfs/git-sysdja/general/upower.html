@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      UPower-1.90.2
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第12章 システムユーティリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="unzip.html" title="UnZip-6.0">戻る</a>
+          <p>
+            UnZip-6.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="usbutils.html" title="usbutils-017">次へ</a>
+          <p>
+            usbutils-017
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="sysutils.html" title=
+          "第12章 システムユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="upower" name="upower"></a>UPower-1.90.2
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          UPower の概要
+        </h2>
+        <p>
+          The <span class="application">UPower</span> package provides an
+          interface for enumerating power devices, listening to device events
+          and querying history and statistics. Any application or service on
+          the system can access the org.freedesktop.UPower service via the
+          system message bus.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://gitlab.freedesktop.org/upower/upower/-/archive/v1.90.2/upower-v1.90.2.tar.bz2">
+                https://gitlab.freedesktop.org/upower/upower/-/archive/v1.90.2/upower-v1.90.2.tar.bz2</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: bfd6e3275e61d7e097b53eb2b216fffa
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 136 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 6.5 MB (add 1.1 MB for tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: less than 0.1 SBU (using parallelism=4, add 0.6 SBU
+                for tests)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          UPower の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="libgudev.html" title=
+          "libgudev-238">libgudev-238</a> and <a class="xref" href=
+          "libusb.html" title="libusb-1.0.26">libusb-1.0.26</a>
+        </p>
+        <h4>
+          任意 (GNOME のビルド時に必要)
+        </h4>
+        <p class="optional">
+          <a class="xref" href="gobject-introspection.html" title=
+          "gobject-introspection-1.78.1">gobject-introspection-1.78.1</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="gtk-doc.html" title=
+          "GTK-Doc-1.33.2">GTK-Doc-1.33.2</a>, <a class="xref" href=
+          "libxslt.html" title="libxslt-1.1.39">libxslt-1.1.39</a>, <a class=
+          "xref" href="../pst/docbook-xsl.html" title=
+          "docbook-xsl-nons-1.79.2">docbook-xsl-nons-1.79.2</a>, <a class=
+          "xref" href="python-modules.html#pygobject3" title=
+          "PyGObject-3.46.0">PyGObject-3.46.0</a>, <a class="xref" href=
+          "python-modules.html#python-dbusmock" title=
+          "dbusmock-0.30.0">dbusmock-0.30.0</a>, <a class="xref" href=
+          "umockdev.html" title="Umockdev-0.17.18">umockdev-0.17.18</a> (for
+          part of the test suite), and <a class="ulink" href=
+          "https://libimobiledevice.org/">libimobiledevice</a>
+        </p>
+      </div>
+      <div class="kernel" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="upower-kernel" name="upower-kernel"></a>カーネルの設定
+        </h2>
+        <p>
+          Enable the following options in the kernel configuration and
+          recompile the kernel if necessary:
+        </p>
+        <pre class="screen"><span class="blue">G</span>eneral setup ---&gt;
+  -*- N<span class=
+"blue">a</span>mespaces support ---&gt;                                       [NAMESPACES]
+    [*] <span class=
+"blue">U</span>ser namespace                                                 [USER_NS]</pre>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          UPower のインストール
+        </h2>
+        <p>
+          First, remove an unneeded dependency from a test:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed '/parse_version/d' -i src/linux/integration-test.py</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">UPower</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mkdir build                         &amp;&amp;
+cd    build                         &amp;&amp;
+meson setup ..            \
+      --prefix=/usr       \
+      --buildtype=release \
+      -Dgtk-doc=false     \
+      -Dman=false         &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>LC_ALL=C ninja
+          test</strong></span> を実行します。 テストの中には、必要なファイルがないために失敗するものがあります。
+          テストは、dbus-launch から起動されたローカル GUI セッションにおいて実行する必要があります。 32
+          ビットマシンにおいては、丸めに関するエラーによりテストが 1 つ失敗します。 <code class=
+          "filename">Tests.test_battery_energy_charge_mixed</code>. On some
+          systems, two tests relating to the headphone hotplug feature are
+          known to fail. Those can be safely ignored since the functionality
+          still works.
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">ninja install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>-Dgtk-doc=false</code></em>: Prevents
+          building the documentation. Remove this if you have <span class=
+          "application">GTK-Doc</span> installed and wish to build the
+          documentation.
+        </p>
+        <p>
+          <em class="parameter"><code>-Dman=false</code></em>: Prevents
+          building the manual pages. Remove this if you have <a class="xref"
+          href="libxslt.html" title="libxslt-1.1.39">libxslt-1.1.39</a> and
+          <a class="xref" href="../pst/docbook-xsl.html" title=
+          "docbook-xsl-nons-1.79.2">docbook-xsl-nons-1.79.2</a> installed and
+          wish to build the manual pages.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          UPower の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="upower-init" name="upower-init"></a>
+          </h3>
+          <h4 class="title">
+            <a id="upower-init" name="upower-init"></a>Systemd ユニット
+          </h4>
+          <p>
+            システム起動時に <span class="command"><strong>UPower</strong></span>
+            サービスを起動させるには、<code class="systemitem">root</code>
+            ユーザーになって以下のコマンドを実行します。 これによって、上でインストールした systemd ユニットが有効になります。
+          </p>
+          <pre class="root"><kbd class=
+          "command">systemctl enable upower</kbd></pre>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">upower</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libupower-glib.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/etc/UPower, /usr/include/libupower-glib,
+              /var/lib/upower</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="upower-prog" name="upower-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>upower</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">UPower</span> のコマンドラインツール。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libupower-glib" name=
+                    "libupower-glib"></a><span class="term"><code class=
+                    "filename">libupower-glib.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">UPower</span> API 関数を提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="unzip.html" title="UnZip-6.0">戻る</a>
+          <p>
+            UnZip-6.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="usbutils.html" title="usbutils-017">次へ</a>
+          <p>
+            usbutils-017
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="sysutils.html" title=
+          "第12章 システムユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

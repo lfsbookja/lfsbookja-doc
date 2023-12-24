@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      GDB-14.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第13章 プログラミング言語
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gc.html" title="GC-8.2.4">戻る</a>
+          <p>
+            GC-8.2.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="git.html" title="Git-2.43.0">次へ</a>
+          <p>
+            Git-2.43.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="prog.html" title="第13章 プログラミング言語">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="gdb" name="gdb"></a>GDB-14.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          GDB の概要
+        </h2>
+        <p>
+          <span class="application">GDB</span> (GNU プロジェクトデバッガー; the GNU
+          Project debugger) は、プログラム実行時に '内部' にて何が起こっているかを調べるものです。
+          あるいはそのプログラムがクラッシュする時に何が起きていたかを調べることもできます。 <span class=
+          "application">GDB</span>
+          によりプログラムやライブラリを効果的にトレースするには、そのプログラムやライブラリをデバッグシンボル付きでビルドし、ストリップしていないことが必要となります。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://ftp.gnu.org/gnu/gdb/gdb-14.1.tar.xz">https://ftp.gnu.org/gnu/gdb/gdb-14.1.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 4a084d03915b271f67e9b8ea2ab24972
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 23 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 966 MB （ドキュメント生成時はさらに 729 MB; テスト実施時はさらに 538 MB）
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 2.1 SBU （ドキュメント生成時はさらに 0.4 SBU, テスト実施時はさらに 18 SBU,
+                いずれも parallelism=4 利用）
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          GDB の依存パッケージ
+        </h3>
+        <h4>
+          Recommended Runtime Dependency
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="python-modules.html#six" title=
+          "six-1.16.0">six-1.16.0</a> (Python 3 module, required at run-time
+          to use GDB scripts from various LFS/BLFS packages with Python 3
+          installed in LFS)
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="doxygen.html" title=
+          "Doxygen-1.9.8">Doxygen-1.9.8</a>, <a class="xref" href="gcc.html"
+          title="GCC-13.2.0">GCC-13.2.0</a> (ada, gfortran, and go are used
+          for tests), <a class="xref" href="guile.html" title=
+          "Guile-3.0.9">Guile-3.0.9</a>, <a class="xref" href="rust.html"
+          title="Rustc-1.74.1">rustc-1.74.1</a> (used for some tests),
+          <a class="xref" href="valgrind.html" title=
+          "Valgrind-3.22.0">Valgrind-3.22.0</a>, <a class="ulink" href=
+          "https://sourceware.org/systemtap/">SystemTap</a>
+          (実行時での依存、テスト内にて利用するものもあり)
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          GDB のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">gdb</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+../configure --prefix=/usr          \
+             --with-system-readline \
+             --with-python=/usr/bin/python3 &amp;&amp;
+make</kbd></pre>
+        <p>
+          Optionally, to build the API documentation using <a class="xref"
+          href="doxygen.html" title="Doxygen-1.9.8">Doxygen-1.9.8</a>, run:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make -C gdb/doc doxy</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">pushd gdb/testsuite &amp;&amp;
+make  site.exp      &amp;&amp;
+echo  "set gdb_test_timeout 120" &gt;&gt; site.exp &amp;&amp;
+runtest
+popd</kbd></pre>
+        <p>
+          See <span class="emphasis"><em>gdb/testsuite/README</em></span> and
+          <a class="ulink" href=
+          "https://sourceware.org/gdb/wiki/TestingGDB">TestingGDB</a>. There
+          are many problems with the test suite:
+        </p>
+        <div class="itemizedlist">
+          <ul>
+            <li class="listitem">
+              <p>
+                Clean directories are needed if re-running the tests. For
+                that reason, make a copy of the compiled source code
+                directory before the tests in case you need to run the tests
+                again.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Results depend on installed compilers.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                A test run of the test suite had 51 unexpected failures out
+                of the over 106000 tests.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                On some systems, the gdb.tui test suite will fail if running
+                over SSH.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                On some AMD-based systems, over 200 additional tests may fail
+                due to a difference in the threading implementation on those
+                CPUs.
+              </p>
+            </li>
+          </ul>
+        </div>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make -C gdb install &amp;&amp;
+make -C gdbserver install</kbd></pre>
+        <p>
+          If you have built the API documentation, it is now in gdb/doc/doxy.
+          You can install it (as the <code class="systemitem">root</code>
+          user):
+        </p>
+        <pre class="root"><kbd class=
+        "command">install -d /usr/share/doc/gdb-14.1 &amp;&amp;
+rm -rf gdb/doc/doxy/xml &amp;&amp;
+cp -Rv gdb/doc/doxy /usr/share/doc/gdb-14.1</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <em class="parameter"><code>--with-system-readline</code></em>:
+          This switch forces <span class="application">GDB</span> to use the
+          copy of <span class="application">Readline</span> installed in LFS.
+        </p>
+        <p>
+          <em class=
+          "parameter"><code>--with-python=/usr/bin/python3</code></em>: This
+          switch forces <span class="application">GDB</span> to use Python 3.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">gcore, gdb, gdbserver, gdb-add-index</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libinproctrace.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/{include,share}/gdb,
+              /usr/share/doc/gdb-14.1</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gcore" name="gcore"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gcore</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    generates a core dump of a running program
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gdb-prog" name="gdb-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gdb</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    GNU デバッガー。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gdbserver" name="gdbserver"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gdbserver</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    GNU デバッガーに対するリモートサーバー。(他端末からのプログラムのデバッグが可能となります。)
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gdb-add-index" name=
+                    "gdb-add-index"></a><span class="term"><span class=
+                    "command"><strong>gdb-add-index</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Allows adding index files to ELF binaries. This speeds up
+                    <span class="command"><strong>gdb</strong></span> start
+                    on large programs.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libinproctrace" name=
+                    "libinproctrace"></a><span class="term"><code class=
+                    "filename">libinproctrace.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains functions for the in-process tracing agent. The
+                    agent allows for installing fast tracepoints, listing
+                    static tracepoint markers, probing static tracepoints
+                    markers, and starting trace monitoring.
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gc.html" title="GC-8.2.4">戻る</a>
+          <p>
+            GC-8.2.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="git.html" title="Git-2.43.0">次へ</a>
+          <p>
+            Git-2.43.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="prog.html" title="第13章 プログラミング言語">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,662 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Subversion-1.14.2
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第13章 プログラミング言語
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="slang.html" title="slang-2.3.3">戻る</a>
+          <p>
+            slang-2.3.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="svnserver.html" title=
+          "Subversion サーバーの起動">次へ</a>
+          <p>
+            Subversion サーバーの起動
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="prog.html" title="第13章 プログラミング言語">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="subversion" name="subversion"></a>Subversion-1.14.2
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Subversion の概要
+        </h2>
+        <p>
+          <span class="application">Subversion</span>
+          はバージョン管理システムであり、オープンソースコミュニティにおいて <span class=
+          "application">CVS</span> に代わるものとして構築されたものです。 <span class=
+          "application">CVS</span> の機能を拡張しつつ、それまでの <span class=
+          "application">CVS</span> と同様のインターフェースを提供しています。 ここに示すビルド手順では
+          <span class="application">Subversion</span>
+          リポジトリを制御する、サーバー/クライアントソフトウェアをともにインストールします。 リポジトリの生成方法については
+          <a class="xref" href="svnserver.html" title=
+          "Subversion サーバーの起動">Subversion サーバーの起動</a> において説明しています。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://archive.apache.org/dist/subversion/subversion-1.14.2.tar.bz2">
+                https://archive.apache.org/dist/subversion/subversion-1.14.2.tar.bz2</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 9927b167d1c67d663ca63125907f6f69
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 8.3 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 208 MB (add 228 MB for bindings, 52 MB for docs,
+                1.3 GB for tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.5 SBU (Using parallelism=4; add 1.9 SBU for
+                bindings, 35 SBU for tests)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Subversion の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="apr-util.html" title=
+          "Apr-Util-1.6.3">Apr-Util-1.6.3</a>, <a class="xref" href=
+          "../server/sqlite.html" title="SQLite-3.44.2">SQLite-3.44.2</a>
+        </p>
+        <h4>
+          Recommended
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../basicnet/serf.html" title=
+          "Serf-1.3.10">Serf-1.3.10</a> (for handling http:// and https://
+          URLs)
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../server/apache.html" title=
+          "Apache-2.4.58">Apache-2.4.58</a>, <a class="xref" href=
+          "boost.html" title="Boost-1.84.0">Boost-1.84.0</a>, <a class="xref"
+          href="../postlfs/cyrus-sasl.html" title="Cyrus SASL-2.1.28">Cyrus
+          SASL-2.1.28</a>, <a class="xref" href="dbus.html" title=
+          "dbus-1.14.10">dbus-1.14.10</a>, <a class="xref" href=
+          "doxygen.html" title="Doxygen-1.9.8">Doxygen-1.9.8</a> (for
+          generating HTML documentation), <a class="xref" href=
+          "../gnome/gnome-keyring.html" title=
+          "gnome-keyring-42.1">gnome-keyring-42.1</a>, <a class="xref" href=
+          "../gnome/libsecret.html" title=
+          "libsecret-0.21.2">libsecret-0.21.2</a>, <a class="xref" href=
+          "python-modules.html#py3c" title="Py3c-1.4">Py3c-1.4</a> (for the
+          python bindings, and tests), <a class="xref" href="python3.html"
+          title="Python-3.12.1">Python-3.12.1</a> (with sqlite support for
+          the tests), <a class="xref" href="ruby.html" title=
+          "Ruby-3.2.2">Ruby-3.2.2</a>, <a class="xref" href="swig.html"
+          title="SWIG-4.1.1">SWIG-4.1.1</a> (for building Perl, Python and
+          Ruby bindings), <a class="ulink" href=
+          "https://github.com/lz4/lz4/releases">LZ4</a>, and <a class="ulink"
+          href=
+          "https://git.netsurf-browser.org/libutf8proc.git/">UTF8proc</a>
+        </p>
+        <h4>
+          任意; (Java バインディングビルド時)
+        </h4>
+        <p class="optional">
+          One of <a class="xref" href="openjdk.html" title=
+          "OpenJDK-21.0.1">OpenJDK-21.0.1</a>, <a class="ulink" href=
+          "https://www.inet.no/dante/">Dante</a> or <a class="ulink" href=
+          "https://jikes.sourceforge.net/">Jikes</a>, <a class="ulink" href=
+          "https://junit.org/junit4/">JUnit 4</a> (to test the Java bindings)
+          and <a class="xref" href="apache-ant.html" title=
+          "apache-ant-1.10.14">apache-ant-1.10.14</a>.
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Subversion のインストール
+        </h2>
+        <p>
+          First, adapt some Python scripts to use python3:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">grep -rl '^#!.*python$' | xargs sed -i '1s/python/&amp;3/'</kbd></pre>
+        <p>
+          Next, adapt the Ruby bindings to Ruby-3.2:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -e 's/File.exists?/File.exist?/'               \
+    -i subversion/bindings/swig/ruby/svn/util.rb   \
+       subversion/bindings/swig/ruby/test/test_wc.rb</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">Subversion</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">PYTHON=python3                        \
+./configure --prefix=/usr             \
+            --disable-static          \
+            --with-apache-libexecdir  \
+            --with-lz4=internal       \
+            --with-utf8proc=internal &amp;&amp;
+make</kbd></pre>
+        <p>
+          <a class="xref" href="doxygen.html" title=
+          "Doxygen-1.9.8">Doxygen-1.9.8</a> をインストールしていて、API
+          ドキュメントをインストールする場合は以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">doxygen doc/doxygen.conf</kbd></pre>
+        <p>
+          If you wish to build the Java bindings pass the <code class=
+          "option">--enable-javahl</code> parameter to the <span class=
+          "command"><strong>configure</strong></span> command. In addition,
+          if you want to run the Java test suite, you have to specify the
+          location of the <span class="application">JUnit</span> file by
+          adding <code class="option">--with-junit=&lt;path to junit
+          jar&gt;</code> (for instance <code class=
+          "option">--with-junit=/usr/local/java/lib/junit-4.13.jar</code>) to
+          <span class="command"><strong>configure</strong></span>. The JUnit
+          jar file is no longer included in <a class="xref" href=
+          "apache-ant.html" title="apache-ant-1.10.14">apache-ant-1.10.14</a>
+          and must be downloaded separately. To build the Java bindings,
+          issue the following command:
+        </p>
+        <pre class="screen"><span class=
+        "command"><strong>make -j1 javahl</strong></span></pre>
+        <p>
+          If you want to compile <span class="application">Perl</span>,
+          <span class="application">Python</span>, or <span class=
+          "application">Ruby</span> bindings, issue any of the following
+          command:
+        </p>
+        <pre class="screen"><span class=
+        "command"><strong>make swig-pl</strong></span> # for <span class=
+        "application">Perl</span>
+<span class="command"><strong>make swig-py \
+     swig_pydir=/usr/lib/python3.12/site-packages/libsvn \
+     swig_pydir_extra=/usr/lib/python3.12/site-packages/svn</strong></span> # for <span class="application">Python</span>
+<span class="command"><strong>make swig-rb</strong></span> # for <span class=
+"application">Ruby</span></pre>
+        <p>
+          To test the results, issue: <span class="command"><strong>make
+          check</strong></span>. Four tests in the <code class=
+          "filename">commit_tests.py</code>, <code class=
+          "filename">prop_tests.py</code>, and <code class=
+          "filename">update_tests.py</code> suites are known to fail. Due to
+          changes in Python-3.12, you can expect to see around 200 Syntax
+          Warnings during the test suite due to invalid escape sequences.
+        </p>
+        <p>
+          To test the results of any of the <span class=
+          "application">SWIG</span> bindings, you can use any of the
+          following commands: <span class="command"><strong>make
+          check-swig-pl</strong></span>, <span class="command"><strong>make
+          check-swig-py</strong></span>, or <span class=
+          "command"><strong>make check-swig-rb</strong></span>.
+        </p>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">make install &amp;&amp;
+
+install -v -m755 -d /usr/share/doc/subversion-1.14.2 &amp;&amp;
+cp      -v -R doc/* /usr/share/doc/subversion-1.14.2</kbd></pre>
+        <p>
+          If you built the Java bindings, issue the following command as the
+          <code class="systemitem">root</code> user to install them:
+        </p>
+        <pre class="screen"><span class=
+        "command"><strong>make install-javahl</strong></span></pre>
+        <p>
+          If you built the <span class="application">Perl</span>,
+          <span class="application">Python</span>, or <span class=
+          "application">Ruby</span> bindings, issue any of the following
+          commands as the <code class="systemitem">root</code> user to
+          install them:
+        </p>
+        <pre class="screen"><span class=
+        "command"><strong>make install-swig-pl</strong></span>
+<span class="command"><strong>make install-swig-py \
+      swig_pydir=/usr/lib/python3.12/site-packages/libsvn \
+      swig_pydir_extra=/usr/lib/python3.12/site-packages/svn</strong></span>
+<span class="command"><strong>make install-swig-rb</strong></span></pre>
+        <p>
+          The java bindings need to be installed in order for the tests to
+          run, since the tests attempt to look for them in CLASSPATH. To test
+          the results of the Java bindings build, issue <span class=
+          "command"><strong>LANG=C make check-javahl</strong></span>.
+        </p>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--disable-static</code></em>:
+          このスイッチはスタティックライブラリをインストールしないようにします。
+        </p>
+        <p>
+          <em class="parameter"><code>--with-apache-libexecdir</code></em>:
+          If <a class="xref" href="../server/apache.html" title=
+          "Apache-2.4.58">Apache-2.4.58</a> is installed, the shared
+          <span class="application">Apache</span> modules are built. This
+          switch allows to have those modules installed to <span class=
+          "application">Apache</span>'s configured module dir instead of
+          <code class="filename">/usr/libexec</code>. It has no effect if
+          <span class="application">Apache</span> is not installed.
+        </p>
+        <p>
+          <em class="parameter"><code>--with-lz4=internal</code></em>
+          <em class="parameter"><code>--with-utf8proc=internal</code></em>:
+          Remove these switches if you have installed the optional
+          dependencies.
+        </p>
+        <p>
+          <code class="option">--enable-javahl</code>: enables compilation of
+          Java high level bindings. Running <span class=
+          "command"><strong>make javahl</strong></span> is necessary to do
+          the compilation.
+        </p>
+        <p>
+          <code class="option">--with-junit=&lt;location of the junit jar
+          file&gt;</code>: gives the location of the junit jar, otherwise the
+          javahl tests cannot be run.
+        </p>
+        <p>
+          <code class="option">--disable-gmock</code>: Do not use the
+          Googlemock testing framework.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Subversion の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="subversion-config" name="subversion-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="subversion-config" name="subversion-config"></a>設定ファイル
+          </h4>
+          <p>
+            <code class="filename">~/.subversion/config</code> and
+            <code class="filename">/etc/subversion/config</code>
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id48959" name="id48959"></a>設定情報
+          </h4>
+          <p>
+            <code class="filename">/etc/subversion/config</code> is the
+            <span class="application">Subversion</span> system-wide
+            configuration file. This file is used to specify defaults for
+            different <span class="command"><strong>svn</strong></span>
+            commands.
+          </p>
+          <p>
+            <code class="filename">~/.subversion/config</code> is the user's
+            personal configuration file. It is used to override the
+            system-wide defaults set in <code class=
+            "filename">/etc/subversion/config</code>.
+          </p>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">svn, svnadmin, svnbench, svndumpfilter, svnfsfs,
+              svnlook, svnmucc, svnrdump, svnserve, svnsync, and
+              svnversion</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libsvn_*-1.so and optionally, a Java library, the
+              mod_dav_svn.so and mod_authz_svn.so <span class=
+              "application">Apache HTTP</span> DSO modules and various
+              <span class="application">Perl</span>, <span class=
+              "application">Python</span> and <span class=
+              "application">Ruby</span> modules.</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/subversion-1,
+              /usr/lib/perl5/site_perl/5.38/{,auto/}SVN,
+              /usr/lib/python3.12/site-packages/{libsvn,svn},
+              /usr/lib/ruby/site_ruby/&lt;x.y.z&gt;/{,&lt;arch-linux&gt;-linux/}svn,
+              /usr/lib/svn-javahl, and
+              /usr/share/doc/subversion-1.14.2</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="svn" name="svn"></a><span class=
+                    "term"><span class="command"><strong>svn</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">Subversion</span>
+                    リポジトリにアクセスするための、コマンドラインのクライアントプログラム。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="svnadmin" name="svnadmin"></a><span class=
+                    "term"><span class=
+                    "command"><strong>svnadmin</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool for creating, tweaking or repairing a
+                    <span class="application">Subversion</span> repository
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="svnbench" name="svnbench"></a><span class=
+                    "term"><span class=
+                    "command"><strong>svnbench</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a benchmarking tool
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="svndumpfilter" name=
+                    "svndumpfilter"></a><span class="term"><span class=
+                    "command"><strong>svndumpfilter</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a program for filtering <span class=
+                    "application">Subversion</span> repository dumpfile
+                    format streams
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="svnfsfs" name="svnfsfs"></a><span class=
+                    "term"><span class=
+                    "command"><strong>svnfsfs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the FSFS (FileSystem atop of the FileSystem -
+                    <span class="application">Subversion</span> filesystem
+                    implementation) repository manipulation tool
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="svnlook" name="svnlook"></a><span class=
+                    "term"><span class=
+                    "command"><strong>svnlook</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">Subversion</span>
+                    リポジトリを調べるためのツール。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="svnmucc" name="svnmucc"></a><span class=
+                    "term"><span class=
+                    "command"><strong>svnmucc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a Multiple URL Command Client for <span class=
+                    "application">Subversion</span>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="svnrdump" name="svnrdump"></a><span class=
+                    "term"><span class=
+                    "command"><strong>svnrdump</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool for dumping or loading a remote <span class=
+                    "application">Subversion</span> repository
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="svnserve" name="svnserve"></a><span class=
+                    "term"><span class=
+                    "command"><strong>svnserve</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a custom standalone server program, able to run as a
+                    daemon process or invoked by SSH
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="svnsync" name="svnsync"></a><span class=
+                    "term"><span class=
+                    "command"><strong>svnsync</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a <span class="application">Subversion</span>
+                    repository synchronisation tool
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="svnversion" name="svnversion"></a><span class=
+                    "term"><span class=
+                    "command"><strong>svnversion</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to report the version number and state of a
+                    working <span class="application">Subversion</span>
+                    repository copy
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libsvn_star-1" name=
+                    "libsvn_star-1"></a><span class="term"><code class=
+                    "filename">libsvn_*-1.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    are the support libraries used by the <span class=
+                    "application">Subversion</span> programs
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mod_authz_svn" name=
+                    "mod_authz_svn"></a><span class="term"><code class=
+                    "filename">mod_authz_svn.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a plug-in module for the <span class=
+                    "application">Apache</span> HTTP server, used to
+                    authenticate users to a <span class=
+                    "application">Subversion</span> repository over the
+                    Internet or an intranet
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mod_dav_svn" name="mod_dav_svn"></a><span class=
+                    "term"><code class=
+                    "filename">mod_dav_svn.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a plug-in module for the <span class=
+                    "application">Apache</span> HTTP server, used to make a
+                    <span class="application">Subversion</span> repository
+                    available to others over the Internet or an intranet
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="slang.html" title="slang-2.3.3">戻る</a>
+          <p>
+            slang-2.3.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="svnserver.html" title=
+          "Subversion サーバーの起動">次へ</a>
+          <p>
+            Subversion サーバーの起動
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="prog.html" title="第13章 プログラミング言語">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      libei-1.2.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第25章 グラフィック環境ライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libadwaita.html" title=
+          "libadwaita-1.4.2">戻る</a>
+          <p>
+            libadwaita-1.4.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libgedit-amtk.html" title=
+          "libgedit-amtk-5.8.0">次へ</a>
+          <p>
+            libgedit-amtk-5.8.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="lib.html" title=
+          "第25章 グラフィック環境ライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="libei" name="libei"></a>libei-1.2.0
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to libei
+        </h2>
+        <p>
+          The <span class="application">libei</span> package contains a set
+          of libraries for handling emulated inputs. It is primarily aimed at
+          the Wayland stack.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://gitlab.freedesktop.org/libinput/libei/-/archive/1.2.0/libei-1.2.0.tar.gz">
+                https://gitlab.freedesktop.org/libinput/libei/-/archive/1.2.0/libei-1.2.0.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: b0dcf2325c3c0cc51ebdd1aca51c4a55
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 228 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 5.2 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: less than 0.1 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          libei Dependencies
+        </h3>
+        <h4>
+          Required
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/python-dependencies.html#attrs"
+          title="Attrs-22.2.0">attrs-22.2.0</a>
+        </p>
+        <h4>
+          Optional
+        </h4>
+        <p class="optional">
+          <a class="xref" href="x7driver.html#libevdev" title=
+          "libevdev 1.13.1">libevdev-1.13.1</a>, <a class="xref" href=
+          "../general/libxkbcommon.html" title=
+          "libxkbcommon-1.6.0">libxkbcommon-1.6.0</a>, <a class="xref" href=
+          "../general/libxml2.html" title=
+          "libxml2-2.12.3">libxml2-2.12.3</a>, and <a class="ulink" href=
+          "https://github.com/nemequ/munit">munit</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of libei
+        </h2>
+        <p>
+          Install <span class="application">libei</span> by running the
+          following commands:
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+meson setup --prefix=/usr --buildtype=release -Dtests=disabled .. &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          This package does come with a test suite, but it requires an
+          external dependency. If you have <a class="ulink" href=
+          "https://github.com/nemequ/munit">munit</a> installed and wish to
+          run the test suite, run the following commands:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">meson configure -Dtests=enabled .. &amp;&amp;
+ninja test</kbd></pre>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">ninja install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <em class="parameter"><code>--buildtype=release</code></em>:
+          本パッケージの安定版リリース向けに適したビルドタイプを指定します。
+          デフォルトにしていると、最適化されていないバイナリを生成する場合があるためです。
+        </p>
+        <p>
+          <em class="parameter"><code>-Dtests=disabled</code></em>: This
+          switch avoids a dependency on <a class="ulink" href=
+          "https://github.com/nemequ/munit">munit</a>. Remove this switch if
+          you have <span class="application">munit</span> installed and wish
+          to run the test suite.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">None</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">libei.so, libeis.so, and
+              liboeffis.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody">/usr/include/libei-1.0</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libei-lib" name="libei-lib"></a><span class=
+                    "term"><code class="filename">libei.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides a client side implementation for handling
+                    Emulated Input
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libeis" name="libeis"></a><span class=
+                    "term"><code class="filename">libeis.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides a server side implementation for handling
+                    Emulated Input
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="liboffis" name="liboffis"></a><span class=
+                    "term"><code class="filename">liboffis</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides DBus communication services between libei and
+                    the XDG RemoteDesktop portal
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libadwaita.html" title=
+          "libadwaita-1.4.2">戻る</a>
+          <p>
+            libadwaita-1.4.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libgedit-amtk.html" title=
+          "libgedit-amtk-5.8.0">次へ</a>
+          <p>
+            libgedit-amtk-5.8.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="lib.html" title=
+          "第25章 グラフィック環境ライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

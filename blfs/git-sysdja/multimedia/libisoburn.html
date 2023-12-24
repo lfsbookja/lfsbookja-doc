@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      libisoburn-1.5.6
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第45章 CD/DVD ライティングユーティリティー
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libburn.html" title="libburn-1.5.6">戻る</a>
+          <p>
+            libburn-1.5.6
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libisofs.html" title="libisofs-1.5.6">次へ</a>
+          <p>
+            libisofs-1.5.6
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="cdwriteutils.html" title=
+          "第45章 CD/DVD ライティングユーティリティー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="libisoburn" name="libisoburn"></a>libisoburn-1.5.6
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libisoburn の概要
+        </h2>
+        <p>
+          <span class="application">libisoburn</span> is a frontend for
+          libraries <span class="application">libburn</span> and <span class=
+          "application">libisofs</span> which enables creation and expansion
+          of ISO-9660 filesystems on all CD/DVD/BD media supported by
+          <span class="application">libburn</span>. This includes media like
+          DVD+RW, which do not support multi-session management on media
+          level and even plain disk files or block devices.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://files.libburnia-project.org/releases/libisoburn-1.5.6.tar.gz">
+                https://files.libburnia-project.org/releases/libisoburn-1.5.6.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: efb19f7f718f0791f717b2c6094995ec
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1.5 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 20 MB (with Tk and HTML documentation)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.2 SBU (with Tk and HTML documentation)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          libisoburn の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="libburn.html" title=
+          "libburn-1.5.6">libburn-1.5.6</a>, <a class="xref" href=
+          "libisofs.html" title="libisofs-1.5.6">libisofs-1.5.6</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p>
+          <a class="xref" href="../general/doxygen.html" title=
+          "Doxygen-1.9.8">Doxygen-1.9.8</a> (to generate HTML documentation),
+          <a class="xref" href="../general/tk.html" title=
+          "Tk-8.6.13">Tk-8.6.13</a> (for <span class=
+          "command"><strong>xorriso-tcltk</strong></span>), <a class="ulink"
+          href="https://www.einval.com/~steve/software/JTE/">libjte</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libisoburn のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">libisoburn</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr              \
+            --disable-static           \
+            --enable-pkg-check-modules &amp;&amp;
+make</kbd></pre>
+        <p>
+          If you have installed <span class="application">Doxygen</span> and
+          wish to generate the HTML documentation, issue the following
+          command:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">doxygen doc/doxygen.conf</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+        <p>
+          If you have built the HTML documentation, install it by running the
+          following commands as the <code class="systemitem">root</code>
+          user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">install -v -dm755 /usr/share/doc/libisoburn-1.5.6 &amp;&amp;
+install -v -m644 doc/html/* /usr/share/doc/libisoburn-1.5.6</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--disable-static</code></em>:
+          このスイッチはスタティックライブラリをインストールしないようにします。
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-pkg-check-modules</code></em>:
+          Enable <span class="application">pkg-config</span> check for
+          <span class="application">libburn</span> and <span class=
+          "application">libisofs</span>.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">osirrox, xorrecord, xorriso, xorriso-dd-target,
+              xorrisofs, xorriso-tcltk</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libisoburn.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/libisoburn,
+              /usr/share/doc/libisoburn-1.5.6</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="osirrox" name="osirrox"></a><span class=
+                    "term"><span class=
+                    "command"><strong>osirrox</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a symbolic link to <span class=
+                    "command"><strong>xorriso</strong></span> that copies
+                    files from ISO image to a disk filesystem
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xorrecord" name="xorrecord"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xorrecord</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a symbolic link to <span class=
+                    "command"><strong>xorriso</strong></span> that provides a
+                    cdrecord type user interface
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xorriso" name="xorriso"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xorriso</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a program to create, load, manipulate, read, and write
+                    ISO 9660 filesystem images with Rock Ridge extensions
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xorriso-dd-target" name=
+                    "xorriso-dd-target"></a><span class="term"><span class=
+                    "command"><strong>xorriso-dd-target</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a program to check a USB or memory card device to see
+                    whether it is suitable for image copying
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xorrisofs" name="xorrisofs"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xorrisofs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a symbolic link to <span class=
+                    "command"><strong>xorriso</strong></span> that provides a
+                    mkisofs type user interface
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xorriso-tcltk" name=
+                    "xorriso-tcltk"></a><span class="term"><span class=
+                    "command"><strong>xorriso-tcltk</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a frontend that operates xorriso in dialog mode
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libisoburn-lib" name=
+                    "libisoburn-lib"></a><span class="term"><code class=
+                    "filename">libisoburn.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains the <span class="application">libisoburn</span>
+                    API functions
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libburn.html" title="libburn-1.5.6">戻る</a>
+          <p>
+            libburn-1.5.6
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libisofs.html" title="libisofs-1.5.6">次へ</a>
+          <p>
+            libisofs-1.5.6
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="cdwriteutils.html" title=
+          "第45章 CD/DVD ライティングユーティリティー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

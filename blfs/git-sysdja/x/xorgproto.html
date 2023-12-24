@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      xorgproto-2023.2
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第24章 グラフィック環境
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="util-macros.html" title=
+          "util-macros-1.20.0">戻る</a>
+          <p>
+            util-macros-1.20.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libXau.html" title="libXau-1.0.11">次へ</a>
+          <p>
+            libXau-1.0.11
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="installing.html" title=
+          "第24章 グラフィック環境">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="xorgproto" name="xorgproto"></a>xorgproto-2023.2
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          xorgproto の概要
+        </h2>
+        <p>
+          The <span class="application">xorgproto</span> package provides the
+          header files required to build the X Window system, and to allow
+          other applications to build against the installed X Window system.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://xorg.freedesktop.org/archive/individual/proto/xorgproto-2023.2.tar.xz">
+                https://xorg.freedesktop.org/archive/individual/proto/xorgproto-2023.2.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 2e266a49ce3f56669d014cf284901e6e
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 741 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 10 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU 以下
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          xorgproto の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="util-macros.html" title=
+          "util-macros-1.20.0">util-macros-1.20.0</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../pst/fop.html" title="fop-2.9">fop-2.9</a>,
+          <a class="xref" href="../general/libxslt.html" title=
+          "libxslt-1.1.39">libxslt-1.1.39</a>, <a class="xref" href=
+          "../pst/xmlto.html" title="xmlto-0.0.28">xmlto-0.0.28</a>,
+          <a class="xref" href="../general/python-modules.html#asciidoc"
+          title="Asciidoc-10.2.0">asciidoc-10.2.0</a> (to build additional
+          documentation)
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            There is a reciprocal dependency with <a class="xref" href=
+            "../pst/fop.html" title="fop-2.9">fop-2.9</a>. If you wish to
+            build the documentation, you'll need to re-install the Protocol
+            Headers after the installation is complete and <a class="xref"
+            href="../pst/fop.html" title="fop-2.9">fop-2.9</a> has been
+            installed.
+          </p>
+        </div>
+        <p class="usernotes">
+          編集ノート: <a class="ulink" href=
+          "https://wiki.linuxfromscratch.org/blfs/wiki/Xorg7ProtocolHeaders">https://wiki.linuxfromscratch.org/blfs/wiki/Xorg7ProtocolHeaders</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          xorgproto のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">xorgproto</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+meson setup --prefix=$XORG_PREFIX .. &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">ninja install &amp;&amp;
+mv -v $XORG_PREFIX/share/doc/xorgproto{,-2023.2}</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <code class="option">-Dlegacy=true</code>: Installs legacy headers
+          needed by old programs (such as <a class="ulink" href=
+          "https://lesstif.sourceforge.net/">LessTif</a>).
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody"><code class="envar">$XORG_PREFIX</code>/include/GL,
+              <code class="envar">$XORG_PREFIX</code>/include/X11,
+              <code class=
+              "envar">$XORG_PREFIX</code>/share/doc/xorgproto-2023.2</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="util-macros.html" title=
+          "util-macros-1.20.0">戻る</a>
+          <p>
+            util-macros-1.20.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libXau.html" title="libXau-1.0.11">次へ</a>
+          <p>
+            libXau-1.0.11
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="installing.html" title=
+          "第24章 グラフィック環境">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

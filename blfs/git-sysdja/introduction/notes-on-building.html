@@ -1,0 +1,1498 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      ソフトウェア構築に関するメモ
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第2章 重要な情報
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="important.html" title="重要な情報">戻る</a>
+          <p>
+            重要な情報
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="position.html" title=
+          "/usr か /usr/local かの議論">次へ</a>
+          <p>
+            /usr か /usr/local かの議論
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="important.html" title="第2章 重要な情報">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="unpacking" name="unpacking"></a>ソフトウェア構築に関するメモ
+      </h1>
+      <p>
+        LFS システムを構築した皆さんであれば、ソフトウェアのダウンロードと伸張 (解凍) の方法は既にご存知のはずです。
+        しかしここでは、ソフトウェア構築に不慣れな方に向けてそういった情報も何度か説明することにします。
+      </p>
+      <p>
+        インストール説明を行っている個々のページでは、パッケージのダウンロード先 URL を示しています。 The patches;
+        however, are stored on the LFS servers and are available via HTTP.
+        These are referenced as needed in the installation instructions.
+      </p>
+      <p>
+        While you can keep the source files anywhere you like, we assume that
+        you have unpacked the package and changed into the directory created
+        by the unpacking process (the source directory). We also assume you
+        have uncompressed any required patches and they are in the directory
+        immediately above the source directory.
+      </p>
+      <p>
+        特に明確には述べていませんが、パッケージビルド時は <span class=
+        "emphasis"><em>きれいなソースツリー</em></span> にて作業を進めてください。 configure
+        処理中やコンパイル中にエラーが発生した場合は、もう一度ビルド作業を進めるなら、いったんソースツリーを削除した上で、パッケージソースの伸張（解凍）からやり直すのが適切なやり方です。
+        もちろんあなたが独自の <code class="filename">Makefile</code> なり C
+        コードなりを用いているような熟練ユーザーであれば話は別ですが、自信がない場合は全くの新しいソースツリーから作業を始めることにしてください。
+      </p>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          (root ではない) 一般ユーザーによるソフトウェア構築
+        </h2>
+        <p>
+          Unix システム管理における鉄則は、スーパーユーザーによる操作は必要な時にのみ行うということです。 そこで BLFS
+          でも、ソフトウェアをビルドする際には一般ユーザーにて行い、インストール時のみ <code class=
+          "systemitem">root</code> ユーザーとなって作業することとしています。
+          本書中では、どのパッケージであってもこのやり方で進めます。
+          特別に指定されていない限りは、すべての手順を一般ユーザーにて実施していきます。 必要な時には <code class=
+          "systemitem">root</code> 権限にて作業を進めるべきであることも説明します。
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          ソフトウェアの伸張 (解凍)
+        </h2>
+        <p>
+          ファイルが <code class="filename">.tar</code>
+          形式でかつ圧縮されている場合は、以下のいずれかのコマンドにより伸張 (解凍) することができます。
+        </p>
+        <pre class="userinput"><kbd class="command">tar -xvf filename.tar.gz
+tar -xvf filename.tgz
+tar -xvf filename.tar.Z
+tar -xvf filename.tar.bz2</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            上に示すコマンドや、これ以降に示すコマンドにおいても <code class="option">v</code>
+            パラメーターはつけなくても構いません。 これをつけないようにすれば、アーカイブから抽出されるファイル一覧の表示が省略されます。
+            抽出処理時間が短縮されて、抽出中にエラーが発生した場合には判別しやすくなります。
+          </p>
+        </div>
+        <p>
+          あるいは以下のようなやり方もあります。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">bzcat filename.tar.bz2 | tar -xv</kbd></pre>
+        <p>
+          Finally, sometimes we have a compressed patch file in <code class=
+          "filename">.patch.gz</code> or <code class=
+          "filename">.patch.bz2</code> format. The best way to apply the
+          patch is piping the output of the decompressor to the <span class=
+          "command"><strong>patch</strong></span> utility. For example:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">gzip -cd ../patchname.patch.gz | patch -p1</kbd></pre>
+        <p>
+          Or for a patch compressed with <span class=
+          "command"><strong>bzip2</strong></span>:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">bzcat ../patchname.patch.bz2 | patch -p1</kbd></pre>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          ファイルの整合確認
+        </h2>
+        <p>
+          Generally, to verify that the downloaded file is complete, many
+          package maintainers also distribute md5sums of the files. To verify
+          the md5sum of the downloaded files, download both the file and the
+          corresponding md5sum file to the same directory (preferably from
+          different on-line locations), and (assuming <code class=
+          "filename">file.md5sum</code> is the md5sum file downloaded) run
+          the following command:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">md5sum -c file.md5sum</kbd></pre>
+        <p>
+          If there are any errors, they will be reported. Note that the BLFS
+          book includes md5sums for all the source files also. To use the
+          BLFS supplied md5sums, you can create a <code class=
+          "filename">file.md5sum</code> (place the md5sum data and the exact
+          name of the downloaded file on the same line of a file, separated
+          by white space) and run the command shown above. Alternately,
+          simply run the command shown below and compare the output to the
+          md5sum data shown in the BLFS book.
+        </p>
+        <pre class="userinput"><kbd class="command">md5sum <em class=
+        "replaceable"><code>&lt;name_of_downloaded_file&gt;</code></em></kbd></pre>
+        <p>
+          MD5 is not cryptographically secure, so the md5sums are only
+          provided for detecting unmalicious changes to the file content. For
+          example, an error or truncation introduced during network transfer,
+          or a <span class="quote">「<span class=
+          "quote">stealth</span>」</span> update to the package from the
+          upstream (updating the content of a released tarball instead of
+          making a new release properly).
+        </p>
+        <p>
+          There is no <span class="quote">「<span class=
+          "quote">100%</span>」</span> secure way to make sure the genuity of
+          the source files. Assuming the upstream is managing their website
+          correctly (the private key is not leaked and the domain is not
+          hijacked), and the trust anchors have been set up correctly using
+          <a class="xref" href="../postlfs/make-ca.html" title=
+          "make-ca-1.13">make-ca-1.13</a> on the BLFS system, we can
+          reasonably trust download URLs to the upstream official website
+          <span class="bold"><strong>with https protocol</strong></span>.
+          Note that BLFS book itself is published on a website with https, so
+          you should already have some confidence in https protocol or you
+          wouldn't trust the book content.
+        </p>
+        <p>
+          If the package is downloaded from an unofficial location (for
+          example a local mirror), checksums generated by cryptographically
+          secure digest algorithms (for example SHA256) can be used to verify
+          the genuity of the package. Download the checksum file from the
+          upstream <span class="bold"><strong>official</strong></span>
+          website (or somewhere <span class="bold"><strong>you can
+          trust</strong></span>) and compare the checksum of the package from
+          unofficial location with it. For example, SHA256 checksum can be
+          checked with the command:
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            If the checksum and the package are downloaded from the same
+            untrusted location, you won't gain security enhancement by
+            verifying the package with the checksum. The attacker can fake
+            the checksum as well as compromising the package itself.
+          </p>
+        </div>
+        <pre class="userinput"><kbd class="command">sha256sum -c <em class=
+        "replaceable"><code>file</code></em>.sha256sum</kbd></pre>
+        <p>
+          If <a class="xref" href="../postlfs/gnupg.html" title=
+          "GnuPG-2.4.3">GnuPG-2.4.3</a> is installed, you can also verify the
+          genuity of the package with a GPG signature. Import the upstream
+          GPG public key with:
+        </p>
+        <pre class="userinput"><kbd class="command">gpg --recv-key <em class=
+        "replaceable"><code>keyID</code></em></kbd></pre>
+        <p>
+          <em class="replaceable"><code>keyID</code></em> should be replaced
+          with the key ID from somewhere <span class="bold"><strong>you can
+          trust</strong></span> (for example, copy it from the upstream
+          official website using https). Now you can verify the signature
+          with:
+        </p>
+        <pre class="userinput"><kbd class="command">gpg --recv-key <em class=
+        "replaceable"><code>file</code></em>.sig <em class=
+        "replaceable"><code>file</code></em></kbd></pre>
+        <p>
+          The advantage of <span class="application">GnuPG</span> signature
+          is, once you imported a public key which can be trusted, you can
+          download both the package and its signature from the same
+          unofficial location and verify them with the public key. So you
+          won't need to connect to the official upstream website to retrieve
+          a checksum for each new release. You only need to update the public
+          key if it's expired or revoked.
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          インストール中のログファイル生成
+        </h2>
+        <p>
+          For larger packages, it is convenient to create log files instead
+          of staring at the screen hoping to catch a particular error or
+          warning. Log files are also useful for debugging and keeping
+          records. The following command allows you to create an installation
+          log. Replace <em class=
+          "replaceable"><code>&lt;command&gt;</code></em> with the command
+          you intend to execute.
+        </p>
+        <pre class="userinput"><kbd class="command">( <em class=
+        "replaceable"><code>&lt;command&gt;</code></em> 2&gt;&amp;1 | tee compile.log &amp;&amp; exit $PIPESTATUS )</kbd></pre>
+        <p>
+          <code class="option">2&gt;&amp;1</code> redirects error messages to
+          the same location as standard output. The <span class=
+          "command"><strong>tee</strong></span> command allows viewing of the
+          output while logging the results to a file. The parentheses around
+          the command run the entire command in a subshell and finally the
+          <span class="command"><strong>exit $PIPESTATUS</strong></span>
+          command ensures the result of the <em class=
+          "replaceable"><code>&lt;command&gt;</code></em> is returned as the
+          result and not the result of the <span class=
+          "command"><strong>tee</strong></span> command.
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="parallel-builds" name="parallel-builds"></a>Using Multiple
+          Processors
+        </h2>
+        <p>
+          For many modern systems with multiple processors (or cores) the
+          compilation time for a package can be reduced by performing a
+          "parallel make" by either setting an environment variable or
+          telling the make program to simultaneously execute multiple jobs.
+        </p>
+        <p>
+          For instance, an Intel Core i9-13900K CPU contains 8 performance
+          (P) cores and 16 efficiency (E) cores, and the P cores support SMT
+          (Simultaneous MultiThreading, also known as <span class=
+          "quote">「<span class="quote">Hyper-Threading</span>」</span>) so
+          each P core can run two threads simultaneously and the Linux kernel
+          will treat each P core as two logical cores. As the result, there
+          are 32 logical cores in total. To utilize all these logical cores
+          running <span class="command"><strong>make</strong></span>, we can
+          set an environment variable to tell <span class=
+          "command"><strong>make</strong></span> to run 32 jobs
+          simultaneously:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">export MAKEFLAGS='-j32'</kbd></pre>
+        <p>
+          or just building with:
+        </p>
+        <pre class="userinput"><kbd class="command">make -j32</kbd></pre>
+        <p>
+          If you have applied the optional <span class=
+          "command"><strong>sed</strong></span> when building <span class=
+          "application">ninja</span> in LFS, you can use:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">export NINJAJOBS=32</kbd></pre>
+        <p>
+          when a package uses <span class=
+          "command"><strong>ninja</strong></span>, or just:
+        </p>
+        <pre class="userinput"><kbd class="command">ninja -j32</kbd></pre>
+        <p>
+          If you are not sure about the number of logical cores, run the
+          <span class="command"><strong>nproc</strong></span> command.
+        </p>
+        <p>
+          For <span class="command"><strong>make</strong></span>, the default
+          number of jobs is 1. But for <span class=
+          "command"><strong>ninja</strong></span>, the default number of jobs
+          is N + 2 if the number of logical cores N is greater than 2; or N +
+          1 if N is 1 or 2. The reason to use a number of jobs slightly
+          greater than the number of logical cores is keeping all logical
+          processors busy even if some jobs are performing I/O operations.
+        </p>
+        <p>
+          Note that the <code class="option">-j</code> switches only limits
+          the parallel jobs started by <span class=
+          "command"><strong>make</strong></span> or <span class=
+          "command"><strong>ninja</strong></span>, but each job may still
+          spawn its own processes or threads. For example, <span class=
+          "command"><strong>ld.gold</strong></span> will use multiple threads
+          for linking, and some tests of packages can spawn multiple threads
+          for testing thread safety properties. There is no generic way for
+          the building system to know the number of processes or threads
+          spawned by a job. So generally we should not consider the value
+          passed with <code class="option">-j</code> a hard limit of the
+          number of logical cores to use. Read <a class="xref" href=
+          "notes-on-building.html#build-in-cgroup" title=
+          "Use Linux Control Group to Limit the Resource Usage">「Use Linux
+          Control Group to Limit the Resource Usage」</a> if you want to set
+          such a hard limit.
+        </p>
+        <p>
+          Generally the number of processes should not exceed the number of
+          cores supported by the CPU too much. To list the processors on your
+          system, issue: <strong class="userinput"><code>grep processor
+          /proc/cpuinfo</code></strong>.
+        </p>
+        <p>
+          In some cases, using multiple processes may result in a race
+          condition where the success of the build depends on the order of
+          the commands run by the <span class=
+          "command"><strong>make</strong></span> program. For instance, if an
+          executable needs File A and File B, attempting to link the program
+          before one of the dependent components is available will result in
+          a failure. This condition usually arises because the upstream
+          developer has not properly designated all the prerequisites needed
+          to accomplish a step in the Makefile.
+        </p>
+        <p>
+          If this occurs, the best way to proceed is to drop back to a single
+          processor build. Adding <code class="option">-j1</code> to a make
+          command will override the similar setting in the <code class=
+          "envar">MAKEFLAGS</code> environment variable.
+        </p>
+        <div class="admon important">
+          <img alt="[重要]" src="../images/important.png" />
+          <h3>
+            重要
+          </h3>
+          <p>
+            Another problem may occur with modern CPU's, which have a lot of
+            cores. Each job started consumes memory, and if the sum of the
+            needed memory for each job exceeds the available memory, you may
+            encounter either an OOM (Out of Memory) kernel interrupt or
+            intense swapping that will slow the build beyond reasonable
+            limits.
+          </p>
+          <p>
+            Some compilations with <span class=
+            "command"><strong>g++</strong></span> may consume up to 2.5 GB of
+            memory, so to be safe, you should restrict the number of jobs to
+            (Total Memory in GB)/2.5, at least for big packages such as LLVM,
+            WebKitGtk, QtWebEngine, or libreoffice.
+          </p>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="build-in-cgroup" name="build-in-cgroup"></a>Use Linux
+          Control Group to Limit the Resource Usage
+        </h2>
+        <p>
+          Sometimes we want to limit the resource usage when we build a
+          package. For example, when we have 8 logical cores, we may want to
+          use only 6 cores for building the package and reserve another 2
+          cores for playing a movie. The Linux kernel provides a feature
+          called control groups (cgroup) for such a need.
+        </p>
+        <p>
+          Enable control group in the kernel configuration, then rebuild the
+          kernel and reboot if necessary:
+        </p>
+        <pre class="screen"><span class="blue">G</span>eneral setup ---&gt;
+  [*] <span class=
+"blue">C</span>ontrol Group support ---&gt;                                       [CGROUPS]
+    [*] M<span class=
+"blue">e</span>mory controller                                                [MEMCG]
+    [*] <span class=
+"blue">C</span>puset controller                                              [CPUSETS]</pre>
+        <p>
+          Ensure <a class="xref" href="../general/systemd.html" title=
+          "Systemd-255">Systemd-255</a> and <a class="xref" href=
+          "../postlfs/shadow.html" title="Shadow-4.14.2">Shadow-4.14.2</a>
+          have been rebuilt with <a class="xref" href=
+          "../postlfs/linux-pam.html" title=
+          "Linux-PAM-1.5.3">Linux-PAM-1.5.3</a> support (if you are
+          interacting via a SSH or graphical session, also ensure the
+          <a class="xref" href="../postlfs/openssh.html" title=
+          "OpenSSH-9.5p1">OpenSSH-9.5p1</a> server or the desktop manager has
+          been built with <a class="xref" href="../postlfs/linux-pam.html"
+          title="Linux-PAM-1.5.3">Linux-PAM-1.5.3</a>). As the <code class=
+          "systemitem">root</code> user, create a configuration file to allow
+          resource control without <code class="systemitem">root</code>
+          privilege, and instruct <span class=
+          "command"><strong>systemd</strong></span> to reload the
+          configuration:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mkdir -pv /etc/systemd/system/user@.service.d &amp;&amp;
+cat &gt; /etc/systemd/system/user@.service.d/delegate.conf &lt;&lt; EOF &amp;&amp;
+<code class="literal">[Service]
+Delegate=memory cpuset</code>
+systemctl daemon-reload</kbd></pre>
+        <p>
+          Then logout and login again. Now to run <span class=
+          "command"><strong>make -j5</strong></span> with the first 4 logical
+          cores and 8 GB of system memory, issue:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">systemctl   --user start dbus                &amp;&amp;
+systemd-run --user --pty --pipe --wait -G -d \
+            -p MemoryHigh=8G                 \
+            -p AllowedCPUs=0-3               \
+            make -j5</kbd></pre>
+        <p>
+          With <span class="phrase"><em class=
+          "parameter"><code>MemoryHigh=8G</code></em></span> , a soft limit
+          of memory usage is set. If the processes in the cgroup
+          (<span class="command"><strong>make</strong></span> and all the
+          descendants of it) uses more than 8 GB of system memory in total,
+          the kernel will throttle down the processes and try to reclaim the
+          system memory from them. But they can still use more than 8 GB of
+          system memory. If you want to make a hard limit instead, replace
+          <span class="phrase"><em class=
+          "parameter"><code>MemoryHigh</code></em> with <em class=
+          "parameter"><code>MemoryMax</code></em>.</span> But doing so will
+          cause the processes killed if 8 GB is not enough for them.
+        </p>
+        <p>
+          <span class="phrase"><em class=
+          "parameter"><code>AllowedCPUs=0-3</code></em></span> makes the
+          kernel only run the processes in the cgroup on the logical cores
+          with numbers 0, 1, 2, or 3. You may need to adjust this setting
+          based the mapping between the logical cores and the physical cores.
+          For example, with an Intel Core i9-13900K CPU, the logical cores 0,
+          2, 4, ..., 14 are mapped to the first threads of the eight physical
+          P cores, the logical cores 1, 3, 5, ..., 15 are mapped to the
+          second threads of the physical P cores, and the logical cores 16,
+          17, ..., 31 are mapped to the 16 physical E cores. So if we want to
+          use four threads from four different P cores, we need to specify
+          <code class="literal">0,2,4,6</code> instead of <code class=
+          "literal">0-3</code>. Note that the other CPU models may use a
+          different mapping scheme. If you are not sure about the mapping
+          between the logical cores and the physical cores, run <span class=
+          "command"><strong>grep -E '^processor|^core'
+          /proc/cpuinfo</strong></span> which will output logical core IDs in
+          the <code class="computeroutput">processor</code> lines, and
+          physical core IDs in the <code class="computeroutput">core
+          id</code> lines.
+        </p>
+        <p>
+          When the <span class="command"><strong>nproc</strong></span> or
+          <span class="command"><strong>ninja</strong></span> command runs in
+          a cgroup, it will use the number of logical cores assigned to the
+          cgroup as the <span class="quote">「<span class="quote">system
+          logical core count</span>」</span>. For example, in a cgroup with
+          logical cores 0-3 assigned, <span class=
+          "command"><strong>nproc</strong></span> will print <code class=
+          "computeroutput">4</code>, and <span class=
+          "command"><strong>ninja</strong></span> will run 6 (4 + 2) jobs
+          simultaneously if no <code class="option">-j</code> setting is
+          explicitly given.
+        </p>
+        <p>
+          Read the man pages <code class="filename">systemd-run(1)</code> and
+          <code class="filename">systemd.resource-control(5)</code> for the
+          detailed explanation of parameters in the command.
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="automating-builds" name="automating-builds"></a>ビルド作業の自動化
+        </h2>
+        <p>
+          There are times when automating the building of a package can come
+          in handy. Everyone has their own reasons for wanting to automate
+          building, and everyone goes about it in their own way. Creating
+          <code class="filename">Makefile</code>s, <span class=
+          "application">Bash</span> scripts, <span class=
+          "application">Perl</span> scripts or simply a list of commands used
+          to cut and paste are just some of the methods you can use to
+          automate building BLFS packages. Detailing how and providing
+          examples of the many ways you can automate the building of packages
+          is beyond the scope of this section. This section will expose you
+          to using file redirection and the <span class=
+          "command"><strong>yes</strong></span> command to help provide ideas
+          on how to automate your builds.
+        </p>
+        <h3>
+          File Redirection to Automate Input
+        </h3>
+        <p>
+          You will find times throughout your BLFS journey when you will come
+          across a package that has a command prompting you for information.
+          This information might be configuration details, a directory path,
+          or a response to a license agreement. This can present a challenge
+          to automate the building of that package. Occasionally, you will be
+          prompted for different information in a series of questions. One
+          method to automate this type of scenario requires putting the
+          desired responses in a file and using redirection so that the
+          program uses the data in the file as the answers to the questions.
+        </p>
+        <p>
+          This effectively makes the test suite use the responses in the file
+          as the input to the questions. Occasionally you may end up doing a
+          bit of trial and error determining the exact format of your input
+          file for some things, but once figured out and documented you can
+          use this to automate building the package.
+        </p>
+        <h3>
+          <span class="command"><strong>yes</strong></span> を使った入力の自動化
+        </h3>
+        <p>
+          入力プロンプトに対して決まった内容を入力したり、それが複数回あってもすべて同一の答えを入力するような場合があります。 そういった時は
+          <span class="command"><strong>yes</strong></span> コマンドを利用すると便利です。
+          <span class="command"><strong>yes</strong></span>
+          コマンドは、何度かある問合せ入力に対して同一の答えを入力するものです。 入力内容として、単に <span class=
+          "keycap"><strong>Enter</strong></span> キーを入力する、<span class=
+          "keycap"><strong>Y</strong></span> キーを入力する、所定の文字列を入力する、といったことが可能です。
+          単純な利用例を以下に示します。
+        </p>
+        <p>
+          初めに以下のコマンドを実行して <span class="application">Bash</span> スクリプトを生成します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; blfs-yes-test1 &lt;&lt; "EOF"
+<code class="literal">#!/bin/bash
+
+echo -n -e "\n\nPlease type something (or nothing) and press Enter ---&gt; "
+
+read A_STRING
+
+if test "$A_STRING" = ""; then A_STRING="Just the Enter key was pressed"
+else A_STRING="You entered '$A_STRING'"
+fi
+
+echo -e "\n\n$A_STRING\n\n"</code>
+EOF
+chmod 755 blfs-yes-test1</kbd></pre>
+        <p>
+          まずはこのスクリプト <span class=
+          "command"><strong>./blfs-yes-test1</strong></span>
+          をコマンドラインから実行してみます。 入力が促されて処理が止まるので、何かを入力して (あるいは何も入力せずに)
+          <span class="keycap"><strong>Enter</strong></span> キーを入力します。
+          入力した内容は画面上に表示されます。 さてそこで <span class=
+          "command"><strong>yes</strong></span> コマンドを用い、入力を自動化することにします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">yes | ./blfs-yes-test1</kbd></pre>
+        <p>
+          この場合、<span class="command"><strong>yes</strong></span>
+          のパイプ処理を通じて、スクリプトに対しては <span class=
+          "keycap"><strong>y</strong></span> が入力されたものとして受け渡されます。
+          以下は特定の文字列を受け渡すような例です。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">yes 'This is some text' | ./blfs-yes-test1</kbd></pre>
+        <p>
+          The exact string was used as the response to the script. Finally,
+          try it using an empty (null) string:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">yes '' | ./blfs-yes-test1</kbd></pre>
+        <p>
+          Notice this results in passing just the press of the <span class=
+          "keycap"><strong>Enter</strong></span> key to the script. This is
+          useful for times when the default answer to the prompt is
+          sufficient. This syntax is used in the <a class="xref" href=
+          "../basicnet/net-tools.html#net-tools-automate-example">Net-tools</a>
+          instructions to accept all the defaults to the many prompts during
+          the configuration step. You may now remove the test script, if
+          desired.
+        </p>
+        <h3>
+          File Redirection to Automate Output
+        </h3>
+        <p>
+          In order to automate the building of some packages, especially
+          those that require you to read a license agreement one page at a
+          time, requires using a method that avoids having to press a key to
+          display each page. Redirecting the output to a file can be used in
+          these instances to assist with the automation. The previous section
+          on this page touched on creating log files of the build output. The
+          redirection method shown there used the <span class=
+          "command"><strong>tee</strong></span> command to redirect output to
+          a file while also displaying the output to the screen. Here, the
+          output will only be sent to a file.
+        </p>
+        <p>
+          Again, the easiest way to demonstrate the technique is to show an
+          example. First, issue the command:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">ls -l /usr/bin | less</kbd></pre>
+        <p>
+          Of course, you'll be required to view the output one page at a time
+          because the <span class="command"><strong>less</strong></span>
+          filter was used. Now try the same command, but this time redirect
+          the output to a file. The special file <code class=
+          "filename">/dev/null</code> can be used instead of the filename
+          shown, but you will have no log file to examine:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">ls -l /usr/bin | less &gt; redirect_test.log 2&gt;&amp;1</kbd></pre>
+        <p>
+          Notice that this time the command immediately returned to the shell
+          prompt without having to page through the output. You may now
+          remove the log file.
+        </p>
+        <p>
+          The last example will use the <span class=
+          "command"><strong>yes</strong></span> command in combination with
+          output redirection to bypass having to page through the output and
+          then provide a <span class="keycap"><strong>y</strong></span> to a
+          prompt. This technique could be used in instances when otherwise
+          you would have to page through the output of a file (such as a
+          license agreement) and then answer the question of <span class=
+          "quote">「<span class="quote">do you accept the
+          above?</span>」</span>. For this example, another short <span class=
+          "application">Bash</span> script is required:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; blfs-yes-test2 &lt;&lt; "EOF"
+<code class="literal">#!/bin/bash
+
+ls -l /usr/bin | less
+
+echo -n -e "\n\nDid you enjoy reading this? (y,n) "
+
+read A_STRING
+
+if test "$A_STRING" = "y"; then A_STRING="You entered the 'y' key"
+else A_STRING="You did NOT enter the 'y' key"
+fi
+
+echo -e "\n\n$A_STRING\n\n"</code>
+EOF
+chmod 755 blfs-yes-test2</kbd></pre>
+        <p>
+          This script can be used to simulate a program that requires you to
+          read a license agreement, then respond appropriately to accept the
+          agreement before the program will install anything. First, run the
+          script without any automation techniques by issuing <span class=
+          "command"><strong>./blfs-yes-test2</strong></span>.
+        </p>
+        <p>
+          Now issue the following command which uses two automation
+          techniques, making it suitable for use in an automated build
+          script:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">yes | ./blfs-yes-test2 &gt; blfs-yes-test2.log 2&gt;&amp;1</kbd></pre>
+        <p>
+          If desired, issue <span class="command"><strong>tail
+          blfs-yes-test2.log</strong></span> to see the end of the paged
+          output, and confirmation that <span class=
+          "keycap"><strong>y</strong></span> was passed through to the
+          script. Once satisfied that it works as it should, you may remove
+          the script and log file.
+        </p>
+        <p>
+          Finally, keep in mind that there are many ways to automate and/or
+          script the build commands. There is not a single <span class=
+          "quote">「<span class="quote">correct</span>」</span> way to do it.
+          Your imagination is the only limit.
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          依存パッケージ
+        </h2>
+        <p>
+          本書が示す各パッケージの説明においては、依存するパッケージを一覧表示しています。 その一覧では以下に示すような項目分けを行っています。
+        </p>
+        <div class="itemizedlist">
+          <ul>
+            <li class="listitem">
+              <p>
+                <span class="emphasis"><em>必須</em></span>
+                は、パッケージを初めてインストールする際には、依存しているそれらのパッケージがない状態では正しくビルドすることができないことを表します。
+                except if the dependency is said to be <span class=
+                "quote">「<span class="quote">runtime</span>」</span>, which
+                means the target package can be built but cannot function
+                without it.
+              </p>
+              <p>
+                Note that a target package can start to <span class=
+                "quote">「<span class="quote">function</span>」</span> in many
+                subtle ways: an installed configuration file can make the
+                init system, cron daemon, or bus daemon to run a program
+                automatically; another package using the target package as an
+                dependency can run a program from the target package in the
+                building system; and the configuration sections in the BLFS
+                book may also run a program from a just installed package. So
+                if you are installing the target package without a
+                <span class="emphasis"><em>Required (runtime)</em></span>
+                dependency installed, You should install the dependency as
+                soon as possible after the installation of the target
+                package.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="emphasis"><em>Recommended</em></span> means that
+                BLFS strongly suggests this package is installed first
+                (except if said to be <span class="quote">「<span class=
+                "quote">runtime</span>」</span>, see below) for a clean and
+                trouble-free build, that won't have issues either during the
+                build process, or at run-time. The instructions in the book
+                assume these packages are installed. Some changes or
+                workarounds may be required if these packages are not
+                installed. If a recommended dependency is said to be
+                <span class="quote">「<span class=
+                "quote">runtime</span>」</span>, it means that BLFS strongly
+                suggests that this dependency is installed before using the
+                package, for getting full functionality.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="emphasis"><em>任意</em></span>
+                は、付加的な機能を実現するためにはそのパッケージが必要であることを表します。 Often BLFS will
+                describe the dependency to explain the added functionality
+                that will result. An optional dependency may be automatically
+                pick up by the target package if the dependency is installed,
+                but another some optional dependency may also need additional
+                configuration options to enable them when the target package
+                is built. Such additional options are often documented in the
+                BLFS book. If an optional dependency is said to be
+                <span class="quote">「<span class=
+                "quote">runtime</span>」</span>, it means you may install the
+                dependency after installing the target package to support
+                some optional features of the target package if you need
+                these features.
+              </p>
+              <p>
+                An optional dependency may be out of BLFS. If you need such
+                an <span class="emphasis"><em>external</em></span> optional
+                dependency for some features you need, read <a class="xref"
+                href="beyond.html" title="BLFS のその先">BLFS のその先</a> for the
+                general hint about installing an out-of-BLFS package.
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="package_updates" name="package_updates"></a>最新のパッケージソースの利用
+        </h2>
+        <p>
+          本書内のパッケージをビルドしようとした際に、ビルド出来なかったり正常に動作しなかったりすることが発生するかもしれません。
+          本書の編集者は、各パッケージが正常にビルド出来、正常に動作するように常に確認を行っています。
+          しかしパッケージの確認に見落としがあったり、BLFS の特定バージョンでのテスト確認が不十分であったりするものもあります。
+        </p>
+        <p>
+          パッケージのビルド不備や動作不備に気づいた方は、そのパッケージのより新しいバージョンが存在しているかどうかを確認してください。
+          これはつまり、パッケージ管理サイトを参照して最新バージョンを入手し、そのバージョンでのビルドを試して頂きたいのです。
+          パッケージのダウンロード URL だけでは管理サイトが見つけられなかった場合は、Google
+          を利用してパッケージ名を検索してください。 例えば Google にて 'パッケージ名 download' (引用符は除きます)
+          といった検索語を入力してみてください。 あるいは 'パッケージ名 home page' と入力するのが良いかもしれません。
+          そうすることでパッケージ管理サイトが見つけ出せるはずです。
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="stripping" name="stripping"></a>Stripping One More Time
+        </h2>
+        <p>
+          In LFS, stripping of debugging symbols and unneeded symbol table
+          entries was discussed a couple of times. When building BLFS
+          packages, there are generally no special instructions that discuss
+          stripping again. Stripping can be done while installing a package,
+          or afterwards.
+        </p>
+        <h3>
+          <a id="stripping-install" name="stripping-install"></a>Stripping
+          while Installing a Package
+        </h3>
+        <p>
+          There are several ways to strip executables installed by a package.
+          They depend on the build system used (see below <a class="link"
+          href="notes-on-building.html#buildsystems" title=
+          "Working with different build systems">the section about build
+          systems</a>), so only some generalities can be listed here:
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            The following methods using the feature of a building system
+            (autotools, meson, or cmake) will not strip static libraries if
+            any is installed. Fortunately there are not too many static
+            libraries in BLFS, and a static library can always be stripped
+            safely by running <span class="command"><strong>strip
+            --strip-unneeded</strong></span> on it manually.
+          </p>
+        </div>
+        <div class="itemizedlist">
+          <ul>
+            <li class="listitem">
+              <p>
+                The packages using autotools usually have an <em class=
+                "parameter"><code>install-strip</code></em> target in their
+                generated <code class="filename">Makefile</code> files. So
+                installing stripped executables is just a matter of using
+                <span class="command"><strong>make
+                install-strip</strong></span> instead of <span class=
+                "command"><strong>make install</strong></span>.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                The packages using the meson build system can accept
+                <em class="parameter"><code>-Dstrip=true</code></em> when
+                running <span class="command"><strong>meson</strong></span>.
+                If you've forgot to add this option running the <span class=
+                "command"><strong>meson</strong></span>, you can also run
+                <span class="command"><strong>meson install
+                --strip</strong></span> instead of <span class=
+                "command"><strong>ninja install</strong></span>.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="command"><strong>cmake</strong></span> generates
+                <em class="parameter"><code>install/strip</code></em> targets
+                for both the <em class="parameter"><code>Unix
+                Makefiles</code></em> and <em class=
+                "parameter"><code>Ninja</code></em> generators (the default
+                is <em class="parameter"><code>Unix Makefiles</code></em> on
+                linux). So just run <span class="command"><strong>make
+                install/strip</strong></span> or <span class=
+                "command"><strong>ninja install/strip</strong></span> instead
+                of the <span class="command"><strong>install</strong></span>
+                counterparts.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Removing (or not generating) debug symbols can also be
+                achieved by removing the <em class=
+                "parameter"><code>-g&lt;something&gt;</code></em> options in
+                C/C++ calls. How to do that is very specific for each
+                package. And, it does not remove unneeded symbol table
+                entries. So it will not be explained in detail here. See also
+                below the paragraphs about optimization.
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          <a id="stripping-installed" name=
+          "stripping-installed"></a>Stripping Installed Executables
+        </h3>
+        <p>
+          The <span class="command"><strong>strip</strong></span> utility
+          changes files in place, which may break anything using it if it is
+          loaded in memory. Note that if a file is in use but just removed
+          from the disk (i.e. not overwritten nor modified), this is not a
+          problem since the kernel can use <span class="quote">「<span class=
+          "quote">deleted</span>」</span> files. Look at <code class=
+          "filename">/proc/*/maps</code> and it is likely that you'll see
+          some <span class="emphasis"><em>(deleted)</em></span> entries. The
+          <span class="command"><strong>mv</strong></span> just removes the
+          destination file from the directory but does not touch its content,
+          so that it satisfies the condition for the kernel to use the old
+          (deleted) file. But this approach can detach hard links into
+          duplicated copies, causing a bloat which is obviously unwanted as
+          we are stripping to reduce system size. If two files in a same file
+          system share the same inode number, they are hard links to each
+          other and we should reconstruct the link. The script below is just
+          an example. It should be run as the <code class=
+          "systemitem">root</code> user:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; /usr/sbin/strip-all.sh &lt;&lt; "EOF"
+<code class="literal">#!/usr/bin/bash
+
+if [ $EUID -ne 0 ]; then
+  echo "Need to be root"
+  exit 1
+fi
+
+last_fs_inode=
+last_file=
+
+{ find /usr/lib -type f -name '*.so*' ! -name '*dbg'
+  find /usr/lib -type f -name '*.a'
+  find /usr/{bin,sbin,libexec} -type f
+} | xargs stat -c '%m %i %n' | sort | while read fs inode file; do
+       if ! readelf -h $file &gt;/dev/null 2&gt;&amp;1; then continue; fi
+       if file $file | grep --quiet --invert-match 'not stripped'; then continue; fi
+
+       if [ "$fs $inode" = "$last_fs_inode" ]; then
+         ln -f $last_file $file;
+         continue;
+       fi
+
+       cp --preserve $file    ${file}.tmp
+       strip --strip-unneeded ${file}.tmp
+       mv ${file}.tmp $file
+
+       last_fs_inode="$fs $inode"
+       last_file=$file
+done</code>
+EOF
+chmod 744 /usr/sbin/strip-all.sh</kbd></pre>
+        <p>
+          If you install programs in other directories such as <code class=
+          "filename">/opt</code> or <code class="filename">/usr/local</code>,
+          you may want to strip the files there too. Just add other
+          directories to scan in the compound list of <span class=
+          "command"><strong>find</strong></span> commands between the braces.
+        </p>
+        <p>
+          For more information on stripping, see <a class="ulink" href=
+          "https://www.technovelty.org/linux/stripping-shared-libraries.html">
+          https://www.technovelty.org/linux/stripping-shared-libraries.html</a>.
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="buildsystems" name="buildsystems"></a>Working with different
+          build systems
+        </h2>
+        <p>
+          There are now three different build systems in common use for
+          converting C or C++ source code into compiled programs or libraries
+          and their details (particularly, finding out about available
+          options and their default values) differ. It may be easiest to
+          understand the issues caused by some choices (typically slow
+          execution or unexpected use of, or omission of, optimizations) by
+          starting with the <code class="envar">CFLAGS</code>, <code class=
+          "envar">CXXFLAGS</code>, and <code class="envar">LDFLAGS</code>
+          environment variables. There are also some programs which use Rust.
+        </p>
+        <p>
+          Most LFS and BLFS builders are probably aware of the basics of
+          <code class="envar">CFLAGS</code> and <code class=
+          "envar">CXXFLAGS</code> for altering how a program is compiled.
+          Typically, some form of optimization is used by upstream developers
+          (<code class="option">-O2</code> or <code class=
+          "option">-O3</code>), sometimes with the creation of debug symbols
+          (<code class="option">-g</code>), as defaults.
+        </p>
+        <p>
+          If there are contradictory flags (e.g. multiple different
+          <code class="option">-O</code> values), the <span class=
+          "emphasis"><em>last</em></span> value will be used. Sometimes this
+          means that flags specified in environment variables will be picked
+          up before values hardcoded in the Makefile, and therefore ignored.
+          For example, where a user specifies <code class="option">-O2</code>
+          and that is followed by <code class="option">-O3</code> the build
+          will use <code class="option">-O3</code>.
+        </p>
+        <p>
+          There are various other things which can be passed in CFLAGS or
+          CXXFLAGS, such as allowing using the instruction set extensions
+          available with a specific microarchitecture (e.g. <code class=
+          "option">-march=amdfam10</code> or <code class=
+          "option">-march=native</code>), tune the generated code for a
+          specific microarchitecture (e. g. <code class=
+          "option">-mtune=tigerlake</code> or <code class=
+          "option">-mtune=native</code>, if <code class=
+          "option">-mtune=</code> is not used, the microarchitecture from
+          <code class="option">-march=</code> setting will be used), or
+          specifying a specific standard for C or C++ (<code class=
+          "option">-std=c++17</code> for example). But one thing which has
+          now come to light is that programmers might include debug
+          assertions in their code, expecting them to be disabled in releases
+          by using <code class="option">-DNDEBUG</code>. Specifically, if
+          <a class="xref" href="../x/mesa.html" title=
+          "Mesa-23.3.1">Mesa-23.3.1</a> is built with these assertions
+          enabled, some activities such as loading levels of games can take
+          extremely long times, even on high-class video cards.
+        </p>
+        <h3>
+          <a id="autotools-info" name="autotools-info"></a>Autotools with
+          Make
+        </h3>
+        <p>
+          This combination is often described as <span class=
+          "quote">「<span class="quote">CMMI</span>」</span> (configure, make,
+          make install) and is used here to also cover the few packages which
+          have a configure script that is not generated by autotools.
+        </p>
+        <p>
+          Sometimes running <span class="command"><strong>./configure
+          --help</strong></span> will produce useful options about switches
+          which might be used. At other times, after looking at the output
+          from configure you may need to look at the details of the script to
+          find out what it was actually searching for.
+        </p>
+        <p>
+          Many configure scripts will pick up any CFLAGS or CXXFLAGS from the
+          environment, but CMMI packages vary about how these will be mixed
+          with any flags which would otherwise be used (<span class=
+          "emphasis"><em>variously</em></span>: ignored, used to replace the
+          programmer's suggestion, used before the programmer's suggestion,
+          or used after the programmer's suggestion).
+        </p>
+        <p>
+          In most CMMI packages, running <span class=
+          "command"><strong>make</strong></span> will list each command and
+          run it, interspersed with any warnings. But some packages try to be
+          <span class="quote">「<span class="quote">silent</span>」</span> and
+          only show which file they are compiling or linking instead of
+          showing the command line. If you need to inspect the command,
+          either because of an error, or just to see what options and flags
+          are being used, adding <code class="option">V=1</code> to the make
+          invocation may help.
+        </p>
+        <h3>
+          <a id="cmake-info" name="cmake-info"></a>CMake
+        </h3>
+        <p>
+          CMake works in a very different way, and it has two backends which
+          can be used on BLFS: <span class=
+          "command"><strong>make</strong></span> and <span class=
+          "command"><strong>ninja</strong></span>. The default backend is
+          make, but ninja can be faster on large packages with multiple
+          processors. To use ninja, specify <code class="option">-G
+          Ninja</code> in the cmake command. However, there are some packages
+          which create fatal errors in their ninja files but build
+          successfully using the default of Unix Makefiles.
+        </p>
+        <p>
+          The hardest part of using CMake is knowing what options you might
+          wish to specify. The only way to get a list of what the package
+          knows about is to run <span class="command"><strong>cmake
+          -LAH</strong></span> and look at the output for that default
+          configuration.
+        </p>
+        <p>
+          Perhaps the most-important thing about CMake is that it has a
+          variety of CMAKE_BUILD_TYPE values, and these affect the flags. The
+          default is that this is not set and no flags are generated. Any
+          <code class="envar">CFLAGS</code> or <code class=
+          "envar">CXXFLAGS</code> in the environment will be used. If the
+          programmer has coded any debug assertions, those will be enabled
+          unless -DNDEBUG is used. The following CMAKE_BUILD_TYPE values will
+          generate the flags shown, and these will come <span class=
+          "emphasis"><em>after</em></span> any flags in the environment and
+          therefore take precedence.
+        </p>
+        <div class="informaltable">
+          <table class="informaltable" border="1">
+            <colgroup>
+              <col align="center" />
+              <col align="center" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th align="center">
+                  Value
+                </th>
+                <th align="center">
+                  Flags
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td align="center">
+                  Debug
+                </td>
+                <td align="center">
+                  <code class="option">-g</code>
+                </td>
+              </tr>
+              <tr>
+                <td align="center">
+                  Release
+                </td>
+                <td align="center">
+                  <code class="option">-O3 -DNDEBUG</code>
+                </td>
+              </tr>
+              <tr>
+                <td align="center">
+                  RelWithDebInfo
+                </td>
+                <td align="center">
+                  <code class="option">-O2 -g -DNDEBUG</code>
+                </td>
+              </tr>
+              <tr>
+                <td align="center">
+                  MinSizeRel
+                </td>
+                <td align="center">
+                  <code class="option">-Os -DNDEBUG</code>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          CMake tries to produce quiet builds. To see the details of the
+          commands which are being run, use <span class=
+          "command"><strong>make VERBOSE=1</strong></span> or <span class=
+          "command"><strong>ninja -v</strong></span>.
+        </p>
+        <p>
+          By default, CMake treats file installation differently from the
+          other build systems: if a file already exists and is not newer than
+          a file that would overwrite it, then the file is not installed.
+          This may be a problem if a user wants to record which file belongs
+          to a package, either using <code class="envar">LD_PRELOAD</code>,
+          or by listing files newer than a timestamp. The default can be
+          changed by setting the variable <code class=
+          "envar">CMAKE_INSTALL_ALWAYS</code> to 1 in the <span class=
+          "emphasis"><em>environment</em></span>, for example by <span class=
+          "command"><strong>export</strong></span>'ing it.
+        </p>
+        <h3>
+          <a id="meson-info" name="meson-info"></a>Meson
+        </h3>
+        <p>
+          Meson has some similarities to CMake, but many differences. To get
+          details of the defines that you may wish to change you can look at
+          <code class="filename">meson_options.txt</code> which is usually in
+          the top-level directory.
+        </p>
+        <p>
+          If you have already configured the package by running <span class=
+          "command"><strong>meson</strong></span> and now wish to change one
+          or more settings, you can either remove the build directory,
+          recreate it, and use the altered options, or within the build
+          directory run <span class="command"><strong>meson
+          configure</strong></span>, e.g. to set an option:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">meson configure -D&lt;some_option&gt;=true</kbd></pre>
+        <p>
+          If you do that, the file <code class=
+          "filename">meson-private/cmd_line.txt</code> will show the
+          <span class="emphasis"><em>last</em></span> commands which were
+          used.
+        </p>
+        <p>
+          Meson provides the following buildtype values, and the flags they
+          enable come <span class="emphasis"><em>after</em></span> any flags
+          supplied in the environment and therefore take precedence.
+        </p>
+        <div class="itemizedlist">
+          <ul>
+            <li class="listitem">
+              <p>
+                plain : no added flags. This is for distributors to supply
+                their own <code class="envar">CFLAGS</code>, <code class=
+                "envar">CXXFLAGS</code> and <code class=
+                "envar">LDFLAGS</code>. There is no obvious reason to use
+                this in BLFS.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                debug : <code class="option">-g</code> - this is the default
+                if nothing is specified in either <code class=
+                "filename">meson.build</code> or the command line. However it
+                results large and slow binaries, so we should override it in
+                BLFS.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                debugoptimized : <code class="option">-O2 -g</code> - this is
+                the default specified in <code class=
+                "filename">meson.build</code> of some packages.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                release : <code class="option">-O3</code> (occasionally a
+                package will force <code class="option">-O2</code> here) -
+                this is the buildtype we use for most packages with Meson
+                build system in BLFS.
+              </p>
+            </li>
+          </ul>
+        </div>
+        <p>
+          The <code class="option">-DNDEBUG</code> flag is implied by the
+          release buildtype for some packages (for example <a class="xref"
+          href="../x/mesa.html" title="Mesa-23.3.1">Mesa-23.3.1</a>). It can
+          also be provided explicitly by passing <code class=
+          "option">-Db_ndebug=true</code>.
+        </p>
+        <p>
+          To see the details of the commands which are being run in a package
+          using meson, use <span class="command"><strong>ninja
+          -v</strong></span>.
+        </p>
+        <h3>
+          <a id="rust-info" name="rust-info"></a>Rustc and Cargo
+        </h3>
+        <p>
+          Most released rustc programs are provided as crates (source
+          tarballs) which will query a server to check current versions of
+          dependencies and then download them as necessary. These packages
+          are built using <span class="command"><strong>cargo
+          --release</strong></span>. In theory, you can manipulate the
+          RUSTFLAGS to change the optimize-level (default for <code class=
+          "option">--release</code> is 3, i. e. <code class=
+          "option">-Copt-level=3</code>, like <code class=
+          "option">-O3</code>) or to force it to build for the machine it is
+          being compiled on, using <code class=
+          "option">-Ctarget-cpu=native</code> but in practice this seems to
+          make no significant difference.
+        </p>
+        <p>
+          If you are compiling a standalone Rust program (as an unpackaged
+          <code class="filename">.rs</code> file) by running <span class=
+          "command"><strong>rustc</strong></span> directly, you should
+          specify <code class="option">-O</code> (the abbreviation of
+          <code class="option">-Copt-level=2</code>) or <code class=
+          "option">-Copt-level=3</code> otherwise it will do an unoptimized
+          compile and run <span class="emphasis"><em>much</em></span> slower.
+          If are compiling the program for debugging it, replace the
+          <code class="option">-O</code> or <code class=
+          "option">-Copt-level=</code> options with <code class=
+          "option">-g</code> to produce an unoptimized program with debug
+          info.
+        </p>
+        <p>
+          Like <span class="command"><strong>ninja</strong></span>, by
+          default <span class="command"><strong>cargo</strong></span> uses
+          all logical cores. This can often be worked around, either by
+          exporting <code class="envar">CARGO_BUILD_JOBS=<em class=
+          "replaceable"><code>&lt;N&gt;</code></em></code> or passing
+          <code class="option">--jobs <em class=
+          "replaceable"><code>&lt;N&gt;</code></em></code> to <span class=
+          "command"><strong>cargo</strong></span>. For compiling rustc
+          itself, specifying <code class="option">--jobs <em class=
+          "replaceable"><code>&lt;N&gt;</code></em></code> for invocations of
+          <span class="command"><strong>x.py</strong></span> (together with
+          the <code class="envar">CARGO_BUILD_JOBS</code> environment
+          variable, which looks like a <span class="quote">「<span class=
+          "quote">belt and braces</span>」</span> approach but seems to be
+          necessary) mostly works. The exception is running the tests when
+          building rustc, some of them will nevertheless use all online CPUs,
+          at least as of rustc-1.42.0.
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="optimizations" name="optimizations"></a>Optimizing the build
+        </h2>
+        <p>
+          Many people will prefer to optimize compiles as they see fit, by
+          providing <code class="envar">CFLAGS</code> or <code class=
+          "envar">CXXFLAGS</code>. For an introduction to the options
+          available with gcc and g++ see <a class="ulink" href=
+          "https://gcc.gnu.org/onlinedocs/gcc-13.2.0/gcc/Optimize-Options.html">
+          https://gcc.gnu.org/onlinedocs/gcc-13.2.0/gcc/Optimize-Options.html</a>.
+          The same content can be also found in <span class=
+          "command"><strong>info gcc</strong></span>.
+        </p>
+        <p>
+          Some packages default to <code class="option">-O2 -g</code>, others
+          to <code class="option">-O3 -g</code>, and if <code class=
+          "envar">CFLAGS</code> or <code class="envar">CXXFLAGS</code> are
+          supplied they might be added to the package's defaults, replace the
+          package's defaults, or even be ignored. There are details on some
+          desktop packages which were mostly current in April 2019 at
+          <a class="ulink" href=
+          "https://www.linuxfromscratch.org/~ken/tuning/">https://www.linuxfromscratch.org/~ken/tuning/</a>
+          - in particular, <code class="filename">README.txt</code>,
+          <code class="filename">tuning-1-packages-and-notes.txt</code>, and
+          <code class="filename">tuning-notes-2B.txt</code>. The particular
+          thing to remember is that if you want to try some of the more
+          interesting flags you may need to force verbose builds to confirm
+          what is being used.
+        </p>
+        <p>
+          Clearly, if you are optimizing your own program you can spend time
+          to profile it and perhaps recode some of it if it is too slow. But
+          for building a whole system that approach is impractical. In
+          general, <code class="option">-O3</code> usually produces faster
+          programs than <code class="option">-O2</code>. Specifying
+          <code class="option">-march=native</code> is also beneficial, but
+          means that you cannot move the binaries to an incompatible machine
+          - this can also apply to newer machines, not just to older
+          machines. For example programs compiled for <code class=
+          "literal">amdfam10</code> run on old Phenoms, Kaveris, and Ryzens :
+          but programs compiled for a Kaveri will not run on a Ryzen because
+          certain op-codes are not present. Similarly, if you build for a
+          Haswell not everything will run on a SandyBridge.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            Be careful that the name of a <code class="option">-march</code>
+            setting does not always match the baseline of the
+            microarchitecture with the same name. For example, the
+            Skylake-based Intel Celeron processors do not support AVX at all,
+            but <code class="option">-march=skylake</code> assumes AVX and
+            even AVX2.
+          </p>
+        </div>
+        <p>
+          When a shared library is built by GCC, a feature named <span class=
+          "quote">「<span class="quote">semantic interposition</span>」</span>
+          is enabled by default. When the shared library refers to a symbol
+          name with external linkage and default visibility, if the symbol
+          exists in both the shared library and the main executable, semantic
+          interposition guarantees the symbol in the main executable is
+          always used. This feature was invented in an attempt to make the
+          behavior of linking a shared library and linking a static library
+          as similar as possible. Today only a small number of packages still
+          depend on semantic interposition, but the feature is still on by
+          the default of GCC, causing many optimizations disabled for shared
+          libraries because they conflict with semantic interposition. The
+          <code class="option">-fno-semantic-interposition</code> option can
+          be passed to <span class="command"><strong>gcc</strong></span> or
+          <span class="command"><strong>g++</strong></span> to disable
+          semantic interposition and enable more optimizations for shared
+          libraries. This option is used as the default of some packages (for
+          example <a class="xref" href="../general/python3.html" title=
+          "Python-3.12.1">Python-3.12.1</a>), and it's also the default of
+          Clang.
+        </p>
+        <p>
+          There are also various other options which some people claim are
+          beneficial. At worst, you get to recompile and test, and then
+          discover that in your usage the options do not provide a benefit.
+        </p>
+        <p>
+          If building Perl or Python modules, in general the <code class=
+          "envar">CFLAGS</code> and <code class="envar">CXXFLAGS</code> used
+          are those which were used by those <span class=
+          "quote">「<span class="quote">parent</span>」</span> packages.
+        </p>
+        <p>
+          For <code class="envar">LDFLAGS</code>, there are three options can
+          be used for optimization. They are quite safe to use and the
+          building system of some packages use some of these options as the
+          default.
+        </p>
+        <p>
+          With <code class="option">-Wl,-O1</code>, the linker will optimize
+          the hash table to speed up the dynamic linking. Note that
+          <code class="option">-Wl,-O1</code> is completely unrelated to the
+          compiler optimization flag <code class="option">-O1</code>.
+        </p>
+        <p>
+          With <code class="option">-Wl,--as-needed</code>, the linker will
+          disregard unnecessary <code class="option">-l<em class=
+          "replaceable"><code>foo</code></em></code> options from the command
+          line, i. e. the shared library <code class=
+          "systemitem">lib<em class=
+          "replaceable"><code>foo</code></em></code> will only be linked if a
+          symbol in <code class="systemitem">lib<em class=
+          "replaceable"><code>foo</code></em></code> is really referred from
+          the executable or shared library being linked. This can sometimes
+          mitigate the <span class="quote">「<span class="quote">excessive
+          dependencies to shared libraries</span>」</span> issues caused by
+          <span class="application">libtool</span>.
+        </p>
+        <p>
+          With <code class="option">-Wl,-z,pack-relative-relocs</code>, the
+          linker generates a more compacted form of the relative relocation
+          entries for PIEs and shared libraries. It reduces the size of the
+          linked PIE or shared library, and speeds up the loading of the PIE
+          or shared library.
+        </p>
+        <p>
+          The <code class="option">-Wl,</code> prefix is necessary because
+          despite the variable is named <code class="envar">LDFLAGS</code>,
+          its content is actually passed to <span class=
+          "command"><strong>gcc</strong></span> (or <span class=
+          "command"><strong>g++</strong></span>, <span class=
+          "command"><strong>clang</strong></span>, etc.) during the link
+          stage, not directly passed to <span class=
+          "command"><strong>ld</strong></span>.
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="hardening" name="hardening"></a>Options for hardening the
+          build
+        </h2>
+        <p>
+          Even on desktop systems, there are still a lot of exploitable
+          vulnerabilities. For many of these, the attack comes via javascript
+          in a browser. Often, a series of vulnerabilities are used to gain
+          access to data (or sometimes to pwn, i.e. own, the machine and
+          install rootkits). Most commercial distros will apply various
+          hardening measures.
+        </p>
+        <p>
+          In the past, there was Hardened LFS where gcc (a much older
+          version) was forced to use hardening (with options to turn some of
+          it off on a per-package basis). The current LFS and BLFS books are
+          carrying forward a part of its spirit by enabling PIE (<code class=
+          "option">-fPIE -pie</code>) and SSP (<code class=
+          "option">-fstack-protector-strong</code>) as the defaults for GCC
+          and clang. What is being covered here is different - first you have
+          to make sure that the package is indeed using your added flags and
+          not over-riding them.
+        </p>
+        <p>
+          For hardening options which are reasonably cheap, there is some
+          discussion in the 'tuning' link above (occasionally, one or more of
+          these options might be inappropriate for a package). These options
+          are <code class="option">-D_FORTIFY_SOURCE=2</code> and (for C++)
+          <code class="option">-D_GLIBCXX_ASSERTIONS</code>. On modern
+          machines these should only have a little impact on how fast things
+          run, and often they will not be noticeable.
+        </p>
+        <p>
+          The main distros use much more, such as RELRO (Relocation Read
+          Only) and perhaps <code class=
+          "option">-fstack-clash-protection</code>. You may also encounter
+          the so-called <span class="quote">「<span class="quote">userspace
+          retpoline</span>」</span> (<code class=
+          "option">-mindirect-branch=thunk</code> etc.) which is the
+          equivalent of the spectre mitigations applied to the linux kernel
+          in late 2018. The kernel mitigations caused a lot of complaints
+          about lost performance, if you have a production server you might
+          wish to consider testing that, along with the other available
+          options, to see if performance is still sufficient.
+        </p>
+        <p>
+          Whilst gcc has many hardening options, clang/LLVM's strengths lie
+          elsewhere. Some options which gcc provides are said to be less
+          effective in clang/LLVM.
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="important.html" title="重要な情報">戻る</a>
+          <p>
+            重要な情報
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="position.html" title=
+          "/usr か /usr/local かの議論">次へ</a>
+          <p>
+            /usr か /usr/local かの議論
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="important.html" title="第2章 重要な情報">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,688 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      alsa-tools-1.2.5
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第42章 マルチメディアライブラリとドライバー
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="alsa-utils.html" title=
+          "alsa-utils-1.2.10">戻る</a>
+          <p>
+            alsa-utils-1.2.10
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="alsa-firmware.html" title=
+          "alsa-firmware-1.2.4">次へ</a>
+          <p>
+            alsa-firmware-1.2.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="libdriv.html" title=
+          "第42章 マルチメディアライブラリとドライバー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="alsa-tools" name="alsa-tools"></a>alsa-tools-1.2.5
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          ALSA Tools の概要
+        </h2>
+        <p>
+          The <span class="application">ALSA Tools</span> package contains
+          advanced tools for certain sound cards.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://www.alsa-project.org/files/pub/tools/alsa-tools-1.2.5.tar.bz2">
+                https://www.alsa-project.org/files/pub/tools/alsa-tools-1.2.5.tar.bz2</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: ce632a6c89ed47ee74ba415276a6a3cc
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1.8 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 26 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.4 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          ALSA Tools の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="alsa-lib.html" title=
+          "alsa-lib-1.2.10">alsa-lib-1.2.10</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../x/gtk2.html" title=
+          "GTK+-2.24.33">GTK+-2.24.33</a> (to build <span class=
+          "command"><strong>echomixer</strong></span>, <span class=
+          "command"><strong>envy24control</strong></span>, <span class=
+          "command"><strong>rmedigicontrol</strong></span>), <a class="xref"
+          href="../x/gtk3.html" title="GTK+-3.24.38">GTK+-3.24.38</a> (to
+          build <span class="command"><strong>hdajackretask</strong></span>),
+          <a class="xref" href="../x/fltk.html" title=
+          "FLTK-1.3.9">FLTK-1.3.9</a> (to build <span class=
+          "command"><strong>hdspconf</strong></span>, <span class=
+          "command"><strong>hdspmixer</strong></span>)
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          ALSA Tools のインストール
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            複数のパッケージを一つのスクリプトを使って一気にインストールする場合には、ルートユーザーとして実行することが必要となります。
+            その場合には、以下に示す３つの方法のいずれかを採用することになります。
+          </p>
+          <div class="orderedlist">
+            <ol>
+              <li class="listitem">
+                <p>
+                  スクリプトの実行自体をルートユーザーにより行う。(ただし推奨はしません。)
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  <a class="xref" href="../postlfs/sudo.html" title=
+                  "Sudo-1.9.15p4">Sudo-1.9.15p4</a> パッケージの <span class=
+                  "command"><strong>sudo</strong></span> コマンドを利用する。
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  <span class="command"><strong>su -c "コマンド
+                  引数"</strong></span> の形 (クォーテーションが必要) を利用する。
+                  この場合はコマンドの実行の都度、ルートパスワードの入力が必要になります。
+                </p>
+              </li>
+            </ol>
+          </div>
+          <p>
+            この状況を取り扱う一つの手法として、以下のような <span class=
+            "command"><strong>bash</strong></span>
+            スクリプトにより適切な方法を自動的に選択する方法が考えられます。 一度コマンドをセットしておけば、再びセットする必要はありません。
+          </p>
+          <pre class="userinput"><kbd class="command">as_root()
+{
+  if   [ $EUID = 0 ];        then $*
+  elif [ -x /usr/bin/sudo ]; then sudo $*
+  else                            su -c \\"$*\\"
+  fi
+}
+
+export -f as_root</kbd></pre>
+        </div>
+        <p>
+          First, start a subshell that will exit on error:
+        </p>
+        <pre class="userinput"><kbd class="command">bash -e</kbd></pre>
+        <p>
+          Now, remove a tool that needs <span class="application">Qt2 or
+          3</span> and two unneeded files (for the BLFS instructions below):
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">rm -rf qlo10k1 Makefile gitcompile</kbd></pre>
+        <p>
+          The <span class="application">ALSA Tools</span> package is only
+          needed by those with advanced requirements for their sound card.
+          The tools can be built all together at once, but if only a subset
+          is needed, you need to <span class=
+          "command"><strong>cd</strong></span> into the directory of each
+          tool you wish to compile and run the commands. Here, we present
+          instructions to build all tools.
+        </p>
+        <p>
+          以下のコマンドを実行して <span class="application">ALSA Tools</span>
+          をすべてビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">for tool in *
+do
+  case $tool in
+    seq )
+      tool_dir=seq/sbiload
+    ;;
+    * )
+      tool_dir=$tool
+    ;;
+  esac
+
+  pushd $tool_dir
+    ./configure --prefix=/usr
+    make
+    as_root make install
+    as_root /sbin/ldconfig
+  popd
+
+done
+unset tool tool_dir</kbd></pre>
+        <p>
+          Finally, exit the shell that was started earlier:
+        </p>
+        <pre class="userinput"><kbd class="command">exit</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">as10k1, cspctl, dl10k1, echomixer, envy24control,
+              hda-verb, hdajackretask, hdajacksensetest, hdspconf,
+              hdsploader, hdspmixer, hwmixvolume, init_audigy,
+              init_audigy_eq10, init_live, lo10k1, ld10k1, ld10k1d,
+              mixartloader, pcxhrloader, rmedigicontrol, sbiload, sscape_ctl,
+              us428control, usx2yloader, vxloader</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">liblo10k1.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/etc/hotplug, /usr/include/lo10k1, /usr/share/ld10k1,
+              /usr/share/sounds</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="as10k1" name="as10k1"></a><span class=
+                    "term"><span class=
+                    "command"><strong>as10k1</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is an assembler for the emu10k1 DSP chip present in the
+                    Creative SB Live, PCI 512, and emu APS sound cards. It is
+                    used to make audio effects such as a flanger, chorus or
+                    reverb
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cspctl" name="cspctl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>cspctl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is an SB16/AWE32 Creative Signal Processor (ASP/CSP)
+                    control program
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="echomixer" name="echomixer"></a><span class=
+                    "term"><span class=
+                    "command"><strong>echomixer</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the Linux equivalent of the Echoaudio console
+                    application from Echoaudio. It is a tool to control all
+                    the features of any Echoaudio soundcard. This includes
+                    clock sources, input and output gains, mixers, etc
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="envy24control" name=
+                    "envy24control"></a><span class="term"><span class=
+                    "command"><strong>envy24control</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a control tool for Envy24 (ice1712) based sound cards
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hdajackretask" name=
+                    "hdajackretask"></a><span class="term"><span class=
+                    "command"><strong>hdajackretask</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a GUI to make it easy to retask your jacks - e g, turn
+                    your Mic jack into an extra Headphone, or why not make
+                    them both line outs and connect them to your surround
+                    receiver
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hda-verb" name="hda-verb"></a><span class=
+                    "term"><span class=
+                    "command"><strong>hda-verb</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a small program to send HD-audio commands to the given
+                    ALSA hwdep device on the hd-audio interface
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hdspconf" name="hdspconf"></a><span class=
+                    "term"><span class=
+                    "command"><strong>hdspconf</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a GUI to control the Hammerfall HDSP Alsa Settings. Up
+                    to four hdsp cards are supported
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hdsploader" name="hdsploader"></a><span class=
+                    "term"><span class=
+                    "command"><strong>hdsploader</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to load the firmware required by the Hammerfall
+                    HDSP sound cards
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hdspmixer" name="hdspmixer"></a><span class=
+                    "term"><span class=
+                    "command"><strong>hdspmixer</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the Linux equivalent of the Totalmix application from
+                    RME. It is a tool to control the advanced routing
+                    features of the RME Hammerfall DSP soundcard series
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hwmixvolume" name="hwmixvolume"></a><span class=
+                    "term"><span class=
+                    "command"><strong>hwmixvolume</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    allows you to control the volume of individual streams on
+                    sound cards that use hardware mixing
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="init_audigy_progs" name=
+                    "init_audigy_progs"></a><span class="term"><span class=
+                    "command"><strong>init_audigy*</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    are tools used to initialize Creative Sound Blaster
+                    Audigy-series cards
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="init_live" name="init_live"></a><span class=
+                    "term"><span class=
+                    "command"><strong>init_live</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool used to initialize Creative Sound Blaster Live
+                    cards
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ld10k1" name="ld10k1"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ld10k1</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the server of a EMU10K{1,2} patch loader for ALSA
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lo10k1" name="lo10k1"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lo10k1</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the client of a EMU10K{1,2} patch loader for ALSA
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dl10k1" name="dl10k1"></a><span class=
+                    "term"><span class=
+                    "command"><strong>dl10k1</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    loads config dumps generated by <span class=
+                    "command"><strong>lo10k1</strong></span> and <span class=
+                    "command"><strong>ld10k1</strong></span>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ld10k1d" name="ld10k1d"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ld10k1d</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is an init script for the <span class=
+                    "command"><strong>ld10k1</strong></span> patch loader
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mixartloader" name="mixartloader"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mixartloader</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a helper program to load the firmware binaries onto
+                    the Digigram's miXart board sound drivers. The following
+                    modules require this program: snd-mixart. These drivers
+                    don't work properly at all until the certain firmware
+                    files are loaded, i.e. no PCM nor mixer devices will
+                    appear
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pcxhrloader" name="pcxhrloader"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pcxhrloader</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a helper program to load the firmware binaries onto
+                    Digigram's pcxhr compatible board sound drivers. The
+                    following modules require this program: snd-pcxhr. These
+                    drivers don't work properly at all until certain firmware
+                    files are loaded, i.e. no PCM nor mixer devices will
+                    appear
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rmedigicontrol" name=
+                    "rmedigicontrol"></a><span class="term"><span class=
+                    "command"><strong>rmedigicontrol</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a control tool for RME Digi32 and RME Digi96 sound
+                    cards. It provides a graphical frontend for all the sound
+                    card controls and switches
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sbiload" name="sbiload"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sbiload</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is an OPL2/3 FM instrument loader for the ALSA sequencer
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sscape_ctl" name="sscape_ctl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sscape_ctl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is an ALSA SoundScape control utility
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="us428control" name="us428control"></a><span class=
+                    "term"><span class=
+                    "command"><strong>us428control</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a Tascam US-428 control program
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="usx2yloader" name="usx2yloader"></a><span class=
+                    "term"><span class=
+                    "command"><strong>usx2yloader</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a helper program to load the 2nd Phase firmware
+                    binaries onto the Tascam USX2Y USB sound cards. It has
+                    proven to work so far for the US122, US224 and US428. The
+                    snd-usb-usx2y module requires this program
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="vxloader" name="vxloader"></a><span class=
+                    "term"><span class=
+                    "command"><strong>vxloader</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a helper program to load the firmware binaries onto
+                    the Digigram's VX-board sound drivers. The following
+                    modules require this program: snd-vx222, snd-vxpocket,
+                    snd-vxp440. These drivers don't work properly at all
+                    until the certain firmware files are loaded, i.e. no PCM
+                    nor mixer devices will appear
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="alsa-utils.html" title=
+          "alsa-utils-1.2.10">戻る</a>
+          <p>
+            alsa-utils-1.2.10
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="alsa-firmware.html" title=
+          "alsa-firmware-1.2.4">次へ</a>
+          <p>
+            alsa-firmware-1.2.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="libdriv.html" title=
+          "第42章 マルチメディアライブラリとドライバー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

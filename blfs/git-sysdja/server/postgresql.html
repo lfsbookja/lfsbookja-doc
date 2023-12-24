@@ -1,0 +1,1188 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      PostgreSQL-16.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第22章 データベース
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="mariadb.html" title="MariaDB-10.11.6">戻る</a>
+          <p>
+            MariaDB-10.11.6
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="sqlite.html" title="SQLite-3.44.2">次へ</a>
+          <p>
+            SQLite-3.44.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="databases.html" title="第22章 データベース">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="postgresql" name="postgresql"></a>PostgreSQL-16.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          PostgreSQL の概要
+        </h2>
+        <p>
+          <span class="application">PostgreSQL</span>
+          は先進的なオブジェクトリレーショナルデータベース管理システム (object-relational database
+          management system; ORDBMS) です。 これは Berkeley Postgres
+          データベース管理システムからの派生です。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://ftp.postgresql.org/pub/source/v16.1/postgresql-16.1.tar.bz2">
+                https://ftp.postgresql.org/pub/source/v16.1/postgresql-16.1.tar.bz2</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 9cbfb9076ed06384471802b850698a6d
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 23 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 245 MB （テスト実施時はさらに 25 MB）
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.8 SBU （parallelism=4; テスト実施時はさらに 0.2 SBU）
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          PostgreSQL の依存パッケージ
+        </h3>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/icu.html" title=
+          "ICU-74.1">ICU-74.1</a>, <a class="xref" href=
+          "../general/libxml2.html" title=
+          "libxml2-2.12.3">libxml2-2.12.3</a>, <a class="xref" href=
+          "../general/libxslt.html" title=
+          "libxslt-1.1.39">libxslt-1.1.39</a>, <a class="xref" href=
+          "openldap.html" title="OpenLDAP-2.6.6">OpenLDAP-2.6.6</a>,
+          <a class="xref" href="../postlfs/linux-pam.html" title=
+          "Linux-PAM-1.5.3">Linux-PAM-1.5.3</a>, <a class="xref" href=
+          "../postlfs/mitkrb.html" title="MIT Kerberos V5-1.21.2">MIT
+          Kerberos V5-1.21.2</a>, <a class="ulink" href=
+          "https://developer.apple.com/bonjour/">Bonjour</a>
+        </p>
+        <h4>
+          任意 (ドキュメント再生成時)
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../pst/fop.html" title="fop-2.9">fop-2.9</a>,
+          <a class="xref" href="../pst/docbook-4.5-dtd.html" title=
+          "docbook-4.5-dtd">docbook-4.5-dtd</a>, <a class="xref" href=
+          "../pst/docbook-dsssl.html" title=
+          "docbook-dsssl-1.79">docbook-dsssl-1.79</a>, <a class="xref" href=
+          "../pst/docbook-utils.html" title=
+          "DocBook-utils-0.6.14">DocBook-utils-0.6.14</a>, <a class="xref"
+          href="../pst/openjade.html" title=
+          "OpenJade-1.3.2">OpenJade-1.3.2</a>, <a class="xref" href=
+          "../general/perl-modules.html#perl-sgmlspm" title=
+          "SGMLSpm-1.1">SGMLSpm-1.1</a>
+        </p>
+        <p class="usernotes">
+          編集ノート: <a class="ulink" href=
+          "https://wiki.linuxfromscratch.org/blfs/wiki/postgresql">https://wiki.linuxfromscratch.org/blfs/wiki/postgresql</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          PostgreSQL のインストール
+        </h2>
+        <p>
+          For enhanced security, it is better to have a dedicated group and
+          user for running the PostgreSQL server. First, issue as the
+          <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">groupadd -g 41 postgres &amp;&amp;
+useradd -c "PostgreSQL Server" -g postgres -d /srv/pgsql/data \
+        -u 41 postgres</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            There are several configuration items that add additional
+            functionality with optional packages to <span class=
+            "application">PostgreSQL</span>. Use <span class=
+            "command"><strong>./configure --help</strong></span> to see a
+            list.
+          </p>
+        </div>
+        <p>
+          以下のコマンドを実行して <span class="application">PostgreSQL</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i '/DEFAULT_PGSOCKET_DIR/s@/tmp@/run/postgresql@' src/include/pg_config_manual.h &amp;&amp;
+
+./configure --prefix=/usr          \
+            --enable-thread-safety \
+            --docdir=/usr/share/doc/postgresql-16.1 &amp;&amp;
+make</kbd></pre>
+        <p>
+          There are a number of programs in the <code class=
+          "filename">contrib/</code> directory. If you are going to run this
+          installation as a server and wish to build some of them, enter
+          <span class="command"><strong>make -C contrib</strong></span> or
+          <span class="command"><strong>make -C contrib/<em class=
+          "replaceable"><code>&lt;SUBDIR-NAME&gt;</code></em></strong></span>
+          for each subdirectory.
+        </p>
+        <p>
+          Tests must be run as an unprivileged user because they need to
+          start a temporary server and this is prevented as the root user.
+          For the same reason, you need to stop all PostgreSQL servers if any
+          are running. If a previous version of PostgreSQL is installed, it
+          may be necessary to use <span class=
+          "command"><strong>--disable-rpath</strong></span> with <span class=
+          "command"><strong>configure</strong></span> to avoid failures, but
+          <span class="emphasis"><em>installing the binaries created using
+          this switch is not recommended</em></span>. To test the results,
+          issue: <span class="command"><strong>make check</strong></span>.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            If you are installing <span class="application">PostgreSQL</span>
+            to upgrade an existing installation, there are important steps
+            that you need to follow. If the major version of the new build is
+            greater than the previous version, there is a chance that the
+            data file format has changed. new software cannot act on the
+            existing data files. In this case, the server will not start
+            because the old programs have been overwritten, so the data is
+            unavailable until it's file format has been converted.
+          </p>
+          <p>
+            Before upgrading an existing installation of PostgreSQL, check
+            the documentation for any considerations that you must keep in
+            mind during the upgrade. Note that new major versions might use a
+            different binary format in the data objects, causing potential
+            incompatibilities. For more information, check out upstream's
+            documentation about upgrading PostgreSQL here. <a class="ulink"
+            href=
+            "https://www.postgresql.org/docs/current/upgrading.html">https://www.postgresql.org/docs/current/upgrading.html</a>.
+          </p>
+          <p>
+            At this point, you may have both the old and the new binaries
+            installed on your filesystem. These binaries can be used to
+            perform an upgrade of your existing database files. For the
+            following instructions it is assumed that
+          </p>
+          <div class="itemizedlist">
+            <ul>
+              <li class="listitem">
+                <p>
+                  The actual data files are stored in <code class=
+                  "filename">/srv/pgsql/data</code>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  The upgraded data files will be stored in <code class=
+                  "filename">/srv/pgsql/newdata</code>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  There is enough disk space to hold the actual data files
+                  twice. The upgrade is not an inline upgrade but it will
+                  copy the data to new database files.
+                </p>
+              </li>
+            </ul>
+          </div>
+          <p>
+            First, do a temporary install which makes access to the new
+            binaries much easier:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">make DESTDIR=$(pwd)/DESTDIR install</kbd></pre>
+          <p>
+            Next, create a directory which is writable by the <code class=
+            "systemitem">postgres</code> user, as the <code class=
+            "systemitem">root</code> user:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">install -d -o postgres $(pwd)/DESTDIR/tmp</kbd></pre>
+          <p>
+            Now, stop the existing instance of <span class=
+            "application">PostgreSQL</span> and start the upgrade process as
+            the <code class="systemitem">root</code> user:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">pushd $(pwd)/DESTDIR/tmp
+systemctl stop postgresql
+su postgres -c "../usr/bin/initdb -D /srv/pgsql/newdata"
+su postgres -c "../usr/bin/pg_upgrade \
+                    -d /srv/pgsql/data    -b /usr/bin \
+                    -D /srv/pgsql/newdata -B ../usr/bin"
+popd</kbd></pre>
+          <p>
+            At this point, your database files are available in two locations
+            on disk. The old data is located in <code class=
+            "filename">/srv/pgsql/data</code>, and the new data is in
+            <code class="filename">/srv/pgsql/newdata</code>. Backing up the
+            old database files is suggested before continuing.
+          </p>
+          <p>
+            Next, remove the old database files, and rename the new data
+            directory as the <code class="systemitem">root</code> user:
+          </p>
+          <pre class="userinput"><kbd class="command">rm -rf /srv/pgsql/data
+mv /srv/pgsql/newdata /srv/pgsql/data</kbd></pre>
+        </div>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install      &amp;&amp;
+make install-docs</kbd></pre>
+        <p>
+          If you made any of the <code class="filename">contrib/</code>
+          programs, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="userinput"><kbd class="command">make -C contrib/<em class=
+        "replaceable"><code>&lt;SUBDIR-NAME&gt;</code></em> install</kbd></pre>
+        <div class="admon tip">
+          <img alt="[ヒント]" src="../images/tip.png" />
+          <h3>
+            ヒント
+          </h3>
+          <p>
+            If you only intend to use <span class=
+            "application">PostgreSQL</span> as a client to connect to a
+            server on another machine, your installation is complete and you
+            should not run the remaining commands.
+          </p>
+        </div>
+        <p>
+          If you have upgraded an existing database, skip the rest of the
+          commands because your database is ready to use. If this is the
+          first time you install <span class="application">PostgreSQL</span>,
+          continue with the initialization.
+        </p>
+        <p>
+          <code class="systemitem">root</code>
+          ユーザーとなり、以下のコマンドを実行してデータベースクラスターを初期化します。
+        </p>
+        <pre class="root"><kbd class=
+        "command">install -v -dm700 /srv/pgsql/data &amp;&amp;
+install -v -dm755 /run/postgresql &amp;&amp;
+chown -Rv postgres:postgres /srv/pgsql /run/postgresql</kbd></pre>
+        <p>
+          Now, initialize the database as the <code class=
+          "systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">su - postgres -c '/usr/bin/initdb -D /srv/pgsql/data'</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <span class="command"><strong>sed -i ...</strong></span>: This sed
+          changes the server socket location from <code class=
+          "filename">/tmp</code> to <code class=
+          "filename">/run/postgresql</code>.
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-thread-safety</code></em>:
+          This switch makes the client libraries thread-safe by allowing
+          concurrent threads in <code class="filename">libpq</code> and ECPG
+          programs to safely control their private connection handles.
+        </p>
+        <p>
+          <code class="option">--with-openssl</code>: builds the package with
+          support for <span class="application">OpenSSL</span> encrypted
+          connections.
+        </p>
+        <p>
+          <code class="option">--with-perl</code>: builds the PL/Perl
+          server-side language.
+        </p>
+        <p>
+          <code class="option">--with-python</code>: builds the PL/Python
+          server-side language. Python3 is used by default, Python2 is no
+          longer supported.
+        </p>
+        <p>
+          <code class="option">--with-tcl</code>: builds the PL/Tcl
+          server-side language.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          PostgreSQL の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="postgresql-config" name="postgresql-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="postgresql-config" name="postgresql-config"></a>設定ファイル
+          </h4>
+          <p>
+            <code class="filename">$PGDATA/pg_ident.con</code>, <code class=
+            "filename">$PGDATA/pg_hba.conf</code>, and <code class=
+            "filename">$PGDATA/postgresql.conf</code>
+          </p>
+          <p>
+            The <code class="envar">PGDATA</code> environment variable is
+            used to distinguish database clusters from one another by setting
+            it to the value of the directory which contains the cluster
+            desired. The three configuration files exist in every
+            <code class="filename">PGDATA/</code> directory. Details on the
+            format of the files and the options that can be set in each can
+            be found in <code class=
+            "filename">/usr/share/doc/postgresql-16.1/html/index.html</code>.
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="postgresql-init" name="postgresql-init"></a>
+          </h3>
+          <h4 class="title">
+            <a id="postgresql-init" name="postgresql-init"></a> <span class=
+            "phrase">Systemd Unit</span>
+          </h4>
+          <p>
+            <a class="xref" href="../introduction/systemd-units.html" title=
+            "BLFS Systemd ユニット">blfs-systemd-units-20231205</a> パッケージに含まれる
+            <span class="phrase">ユニット <code class=
+            "filename">postgresql.service</code></span> をインストールします。
+          </p>
+          <pre class="root"><kbd class=
+          "command">make install-postgresql</kbd></pre>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id60638" name="id60638"></a>Starting the PostgreSQL Server
+            and Creating a Sample Database
+          </h4>
+          <p>
+            The database server can be manually started with the following
+            command (as the <code class="systemitem">root</code> user):
+          </p>
+          <pre class="root"><kbd class=
+          "command">su - postgres -c '/usr/bin/postgres -D /srv/pgsql/data &gt; \
+                  /srv/pgsql/data/logfile 2&gt;&amp;1 &amp;'</kbd></pre>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              If you are scripting this part, you should wait for the server
+              to start before going on, by adding for example <span class=
+              "command"><strong>sleep 2</strong></span> after the above
+              command.
+            </p>
+          </div>
+          <p>
+            The instructions below show how to create a database, add a table
+            to it, insert some rows into the table and select them, to verify
+            that the installation is working properly. Still as user
+            <code class="systemitem">root</code>, issue:
+          </p>
+          <pre class="root"><kbd class=
+          "command">su - postgres -c '/usr/bin/createdb test' &amp;&amp;
+echo "create table t1 ( name varchar(20), state_province varchar(20) );" \
+    | (su - postgres -c '/usr/bin/psql test ') &amp;&amp;
+echo "insert into t1 values ('Billy', 'NewYork');" \
+    | (su - postgres -c '/usr/bin/psql test ') &amp;&amp;
+echo "insert into t1 values ('Evanidus', 'Quebec');" \
+    | (su - postgres -c '/usr/bin/psql test ') &amp;&amp;
+echo "insert into t1 values ('Jesse', 'Ontario');" \
+    | (su - postgres -c '/usr/bin/psql test ') &amp;&amp;
+echo "select * from t1;" | (su - postgres -c '/usr/bin/psql test')</kbd></pre>
+          <p>
+            When you are done with testing, you can shut down the server, by
+            issuing as <code class="systemitem">root</code>:
+          </p>
+          <pre class="root"><kbd class=
+          "command">su - postgres -c "/usr/bin/pg_ctl stop -D /srv/pgsql/data"</kbd></pre>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">clusterdb, createdb, createuser, dropdb, dropuser,
+              ecpg, initdb, pg_amcheck, pg_archivecleanup, pg_basebackup,
+              pg_checksums, pg_config, pg_controldata, pg_ctl, pg_dump,
+              pg_dumpall, pg_isready, pg_receivewal, pg_recvlogical,
+              pg_resetwal, pg_restore, pg_rewind, pg_test_fsync,
+              pg_test_timing, pg_upgrade, pg_verifybackup, pg_waldump,
+              pgbench, postgres, psql, reindexdb, vacuumdb, optionally, if
+              Tcl support has been built, pltcl_delmod, pltcl_listmod,
+              pltcl_loadmod, and optionally (in contrib/) oid2name,
+              pg_standby, vacuumlo, and many others</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libecpg.{so,a}, libecpg_compat.{so,a}, libpgcommon.a,
+              libpgcommon_shlib.a, libpgfeutils.a, libpgport.a,
+              libpgport_shlib.a, libpgtypes.{so,a}, libpq.{so,a}, various
+              charset modules and optionally programming language modules
+              under /usr/lib/postgresql</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/{libpq,postgresql}, /usr/lib/postgresql,
+              /usr/share/{doc/postgresql-16.1,postgresql}, /srv/pgsql</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="clusterdb" name="clusterdb"></a><span class=
+                    "term"><span class=
+                    "command"><strong>clusterdb</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a utility for reclustering tables in a <span class=
+                    "application">PostgreSQL</span> database
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="createdb" name="createdb"></a><span class=
+                    "term"><span class=
+                    "command"><strong>createdb</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    creates a new <span class="application">PostgreSQL</span>
+                    database
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="createuser" name="createuser"></a><span class=
+                    "term"><span class=
+                    "command"><strong>createuser</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    defines a new <span class="application">PostgreSQL</span>
+                    user account
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dropdb" name="dropdb"></a><span class=
+                    "term"><span class=
+                    "command"><strong>dropdb</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    removes a <span class="application">PostgreSQL</span>
+                    database
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dropuser" name="dropuser"></a><span class=
+                    "term"><span class=
+                    "command"><strong>dropuser</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    removes a <span class="application">PostgreSQL</span>
+                    user account
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ecpg" name="ecpg"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ecpg</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the embedded SQL preprocessor
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="initdb" name="initdb"></a><span class=
+                    "term"><span class=
+                    "command"><strong>initdb</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    creates a new database cluster
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="oid2name" name="oid2name"></a><span class=
+                    "term"><span class=
+                    "command"><strong>oid2name</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    resolves OIDs (Object IDs) and file nodes in a PostgreSQL
+                    data directory
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pg_amcheck" name="pg_amcheck"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pg_amcheck</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    checks for corruption in one or more PostgreSQL databases
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pg_archivecleanup" name=
+                    "pg_archivecleanup"></a><span class="term"><span class=
+                    "command"><strong>pg_archivecleanup</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    cleans up PostgreSQL WAL (write-ahead log) archive files
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pg_basebackup" name=
+                    "pg_basebackup"></a><span class="term"><span class=
+                    "command"><strong>pg_basebackup</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    takes base backups of a running <span class=
+                    "application">PostgreSQL</span> cluster
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pg_checksums" name="pg_checksums"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pg_checksums</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    enables, disables, or checks data checksums in a
+                    <span class="application">PostgreSQL</span> database
+                    cluster
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pg_config" name="pg_config"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pg_config</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    retrieves <span class="application">PostgreSQL</span>
+                    version information
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pg_controldata" name=
+                    "pg_controldata"></a><span class="term"><span class=
+                    "command"><strong>pg_controldata</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    returns information initialized during <span class=
+                    "command"><strong>initdb</strong></span>, such as the
+                    catalog version and server locale
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pg_ctl" name="pg_ctl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pg_ctl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    controls stopping and starting the database server
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pg_dump" name="pg_dump"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pg_dump</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    dumps database data and metadata into scripts which are
+                    used to recreate the database
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pg_dumpall" name="pg_dumpall"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pg_dumpall</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    recursively calls <span class=
+                    "command"><strong>pg_dump</strong></span> for each
+                    database in a cluster
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pg_isready" name="pg_isready"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pg_isready</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    checks the connection status of a PostgreSQL server
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pg_receivewal" name=
+                    "pg_receivewal"></a><span class="term"><span class=
+                    "command"><strong>pg_receivewal</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to stream write-ahead logs from a PostgreSQL
+                    server
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pg_recvlogical" name=
+                    "pg_recvlogical"></a><span class="term"><span class=
+                    "command"><strong>pg_recvlogical</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    controls PostgreSQL logical decoding streams
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pg_resetwal" name="pg_resetwal"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pg_resetwal</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    resets the write-ahead log and other control information
+                    of a PostgreSQL database cluster
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pg_restore" name="pg_restore"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pg_restore</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    creates databases from dump files created by <span class=
+                    "command"><strong>pg_dump</strong></span>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pg_rewind" name="pg_rewind"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pg_rewind</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    synchronizes a PostgreSQL data directory with another
+                    data directory that was forked from the first one
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pg_standby" name="pg_standby"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pg_standby</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    supports the creation of a PostgreSQL warm standby server
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pg_test_fsync" name=
+                    "pg_test_fsync"></a><span class="term"><span class=
+                    "command"><strong>pg_test_fsync</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    determines the fastest wal_sync method for PostgreSQL
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pg_test_timing" name=
+                    "pg_test_timing"></a><span class="term"><span class=
+                    "command"><strong>pg_test_timing</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    measures timing overhead
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pg_upgrade" name="pg_upgrade"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pg_upgrade</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    upgrades a PostgreSQL server instance
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pg_verifybackup" name=
+                    "pg_verifybackup"></a><span class="term"><span class=
+                    "command"><strong>pg_verifybackup</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    verifies the integrity of a base backup of a PostgreSQL
+                    cluster
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pg_waldump" name="pg_waldump"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pg_waldump</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    displays a human-readable rendering of the write-ahead
+                    log of a PostgreSQL database cluster
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pgbench" name="pgbench"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pgbench</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    runs a benchmark test on PostgreSQL
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pltcl_delmod" name="pltcl_delmod"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pltcl_delmod</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a support script used to delete a module from a
+                    PL/<span class="application">Tcl</span> table. The
+                    command requires the <a class="ulink" href=
+                    "https://flightaware.github.io/Pgtcl/">Pgtcl</a> package
+                    to be installed
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pltcl_listmod" name=
+                    "pltcl_listmod"></a><span class="term"><span class=
+                    "command"><strong>pltcl_listmod</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a support script used to list the modules in a
+                    PL/<span class="application">Tcl</span> table. The
+                    command requires the <a class="ulink" href=
+                    "https://flightaware.github.io/Pgtcl/">Pgtcl</a> package
+                    to be installed
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pltcl_loadmod" name=
+                    "pltcl_loadmod"></a><span class="term"><span class=
+                    "command"><strong>pltcl_loadmod</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a support script used to load a module into a
+                    PL/<span class="application">Tcl</span> table. The
+                    command requires the <a class="ulink" href=
+                    "https://flightaware.github.io/Pgtcl/">Pgtcl</a> package
+                    to be installed too
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="postgres" name="postgres"></a><span class=
+                    "term"><span class=
+                    "command"><strong>postgres</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the PostgreSQL database server
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="psql" name="psql"></a><span class=
+                    "term"><span class=
+                    "command"><strong>psql</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a console based database shell
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="reindexdb" name="reindexdb"></a><span class=
+                    "term"><span class=
+                    "command"><strong>reindexdb</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a utility for rebuilding indexes in a database
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="vacuumdb" name="vacuumdb"></a><span class=
+                    "term"><span class=
+                    "command"><strong>vacuumdb</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    compacts databases and generates statistics for the query
+                    analyzer
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="vacuumlo" name="vacuumlo"></a><span class=
+                    "term"><span class=
+                    "command"><strong>vacuumlo</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    removes orphaned large objects from a PostgreSQL database
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libecpg" name="libecpg"></a><span class=
+                    "term"><code class=
+                    "filename">libecpg.{so,a}</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains functions to support embedded SQL in C programs
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libecpg_compat" name=
+                    "libecpg_compat"></a><span class="term"><code class=
+                    "filename">libecpg_compat.{so,a}</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the ecpg compatibility library
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libgport" name="libgport"></a><span class=
+                    "term"><code class="filename">libgport.a</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the port-specific subsystem of the Postgres backend
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libpgtypes" name="libpgtypes"></a><span class=
+                    "term"><code class=
+                    "filename">libpgtypes.{so,a}</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains functions for dealing with Postgres data types
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libpq" name="libpq"></a><span class=
+                    "term"><code class="filename">libpq.{so,a}</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the C programmer's API to Postgres
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="mariadb.html" title="MariaDB-10.11.6">戻る</a>
+          <p>
+            MariaDB-10.11.6
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="sqlite.html" title="SQLite-3.44.2">次へ</a>
+          <p>
+            SQLite-3.44.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="databases.html" title="第22章 データベース">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

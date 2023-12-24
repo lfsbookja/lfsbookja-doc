@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      FreeType-2.13.2
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第10章 グラフィックスとフォントのライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="exiv2.html" title="Exiv2-0.28.1">戻る</a>
+          <p>
+            Exiv2-0.28.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="fontconfig.html" title=
+          "Fontconfig-2.14.2">次へ</a>
+          <p>
+            Fontconfig-2.14.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="graphlib.html" title=
+          "第10章 グラフィックスとフォントのライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="freetype2" name="freetype2"></a>FreeType-2.13.2
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          FreeType2 の概要
+        </h2>
+        <p>
+          <span class="application">FreeType2</span> パッケージは、アプリケーションが
+          <span class="application">TrueType</span>
+          フォントを適切に表示できるようにするライブラリを提供します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://downloads.sourceforge.net/freetype/freetype-2.13.2.tar.xz">
+                https://downloads.sourceforge.net/freetype/freetype-2.13.2.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 1f625f0a913c449551b1e3790a1817d7
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 2.4 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 33 MB (追加ドキュメントを含む)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.2 SBU (追加ドキュメントを含む)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          追加のダウンロード
+        </h3>
+        <div class="itemizedlist">
+          <p class="title">
+            <strong>追加のドキュメント</strong>
+          </p>
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://downloads.sourceforge.net/freetype/freetype-doc-2.13.2.tar.xz">
+                https://downloads.sourceforge.net/freetype/freetype-doc-2.13.2.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: e6466f08934ebf2d7f711b0464d7a6cf
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 2.1 MB
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          FreeType2 の依存パッケージ
+        </h3>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="harfbuzz.html" title=
+          "HarfBuzz-8.3.0">HarfBuzz-8.3.0</a>
+          (初めはこれをなしとしてインストールし、インストール後に本パッケージを再インストール), <a class="xref" href=
+          "libpng.html" title="libpng-1.6.40">libpng-1.6.40</a>, <a class=
+          "xref" href="which.html" title="Which-2.21 と別の実現方法">Which-2.21</a>
+        </p>
+        <h4>
+          Optional
+        </h4>
+        <p class="optional">
+          <a class="xref" href="brotli.html" title=
+          "brotli-1.1.0">Brotli-1.1.0</a> and <a class="xref" href=
+          "librsvg.html" title="librsvg-2.57.1">librsvg-2.57.1</a>
+        </p>
+        <h4>
+          Optional (for documentation)
+        </h4>
+        <p class="optional">
+          <a class="ulink" href=
+          "https://pypi.org/project/docwriter/">docwriter</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          FreeType2 のインストール
+        </h2>
+        <p>
+          追加のドキュメントをダウンロードしている場合は、以下のコマンドによりソースツリー内に伸張 (解凍) します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">tar -xf ../freetype-doc-2.13.2.tar.xz --strip-components=2 -C docs</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">FreeType2</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -ri "s:.*(AUX_MODULES.*valid):\1:" modules.cfg &amp;&amp;
+
+sed -r "s:.*(#.*SUBPIXEL_RENDERING) .*:\1:" \
+    -i include/freetype/config/ftoption.h  &amp;&amp;
+
+./configure --prefix=/usr --enable-freetype-config --disable-static &amp;&amp;
+make</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+        <p>
+          If you downloaded the optional documentation, install it as the
+          <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">cp -v -R docs -T /usr/share/doc/freetype-2.13.2 &amp;&amp;
+rm -v /usr/share/doc/freetype-2.13.2/freetype-config.1</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <span class="command"><strong>sed -ri ...</strong></span>:
+          １つめのコマンドは GX/AAT と OpenType テーブルの検証を有効にします。
+          ２つめのコマンドはサブピクセルレンダリングを有効にします。 なおサブピクセルレンダリングは特許問題にからむ場合があります。
+          このオプションを用いる際には <a class="ulink" href=
+          "https://freetype.org/patents.html">https://freetype.org/patents.html</a>
+          に示されている <code class="literal">'Other patent issues'</code>
+          の項を十分に確認してください。
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-freetype-config</code></em>:
+          This switch ensure that the man page for freetype-config is
+          installed.
+        </p>
+        <p>
+          <code class="option">--without-harfbuzz</code>: If <span class=
+          "application">harfbuzz</span> is installed prior to <span class=
+          "application">freetype</span> without <span class=
+          "application">freetype</span> support, use this switch to avoid a
+          build failure.
+        </p>
+        <p>
+          <em class="parameter"><code>--disable-static</code></em>:
+          このスイッチはスタティックライブラリをインストールしないようにします。
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">freetype-config</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libfreetype.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/freetype2,
+              /usr/share/doc/freetype-2.13.2</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="freetype-config" name=
+                    "freetype-config"></a><span class="term"><span class=
+                    "command"><strong>freetype-config</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">FreeType</span>
+                    に対するコンパイル情報、リンク情報を取得するために利用します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libfreetype" name="libfreetype"></a><span class=
+                    "term"><code class=
+                    "filename">libfreetype.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    TrueType や Type1 などのさまざまなフォントを表示する機能を提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="exiv2.html" title="Exiv2-0.28.1">戻る</a>
+          <p>
+            Exiv2-0.28.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="fontconfig.html" title=
+          "Fontconfig-2.14.2">次へ</a>
+          <p>
+            Fontconfig-2.14.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="graphlib.html" title=
+          "第10章 グラフィックスとフォントのライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

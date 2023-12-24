@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      CDParanoia-III-10.2
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第43章 オーディオユーティリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="audacious.html" title=
+          "Audacious-4.3.1">戻る</a>
+          <p>
+            Audacious-4.3.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="kwave.html" title="kwave-23.08.4">次へ</a>
+          <p>
+            kwave-23.08.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="audioutils.html" title=
+          "第43章 オーディオユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="cdparanoia" name="cdparanoia"></a>CDParanoia-III-10.2
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          CDParanoia の概要
+        </h2>
+        <p>
+          The <span class="application">CDParanoia</span> package contains a
+          CD audio extraction tool. This is useful for extracting
+          <code class="filename">.wav</code> files from audio CDs. A CDDA
+          capable CDROM drive is needed. Practically all drives supported by
+          Linux can be used.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://downloads.xiph.org/releases/cdparanoia/cdparanoia-III-10.2.src.tgz">
+                https://downloads.xiph.org/releases/cdparanoia/cdparanoia-III-10.2.src.tgz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: b304bbe8ab63373924a744eac9ebc652
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 179 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 2.9 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU 以下
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          追加のダウンロード
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                必須のパッチ <a class="ulink" href=
+                "https://www.linuxfromscratch.org/patches/blfs/svn/cdparanoia-III-10.2-gcc_fixes-1.patch">
+                https://www.linuxfromscratch.org/patches/blfs/svn/cdparanoia-III-10.2-gcc_fixes-1.patch</a>
+              </p>
+            </li>
+          </ul>
+        </div>
+        <p class="usernotes">
+          編集ノート: <a class="ulink" href=
+          "https://wiki.linuxfromscratch.org/blfs/wiki/cdparanoia">https://wiki.linuxfromscratch.org/blfs/wiki/cdparanoia</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          CDParanoia のインストール
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            本パッケージは並行ビルドがサポートされていません。
+          </p>
+        </div>
+        <p>
+          以下のコマンドを実行して <span class="application">CDParanoia</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../cdparanoia-III-10.2-gcc_fixes-1.patch &amp;&amp;
+./configure --prefix=/usr --mandir=/usr/share/man &amp;&amp;
+make -j1</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install &amp;&amp;
+chmod -v 755 /usr/lib/libcdda_*.so.0.10.2 &amp;&amp;
+rm -fv /usr/lib/libcdda_*.a</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">cdparanoia</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libcdda_interface.so, libcdda_paranoia.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cdparanoia-prog" name=
+                    "cdparanoia-prog"></a><span class="term"><span class=
+                    "command"><strong>cdparanoia</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used for 'ripping' an audio-cd. Ripping is the process
+                    of digitally extracting music from an audio CD
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libcdda_interface" name=
+                    "libcdda_interface"></a><span class="term"><code class=
+                    "filename">libcdda_interface</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains functions used by <span class=
+                    "command"><strong>cdparanoia</strong></span>, as well as
+                    other packages, which can automatically identify if a CD
+                    device is CDDA compatible
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libcdda_paranoia" name=
+                    "libcdda_paranoia"></a><span class="term"><code class=
+                    "filename">libcdda_paranoia</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains functions used by <span class=
+                    "command"><strong>cdparanoia</strong></span>, as well as
+                    other packages, which provide data verification,
+                    synchronization, error handling and scratch
+                    reconstruction capability
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="audacious.html" title=
+          "Audacious-4.3.1">戻る</a>
+          <p>
+            Audacious-4.3.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="kwave.html" title="kwave-23.08.4">次へ</a>
+          <p>
+            kwave-23.08.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="audioutils.html" title=
+          "第43章 オーディオユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

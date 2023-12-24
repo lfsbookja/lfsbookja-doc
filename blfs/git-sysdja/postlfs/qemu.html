@@ -1,0 +1,923 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      qemu-8.2.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第8章 仮想化
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="virtualization.html" title="仮想化">戻る</a>
+          <p>
+            仮想化
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="../general/general.html" title=
+          "汎用的なライブラリとユーティリティ">次へ</a>
+          <p>
+            汎用的なライブラリとユーティリティ
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="virtualization.html" title=
+          "第8章 仮想化">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="qemu" name="qemu"></a>qemu-8.2.0
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          qemu の概要
+        </h2>
+        <p>
+          <span class="application">qemu</span> は Linux
+          上における仮想化ソリューションを提供します。 仮想化拡張 (Intel VT または AMD-V) を持つ x86
+          ハードウェア上にて動作します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://download.qemu.org/qemu-8.2.0.tar.xz">https://download.qemu.org/qemu-8.2.0.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 302be965cf5e54e7f8b4bd7f1248029d
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 124 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 2.1 GB (563 MB installed)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 1.4 SBU (add 0.8 SBU for tests, both using
+                parallelism=4)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Qemu の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/glib2.html" title=
+          "GLib-2.78.3">GLib-2.78.3</a>, <a class="xref" href=
+          "../general/pixman.html" title="Pixman-0.42.2">Pixman-0.42.2</a>
+        </p>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../multimedia/alsa-lib.html" title=
+          "alsa-lib-1.2.10">alsa-lib-1.2.10</a>, <a class="xref" href=
+          "../basicnet/libslirp.html" title=
+          "Libslirp-4.7.0">Libslirp-4.7.0</a>, <a class="xref" href=
+          "../multimedia/sdl2.html" title="SDL2-2.28.5">SDL2-2.28.5</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../multimedia/pipewire.html" title=
+          "Pipewire-1.0.0">pipewire-1.0.0</a> or <a class="xref" href=
+          "../multimedia/pulseaudio.html" title=
+          "PulseAudio-16.1">PulseAudio-16.1</a> (can be used instead of
+          alsa-lib), <a class="xref" href="../general/bluez.html" title=
+          "BlueZ-5.71">BlueZ-5.71</a>, <a class="xref" href=
+          "../basicnet/curl.html" title="cURL-8.5.0">cURL-8.5.0</a>,
+          <a class="xref" href="cyrus-sasl.html" title=
+          "Cyrus SASL-2.1.28">Cyrus SASL-2.1.28</a>, <a class="xref" href=
+          "fuse.html" title="Fuse-3.16.2">Fuse-3.16.2</a>, <a class="xref"
+          href="gnutls.html" title="GnuTLS-3.8.2">GnuTLS-3.8.2</a>, <a class=
+          "xref" href="../x/gtk3.html" title="GTK+-3.24.38">GTK+-3.24.38</a>,
+          <a class="xref" href="../general/keyutils.html" title=
+          "keyutils-1.6.1">keyutils-1.6.1</a>, <a class="xref" href=
+          "../general/libaio.html" title="libaio-0.3.113">libaio-0.3.113</a>,
+          <a class="xref" href="../general/libusb.html" title=
+          "libusb-1.0.26">libusb-1.0.26</a>, <a class="xref" href=
+          "../general/libgcrypt.html" title=
+          "libgcrypt-1.10.3">libgcrypt-1.10.3</a>, <a class="xref" href=
+          "../general/libjpeg.html" title=
+          "libjpeg-turbo-3.0.1">libjpeg-turbo-3.0.1</a>, <a class="xref"
+          href="../general/libseccomp.html" title=
+          "libseccomp-2.5.5">libseccomp-2.5.5</a>, <a class="xref" href=
+          "../general/libssh2.html" title=
+          "libssh2-1.11.0">libssh2-1.11.0</a>, <a class="xref" href=
+          "../general/libpng.html" title="libpng-1.6.40">libpng-1.6.40</a>,
+          <a class="xref" href="../general/libtasn1.html" title=
+          "libtasn1-4.19.0">libtasn1-4.19.0</a>, <a class="xref" href=
+          "linux-pam.html" title="Linux-PAM-1.5.3">Linux-PAM-1.5.3</a>,
+          <a class="xref" href="../general/lzo.html" title=
+          "LZO-2.10">LZO-2.10</a>, <a class="xref" href="nettle.html" title=
+          "Nettle-3.9.1">Nettle-3.9.1</a>, <a class="xref" href=
+          "../x/mesa.html" title="Mesa-23.3.1">Mesa-23.3.1</a>, <a class=
+          "xref" href="../gnome/vte.html" title="VTE-0.74.2">VTE-0.74.2</a>,
+          <a class="ulink" href=
+          "https://www.capstone-engine.org/">capstone</a>, <a class="ulink"
+          href="https://github.com/ceph/ceph/">ceph</a>, <a class="ulink"
+          href="https://pmem.io/daxctl/">daxctl</a>, <a class="ulink" href=
+          "https://jackaudio.org/">JACK</a>, <a class="ulink" href=
+          "https://github.com/gluster/glusterfs">glusterfs</a>, <a class=
+          "ulink" href="https://github.com/libbpf/libbpf">libbpf</a>,
+          <a class="ulink" href=
+          "https://gitlab.freedesktop.org/spice/libcacard">libcacard</a>,
+          <a class="ulink" href=
+          "https://people.redhat.com/sgrubb/libcap-ng/">libcap-ng</a>,
+          <a class="ulink" href="https://sourceware.org/elfutils/">libdw</a>,
+          <a class="ulink" href="https://github.com/dgibson/dtc">libfdt</a>,
+          <a class="ulink" href=
+          "https://github.com/sahlberg/libiscsi">libiscsi</a>, <a class=
+          "ulink" href="https://github.com/sahlberg/libnfs">libnfs</a>,
+          <a class="ulink" href="https://pmem.io/pmdk/libpmem/">libpmem</a>,
+          <a class="ulink" href="https://www.libssh.org/">libssh</a>,
+          <a class="ulink" href=
+          "https://github.com/Agnoctopus/libu2f-emu">libu2f-emu</a>,
+          <a class="ulink" href="https://github.com/lzfse/lzfse">lzfse</a>,
+          <a class="ulink" href=
+          "https://github.com/luigirizzo/netmap">netmap</a>, <a class="ulink"
+          href="https://github.com/numactl/numactl">numactl</a>, <a class=
+          "ulink" href=
+          "https://github.com/linux-rdma/rdma-core">rdma-core</a>, <a class=
+          "ulink" href="https://selinuxproject.org/">SELinux</a>, <a class=
+          "ulink" href="https://google.github.io/snappy/">snappy</a>,
+          <a class="ulink" href=
+          "https://gitlab.freedesktop.org/spice/spice">spice</a>, <a class=
+          "ulink" href=
+          "https://gitlab.freedesktop.org/spice/usbredir">usbredir</a>, and
+          <a class="ulink" href=
+          "https://github.com/virtualsquare/vde-2">VDE</a>
+        </p>
+        <h4>
+          Optional (Runtime)
+        </h4>
+        <p class="runtime">
+          <span class="phrase"><a class="xref" href="../general/systemd.html"
+          title="Systemd-255">Systemd-255</a></span>
+        </p>
+        <h4>
+          Optional (for building the documentation)
+        </h4>
+        <p class="optional">
+          <a class="xref" href=
+          "../general/python-modules.html#sphinx_rtd_theme" title=
+          "Sphinx_rtd_theme-2.0.0">sphinx_rtd_theme-2.0.0</a>
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            This optional dependencies list is not comprehensive. See the
+            output of <span class="command"><strong>./configure
+            --help</strong></span> for a more complete list.
+          </p>
+        </div>
+        <p class="usernotes">
+          編集ノート: <a class="ulink" href=
+          "https://wiki.linuxfromscratch.org/blfs/wiki/qemu">https://wiki.linuxfromscratch.org/blfs/wiki/qemu</a>
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="qemu-prereq" name="qemu-prereq"></a>KVM の利用前提
+        </h2>
+        <p>
+          <span class="application">qemu</span>
+          をビルドするにあたっては、まずあなたのプロセッサーが仮想化技術 (Virtualization Technology; VT)
+          をサポートしているかを確認してください。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">grep -E '^flags.*(vmx|svm)' /proc/cpuinfo</kbd></pre>
+        <p>
+          何かの出力が得られたら VT に対応しているということです。 (Intel プロセッサーなら vmx、AMD プロセッサーなら svm
+          など。) 次には BIOS 設定を確認して、この機能が有効になっていることを確認してください。 有効化にした後は、再起動を行って、再度
+          LFS 環境を立ち上げてください。
+        </p>
+      </div>
+      <div class="kernel" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="qemu-kernel" name="qemu-kernel"></a>カーネルの設定
+        </h2>
+        <p>
+          カーネル設定における以下のオプションを有効にしてください。 もし有効でなければカーネルを再コンパイルしてください。
+        </p>
+        <pre class="screen">[*] <span class=
+        "blue">V</span>irtualization ---&gt;                                         [VIRTUALIZATION]
+  &lt;*/M&gt;   <span class=
+"blue">K</span>ernel-based Virtual Machine (KVM) support                       [KVM]
+  # Enable the option for your CPU:
+  &lt; /*/M&gt;   <span class=
+"blue">K</span>VM for Intel (and compatible) processors support        [KVM_INTEL]
+  &lt; /*/M&gt;   <span class=
+"blue">K</span>VM for AMD processors support                             [KVM_AMD]</pre>
+        <p>
+          Intel と AMD の設定を両方行う必要はありません。 自身のプロセッサーに合致するものを１つ選んでください。
+        </p>
+        <p>
+          <span class="quote">「<span class=
+          "quote">bridge</span>」</span>ネットワークデバイスを利用する場合は <a class="xref"
+          href="../basicnet/bridge-utils.html" title=
+          "bridge-utils-1.7.1">bridge-utils-1.7.1</a>
+          がインストールされていることを確認してください。 またカーネルオプションとして以下が有効であることを確認してください。
+        </p>
+        <pre class="screen">[*] N<span class=
+        "blue">e</span>tworking support ---&gt;                                                [NET]
+  N<span class="blue">e</span>tworking options ---&gt;
+    &lt;*/M&gt; 802.1<span class=
+"blue">d</span> Ethernet Bridging                                      [BRIDGE]
+
+<span class="blue">D</span>evice Drivers ---&gt;
+  [*] N<span class=
+"blue">e</span>twork device support ---&gt;                                   [NETDEVICES]
+    [*]   N<span class=
+"blue">e</span>twork core driver support                                 [NET_CORE]
+    &lt;*/M&gt;   <span class=
+"blue">U</span>niversal TUN/TAP device driver support                        [TUN]</pre>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          qemu のインストール
+        </h2>
+        <p>
+          The udev rule of LFS only allows the <code class=
+          "systemitem">root</code> user, the users owning a local login
+          session supported by the optional runtime dependency <span class=
+          "phrase"><a class="xref" href="../general/systemd.html" title=
+          "Systemd-255">Systemd-255</a></span>, or the users in the
+          <code class="systemitem">kvm</code> group to use the KVM device. As
+          the <code class="systemitem">root</code> user, add any
+          non-<code class="systemitem">root</code> users that might use the
+          KVM device either without <span class="phrase"><a class="xref"
+          href="../general/systemd.html" title=
+          "Systemd-255">Systemd-255</a></span> installed or remotely (via a
+          SSH connection) to the <code class="systemitem">kvm</code> group:
+        </p>
+        <pre class="root"><kbd class="command">usermod -a -G kvm <em class=
+        "replaceable"><code>&lt;username&gt;</code></em></kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">qemu</span> をビルドします。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            Qemu is capable of running many targets. The build process is
+            also capable of building multiple targets at one time in a comma
+            delimited list assigned to <code class=
+            "option">--target-list</code>. Run <span class=
+            "command"><strong>./configure --help</strong></span> to get a
+            complete list of available targets.
+          </p>
+        </div>
+        <pre class="userinput"><kbd class=
+        "command">if [ $(uname -m) = i686 ]; then
+   QEMU_ARCH=i386-softmmu
+else
+   QEMU_ARCH=x86_64-softmmu
+fi
+
+
+mkdir -vp build &amp;&amp;
+cd        build &amp;&amp;
+
+../configure --prefix=/usr               \
+             --sysconfdir=/etc           \
+             --localstatedir=/var        \
+             --target-list=$QEMU_ARCH    \
+             --audio-drv-list=alsa       \
+             --disable-pa                \
+             --enable-slirp              \
+             --docdir=/usr/share/doc/qemu-8.2.0 &amp;&amp;
+
+unset QEMU_ARCH &amp;&amp;
+
+make</kbd></pre>
+        <p>
+          <span class="application">qemu</span> uses <span class=
+          "command"><strong>ninja</strong></span> as a subprocess when
+          building. To run the tests, issue: <span class=
+          "command"><strong>ninja test</strong></span>. Two tests,
+          bios-tables-test and migration-test, are known to fail.
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+        <p>
+          Change the permissions and ownership of a helper script, which is
+          needed when using the <span class="quote">「<span class=
+          "quote">bridge</span>」</span> network device (see below). Again as
+          the <code class="systemitem">root</code> user, issue:
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            You need to add any users who might use the <span class=
+            "quote">「<span class="quote">bridge</span>」</span> network device
+            into the <code class="systemitem">kvm</code> group even if
+            <span class="phrase"><a class="xref" href=
+            "../general/systemd.html" title=
+            "Systemd-255">Systemd-255</a></span> is installed.
+          </p>
+        </div>
+        <pre class="root"><kbd class=
+        "command">chgrp kvm  /usr/libexec/qemu-bridge-helper &amp;&amp;
+chmod 4750 /usr/libexec/qemu-bridge-helper</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            For convenience you may want to create a symbolic link to run the
+            installed program. For instance (as the <code class=
+            "systemitem">root</code> user):
+          </p>
+          <pre class="root"><kbd class=
+          "command">ln -sv qemu-system-`uname -m` /usr/bin/qemu</kbd></pre>
+        </div>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--audio-drv-list=alsa</code></em>: This
+          switch sets the audio driver to ALSA. See below for enabling other
+          audio drivers.
+        </p>
+        <p>
+          <em class="parameter"><code>--disable-pa</code></em>: even if
+          <span class="emphasis"><em>pa</em></span> is not in <em class=
+          "parameter"><code>--audio-drv-list</code></em> list, the pulseaudio
+          driver is built, unless disabled by this parameter.
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-slirp</code></em>: This switch
+          forces the building system to check for <a class="xref" href=
+          "../basicnet/libslirp.html" title=
+          "Libslirp-4.7.0">Libslirp-4.7.0</a>. Remove it if you don't need
+          the <code class="option">-netdev user</code> support.
+        </p>
+        <p>
+          <code class="option">--audio-drv-list=pa --disable-alsa</code>:
+          This switch sets the audio driver to pulseaudio. For other drivers
+          see the --audio-drv-list choices in the output of <span class=
+          "command"><strong>./configure --help</strong></span>. The default
+          audio driver is OSS. To enable support for both alsa and
+          pulseaudio, use <code class=
+          "option">--audio-drv-list=alsa,pa</code>.
+        </p>
+      </div>
+      <div class="using" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Using Qemu
+        </h2>
+        <p>
+          Since using qemu means using a virtual computer, the steps to set
+          up the virtual machine are in close analogy with those to set up a
+          real computer. You'll need to decide about CPU, memory, disk, USB
+          devices, network card(s), screen size, etc. Once the <span class=
+          "quote">「<span class="quote">hardware</span>」</span> is decided,
+          you'll have for example to choose how to connect the machine to
+          internet, and/or to install an OS. In the following, we show basic
+          ways of performing those steps. But qemu is much more than this,
+          and it is strongly advised to read the qemu documentation in
+          <code class=
+          "filename">/usr/share/doc/qemu-8.2.0/qemu-doc.html</code>.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            It is standard practice to name the computer running qemu
+            <span class="quote">「<span class="quote">host</span>」</span> and
+            the emulated machine running under qemu the <span class=
+            "quote">「<span class="quote">guest</span>」</span>. We'll use
+            those notations in the following.
+          </p>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            The following instructions assume the optional symbolic link,
+            <code class="filename">qemu</code>, has been created.
+            Additionally, <span class="command"><strong>qemu</strong></span>
+            should be run in a graphical environment. But it is possible to
+            use qemu <span class="quote">「<span class=
+            "quote">headless</span>」</span> or through SSH. See the
+            documentation for the various possibilities.
+          </p>
+        </div>
+        <h3>
+          Disk
+        </h3>
+        <p>
+          A virtual disk may be set up in the following way:
+        </p>
+        <pre class="userinput"><kbd class="command">VDISK_SIZE=<em class=
+        "replaceable"><code>50G</code></em>
+VDISK_FILENAME=<em class="replaceable"><code>vdisk.img</code></em>
+qemu-img create -f qcow2 $VDISK_FILENAME $VDISK_SIZE</kbd></pre>
+        <p>
+          The virtual disk size and filename should be adjusted as desired.
+          The actual size of the file will be less than specified, but will
+          expand as needed, so it is safe to put a high value.
+        </p>
+        <h3>
+          Operating System
+        </h3>
+        <p>
+          To install an operating system, download an iso image from your
+          preferred Linux distribution. For the purposes of this example,
+          we'll use <code class=
+          "filename">Fedora-16-x86_64-Live-LXDE.iso</code> in the current
+          directory. Run the following:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">qemu -enable-kvm                           \
+     -drive file=$VDISK_FILENAME           \
+     -cdrom Fedora-16-x86_64-Live-LXDE.iso \
+     -boot d                               \
+     -m <em class="replaceable"><code>1G</code></em></kbd></pre>
+        <p>
+          Follow the normal installation procedures for the chosen
+          distribution. The <em class="parameter"><code>-boot</code></em>
+          option specifies the boot order of drives as a string of drive
+          letters. Valid drive letters are: a, b (floppy 1 and 2), c (first
+          hard disk), d (first CD-ROM). The <em class=
+          "parameter"><code>-m</code></em> option is the amount of memory to
+          use for the virtual machine. The choice depends on the load of the
+          host. Modern distributions should be comfortable with 1GB. The
+          <em class="parameter"><code>-enable-kvm</code></em> option allows
+          hardware acceleration. Without this switch, the emulation is much
+          slower.
+        </p>
+        <h3>
+          Defining the virtual hardware
+        </h3>
+        <p>
+          The virtual machine hardware is defined by the qemu command line.
+          An example command is given below:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">qemu -enable-kvm                     \
+     -smp 4                          \
+     -cpu host                       \
+     -m 1G                           \
+     -drive file=$VDISK_FILENAME     \
+     -cdrom grub-img.iso             \
+     -boot order=c,once=d,menu=on    \
+     -net nic,netdev=net0            \
+     -netdev user,id=net0            \
+     -device ac97                    \
+     -vga std                        \
+     -serial mon:stdio               \
+     -name "fedora-16"</kbd></pre>
+        <h3>
+          Meaning of the command line options
+        </h3>
+        <p>
+          <em class="parameter"><code>-enable-kvm</code></em>: enable full
+          KVM virtualization support. On some hardware, it may be necessary
+          to add the undocumented <code class="option">-machine
+          smm=off</code> option in order to enable KVM.
+        </p>
+        <p>
+          <em class="parameter"><code>-smp &lt;N&gt;</code></em>: enable
+          symmetric multiprocessing with &lt;N&gt; CPUs.
+        </p>
+        <p>
+          <em class="parameter"><code>-cpu &lt;model&gt;</code></em>:
+          simulate CPU &lt;model&gt;. the list of supported models can be
+          obtained with <code class="option">-cpu help</code>.
+        </p>
+        <p>
+          <em class="parameter"><code>-drive
+          file=&lt;filename&gt;</code></em>: defines a virtual disk whose
+          image is stored in <code class="filename">&lt;filename&gt;</code>.
+        </p>
+        <p>
+          <em class="parameter"><code>-cdrom grub-img.iso</code></em>:
+          defines an iso formatted file to use as a cdrom. Here we use a grub
+          rescue disk, which may turn handy when something goes wrong at boot
+          time.
+        </p>
+        <p>
+          <em class="parameter"><code>-boot
+          order=c,once=d,menu=on</code></em>: defines the boot order for the
+          virtual BIOS.
+        </p>
+        <p>
+          <em class="parameter"><code>-net
+          nic,netdev=&lt;netid&gt;</code></em>: defines a network card
+          connected to the network device with id &lt;netid&gt;.
+        </p>
+        <p>
+          <em class="parameter"><code>-netdev
+          user,id=&lt;netid&gt;</code></em>: defines the network <span class=
+          "quote">「<span class="quote">user</span>」</span> device. This is a
+          virtual local network with addresses 10.0.2.0/24, where the host
+          has address 10.0.2.2 and acts as a gateway to internet, and with a
+          name server at address 10.0.2.3, and an smb server at address
+          10.0.2.4. A builtin DHCP server can allocate addresses between
+          10.0.2.15 and 10.0.2.31.
+        </p>
+        <p>
+          <em class="parameter"><code>-soundhw &lt;model&gt;</code></em>:
+          defines the soundcard model. The list may be obtained with
+          <code class="option">-soundhw help</code>.
+        </p>
+        <p>
+          <em class="parameter"><code>-vga &lt;type&gt;</code></em>: defines
+          the type of VGA card to emulate. For <em class=
+          "parameter"><code>-vga std</code></em>, if you are building a Linux
+          kernel for the guest, it's recommended to enable <code class=
+          "option">CONFIG_DRM_BOCHS</code> (as a part of the kernel or a
+          kernel module) to drive all the features of the emulated VGA card,
+          and <code class="option">CONFIG_FB</code> to display the Linux
+          console on it. The other <code class="option">&lt;type&gt;</code>
+          values are not tested by the editors and may require additional
+          dependencies.
+        </p>
+        <p>
+          <em class="parameter"><code>-serial mon:stdio</code></em>: sends
+          the serial port of the guest (<code class=
+          "filename">/dev/ttyS0</code> on linux guests), multiplexed with the
+          qemu monitor, to the standard input and output of the qemu process.
+        </p>
+        <p>
+          <em class="parameter"><code>-name &lt;name&gt;</code></em>: sets
+          the name of the guest. This name is displayed in the guest window
+          caption. It may be useful if you run several guests at the same
+          time.
+        </p>
+        <p>
+          <code class="option">-drive
+          if=pflash,format=raw,readonly=on,file=/usr/share/qemu/edk2-x86_64-code.fd</code>:
+          Load a pre-built EDK2 UEFI firmware, instead of the default PC
+          BIOS. Use this option if you want to boot the guest OS with UEFI.
+        </p>
+        <p>
+          <code class="option">-drive file=&lt;filename&gt;,if=virtio</code>:
+          Provide Virtio interface to the guest kernel for accessing the disk
+          image, instead of simulating a real disk hardware. This can improve
+          disk I/O performance, but it requires a Virtio driver in guest
+          kernel. Use it instead of a plain <code class=
+          "option">-drive</code> if the guest kernel supports Virtio. To
+          build a Linux kernel with Virtio support for the guest, use
+          <span class="command"><strong>make defconfig &amp;&amp; make
+          kvm_guest.config</strong></span> to create an initial kernel
+          configuration with the Virtio drives enabled, then make your
+          customization. And, if the guest kernel is Linux, the virtual disks
+          using Virtio interface will be named <code class=
+          "filename">vdx</code> in the devtmpfs, instead of <code class=
+          "filename">sdx</code>.
+        </p>
+        <p>
+          <code class="option">-net
+          nic,netdev=net0,model=virtio-net-pci</code>: Provide Virtio
+          interface to the guest kernel for accessing the network interface,
+          instead of simulating a real network interface card. This can
+          improve network I/O performance, but it requires a Virtio driver in
+          guest kernel. Use it instead of a plain <code class=
+          "option">-net</code> if the guest kernel supports Virtio.
+        </p>
+        <h3>
+          Controlling the Emulated Display
+        </h3>
+        <p>
+          To set the resolution of the emulated display for a Xorg server
+          running in the guest Linux system, read <a class="xref" href=
+          "../x/xorg-config.html#xdisplay" title=
+          "画面設定のチューニング">「画面設定のチューニング」</a>.
+        </p>
+        <h3>
+          Networking
+        </h3>
+        <p>
+          The above solution for networking allows the guest to access the
+          local network through the host (and possibly to access internet
+          through the local routers), but the converse is not true. Not even
+          the host can access the guest, unless port forwarding is enabled.
+          And in the case several guests are running, they cannot communicate
+          with each other. Other network devices can be used for this
+          purpose. For example, there is the <span class=
+          "quote">「<span class="quote">socket</span>」</span> device, which
+          allows several guests to share a common virtual network. In the
+          following, we describe in more details how to set up the
+          <span class="quote">「<span class="quote">bridge</span>」</span>
+          device, which allows the guests to appear as if connected to the
+          local network. All the commands below should be run as the
+          <code class="systemitem">root</code> user.
+        </p>
+        <p>
+          Allow the host to forward IP packets:
+        </p>
+        <pre class="root"><kbd class=
+        "command">sysctl -w net.ipv4.ip_forward=1</kbd></pre>
+        <p>
+          To make this permanent, add the command to <code class=
+          "filename">/etc/sysctl.d/60-net-forward.conf:</code>
+        </p>
+        <pre class="root"><kbd class=
+        "command">cat &gt;&gt; /etc/sysctl.d/60-net-forward.conf &lt;&lt; EOF
+<code class="literal">net.ipv4.ip_forward=1</code>
+EOF</kbd></pre>
+        <p>
+          Set up a required configuration file:
+        </p>
+        <pre class="root"><kbd class=
+        "command">install -vdm 755 /etc/qemu &amp;&amp;
+echo allow br0 &gt; /etc/qemu/bridge.conf</kbd></pre>
+        <p>
+          In the qemu command line above, replace the switch <em class=
+          "parameter"><code>-netdev user,...</code></em> with <em class=
+          "parameter"><code>-netdev bridge,...</code></em>.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">elf2dmp, qemu (シンボリックリンク), qemu-edid, qemu-ga,
+              qemu-img, qemu-io, qemu-keymap, qemu-nbd, qemu-pr-helper,
+              qemu-storage-daemon, qemu-system-&lt;arch&gt;</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/share/qemu, /usr/share/doc/qemu-8.2.0
+              (任意)</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="elf2dmp" name="elf2dmp"></a><span class=
+                    "term"><span class=
+                    "command"><strong>elf2dmp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Converts files from elf to dmp format
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qemu-edid" name="qemu-edid"></a><span class=
+                    "term"><span class=
+                    "command"><strong>qemu-edid</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a test tool for the qemu EDID generator
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qemu-ga" name="qemu-ga"></a><span class=
+                    "term"><span class=
+                    "command"><strong>qemu-ga</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    implements support for QMP (QEMU Monitor Protocol)
+                    commands and events that terminate and originate
+                    respectively within the guest using an agent built as
+                    part of QEMU
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qemu-img" name="qemu-img"></a><span class=
+                    "term"><span class=
+                    "command"><strong>qemu-img</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides commands to manage QEMU disk images
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qemu-io" name="qemu-io"></a><span class=
+                    "term"><span class=
+                    "command"><strong>qemu-io</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a diagnostic and manipulation program for (virtual)
+                    memory media. It is still at an early stage of
+                    development
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qemu-keymap" name="qemu-keymap"></a><span class=
+                    "term"><span class=
+                    "command"><strong>qemu-keymap</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    generates qemu reverse keymaps from xkb keymaps, which
+                    can be used with the qemu "-k" command line switch
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qemu-nbd" name="qemu-nbd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>qemu-nbd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    exports Qemu disk images using the QEMU Disk Network
+                    Block Device (NBD) protocol
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qemu-pr-helper" name=
+                    "qemu-pr-helper"></a><span class="term"><span class=
+                    "command"><strong>qemu-pr-helper</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Implements the persistent reservation helper for QEMU
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qemu-storage-daemon" name=
+                    "qemu-storage-daemon"></a><span class="term"><span class=
+                    "command"><strong>qemu-storage-daemon</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    allows to modify disk images using the QEMU Monitor
+                    Protocol (QMP) without running a VM
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qemu-system" name="qemu-system"></a><span class=
+                    "term"><span class=
+                    "command"><strong>qemu-system-x86_64</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    PC システムエミュレーターである QEMU です。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="virtualization.html" title="仮想化">戻る</a>
+          <p>
+            仮想化
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="../general/general.html" title=
+          "汎用的なライブラリとユーティリティ">次へ</a>
+          <p>
+            汎用的なライブラリとユーティリティ
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="virtualization.html" title=
+          "第8章 仮想化">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

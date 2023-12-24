@@ -1,0 +1,1376 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      sg3_utils-1.48
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第12章 システムユーティリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="redland.html" title="Redland-1.0.17">戻る</a>
+          <p>
+            Redland-1.0.17
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="sysmon-qt.html" title="sysmon-qt-1.0">次へ</a>
+          <p>
+            sysmon-qt-1.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="sysutils.html" title=
+          "第12章 システムユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="sg3_utils" name="sg3_utils"></a>sg3_utils-1.48
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          sg3_utils の概要
+        </h2>
+        <p>
+          The <span class="application">sg3_utils</span> package contains low
+          level utilities for devices that use a SCSI command set. Apart from
+          SCSI parallel interface (SPI) devices, the SCSI command set is used
+          by ATAPI devices (CD/DVDs and tapes), USB mass storage devices,
+          Fibre Channel disks, IEEE 1394 storage devices (that use the "SBP"
+          protocol), SAS, iSCSI and FCoE devices (amongst others).
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://sg.danny.cz/sg/p/sg3_utils-1.48.tar.xz">https://sg.danny.cz/sg/p/sg3_utils-1.48.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 0024393d2d2942cc081ce613d98db68a
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1.2 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 27 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.2 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of sg3_utils
+        </h2>
+        <p>
+          Install <span class="application">sg3_utils</span> by running the
+          following commands:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr --disable-static &amp;&amp;
+make</kbd></pre>
+        <p>
+          This package does not come with a test suite.
+        </p>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--disable-static</code></em>:
+          このスイッチはスタティックライブラリをインストールしないようにします。
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">rescan-scsi-bus.sh, scsi_logging_level,
+              scsi_mandat, scsi_readcap, scsi_ready, scsi_satl, scsi_start,
+              scsi_stop, scsi_temperature, sg_bg_ctl, sg_compare_and_write,
+              sg_copy_results, sg_dd, sg_decode_sense, sg_emc_trespass,
+              sg_format, sg_get_config, sg_get_lba_status, sg_ident, sg_inq,
+              sg_logs, sg_luns, sg_map, sg_map26, sg_modes, sg_opcodes,
+              sg_persist, sg_prevent, sg_raw, sg_rbuf, sg_rdac, sg_read,
+              sg_read_attr, sg_read_block_limits, sg_read_buffer,
+              sg_read_long, sg_readcap, sg_reassign, sg_referrals,
+              sg_rep_pip, sg_rep_zones, sg_requests, sg_reset, sg_reset_wp,
+              sg_rmsn, sg_rtpg, sg_safte, sg_sanitize, sg_sat_identify,
+              sg_sat_phy_event, sg_sat_read_gplog, sg_sat_set_features,
+              sg_scan, sg_seek, sg_senddiag, sg_ses, sg_ses_microcode,
+              sg_start, sg_stpg, sg_stream_ctl, sg_sync, sg_test_rwbuf,
+              sg_timestamp, sg_turs, sg_unmap, sg_verify, sg_vpd, sg_wr_mode,
+              sg_write_buffer, sg_write_long, sg_write_same, sg_write_verify,
+              sg_write_x, sg_xcopy, sg_zone, sginfo, sgm_dd, sgp_dd</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Library:</strong>
+              <span class="segbody">libsgutils2.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rescan-scsi-bus.sh" name=
+                    "rescan-scsi-bus.sh"></a><span class="term"><span class=
+                    "command"><strong>rescan-scsi-bus.sh</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    adds or removes SCSI devices without having to reboot
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="scsi_logging_level" name=
+                    "scsi_logging_level"></a><span class="term"><span class=
+                    "command"><strong>scsi_logging_level</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    accesses Linux SCSI logging level information
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="scsi_mandat" name="scsi_mandat"></a><span class=
+                    "term"><span class=
+                    "command"><strong>scsi_mandat</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    checks SCSI device support for mandatory commands
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="scsi_readcap" name="scsi_readcap"></a><span class=
+                    "term"><span class=
+                    "command"><strong>scsi_readcap</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    does the SCSI READ CAPACITY command on disks
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="scsi_ready" name="scsi_ready"></a><span class=
+                    "term"><span class=
+                    "command"><strong>scsi_ready</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    does the SCSI TEST UNIT READY on devices
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="scsi_satl" name="scsi_satl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>scsi_satl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    checks for SCSI to ATA Translation (SAT) device support
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="scsi_start" name="scsi_start"></a><span class=
+                    "term"><span class=
+                    "command"><strong>scsi_start</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    starts one or more SCSI disks
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="scsi_stop" name="scsi_stop"></a><span class=
+                    "term"><span class=
+                    "command"><strong>scsi_stop</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    stops one or more SCSI disks
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="scsi_temperature" name=
+                    "scsi_temperature"></a><span class="term"><span class=
+                    "command"><strong>scsi_temperature</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    fetches the temperature of a SCSI device
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_bg_ctl" name="sg_bg_ctl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_bg_ctl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    performs a SCSI BACKGROUND CONTROL command on a device to
+                    perform "advanced background operations"
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_compare_and_write" name=
+                    "sg_compare_and_write"></a><span class=
+                    "term"><span class="command"><strong>sg_compare_and_write</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends the SCSI COMPARE AND WRITE command to device
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_copy_results" name=
+                    "sg_copy_results"></a><span class="term"><span class=
+                    "command"><strong>sg_copy_results</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends the SCSI RECEIVE COPY RESULTS command (XCOPY
+                    related)
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_dd" name="sg_dd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_dd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    copies data to and from files and devices. Specialised
+                    for devices that understand the SCSI command set
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_decode_sense" name=
+                    "sg_decode_sense"></a><span class="term"><span class=
+                    "command"><strong>sg_decode_sense</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    takes SCSI sense data in binary or as a sequence of ASCII
+                    hexadecimal bytes and decodes it
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_emc_trespass" name=
+                    "sg_emc_trespass"></a><span class="term"><span class=
+                    "command"><strong>sg_emc_trespass</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    changes ownership of a LUN from another Service-Processor
+                    to this one
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_format" name="sg_format"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_format</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    formats or resizes a SCSI disk (perhaps changes its block
+                    size)
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_get_config" name=
+                    "sg_get_config"></a><span class="term"><span class=
+                    "command"><strong>sg_get_config</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends a SCSI GET CONFIGURATION command (MMC-4 +)
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_get_elem_status" name=
+                    "sg_get_elem_status"></a><span class="term"><span class=
+                    "command"><strong>sg_get_elem_status</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends a SCSI GET PHYSICAL ELEMENT STATUS command to a
+                    device
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_get_lba_status" name=
+                    "sg_get_lba_status"></a><span class="term"><span class=
+                    "command"><strong>sg_get_lba_status</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends the SCSI GET LBA STATUS command
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_ident" name="sg_ident"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_ident</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends a SCSI REPORT or SET IDENTIFYING INFORMATION
+                    command
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sginfo" name="sginfo"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sginfo</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    access mode page information for a SCSI (or ATAPI) device
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_inq" name="sg_inq"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_inq</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends a SCSI INQUIRY or ATA IDENTIFY (PACKET) DEVICE
+                    command and outputs the response
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_logs" name="sg_logs"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_logs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    access log pages with SCSI LOG SENSE command
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_luns" name="sg_luns"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_luns</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends the SCSI REPORT LUNS command
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_map" name="sg_map"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_map</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    displays mapping between linux sg and other SCSI devices
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_map26" name="sg_map26"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_map26</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    maps a special file to a SCSI generic (sg) device (or
+                    vice versa)
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sgm_dd" name="sgm_dd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sgm_dd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    copies data to and from files and devices. Specialized
+                    for devices that understand the SCSI command set and does
+                    memory mapped transfers from sg devices
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_modes" name="sg_modes"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_modes</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    reads mode pages with the SCSI MODE SENSE command
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_opcodes" name="sg_opcodes"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_opcodes</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    reports information on supported SCSI commands or task
+                    management functions
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sgp_dd" name="sgp_dd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sgp_dd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    copies data to and from files and devices. Specialized
+                    for devices that understand the SCSI command set
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_persist" name="sg_persist"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_persist</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends a SCSI PERSISTENT RESERVE (IN or OUT) command to
+                    manipulate registrations and reservations
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_prevent" name="sg_prevent"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_prevent</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends a SCSI PREVENT ALLOW MEDIUM REMOVAL command
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_raw" name="sg_raw"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_raw</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends an arbitrary SCSI command to a device
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_rbuf" name="sg_rbuf"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_rbuf</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    reads data using the SCSI READ BUFFER command
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_rdac" name="sg_rdac"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_rdac</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    displays or modifies the RDAC Redundant Controller Page
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_read" name="sg_read"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_read</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    reads blocks of data continually from the same offset
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_read_attr" name="sg_read_attr"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_read_attr</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    performs a SCSI READ ATTRIBUTE command on a device
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_read_block_limits" name=
+                    "sg_read_block_limits"></a><span class=
+                    "term"><span class="command"><strong>sg_read_block_limits</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends a SCSI READ BLOCK LIMITS command
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_read_buffer" name=
+                    "sg_read_buffer"></a><span class="term"><span class=
+                    "command"><strong>sg_read_buffer</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends a SCSI READ BUFFER command
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_readcap" name="sg_readcap"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_readcap</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends a SCSI READ CAPACITY command
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_read_long" name="sg_read_long"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_read_long</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends a SCSI READ LONG command
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_reassign" name="sg_reassign"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_reassign</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends a SCSI REASSIGN BLOCKS command
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_referrals" name="sg_referrals"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_referrals</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends a SCSI REPORT REFERRALS command
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_rep_pip" name="sg_rep_pip"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_rep_pip</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends a SCSI REPORT PROVISIONING INITIALIZATION PATTERN
+                    command
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_rep_zones" name="sg_rep_zones"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_rep_zones</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends a SCSI REPORT ZONES command
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_requests" name="sg_requests"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_requests</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends one or more SCSI REQUEST SENSE commands
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_reset" name="sg_reset"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_reset</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends a SCSI device, target, bus or host reset; or checks
+                    reset state
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_reset_wp" name="sg_reset_wp"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_reset_wp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends a SCSI RESET WRITE POINTER command
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_rmsn" name="sg_rmsn"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_rmsn</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends a SCSI READ MEDIA SERIAL NUMBER command
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_rtpg" name="sg_rtpg"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_rtpg</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends a SCSI REPORT TARGET PORT GROUPS command
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_safte" name="sg_safte"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_safte</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    fetches status information from a SCSI Accessed
+                    Fault-Tolerant Enclosure (SAF-TE) device
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_sanitize" name="sg_sanitize"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_sanitize</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends a SCSI SANITIZE command
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_sat_identify" name=
+                    "sg_sat_identify"></a><span class="term"><span class=
+                    "command"><strong>sg_sat_identify</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends an ATA IDENTIFY (PACKET) DEVICE command via a SCSI
+                    to ATA Translation (SAT) layer
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_sat_phy_event" name=
+                    "sg_sat_phy_event"></a><span class="term"><span class=
+                    "command"><strong>sg_sat_phy_event</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends an ATA READ LOG EXT command via a SAT pass through
+                    to fetch log page 11h which contains SATA phy event
+                    counters
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_sat_read_gplog" name=
+                    "sg_sat_read_gplog"></a><span class="term"><span class=
+                    "command"><strong>sg_sat_read_gplog</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends an ATA READ LOG EXT command via a SCSI to ATA
+                    Translation (SAT) layer
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_sat_set_features" name=
+                    "sg_sat_set_features"></a><span class="term"><span class=
+                    "command"><strong>sg_sat_set_features</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends an ATA SET FEATURES command via a SCSI to ATA
+                    Translation (SAT) layer
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_scan" name="sg_scan"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_scan</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    does a scan of sg devices (or given SCSI/ATAPI/ATA
+                    devices) and prints the results
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_seek" name="sg_seek"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_seek</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    performs a SCSI SEEK or PRE-FETCH command on a device and
+                    it's cache
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_senddiag" name="sg_senddiag"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_senddiag</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    performs a SCSI SEND DIAGNOSTIC command
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_ses" name="sg_ses"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_ses</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends controls and fetches the current status from a SCSI
+                    Enclosure Services (SES) device
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_ses_microcode" name=
+                    "sg_ses_microcode"></a><span class="term"><span class=
+                    "command"><strong>sg_ses_microcode</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends microcode to a SCSI enclosure
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_start" name="sg_start"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_start</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends a SCSI START STOP UNIT command to start, stop, load
+                    or eject medium
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_stpg" name="sg_stpg"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_stpg</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends a SCSI SET TARGET PORT GROUPS command
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_stream_ctl" name=
+                    "sg_stream_ctl"></a><span class="term"><span class=
+                    "command"><strong>sg_stream_ctl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    performs a SCSI STREAM CONTROL or GET STREAM STATUS
+                    command on a device to open or close an I/O stream
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_sync" name="sg_sync"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_sync</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends a SCSI command to synchronize the cache
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_test_rwbuf" name=
+                    "sg_test_rwbuf"></a><span class="term"><span class=
+                    "command"><strong>sg_test_rwbuf</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    tests the SCSI host adapter by issuing write and read
+                    operations on a device's buffer and calculating checksums
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_timestamp" name="sg_timestamp"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_timestamp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    reports or sets the timestamp on a SCSI device
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_turs" name="sg_turs"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_turs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends one or more SCSI TEST UNIT READY commands
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_unmap" name="sg_unmap"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_unmap</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends a SCSI UNMAP command
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_verify" name="sg_verify"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_verify</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    invokes SCSI VERIFY command(s) on a block device
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_vpd" name="sg_vpd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_vpd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    fetches Vital Product Data (VPD) pages using a SCSI
+                    INQUIRY command
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_write_buffer" name=
+                    "sg_write_buffer"></a><span class="term"><span class=
+                    "command"><strong>sg_write_buffer</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends a SCSI WRITE BUFFER command
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_write_long" name=
+                    "sg_write_long"></a><span class="term"><span class=
+                    "command"><strong>sg_write_long</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends a SCSI WRITE LONG command
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_write_same" name=
+                    "sg_write_same"></a><span class="term"><span class=
+                    "command"><strong>sg_write_same</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends a SCSI WRITE SAME command
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_write_verify" name=
+                    "sg_write_verify"></a><span class="term"><span class=
+                    "command"><strong>sg_write_verify</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sends a SCSI WRITE AND VERIFY command
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_write_x" name="sg_write_x"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_write_x</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    performs SCSI WRITE commands on a device
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_wr_mode" name="sg_wr_mode"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_wr_mode</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    writes mode pages
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_xcopy" name="sg_xcopy"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_xcopy</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    copies data to and from files and devices using SCSI
+                    EXTENDED COPY (XCOPY)
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg_zone" name="sg_zone"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sg_zone</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    performs SCSI ZONE commands on a device, such as OPEN,
+                    CLOSE, FINISH or SEQUENTIALIZE
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libsgutils2" name="libsgutils2"></a><span class=
+                    "term"><code class=
+                    "filename">libsgutils2.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains the <span class="application">sg3_utils</span>
+                    API functions
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="redland.html" title="Redland-1.0.17">戻る</a>
+          <p>
+            Redland-1.0.17
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="sysmon-qt.html" title="sysmon-qt-1.0">次へ</a>
+          <p>
+            sysmon-qt-1.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="sysutils.html" title=
+          "第12章 システムユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

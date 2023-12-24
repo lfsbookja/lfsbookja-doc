@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Gedit-46.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第6章 テキストエディター
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="emacs.html" title="Emacs-29.1">戻る</a>
+          <p>
+            Emacs-29.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="joe.html" title="JOE-4.6">次へ</a>
+          <p>
+            JOE-4.6
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="editors.html" title="第6章 テキストエディター">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="gedit" name="gedit"></a>Gedit-46.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Gedit の概要
+        </h2>
+        <p>
+          <span class="application">Gedit</span> パッケージは <span class=
+          "application">GNOME</span> デスクトップでの軽量な UTF-8 テキストエディターを提供します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://download.gnome.org/sources/gedit/46/gedit-46.1.tar.xz">
+                https://download.gnome.org/sources/gedit/46/gedit-46.1.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 74cc927f8c41e7ccd2352c90d1086974
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 2.6 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 50 MB (with tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.2 SBU (using parallelism=4; with tests)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Gedit の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="../gnome/gsettings-desktop-schemas.html"
+          title=
+          "gsettings-desktop-schemas-45.0">gsettings-desktop-schemas-45.0</a>,
+          <a class="xref" href="../pst/itstool.html" title=
+          "itstool-2.0.7">itstool-2.0.7</a>, <a class="xref" href=
+          "../gnome/libpeas.html" title="libpeas-1.36.0">libpeas-1.36.0</a>,
+          <a class="xref" href="../x/libgedit-gtksourceview.html" title=
+          "libgedit-gtksourceview-299.0.4">libgeditsourceview-299.0.4</a>,
+          and <a class="xref" href="../x/tepl.html" title=
+          "Tepl-6.8.0">tepl-6.8.0</a>
+        </p>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../general/gspell.html" title=
+          "gspell-1.12.2">gspell-1.12.2</a>, <a class="xref" href=
+          "../gnome/gvfs.html" title="Gvfs-1.52.1">Gvfs-1.52.1</a> (runtime),
+          <a class="xref" href="../general/iso-codes.html" title=
+          "ISO Codes-4.15.0">ISO Codes-4.15.0</a>, and <a class="xref" href=
+          "../general/python-modules.html#pygobject3" title=
+          "PyGObject-3.46.0">PyGObject-3.46.0</a> (<span class=
+          "application">Python</span> 3 module)
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/gtk-doc.html" title=
+          "GTK-Doc-1.33.2">GTK-Doc-1.33.2</a>, <a class="xref" href=
+          "../general/vala.html" title="Vala-0.56.14">Vala-0.56.14</a>,
+          <a class="ulink" href=
+          "https://launchpad.net/zeitgeist">zeitgeist</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Gedit のインストール
+        </h2>
+        <p>
+          First change the <code class="filename">meson.build</code> script
+          so that it can accept a <code class="option">release</code> build.
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i s/plain/release/ meson.build</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">Gedit</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mkdir gedit-build &amp;&amp;
+cd    gedit-build &amp;&amp;
+
+meson setup --prefix=/usr       \
+            --buildtype=release \
+            -Dgtk_doc=false     \
+            .. &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>ninja
+          test</strong></span> を実行します。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">ninja install</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            <span class="quote">「<span class="quote">DESTDIR</span>」</span>
+            手法により本パッケージをインストールする場合 <code class=
+            "filename">/usr/share/glib-2.0/schemas/gschemas.compiled</code>
+            は生成更新されません。 このファイルを生成更新するためには <code class=
+            "systemitem">root</code> ユーザーになって以下のコマンドを実行します。
+          </p>
+          <pre class="root"><kbd class=
+          "command">glib-compile-schemas /usr/share/glib-2.0/schemas</kbd></pre>
+        </div>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>-Dgtk_doc=false</code></em>: This
+          switch disables generating the API documentation. Omit this switch
+          if you have <a class="xref" href="../general/gtk-doc.html" title=
+          "GTK-Doc-1.33.2">GTK-Doc-1.33.2</a> installed and wish to generate
+          the API documentation.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">gedit</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libgedit-46.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/gedit-46,
+              /usr/{lib,share,share/help/*}/gedit</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gedit-prog" name="gedit-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gedit</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">GNOME</span>
+                    デスクトップにて利用される軽量なテキストエディターです。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="emacs.html" title="Emacs-29.1">戻る</a>
+          <p>
+            Emacs-29.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="joe.html" title="JOE-4.6">次へ</a>
+          <p>
+            JOE-4.6
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="editors.html" title="第6章 テキストエディター">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      giflib-5.2.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第10章 グラフィックスとフォントのライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gegl.html" title="gegl-0.4.46">戻る</a>
+          <p>
+            gegl-0.4.46
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="glad.html" title="Glad-2.0.4">次へ</a>
+          <p>
+            Glad-2.0.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="graphlib.html" title=
+          "第10章 グラフィックスとフォントのライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="giflib" name="giflib"></a>giflib-5.2.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          giflib の概要
+        </h2>
+        <p>
+          <span class="application">giflib</span> パッケージは GIF
+          ファイルの入出力を行うライブラリを提供し、また GIF ファイルの変換処理などを行うプログラムを提供します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://sourceforge.net/projects/giflib/files/giflib-5.2.1.tar.gz">
+                https://sourceforge.net/projects/giflib/files/giflib-5.2.1.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 6f03aee4ebe54ac2cc1ab3e4b0a049e5
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 436 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 3.2 MB (with documentation)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: less than 0.1 SBU (with documentation)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          giflib の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="../pst/xmlto.html" title=
+          "xmlto-0.0.28">xmlto-0.0.28</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          giflib のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">giflib</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class=
+        "command">make PREFIX=/usr install &amp;&amp;
+
+rm -fv /usr/lib/libgif.a &amp;&amp;
+
+find doc \( -name Makefile\* -o -name \*.1 \
+         -o -name \*.xml \) -exec rm -v {} \; &amp;&amp;
+
+install -v -dm755 /usr/share/doc/giflib-5.2.1 &amp;&amp;
+cp -v -R doc/* /usr/share/doc/giflib-5.2.1</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <span class="command"><strong>rm -fv
+          /usr/lib/libgif.a</strong></span>: This command removes a static
+          library which is not used by any BLFS package.
+        </p>
+        <p>
+          <span class="command"><strong>find doc ... -exec rm -v {}
+          \;</strong></span>: This command removes <code class=
+          "filename">Makefiles</code>, man and xml files from the
+          documentation directory that would otherwise be installed by the
+          commands that follow.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">gif2rgb, gifbuild, gifclrmp, giffix, giftext,
+              giftool</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libgif.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/share/doc/giflib-5.2.1</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gif2rgb" name="gif2rgb"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gif2rgb</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    GIF イメージを 24 ビット RGB イメージに変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gifbuild" name="gifbuild"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gifbuild</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    dumps GIF data in a textual format, or undumps it to a
+                    GIF
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gifclrmp" name="gifclrmp"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gifclrmp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    modifies GIF image colormaps
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="giffix" name="giffix"></a><span class=
+                    "term"><span class=
+                    "command"><strong>giffix</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    clumsily attempts to fix truncated GIF images
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="giftext" name="giftext"></a><span class=
+                    "term"><span class=
+                    "command"><strong>giftext</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    prints (text only) general information about a GIF file
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="giftool" name="giftool"></a><span class=
+                    "term"><span class=
+                    "command"><strong>giftool</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a GIF transformation tool
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libgif" name="libgif"></a><span class=
+                    "term"><code class="filename">libgif.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains API functions required by the <span class=
+                    "application">giflib</span> programs and any other
+                    programs needing library functionality to read, write and
+                    manipulate GIF images
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gegl.html" title="gegl-0.4.46">戻る</a>
+          <p>
+            gegl-0.4.46
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="glad.html" title="Glad-2.0.4">次へ</a>
+          <p>
+            Glad-2.0.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="graphlib.html" title=
+          "第10章 グラフィックスとフォントのライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

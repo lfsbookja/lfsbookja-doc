@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Database サーバーソフトウェアのアップグレードに関する重要事項
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第22章 データベース
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="databases.html" title="データベース">戻る</a>
+          <p>
+            データベース
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="lmdb.html" title="lmdb-0.9.31">次へ</a>
+          <p>
+            lmdb-0.9.31
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="databases.html" title="第22章 データベース">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="upgradedb" name="upgradedb"></a>Database
+        サーバーソフトウェアのアップグレードに関する重要事項
+      </h1>
+      <div class="admon note">
+        <img alt="[注記]" src="../images/note.png" />
+        <h3>
+          注記
+        </h3>
+        <p>
+          This section is about reinstalling database software when an
+          existing database is in use. It is not applicable for initial
+          installations or if there is no existing database for the package
+          being updated, but users should read through it to become aware of
+          issues that can arise in the future.
+        </p>
+      </div>
+      <p>
+        Let's start this chapter with a dramatic screenshot of an error that
+        really happened. This error will not occur if you are installing
+        database software for the first time:
+      </p>
+      <pre class="screen">$ sudo systemctl status postgresql
+-- postgresql.service - PostgreSQL database server
+     Loaded: loaded (/usr/lib/systemd/system/postgresql.service; enabled; vendor preset: enabled)
+     Active: failed (Result: exit-code) since Tue 2021-10-26 17:11:53 CDT; 2min 49s ago
+    Process: 17336 ExecStart=/usr/bin/pg_ctl -s -D ${PGROOT}/data start -w -t 120 (code=exited, status=1/FAILURE)
+        CPU: 7ms
+
+Oct 26 17:11:53 SVRNAME systemd[1]: Starting PostgreSQL database server...
+Oct 26 17:11:53 SRVNAME postgres[17338]: 2021-10-26 17:11:53.420 CDT [17338] FATAL:
+                database files are incompatible with server
+Oct 26 17:11:53 SRVNAME postgres[17338]: 2021-10-26 17:11:53.420 CDT [17338] DETAIL:
+                The data directory was initialized by PostgreSQL version 13,
+                which is not compatible with this version 14.0.
+Oct 26 17:11:53 SRVNAME postgres[17336]: pg_ctl: could not start server
+Oct 26 17:11:53 SRVNAME postgres[17336]: Examine the log output.
+Oct 26 17:11:53 SRVNAME systemd[1]: postgresql.service: Control process exited, code=exited, status=1/FAILURE
+Oct 26 17:11:53 SRVNAME systemd[1]: postgresql.service: Failed with result 'exit-code'.
+Oct 26 17:11:53 SRVNAME systemd[1]: Failed to start PostgreSQL database server.</pre>
+      <p>
+        To avoid situations like this (i.e., your database server software
+        refuses to start), read the following discussion of the best way to
+        upgrade a DBMS (Database Management System).
+      </p>
+      <p>
+        The root cause of the error shown above was an upgrade of the server
+        software to a newer major version which left the data files
+        untouched. In this case, the administrator was able to recover the
+        DBMS without any loss of data.
+      </p>
+      <p>
+        Even if you are doing an initial DBMS install, read through this
+        section. It provides information about implementing backup and
+        restore procedures (or at least a strategy for creating them) which
+        will satisfy your needs and guarantee the safety of your data.
+      </p>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Upgrade Database Server Packages
+        </h2>
+        <p>
+          Database systems work on files which hold the database metadata and
+          the data itself. The internal structure of these files is optimized
+          for use by the server software. When such server software is
+          upgraded, the new software may utilize a different file format than
+          had previously been used. Sometimes the new software can work with
+          the old format as well as the new one—but without the performance
+          improvements the new format provides. Other times, the new server
+          software will reformat the data files automatically after the
+          upgrade.
+        </p>
+        <p>
+          Unfortunately, the most likely case is that the new server software
+          complains about out of date file formats and exits. When this
+          happens, and you have overwritten the old server software, you may
+          end up with a broken system and lost data.
+        </p>
+        <p>
+          Changes in data file formats usually happen at major version
+          changes, but they can also occur at other times. Before upgrading
+          any DBMS software, check the documentation to see if this upgrade
+          makes changes which require reformatting the database.
+        </p>
+        <p>
+          Of course, if you have databases with content that is not easily
+          rebuilt, it is always a good idea to create backups of the database
+          from time to time. Before upgrading the server software, you should
+          run another backup.
+        </p>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id59786" name="id59786"></a>Upgrade by Backup and Restore
+          </h4>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              A backup is useless if there is no verified process to restore
+              the data from this backup. When running a database server, you
+              should not only create backups; you should also verify that the
+              restore process really works. The time to test the restore
+              procedure is <span class="emphasis"><em>before</em></span> you
+              urgently need to recover lost data.
+            </p>
+          </div>
+          <p>
+            Most database server software provides some basic tools to create
+            backups of your data. Usually the backups created with those
+            tools can be read by newer versions of the software (via a
+            restore tool). Using older restore tools with newer backup data
+            is a bad idea; you should <span class=
+            "emphasis"><em>never</em></span> blindly assume that it will
+            work. It might, but usually it doesn't.
+          </p>
+          <p>
+            The easiest way to upgrade your database files is to
+          </p>
+          <div class="itemizedlist">
+            <ul>
+              <li class="listitem">
+                <p>
+                  Create a full database backup using the old tools.
+                </p>
+                <p>
+                  This step creates an offline copy of the database files—for
+                  long term archiving, for disaster recovery, or as
+                  preparation for an upgrade. This offline backup consists of
+                  either (1) a full one-to-one copy of the current database
+                  files, or (2) a full backup of the database files from a
+                  certain point in time, plus all the journal data (that is
+                  Oracle® terminology, it is called "Continuous Archiving" or
+                  "write ahead log (WAL)" in Postgresql) describing the
+                  changes made after that point in time. This second form
+                  takes less time to create (if the DB software provides this
+                  type of journaling) because you only have to save the data
+                  that have changed since the last full backup was created.
+                </p>
+                <p>
+                  When upgrading database server software, a full backup
+                  (which can be used for subsequent incremental backups)
+                  should be created; but if there is a lot of data, an
+                  incremental backup will suffice. The best strategy for you
+                  depends on the amount of data stored in your database (is
+                  it a few hundred table rows, or is it hundreds of
+                  terabytes?). A full backup in the latter case can't be done
+                  quickly. To fully protect your data, create a backup of the
+                  old programs (and/or their sources) and save it, along with
+                  the data files, to be certain there is a fallback solution
+                  if the new software cannot read the old data.
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  Upgrade the server software
+                </p>
+                <p>
+                  In this step, instructions to build the database server
+                  software are executed just as they are shown in subsequent
+                  sections talking about the DBMs like MariaDB or Postgresql.
+                  That is, build the software as usual using BLFS
+                  instructions.
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  Restore the database by using the new tools.
+                </p>
+                <p>
+                  To restore the data, the tools of the newly installed
+                  server software should be used. During the restoration
+                  process, the new tools will create and/or upgrade the data
+                  files in the format the new software requires. It is
+                  assumed that newer software is capable of reading old data.
+                </p>
+              </li>
+            </ul>
+          </div>
+          <p>
+            Since you already have a backup procedure in place (and you have
+            tested your restore procedure, right?), this might be the easiest
+            way to upgrade as you can use your well known processes to
+            upgrade just as you always do—at least in terms of the backup and
+            restore.
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id59806" name="id59806"></a>Upgrade the Database Files by
+            Using System Tools
+          </h4>
+          <p>
+            Some database systems (for instance Postgresql) provide a tool
+            which can reformat (upgrade) the existing database files to the
+            new format. If you need to restore from a backup (for example,
+            running the upgrade tool failed) you will have to reinstall the
+            old software to recover your data.
+          </p>
+          <p>
+            Even though the reformatting tools might work as advertised, you
+            should create a full backup before running them. A failure could
+            cause serious damage to the database.
+          </p>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Notes for Specific DBMS
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id59812" name="id59812"></a>PostgreSQL
+          </h4>
+          <p>
+            Upstream documentation for Backup/Restore: <a class="ulink" href=
+            "https://www.postgresql.org/docs/current/backup.html">https://www.postgresql.org/docs/current/backup.html</a>
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id59816" name="id59816"></a>MariaDB
+          </h4>
+          <p>
+            Upstream documentation for Backup/Restore: <a class="ulink" href=
+            "https://mariadb.com/kb/en/backup-and-restore-overview/">https://mariadb.com/kb/en/backup-and-restore-overview/</a>
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id59820" name="id59820"></a>Sqlite
+          </h4>
+          <p>
+            Do not underestimate <span class="application">Sqlite</span>. It
+            is a feature-rich DBMS. The main difference from the two big
+            players above is that Sqlite does not provide access via a
+            network API. Sqlite databases are always stored on the machine
+            running the program which uses the database. The manipulation of
+            data content is done via API calls to library functions directly
+            within the program.
+          </p>
+          <p>
+            In the upstream documentation you may find the following useful:
+          </p>
+          <p>
+            Documentation of the sqlite3 command line tool: <a class="ulink"
+            href=
+            "https://www.sqlite.org/cli.html">https://www.sqlite.org/cli.html</a>
+          </p>
+          <p>
+            Documentation of backup API calls: <a class="ulink" href=
+            "https://www.sqlite.org/backup.html">https://www.sqlite.org/backup.html</a>
+          </p>
+          <p>
+            Unfortunately, there is no dedicated chapter in the upstream
+            documentation talking about backup/restore, but there are several
+            articles about it on the Internet. Here is an example.
+          </p>
+          <p>
+            Documentation for Backup/Restore: <a class="ulink" href=
+            "https://database.guide/backup-sqlite-database/">https://database.guide/backup-sqlite-database/</a>
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id59832" name="id59832"></a>LMDB
+          </h4>
+          <p>
+            Like <span class="application">Sqlite</span>, this software acts
+            on local database files; there is no network interface.
+          </p>
+          <p>
+            The relevant resources to back up/restore a LMDB database are the
+            man pages for <code class="filename">mdb_dump</code> and its
+            counterpart <code class="filename">mdb_load</code>.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="databases.html" title="データベース">戻る</a>
+          <p>
+            データベース
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="lmdb.html" title="lmdb-0.9.31">次へ</a>
+          <p>
+            lmdb-0.9.31
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="databases.html" title="第22章 データベース">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

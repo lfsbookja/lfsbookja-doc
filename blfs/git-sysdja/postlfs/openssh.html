@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      OpenSSH-9.5p1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第4章 セキュリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="nss.html" title="NSS-3.96.1">戻る</a>
+          <p>
+            NSS-3.96.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="p11-kit.html" title="p11-kit-0.25.3">次へ</a>
+          <p>
+            p11-kit-0.25.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="security.html" title="第4章 セキュリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="openssh" name="openssh"></a>OpenSSH-9.5p1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          OpenSSH の概要
+        </h2>
+        <p>
+          <span class="application">OpenSSH</span> パッケージは <span class=
+          "command"><strong>ssh</strong></span> クライアントと <span class=
+          "command"><strong>sshd</strong></span> デーモンを提供します。
+          これはネットワーク越しの通信にあたり、権限情報をはじめとする情報を暗号化します。 <span class=
+          "command"><strong>ssh</strong></span> コマンドと <span class=
+          "command"><strong>scp</strong></span> コマンドは、それぞれ <span class=
+          "command"><strong>telnet</strong></span> と <span class=
+          "command"><strong>rcp</strong></span> に対するセキュアな実装です。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-9.5p1.tar.gz">
+                https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-9.5p1.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 3d29a7394816deeb57186899d7f7662c
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1.7 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 45 MB (テスト実施時はさらに 22 MB)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.2 SBU (parallelism=4 利用時;
+                テスト実施はプロセッサーの処理スピードとは無関係に最低でも 20 分以上)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          OpenSSH の依存パッケージ
+        </h3>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/gdb.html" title=
+          "GDB-14.1">GDB-14.1</a> (for tests), <a class="xref" href=
+          "linux-pam.html" title="Linux-PAM-1.5.3">Linux-PAM-1.5.3</a> (PAM
+          configuration files from <a class="xref" href="shadow.html" title=
+          "Shadow-4.14.2">Shadow-4.14.2</a> are used to create openssh ones),
+          <a class="xref" href="../x/x7app.html" title="Xorg アプリケーション">Xorg
+          アプリケーション</a> (or <a class="xref" href="../x/xorg7.html#xorg-env"
+          title="Xorg ビルド環境の設定">Xorg build environment</a>, see Command
+          Explanations), <a class="xref" href="mitkrb.html" title=
+          "MIT Kerberos V5-1.21.2">MIT Kerberos V5-1.21.2</a>, <a class=
+          "xref" href="../general/which.html" title=
+          "Which-2.21 と別の実現方法">Which-2.21</a> (for tests), <a class="ulink"
+          href="https://www.thrysoee.dk/editline/">libedit</a>, <a class=
+          "ulink" href="https://www.libressl.org/">LibreSSL Portable</a>,
+          <a class="ulink" href=
+          "https://github.com/OpenSC/OpenSC/wiki">OpenSC</a>, <a class=
+          "ulink" href=
+          "http://www.citi.umich.edu/projects/smartcard/sectok.html">libsectok</a>
+        </p>
+        <h4>
+          任意, 実行時 （エントロピー収集のためにのみ利用される）
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../basicnet/net-tools.html" title=
+          "Net-tools-2.10">Net-tools-2.10</a>, <a class="xref" href=
+          "../general/sysstat.html" title="Sysstat-12.7.4">Sysstat-12.7.4</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          OpenSSH のインストール
+        </h2>
+        <p>
+          他のコンピューターへの接続の際に、<span class="application">OpenSSH</span>
+          は二つのプロセスとして起動します。 初めのプロセスは特権プロセスであり、必要に応じて特権の発行を制御します。
+          二つめのプロセスはネットワーク通信を行います。 環境設定を適切に行うためには、インストール手順において追加作業が必要となります。
+          それは <code class="systemitem">root</code> ユーザーとなって、以下のコマンドを行うものです。
+        </p>
+        <pre class="root"><kbd class=
+        "command">install -v -g sys -m700 -d /var/lib/sshd &amp;&amp;
+
+groupadd -g 50 sshd        &amp;&amp;
+useradd  -c 'sshd PrivSep' \
+         -d /var/lib/sshd  \
+         -g sshd           \
+         -s /bin/false     \
+         -u 50 sshd</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">OpenSSH</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr                            \
+            --sysconfdir=/etc/ssh                    \
+            --with-privsep-path=/var/lib/sshd        \
+            --with-default-path=/usr/bin             \
+            --with-superuser-path=/usr/sbin:/usr/bin \
+            --with-pid-dir=/run                      &amp;&amp;
+make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>make -j1
+          tests</strong></span> を実行します。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install &amp;&amp;
+install -v -m755    contrib/ssh-copy-id /usr/bin     &amp;&amp;
+
+install -v -m644    contrib/ssh-copy-id.1 \
+                    /usr/share/man/man1              &amp;&amp;
+install -v -m755 -d /usr/share/doc/openssh-9.5p1     &amp;&amp;
+install -v -m644    INSTALL LICENCE OVERVIEW README* \
+                    /usr/share/doc/openssh-9.5p1</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--sysconfdir=/etc/ssh</code></em>:
+          このパラメーターを指定することで、設定ファイルを <code class="filename">/usr/etc</code>
+          にインストールしないようにします。
+        </p>
+        <p>
+          <em class=
+          "parameter"><code>--with-default-path=/usr/bin</code></em> and
+          <em class=
+          "parameter"><code>--with-superuser-path=/usr/sbin:/usr/bin</code></em>:
+          These set <code class="envar">PATH</code> consistent with LFS and
+          BLFS <span class="application">Shadow</span> package.
+        </p>
+        <p>
+          <em class="parameter"><code>--with-pid-dir=/run</code></em>: This
+          prevents <span class="application">OpenSSH</span> from referring to
+          deprecated <code class="filename">/var/run</code>.
+        </p>
+        <p>
+          <code class="option">--with-pam</code>: このパラメーターは <span class=
+          "application">Linux-PAM</span> サポートを有効にします。
+        </p>
+        <p>
+          <code class="option">--with-xauth=$XORG_PREFIX/bin/xauth</code>:
+          Set the default location for the <span class=
+          "command"><strong>xauth</strong></span> binary for X
+          authentication. The environment variable <code class=
+          "envar">XORG_PREFIX</code> should be set following <a class="xref"
+          href="../x/xorg7.html#xorg-env" title="Xorg ビルド環境の設定">Xorg build
+          environment</a>. This can also be controlled from <code class=
+          "filename">sshd_config</code> with the XAuthLocation keyword. You
+          can omit this switch if <span class="application">Xorg</span> is
+          already installed.
+        </p>
+        <p>
+          <code class="option">--with-kerberos5=/usr</code>: このオプションは
+          Kerberos 5 サポートを有効にします。
+        </p>
+        <p>
+          <code class="option">--with-libedit</code>: このオプションは <span class=
+          "command"><strong>sftp</strong></span> コマンドにおいての行編集および履歴機能を有効にします。
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          OpenSSH の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="openssh-config" name="openssh-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="openssh-config" name="openssh-config"></a>設定ファイル
+          </h4>
+          <p>
+            <code class="filename">~/.ssh/*</code>, <code class=
+            "filename">/etc/ssh/ssh_config</code>, <code class=
+            "filename">/etc/ssh/sshd_config</code>
+          </p>
+          <p>
+            There are no required changes to any of these files. However, you
+            may wish to view the <code class="filename">/etc/ssh/</code>
+            files and make any changes appropriate for the security of your
+            system. One recommended change is that you disable <code class=
+            "systemitem">root</code> login via <span class=
+            "command"><strong>ssh</strong></span>. Execute the following
+            command as the <code class="systemitem">root</code> user to
+            disable <code class="systemitem">root</code> login via
+            <span class="command"><strong>ssh</strong></span>:
+          </p>
+          <pre class="root"><kbd class=
+          "command">echo "PermitRootLogin no" &gt;&gt; /etc/ssh/sshd_config</kbd></pre>
+          <p>
+            If you want to be able to log in without typing in your password,
+            first create ~/.ssh/id_rsa and ~/.ssh/id_rsa.pub with
+            <span class="command"><strong>ssh-keygen</strong></span> and then
+            copy ~/.ssh/id_rsa.pub to ~/.ssh/authorized_keys on the remote
+            computer that you want to log into. You'll need to change
+            REMOTE_USERNAME and REMOTE_HOSTNAME for the username and hostname
+            of the remote computer and you'll also need to enter your
+            password for the ssh-copy-id command to succeed:
+          </p>
+          <pre class="userinput"><kbd class="command">ssh-keygen &amp;&amp;
+ssh-copy-id -i ~/.ssh/id_ed25519.pub <em class=
+"replaceable"><code>REMOTE_USERNAME</code></em>@<em class=
+"replaceable"><code>REMOTE_HOSTNAME</code></em></kbd></pre>
+          <p>
+            Once you've got passwordless logins working it's actually more
+            secure than logging in with a password (as the private key is
+            much longer than most people's passwords). If you would like to
+            now disable password logins, as the <code class=
+            "systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">echo "PasswordAuthentication no" &gt;&gt; /etc/ssh/sshd_config &amp;&amp;
+echo "KbdInteractiveAuthentication no" &gt;&gt; /etc/ssh/sshd_config</kbd></pre>
+          <p>
+            If you added <span class="application">Linux-PAM</span> support
+            and you want ssh to use it then you will need to add a
+            configuration file for <span class="application">sshd</span> and
+            enable use of <span class="application">LinuxPAM</span>. Note,
+            ssh only uses PAM to check passwords, if you've disabled password
+            logins these commands are not needed. If you want to use PAM,
+            issue the following commands as the <code class=
+            "systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">sed 's@d/login@d/sshd@g' /etc/pam.d/login &gt; /etc/pam.d/sshd &amp;&amp;
+chmod 644 /etc/pam.d/sshd &amp;&amp;
+echo "UsePAM yes" &gt;&gt; /etc/ssh/sshd_config</kbd></pre>
+          <p>
+            Additional configuration information can be found in the man
+            pages for <span class="command"><strong>sshd</strong></span>,
+            <span class="command"><strong>ssh</strong></span> and
+            <span class="command"><strong>ssh-agent</strong></span>.
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="openssh-init" name="openssh-init"></a>
+          </h3>
+          <h4 class="title">
+            <a id="openssh-init" name="openssh-init"></a> <span class=
+            "phrase">Systemd ユニット</span>
+          </h4>
+          <p>
+            システム起動時に SSH サーバーを起動する場合は、<a class="xref" href=
+            "../introduction/systemd-units.html" title=
+            "BLFS Systemd ユニット">blfs-systemd-units-20231205</a> パッケージに含まれる
+            <code class="filename">sshd.service</code> ユニットをインストールします。
+          </p>
+          <pre class="root"><kbd class=
+          "command">make install-sshd</kbd></pre>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">scp, sftp, ssh, ssh-add, ssh-agent, ssh-copy-id,
+              ssh-keygen, ssh-keyscan, sshd</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/etc/ssh, /usr/share/doc/openssh-9.5p1,
+              /var/lib/sshd</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="scp" name="scp"></a><span class=
+                    "term"><span class="command"><strong>scp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>rcp</strong></span>
+                    に似たファイルコピープログラム。 ただし暗号化プロトコルが用いられます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sftp" name="sftp"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sftp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    SSH1 および SSH2 プロトコルを用いて動作する FTP ライクなプログラム。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ssh" name="ssh"></a><span class=
+                    "term"><span class="command"><strong>ssh</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>rlogin</strong></span> や
+                    <span class="command"><strong>rsh</strong></span>
+                    に似たクライアントプログラム。 ただし暗号化プロトコルが用いられます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sshd" name="sshd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sshd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>ssh</strong></span>
+                    からのログイン要求を待ち受けるデーモンプログラム。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ssh-add" name="ssh-add"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ssh-add</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>ssh-agent</strong></span>
+                    に対して鍵を追加するツール。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ssh-agent" name="ssh-agent"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ssh-agent</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is an authentication agent that can store private keys
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ssh-copy-id" name="ssh-copy-id"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ssh-copy-id</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a script that enables logins on remote machines using
+                    local keys
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ssh-keygen" name="ssh-keygen"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ssh-keygen</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    鍵生成ツール。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ssh-keyscan" name="ssh-keyscan"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ssh-keyscan</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a utility for gathering public host keys from a number
+                    of hosts
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="nss.html" title="NSS-3.96.1">戻る</a>
+          <p>
+            NSS-3.96.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="p11-kit.html" title="p11-kit-0.25.3">次へ</a>
+          <p>
+            p11-kit-0.25.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="security.html" title="第4章 セキュリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

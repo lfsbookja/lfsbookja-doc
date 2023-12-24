@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      vsftpd-3.0.5
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第20章 代表的なサーバー
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="proftpd.html" title="ProFTPD-1.3.8b">戻る</a>
+          <p>
+            ProFTPD-1.3.8b
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="mail.html" title="メールサーバーソフトウェア">次へ</a>
+          <p>
+            メールサーバーソフトウェア
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="majorservers.html" title=
+          "第20章 代表的なサーバー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="vsftpd" name="vsftpd"></a>vsftpd-3.0.5
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          vsftpd の概要
+        </h2>
+        <p>
+          <span class="application">vsftpd</span> パッケージは、セキュアで軽量な FTP
+          デーモンを提供します。 ネットワークを通じてファイル提供を行う際に活用することができます。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://security.appspot.com/downloads/vsftpd-3.0.5.tar.gz">https://security.appspot.com/downloads/vsftpd-3.0.5.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: efbf362a65bec771bc15ad311f5a982e
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 210 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 1.9 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU 以下
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          vsftpd の依存パッケージ
+        </h3>
+        <h4>
+          Required
+        </h4>
+        <p class="required">
+          <a class="xref" href="../basicnet/libnsl.html" title=
+          "libnsl-2.0.1">libnsl-2.0.1</a>
+        </p>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../postlfs/linux-pam.html" title=
+          "Linux-PAM-1.5.3">Linux-PAM-1.5.3</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../postlfs/libcap.html" title=
+          "libcap-2.69 with PAM">libcap-2.69 with PAM</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          vsftpd のインストール
+        </h2>
+        <p>
+          セキュリティ上の理由から <span class="application">vsftpd</span>
+          の起動は、非特権ユーザーおよびグループにより行うことが強く推奨されます。 また匿名アクセスを行うユーザーを別途作る必要もあります。
+          <code class="systemitem">root</code>
+          ユーザーになって以下のコマンドを実行し、必要となるディレクトリ、ユーザー、グループを生成します。
+        </p>
+        <pre class="root"><kbd class=
+        "command">install -v -d -m 0755 /usr/share/vsftpd/empty &amp;&amp;
+install -v -d -m 0755 /home/ftp               &amp;&amp;
+groupadd -g 47 vsftpd                         &amp;&amp;
+groupadd -g 45 ftp                            &amp;&amp;
+
+useradd -c "vsftpd User"  -d /dev/null -g vsftpd -s /bin/false -u 47 vsftpd &amp;&amp;
+useradd -c anonymous_user -d /home/ftp -g ftp    -s /bin/false -u 45 ftp</kbd></pre>
+        <p>
+          Gcc-10 and later flags an error for an implicit type cast. Make it
+          explicit:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -e "s/kVSFSysStrOpenUnknown;/(enum EVSFSysUtilOpenMode)&amp;/" -i sysstr.c</kbd></pre>
+        <p>
+          非特権ユーザーとなって以下のコマンドを実行し、<span class="application">vsftpd</span>
+          をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          もう一度 <code class="systemitem">root</code> ユーザーになり、以下のコマンドを実行して
+          <span class="application">vsftpd</span> をインストールします。
+        </p>
+        <pre class="root"><kbd class=
+        "command">install -v -m 755 vsftpd        /usr/sbin/vsftpd    &amp;&amp;
+install -v -m 644 vsftpd.8      /usr/share/man/man8 &amp;&amp;
+install -v -m 644 vsftpd.conf.5 /usr/share/man/man5 &amp;&amp;
+install -v -m 644 vsftpd.conf   /etc</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <span class="command"><strong>install -v -d ...</strong></span>:
+          これは匿名ユーザーが利用するディレクトリ (<code class="filename">/home/ftp</code>)
+          と、デーモンが chroot する先のディレクトリ (<code class=
+          "filename">/usr/share/vsftpd/empty</code>) のそれぞれを生成します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            <code class="filename">/home/ftp</code> should not be owned by
+            the user <code class="systemitem">vsftpd</code>, or the user
+            <code class="systemitem">ftp</code>.
+          </p>
+        </div>
+        <p>
+          <span class="command"><strong>echo "#define VSF_BUILD_TCPWRAPPERS"
+          &gt;&gt;builddefs.h</strong></span>: Use this prior to <span class=
+          "command"><strong>make</strong></span> to add support for
+          <span class="application">tcpwrappers</span>.
+        </p>
+        <p>
+          <span class="command"><strong>echo "#define VSF_BUILD_SSL"
+          &gt;&gt;builddefs.h</strong></span>: Use this prior to <span class=
+          "command"><strong>make</strong></span> to add support for SSL.
+        </p>
+        <p>
+          <span class="command"><strong>install -v -m ...</strong></span>:
+          The <code class="filename">Makefile</code> uses non-standard
+          installation paths. These commands install the files in
+          <code class="filename">/usr</code> and <code class=
+          "filename">/etc</code>.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          vsftpd の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="vsftpd-config" name="vsftpd-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="vsftpd-config" name="vsftpd-config"></a>設定ファイル
+          </h4>
+          <p>
+            <code class="filename">/etc/vsftpd.conf</code>
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id58549" name="id58549"></a>設定情報
+          </h4>
+          <p>
+            <span class="application">vsftpd</span> comes with a basic
+            anonymous-only configuration file that was copied to <code class=
+            "filename">/etc</code> above. While still as <code class=
+            "systemitem">root</code>, this file should be modified because it
+            is now recommended to run <span class=
+            "command"><strong>vsftpd</strong></span> in standalone mode.
+            Also, you should specify the privilege separation user created
+            above. Finally, you should specify the <span class=
+            "command"><strong>chroot</strong></span> directory. <span class=
+            "command"><strong>man vsftpd.conf</strong></span> will give you
+            all the details.
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt;&gt; /etc/vsftpd.conf &lt;&lt; "EOF"
+<code class="literal">background=YES
+nopriv_user=vsftpd
+secure_chroot_dir=/usr/share/vsftpd/empty</code>
+EOF</kbd></pre>
+          <p>
+            To enable local logins, append the following to the <code class=
+            "filename">/etc/vsftpd.conf</code> file (as the <code class=
+            "systemitem">root</code> user):
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt;&gt; /etc/vsftpd.conf &lt;&lt; "EOF"
+<code class="literal">local_enable=YES</code>
+EOF</kbd></pre>
+          <p>
+            In addition, if using <span class="application">Linux-PAM</span>
+            and <span class="application">vsftpd</span> with local user
+            logins, you will need a <span class=
+            "application">Linux-PAM</span> configuration file. As the
+            <code class="systemitem">root</code> user, create the
+            <code class="filename">/etc/pam.d/vsftpd</code> file, and add the
+            needed configuration changes for <span class=
+            "application">Linux-PAM</span> session support using the
+            following commands:
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt; /etc/pam.d/vsftpd &lt;&lt; "EOF" &amp;&amp;
+<code class="literal"># Begin /etc/pam.d/vsftpd
+auth       required     /lib/security/pam_listfile.so item=user sense=deny \
+                                                      file=/etc/ftpusers \
+                                                      onerr=succeed
+auth       required     pam_shells.so
+auth       include      system-auth
+account    include      system-account
+session    include      system-session</code>
+EOF
+
+cat &gt;&gt; /etc/vsftpd.conf &lt;&lt; "EOF"
+<code class="literal">session_support=YES
+pam_service_name=vsftpd</code>
+EOF</kbd></pre>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="vsftpd-init" name="vsftpd-init"></a>
+          </h3>
+          <h4 class="title">
+            <a id="vsftpd-init" name="vsftpd-init"></a> <span class=
+            "phrase">Systemd ユニット</span>
+          </h4>
+          <p>
+            Install the <span class="phrase"><code class=
+            "filename">vsftpd.service</code> unit</span> included in the
+            <a class="xref" href="../introduction/systemd-units.html" title=
+            "BLFS Systemd ユニット">blfs-systemd-units-20231205</a> package:
+          </p>
+          <pre class="root"><kbd class=
+          "command">make install-vsftpd</kbd></pre>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">vsftpd</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/share/vsftpd, /home/ftp</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="vsftpd-prog" name="vsftpd-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>vsftpd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    FTP デーモン。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="proftpd.html" title="ProFTPD-1.3.8b">戻る</a>
+          <p>
+            ProFTPD-1.3.8b
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="mail.html" title="メールサーバーソフトウェア">次へ</a>
+          <p>
+            メールサーバーソフトウェア
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="majorservers.html" title=
+          "第20章 代表的なサーバー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

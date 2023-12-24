@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Transmission-4.0.5
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第41章 X ベースのその他のプログラム
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="tigervnc.html" title=
+          "Tigervnc-1.13.1">戻る</a>
+          <p>
+            Tigervnc-1.13.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="xarchiver.html" title=
+          "xarchiver-0.5.4.21">次へ</a>
+          <p>
+            xarchiver-0.5.4.21
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="other.html" title=
+          "第41章 X ベースのその他のプログラム">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="transmission" name="transmission"></a>Transmission-4.0.5
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Transmission の概要
+        </h2>
+        <p>
+          <span class="application">Transmission</span>
+          はクロスプラットフォーム対応の、オープンソースによる BitTorrent クライアントです。 Linux ISO
+          ファイルのような大容量のファイルをダウンロードする際に有用なツールであり、ファイルの提供側もサーバーのバンド幅を軽減できるメリットがあります。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/transmission/transmission/releases/download/4.0.5/transmission-4.0.5.tar.xz">
+                https://github.com/transmission/transmission/releases/download/4.0.5/transmission-4.0.5.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: d3cda868215246644c429b18a30f7e47
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 9.2 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 229 MB (with both GUI interfaces)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 2.3 SBU (with both GUI interfaces; using
+                parallelism=4)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Transmission の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="../basicnet/curl.html" title=
+          "cURL-8.5.0">cURL-8.5.0</a>
+        </p>
+        <h4>
+          Recommended
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../basicnet/libevent.html" title=
+          "libevent-2.1.12">libevent-2.1.12</a> and <a class="xref" href=
+          "../basicnet/libpsl.html" title="libpsl-0.21.2">libpsl-0.21.2</a>
+          (to use system libraries instead of bundled ones)
+        </p>
+        <h4>
+          推奨 (GUI ビルド時)
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../x/gtkmm3.html" title=
+          "Gtkmm-3.24.8">Gtkmm-3.24.8</a> または (<a class="xref" href=
+          "../x/qt5.html" title="Qt-5.15.11">Qt-5.15.11</a> または <a class=
+          "xref" href="../x/qt5-alternate.html" title=
+          "qt-alternate-5.15.11">qt-alternate-5.15.11</a>) または <a class=
+          "xref" href="../x/qt6.html" title="Qt-6.6.1">Qt-6.6.1</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/nodejs.html" title=
+          "Node.js-20.10.0">nodejs-20.10.0</a> (for building the web client,
+          not needed at run time), <a class="ulink" href=
+          "https://github.com/ubuntu/gnome-shell-extension-appindicator">appindicator</a>,
+          <a class="ulink" href="https://github.com/jech/dht">dht</a>,
+          <a class="ulink" href=
+          "https://github.com/libb64/libb64">libb64</a>, <a class="ulink"
+          href="https://github.com/ebiggers/libdeflate">libdeflate</a>,
+          <a class="ulink" href=
+          "https://github.com/miniupnp/libnatpmp">libnatpmp</a>, <a class=
+          "ulink" href="https://github.com/bittorrent/libutp">libutp</a>,
+          <a class="ulink" href=
+          "https://github.com/miniupnp/miniupnp">miniupnp</a>
+        </p>
+        <p class="usernotes">
+          編集ノート: <a class="ulink" href=
+          "https://wiki.linuxfromscratch.org/blfs/wiki/transmission">https://wiki.linuxfromscratch.org/blfs/wiki/transmission</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Transmission のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">Transmission</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+cmake -DCMAKE_INSTALL_PREFIX=/usr \
+      -DCMAKE_BUILD_TYPE=Release  \
+      -DCMAKE_INSTALL_DOCDIR=/usr/share/doc/transmission-4.0.5 \
+      .. &amp;&amp;
+
+make</kbd></pre>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+        <p>
+          Next, create transmission.png from the SVG file:
+        </p>
+        <pre class="root"><kbd class=
+        "command">rsvg-convert                                               \
+   /usr/share/icons/hicolor/scalable/apps/transmission.svg \
+   -o /usr/share/pixmaps/transmission.png</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <code class="option">-DENABLE_QT=OFF</code>: This switch disables
+          building the <span class="application">Qt</span> interface. The
+          default is to build it if (<a class="xref" href="../x/qt5.html"
+          title="Qt-5.15.11">Qt-5.15.11</a> または <a class="xref" href=
+          "../x/qt5-alternate.html" title=
+          "qt-alternate-5.15.11">qt-alternate-5.15.11</a>) or <a class="xref"
+          href="../x/qt6.html" title="Qt-6.6.1">Qt-6.6.1</a> is installed.
+        </p>
+        <p>
+          <code class="option">-DENABLE_GTK=OFF</code>: This switch disables
+          building the GTK+-3 interface. The default is to build it if
+          <a class="xref" href="../x/gtkmm3.html" title=
+          "Gtkmm-3.24.8">Gtkmm-3.24.8</a> is installed.
+        </p>
+        <p>
+          <code class="option">-DENABLE_WEB=OFF</code>: This switch disables
+          building the web client. The default is to build it if <a class=
+          "xref" href="../general/nodejs.html" title=
+          "Node.js-20.10.0">nodejs-20.10.0</a> is installed.
+        </p>
+        <p>
+          <code class="option">-DREBUILD_WEB=ON</code>: This switch forces
+          rebuilding the web client. This option needs <a class="xref" href=
+          "../general/nodejs.html" title="Node.js-20.10.0">nodejs-20.10.0</a>
+          to be installed as well as an internet connection. The default is
+          to not rebuild the client.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">transmission-create, transmission-daemon,
+              transmission-edit, transmission-gtk, transmission-qt,
+              transmission-remote, transmission-show</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/share/transmission (contains the web client),
+              /usr/share/doc/transmission-4.0.5</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="transmission-create" name=
+                    "transmission-create"></a><span class="term"><span class=
+                    "command"><strong>transmission-create</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    .torrent ファイルを生成するためのコマンドラインツール。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="transmission-daemon" name=
+                    "transmission-daemon"></a><span class="term"><span class=
+                    "command"><strong>transmission-daemon</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    デーモンベースの Transmission セッション。 transmission のウェブインターフェースからの
+                    PRC コマンドや <span class=
+                    "command"><strong>transmission-remote</strong></span>
+                    から制御することができます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="transmission-edit" name=
+                    "transmission-edit"></a><span class="term"><span class=
+                    "command"><strong>transmission-edit</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    .torrent ファイルのアナウンス URL を修正するコマンドラインユーティリティー。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="transmission-gtk" name=
+                    "transmission-gtk"></a><span class="term"><span class=
+                    "command"><strong>transmission-gtk</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Gtk+ ベースの bittorrent クライアント。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="transmission-qt" name=
+                    "transmission-qt"></a><span class="term"><span class=
+                    "command"><strong>transmission-qt</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Qt ベースの bittorrent クライアント。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="transmission-remote" name=
+                    "transmission-remote"></a><span class="term"><span class=
+                    "command"><strong>transmission-remote</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    transmission-daemon と transmission に対するリモート制御ユーティリティー。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="transmission-show" name=
+                    "transmission-show"></a><span class="term"><span class=
+                    "command"><strong>transmission-show</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    .torrent ファイルのメタデータを表示するコマンドラインツール。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="tigervnc.html" title=
+          "Tigervnc-1.13.1">戻る</a>
+          <p>
+            Tigervnc-1.13.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="xarchiver.html" title=
+          "xarchiver-0.5.4.21">次へ</a>
+          <p>
+            xarchiver-0.5.4.21
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="other.html" title=
+          "第41章 X ベースのその他のプログラム">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

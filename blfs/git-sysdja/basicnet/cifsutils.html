@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      cifs-utils-7.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第15章 ネットワークプログラム
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="bridge-utils.html" title=
+          "bridge-utils-1.7.1">戻る</a>
+          <p>
+            bridge-utils-1.7.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="ncftp.html" title="NcFTP-3.2.6">次へ</a>
+          <p>
+            NcFTP-3.2.6
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="netprogs.html" title=
+          "第15章 ネットワークプログラム">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="cifsutils" name="cifsutils"></a>cifs-utils-7.0
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          cifs-utils の概要
+        </h2>
+        <p>
+          The <span class="application">cifs-utils</span> package provides a
+          means for mounting SMB/CIFS shares on a Linux system.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://www.samba.org/ftp/linux-cifs/cifs-utils/cifs-utils-7.0.tar.bz2">
+                https://www.samba.org/ftp/linux-cifs/cifs-utils/cifs-utils-7.0.tar.bz2</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 518431bf43f23e6aacd97e80e2060df7
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 412 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 4.2 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          cifs-utils の依存パッケージ
+        </h3>
+        <h4>
+          Recommended
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../general/talloc.html" title=
+          "Talloc-2.4.1">Talloc-2.4.1</a> (required if krb is installed),
+          <a class="xref" href="../postlfs/mitkrb.html" title=
+          "MIT Kerberos V5-1.21.2">MIT Kerberos V5-1.21.2</a>
+        </p>
+        <h4>
+          Optional
+        </h4>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/python-modules.html#docutils"
+          title="docutils-0.20.1">docutils-0.20.1</a> (to create the man
+          pages), <a class="xref" href="../general/keyutils.html" title=
+          "keyutils-1.6.1">keyutils-1.6.1</a> (required to build PAM module),
+          <a class="xref" href="../postlfs/linux-pam.html" title=
+          "Linux-PAM-1.5.3">Linux-PAM-1.5.3</a>, <a class="xref" href=
+          "samba.html" title="Samba-4.19.3">Samba-4.19.3</a>, and <a class=
+          "xref" href="../postlfs/libcap.html" title=
+          "libcap-2.69 with PAM">libcap-2.69 with PAM</a> or <a class="ulink"
+          href="https://people.redhat.com/sgrubb/libcap-ng/">libcap-ng</a>
+        </p>
+      </div>
+      <div class="kernel" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="cifsutils-kernel" name="cifsutils-kernel"></a>カーネルの設定
+        </h2>
+        <p>
+          Enable the following options in the kernel configuration and
+          recompile the kernel if necessary:
+        </p>
+        <pre class="screen"><span class="blue">F</span>ile systems ---&gt;
+  [*] N<span class=
+"blue">e</span>twork File Systems ---&gt;                            [NETWORK_FILESYSTEMS]
+    &lt;*/M&gt; <span class=
+"blue">S</span>MB3 and CIFS support (advanced network filesystem)             [CIFS]</pre>
+        <p>
+          Depending on your server configuration, additional kernel options
+          may be required.
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          cifs-utils のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">cifs-utils</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr \
+            --disable-pam &amp;&amp;
+make</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--disable-pam</code></em>: Do not build
+          PAM support. Remove it and use <code class=
+          "option">--with-pamdir</code> (see below), if <a class="xref" href=
+          "../postlfs/linux-pam.html" title=
+          "Linux-PAM-1.5.3">Linux-PAM-1.5.3</a> is installed and you wish PAM
+          support.
+        </p>
+        <p>
+          <code class="option">--with-pamdir=/usr/lib/security</code>:
+          Install the PAM module in <code class=
+          "filename">/usr/lib/security</code>.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">cifs.idmap, cifs.upcall, cifscreds, getcifsacl,
+              mount.cifs, mount.smb3, setcifsacl, smb2-quota, and
+              smbinfo</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">/usr/lib/cifs-utils/idmapwb.so and optionally PAM
+              module /usr/lib/security/pam_cifscreds.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/lib/cifs-utils</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cifs.idmap" name="cifs.idmap"></a><span class=
+                    "term"><span class=
+                    "command"><strong>cifs.idmap</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a userspace helper program for the linux CIFS client
+                    filesystem. There are a number of activities that the
+                    kernel cannot easily do itself. This program is a callout
+                    program that does these things for the kernel and then
+                    returns the result. It is not intended to be run from the
+                    command-line
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cifs.upcall" name="cifs.upcall"></a><span class=
+                    "term"><span class=
+                    "command"><strong>cifs.upcall</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a userspace helper program for the linux CIFS client
+                    filesystem. It is intended to be run when the kernel
+                    calls request-key for a particular key type. It is not
+                    intended to be run from the command-line
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cifscreds" name="cifscreds"></a><span class=
+                    "term"><span class=
+                    "command"><strong>cifscreds</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool for managing credentials (username and
+                    password) for the purpose of establishing sessions in
+                    multiuser mounts
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="getcifsacl" name="getcifsacl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>getcifsacl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a userspace helper to display an ACL in a security
+                    descriptor for Common Internet File System (CIFS)
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mount.cifs" name="mount.cifs"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mount.cifs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    mounts a Linux CIFS filesystem. It is usually invoked
+                    indirectly by the mount(8) command when using the "-t
+                    cifs" option
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mount.smb3" name="mount.smb3"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mount.smb3</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    mounts a SMB3-based filesystem. It is usually invoked
+                    indirectly by the mount(8) command when using the "-t
+                    smb3" option
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="setcifsacl" name="setcifsacl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>setcifsacl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is intended to alter an ACL of a security descriptor for
+                    a file system object
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="smb2-quota" name="smb2-quota"></a><span class=
+                    "term"><span class=
+                    "command"><strong>smb3-quota</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    displays quota information for a SMB filesystem
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="smbinfo" name="smbinfo"></a><span class=
+                    "term"><span class=
+                    "command"><strong>smbinfo</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    displays SMB-specific file information, such as security
+                    descriptors and quotas
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="bridge-utils.html" title=
+          "bridge-utils-1.7.1">戻る</a>
+          <p>
+            bridge-utils-1.7.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="ncftp.html" title="NcFTP-3.2.6">次へ</a>
+          <p>
+            NcFTP-3.2.6
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="netprogs.html" title=
+          "第15章 ネットワークプログラム">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

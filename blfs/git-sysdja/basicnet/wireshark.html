@@ -1,0 +1,690 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Wireshark-4.2.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第16章 ネットワークユーティリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="whois.html" title="Whois-5.4.3">戻る</a>
+          <p>
+            Whois-5.4.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="netlibs.html" title="ネットワークライブラリ">次へ</a>
+          <p>
+            ネットワークライブラリ
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="netutils.html" title=
+          "第16章 ネットワークユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="wireshark" name="wireshark"></a>Wireshark-4.2.0
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Wireshark の概要
+        </h2>
+        <p>
+          The <span class="application">Wireshark</span> package contains a
+          network protocol analyzer, also known as a <span class=
+          "quote">「<span class="quote">sniffer</span>」</span>. This is useful
+          for analyzing data captured <span class="quote">「<span class=
+          "quote">off the wire</span>」</span> from a live network connection,
+          or data read from a capture file.
+        </p>
+        <p>
+          <span class="application">Wireshark</span> provides both a
+          graphical and a TTY-mode front-end for examining captured network
+          packets from over 500 protocols, as well as the capability to read
+          capture files from many other popular network analyzers.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://www.wireshark.org/download/src/all-versions/wireshark-4.2.0.tar.xz">
+                https://www.wireshark.org/download/src/all-versions/wireshark-4.2.0.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 37658796acb4e7a04a84fa8c5393c9a1
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 43 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 911 MB (with all optional dependencies available in
+                the BLFS book; 168 MB installed)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 2.9 SBU (with parallelism=4 and all optional
+                dependencies available in the BLFS book)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          追加のダウンロード
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Additional Documentation: <a class="ulink" href=
+                "https://www.wireshark.org/download/docs/">https://www.wireshark.org/download/docs/</a>
+                (contains links to several different docs in a variety of
+                formats)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Wireshark の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/cmake.html" title=
+          "CMake-3.28.1">CMake-3.28.1</a>, <a class="xref" href="c-ares.html"
+          title="c-ares-1.24.0">c-ares-1.24.0</a>, <a class="xref" href=
+          "../general/glib2.html" title="GLib-2.78.3">GLib-2.78.3</a>,
+          <a class="xref" href="../general/libgcrypt.html" title=
+          "libgcrypt-1.10.3">libgcrypt-1.10.3</a>, and <a class="xref" href=
+          "../x/qt6.html" title="Qt-6.6.1">Qt-6.6.1</a>
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            <a class="xref" href="../x/qt6.html" title=
+            "Qt-6.6.1">Qt-6.6.1</a> is not strictly required, since it can be
+            replaced with <span class="application">Qt5</span>. See
+            <span class="quote">「<span class="quote">Command
+            explanations</span>」</span> below.
+          </p>
+        </div>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="libpcap.html" title=
+          "libpcap-1.10.4">libpcap-1.10.4</a> (required to capture data)
+        </p>
+        <h4>
+          Optional
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/asciidoctor.html" title=
+          "Asciidoctor-2.0.20">asciidoctor-2.0.20</a>, <a class="xref" href=
+          "../general/brotli.html" title="brotli-1.1.0">Brotli-1.1.0</a>,
+          <a class="xref" href="../general/doxygen.html" title=
+          "Doxygen-1.9.8">Doxygen-1.9.8</a>, <a class="xref" href=
+          "../general/git.html" title="Git-2.43.0">git-2.43.0</a>, <a class=
+          "xref" href="../postlfs/gnutls.html" title=
+          "GnuTLS-3.8.2">GnuTLS-3.8.2</a>, <a class="xref" href="libnl.html"
+          title="libnl-3.9.0">libnl-3.9.0</a>, <a class="xref" href=
+          "../general/libxslt.html" title=
+          "libxslt-1.1.39">libxslt-1.1.39</a>, <a class="xref" href=
+          "../general/libxml2.html" title=
+          "libxml2-2.12.3">libxml2-2.12.3</a>, <a class="xref" href=
+          "../general/lua52.html" title="Lua-5.2.4">Lua-5.2.4</a>, <a class=
+          "xref" href="../postlfs/mitkrb.html" title=
+          "MIT Kerberos V5-1.21.2">MIT Kerberos V5-1.21.2</a>, <a class=
+          "xref" href="nghttp2.html" title=
+          "nghttp2-1.58.0">nghttp2-1.58.0</a>, (<a class="xref" href=
+          "../x/qt5.html" title="Qt-5.15.11">Qt-5.15.11</a> or <a class=
+          "xref" href="../x/qt5-components.html" title=
+          "qt-components-5.15.11">qt-components-5.15.11</a> with
+          qtmultimedia) (required if <a class="xref" href="../x/qt6.html"
+          title="Qt-6.6.1">Qt-6.6.1</a> is not installed), <a class="xref"
+          href="../multimedia/sbc.html" title="SBC-2.0">SBC-2.0</a>,
+          <a class="xref" href="../multimedia/speex.html" title=
+          "Speex-1.2.1">Speex-1.2.1</a>, <a class="ulink" href=
+          "https://www.linphone.org/technical-corner/bcg729">BCG729</a>,
+          <a class="ulink" href=
+          "https://github.com/TimothyGu/libilbc">libilbc</a>, <a class=
+          "ulink" href=
+          "https://www.ibr.cs.tu-bs.de/projects/libsmi/">libsmi</a>,
+          <a class="ulink" href="https://lz4.github.io/lz4/">lz4</a>,
+          <a class="ulink" href="https://www.libssh.org/">libssh</a>,
+          <a class="ulink" href=
+          "https://github.com/maxmind/libmaxminddb">MaxMindDB</a>, <a class=
+          "ulink" href=
+          "https://www.winimage.com/zLibDll/minizip.html">Minizip</a>,
+          <a class="ulink" href=
+          "https://google.github.io/snappy/">Snappy</a>, and <a class="ulink"
+          href="https://github.com/freeswitch/spandsp">Spandsp</a>
+        </p>
+      </div>
+      <div class="kernel" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="wireshark-kernel" name="wireshark-kernel"></a>カーネルの設定
+        </h2>
+        <p>
+          The kernel must have the Packet protocol enabled for <span class=
+          "application">Wireshark</span> to capture live packets from the
+          network:
+        </p>
+        <pre class="screen">[*] N<span class=
+        "blue">e</span>tworking support ---&gt;                                                [NET]
+  N<span class="blue">e</span>tworking options ---&gt;
+    &lt;*/M&gt; <span class=
+"blue">P</span>acket socket                                                 [PACKET]</pre>
+        <p>
+          If built as a module, the name is <code class=
+          "filename">af_packet.ko</code>.
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Wireshark のインストール
+        </h2>
+        <p>
+          <span class="application">Wireshark</span> is a very large and
+          complex application. These instructions provide additional security
+          measures to ensure that only trusted users are allowed to view
+          network traffic. First, set up a system group for wireshark. As the
+          <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">groupadd -g 62 wireshark</kbd></pre>
+        <p>
+          Continue to install <span class="application">Wireshark</span> by
+          running the following commands:
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+cmake -DCMAKE_INSTALL_PREFIX=/usr \
+      -DCMAKE_BUILD_TYPE=Release  \
+      -DCMAKE_INSTALL_DOCDIR=/usr/share/doc/wireshark-4.2.0 \
+      -G Ninja \
+      .. &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">ninja install &amp;&amp;
+
+install -v -m755 -d /usr/share/doc/wireshark-4.2.0 &amp;&amp;
+install -v -m644    ../README.linux ../doc/README.* ../doc/randpkt.txt \
+                    /usr/share/doc/wireshark-4.2.0 &amp;&amp;
+
+pushd /usr/share/doc/wireshark-4.2.0 &amp;&amp;
+   for FILENAME in ../../wireshark/*.html; do
+      ln -s -v -f $FILENAME .
+   done &amp;&amp;
+popd
+unset FILENAME</kbd></pre>
+        <p>
+          If you downloaded any of the documentation files from the page
+          listed in the 'Additional Downloads', install them by issuing the
+          following commands as the <code class="systemitem">root</code>
+          user:
+        </p>
+        <pre class="root"><kbd class="command">install -v -m644 <em class=
+        "replaceable"><code>&lt;Downloaded_Files&gt;</code></em> \
+                 /usr/share/doc/wireshark-4.2.0</kbd></pre>
+        <p>
+          Now, set ownership and permissions of sensitive applications to
+          only allow authorized users. As the <code class=
+          "systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">chown -v root:wireshark /usr/bin/{tshark,dumpcap} &amp;&amp;
+chmod -v 6550 /usr/bin/{tshark,dumpcap}</kbd></pre>
+        <p>
+          Finally, add any users to the wireshark group (as <code class=
+          "systemitem">root</code> user):
+        </p>
+        <pre class="root"><kbd class=
+        "command">usermod -a -G wireshark <em class=
+        "replaceable"><code>&lt;username&gt;</code></em></kbd></pre>
+        <p>
+          If you are installing wireshark for the first time, it will be
+          necessary to logout of your session and login again. This will put
+          wireshark in your groups, because otherwise Wireshark will not
+          function properly.
+        </p>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <code class="option">-DUSE_qt6=OFF</code>: Use this switch if
+          <a class="xref" href="../x/qt6.html" title="Qt-6.6.1">Qt-6.6.1</a>
+          is not available. You'll need <a class="xref" href="../x/qt5.html"
+          title="Qt-5.15.11">Qt-5.15.11</a> or at least <a class="xref" href=
+          "../x/qt5-components.html" title=
+          "qt-components-5.15.11">qt-components-5.15.11</a> with qtmultimedia
+          in this case.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Wireshark の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="wireshark-config" name="wireshark-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="wireshark-config" name="wireshark-config"></a>設定ファイル
+          </h4>
+          <p>
+            <code class="filename">/etc/wireshark.conf</code> and
+            <code class="filename">~/.config/wireshark/*</code> (unless there
+            is already <code class="filename">~/.wireshark/*</code> in the
+            system)
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id54378" name="id54378"></a>設定情報
+          </h4>
+          <p>
+            Though the default configuration parameters are very sane,
+            reference the configuration section of the <a class="ulink" href=
+            "https://www.wireshark.org/docs/wsug_html/">Wireshark User's
+            Guide</a> for configuration information. Most of <span class=
+            "application">Wireshark</span> 's configuration can be
+            accomplished using the menu options of the <span class=
+            "command"><strong>wireshark</strong></span> graphical interfaces.
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              If you want to look at packets, make sure you don't filter them
+              out with <a class="xref" href="../postlfs/iptables.html" title=
+              "iptables-1.8.10">iptables-1.8.10</a>. If you want to exclude
+              certain classes of packets, it is more efficient to do it with
+              <span class="application">iptables</span> than it is with
+              <span class="application">Wireshark</span>.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">capinfos, captype, dumpcap, editcap, idl2wrs,
+              mergecap, randpkt, rawshark, reordercap, sharkd, text2pcap,
+              tshark, wireshark</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libwireshark.so, libwiretap.so, libwsutil.so, and
+              numerous modules under /usr/lib/wireshark/plugins</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/{lib,share}/wireshark,
+              /usr/share/doc/wireshark-4.2.0</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="capinfos" name="capinfos"></a><span class=
+                    "term"><span class=
+                    "command"><strong>capinfos</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    reads a saved capture file and returns any or all of
+                    several statistics about that file. It is able to detect
+                    and read any capture supported by the <span class=
+                    "application">Wireshark</span> package
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="captype" name="captype"></a><span class=
+                    "term"><span class=
+                    "command"><strong>captype</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    prints the file types of capture files
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dumpcap" name="dumpcap"></a><span class=
+                    "term"><span class=
+                    "command"><strong>dumpcap</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a network traffic dump tool. It lets you capture
+                    packet data from a live network and write the packets to
+                    a file
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="editcap" name="editcap"></a><span class=
+                    "term"><span class=
+                    "command"><strong>editcap</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    edits and/or translates the format of capture files. It
+                    knows how to read <span class=
+                    "application">libpcap</span> capture files, including
+                    those of <span class=
+                    "command"><strong>tcpdump</strong></span>, <span class=
+                    "application">Wireshark</span> and other tools that write
+                    captures in that format
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="idl2wrs" name="idl2wrs"></a><span class=
+                    "term"><span class=
+                    "command"><strong>idl2wrs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a program that takes a user specified CORBA IDL file
+                    and generates <span class="quote">「<span class=
+                    "quote">C</span>」</span> source code for a <span class=
+                    "application">Wireshark</span> <span class=
+                    "quote">「<span class="quote">plugin</span>」</span>. It
+                    relies on two Python programs <span class=
+                    "command"><strong>wireshark_be.py</strong></span> and
+                    <span class=
+                    "command"><strong>wireshark_gen.py</strong></span>, which
+                    are not installed by default. They have to be copied
+                    manually from the <code class="filename">tools</code>
+                    directory to the <code class=
+                    "filename">$PYTHONPATH/site-packages/</code> directory
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mergecap" name="mergecap"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mergecap</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    combines multiple saved capture files into a single
+                    output file
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="randpkt" name="randpkt"></a><span class=
+                    "term"><span class=
+                    "command"><strong>randpkt</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    creates random-packet capture files
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rawshark" name="rawshark"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rawshark</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    dumps and analyzes raw libpcap data
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="reordercap" name="reordercap"></a><span class=
+                    "term"><span class=
+                    "command"><strong>reordercap</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    reorders timestamps of input file frames into an output
+                    file
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sharkd" name="sharkd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sharkd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a daemon that listens on UNIX sockets
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="text2pcap" name="text2pcap"></a><span class=
+                    "term"><span class=
+                    "command"><strong>text2pcap</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    reads in an ASCII hex dump and writes the data described
+                    into a <span class="application">libpcap</span>-style
+                    capture file
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tshark" name="tshark"></a><span class=
+                    "term"><span class=
+                    "command"><strong>tshark</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a TTY-mode network protocol analyzer. It lets you
+                    capture packet data from a live network or read packets
+                    from a previously saved capture file
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="wireshark-prog" name=
+                    "wireshark-prog"></a><span class="term"><span class=
+                    "command"><strong>wireshark</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the Qt GUI network protocol analyzer. It lets you
+                    interactively browse packet data from a live network or
+                    from a previously saved capture file
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libwireshark" name="libwireshark"></a><span class=
+                    "term"><code class=
+                    "filename">libwireshark.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains functions used by the <span class=
+                    "application">Wireshark</span> programs to perform
+                    filtering and packet capturing
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libwiretap" name="libwiretap"></a><span class=
+                    "term"><code class="filename">libwiretap.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a library being developed as a future replacement for
+                    <code class="filename">libpcap</code>, the current
+                    standard Unix library for packet capturing. For more
+                    information, see the <code class="filename">README</code>
+                    file in the source <code class="filename">wiretap</code>
+                    directory
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="whois.html" title="Whois-5.4.3">戻る</a>
+          <p>
+            Whois-5.4.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="netlibs.html" title="ネットワークライブラリ">次へ</a>
+          <p>
+            ネットワークライブラリ
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="netutils.html" title=
+          "第16章 ネットワークユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

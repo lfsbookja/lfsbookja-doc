@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      第51章 組版処理
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        パート&nbsp;XIII.&nbsp;印刷、スキャニング、組版
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="paps.html" title="paps-0.7.1">戻る</a>
+          <p>
+            paps-0.7.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="tex-path.html" title=
+          "Setting the PATH for TeX Live">次へ</a>
+          <p>
+            Setting the PATH for TeX Live
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="pst.html" title=
+          "パート&nbsp;XIII.&nbsp;印刷、スキャニング、組版">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="chapter" lang="ja" xml:lang="ja">
+      <h1 class="chapter">
+        <a id="pst-typesetting" name="pst-typesetting"></a>組版処理
+      </h1>
+      <p>
+        この章では組版処理を行う <span class="application">texlive</span>
+        アプリケーションなどを説明します。
+      </p>
+      <p>
+        There are two alternative routes through this chapter:
+      </p>
+      <p>
+        Some people may wish to use the binary installer, either because of
+        the complexity of installing all of <span class=
+        "application">texlive</span> from source, or because they only want a
+        part of the package, or perhaps because they wish to get updates as
+        soon as those are available (the source is only updated annually, but
+        the binaries and associated tex and sty files are updated for
+        approximately 10 months). These people should begin at <a class=
+        "xref" href="tex-path.html" title=
+        "Setting the PATH for TeX Live">Setting the PATH for TeX Live</a> and
+        then follow the <a class="xref" href="tl-installer.html" title=
+        "install-tl-unx">install-tl-unx</a> instructions. After installing,
+        they can run <span class="command"><strong>tlmgr</strong></span> to
+        update their system.
+      </p>
+      <p>
+        Most people reading BLFS will wish to build from source. BLFS used to
+        start by installing <span class="application">install-tl-unx</span>
+        and then use that to bootstrap the build. Nowadays, we build almost
+        the whole of <span class="application">texlive</span> <span class=
+        "emphasis"><em>without</em></span> a binary install, by adding the
+        separately-packaged texmf files into this build. For this, begin at
+        <a class="xref" href="tex-path.html" title=
+        "Setting the PATH for TeX Live">Setting the PATH for TeX Live</a>
+        then go to <a class="xref" href="texlive.html" title=
+        "texlive-20230313-source">texlive-20230313</a> which will install
+        most of <span class="application">texlive</span>, together with
+        <span class="emphasis"><em>all</em></span> of the supporting files.
+        This almost-complete install can then be used to build the remaining
+        parts of <span class="application">texlive</span>: <a class="xref"
+        href="asymptote.html" title="asymptote-2.86">asymptote-2.86</a>,
+        <a class="xref" href="biber.html" title="biber-2.19">biber-2.19</a>
+        and <a class="xref" href="xindy.html" title=
+        "xindy-2.5.1">xindy-2.5.1</a>.
+      </p>
+      <p>
+        Because the texmf files (including documentation, fonts, scripts and
+        supporting files) are all in one tarball, it is not practical to
+        limit what gets extracted in a sensible way (you could exclude one or
+        other of the typesetting engines, not its many supporting files) when
+        building from source in this manner.
+      </p>
+      <p>
+        In either case, BLFS installs into <code class=
+        "filename">/opt/texlive/2023</code>.
+      </p>
+      <p>
+        Also, please note that texlive is released annually, and updating
+        from the previous year to the current year is no longer supported. If
+        for some reason you wish to keep versions for multiple years, for
+        most things you can mount the old or new system at /opt/texlive and
+        fix up your PATH as necessary. However doing that will not preserve
+        any changes in <code class="filename">texmf-local</code> and if you
+        build from source and try to run a newer version of <span class=
+        "application">biber</span> with an older version of <span class=
+        "application">biblatex</span> it is unlikely to work.
+      </p>
+      <div class="toc">
+        <h3>
+          目次
+        </h3>
+        <ul>
+          <li class="sect1">
+            <a href="tex-path.html">Setting the PATH for TeX Live</a>
+          </li>
+          <li class="sect1">
+            <a href="tl-installer.html">install-tl-unx</a>
+          </li>
+          <li class="sect1">
+            <a href="texlive.html">texlive-20230313-source</a>
+          </li>
+          <li class="sect1">
+            <a href="asymptote.html">asymptote-2.86</a>
+          </li>
+          <li class="sect1">
+            <a href="biber.html">biber-2.19</a>
+          </li>
+          <li class="sect1">
+            <a href="dvisvgm.html">dvisvgm-3.1.2</a>
+          </li>
+          <li class="sect1">
+            <a href="xindy.html">xindy-2.5.1</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="paps.html" title="paps-0.7.1">戻る</a>
+          <p>
+            paps-0.7.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="tex-path.html" title=
+          "Setting the PATH for TeX Live">次へ</a>
+          <p>
+            Setting the PATH for TeX Live
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="pst.html" title=
+          "パート&nbsp;XIII.&nbsp;印刷、スキャニング、組版">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

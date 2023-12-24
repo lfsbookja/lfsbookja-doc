@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      qrencode-4.1.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第10章 グラフィックスとフォントのライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="qpdf.html" title="Qpdf-11.6.4">戻る</a>
+          <p>
+            Qpdf-11.6.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="sassc.html" title="sassc-3.6.2">次へ</a>
+          <p>
+            sassc-3.6.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="graphlib.html" title=
+          "第10章 グラフィックスとフォントのライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="qrencode" name="qrencode"></a>qrencode-4.1.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          qrencode の概要
+        </h2>
+        <p>
+          <span class="application">Qrencode</span> is a fast and compact
+          library for encoding data in a QR Code symbol, a 2D symbology that
+          can be scanned by handheld terminals such as a mobile phone with a
+          CCD sensor.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://fukuchi.org/works/qrencode/qrencode-4.1.1.tar.bz2">https://fukuchi.org/works/qrencode/qrencode-4.1.1.tar.bz2</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: de7185bcab635a34730e1b73d4efa705
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 451 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 5.0 MB (with documentation, add 5 MB for tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: less than 0.1 SBU, add 0.1 SBU for tests
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Qrencode の依存パッケージ
+        </h3>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="libpng.html" title=
+          "libpng-1.6.40">libpng-1.6.40</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="doxygen.html" title=
+          "Doxygen-1.9.8">Doxygen-1.9.8</a> for generating documentation, and
+          <a class="xref" href="../multimedia/sdl2.html" title=
+          "SDL2-2.28.5">SDL2-2.28.5</a> for tests
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          qrencode のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">libqrencode</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr &amp;&amp;
+make</kbd></pre>
+        <p>
+          If you have installed <a class="xref" href="doxygen.html" title=
+          "Doxygen-1.9.8">Doxygen-1.9.8</a>, you can build the documentation
+          by issuing:
+        </p>
+        <pre class="userinput"><kbd class="command">doxygen</kbd></pre>
+        <p>
+          The tests must be run after installing the package.
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+        <p>
+          If you have built the optional documentation, install it as the
+          <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">install -vdm 755 /usr/share/doc/qrencode-4.1.1 &amp;&amp;
+mv html/* /usr/share/doc/qrencode-4.1.1</kbd></pre>
+        <p>
+          To test the results, if you have passed the <code class=
+          "option">--with-tests</code> option to <span class=
+          "command"><strong>configure</strong></span>, issue: <span class=
+          "command"><strong>make check</strong></span>.
+        </p>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <code class="option">--with-tests</code>: This option allows
+          building the test programs. It requires <a class="xref" href=
+          "../multimedia/sdl2.html" title="SDL2-2.28.5">SDL2-2.28.5</a>.
+        </p>
+        <p>
+          <code class="option">--without-tools</code>: This option prevents
+          building the <span class="command"><strong>qrencode</strong></span>
+          executable, removing the need for <a class="xref" href=
+          "libpng.html" title="libpng-1.6.40">libpng-1.6.40</a>.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">qrencode</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libqrencode.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/share/doc/qrencode-4.1.1 (任意)</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qrencode-prog" name=
+                    "qrencode-prog"></a><span class="term"><span class=
+                    "command"><strong>qrencode</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    encodes input data in a QR Code and saves it as a PNG or
+                    EPS image
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libqrencode" name="libqrencode"></a><span class=
+                    "term"><code class=
+                    "filename">libqrencode.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains functions for encoding data in a QR code symbol
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="qpdf.html" title="Qpdf-11.6.4">戻る</a>
+          <p>
+            Qpdf-11.6.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="sassc.html" title="sassc-3.6.2">次へ</a>
+          <p>
+            sassc-3.6.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="graphlib.html" title=
+          "第10章 グラフィックスとフォントのライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

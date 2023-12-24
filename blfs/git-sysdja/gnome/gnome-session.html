@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      gnome-session-45.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第33章 GNOME のライブラリとデスクトップ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gnome-shell-extensions.html" title=
+          "gnome-shell-extensions-45.2">戻る</a>
+          <p>
+            gnome-shell-extensions-45.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gnome-tweaks.html" title=
+          "gnome-tweaks-40.10">次へ</a>
+          <p>
+            gnome-tweaks-40.10
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="core.html" title=
+          "第33章 GNOME のライブラリとデスクトップ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="gnome-session" name="gnome-session"></a>gnome-session-45.0
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          GNOME Session の概要
+        </h2>
+        <p>
+          <span class="application">GNOME Session</span> パッケージは <span class=
+          "application">GNOME</span> セッションマネージャーを提供します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://download.gnome.org/sources/gnome-session/45/gnome-session-45.0.tar.xz">
+                https://download.gnome.org/sources/gnome-session/45/gnome-session-45.0.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 6702feed0873bb1ded999970ffddd096
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 476 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 14 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.2 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          GNOME Session の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="gnome-desktop.html" title=
+          "gnome-desktop-44.0">gnome-desktop-44.0</a>, <a class="xref" href=
+          "../general/json-glib.html" title=
+          "JSON-GLib-1.8.0">JSON-GLib-1.8.0</a>, <a class="xref" href=
+          "../x/mesa.html" title="Mesa-23.3.1">Mesa-23.3.1</a>, <span class=
+          "phrase"><a class="xref" href="../general/systemd.html" title=
+          "Systemd-255">Systemd-255</a> (runtime),</span> <a class="xref"
+          href="../general/upower.html" title=
+          "UPower-1.90.2">UPower-1.90.2</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../pst/xmlto.html" title=
+          "xmlto-0.0.28">xmlto-0.0.28</a>, and <a class="xref" href=
+          "../general/libxslt.html" title="libxslt-1.1.39">libxslt-1.1.39</a>
+          with <a class="xref" href="../pst/docbook.html" title=
+          "docbook-xml-4.5">docbook-xml-4.5</a> and <a class="xref" href=
+          "../pst/docbook-xsl.html" title=
+          "docbook-xsl-nons-1.79.2">docbook-xsl-nons-1.79.2</a>
+          (ドキュメントビルドのため)
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          GNOME Session のインストール
+        </h2>
+        <p>
+          When running GNOME under <a class="xref" href=
+          "../general/wayland.html" title=
+          "Wayland-1.22.0">Wayland-1.22.0</a>, environment settings are not
+          imported for the user using the system profile. The Wayland
+          developers are currently undecided on a standard method to provide
+          system environment settings for user sessions. To work around this
+          limitation, execute the following command to make <span class=
+          "command"><strong>gnome-session</strong></span> use a login shell:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed 's@/bin/sh@/bin/sh -l@' -i gnome-session/gnome-session.in</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">GNOME Session</span>
+          をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+meson setup --prefix=/usr --buildtype=release .. &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">ninja install</kbd></pre>
+        <p>
+          Move the documentation to a versioned directory:
+        </p>
+        <pre class="root"><kbd class=
+        "command">mv -v /usr/share/doc/gnome-session{,-45.0}</kbd></pre>
+        <p>
+          This package creates two Xorg based <code class=
+          "filename">.desktop</code> files in the <code class=
+          "filename">/usr/share/xsessions/</code> directory, and two Wayland
+          based <code class="filename">.desktop</code> files in the
+          <code class="filename">/usr/share/wayland-sessions/</code>
+          directory. Only one is needed in each directory on a BLFS system,
+          so prevent the extra files showing up as options in a display
+          manager. As the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">rm -v /usr/share/xsessions/gnome.desktop &amp;&amp;
+rm -v /usr/share/wayland-sessions/gnome.desktop</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <em class="parameter"><code>--buildtype=release</code></em>:
+          本パッケージの安定版リリース向けに適したビルドタイプを指定します。
+          デフォルトにしていると、最適化されていないバイナリを生成する場合があるためです。
+        </p>
+      </div>
+      <div class="starting" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Starting GNOME
+        </h2>
+        <p>
+          The easiest way to start GNOME is to use a display manager.
+          <a class="xref" href="../x/gdm.html" title=
+          "GDM-45.0.1">GDM-45.0.1</a> is the recommended display manager.
+        </p>
+        <p>
+          It is also possible to start <span class="application">GNOME</span>
+          from the command line. However, you must still have <a class="xref"
+          href="../x/gdm.html" title="GDM-45.0.1">GDM-45.0.1</a> installed
+          for some portions of the desktop to work. One reason to start from
+          the command line is if you want Wayland support on a system that
+          has the proprietary NVIDIA driver installed, since GDM will not
+          show the Wayland session type on such a system.
+        </p>
+        <p>
+          To start <span class="application">GNOME</span> using <a class=
+          "xref" href="../x/xinit.html" title="xinit-1.4.2">xinit-1.4.2</a>,
+          run the following commands:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; ~/.xinitrc &lt;&lt; "EOF"
+<code class="literal">dbus-run-session gnome-session</code>
+EOF
+
+startx</kbd></pre>
+        <p>
+          Alternatively, to start <span class="application">GNOME</span> with
+          Wayland support, run the following command:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">XDG_SESSION_TYPE=wayland dbus-run-session gnome-session</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">gnome-session, gnome-session-inhibit,
+              gnome-session-quit</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/share/doc/gnome-session-45.0,
+              /usr/share/gnome-session</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gnome-session-prog" name=
+                    "gnome-session-prog"></a><span class="term"><span class=
+                    "command"><strong>gnome-session</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to start up the <span class=
+                    "application">GNOME</span> Desktop environment
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gnome-session-inhibit" name=
+                    "gnome-session-inhibit"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gnome-session-inhibit</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to inhibit certain <span class=
+                    "application">GNOME</span> Session functionality while
+                    executing the given command
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gnome-session-quit" name=
+                    "gnome-session-quit"></a><span class="term"><span class=
+                    "command"><strong>gnome-session-quit</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to end the <span class="application">GNOME</span>
+                    Session
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gnome-shell-extensions.html" title=
+          "gnome-shell-extensions-45.2">戻る</a>
+          <p>
+            gnome-shell-extensions-45.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gnome-tweaks.html" title=
+          "gnome-tweaks-40.10">次へ</a>
+          <p>
+            gnome-tweaks-40.10
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="core.html" title=
+          "第33章 GNOME のライブラリとデスクトップ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      gdk-pixbuf-2.42.10
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第25章 グラフィック環境ライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="freeglut.html" title="Freeglut-3.4.0">戻る</a>
+          <p>
+            Freeglut-3.4.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="glew.html" title="GLEW-2.2.0">次へ</a>
+          <p>
+            GLEW-2.2.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="lib.html" title=
+          "第25章 グラフィック環境ライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="gdk-pixbuf" name="gdk-pixbuf"></a>gdk-pixbuf-2.42.10
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to Gdk Pixbuf
+        </h2>
+        <p>
+          The <span class="application">Gdk Pixbuf</span> package is a
+          toolkit for image loading and pixel buffer manipulation. It is used
+          by <span class="application">GTK+ 2</span> and <span class=
+          "application">GTK+ 3</span> to load and manipulate images. In the
+          past it was distributed as part of <span class="application">GTK+
+          2</span> but it was split off into a separate package in
+          preparation for the change to <span class="application">GTK+
+          3</span>.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://download.gnome.org/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.10.tar.xz">
+                https://download.gnome.org/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.10.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: 4a62f339cb1424693fba9bb7ffef8150
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 6.2 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 36 MB (with tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: 0.2 SBU (With tests; both using
+                parallelism=4)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Gdk Pixbuf Dependencies
+        </h3>
+        <h4>
+          Required
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/glib2.html" title=
+          "GLib-2.78.3">GLib-2.78.3</a>, <a class="xref" href=
+          "../general/libjpeg.html" title=
+          "libjpeg-turbo-3.0.1">libjpeg-turbo-3.0.1</a>, <a class="xref"
+          href="../general/libpng.html" title=
+          "libpng-1.6.40">libpng-1.6.40</a>, and <a class="xref" href=
+          "../general/shared-mime-info.html" title=
+          "shared-mime-info-2.4">shared-mime-info-2.4</a>
+        </p>
+        <h4>
+          Recommended
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../general/python-modules.html#docutils"
+          title="docutils-0.20.1">docutils-0.20.1</a>, <a class="xref" href=
+          "../general/librsvg.html" title="librsvg-2.57.1">librsvg-2.57.1</a>
+          (runtime dependency, needed for loading symbolic icons) and
+          <a class="xref" href="../general/libtiff.html" title=
+          "libtiff-4.6.0">libtiff-4.6.0</a>
+        </p>
+        <h4>
+          Optional (Required if building GNOME)
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/gobject-introspection.html" title=
+          "gobject-introspection-1.78.1">gobject-introspection-1.78.1</a>
+        </p>
+        <h4>
+          Optional
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/python-modules.html#gi-docgen"
+          title="Gi-DocGen-2023.3">Gi-DocGen-2023.3</a> (to generate
+          documentation), <a class="xref" href="../general/libavif.html"
+          title="libavif-1.0.3">libavif-1.0.3</a> (runtime dependency, needed
+          for loading AVIF images), and <a class="xref" href=
+          "../general/webp-pixbuf-loader.html" title=
+          "webp-pixbuf-loader-0.2.4">webp-pixbuf-loader-0.2.4</a> (runtime
+          dependency, needed for loading WebP images)
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of Gdk Pixbuf
+        </h2>
+        <p>
+          Install <span class="application">Gdk Pixbuf</span> by running the
+          following commands:
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+meson setup ..            \
+      --prefix=/usr       \
+      --buildtype=release \
+      --wrap-mode=nofallback &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          If you have <a class="xref" href=
+          "../general/python-modules.html#gi-docgen" title=
+          "Gi-DocGen-2023.3">Gi-DocGen-2023.3</a> installed and wish to build
+          the API documentation for this package, issue:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed "/docs_dir =/s@\$@ / 'gdk-pixbuf-2.42.10'@" -i ../docs/meson.build &amp;&amp;
+meson configure -Dgtk_doc=true                                         &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          To test the results, issue: <span class="command"><strong>ninja
+          test</strong></span>. The tests make a heavy use of disk.
+        </p>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">ninja install</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            If you installed the package on to your system using a
+            <span class="quote">「<span class="quote">DESTDIR</span>」</span>
+            method, an important file was not installed and should be copied
+            and/or generated. Generate it using the following command as the
+            <code class="systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">gdk-pixbuf-query-loaders --update-cache</kbd></pre>
+        </div>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <em class="parameter"><code>--buildtype=release</code></em>:
+          本パッケージの安定版リリース向けに適したビルドタイプを指定します。
+          デフォルトにしていると、最適化されていないバイナリを生成する場合があるためです。
+        </p>
+        <p>
+          <em class="parameter"><code>--wrap-mode=nofallback</code></em>:
+          This switch prevents <span class=
+          "command"><strong>meson</strong></span> from using subproject
+          fallbacks for any dependency declarations in the build files,
+          stopping it downloading any optional dependency which is not
+          installed on the system.
+        </p>
+        <p>
+          <code class="option">-Dman=false</code>: Use this option if you do
+          not want to generate manual pages, or if you do not want to install
+          <a class="xref" href="../general/python-modules.html#docutils"
+          title="docutils-0.20.1">docutils-0.20.1</a>.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">gdk-pixbuf-csource, gdk-pixbuf-pixdata,
+              gdk-pixbuf-query-loaders, and gdk-pixbuf-thumbnailer</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">libgdk_pixbuf-2.0.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody">/usr/{include,lib}/gdk-pixbuf-2.0,
+              /usr/libexec/installed-tests/gdk-pixbuf,
+              /usr/share/installed-tests/gdk-pixbuf,
+              /usr/share/gtk-doc/html/gdk-pixbuf, and
+              /usr/share/thumbnailers</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gdk-pixbuf-csource" name=
+                    "gdk-pixbuf-csource"></a><span class="term"><span class=
+                    "command"><strong>gdk-pixbuf-csource</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a small utility that generates C code containing
+                    images, used for compiling images directly into programs
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gdk-pixbuf-pixdata" name=
+                    "gdk-pixbuf-pixdata"></a><span class="term"><span class=
+                    "command"><strong>gdk-pixbuf-pixdata</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool used to convert GdkPixbuf to GdkPixdata
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gdk-pixbuf-query-loaders" name=
+                    "gdk-pixbuf-query-loaders"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gdk-pixbuf-query-loaders</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    collects information about loadable modules for
+                    <span class="application">Gdk Pixbuf</span> and writes it
+                    to the default cache file location, or to stdout
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gdk-pixbuf-thumbnailer" name=
+                    "gdk-pixbuf-thumbnailer"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gdk-pixbuf-thumbnailer</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    creates thumbnails of pictures for use in other
+                    applications
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libgdk_pixbuf-2" name=
+                    "libgdk_pixbuf-2"></a><span class="term"><code class=
+                    "filename">libgdk_pixbuf-2.0.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains functions used to load and render images
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="freeglut.html" title="Freeglut-3.4.0">戻る</a>
+          <p>
+            Freeglut-3.4.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="glew.html" title="GLEW-2.2.0">次へ</a>
+          <p>
+            GLEW-2.2.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="lib.html" title=
+          "第25章 グラフィック環境ライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

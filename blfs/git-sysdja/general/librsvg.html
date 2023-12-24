@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      librsvg-2.57.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第10章 グラフィックスとフォントのライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libraw.html" title="libraw-0.21.2">戻る</a>
+          <p>
+            libraw-0.21.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libspiro.html" title=
+          "Libspiro-20220722">次へ</a>
+          <p>
+            Libspiro-20220722
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="graphlib.html" title=
+          "第10章 グラフィックスとフォントのライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="librsvg" name="librsvg"></a>librsvg-2.57.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          librsvg の概要
+        </h2>
+        <p>
+          <span class="application">librsvg</span> パッケージは、 グラフィックイメージフォーマット
+          SVG (Scalable Vector Graphic) を取り扱い、フォーマット変換や表示を行なうライブラリを提供します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://download.gnome.org/sources/librsvg/2.57/librsvg-2.57.1.tar.xz">
+                https://download.gnome.org/sources/librsvg/2.57/librsvg-2.57.1.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 0a9d809a4bdd371c894792e4c2eb94e9
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 5.4 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 998 MB（インストールに 16 MB）、テスト実施時はさらに 589 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 1.2 SBU（テスト実施時はさらに 0.5 SBU; いずれも parallelism=4 利用時）
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          librsvg の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="../x/cairo.html" title=
+          "Cairo-1.18.0">Cairo-1.18.0</a>, <a class="xref" href=
+          "../x/gdk-pixbuf.html" title=
+          "gdk-pixbuf-2.42.10">gdk-pixbuf-2.42.10</a>, <a class="xref" href=
+          "../x/pango.html" title="Pango-1.50.14">Pango-1.50.14</a>,
+          <a class="xref" href="rust.html" title=
+          "Rustc-1.74.1">rustc-1.74.1</a>
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            本パッケージのビルドには、インターネット接続が必要になります。
+          </p>
+        </div>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="gobject-introspection.html" title=
+          "gobject-introspection-1.78.1">gobject-introspection-1.78.1</a>,
+          <a class="xref" href="vala.html" title=
+          "Vala-0.56.14">Vala-0.56.14</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="python-modules.html#docutils" title=
+          "docutils-0.20.1">docutils-0.20.1</a> (for man pages), <a class=
+          "xref" href="python-modules.html#gi-docgen" title=
+          "Gi-DocGen-2023.3">Gi-DocGen-2023.3</a> (for documentation),
+          <a class="xref" href="../x/x7font.html" title="Xorg フォント">Xorg
+          フォント</a> (for tests)
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          librsvg のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">librsvg</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr    \
+            --enable-vala    \
+            --disable-static \
+            --docdir=/usr/share/doc/librsvg-2.57.1 &amp;&amp;
+make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>LC_ALL=C make -k
+          check</strong></span> を実行します。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class=
+        "command">make DOC_INSTALL_DIR='$(docdir)' install</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            If you installed the package on to your system using a
+            <span class="quote">「<span class="quote">DESTDIR</span>」</span>
+            method, an important file was not installed and should be copied
+            and/or generated. Generate it using the following command as the
+            <code class="systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">gdk-pixbuf-query-loaders --update-cache</kbd></pre>
+        </div>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--enable-vala</code></em>: このスイッチは Vala
+          バインディングのビルドを行います。 <a class="xref" href="vala.html" title=
+          "Vala-0.56.14">Vala-0.56.14</a> をインストールしていない場合はこのスイッチを取り除いてください。
+        </p>
+        <p>
+          <em class="parameter"><code>--disable-static</code></em>:
+          このスイッチはスタティックライブラリをインストールしないようにします。
+        </p>
+        <p>
+          <em class=
+          "parameter"><code>DOC_INSTALL_DIR='$(docdir)'</code></em>: This
+          override ensures installing the API documentation into the expected
+          location if <a class="xref" href="python-modules.html#gi-docgen"
+          title="Gi-DocGen-2023.3">Gi-DocGen-2023.3</a> is installed.
+        </p>
+        <p>
+          <code class="option">--disable-introspection</code>: <span class=
+          "application">Gobject Introspection</span>
+          をインストールしていない場合はこのスイッチを指定します。
+        </p>
+        <p>
+          <code class="option">--disable-gtk-doc</code>: This switch prevents
+          building the API documentation, even if <a class="xref" href=
+          "python-modules.html#gi-docgen" title=
+          "Gi-DocGen-2023.3">Gi-DocGen-2023.3</a> (despite the name of the
+          option) is available.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">rsvg-convert</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">librsvg-2.so, libpixbufloader-svg.so (installed in
+              /usr/lib/gdk-pixbuf-2.0/2.10.0/loaders)</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/librsvg-2.0 and
+              /usr/share/doc/librsvg-2.57.1</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rsvg-convert" name="rsvg-convert"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rsvg-convert</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to convert images into PNG, PDF, PS, SVG and
+                    other formats
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="librsvg-2" name="librsvg-2"></a><span class=
+                    "term"><code class="filename">librsvg-2.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Scalable Vector Graphics を描画するための関数を提供します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libpixbufloader-svg" name=
+                    "libpixbufloader-svg"></a><span class="term"><code class=
+                    "filename">libpixbufloader-svg.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the <span class="application">Gdk Pixbuf</span> plugin
+                    that allows <span class="application">GTK+</span>
+                    applications to render Scalable Vector Graphics images
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libraw.html" title="libraw-0.21.2">戻る</a>
+          <p>
+            libraw-0.21.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libspiro.html" title=
+          "Libspiro-20220722">次へ</a>
+          <p>
+            Libspiro-20220722
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="graphlib.html" title=
+          "第10章 グラフィックスとフォントのライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

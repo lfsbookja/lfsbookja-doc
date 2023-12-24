@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      libical-3.0.17
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第9章 汎用的なライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libgusb.html" title="libgusb-0.4.8">戻る</a>
+          <p>
+            libgusb-0.4.8
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libidn.html" title="libidn-1.41">次へ</a>
+          <p>
+            libidn-1.41
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="libical" name="libical"></a>libical-3.0.17
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libical の概要
+        </h2>
+        <p>
+          <span class="application">libical</span> パッケージは、iCalendar
+          プロトコルおよびそのデータフォーマットを実装し提供します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/libical/libical/releases/download/v3.0.17/libical-3.0.17.tar.gz">
+                https://github.com/libical/libical/releases/download/v3.0.17/libical-3.0.17.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: aab3e2c80a5a61c744204675bff19ae0
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 888 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 38 MB (テストと API ドキュメント込み)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.4 SBU (テストとドキュメント込み)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          libical の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="cmake.html" title=
+          "CMake-3.28.1">CMake-3.28.1</a>
+        </p>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="gobject-introspection.html" title=
+          "gobject-introspection-1.78.1">gobject-introspection-1.78.1</a>,
+          <a class="xref" href="vala.html" title=
+          "Vala-0.56.14">Vala-0.56.14</a>(いずれも GNOME において必要)
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="doxygen.html" title=
+          "Doxygen-1.9.8">Doxygen-1.9.8</a> (API ドキュメント生成のため), <a class=
+          "xref" href="graphviz.html" title=
+          "Graphviz-9.0.0">Graphviz-9.0.0</a> (API ドキュメント生成のため), <a class=
+          "xref" href="gtk-doc.html" title=
+          "GTK-Doc-1.33.2">GTK-Doc-1.33.2</a> (API ドキュメント生成のため), <a class=
+          "xref" href="icu.html" title="ICU-74.1">ICU-74.1</a>, <a class=
+          "xref" href="python-modules.html#pygobject3" title=
+          "PyGObject-3.46.0">PyGObject-3.46.0</a> (特定のテストのため), <a class=
+          "ulink" href=
+          "https://anduin.linuxfromscratch.org/BLFS/bdb/db-5.3.28.tar.gz">Berkeley
+          DB</a> (非推奨)
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libical のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">libical</span> をビルドします。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            This package may occasionally fail when building with multiple
+            processors. See <a class="xref" href=
+            "../introduction/notes-on-building.html#parallel-builds" title=
+            "Using Multiple Processors">Using Multiple Processors</a> for
+            more information.
+          </p>
+        </div>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+cmake -DCMAKE_INSTALL_PREFIX=/usr  \
+      -DCMAKE_BUILD_TYPE=Release   \
+      -DSHARED_ONLY=yes            \
+      -DICAL_BUILD_DOCS=false      \
+      -DGOBJECT_INTROSPECTION=true \
+      -DICAL_GLIB_VAPI=true        \
+      .. &amp;&amp;
+make -j1</kbd></pre>
+        <p>
+          If you have <a class="xref" href="doxygen.html" title=
+          "Doxygen-1.9.8">Doxygen-1.9.8</a>, <a class="xref" href=
+          "graphviz.html" title="Graphviz-9.0.0">Graphviz-9.0.0</a>, and
+          <a class="xref" href="gtk-doc.html" title=
+          "GTK-Doc-1.33.2">GTK-Doc-1.33.2</a> installed and wish to build the
+          API documentation, you should remove the <em class=
+          "parameter"><code>-DICAL_BUILD_DOCS=false</code></em> switch and
+          issue:
+        </p>
+        <pre class="userinput"><kbd class="command">make docs</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>make
+          test</strong></span> を実行します。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+        <p>
+          If you have built the API documentation, install by issuing, as
+          <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">install -vdm755 /usr/share/doc/libical-3.0.17/html &amp;&amp;
+cp -vr apidocs/html/* /usr/share/doc/libical-3.0.17/html</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>-DCMAKE_BUILD_TYPE=Release</code></em>:
+          本スイッチは、より的確なレベルのコンパイラー最適化オプションを採用します。
+        </p>
+        <p>
+          <em class="parameter"><code>-DSHARED_ONLY=yes</code></em>: This
+          switch is used in order to only build the shared libraries.
+        </p>
+        <p>
+          <em class="parameter"><code>-DICAL_BUILD_DOCS=false</code></em>:
+          This switch prevents building the <span class=
+          "application">GTK</span> documentation. Remove if you want to build
+          the documentation.
+        </p>
+        <p>
+          <em class=
+          "parameter"><code>-DGOBJECT_INTROSPECTION=true</code></em>: This
+          switch is used to generate GObject metadata bindings.
+        </p>
+        <p>
+          <em class="parameter"><code>-DICAL_GLIB_VAPI=true</code></em>: This
+          switch is used in order to build bindings for <a class="xref" href=
+          "vala.html" title="Vala-0.56.14">Vala-0.56.14</a>.
+        </p>
+        <p>
+          <code class="option">-DUSE_BUILTIN_TZDATA=yes</code>: This switch
+          is used in order to build using your own timezone data.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libical_cxx.so, libical.so, libical-glib.so,
+              libicalss_cxx.so, libicalss.so, libicalvcal.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/libical, /usr/include/libical-glib,
+              /usr/lib/cmake/LibIcal, /usr/libexec/libical,
+              /usr/share/gtk-doc/html/libical-glib (任意),
+              /usr/share/doc/libical-3.0.17/html</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libical-lib" name="libical-lib"></a><span class=
+                    "term"><code class="filename">libical.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">libical</span> API 関数を提供します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libical_cxx-lib" name=
+                    "libical_cxx-lib"></a><span class="term"><code class=
+                    "filename">libical_cxx.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains the <span class="application">libical</span> C++
+                    bindings
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libical-glib" name="libical-glib"></a><span class=
+                    "term"><code class=
+                    "filename">libical-glib.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains the <span class="application">libical</span>
+                    glib bindings
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libicalss" name="libicalss"></a><span class=
+                    "term"><code class="filename">libicalss.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    iCal コンポーネントデータを、さまざまな方法でディスクに保存するためのライブラリを提供します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libicalss_cxx" name=
+                    "libicalss_cxx"></a><span class="term"><code class=
+                    "filename">libicalss_cxx.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains the <span class="application">libicalss</span>
+                    C++ bindings
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libicalvcal" name="libicalvcal"></a><span class=
+                    "term"><code class=
+                    "filename">libicalvcal.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    vCard/vCalendar C インターフェース。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libgusb.html" title="libgusb-0.4.8">戻る</a>
+          <p>
+            libgusb-0.4.8
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libidn.html" title="libidn-1.41">次へ</a>
+          <p>
+            libidn-1.41
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

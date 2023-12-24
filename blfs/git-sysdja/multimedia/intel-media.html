@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      intel-media-23.4.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第42章 マルチメディアライブラリとドライバー
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="id3lib.html" title="id3lib-3.8.3">戻る</a>
+          <p>
+            id3lib-3.8.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="intel-vaapi-driver.html" title=
+          "intel-vaapi-driver-2.4.1">次へ</a>
+          <p>
+            intel-vaapi-driver-2.4.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="libdriv.html" title=
+          "第42章 マルチメディアライブラリとドライバー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="intel-media" name="intel-media"></a>intel-media-23.4.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to intel-media
+        </h2>
+        <p>
+          The <span class="application">intel-media</span> package provides a
+          VA API driver for Intel GPUs that are provided with Broadwell CPUs
+          and higher. This includes support for a variety of codecs.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://github.com/intel/media-driver/archive/refs/tags/intel-media-23.4.1.tar.gz">
+                https://github.com/intel/media-driver/archive/refs/tags/intel-media-23.4.1.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: 2d485ec2b05ceff696ef133e7dbfcd37
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 25 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 2.5 GB (368 MB installed)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: 6.0 SBU (with parallelism=4)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            The tarball <code class=
+            "filename">intel-media-23.4.1.tar.gz</code> will extract to the
+            directory <code class=
+            "filename">media-driver-intel-media-23.4.1</code>.
+          </p>
+        </div>
+        <h3>
+          intel-media Dependencies
+        </h3>
+        <h4>
+          Required
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/cmake.html" title=
+          "CMake-3.28.1">CMake-3.28.1</a>, <a class="xref" href=
+          "../general/intel-gmmlib.html" title=
+          "Intel-gmmlib-22.3.14">Intel-gmmlib-22.3.14</a>, <a class="xref"
+          href="libva.html" title="libva-2.20.0">libva-2.20.0</a>, and
+          <a class="xref" href="../x/xorg7.html#xorg-env" title=
+          "Xorg ビルド環境の設定">Xorg build environment</a>
+        </p>
+      </div>
+      <div class="kernel" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="intel-media-kernel" name="intel-media-kernel"></a>Kernel
+          Configuration
+        </h2>
+        <p>
+          Enable the following options in the kernel configuration. Recompile
+          the kernel if necessary:
+        </p>
+        <pre class="screen"><span class="blue">D</span>evice Drivers ---&gt;
+  <span class="blue">G</span>raphics support ---&gt;
+    &lt;*/M&gt; <span class=
+"blue">D</span>irect Rendering Manager (XFree86 4.1.0 and higher DRI support) ---&gt;
+                                                                      ...  [DRM]
+    &lt;*/M&gt; <span class=
+"blue">I</span>ntel 8xx/9xx/G3x/G4x/HD Graphics                           [DRM_I915]</pre>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of intel-media
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            This package takes a long time to build because it compiles code
+            specific to each individual generation of Intel GPUs and for a
+            variety of media codecs.
+          </p>
+          <p>
+            If you know the model of your Intel GPU, you can pass the
+            <code class="option">-D{GEN{8,9,11,12},MTL,ARL}=OFF</code> option
+            to the <span class="command"><strong>cmake</strong></span>
+            command but leaving the option for your GPU out. Note that the
+            <span class="quote">「<span class="quote">GEN</span>」</span>
+            number here is the generation of the GPU, not the CPU. For
+            example, with an Intel Core i7-1065G7 CPU shipping a
+            11th-generation Intel GPU, the <code class=
+            "option">-D{GEN{8,9,12},MTL,ARL}=OFF</code> option can be used so
+            the code specific to the other generations of Intel GPUs won't be
+            built.
+          </p>
+        </div>
+        <p>
+          Install <span class="application">intel-media</span> by running the
+          following commands:
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+cmake -DCMAKE_INSTALL_PREFIX=$XORG_PREFIX \
+      -DINSTALL_DRIVER_SYSCONF=OFF        \
+      -DBUILD_TYPE=Release                \
+      -Wno-dev ..                   &amp;&amp;
+make</kbd></pre>
+        <p>
+          This package does not come with a test suite.
+        </p>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">None</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">libigfxcmrt.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Drivers:</strong>
+              <span class="segbody">iHD_drv_video.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody">/usr/include/igfxcmrt</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h2>
+            Short Descriptions
+          </h2>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libigfxcmrt" name="libigfxcmrt"></a><span class=
+                    "term"><code class=
+                    "filename">libigfxcmrt.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides API functions which allow running GPU kernels on
+                    the render engine
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="id3lib.html" title="id3lib-3.8.3">戻る</a>
+          <p>
+            id3lib-3.8.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="intel-vaapi-driver.html" title=
+          "intel-vaapi-driver-2.4.1">次へ</a>
+          <p>
+            intel-vaapi-driver-2.4.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="libdriv.html" title=
+          "第42章 マルチメディアライブラリとドライバー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

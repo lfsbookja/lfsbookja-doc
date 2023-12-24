@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      ibus-1.5.29
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第11章 汎用ユーティリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="highlight.html" title=
+          "Highlight-4.10">戻る</a>
+          <p>
+            Highlight-4.10
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="imagemagick.html" title=
+          "ImageMagick-7.1.1-15">次へ</a>
+          <p>
+            ImageMagick-7.1.1-15
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genutils.html" title=
+          "第11章 汎用ユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ibus" name="ibus"></a>ibus-1.5.29
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          ibus の概要
+        </h2>
+        <p>
+          <span class="application">ibus</span> is an Intelligent Input Bus.
+          It is a new input framework for the Linux OS. It provides a fully
+          featured and user friendly input method user interface.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/ibus/ibus/archive/refs/tags/1.5.29/ibus-1.5.29.tar.gz">
+                https://github.com/ibus/ibus/archive/refs/tags/1.5.29/ibus-1.5.29.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 2e29a7fb0f8c5ffcf42462fda45348fd
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1.4 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 54 MB (add 3 MB for tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.3 SBU (Using parallelism=4; add 0.6 SBU for tests)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          追加のダウンロード
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Unicode Character Database: <a class="ulink" href=
+                "https://www.unicode.org/Public/zipped/15.1.0/UCD.zip">https://www.unicode.org/Public/zipped/15.1.0/UCD.zip</a>
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          ibus の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="../gnome/dconf.html" title=
+          "DConf-0.40.0 / DConf-Editor-45.0.1">DConf-0.40.0</a>, <a class=
+          "xref" href="iso-codes.html" title="ISO Codes-4.15.0">ISO
+          Codes-4.15.0</a>, <a class="xref" href="vala.html" title=
+          "Vala-0.56.14">Vala-0.56.14</a>
+        </p>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="gobject-introspection.html" title=
+          "gobject-introspection-1.78.1">gobject-introspection-1.78.1</a>,
+          <a class="xref" href="../x/gtk3.html" title=
+          "GTK+-3.24.38">GTK+-3.24.38</a>, <a class="xref" href=
+          "../x/libnotify.html" title="libnotify-0.8.3">libnotify-0.8.3</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../x/gtk4.html" title=
+          "GTK-4.12.4">GTK-4.12.4</a> (to build IM module for it), <a class=
+          "xref" href="gtk-doc.html" title=
+          "GTK-Doc-1.33.2">GTK-Doc-1.33.2</a> (for generating API
+          documentation), <a class="xref" href=
+          "python-modules.html#dbus-python" title="D-Bus Python-1.3.2">D-Bus
+          Python-1.3.2</a> and <a class="xref" href=
+          "python-modules.html#pygobject3" title=
+          "PyGObject-3.46.0">PyGObject-3.46.0</a> (both to build the Python
+          support library), <a class="xref" href="libxkbcommon.html" title=
+          "libxkbcommon-1.6.0">libxkbcommon-1.6.0</a>, <a class="xref" href=
+          "wayland.html" title="Wayland-1.22.0">Wayland-1.22.0</a> (both to
+          build the Wayland support programs), <a class="ulink" href=
+          "https://www.joypixels.com/">EmojiOne</a>, and <a class="ulink"
+          href=
+          "https://github.com/AyatanaIndicators/libdbusmenu">libdbusmenu</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          ibus のインストール
+        </h2>
+        <p>
+          First, install the Unicode Character Database as the <code class=
+          "systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">mkdir -p                /usr/share/unicode/ucd &amp;&amp;
+unzip -uo ../UCD.zip -d /usr/share/unicode/ucd</kbd></pre>
+        <p>
+          Fix an issue with deprecated schema entries:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -e 's@/desktop/ibus@/org/freedesktop/ibus@g' \
+    -i data/dconf/org.freedesktop.ibus.gschema.xml</kbd></pre>
+        <p>
+          If <a class="xref" href="gtk-doc.html" title=
+          "GTK-Doc-1.33.2">GTK-Doc-1.33.2</a> is not installed, remove the
+          references to it:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">if ! [ -e /usr/bin/gtkdocize ]; then
+  sed '/docs/d;/GTK_DOC/d' -i Makefile.am configure.ac
+fi</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">ibus</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">SAVE_DIST_FILES=1 NOCONFIGURE=1 ./autogen.sh &amp;&amp;
+
+PYTHON=python3                     \
+./configure --prefix=/usr          \
+            --sysconfdir=/etc      \
+            --disable-python2      \
+            --disable-appindicator \
+            --disable-gtk2         \
+            --disable-emoji-dict   &amp;&amp;
+make</kbd></pre>
+        <p>
+          To test the results, issue: <span class="command"><strong>make -k
+          check</strong></span>. The test named ibus-compose fails because it
+          uses some locales not installed in LFS.
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--disable-appindicator</code></em>:
+          This switch disables use of libdbusmenu. Omit if you installed the
+          optional dependency.
+        </p>
+        <p>
+          <em class="parameter"><code>--disable-emoji-dict</code></em>: This
+          switch disables the use of emoticon dictionaries. Omit if you
+          installed the optional package.
+        </p>
+        <p>
+          <em class="parameter"><code>--disable-gtk2</code></em>: This switch
+          removes the dependency on <span class="application">GTK+-2</span>.
+        </p>
+        <p>
+          <code class="option">--enable-gtk4</code>: This switch enables
+          building the <span class="application">GTK 4</span> immodule. Use
+          it if you have installed <span class="application">GTK 4</span>.
+        </p>
+        <p>
+          <code class="option">--enable-python-library</code>: This switch
+          enables building the <span class="application">Python</span>
+          support library. Use it if you have installed the optional Python
+          modules.
+        </p>
+        <p>
+          <code class="option">--enable-wayland</code>: This switch enables
+          building the <span class="application">Wayland</span> support
+          programs. Use it if you have installed the optional dependencies.
+        </p>
+        <p>
+          <code class="envar">NOCONFIGURE=1</code>: Prevent <span class=
+          "command"><strong>autogen.sh</strong></span> from running the
+          generated <span class="command"><strong>configure</strong></span>
+          script. We'll run the script manually instead of relying on
+          <span class="command"><strong>autogen.sh</strong></span> to run it,
+          because <span class="command"><strong>autogen.sh</strong></span>
+          would set <code class="option">-fsanitize=address
+          -fsanitize=leak</code> in <code class="envar">CFLAGS</code> running
+          <span class="command"><strong>configure</strong></span>, but those
+          compiler options are not suitable for productive use and they may
+          also cause a build failure.
+        </p>
+        <p>
+          <code class="envar">PYTHON=python3</code>: This environment
+          variable makes the <span class=
+          "command"><strong>configure</strong></span> script look for
+          <span class="application">Python 3</span>. Use it if you want to
+          build the <span class="application">Python 3</span> support
+          library.
+        </p>
+        <p>
+          <code class="envar">SAVE_DIST_FILES=1</code>: This environment
+          variable makes the <span class=
+          "command"><strong>autogen.sh</strong></span> script save some
+          pre-generated header files instead of overwriting them when it is
+          run. This prevents build failures when generating <code class=
+          "filename">ibusemojigen.h</code>.
+        </p>
+        <p>
+          <code class="option">--enable-gtk-doc</code>: <span class=
+          "application">GTK-Doc</span> をインストール済で API ドキュメントを再構築する場合に指定します。
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Ibus の設定
+        </h2>
+        <p>
+          If GTK+-3 or GTK+-2 are installed and <code class=
+          "option">--disable-gtk{3,2}</code> are not used, the ibus IM module
+          for GTK+-3 or GTK+-2 will be installed. As the <code class=
+          "systemitem">root</code> user, update a cache file of GTK+-3 or
+          GTK+-2 so the GTK-based applications can find the newly installed
+          IM module and use ibus as an input method:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">gtk-query-immodules-3.0 --update-cache</kbd></pre>
+        <p>
+          The command above updates the cache file for GTK+-3. For GTK+-2,
+          use <span class=
+          "command"><strong>gtk-query-immodules-2.0</strong></span> instead
+          of <span class=
+          "command"><strong>gtk-query-immodules-3.0</strong></span>. GTK-4
+          does not require a cache file for IM modules.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">ibus, ibus-daemon, ibus-setup</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libibus-1.0.so, im-ibus.so (<span class=
+              "application">GTK+ Immodule</span>)</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/etc/dconf/db/ibus.d, /usr/include/ibus-1.0,
+              /usr/share/gtk-doc/html/ibus, /usr/share/ibus</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ibus-daemon" name="ibus-daemon"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ibus-daemon</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the Intelligent Input Bus Daemon
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ibus-setup" name="ibus-setup"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ibus-setup</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the <span class="application">GTK+</span> program used
+                    to configure the <span class=
+                    "command"><strong>ibus-daemon</strong></span>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libibus-1.0" name="libibus-1.0"></a><span class=
+                    "term"><code class=
+                    "filename">libibus-1.0.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains the <span class="application">ibus</span> API
+                    functions
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="highlight.html" title=
+          "Highlight-4.10">戻る</a>
+          <p>
+            Highlight-4.10
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="imagemagick.html" title=
+          "ImageMagick-7.1.1-15">次へ</a>
+          <p>
+            ImageMagick-7.1.1-15
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genutils.html" title=
+          "第11章 汎用ユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,572 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Git-2.43.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第13章 プログラミング言語
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gdb.html" title="GDB-14.1">戻る</a>
+          <p>
+            GDB-14.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gitserver.html" title="Git サーバーの起動">次へ</a>
+          <p>
+            Git サーバーの起動
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="prog.html" title="第13章 プログラミング言語">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="git" name="git"></a>Git-2.43.0
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Git の概要
+        </h2>
+        <p>
+          <span class="application">Git</span> is a free and open source,
+          distributed version control system designed to handle everything
+          from small to very large projects with speed and efficiency. Every
+          <span class="application">Git</span> clone is a full-fledged
+          repository with complete history and full revision tracking
+          capabilities, not dependent on network access or a central server.
+          Branching and merging are fast and easy to do. <span class=
+          "application">Git</span> is used for version control of files, much
+          like tools such as <a class="xref" href="mercurial.html" title=
+          "Mercurial-6.6.1">Mercurial-6.6.1</a>, <span class=
+          "application">Bazaar</span>, <a class="xref" href="subversion.html"
+          title="Subversion-1.14.2">Subversion-1.14.2</a>, <a class="ulink"
+          href="https://www.nongnu.org/cvs/">CVS</a>, <span class=
+          "application">Perforce</span>, and <span class="application">Team
+          Foundation Server</span>.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://www.kernel.org/pub/software/scm/git/git-2.43.0.tar.xz">
+                https://www.kernel.org/pub/software/scm/git/git-2.43.0.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 66a036a0442b8d159b0eff5a0fe0dc94
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 7.0 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 255 MB（ダウンロードドキュメントを含む、ドキュメントビルド時はさらに 18 MB）
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.3 SBU（parallelism=4 処理時; ドキュメントビルド時はさらに 0.4
+                SBU、テスト実施時はさらに (ディスク速度により) 最大 13 SBU）
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          追加のダウンロード
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                <a class="ulink" href=
+                "https://www.kernel.org/pub/software/scm/git/git-manpages-2.43.0.tar.xz">
+                https://www.kernel.org/pub/software/scm/git/git-manpages-2.43.0.tar.xz</a>
+                (not needed if you've installed <a class="xref" href=
+                "python-modules.html#asciidoc" title=
+                "Asciidoc-10.2.0">asciidoc-10.2.0</a>, <a class="xref" href=
+                "../pst/xmlto.html" title="xmlto-0.0.28">xmlto-0.0.28</a>,
+                and prefer to rebuild them)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="ulink" href=
+                "https://www.kernel.org/pub/software/scm/git/git-htmldocs-2.43.0.tar.xz">
+                https://www.kernel.org/pub/software/scm/git/git-htmldocs-2.43.0.tar.xz</a>
+                and other docs (not needed if you've installed <a class=
+                "xref" href="python-modules.html#asciidoc" title=
+                "Asciidoc-10.2.0">asciidoc-10.2.0</a> and want to rebuild the
+                documentation).
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Git の依存パッケージ
+        </h3>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../basicnet/curl.html" title=
+          "cURL-8.5.0">cURL-8.5.0</a> (http, https, ftp, ftps 経由で
+          <span class="application">Git</span> を用いる場合に必要)
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../server/apache.html" title=
+          "Apache-2.4.58">Apache-2.4.58</a> (for some tests), <a class="xref"
+          href="../postlfs/gnupg.html" title="GnuPG-2.4.3">GnuPG-2.4.3</a>
+          (runtime, may be used to sign <span class="application">Git</span>
+          commits or tags, or verify the signatures of them), <a class="xref"
+          href="../postlfs/openssh.html" title=
+          "OpenSSH-9.5p1">OpenSSH-9.5p1</a> (runtime, needed to use
+          <span class="application">Git</span> over ssh), <a class="xref"
+          href="pcre2.html" title="PCRE2-10.42">pcre2-10.42</a> (<span class=
+          "emphasis"><em>or</em></span> the deprecated <a class="xref" href=
+          "pcre.html" title="PCRE-8.45">PCRE-8.45</a>), in either case
+          configured with <code class="literal">--enable-jit</code>,
+          <a class="xref" href="subversion.html" title=
+          "Subversion-1.14.2">Subversion-1.14.2</a> with Perl bindings
+          (runtime, for <span class="command"><strong>git
+          svn</strong></span>), <a class="xref" href="tk.html" title=
+          "Tk-8.6.13">Tk-8.6.13</a> (gitk, a simple <span class=
+          "application">Git</span> repository viewer, uses <span class=
+          "application">Tk</span> at runtime), <a class="xref" href=
+          "valgrind.html" title="Valgrind-3.22.0">Valgrind-3.22.0</a>,
+          <a class="ulink" href=
+          "https://metacpan.org/pod/Authen::SASL">Authen::SASL</a> and
+          <a class="ulink" href=
+          "https://metacpan.org/pod/MIME::Base64">MIME::Base64</a> (both
+          runtime, for <span class="command"><strong>git
+          send-email</strong></span>), and <a class="xref" href=
+          "perl-modules.html#perl-io-socket-ssl" title=
+          "IO::Socket::SSL-2.084">IO-Socket-SSL-2.084</a> (runtime, for
+          <span class="command"><strong>git send-email</strong></span> to
+          connect to a SMTP server with SSL encryption)
+        </p>
+        <h4>
+          任意 (man ページと html ドキュメントなどを生成する場合)
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../pst/xmlto.html" title=
+          "xmlto-0.0.28">xmlto-0.0.28</a> and <a class="xref" href=
+          "python-modules.html#asciidoc" title=
+          "Asciidoc-10.2.0">asciidoc-10.2.0</a> , and also <a class="ulink"
+          href="https://dblatex.sourceforge.net/">dblatex</a> (for the PDF
+          version of the user manual), and <a class="ulink" href=
+          "https://docbook2x.sourceforge.net/">docbook2x</a> to create info
+          pages
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Git のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">Git</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr \
+            --with-gitconfig=/etc/gitconfig \
+            --with-python=python3 &amp;&amp;
+make</kbd></pre>
+        <p>
+          You can build the man pages and/or html docs, or use downloaded
+          ones. If you choose to build them, use the next two instructions.
+        </p>
+        <p>
+          <a class="xref" href="python-modules.html#asciidoc" title=
+          "Asciidoc-10.2.0">asciidoc-10.2.0</a> をインストールしていて
+          htmlなどのドキュメントを生成したい場合は以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class="command">make html</kbd></pre>
+        <p>
+          <a class="xref" href="python-modules.html#asciidoc" title=
+          "Asciidoc-10.2.0">asciidoc-10.2.0</a> と <a class="xref" href=
+          "../pst/xmlto.html" title="xmlto-0.0.28">xmlto-0.0.28</a>
+          をインストールしている場合、以下のコマンドを実行すれば man ページを生成することができます。
+        </p>
+        <pre class="userinput"><kbd class="command">make man</kbd></pre>
+        <p>
+          テストスイートは並行モードでの実行も可能です。 ビルド結果をテストする場合は <span class=
+          "command"><strong>make test</strong></span> を実行します。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class=
+        "command">make perllibdir=/usr/lib/perl5/5.38/site_perl install</kbd></pre>
+        <h3>
+          If you created the man pages and/or html docs
+        </h3>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下のコマンドを実行し man
+          ページをインストールします。
+        </p>
+        <pre class="root"><kbd class="command">make install-man</kbd></pre>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下のコマンドを実行し html
+          ドキュメントをインストールします。
+        </p>
+        <pre class="root"><kbd class=
+        "command">make htmldir=/usr/share/doc/git-2.43.0 install-html</kbd></pre>
+        <h3>
+          If you downloaded the man pages and/or html docs
+        </h3>
+        <p>
+          man ページをダウンロードしている場合は、<code class="systemitem">root</code>
+          ユーザーになって以下のように伸張 (解凍) します。
+        </p>
+        <pre class="root"><kbd class=
+        "command">tar -xf ../git-manpages-2.43.0.tar.xz \
+    -C /usr/share/man --no-same-owner --no-overwrite-dir</kbd></pre>
+        <p>
+          html ドキュメントをダウンロードしている場合は、<code class="systemitem">root</code>
+          ユーザーになって以下のように伸張 (解凍) します。
+        </p>
+        <pre class="root"><kbd class=
+        "command">mkdir -vp   /usr/share/doc/git-2.43.0 &amp;&amp;
+tar   -xf   ../git-htmldocs-2.43.0.tar.xz \
+      -C    /usr/share/doc/git-2.43.0 --no-same-owner --no-overwrite-dir &amp;&amp;
+
+find        /usr/share/doc/git-2.43.0 -type d -exec chmod 755 {} \; &amp;&amp;
+find        /usr/share/doc/git-2.43.0 -type f -exec chmod 644 {} \;</kbd></pre>
+        <h3>
+          Reorganize text and html in the html-docs (both methods)
+        </h3>
+        <p>
+          For both methods, the html-docs include a lot of plain text files.
+          Reorganize the files as the <code class="systemitem">root</code>
+          user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">mkdir -vp /usr/share/doc/git-2.43.0/man-pages/{html,text}         &amp;&amp;
+mv        /usr/share/doc/git-2.43.0/{git*.txt,man-pages/text}     &amp;&amp;
+mv        /usr/share/doc/git-2.43.0/{git*.,index.,man-pages/}html &amp;&amp;
+
+mkdir -vp /usr/share/doc/git-2.43.0/technical/{html,text}         &amp;&amp;
+mv        /usr/share/doc/git-2.43.0/technical/{*.txt,text}        &amp;&amp;
+mv        /usr/share/doc/git-2.43.0/technical/{*.,}html           &amp;&amp;
+
+mkdir -vp /usr/share/doc/git-2.43.0/howto/{html,text}             &amp;&amp;
+mv        /usr/share/doc/git-2.43.0/howto/{*.txt,text}            &amp;&amp;
+mv        /usr/share/doc/git-2.43.0/howto/{*.,}html               &amp;&amp;
+
+sed -i '/^&lt;a href=/s|howto/|&amp;html/|' /usr/share/doc/git-2.43.0/howto-index.html &amp;&amp;
+sed -i '/^\* link:/s|howto/|&amp;html/|' /usr/share/doc/git-2.43.0/howto-index.txt</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class=
+          "parameter"><code>--with-gitconfig=/etc/gitconfig</code></em>: This
+          sets <code class="filename">/etc/gitconfig</code> as the file that
+          stores the default, system wide, <span class=
+          "application">Git</span> settings.
+        </p>
+        <p>
+          <em class="parameter"><code>--with-python=python3</code></em>: Use
+          this switch to use <span class="application">Python 3</span>,
+          instead of the EOL'ed <span class="application">Python 2</span>.
+          Python is used for the <span class="command"><strong>git
+          p4</strong></span> interface to Perforce repositories, and also
+          used in some tests.
+        </p>
+        <p>
+          <code class="option">--with-libpcre2</code>: Use this switch if
+          <span class="application">PCRE2</span> is installed and has been
+          built with the non-default JIT enabled.
+        </p>
+        <p>
+          <code class="option">--with-libpcre1</code>: As an alternative to
+          PCRE2, use this switch if the deprecated <span class=
+          "application">PCRE</span> is installed and has been built with the
+          non-default JIT enabled.
+        </p>
+        <p>
+          <span class="command"><strong>tar -xf ../git-manpages-2.43.0.tar.gz
+          -C /usr/share/man --no-same-owner</strong></span>: This untars
+          <code class="filename">git-manpages-2.43.0.tar.gz</code>. The
+          <code class="option">-C</code> option makes tar change directory to
+          <code class="filename">/usr/share/man</code> before it starts to
+          decompress the docs. The <code class=
+          "option">--no-same-owner</code> option stops tar from preserving
+          the user and group details of the files. This is useful as that
+          user or group may not exist on your system; this could
+          (potentially) be a security risk.
+        </p>
+        <p>
+          <span class="command"><strong>mv /usr/share/doc/git-2.43.0
+          ...</strong></span>: These commands move some of the files into
+          subfolders to make it easier to sort through the docs and find what
+          you're looking for.
+        </p>
+        <p>
+          <span class="command"><strong>find ... chmod ...</strong></span>:
+          These commands correct the permissions in the shipped documentation
+          tar file.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Git の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="git-config" name="git-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="git-config" name="git-config"></a>設定ファイル
+          </h4>
+          <p>
+            <code class="filename">~/.gitconfig</code>, <code class=
+            "filename">/etc/gitconfig</code>
+          </p>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">git, git-receive-pack, git-upload-archive,
+              git-upload-pack (hardlinked to each other), git-cvsserver,
+              git-shell, gitk, scalar</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/libexec/git-core,
+              /usr/lib/perl5/5.38/site_perl/Git,
+              /usr/share/{doc/git-2.43.0,git-core,git-gui,gitk,gitweb}</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="git-prog" name="git-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>git</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the stupid content tracker
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="git-cvsserver" name=
+                    "git-cvsserver"></a><span class="term"><span class=
+                    "command"><strong>git-cvsserver</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a CVS server emulator for <span class=
+                    "application">Git</span>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gitk" name="gitk"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gitk</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">Git</span> リポジトリブラウザー
+                    (<a class="xref" href="tk.html" title=
+                    "Tk-8.6.13">Tk-8.6.13</a> が必要)
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="git-receive-pack" name=
+                    "git-receive-pack"></a><span class="term"><span class=
+                    "command"><strong>git-receive-pack</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is invoked by <span class="command"><strong>git
+                    send-pack</strong></span> and updates the repository with
+                    the information fed from the remote end
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="git-shell" name="git-shell"></a><span class=
+                    "term"><span class=
+                    "command"><strong>git-shell</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a login shell for SSH accounts to provide restricted
+                    Git access
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="git-upload-archive" name=
+                    "git-upload-archive"></a><span class="term"><span class=
+                    "command"><strong>git-upload-archive</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is invoked by <span class="command"><strong>git archive
+                    --remote</strong></span> and sends a generated archive to
+                    the other end over the git protocol
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="git-upload-pack" name=
+                    "git-upload-pack"></a><span class="term"><span class=
+                    "command"><strong>git-upload-pack</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is invoked by <span class="command"><strong>git
+                    fetch-pack</strong></span>, it discovers what objects the
+                    other side is missing, and sends them after packing
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="scalar" name="scalar"></a><span class=
+                    "term"><span class=
+                    "command"><strong>scalar</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a repository management tool that optimizes Git for
+                    use in large repositories
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gdb.html" title="GDB-14.1">戻る</a>
+          <p>
+            GDB-14.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gitserver.html" title="Git サーバーの起動">次へ</a>
+          <p>
+            Git サーバーの起動
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="prog.html" title="第13章 プログラミング言語">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

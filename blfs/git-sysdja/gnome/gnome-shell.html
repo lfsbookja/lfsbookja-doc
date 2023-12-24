@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      gnome-shell-45.2
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第33章 GNOME のライブラリとデスクトップ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="mutter.html" title="Mutter-45.2">戻る</a>
+          <p>
+            Mutter-45.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gnome-shell-extensions.html" title=
+          "gnome-shell-extensions-45.2">次へ</a>
+          <p>
+            gnome-shell-extensions-45.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="core.html" title=
+          "第33章 GNOME のライブラリとデスクトップ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="gnome-shell" name="gnome-shell"></a>gnome-shell-45.2
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          GNOME Shell の概要
+        </h2>
+        <p>
+          The <span class="application">GNOME Shell</span> is the core user
+          interface of the <span class="application">GNOME</span> Desktop
+          environment.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://download.gnome.org/sources/gnome-shell/45/gnome-shell-45.2.tar.xz">
+                https://download.gnome.org/sources/gnome-shell/45/gnome-shell-45.2.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: eb537b8119309c8f481549157e1fbc96
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1.9 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 60 MB（テスト込み）
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.2 SBU（parallelism=4 利用時。テスト込み。）
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          GNOME Shell の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="evolution-data-server.html" title=
+          "evolution-data-server-3.50.2">evolution-data-server-3.50.2</a>,
+          <a class="xref" href="gcr4.html" title="Gcr-4.1.0">Gcr-4.1.0</a>,
+          <a class="xref" href="gjs.html" title="Gjs-1.78.1">Gjs-1.78.1</a>,
+          <a class="xref" href="gnome-desktop.html" title=
+          "gnome-desktop-44.0">gnome-desktop-44.0</a>, <a class="xref" href=
+          "../general/ibus.html" title="ibus-1.5.29">ibus-1.5.29</a>,
+          <a class="xref" href="mutter.html" title=
+          "Mutter-45.2">Mutter-45.2</a>, <a class="xref" href=
+          "../postlfs/polkit.html" title="Polkit-123">Polkit-123</a>,
+          <a class="xref" href="../general/sassc.html" title=
+          "sassc-3.6.2">sassc-3.6.2</a>, <a class="xref" href=
+          "../x/startup-notification.html" title=
+          "startup-notification-0.12">startup-notification-0.12</a>
+        </p>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../general/desktop-file-utils.html" title=
+          "desktop-file-utils-0.27">desktop-file-utils-0.27</a>, <a class=
+          "xref" href="gnome-autoar.html" title=
+          "gnome-autoar-0.4.4">gnome-autoar-0.4.4</a>, <a class="xref" href=
+          "gnome-bluetooth.html" title=
+          "gnome-bluetooth-42.7">gnome-bluetooth-42.7</a>, <a class="xref"
+          href="../multimedia/gst10-plugins-base.html" title=
+          "gst-plugins-base-1.22.7">gst-plugins-base-1.22.7</a>, <a class=
+          "xref" href="../basicnet/networkmanager.html" title=
+          "NetworkManager-1.44.2">NetworkManager-1.44.2</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/gtk-doc.html" title=
+          "GTK-Doc-1.33.2">GTK-Doc-1.33.2</a>, <a class="ulink" href=
+          "https://github.com/scop/bash-completion">bash-completion</a>
+        </p>
+        <h4>
+          Required Runtime Dependencies
+        </h4>
+        <p class="required">
+          <a class="xref" href="../x/adwaita-icon-theme.html" title=
+          "adwaita-icon-theme-45.0">adwaita-icon-theme-45.0</a>, <a class=
+          "xref" href="dconf.html" title=
+          "DConf-0.40.0 / DConf-Editor-45.0.1">DConf-0.40.0</a>, <a class=
+          "xref" href="../x/gdm.html" title="GDM-45.0.1">GDM-45.0.1</a>,
+          <a class="xref" href="gnome-backgrounds.html" title=
+          "gnome-backgrounds-45.0">gnome-backgrounds-45.0</a>, <a class=
+          "xref" href="gnome-control-center.html" title=
+          "gnome-control-center-45.2">gnome-control-center-45.2</a>,
+          <a class="xref" href="libgweather.html" title=
+          "libgweather-4.4.0">libgweather-4.4.0</a>, <span class=
+          "phrase"><a class="xref" href="../general/systemd.html" title=
+          "Systemd-255">Systemd-255</a>, and</span> <a class="xref" href=
+          "../general/telepathy-mission-control.html" title=
+          "telepathy-mission-control-5.16.6">telepathy-mission-control-5.16.6</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          GNOME Shell のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">GNOME Shell</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+meson setup --prefix=/usr       \
+            --buildtype=release \
+            -Dtests=false       \
+            ..                  &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          To test the results, you need to remove the <em class=
+          "parameter"><code>-Dtests=false</code></em> switch, and to have
+          <a class="xref" href="mutter.html" title=
+          "Mutter-45.2">Mutter-45.2</a> compiled and installed with tests
+          also. To run the tests, issue: <span class="command"><strong>ninja
+          test</strong></span>. You must be running an X session to run the
+          tests. Some will fail if <a class="xref" href="../x/gdm.html"
+          title="GDM-45.0.1">GDM-45.0.1</a> is not installed. One test named
+          <code class="filename">CSS styling support</code> is known to fail
+          with some multi-monitor configurations.
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">ninja install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--buildtype=release</code></em>:
+          本パッケージの安定版リリース向けに適したビルドタイプを指定します。
+          デフォルトにしていると、最適化されていないバイナリを生成する場合があるためです。
+        </p>
+        <p>
+          <em class="parameter"><code>-Dtests=false</code></em>: Remove this
+          switch if you want to build the tests. But then <span class=
+          "command"><strong>meson</strong></span> will fail if <a class=
+          "xref" href="mutter.html" title="Mutter-45.2">Mutter-45.2</a> tests
+          are not installed.
+        </p>
+        <p>
+          <code class="option">-Dextensions_tool=false</code>: This switch
+          allows building this package without <a class="xref" href=
+          "gnome-autoar.html" title=
+          "gnome-autoar-0.4.4">gnome-autoar-0.4.4</a> installed.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">gnome-extensions, gnome-extensions-app, gnome-shell,
+              gnome-shell-extension-prefs, gnome-shell-extension-tool,
+              gnome-shell-perf-tool</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/lib/gnome-shell, /usr/share/gnome-shell,
+              /usr/share/gtk-doc/html/{shell,st} (任意インストール),
+              /usr/share/xdg-desktop-portal/</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gnome-shell-prog" name=
+                    "gnome-shell-prog"></a><span class="term"><span class=
+                    "command"><strong>gnome-shell</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">GNOME</span> Desktop
+                    の中心的なユーザーインターフェース関数を提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="mutter.html" title="Mutter-45.2">戻る</a>
+          <p>
+            Mutter-45.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gnome-shell-extensions.html" title=
+          "gnome-shell-extensions-45.2">次へ</a>
+          <p>
+            gnome-shell-extensions-45.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="core.html" title=
+          "第33章 GNOME のライブラリとデスクトップ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

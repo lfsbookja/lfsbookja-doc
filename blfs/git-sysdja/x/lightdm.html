@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      lightdm-1.32.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第26章 ディスプレイマネージャー
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gdm.html" title="GDM-45.0.1">戻る</a>
+          <p>
+            GDM-45.0.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="sddm.html" title="sddm-0.20.0">次へ</a>
+          <p>
+            sddm-0.20.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="dm.html" title="第26章 ディスプレイマネージャー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="lightdm" name="lightdm"></a>lightdm-1.32.0
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Lightdm の概要
+        </h2>
+        <p>
+          <span class="application">lightdm</span> は GTK
+          に基づいて構築されている、軽量なディスプレイマネージャーです。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Lightdm パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/CanonicalLtd/lightdm/releases/download/1.32.0/lightdm-1.32.0.tar.xz">
+                https://github.com/CanonicalLtd/lightdm/releases/download/1.32.0/lightdm-1.32.0.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: e62a5da6c35f612e4d9575eda5c8d467
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 508 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 20 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.2 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          追加のダウンロード
+        </h3>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            The greeter is a program to present a graphical login screen.
+            There are several alternative greeters, but the gtk+ package is
+            the reference implementation. For a list of other greeters, see
+            <a class="ulink" href=
+            "https://en.wikipedia.org/wiki/LightDM">https://en.wikipedia.org/wiki/LightDM</a>.
+          </p>
+        </div>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/Xubuntu/lightdm-gtk-greeter/releases/download/lightdm-gtk-greeter-2.0.8/lightdm-gtk-greeter-2.0.8.tar.gz">
+                https://github.com/Xubuntu/lightdm-gtk-greeter/releases/download/lightdm-gtk-greeter-2.0.8/lightdm-gtk-greeter-2.0.8.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 373c73c67367df511eb544e09a2da281
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 569.7 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 5.5 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU 以下
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Lightdm の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="../xfce/exo.html" title=
+          "Exo-4.18.0">Exo-4.18.0</a> (for the greeter), <a class="xref"
+          href="../general/libgcrypt.html" title=
+          "libgcrypt-1.10.3">libgcrypt-1.10.3</a>, <a class="xref" href=
+          "../pst/itstool.html" title="itstool-2.0.7">itstool-2.0.7</a>,
+          <a class="xref" href="../postlfs/linux-pam.html" title=
+          "Linux-PAM-1.5.3">Linux-PAM-1.5.3</a>, and <a class="xref" href=
+          "xorg-server.html" title=
+          "Xorg-Server-21.1.10">Xorg-Server-21.1.10</a> (Runtime)
+        </p>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../general/gobject-introspection.html" title=
+          "gobject-introspection-1.78.1">gobject-introspection-1.78.1</a>,
+          <a class="xref" href="libxklavier.html" title=
+          "libxklavier-5.4">libxklavier-5.4</a>, <a class="xref" href=
+          "../general/vala.html" title="Vala-0.56.14">Vala-0.56.14</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/accountsservice.html" title=
+          "AccountsService-23.13.9">AccountsService-23.13.9</a> (run time),
+          <a class="xref" href="at-spi2-core.html" title=
+          "at-spi2-core-2.50.0">at-spi2-core-2.50.0</a>, <a class="xref"
+          href="../general/gtk-doc.html" title=
+          "GTK-Doc-1.33.2">GTK-Doc-1.33.2</a>, (<a class="xref" href=
+          "qt5.html" title="Qt-5.15.11">Qt-5.15.11</a> または <a class="xref"
+          href="qt5-alternate.html" title=
+          "qt-alternate-5.15.11">qt-alternate-5.15.11</a>), <a class="ulink"
+          href="https://launchpad.net/ido">libido</a>, <a class="ulink" href=
+          "https://launchpad.net/libindicator">libindicator</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Lightdm のインストール
+        </h2>
+        <p>
+          First, create a dedicated user and group to take control of the
+          <span class="command"><strong>lightdm</strong></span> daemon after
+          it is started. Issue the following commands as the <code class=
+          "systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">groupadd -g 65 lightdm       &amp;&amp;
+useradd  -c "Lightdm Daemon" \
+         -d /var/lib/lightdm \
+         -u 65 -g lightdm    \
+         -s /bin/false lightdm</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">lightdm</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr                 \
+            --libexecdir=/usr/lib/lightdm \
+            --localstatedir=/var          \
+            --sbindir=/usr/bin            \
+            --sysconfdir=/etc             \
+            --disable-static              \
+            --disable-tests               \
+            --with-greeter-user=lightdm   \
+            --with-greeter-session=lightdm-gtk-greeter \
+            --docdir=/usr/share/doc/lightdm-1.32.0 &amp;&amp;
+make</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class=
+        "command">make install                                                  &amp;&amp;
+cp tests/src/lightdm-session /usr/bin                         &amp;&amp;
+sed -i '1 s/sh/bash --login/' /usr/bin/lightdm-session        &amp;&amp;
+rm -rf /etc/init                                              &amp;&amp;
+install -v -dm755 -o lightdm -g lightdm /var/lib/lightdm      &amp;&amp;
+install -v -dm755 -o lightdm -g lightdm /var/lib/lightdm-data &amp;&amp;
+install -v -dm755 -o lightdm -g lightdm /var/cache/lightdm    &amp;&amp;
+install -v -dm770 -o lightdm -g lightdm /var/log/lightdm</kbd></pre>
+        <p>
+          次に greeter をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">tar -xf ../lightdm-gtk-greeter-2.0.8.tar.gz &amp;&amp;
+cd lightdm-gtk-greeter-2.0.8 &amp;&amp;
+
+./configure --prefix=/usr                 \
+            --libexecdir=/usr/lib/lightdm \
+            --sbindir=/usr/bin            \
+            --sysconfdir=/etc             \
+            --with-libxklavier            \
+            --enable-kill-on-sigterm      \
+            --disable-libido              \
+            --disable-libindicator        \
+            --disable-static              \
+            --disable-maintainer-mode     \
+            --docdir=/usr/share/doc/lightdm-gtk-greeter-2.0.8 &amp;&amp;
+make</kbd></pre>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            If you installed Xorg in /opt, you will need to create a symbolic
+            link so lightdm can find the Xorg server. As the <code class=
+            "systemitem">root</code> user:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">ln -sf /opt/xorg/bin/Xorg /usr/bin/X</kbd></pre>
+        </div>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <span class="command"><strong>sed ...
+          /usr/bin/lightdm-session</strong></span>: This command ensures that
+          the initial login via the greeter sources /etc/profile and
+          ~/.bash_profile. Without this, commands that depend on different
+          environment variables may not work as expected.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          lightdm の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="lightdm-config" name="lightdm-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="lightdm-config" name="lightdm-config"></a>設定ファイル
+          </h4>
+          <p>
+            /etc/lightdm/{lightdm,users,keys}.conf
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="lightdm-bootscript" name="lightdm-bootscript"></a>
+          </h3>
+          <h4 class="title">
+            <a id="lightdm-bootscript" name="lightdm-bootscript"></a>
+            <span class="phrase">Systemd ユニット</span>
+          </h4>
+          <p>
+            Install the <code class="filename">lightdm.service</code> unit
+            included in the <a class="xref" href=
+            "../introduction/systemd-units.html" title=
+            "BLFS Systemd ユニット">blfs-systemd-units-20231205</a> package:
+          </p>
+          <pre class="root"><kbd class=
+          "command">make install-lightdm</kbd></pre>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="lightdm-sessions" name="lightdm-sessions"></a>
+          </h3>
+          <h4 class="title">
+            <a id="lightdm-sessions" name="lightdm-sessions"></a>Available
+            Sessions
+          </h4>
+          <p>
+            The greeter offers a list of available sessions, depending on the
+            Window Managers and Desktop Environments installed. The list
+            includes sessions which have a corresponding <code class=
+            "filename">.desktop</code> file installed under <code class=
+            "filename">/usr/share/xsessions</code>. Most of the Window
+            Managers and Desktop Environments automatically provide those
+            files, but if necessary, you may include a custom one.
+          </p>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">dm-tool, lightdm, lightdm-gtk-greeter</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">liblightdm-gobject-1.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/etc/lightdm, /etc/apparmor.d, /usr/lib/lightdm,
+              /usr/include/lightdm-gobject-1, /usr/share/help/C/lightdm
+              /usr/share/gtk-doc/html/lightdm-gobject-1,
+              /usr/share/doc/lightdm-gtk-greeter-2.0.8, /var/lib/lightdm,
+              /var/lib/lightdm-data, /var/cache/lightdm,
+              /var/log/lightdm</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lightdm-prog" name="lightdm-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lightdm</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a display and login manager
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lightdm-gtk-greeter" name=
+                    "lightdm-gtk-greeter"></a><span class="term"><span class=
+                    "command"><strong>lightdm-gtk-greeter</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is an auxiliary process that displays the greeter, a
+                    graphical user interface that performs user
+                    authentication and initiates the selected window manager
+                    or display environment
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gdm.html" title="GDM-45.0.1">戻る</a>
+          <p>
+            GDM-45.0.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="sddm.html" title="sddm-0.20.0">次へ</a>
+          <p>
+            sddm-0.20.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="dm.html" title="第26章 ディスプレイマネージャー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

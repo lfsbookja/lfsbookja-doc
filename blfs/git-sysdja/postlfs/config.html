@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      第3章 LFS 設定以降について
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        パート&nbsp;II.&nbsp;LFS 設定以降と追加ソフトウェア
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="postlfs.html" title=
+          "LFS 設定以降と追加ソフトウェア">戻る</a>
+          <p>
+            LFS 設定以降と追加ソフトウェア
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="bootdisk.html" title="独自のブートデバイスの生成">次へ</a>
+          <p>
+            独自のブートデバイスの生成
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="postlfs.html" title=
+          "パート&nbsp;II.&nbsp;LFS 設定以降と追加ソフトウェア">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="chapter" lang="ja" xml:lang="ja">
+      <h1 class="chapter">
+        <a id="postlfs-config" name="postlfs-config"></a>LFS 設定以降について
+      </h1>
+      <p>
+        LFS の目的は基本的なシステムを作り上げることであり、既に構築済のことでしょう。
+        基本的に出来上がったなら、これをきれいに仕上げていく内容をいくつか説明していきます。 本章にて十分に説明できているものと考えています。
+      </p>
+      <p>
+        Unix 的ではない環境から Linux
+        に移ってきた方の中には、テキストの設定ファイルを通じてシステム設定を行うことを奇異に感じる方が多いようです。 Linux では In
+        Linux, just about all configuration is done via the manipulation of
+        text files. The majority of these files can be found in the
+        <code class="filename">/etc</code> hierarchy. There are often
+        graphical configuration programs available for different subsystems
+        but most are simply pretty front ends to the process of editing a
+        text file. The advantage of text-only configuration is that you can
+        edit parameters using your favorite text editor, whether that be
+        <span class="command"><strong>vim</strong></span>, <span class=
+        "command"><strong>emacs</strong></span>, or any other editor.
+      </p>
+      <p>
+        The first task is making a recovery boot device in <a class="xref"
+        href="bootdisk.html" title="独自のブートデバイスの生成">独自のブートデバイスの生成</a> because
+        it's the most critical need. Hardware issues relevant to firmware and
+        other devices is addressed next. The system is then configured to
+        ease addition of new users, because this can affect the choices you
+        make in the two subsequent topics—<a class="xref" href="profile.html"
+        title="Bash シェルの初期起動ファイル">Bash シェルの初期起動ファイル</a> and <a class="xref"
+        href="vimrc.html" title="/etc/vimrc ファイルと ~/.vimrc ファイル">vimrc
+        ファイル</a>.
+      </p>
+      <p>
+        There is one remaining topic: <a class="xref" href="logon.html"
+        title="/etc/issue を使ったログオン画面のカスタマイズ">/etc/issue
+        を使ったログオン画面のカスタマイズ</a>. It doesn't have much interaction with the
+        other topics in this chapter.
+      </p>
+      <div class="toc">
+        <h3>
+          目次
+        </h3>
+        <ul>
+          <li class="sect1">
+            <a href="bootdisk.html">独自のブートデバイスの生成</a>
+          </li>
+          <li class="sect1">
+            <a href="console-fonts.html">About Console Fonts</a>
+          </li>
+          <li class="sect1">
+            <a href="firmware.html">About Firmware</a>
+          </li>
+          <li class="sect1">
+            <a href="devices.html">デバイスに関して</a>
+          </li>
+          <li class="sect1">
+            <a href="skel.html">ユーザー追加のための設定</a>
+          </li>
+          <li class="sect1">
+            <a href="users.html">システムユーザーとグループについて</a>
+          </li>
+          <li class="sect1">
+            <a href="profile.html">Bash シェルの初期起動ファイル</a>
+          </li>
+          <li class="sect1">
+            <a href="vimrc.html">/etc/vimrc ファイルと ~/.vimrc ファイル</a>
+          </li>
+          <li class="sect1">
+            <a href="logon.html">/etc/issue を使ったログオン画面のカスタマイズ</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="postlfs.html" title=
+          "LFS 設定以降と追加ソフトウェア">戻る</a>
+          <p>
+            LFS 設定以降と追加ソフトウェア
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="bootdisk.html" title="独自のブートデバイスの生成">次へ</a>
+          <p>
+            独自のブートデバイスの生成
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="postlfs.html" title=
+          "パート&nbsp;II.&nbsp;LFS 設定以降と追加ソフトウェア">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

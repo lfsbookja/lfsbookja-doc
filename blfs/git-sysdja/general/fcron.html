@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Fcron-3.2.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第12章 システムユーティリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="dbus.html" title="dbus-1.14.10">戻る</a>
+          <p>
+            dbus-1.14.10
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gpm.html" title="GPM-1.20.7">次へ</a>
+          <p>
+            GPM-1.20.7
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="sysutils.html" title=
+          "第12章 システムユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="fcron" name="fcron"></a>Fcron-3.2.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Fcron の概要
+        </h2>
+        <p>
+          <span class="application">Fcron</span> パッケージは定期実行のコマンドスケジューラーです。
+          <span class="application">Vixie Cron</span> の代替を目的として提供されます。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "http://fcron.free.fr/archives/fcron-3.2.1.src.tar.gz">http://fcron.free.fr/archives/fcron-3.2.1.src.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: bd4996e941a40327d11efc5e3fd1f839
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 587 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 5.1 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Fcron の依存パッケージ
+        </h3>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../server/mail.html" title=
+          "第21章 メールサーバーソフトウェア">MTA</a>, <a class="ulink" href=
+          "../postlfs/editors.html">テキストエディター</a> (デフォルトは <a class="xref"
+          href="../postlfs/vim.html" title="Vim-9.0.2103">Vim-9.0.2103</a>
+          パッケージの <span class="command"><strong>vi</strong></span>), <a class=
+          "xref" href="../postlfs/linux-pam.html" title=
+          "Linux-PAM-1.5.3">Linux-PAM-1.5.3</a>, <a class="xref" href=
+          "../pst/docbook-utils.html" title=
+          "DocBook-utils-0.6.14">DocBook-utils-0.6.14</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Fcron のインストール
+        </h2>
+        <p>
+          セキュリティ観点から <span class="application">Fcron</span>
+          は一般ユーザーおよびグループにより実行されるようにします。 (<code class="systemitem">root</code>
+          ユーザーになって実行します。)
+        </p>
+        <pre class="root"><kbd class=
+        "command">groupadd -g 22 fcron &amp;&amp;
+useradd -d /dev/null -c "Fcron User" -g fcron -s /bin/false -u 22 fcron</kbd></pre>
+        <p>
+          Now fix some locations hard coded in the documentation:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">find doc -type f -exec sed -i 's:/usr/local::g' {} \;</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">Fcron</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr          \
+            --sysconfdir=/etc      \
+            --localstatedir=/var   \
+            --without-sendmail     \
+            --with-piddir=/run     \
+            --with-boot-install=no &amp;&amp;
+make</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+        <p>
+          DESTDIR install must be done as <code class=
+          "systemitem">root</code> user. Furthermore, if PAM configuration
+          files should be installed in <code class=
+          "filename">/etc/pam.d</code>, you have to create this directory in
+          the DESTDIR before doing the install.
+        </p>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--without-sendmail</code></em>:
+          <span class="application">Fcron</span> はデフォルトの動作として、<a class="xref"
+          href="../server/mail.html" title="第21章 メールサーバーソフトウェア">MTA</a>
+          パッケージが提供する <span class="command"><strong>sendmail</strong></span>
+          コマンドを実行して、<span class="command"><strong>fcron</strong></span>
+          スクリプトの処理結果をメール送信します。 本スイッチはそのメール通知を無効にします。
+          デフォルト動作に従う場合は本スイッチを取り除いてください。 あるいは <code class=
+          "option">--with-sendmail=<em class="replaceable"><code>&lt;MTA
+          コマンドへのパス&gt;</code></em></code> の指定により、所望のメーラーコマンドを指定することもできます。
+        </p>
+        <p>
+          <em class="parameter"><code>--with-boot-install=no</code></em>:
+          本パッケージに含まれるブートスクリプトをインストールしないようにします。
+        </p>
+        <p>
+          <em class="parameter"><code>--with-piddir=/run</code></em>: This
+          fixes the systemd unit to use the proper directory for PID files so
+          that systemctl does not hang and the unit starts correctly.
+        </p>
+        <p>
+          <code class="option">--with-editor=<em class=
+          "replaceable"><code>&lt;エディターコマンドへのパス&gt;</code></em></code>:
+          このスイッチはデフォルトのテキストエディターを指定します。
+        </p>
+        <p>
+          <code class="option">--with-dsssl-dir=<em class=
+          "replaceable"><code>&lt;/path/to/dsssl-stylesheets&gt;</code></em></code>:
+          May be used if you have <a class="xref" href=
+          "../pst/docbook-utils.html" title=
+          "DocBook-utils-0.6.14">DocBook-utils-0.6.14</a> installed.
+          Currently, the dsssl stylesheets are located at <code class=
+          "filename">/usr/share/sgml/docbook/dsssl-stylesheets-1.79</code>.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Fcron の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="fcron-config" name="fcron-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="fcron-config" name="fcron-config"></a>設定ファイル
+          </h4>
+          <p>
+            <code class="filename">/etc/fcron.conf</code>, <code class=
+            "filename">/etc/fcron.allow</code>, <code class=
+            "filename">/etc/fcron.deny</code>
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="run-parts" name="run-parts"></a>
+          </h3>
+          <h4 class="title">
+            <a id="run-parts" name="run-parts"></a>設定情報
+          </h4>
+          <p>
+            設定ファイルに対して変更を要するものはありません。 設定ファイルに関する情報は <code class=
+            "filename">fcron.conf</code> に対する man ページを参照してください。
+          </p>
+          <p>
+            <span class="command"><strong>fcron</strong></span> スクリプトは
+            <span class="command"><strong>fcrontab</strong></span> を利用しています。
+            必要な状況を実現するための適切なパラメーターに関しては <span class=
+            "command"><strong>fcrontab</strong></span> の man ページを参照してください。
+          </p>
+          <p>
+            <a id="fcron-pam" name="fcron-pam"></a> <span class=
+            "application">Linux-PAM</span> をインストールしている場合、<code class=
+            "filename">etc/pam.d</code> ディレクトリに 2 つの PAM 設定ファイルがインストールされます。
+            <code class="filename">etc/pam.d</code>
+            ディレクトリを利用していない場合は、<code class="filename">/etc/pam.conf</code>
+            ファイルに 2 つの設定内容を追記します。 この 2 つの設定内容が正しいものかを確認してください。
+            そして必要なら環境に合致するものに修正してください。
+          </p>
+          <h4>
+            Periodic Jobs
+          </h4>
+          <p>
+            If you would like to set up a periodic hierarchy for the root
+            user, first issue the following commands (as the <code class=
+            "systemitem">root</code> user) to create the <code class=
+            "filename">/usr/bin/run-parts</code> script:
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt; /usr/bin/run-parts &lt;&lt; "EOF" &amp;&amp;
+<code class="literal">#!/bin/sh
+# run-parts:  Runs all the scripts found in a directory.
+# from Slackware, by Patrick J. Volkerding with ideas borrowed
+# from the Red Hat and Debian versions of this utility.
+
+# keep going when something fails
+set +e
+
+if [ $# -lt 1 ]; then
+  echo "Usage: run-parts &lt;directory&gt;"
+  exit 1
+fi
+
+if [ ! -d $1 ]; then
+  echo "Not a directory: $1"
+  echo "Usage: run-parts &lt;directory&gt;"
+  exit 1
+fi
+
+# There are several types of files that we would like to
+# ignore automatically, as they are likely to be backups
+# of other scripts:
+IGNORE_SUFFIXES="~ ^ , .bak .new .rpmsave .rpmorig .rpmnew .swp"
+
+# Main loop:
+for SCRIPT in $1/* ; do
+  # If this is not a regular file, skip it:
+  if [ ! -f $SCRIPT ]; then
+    continue
+  fi
+  # Determine if this file should be skipped by suffix:
+  SKIP=false
+  for SUFFIX in $IGNORE_SUFFIXES ; do
+    if [ ! "$(basename $SCRIPT $SUFFIX)" = "$(basename $SCRIPT)" ]; then
+      SKIP=true
+      break
+    fi
+  done
+  if [ "$SKIP" = "true" ]; then
+    continue
+  fi
+  # If we've made it this far, then run the script if it's executable:
+  if [ -x $SCRIPT ]; then
+    $SCRIPT || echo "$SCRIPT failed."
+  fi
+done
+
+exit 0</code>
+EOF
+chmod -v 755 /usr/bin/run-parts</kbd></pre>
+          <p>
+            Next, create the directory layout for the periodic jobs (again as
+            the <code class="systemitem">root</code> user):
+          </p>
+          <pre class="root"><kbd class=
+          "command">install -vdm754 /etc/cron.{hourly,daily,weekly,monthly}</kbd></pre>
+          <p>
+            Finally, add the <span class=
+            "command"><strong>run-parts</strong></span> to the system
+            fcrontab (while still the <code class="systemitem">root</code>
+            user):
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt; /var/spool/fcron/systab.orig &lt;&lt; "EOF"
+<code class="literal">&amp;bootrun 01 * * * * root run-parts /etc/cron.hourly
+&amp;bootrun 02 4 * * * root run-parts /etc/cron.daily
+&amp;bootrun 22 4 * * 0 root run-parts /etc/cron.weekly
+&amp;bootrun 42 4 1 * * root run-parts /etc/cron.monthly</code>
+EOF</kbd></pre>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="fcron-init" name="fcron-init"></a>
+          </h3>
+          <h4 class="title">
+            <a id="fcron-init" name="fcron-init"></a> <span class=
+            "phrase">Systemd Unit</span>
+          </h4>
+          <p>
+            Enable <span class="application">fcron</span> to start at boot
+            using the previously installed systemd unit.
+          </p>
+          <pre class="root"><kbd class=
+          "command">systemctl enable fcron</kbd></pre>
+          <p>
+            Finally, again as the <code class="systemitem">root</code> user,
+            start fcron and generate the <code class=
+            "filename">/var/spool/fcron/systab</code> file:
+          </p>
+          <pre class="root"><kbd class=
+          "command">systemctl start fcron &amp;&amp;
+fcrontab -z -u systab</kbd></pre>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">fcron, fcrondyn, fcronsighup, fcrontab</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/share/doc/fcron-3.2.1, /var/spool/fcron</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fcron-prog" name="fcron-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fcron</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    スケジューリングデーモン。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fcrondyn" name="fcrondyn"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fcrondyn</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    実行中の <span class="command"><strong>fcron</strong></span>
+                    デーモンへの指示を行うユーザーツール。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fcronsighup" name="fcronsighup"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fcronsighup</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>fcron</strong></span> に対して
+                    <span class="application">Fcron</span>
+                    テーブルを再読込みすることを指示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fcrontab" name="fcrontab"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fcrontab</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>fcron</strong></span>
+                    が利用するテーブルをインストール、編集、一覧、削除するためのプログラム。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="dbus.html" title="dbus-1.14.10">戻る</a>
+          <p>
+            dbus-1.14.10
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gpm.html" title="GPM-1.20.7">次へ</a>
+          <p>
+            GPM-1.20.7
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="sysutils.html" title=
+          "第12章 システムユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

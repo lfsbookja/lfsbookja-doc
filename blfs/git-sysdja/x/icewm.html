@@ -1,0 +1,586 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      IceWM-3.4.4
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第27章 ウィンドウマネージャー
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="fluxbox.html" title="Fluxbox-1.3.7">戻る</a>
+          <p>
+            Fluxbox-1.3.7
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="openbox.html" title="openbox-3.6.1">次へ</a>
+          <p>
+            openbox-3.6.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="wm.html" title="第27章 ウィンドウマネージャー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="icewm" name="icewm"></a>IceWM-3.4.4
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to IceWM
+        </h2>
+        <p>
+          <span class="application">IceWM</span> is a window manager with the
+          goals of speed, simplicity, and not getting in the user's way.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://github.com/ice-wm/icewm/archive/3.4.4/icewm-3.4.4.tar.gz">
+                https://github.com/ice-wm/icewm/archive/3.4.4/icewm-3.4.4.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: bd30db8f7c42568034d89e489cfc3a71
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 2.4 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 46 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: 0.4 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          IceWM Dependencies
+        </h3>
+        <h4>
+          Required
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/cmake.html" title=
+          "CMake-3.28.1">CMake-3.28.1</a>, <a class="xref" href="imlib2.html"
+          title="imlib2-1.12.1">imlib2-1.12.1</a>, and <a class="xref" href=
+          "installing.html" title="第24章 グラフィック環境">グラフィック環境</a>
+        </p>
+        <h4>
+          Optional
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/python-modules.html#asciidoc"
+          title="Asciidoc-10.2.0">asciidoc-10.2.0</a> (for regenerating the
+          HTML documentation), <a class="xref" href="../general/fribidi.html"
+          title="FriBidi-1.0.13">FriBidi-1.0.13</a> (for languages written
+          right to left), <a class="xref" href="../general/librsvg.html"
+          title="librsvg-2.57.1">librsvg-2.57.1</a>, <a class="xref" href=
+          "../multimedia/libao.html" title="Libao-1.2.0">libao-1.2.0</a>,
+          <a class="xref" href="../multimedia/libsndfile.html" title=
+          "libsndfile-1.2.2">libsndfile-1.2.2</a>, <a class="xref" href=
+          "../multimedia/alsa-lib.html" title=
+          "alsa-lib-1.2.10">alsa-lib-1.2.10</a> (for the experimental
+          icesound program), and <a class="ulink" href=
+          "https://gitlab.gnome.org/Archive/gdk-pixbuf-xlib">gdk-pixbuf-xlib</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of IceWM
+        </h2>
+        <p>
+          Install <span class="application">IceWM</span> by running the
+          following commands:
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+cmake -DCMAKE_INSTALL_PREFIX=/usr \
+      -DCMAKE_BUILD_TYPE=Release  \
+      -DCFGDIR=/etc               \
+      -DENABLE_LTO=ON             \
+      -DDOCDIR=/usr/share/doc/icewm-3.4.4  \
+      .. &amp;&amp;
+make</kbd></pre>
+        <p>
+          This package does not have a working test suite.
+        </p>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+        <p>
+          This package creates two <code class="filename">.desktop</code>
+          files in the <code class="filename">/usr/share/xsessions/</code>
+          directory. Both are not needed in a BLFS system, so prevent the
+          extra file showing up as an option in a display manager. As the
+          <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">rm -v /usr/share/xsessions/icewm.desktop</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <em class="parameter"><code>-DENABLE_LTO=ON</code></em>: This
+          option enables Link Time Optimization and is required for this
+          package.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Configuring IceWM
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="icewm-config" name="icewm-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="icewm-config" name="icewm-config"></a>Config Files
+          </h4>
+          <p>
+            <code class="filename">~/.icewm/keys</code>, <code class=
+            "filename">~/.icewm/menu</code>, and <code class=
+            "filename">~/.icewm/preferences</code>, and <code class=
+            "filename">~/.icewm/toolbar</code>, and <code class=
+            "filename">~/.icewm/winoptions</code>. The default versions are
+            installed in <code class="filename">/usr/share/icewm/</code> and
+            will be used if you have not copied them to <code class=
+            "filename">~/.icewm</code>.
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id72515" name="id72515"></a>Configuration Information
+          </h4>
+          <p>
+            If <span class="application">IceWM</span> is the only Window
+            Manager you want to use, you can start it with an <code class=
+            "filename">.xinitrc</code> file in your home folder. Be sure to
+            backup your current <code class="filename">.xinitrc</code> before
+            proceeding.
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">echo icewm-session &gt; ~/.xinitrc</kbd></pre>
+          <p>
+            Now create the <span class="application">IceWM</span>
+            configuration files:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">mkdir -pv ~/.icewm                                      &amp;&amp;
+cp -v /usr/share/icewm/keys ~/.icewm/keys               &amp;&amp;
+cp -v /usr/share/icewm/menu ~/.icewm/menu               &amp;&amp;
+cp -v /usr/share/icewm/preferences ~/.icewm/preferences &amp;&amp;
+cp -v /usr/share/icewm/toolbar ~/.icewm/toolbar         &amp;&amp;
+cp -v /usr/share/icewm/winoptions ~/.icewm/winoptions</kbd></pre>
+          <p>
+            You can now edit these files to meet your requirements. In
+            particular, review the <code class="filename">preferences</code>
+            file. You can use <span class="command"><strong>Logout -&gt;
+            Restart-IceWM</strong></span> on the main menu to load your
+            changed preferences, but changes to the background only take
+            effect when <span class="application">IceWM</span> is started.
+          </p>
+          <p>
+            At this point you can <span class=
+            "emphasis"><em>either</em></span> modify the traditional menu
+            files to suit your requirements, <span class=
+            "emphasis"><em>or</em></span> use the newer <span class=
+            "command"><strong>icewm-menu-fdo</strong></span> described later.
+          </p>
+          <p>
+            The syntax of the menus is explained in the help files, which you
+            can access by running <span class=
+            "command"><strong>help</strong></span> from the menu, but some of
+            the detail is out of date and the default selections in the menus
+            (a few old applications on the main menu, everything else on the
+            <span class="command"><strong>Programs</strong></span> menu) will
+            benefit from being updated to meet your needs. The following
+            examples are provided to encourage you to think about how you
+            wish to organise your menus. Please note the following:
+          </p>
+          <div class="itemizedlist">
+            <ul>
+              <li class="listitem">
+                <p>
+                  If a program listed in the menu has not been installed, it
+                  will not appear when the menu is displayed. Similarly, if
+                  the program exists but the specified icon does not, no icon
+                  will be displayed in the menu.
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  The icons can be either <code class="filename">.xpm</code>
+                  or <code class="filename">.png</code> files, and there is
+                  no need to specify the extension. If the icon is located in
+                  the "library" (<code class=
+                  "filename">/usr/share/icewm/icons</code>) there is no need
+                  to specify the path.
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  Most programs are in sub-menus, and the main menu will
+                  always append entries for <code class="literal">windows,
+                  help, settings, logout</code> at the bottom.
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  An icon for <span class="application">firefox</span> was
+                  copied to the library directory and given a meaningful
+                  name. The icon for <span class="application">xine</span> is
+                  <code class="filename">xine.xpm</code> which was installed
+                  to a pixmap directory.
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  The default toolbar is not altered.
+                </p>
+              </li>
+            </ul>
+          </div>
+          <p>
+            If you wish to use this traditional method, there are more
+            examples in previous releases of this book (e.g. BLFS-7.8).
+          </p>
+          <p>
+            <span class="emphasis"><em>Alternatively</em></span>, you can
+            create a menu which conforms to the FDO Desktop Menu
+            Specifications, where programs can be found because they have a
+            .desktop file in the XDG_DATA_HOME or XDG_DATA_DIR directories.
+            Unlike most windowmanagers, <span class=
+            "application">icewm</span> does not search for programs when the
+            menu is invoked, so if you take this route you will need to rerun
+            the following command after installing or removing programs:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">icewm-menu-fdo &gt;~/.icewm/menu</kbd></pre>
+          <p>
+            If you wish to put icons on your desktop, you will need to
+            install a program such as <a class="xref" href=
+            "../xsoft/rox-filer.html" title=
+            "Rox-Filer-2.11">Rox-Filer-2.11</a> which provides a pinboard. If
+            you do that you will no longer be able to access the menu by
+            right-clicking on the desktop, you will have to use the
+            <span class="application">IceWM</span> button. To ensure that the
+            <span class="application">rox</span> pinboard is running, the
+            following commands will put it in the startup file:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">cat &gt; ~/.icewm/startup &lt;&lt; "EOF"
+<code class="literal">rox -p Default &amp;
+EOF &amp;&amp;
+chmod +x ~/.icewm/startup</code></kbd></pre>
+          <div class="admon tip">
+            <img alt="[ヒント]" src="../images/tip.png" />
+            <h3>
+              ヒント
+            </h3>
+            <p>
+              There are a number of keyboard shortcuts in <span class=
+              "application">IceWM</span>:
+            </p>
+            <div class="itemizedlist">
+              <ul>
+                <li class="listitem">
+                  <p>
+                    Ctrl + Alt + F<em class="replaceable"><code>N</code></em>
+                    : go to <code class="filename">tty<em class=
+                    "replaceable"><code>N</code></em></code>.
+                  </p>
+                </li>
+                <li class="listitem">
+                  <p>
+                    Ctrl + Alt + <em class="replaceable"><code>N</code></em>
+                    : go to desktop number <em class=
+                    "replaceable"><code>N</code></em>
+                  </p>
+                </li>
+                <li class="listitem">
+                  <p>
+                    Ctrl + Alt + Space : open a box on the taskbar where you
+                    can key in the name of an application and run it.
+                  </p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">icehelp, icesh, icesound, icewm,
+              icewm-menu-fdo, icewm-menu-xrandr, icewm-session,
+              icewm-set-gnomewm, icewmbg, and icewmhint</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">None</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody">/usr/share/doc/icewm-3.4.4,
+              /usr/share/icewm and ~/.icewm</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="icehelp" name="icehelp"></a><span class=
+                    "term"><span class=
+                    "command"><strong>icehelp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to display the html manual
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="icesh" name="icesh"></a><span class=
+                    "term"><span class=
+                    "command"><strong>icesh</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a command-line window manager which can be used in
+                    <code class="filename">~/.icewm/startup</code>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="icesound" name="icesound"></a><span class=
+                    "term"><span class=
+                    "command"><strong>icesound</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    plays audio files on GUI events raised by IceWM
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="icewm-prog" name="icewm-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>icewm</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the window manager
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="icewm-menu-fdo" name=
+                    "icewm-menu-fdo"></a><span class="term"><span class=
+                    "command"><strong>icewm-menu-fdo</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    can create a file in a format suitable for an IceWM menu,
+                    which lists those programs currently installed in a
+                    layout conforming to the FDO Desktop Menu Specifications
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="icewm-menu-xrandr" name=
+                    "icewm-menu-xrandr"></a><span class="term"><span class=
+                    "command"><strong>icewm-menu-xrandr</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a helper program used to manage multi-screen
+                    configurations
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="icewm-session" name=
+                    "icewm-session"></a><span class="term"><span class=
+                    "command"><strong>icewm-session</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    runs icewmbg, icewm, icewmtray, startup, shutdown (i.e.
+                    startup and shutdown scripts are run if installed)
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="icewm-set-gnomewm" name=
+                    "icewm-set-gnomewm"></a><span class="term"><span class=
+                    "command"><strong>icewm-set-gnomewm</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a script to set the <span class=
+                    "application">GNOME</span> window manager to <span class=
+                    "application">icewm</span> using <span class=
+                    "application">gconftool</span>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="icewmbg" name="icewmbg"></a><span class=
+                    "term"><span class=
+                    "command"><strong>icewmbg</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to set the background, according to the various
+                    <code class="literal">DesktopBackground</code> settings
+                    in the preferences
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="icewmhint" name="icewmhint"></a><span class=
+                    "term"><span class=
+                    "command"><strong>icewmhint</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used internally to provide hints to the user
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="fluxbox.html" title="Fluxbox-1.3.7">戻る</a>
+          <p>
+            Fluxbox-1.3.7
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="openbox.html" title="openbox-3.6.1">次へ</a>
+          <p>
+            openbox-3.6.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="wm.html" title="第27章 ウィンドウマネージャー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

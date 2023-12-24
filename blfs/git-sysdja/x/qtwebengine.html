@@ -1,0 +1,744 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      QtWebEngine-5.15.17
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第25章 グラフィック環境ライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="qt5-components.html" title=
+          "qt-components-5.15.11">戻る</a>
+          <p>
+            qt-components-5.15.11
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="qt6.html" title="Qt-6.6.1">次へ</a>
+          <p>
+            Qt-6.6.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="lib.html" title=
+          "第25章 グラフィック環境ライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="qtwebengine" name="qtwebengine"></a>QtWebEngine-5.15.17
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to QtWebEngine
+        </h2>
+        <p>
+          <span class="application">QtWebEngine</span> integrates
+          <span class="application">chromium</span>'s web capabilities into
+          Qt. It ships with its own copy of ninja which it uses for the build
+          if it cannot find a system copy, and various copies of libraries
+          from ffmpeg, icu, libvpx, and zlib (including libminizip) which
+          have been forked by the <span class="application">chromium</span>
+          developers.
+        </p>
+        <p>
+          This package and browsers using it may be useful if you need to use
+          a website designed for google chrome, or chromium, browsers.
+        </p>
+        <div class="admon important">
+          <img alt="[重要]" src="../images/important.png" />
+          <h3>
+            重要
+          </h3>
+          <p>
+            Qt-5.15 reached End Of Life on 26 May 2023. Extended lifetime
+            Qt5.15 LTS has been extended until 26th May 2025 for those with
+            subscription licenses. Because qtwebengine uses chromium code
+            under the LGPL, it appears that any new backported CVE fixes for
+            QtWebEngine will be available after Qt makes public releases of
+            its current versions.
+          </p>
+        </div>
+        <div class="admon warning">
+          <img alt="[警告]" src="../images/warning.png" />
+          <h3>
+            警告
+          </h3>
+          <p>
+            QtWebEngine uses a forked copy of chromium, and is therefore
+            vulnerable to many issues found there. The Qt developers have
+            always preferred to make releases at the same time as the rest of
+            Qt (rather than adding emergency fixes), but with stable versions
+            getting released after the current development version. Now that
+            they are keen to move to Qt6, the 5.15.3 and later Qt-5.15
+            releases are initially only available to paying customers.
+            QtWebEngine is something of an exception because of its LGPL
+            licence, but getting the git sources (with the forked chromium
+            submodule) to a position where they will successfully build on a
+            current BLFS system can take a lot of effort and therefore
+            updates to the book may be delayed.
+          </p>
+          <p>
+            It seems likely that future 5.15-series versions will also be
+            released long after the chromium vulnerabilities are known, but
+            fixes for QtWebEngine can be found in git and the editors take
+            the view that known vulnerabilities in browsers should be fixed.
+          </p>
+          <p>
+            The tarball linked to below was created from the 5.15 git branch
+            and the 87-branch of the chromium submodule (which is forked from
+            chromium). See the GIT-VERSIONS file in the tarball for details
+            of the latest commits.
+          </p>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <div class="admon warning">
+          <img alt="[警告]" src="../images/warning.png" />
+          <h3>
+            警告
+          </h3>
+          <p>
+            By default, ninja will use all online CPUs +2 (if at least 4
+            exist), even if they are not available to the current task
+            because the build terminal has been restricted with 'taskset'. In
+            BLFS, this package takes more time to build than any other. In
+            one example, the build of this package crashed at about the 90
+            percent point due to an out of memory problem on a system with 24
+            cores and 32 GB of memory.
+          </p>
+          <p>
+            To work around this, see the Command Explanations below.
+          </p>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            If you are upgrading and have installed a newer version of
+            <a class="xref" href="../general/icu.html" title=
+            "ICU-74.1">ICU-74.1</a> since you last installed <a class="xref"
+            href="qt5.html" title="Qt-5.15.11">Qt-5.15.11</a>, you will need
+            to reinstall Qt5 before upgrading, otherwise the final link of
+            this package will fail with a warning that the version of icu
+            libraries needed by libQt5Core.so may conflict with the version
+            used for this package.
+          </p>
+          <p>
+            Unusually, the shipped GN build system (used to create the Ninja
+            files) requires a static <code class=
+            "filename">libstdc++.a</code> although the installed libraries
+            correctly use the shared version. If that static library is not
+            present, the build will fail quite quickly. Please note that if
+            you try to build webengine as part of <span class=
+            "application">Qt</span> and the static library is not available,
+            that build will either complete without installing webengine, or
+            else fail during the install (both variants were observed in
+            5.12.0).
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://anduin.linuxfromscratch.org/BLFS/qtwebengine/qtwebengine-5.15.17.tar.xz">
+                https://anduin.linuxfromscratch.org/BLFS/qtwebengine/qtwebengine-5.15.17.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: 9f430acf599605c762a8098000155045
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 307 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 5.1 GB (154 MB installed)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: 45 SBU (Using parallelism=8)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Additional Downloads
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Required patch: <a class="ulink" href=
+                "https://www.linuxfromscratch.org/patches/blfs/svn/qtwebengine-5.15.17-build_fixes-1.patch">
+                https://www.linuxfromscratch.org/patches/blfs/svn/qtwebengine-5.15.17-build_fixes-1.patch</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Required patch: <a class="ulink" href=
+                "https://www.linuxfromscratch.org/patches/blfs/svn/qtwebengine-5.15.17-ffmpeg5_fixes-1.patch">
+                https://www.linuxfromscratch.org/patches/blfs/svn/qtwebengine-5.15.17-ffmpeg5_fixes-1.patch</a>
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          qtwebengine Dependencies
+        </h3>
+        <h4>
+          Required
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/nodejs.html" title=
+          "Node.js-20.10.0">nodejs-20.10.0</a>, <a class="xref" href=
+          "../postlfs/nss.html" title="NSS-3.96.1">nss-3.96.1</a>, <a class=
+          "xref" href="../general/pciutils.html" title=
+          "pciutils-3.10.0">pciutils-3.10.0</a>, and (<a class="xref" href=
+          "qt5.html" title="Qt-5.15.11">Qt-5.15.11</a> or <a class="xref"
+          href="qt5-components.html" title=
+          "qt-components-5.15.11">qt-components-5.15.11</a> with qtlocation
+          and qtwebchannel)
+        </p>
+        <h4>
+          Recommended
+        </h4>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            If these packages are not installed, the build process will
+            compile and install its own (perhaps older) version, with the
+            side effect of increasing build and installed disk space and
+            build time.
+          </p>
+        </div>
+        <p class="recommended">
+          either <a class="xref" href="../multimedia/alsa-lib.html" title=
+          "alsa-lib-1.2.10">alsa-lib-1.2.10</a> or <a class="xref" href=
+          "../multimedia/pulseaudio.html" title=
+          "PulseAudio-16.1">PulseAudio-16.1</a> (or both), <a class="xref"
+          href="../multimedia/ffmpeg.html" title="FFmpeg-6.1">FFmpeg-6.1</a>,
+          <a class="xref" href="../general/icu.html" title=
+          "ICU-74.1">ICU-74.1</a> (built before <a class="xref" href=
+          "../general/libxml2.html" title=
+          "libxml2-2.12.3">libxml2-2.12.3</a>), <a class="xref" href=
+          "../general/libwebp.html" title="libwebp-1.3.2">libwebp-1.3.2</a>,
+          <a class="xref" href="../general/libxslt.html" title=
+          "libxslt-1.1.39">libxslt-1.1.39</a>, and <a class="xref" href=
+          "../multimedia/opus.html" title="Opus-1.4">Opus-1.4</a>
+        </p>
+        <h4>
+          Optional
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../basicnet/libevent.html" title=
+          "libevent-2.1.12">libevent-2.1.12</a>, <a class="xref" href=
+          "../postlfs/mitkrb.html" title="MIT Kerberos V5-1.21.2">MIT
+          Kerberos V5-1.21.2</a>, <a class="xref" href=
+          "../multimedia/pipewire.html" title=
+          "Pipewire-1.0.0">pipewire-1.0.0</a>, <a class="xref" href=
+          "../general/poppler.html" title=
+          "Poppler-23.12.0">Poppler-23.12.0</a>, <a class="ulink" href=
+          "https://github.com/open-source-parsers/jsoncpp/releases">jsoncpp</a>,
+          <a class="ulink" href=
+          "https://github.com/cisco/libsrtp/releases">libsrtp</a>, <a class=
+          "ulink" href="https://google.github.io/snappy/">snappy</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of qtwebengine
+        </h2>
+        <p>
+          Apply a patch to fix several issues that can prevent the build from
+          completing, and to force it to use python3:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../qtwebengine-5.15.17-build_fixes-1.patch</kbd></pre>
+        <p>
+          If building with system <a class="xref" href=
+          "../multimedia/ffmpeg.html" title="FFmpeg-6.1">FFmpeg-6.1</a> as
+          the editors recommend, apply a patch that resolves problems when
+          building with ffmpeg-5 and later:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../qtwebengine-5.15.17-ffmpeg5_fixes-1.patch</kbd></pre>
+        <p>
+          Otherwise, fix an issue in shipped ffmpeg causing it fail to build
+          with Binutils 2.41 or later:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed 's/(uint8_t)\(([^)]*)\|shift\)/\1 \&amp; 0x1F/' \
+    -i src/3rdparty/chromium/third_party/ffmpeg/libavcodec/x86/mathops.h</kbd></pre>
+        <p>
+          Although the build_fixes patch has ensured that git is not invoked
+          during the build, the build system has labyrinthine rules of
+          byzantine complexity, and in particular trying to build without two
+          <code class="filename">.git</code> directories will lead to it
+          eventually falling into unexpected and unbuildable code which
+          references a private header that has not been created. Avoid this
+          by creating the required directories:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mkdir -pv .git src/3rdparty/chromium/.git</kbd></pre>
+        <p>
+          Because this version of qtwebengine is aimed at a later release
+          than the current public releases, change it to build for qt-5.15.11
+          using a sed:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -e '/^MODULE_VERSION/s/5.*/5.15.11/' -i .qmake.conf</kbd></pre>
+        <p>
+          Now, ensure that the local headers are available when not building
+          as part of the complete <a class="xref" href="qt5.html" title=
+          "Qt-5.15.11">Qt-5.15.11</a>:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">find -type f -name "*.pr[io]" |
+  xargs sed -i -e 's|INCLUDEPATH += |&amp;$$QTWEBENGINE_ROOT/include |'</kbd></pre>
+        <p>
+          Next, allow the pulseaudio library to be linked at build time,
+          instead of run time. This also prevents an issue with newer
+          pulseaudio:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -e '/link_pulseaudio/s/false/true/' \
+    -i src/3rdparty/chromium/media/media_options.gni</kbd></pre>
+        <p>
+          Next, fix the build tools so they can be run with Python-3.11+:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -e 's/\^(?i)/(?i)^/' \
+    -i src/3rdparty/chromium/tools/metrics/ukm/ukm_model.py &amp;&amp;
+
+sed -e "s/'rU'/'r'/" \
+    -i src/3rdparty/chromium/tools/grit/grit/util.py</kbd></pre>
+        <p>
+          Several fixes are needed for using Python-3.12+: first, either
+          remove references to the removed <span class=
+          "command"><strong>imp</strong></span> module or replace it with the
+          newer <span class="command"><strong>importlib</strong></span>
+          module:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -e "/import imp/d"                                                    \
+    -i src/3rdparty/chromium/mojo/public/tools/mojom/mojom/fileutil.py    \
+       src/3rdparty/chromium/mojo/public/tools/mojom/mojom/parse/lexer.py &amp;&amp;
+
+sed -e "s/import imp/import importlib.util/" \
+    -e 's@.*load_source.*@\
+    spec = importlib.util.spec_from_file_location(fullname, filepath)\
+    mod = importlib.util.module_from_spec(spec);\
+    spec.loader.exec_module(mod)\
+    return mod@'                             \
+    -i src/3rdparty/chromium/components/resources/protobufs/binary_proto_generator.py</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            In the above instruction, the 4-space indentation of the four
+            lines from <span class="command"><strong>spec =
+            ...</strong></span> to <span class="command"><strong>return
+            ...</strong></span> is significant, since they are in a Python
+            script.
+          </p>
+        </div>
+        <p>
+          Remove an obsolete instance of and a reference to the <span class=
+          "command"><strong>six</strong></span> module:
+        </p>
+        <pre class="userinput"><kbd class="command">sed -e /six.move/d \
+    -i src/3rdparty/chromium/third_party/protobuf/python/google/protobuf/internal/python_message.py &amp;&amp;
+
+rm -r src/3rdparty/chromium/tools/grit/third_party/six</kbd></pre>
+        <p>
+          There is also a workaround needed for ICU-74+:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -e 's/^#define BA_LB_COUNT.*$/#define BA_LB_COUNT 40/' \
+    -i src/3rdparty/chromium/third_party/blink/renderer/platform/text/text_break_iterator.cc</kbd></pre>
+        <p>
+          If you are using the system copy of libxml2 (which requires that
+          libxml2 has been built with the '--with-icu' option), adapt to an
+          API change:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -e 's/xmlError/const xmlError/' \
+-i src/3rdparty/chromium/third_party/blink/renderer/core/xml/xslt_processor.h \
+-i src/3rdparty/chromium/third_party/blink/renderer/core/xml/xslt_processor_libxslt.cc</kbd></pre>
+        <p>
+          Finally, fix a change in the build system which allows its
+          developers to pass e.g. -j20 to make (for quick tests of some
+          areas) but breaks the build with LFS's use of the NINJAJOBS
+          environment variable:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i 's/NINJAJOBS/NINJA_JOBS/' src/core/gn_run.pro</kbd></pre>
+        <p>
+          Install <span class="application">qtwebengine</span> by running the
+          following commands:
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+qmake .. -- -system-ffmpeg -proprietary-codecs -webengine-icu &amp;&amp;
+make</kbd></pre>
+        <p>
+          This package does not come with a test suite.
+        </p>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+        <p>
+          Remove references to the build directory from installed library
+          dependency (prl) files by running the following commands as the
+          <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">find $QT5DIR/ -name \*.prl \
+   -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <span class="command"><strong>qmake</strong></span>: This will
+          build the included copy of <span class="application">ninja</span>
+          if it is not already installed and use it to configure the build.
+        </p>
+        <p>
+          <span class="command"><strong>-- -system-ffmpeg -proprietary-codecs
+          -webengine-icu</strong></span>: If any options are passed to qmake
+          they must come after '--' which must follow '..' that points to the
+          main directory. The options here cause it to use system ffmpeg and
+          system icu. The '-proprietary-codecs' option allows ffmpeg to
+          decode H264 and H265 codecs. If built as part of full Qt5, the
+          system icu is automatically used (only) by Qt5Core if it is
+          available, but unless this option is used webengine will always use
+          its shipped copy of icu, adding time and space to the build. Remove
+          the <em class="parameter"><code>-system-ffmpeg</code></em> switch
+          if you don't have <a class="xref" href="../multimedia/ffmpeg.html"
+          title="FFmpeg-6.1">FFmpeg-6.1</a> installed and want to build this
+          package with an internal copy of ffmpeg.
+        </p>
+        <p>
+          <code class="option">-webengine-jumbo-build 0</code>: If this is
+          added to the qmake command it will cause the 'Jumbo Build Merge
+          Limit' to be reported as 'no' instead of 8. That turns off the
+          jumbo build. Some distros do that to get a smaller build on some
+          architectures such as MIPS. On x86_64 it might save a little space
+          in the build, but the build time will increase by a very large
+          amount.
+        </p>
+        <p>
+          <code class="option">-webengine-kerberos</code>: Add this if you
+          have installed <a class="xref" href="../postlfs/mitkrb.html" title=
+          "MIT Kerberos V5-1.21.2">MIT Kerberos V5-1.21.2</a> and wish to
+          connect from a browser using QtWebEngine to a webserver which
+          requires you to connect via kerberos.
+        </p>
+        <p>
+          <code class="option">NINJAJOBS=4 make</code>: If you patched system
+          ninja in LFS to recognize the NINJAJOBS environment variable, this
+          command will run system ninja with the specified number of jobs
+          (i.e. 4). There are several reasons why you might want to use
+          options like this this:
+        </p>
+        <div class="itemizedlist">
+          <ul>
+            <li class="listitem">
+              <p>
+                Building on a subset of CPUs allows measuring the build time
+                for a smaller number of processors, and/or running other
+                CPU-intensive tasks at the same time. For an editor on a
+                machine with a lot of CPUs, trying to measure the build time
+                for a 4-CPU machine, <code class="option">NINJAJOBS=4
+                make</code> will give a reasonable approximation (there is a
+                short period where N+2 python and node jobs run).
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                On a machine with only 4 CPUs online, the default of
+                scheduling N+2 jobs for qtwebengine is slower by between 3%
+                and 7%, probably because of the size of the C++ files and
+                their many includes and templates. Therefore, if in doubt set
+                NINJAJOBS to the number of CPUs.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Reducing the number of cores being used on long running, CPU
+                intensive packages may alleviate heat problems.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Reducing the number of cores will prevent potential
+                out-of-memory problems on systems that do not have enough
+                memory (or swap) when all cores are active. A suggested
+                approach is to limit the number of cores to about one core
+                for each 1.5 GB of combined RAM and swap space.
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Configuring QtWebEngine
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="qtwebengine-config" name="qtwebengine-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="qtwebengine-config" name=
+            "qtwebengine-config"></a>Configuration Information
+          </h4>
+          <p>
+            If you are upgrading from an older minor version of this
+            application, for some webpages to load you may need to clear the
+            <span class="emphasis"><em>browser</em></span> caches, e.g. for
+            <span class="application">falkon</span> they will be found in
+            <code class="filename">~/.cache/falkon/</code>. You will need to
+            do this if the browser starts to render the page and then changes
+            to a blank tab with a message that something went wrong, and a
+            button to Retry. Even after removing the old caches, you may need
+            to retry a few times for each affected tab.
+          </p>
+          <p>
+            If a browser using this package fails to run and when run from a
+            term it reports 'Trace/breakpoint trap' that is probably a kernel
+            configuration issue - there is no need to rebuild QtWebEngine,
+            see the next section, recompile the kernel and reboot to the new
+            kernel.
+          </p>
+        </div>
+      </div>
+      <div class="kernel" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="qtwebengine-kernel" name="qtwebengine-kernel"></a>Kernel
+          Configuration
+        </h2>
+        <p>
+          This package does not require any of the optional kernel namespace
+          items, but if User namespace is enabled <span class="phrase">(as
+          happens in some unit files, for hardening)</span> PID namespace
+          must also be enabled. In that case enable the following options in
+          the kernel configuration and recompile the kernel if necessary:
+        </p>
+        <pre class="screen"><span class="blue">G</span>eneral setup ---&gt;
+  -*- N<span class=
+"blue">a</span>mespaces support ---&gt;                                       [NAMESPACES]
+    # Enable or disable *both* of them:
+    [ /*] <span class=
+"blue">U</span>ser namespace                                               [USER_NS]
+    [ /*] <span class=
+"blue">P</span>ID Namespaces                                                [PID_NS]</pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">qtwebengine_convert_dict and
+              QtWebEngineProcess (in $QT5DIR/libexec)</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">libQt5Pdf.so, libQt5PdfWidgets.so,
+              libQt5WebEngineCore.so, libQt5WebEngine.so, and
+              libQt5WebEngineWidgets.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody">$QT5DIR/include/QtPdf,
+              $QT5DIR/include/QtPdfWidgets, $QT5DIR/include/QtWebEngine,
+              $QT5DIR/include/QtWebEngineCore,
+              $QT5DIR/include/QtWebEngineWidgets, $QT5DIR/qml/QtWebEngine,
+              and $QT5DIR/translations/qtwebengine_locales</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qtwebengine_convert_dict" name=
+                    "qtwebengine_convert_dict"></a><span class=
+                    "term"><span class=
+                    "command"><strong>qtwebengine_convert_dict</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    converts hunspell dictionaries (<code class=
+                    "literal">.dic</code>) to chromium format (<code class=
+                    "literal">.bdic</code>)
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="QtWebEngineProcess" name=
+                    "QtWebEngineProcess"></a><span class="term"><span class=
+                    "command"><strong>QtWebEngineProcess</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a libexec program which runs a zygote process (one
+                    that listens for spawn requests from a master process and
+                    will fork itself in response)
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libQtWebEngine-lib" name=
+                    "libQtWebEngine-lib"></a><span class="term"><code class=
+                    "filename">libQtWebEngine.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides QML types for rendering web content within a QML
+                    application
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libQtWebEngineCore" name=
+                    "libQtWebEngineCore"></a><span class="term"><code class=
+                    "filename">libQtWebEngineCore.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides public API shared by both QtWebEngine and
+                    QtWebEngineWidgets
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libQtWebEngineWidgets" name=
+                    "libQtWebEngineWidgets"></a><span class=
+                    "term"><code class=
+                    "filename">libQtWebEngineWidgets.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides a web browser engine as well as C++ classes to
+                    render and interact with web content
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="qt5-components.html" title=
+          "qt-components-5.15.11">戻る</a>
+          <p>
+            qt-components-5.15.11
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="qt6.html" title="Qt-6.6.1">次へ</a>
+          <p>
+            Qt-6.6.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="lib.html" title=
+          "第25章 グラフィック環境ライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

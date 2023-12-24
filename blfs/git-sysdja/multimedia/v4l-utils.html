@@ -1,0 +1,542 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      v4l-utils-1.26.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第42章 マルチメディアライブラリとドライバー
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="taglib.html" title="Taglib-1.13.1">戻る</a>
+          <p>
+            Taglib-1.13.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="wireplumber.html" title=
+          "Wireplumber-0.4.17">次へ</a>
+          <p>
+            Wireplumber-0.4.17
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="libdriv.html" title=
+          "第42章 マルチメディアライブラリとドライバー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="v4l-utils" name="v4l-utils"></a>v4l-utils-1.26.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to v4l-utils
+        </h2>
+        <p>
+          <span class="application">v4l-utils</span> provides a series of
+          utilities for media devices, allowing the ability to handle the
+          proprietary formats available from most webcams (libv4l), and
+          providing tools to test V4L devices.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://www.linuxtv.org/downloads/v4l-utils/v4l-utils-1.26.1.tar.xz">
+                https://www.linuxtv.org/downloads/v4l-utils/v4l-utils-1.26.1.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: a3565a8ccc427dcce52845c2b8880c28
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 1.2 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 32 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: 1.1 SBU (using parallelism=4)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          v4l-utils Dependencies
+        </h3>
+        <h4>
+          Recommended
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="alsa-lib.html" title=
+          "alsa-lib-1.2.10">alsa-lib-1.2.10</a>, <a class="xref" href=
+          "../x/glu.html" title="GLU-9.0.3">GLU-9.0.3</a>, <a class="xref"
+          href="../general/libjpeg.html" title=
+          "libjpeg-turbo-3.0.1">libjpeg-turbo-3.0.1</a>, and (<a class="xref"
+          href="../x/qt5.html" title="Qt-5.15.11">Qt-5.15.11</a> または
+          <a class="xref" href="../x/qt5-alternate.html" title=
+          "qt-alternate-5.15.11">qt-alternate-5.15.11</a>)
+        </p>
+        <h4>
+          Optional
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/doxygen.html" title=
+          "Doxygen-1.9.8">Doxygen-1.9.8</a>, <a class="xref" href="sdl2.html"
+          title="SDL2-2.28.5">SDL2-2.28.5</a>, both <a class="xref" href=
+          "../general/llvm.html" title="LLVM-17.0.6">LLVM-17.0.6</a> (with
+          Clang and target BPF) and <a class="ulink" href=
+          "https://github.com/libbpf/libbpf">libbpf</a> (for infrared remote
+          control decoders based on BPF), and <a class="ulink" href=
+          "https://github.com/libsdl-org/SDL_image">SDL_image</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of v4l-utils
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            If you've installed both LLVM and libbpf (not in BLFS), either
+            enable the BPF target (via <code class=
+            "option">-DLLVM_TARGETS_TO_BUILD=</code>) building LLVM, or
+            disable the infrared remote control decoders based on BPF:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">sed '/^ir_bpf_enabled/s/=.*/= false/' \
+    -i utils/keytable/meson.build</kbd></pre>
+        </div>
+        <p>
+          Install <span class="application">v4l-utils</span> by running the
+          following commands:
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+meson setup --prefix=/usr          \
+            -Ddoxygen-doc=disabled \
+            -Dgconv=disabled       \
+            --buildtype=release    .. &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          This package does not come with a test suite.
+        </p>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">ninja install</kbd></pre>
+        <p>
+          If you also wish to install the contrib programs, add:
+        </p>
+        <pre class="root"><kbd class="command">for prog in v4l2gl v4l2grab
+do
+   cp -v contrib/test/$prog /usr/bin
+done</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <em class="parameter"><code>-Dgconv=disabled</code></em>: This
+          switch disables the erroneous installation of gconv-modules that
+          would break glibc.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">cec-compliance, cec-ctl, cec-follower,
+              cx18-ctl, decode_tm6000, dvb-fe-tool, dvb-format-convert,
+              dvbv5-daemon, dvbv5-scan, dvbv5-zap, ir-ctl, ir-keytable,
+              ivtv-ctl, media-ctl, qv4l2, qvidcap, rds-ctl, v4l2-compliance,
+              v4l2-ctl, v4l2-dbg, v4l2gl, v4l2grab, and
+              v4l2-sysfs-path</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Library:</strong>
+              <span class="segbody">libdvbv5.so, libv4l1.so, libv4l2.so,
+              libv4l2rds.so, libv4lconvert.so, v4l1compat.so, and
+              v4l2convert.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody">/etc/rc_keymaps, /lib/udev/rc_keymaps,
+              /usr/include/libdvbv5, and /usr/lib/libv4l</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cx18-ctl" name="cx18-ctl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>cx18-ctl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool to handle cx18 based devices
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="decode_tm6000" name=
+                    "decode_tm6000"></a><span class="term"><span class=
+                    "command"><strong>decode_tm6000</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    decodes multiplexed formats from TM5600/TM6000 USB
+                    devices
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dvb-fe-tool" name="dvb-fe-tool"></a><span class=
+                    "term"><span class=
+                    "command"><strong>dvb-fe-tool</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a command line tool for digital TV services
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dvb-format-convert" name=
+                    "dvb-format-convert"></a><span class="term"><span class=
+                    "command"><strong>dvb-format-convert</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool meant to convert among different file formats.
+                    It is compliant with version 5 of the DVB API
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dvbv5-scan" name="dvbv5-scan"></a><span class=
+                    "term"><span class=
+                    "command"><strong>dvbv5-scan</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a command line frequency scanning tool for digital TV
+                    services that are compliant with version 5 of the DVB API
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dvbv5-zap" name="dvbv5-zap"></a><span class=
+                    "term"><span class=
+                    "command"><strong>dvbv5-zap</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a command line tuning tool for digital TV services
+                    that is compliant with version 5 of the DVB API
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ir-keytable" name="ir-keytable"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ir-keytable</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool that lists the Remote Controller devices,
+                    allows one to get/set IR keycode/scancode tables, test
+                    events generated by IR, and to adjust other Remote
+                    Controller options
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ivtv-ctl" name="ivtv-ctl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ivtv-ctl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a utility that can control many card settings, like
+                    changing the inputs from tuner to svideo or composite,
+                    setting video resolution or changing video mode (PAL,
+                    SECAM, NTSC)
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="media-ctl" name="media-ctl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>media-ctl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a utility used to configure V4L2 devices
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qv4l2" name="qv4l2"></a><span class=
+                    "term"><span class=
+                    "command"><strong>qv4l2</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to test video4linux capture devices
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qvidcap" name="qvidcap"></a><span class=
+                    "term"><span class=
+                    "command"><strong>qvidcap</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to capture video from a V4L2 device
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rds-ctl" name="rds-ctl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rds-ctl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a utility for decoding raw RDS data from V4L2 Radio
+                    devices and offers simple ways to access the received RDS
+                    information
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="v4l2-compliance" name=
+                    "v4l2-compliance"></a><span class="term"><span class=
+                    "command"><strong>v4l2-compliance</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a compliance test tool
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="v4l2-ctl" name="v4l2-ctl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>v4l2-ctl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool to control v4l2 controls from the cmdline
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="v4l2-dbg" name="v4l2-dbg"></a><span class=
+                    "term"><span class=
+                    "command"><strong>v4l2-dbg</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool to directly get and set registers of v4l2
+                    devices
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="v4l2gl" name="v4l2gl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>v4l2gl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    captures images using libv4l and stores them as PPM files
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="v4l2grab" name="v4l2grab"></a><span class=
+                    "term"><span class=
+                    "command"><strong>v4l2grab</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    captures images using libv4l and stores them as PPM
+                    files, while also allowing for additional options such as
+                    setting the amount of frames captured and saving the file
+                    as a RAW file
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="v4l2-sysfs-path" name=
+                    "v4l2-sysfs-path"></a><span class="term"><span class=
+                    "command"><strong>v4l2-sysfs-path</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    checks the media devices installed on a machine and the
+                    corresponding device nodes
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="taglib.html" title="Taglib-1.13.1">戻る</a>
+          <p>
+            Taglib-1.13.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="wireplumber.html" title=
+          "Wireplumber-0.4.17">次へ</a>
+          <p>
+            Wireplumber-0.4.17
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="libdriv.html" title=
+          "第42章 マルチメディアライブラリとドライバー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

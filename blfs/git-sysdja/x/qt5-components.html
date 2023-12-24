@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      qt-components-5.15.11
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第25章 グラフィック環境ライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="qt5-alternate.html" title=
+          "qt-alternate-5.15.11">戻る</a>
+          <p>
+            qt-alternate-5.15.11
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="qtwebengine.html" title=
+          "QtWebEngine-5.15.17">次へ</a>
+          <p>
+            QtWebEngine-5.15.17
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="lib.html" title=
+          "第25章 グラフィック環境ライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="qt5-components" name=
+        "qt5-components"></a>qt-components-5.15.11
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to qt5 components
+        </h2>
+        <p>
+          These instructions show how to build additional Qt5 components
+          beyond <a class="xref" href="qt5-alternate.html" title=
+          "qt-alternate-5.15.11">qt-alternate-5.15.11</a>. They are not
+          applicable if the full <a class="xref" href="qt5.html" title=
+          "Qt-5.15.11">Qt-5.15.11</a> package has been built.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://download.qt.io/archive/qt/5.15/5.15.11/single/qt-everywhere-opensource-src-5.15.11.tar.xz">
+                https://download.qt.io/archive/qt/5.15/5.15.11/single/qt-everywhere-opensource-src-5.15.11.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: 37b79a3764b0c9157fa3686df209b25a
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 630 MB
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Additional Downloads
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Now that <span class="application">qt5</span> updates are
+                restricted to commercial customers, upstream patches for the
+                various modules are being curated at kde. Patches for the
+                modules required by packages in BLFS have been aggregated for
+                the non-modular qt5 build we use.
+              </p>
+              <p>
+                Required patch: <a class="ulink" href=
+                "https://www.linuxfromscratch.org/patches/blfs/svn/qt-everywhere-opensource-src-5.15.11-kf5-1.patch">
+                https://www.linuxfromscratch.org/patches/blfs/svn/qt-everywhere-opensource-src-5.15.11-kf5-1.patch</a>
+              </p>
+              <p>
+                Details of the kde curation can be found at <a class="ulink"
+                href=
+                "https://dot.kde.org/2021/04/06/announcing-kdes-qt-5-patch-collection">
+                https://dot.kde.org/2021/04/06/announcing-kdes-qt-5-patch-collection</a>
+                and <a class="ulink" href=
+                "https://community.kde.org/Qt5PatchCollection">https://community.kde.org/Qt5PatchCollection</a>.
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          qt5 components Dependencies
+        </h3>
+        <h4>
+          Required
+        </h4>
+        <p class="required">
+          <a class="xref" href="qt5-alternate.html" title=
+          "qt-alternate-5.15.11">qt-alternate-5.15.11</a>
+        </p>
+        <h4>
+          Recommended dependencies for qtimageformats
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../general/jasper.html" title=
+          "JasPer-4.1.1">JasPer-4.1.1</a>, <a class="xref" href=
+          "../general/libmng.html" title="libmng-2.0.3">libmng-2.0.3</a>,
+          <a class="xref" href="../general/libtiff.html" title=
+          "libtiff-4.6.0">libtiff-4.6.0</a>, and <a class="xref" href=
+          "../general/libwebp.html" title="libwebp-1.3.2">libwebp-1.3.2</a>
+        </p>
+        <h4>
+          Recommended dependencies for qtmultimedia
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../multimedia/gst10-plugins-good.html" title=
+          "gst-plugins-good-1.22.7">gst-plugins-good-1.22.7</a>, <a class=
+          "xref" href="../multimedia/gst10-plugins-bad.html" title=
+          "gst-plugins-bad-1.22.7">gst-plugins-bad-1.22.7</a>, and <a class=
+          "xref" href="../multimedia/gst10-plugins-ugly.html" title=
+          "gst-plugins-ugly-1.22.7">gst-plugins-ugly-1.22.7</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of qt5 components
+        </h2>
+        <p>
+          There are a few extra components needed for different packages in
+          BLFS. These are <span class=
+          "bold"><strong>qtimageformats</strong></span>, <span class=
+          "bold"><strong>qtlocation</strong></span>, <span class=
+          "bold"><strong>qtwebchannel</strong></span>, <span class=
+          "bold"><strong>qtdoc</strong></span>, and <span class=
+          "bold"><strong>qtmultimedia</strong></span>. Only those components
+          specified for a specific package are needed. You only need to build
+          the relevant component(s).
+        </p>
+        <p>
+          First, apply a patch to pull in the fixes curated by KDE for some
+          of the modules listed above:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../qt-everywhere-opensource-src-5.15.11-kf5-1.patch</kbd></pre>
+        <p>
+          Next, if you are installing <span class=
+          "bold"><strong>qtlocation</strong></span>, fix the build with
+          GCC-13:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -e "/pragma once/a#include &lt;cstdint&gt;"                                      \
+    -i qtlocation/src/3rdparty/mapbox-gl-native/include/mbgl/util/geometry.hpp \
+       qtlocation/src/3rdparty/mapbox-gl-native/include/mbgl/util/string.hpp   \
+       qtlocation/src/3rdparty/mapbox-gl-native/src/mbgl/gl/stencil_mode.hpp</kbd></pre>
+        <p>
+          Install each desired component by running the following commands:
+        </p>
+        <pre class="userinput"><kbd class="command">cd <em class=
+        "replaceable"><code>&lt;component&gt;</code></em>
+qmake <em class="replaceable"><code>&lt;component&gt;</code></em>.pro
+make</kbd></pre>
+        <p>
+          As the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+        <p>
+          Remove references to the build directory from installed library
+          dependency (prl) files by running the following command as the
+          <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">find $QT5DIR/ -name \*.prl \
+   -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">None</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">libQt5&lt;component&gt;.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody">$QT5DIR/qml/&lt;component&gt;,
+              $QT5DIR/lib/cmake/&lt;component&gt;, and
+              $QT5DIR/include/&lt;component&gt;</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="qt5-alternate.html" title=
+          "qt-alternate-5.15.11">戻る</a>
+          <p>
+            qt-alternate-5.15.11
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="qtwebengine.html" title=
+          "QtWebEngine-5.15.17">次へ</a>
+          <p>
+            QtWebEngine-5.15.17
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="lib.html" title=
+          "第25章 グラフィック環境ライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

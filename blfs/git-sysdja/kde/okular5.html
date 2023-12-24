@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Okular-23.08.4
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第31章 KDE Frameworks 5 ベースのアプリケーション
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libkexiv2.html" title=
+          "libkexiv2-23.08.4">戻る</a>
+          <p>
+            libkexiv2-23.08.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libkdcraw.html" title=
+          "libkdcraw-23.08.4">次へ</a>
+          <p>
+            libkdcraw-23.08.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="kf5-apps.html" title=
+          "第31章 KDE Frameworks 5 ベースのアプリケーション">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="okular5" name="okular5"></a>Okular-23.08.4
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Okular の概要
+        </h2>
+        <p>
+          Okular は KDE におけるドキュメントビューアーです。 対応するドキュメント形式は PDF, PostScript,
+          TIFF, Microsoft CHM, DjVu, DVI, XPS, ePub です。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://download.kde.org/stable/release-service/23.08.4/src/okular-23.08.4.tar.xz">
+                https://download.kde.org/stable/release-service/23.08.4/src/okular-23.08.4.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: c0920c6d590f17b9520e471b1508f867
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 8.1 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 84 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.8 SBU (using parallelism=4)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Okular の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="frameworks5.html" title=
+          "Building KDE Frameworks 5 (KF5)">KDE Frameworks-5.113.0</a>
+        </p>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="libkexiv2.html" title=
+          "libkexiv2-23.08.4">libkexiv2-23.08.4</a>, <a class="xref" href=
+          "../general/libtiff.html" title="libtiff-4.6.0">libtiff-4.6.0</a>,
+          and <a class="xref" href="../general/poppler.html" title=
+          "Poppler-23.12.0">Poppler-23.12.0</a> (Qt5 によるビルド, PDF サポートに必要)
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/qca.html" title=
+          "Qca-2.3.7">qca-2.3.7</a>, <a class="ulink" href=
+          "https://www.pell.portland.or.us/~orc/Code/discount/">discount</a>,
+          <a class="ulink" href=
+          "https://djvu.sourceforge.net/">DjVuLibre</a>, <a class="ulink"
+          href=
+          "https://download.kde.org/stable/release-service/23.08.4/src/">kpimtextedit</a>,
+          <a class="ulink" href=
+          "https://libspectre.freedesktop.org/">libspectre</a> (for
+          PostScript support), <a class="ulink" href=
+          "http://www.jedrea.com/chmlib">libchm</a>, <a class="ulink" href=
+          "https://sourceforge.net/projects/ebook-tools">libepub</a>, and
+          <a class="ulink" href=
+          "https://projects.kde.org/projects/kde/kdegraphics/kdegraphics-mobipocket">
+          Mobipocket</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Okular のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">Okular</span> をビルドします。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            If any of the optional dependencies are installed, remove the
+            associated reference in the SKIP_OPTIONAL environment variable.
+          </p>
+        </div>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+SKIP_OPTIONAL='LibSpectre;CHM;LibZip;DjVuLibre;EPub;QMobipocket;Discount'
+
+cmake -DCMAKE_INSTALL_PREFIX=$KF5_PREFIX \
+      -DCMAKE_BUILD_TYPE=Release         \
+      -DBUILD_TESTING=OFF                \
+      -DFORCE_NOT_REQUIRED_DEPENDENCIES="$SKIP_OPTIONAL" \
+      -Wno-dev .. &amp;&amp;
+make</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">okular</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libOkular5Core.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">$KF5_PREFIX/include/okular,
+              $KF5_PREFIX/lib/cmake/Okular5, $KF5_PREFIX/lib/plugins/okular,
+              $KF5_PREFIX/share/kxmlgui5/okular, $KF5_PREFIX/share/okular,
+              $KF5_PREFIX/share/doc/HTML/*/okular</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="okular5-prog" name="okular5-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>okular</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ドキュメントビューアー。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libkexiv2.html" title=
+          "libkexiv2-23.08.4">戻る</a>
+          <p>
+            libkexiv2-23.08.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libkdcraw.html" title=
+          "libkdcraw-23.08.4">次へ</a>
+          <p>
+            libkdcraw-23.08.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="kf5-apps.html" title=
+          "第31章 KDE Frameworks 5 ベースのアプリケーション">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

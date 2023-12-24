@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      install-tl-unx
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第51章 組版処理
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="tex-path.html" title=
+          "Setting the PATH for TeX Live">戻る</a>
+          <p>
+            Setting the PATH for TeX Live
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="texlive.html" title=
+          "texlive-20230313-source">次へ</a>
+          <p>
+            texlive-20230313-source
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="typesetting.html" title="第51章 組版処理">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="tl-installer" name="tl-installer"></a>install-tl-unx
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to TeX Live and its installer
+        </h2>
+        <p>
+          The <span class="application">TeX Live</span> package is a
+          comprehensive TeX document production system. It includes TeX,
+          LaTeX2e, ConTeXt, Metafont, MetaPost, BibTeX and many other
+          programs; an extensive collection of macros, fonts and
+          documentation; and support for typesetting in many different
+          scripts from around the world.
+        </p>
+        <p>
+          This page is for people who wish to use the binary installer to
+          provide the programs, the scripts, and a lot of supporting files
+          and documentation. The installer is updated frequently, so any
+          published md5sum will soon be out of date. Newer versions of the
+          installer are expected to work with these instructions, for so long
+          as they install to a <code class="filename">2023/</code> directory.
+        </p>
+        <p>
+          There are two reasons why you may wish to install the binaries in
+          BLFS: either you need a smaller install (e.g. at a minimum plain
+          TeX without LaTeX2e, ConTeXt, etc), or you wish to use <span class=
+          "command"><strong>tlmgr</strong></span> to get updates whilst this
+          version is supported (typically, until April of the year after it
+          was released). For the latter, you might prefer to install in your
+          <code class="filename">/home</code> directory as an unprivileged
+          user, and to then make corresponding changes to the PATH in your
+          <code class="filename">~/.bashrc</code> or equivalent.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz">
+                https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: Varies frequently
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 5.5 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 310 MB for basic TeX and latex, 7.9GB if everything
+                is included
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: varies, depending on network speed and traffic
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../postlfs/gnupg.html" title=
+          "GnuPG-2.4.3">GnuPG-2.4.3</a> (to validate both the initial
+          downloads, and also any updates you might later make using
+          <span class="command"><strong>tlmgr</strong></span>.) <a class=
+          "xref" href="../general/perl-modules.html#perl-libwww-perl" title=
+          "LWP (libwww-perl-6.72)">libwww-perl-6.72</a> (to use a single
+          connection to the server, which will reduce its load and speed
+          things up.)
+        </p>
+        <h4>
+          推奨 (at runtime)
+        </h4>
+        <p class="recommended">
+          The binaries are mostly linked to included static libraries or
+          general (LFS) system libraries, but a few of the programs and
+          several scripts will fail if the following packages are not
+          present:
+        </p>
+        <p class="recommended">
+          <a class="xref" href="gs.html" title=
+          "ghostscript-10.02.1">ghostscript-10.02.1</a> is dynamically loaded
+          by the external application <a class="ulink" href=
+          "https://dvisvgm.de/">dvisvgm</a>, which is used by <span class=
+          "application">asy</span> when that creates SVG files.
+        </p>
+        <p class="recommended">
+          <a class="xref" href="../x/x7lib.html" title="Xorg ライブラリ">Xorg
+          ライブラリ</a> and <a class="xref" href="../x/libxcb.html" title=
+          "libxcb-1.16">libxcb-1.16</a> are needed for inimf, mf, pdfclose,
+          pdfopen and xdvi-xaw. But if you are using asy, or using a
+          <span class="application">TeX</span> engine to create a PDF file,
+          you will need <a class="xref" href="../x/installing.html" title=
+          "第24章 グラフィック環境">グラフィック環境</a> (for PDF files, this is to support a
+          PDF viewer of your choice, for example <a class="xref" href=
+          "epdfview.html" title=
+          "ePDFView-gtk3-20200814">epdfview-gtk3-20200814</a>).
+        </p>
+        <p class="recommended">
+          The binary version of <span class="application">asy</span> needs
+          <a class="xref" href="../x/freeglut.html" title=
+          "Freeglut-3.4.0">Freeglut-3.4.0</a>.
+        </p>
+        <p>
+          The binary version of asy is linked to libGLX.so.0 from <a class=
+          "ulink" href=
+          "https://gitlab.freedesktop.org/glvnd/libglvnd/">libglvnd</a>, but
+          installing that will break future updates of BLFS packages such as
+          <a class="xref" href="../x/mesa.html" title=
+          "Mesa-23.3.1">Mesa-23.3.1</a>. Work around that by creating a
+          symlink as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">ln -sv libGL.so.1 /usr/lib/libGLX.so.0</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            As always with contributed binary software, it is possible that
+            the required dependencies may change when the installer is
+            updated. In particular, these dependencies have only been checked
+            on x86_64.
+          </p>
+        </div>
+        <p class="recommended">
+          <a class="xref" href="../general/python2.html" title=
+          "Python-2.7.18">Python-2.7.18</a> is used by the unmaintained ebong
+          CTAN module (intended for writing Bengali in Rapid Roman Format).
+          <code class="filename">/usr/bin/python</code> is also in the
+          shebang line for the latex-papersize and lilyglyphs scripts, and
+          documentation at CTAN says both modules have been updated to work
+          with python3. In pythontex there are scripts to invoke python3 or
+          python2 according to the system's version of <span class=
+          "command"><strong>python</strong></span>. <a class="xref" href=
+          "../general/ruby.html" title="Ruby-3.2.2">Ruby-3.2.2</a> is used by
+          two scripts, one is for pTex (Japanese vertical writing) and the
+          other is match_parens which might be generally useful. The perl
+          module <a class="ulink" href=
+          "https://cpan.metacpan.org/authors/id/S/SR/SREZIC/Tk-804.036.tar.gz">
+          Tk</a>, which needs to be run from an X11 session to run the tests
+          and requires <a class="xref" href="../general/tk.html" title=
+          "Tk-8.6.13">Tk-8.6.13</a> is used by one of the scripts for ptex
+          and is needed for texdoctk (a GUI interface for finding
+          documentation files and opening them with the appropriate viewer).
+          <span class="command"><strong>ps2pdf</strong></span>, from
+          <a class="xref" href="gs.html" title=
+          "ghostscript-10.02.1">ghostscript-10.02.1</a>, is used by some
+          utilities and scripts.
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Binary Installation of TeX Live
+        </h2>
+        <p>
+          The <span class="application">TeX Live</span> set of programs with
+          its supporting documents, fonts, and utilities is very large. The
+          upstream maintainers recommend placing all files in a single
+          directory structure. BLFS recommends <code class=
+          "filename">/opt/texlive</code>.
+        </p>
+        <p>
+          As with any other package, unpack the installer and change into its
+          directory, <code class=
+          "filename">install-tl-&lt;CCYYMMDD&gt;</code>. This directory name
+          changes when the installer is updated, so replace &lt;CCYYMMDD&gt;
+          by the correct directory name.
+        </p>
+        <div class="admon warning">
+          <img alt="[警告]" src="../images/warning.png" />
+          <h3>
+            警告
+          </h3>
+          <p>
+            If you have installed any of the luatex programs (luatex,
+            luahbtex, luajitex, luajithbtex) or ConTeXt with the luametatex
+            backend there was a security issue fixed by the introduction of
+            luatex v1.17.0. You should check the version with 'luatex
+            --version' and if it is less than 1.17.0 you can use tlmgr to
+            update.
+          </p>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            The distribution binaries installed below may use static linking
+            for general linux system libraries. Additional libraries or
+            interpreters as specified in the dependencies section do not need
+            to be present during the install, but the programs that need them
+            will not run until their specific dependencies have been
+            installed.
+          </p>
+          <p>
+            With all contributed binary software, there may be a mismatch
+            between the builder's toolchain and your hardware. In most of TeX
+            this will probably not matter, but in uncommon corner cases you
+            might hit problems. For example, if your x86_64 processor does
+            not support 3dnowext or 3dnow, the 2014-06-28 binary failed in
+            conTeXt when running LuaTeX, although lualatex worked, as did the
+            i686 binaries on the same machine. In such cases, the easiest
+            solution is to install texlive from source. Similarly, the x86_64
+            binary version of <span class=
+            "command"><strong>asy</strong></span> runs very slowly when
+            creating 3-D diagrams.
+          </p>
+        </div>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">TEXLIVE_INSTALL_PREFIX=/opt/texlive ./install-tl</kbd></pre>
+        <p>
+          This command is interactive and allows selection or modification of
+          platform, packages, directories, and other options. The full
+          installation scheme will require about 4.9 gigabytes of disk space.
+          The time to complete the download will depend on your internet
+          connection speed and the number of packages selected.
+        </p>
+        <p>
+          It has been established by Debian that the <span class=
+          "command"><strong>python</strong></span> scripts in <code class=
+          "filename">latex-make</code> will work with <span class=
+          "command"><strong>python3</strong></span>, so update them to invoke
+          that by running the following command as the <code class=
+          "systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">for F in /opt/texlive/2023/texmf-dist/scripts/latex-make/*.py ; do
+  test -f $F &amp;&amp; sed -i 's%/usr/bin/env python%/usr/bin/python3%' $F || true
+done
+</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <span class="command"><strong>test -f $F &amp;&amp; sed
+          ...</strong></span>: in a small install these files might not be
+          present, so test if they exist and if not return 'true' to avoid
+          any error if this command has been copied into one of your own
+          install scripts.
+        </p>
+        <p>
+          <code class="option">./install-tl --location
+          http://mirror.aut.ac.nz/CTAN/systems/texlive/tlnet/</code>: use a
+          variation of this if you wish to use a different mirror, for
+          example, because you are in New Zealand but the installer chooses
+          to use an Australian mirror. The list of mirrors is at <a class=
+          "ulink" href=
+          "https://ctan.org/mirrors/">https://ctan.org/mirrors/</a>.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">Over 300 binaries and symlinks to scripts</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/opt/texlive</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tl-installer-programs" name=
+                    "tl-installer-programs"></a><span class=
+                    "term"><span class=
+                    "command"><strong>TeX&nbsp;プログラム</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    The programs included in <span class=
+                    "application">TeX</span> are too numerous to individually
+                    list. Please refer to the individual program HTML and PDF
+                    pages in the various html, man, or pdf files within the
+                    subdirectories of <code class=
+                    "filename">2023/texmf-dist/</code>. Using <span class=
+                    "command"><strong>texdoc pdflatex</strong></span> (
+                    replace <span class="emphasis"><em>pdflatex</em></span>
+                    with the command name ) may also be useful
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="tex-path.html" title=
+          "Setting the PATH for TeX Live">戻る</a>
+          <p>
+            Setting the PATH for TeX Live
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="texlive.html" title=
+          "texlive-20230313-source">次へ</a>
+          <p>
+            texlive-20230313-source
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="typesetting.html" title="第51章 組版処理">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

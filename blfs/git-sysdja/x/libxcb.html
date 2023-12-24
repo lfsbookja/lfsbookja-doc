@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      libxcb-1.16
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第24章 グラフィック環境
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="xcb-proto.html" title=
+          "xcb-proto-1.16.0">戻る</a>
+          <p>
+            xcb-proto-1.16.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="x7lib.html" title="Xorg ライブラリ">次へ</a>
+          <p>
+            Xorg ライブラリ
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="installing.html" title=
+          "第24章 グラフィック環境">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="libxcb" name="libxcb"></a>libxcb-1.16
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libxcb の概要
+        </h2>
+        <p>
+          <span class="application">libxcb</span> パッケージは、X
+          ウィンドウシステムプロトコルへのインターフェースを提供します。 これは Xlib インターフェースに代わるものとなります。 Xlib
+          はトランスポート層として XCB も利用します。 これによりソフトウェアによるリクエストとレスポンスの双方を可能とします。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://xorg.freedesktop.org/archive/individual/lib/libxcb-1.16.tar.xz">
+                https://xorg.freedesktop.org/archive/individual/lib/libxcb-1.16.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: c769f93c254263077df62404661b710d
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 444 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 27 MB （テスト込み、doxygenドキュメント生成時はさらに 62 MB）
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.2 SBU （テスト込み、doxygenドキュメント生成時はさらに 1.4 SBU）
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          libxcb の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="libXau.html" title=
+          "libXau-1.0.11">libXau-1.0.11</a>, <a class="xref" href=
+          "xcb-proto.html" title="xcb-proto-1.16.0">xcb-proto-1.16.0</a>
+        </p>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="libXdmcp.html" title=
+          "libXdmcp-1.1.4">libXdmcp-1.1.4</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/doxygen.html" title=
+          "Doxygen-1.9.8">Doxygen-1.9.8</a> （API ドキュメント生成のため）, <a class=
+          "xref" href="../general/libxslt.html" title=
+          "libxslt-1.1.39">libxslt-1.1.39</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libxcb のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">libxcb</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure $XORG_CONFIG      \
+            --without-doxygen \
+            --docdir='${datadir}'/doc/libxcb-1.16 &amp;&amp;
+LC_ALL=en_US.UTF-8 make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>make
+          check</strong></span> を実行します。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+        <p>
+          If the package was built as a non-<code class=
+          "systemitem">root</code> user, the installed documentation is now
+          owned by this user. As the <code class="systemitem">root</code>
+          user, fix the ownership:
+        </p>
+        <pre class="root"><kbd class=
+        "command">chown -Rv root:root $XORG_PREFIX/share/doc/libxcb-1.16</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <code class="envar">LC_ALL=en_US.UTF-8</code>: Some Python 3 script
+          in the building system of this package may fail with certain system
+          locale settings. This environment variable forces a locale setting
+          known to work.
+        </p>
+        <p>
+          <em class="parameter"><code>--without-doxygen</code></em>: doxygen
+          を用いた API ドキュメント生成をしないようにします (デフォルトは auto)。 これを指定せずに <a class="xref"
+          href="../general/doxygen.html" title=
+          "Doxygen-1.9.8">Doxygen-1.9.8</a> がインストールされていた場合は API
+          ドキュメントが生成されインストールされます。
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libxcb.so, libxcb-composite.so, libxcb-damage.so,
+              libxcb-dpms.so, libxcb-dri2.so, libxcb-dri3.so, libxcb-glx.so,
+              libxcb-present.so, libxcb-randr.so, libxcb-record.so,
+              libxcb-render.so, libxcb-res.so, libxcb-screensaver.so,
+              libxcb-shape.so, libxcb-shm.so, libxcb-sync.so,
+              libxcb-xf86dri.so, libxcb-xfixes.so, libxcb-xinerama.so,
+              libxcb-xinput.so, libxcb-xkb.so, libxcb-xtest.so,
+              libxcb-xvmc.so, libxcb-xv.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody"><code class="envar">$XORG_PREFIX</code>/include/xcb,
+              <code class=
+              "envar">$XORG_PREFIX</code>/share/doc/libxcb-1.16</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libxcb-lib" name="libxcb-lib"></a><span class=
+                    "term"><code class="filename">libxcb.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    X ウィンドウシステムプロトコルへのインターフェースを提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="xcb-proto.html" title=
+          "xcb-proto-1.16.0">戻る</a>
+          <p>
+            xcb-proto-1.16.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="x7lib.html" title="Xorg ライブラリ">次へ</a>
+          <p>
+            Xorg ライブラリ
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="installing.html" title=
+          "第24章 グラフィック環境">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

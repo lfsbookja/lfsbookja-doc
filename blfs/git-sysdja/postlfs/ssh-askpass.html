@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      ssh-askpass-9.5p1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第4章 セキュリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="shadow.html" title="Shadow-4.14.2">戻る</a>
+          <p>
+            Shadow-4.14.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="stunnel.html" title="stunnel-5.71">次へ</a>
+          <p>
+            stunnel-5.71
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="security.html" title="第4章 セキュリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="ssh-askpass" name="ssh-askpass"></a>ssh-askpass-9.5p1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          ssh-askpass の概要
+        </h2>
+        <p>
+          The <span class="application">ssh-askpass</span> is a generic
+          executable name for many packages, with similar names, that provide
+          a interactive X service to grab password for packages requiring
+          administrative privileges to be run. It prompts the user with a
+          window box where the necessary password can be inserted. Here, we
+          choose Damien Miller's package distributed in the <span class=
+          "application">OpenSSH</span> tarball.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-9.5p1.tar.gz">
+                https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-9.5p1.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 3d29a7394816deeb57186899d7f7662c
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1.7 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 10 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU 以下
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          ssh-askpass の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="../x/gtk3.html" title=
+          "GTK+-3.24.38">GTK+-3.24.38</a>, <a class="xref" href="sudo.html"
+          title="Sudo-1.9.15p4">Sudo-1.9.15p4</a> (runtime), <a class="xref"
+          href="../x/x7lib.html" title="Xorg ライブラリ">Xorg ライブラリ</a>, <a class=
+          "xref" href="../x/installing.html" title=
+          "第24章 グラフィック環境">グラフィック環境</a> (runtime)
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          ssh-askpass のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">ssh-askpass</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">cd contrib &amp;&amp;
+make gnome-ssh-askpass3</kbd></pre>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class=
+        "command">install -v -d -m755                    /usr/libexec/openssh/contrib  &amp;&amp;
+install -v -m755    gnome-ssh-askpass3 /usr/libexec/openssh/contrib  &amp;&amp;
+ln -sv -f contrib/gnome-ssh-askpass3   /usr/libexec/openssh/ssh-askpass</kbd></pre>
+        <p>
+          The use of /usr/libexec/openssh/contrib and a symlink is justified
+          by the eventual necessity of a different program for that service.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          ssh-askpass の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="ssh-askpass-config" name="ssh-askpass-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="ssh-askpass-config" name="ssh-askpass-config"></a>設定情報
+          </h4>
+          <p>
+            As the <code class="systemitem">root</code> user, configure
+            <a class="xref" href="sudo.html" title=
+            "Sudo-1.9.15p4">Sudo-1.9.15p4</a> to use <span class=
+            "application">ssh-askpass</span>:
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt;&gt; /etc/sudo.conf &lt;&lt; "EOF" &amp;&amp;
+<code class="literal"># Path to askpass helper program
+Path askpass /usr/libexec/openssh/ssh-askpass</code>
+EOF
+chmod -v 0644 /etc/sudo.conf</kbd></pre>
+          <p>
+            If a given graphical &lt;application&gt; requires administrative
+            privileges, use <span class="command"><strong>sudo -A
+            &lt;application&gt;</strong></span> from an x-terminal, from a
+            Window Manager menu and/or replace "Exec=&lt;application&gt; ..."
+            by "Exec=sudo -A &lt;application&gt; ..." in the
+            &lt;application&gt;.desktop file.
+          </p>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">gnome-ssh-askpass3, ssh-askpass (symlink to
+              <code class="filename">gnome-ssh-askpass3</code>)</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/libexec/openssh/contrib</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="shadow.html" title="Shadow-4.14.2">戻る</a>
+          <p>
+            Shadow-4.14.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="stunnel.html" title="stunnel-5.71">次へ</a>
+          <p>
+            stunnel-5.71
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="security.html" title="第4章 セキュリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

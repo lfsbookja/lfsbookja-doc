@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Apr-Util-1.6.3
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第9章 汎用的なライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="apr.html" title="Apr-1.7.4">戻る</a>
+          <p>
+            Apr-1.7.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="aspell.html" title="Aspell-0.60.8.1">次へ</a>
+          <p>
+            Aspell-0.60.8.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="apr-util" name="apr-util"></a>Apr-Util-1.6.3
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Apr Util の概要
+        </h2>
+        <p>
+          The Apache Portable Runtime Utility Library provides a predictable
+          and consistent interface to underlying client library interfaces.
+          This application programming interface assures predictable if not
+          identical behavior regardless of which libraries are available on a
+          given platform.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://archive.apache.org/dist/apr/apr-util-1.6.3.tar.bz2">https://archive.apache.org/dist/apr/apr-util-1.6.3.tar.bz2</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: b6e8c9b31d938fe5797ceb0d1ff2eb69
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 423 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 7.6 MB (テスト実施時はさらに 1.4 MB)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 以下 (テスト実施時はさらに 0.3 SBU)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Apr Util の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="apr.html" title="Apr-1.7.4">Apr-1.7.4</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="ulink" href="https://www.freetds.org/">FreeTDS</a>,
+          <a class="xref" href="../server/mariadb.html" title=
+          "MariaDB-10.11.6">MariaDB-10.11.6</a> または <a class="ulink" href=
+          "https://www.mysql.com/">MySQL</a>, <a class="xref" href=
+          "../server/openldap.html" title=
+          "OpenLDAP-2.6.6">OpenLDAP-2.6.6</a>, <a class="xref" href=
+          "../server/postgresql.html" title=
+          "PostgreSQL-16.1">PostgreSQL-16.1</a>, <a class="xref" href=
+          "../server/sqlite.html" title="SQLite-3.44.2">SQLite-3.44.2</a>,
+          <a class="xref" href="unixodbc.html" title=
+          "unixODBC-2.3.12">unixODBC-2.3.12</a>, <a class="ulink" href=
+          "https://anduin.linuxfromscratch.org/BLFS/bdb/db-5.3.28.tar.gz">Berkeley
+          DB</a> (非推奨)
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Apr Util のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">Apr Util</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr       \
+            --with-apr=/usr     \
+            --with-gdbm=/usr    \
+            --with-openssl=/usr \
+            --with-crypto &amp;&amp;
+make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>make -j1
+          test</strong></span> を実行します。 testdbm というテストが 1 つだけ失敗します。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--with-gdbm=/usr</code></em>:
+          このスイッチはプラグイン <code class="filename">apr_dbm_gdbm-1.so</code>
+          を有効にします。
+        </p>
+        <p>
+          <em class="parameter"><code>--with-openssl=/usr</code></em>
+          <em class="parameter"><code>--with-crypto</code></em>:
+          このスイッチにより、プラグイン <code class=
+          "filename">apr_crypto_openssl-1.so</code> を有効にします。
+        </p>
+        <p>
+          <code class="option">--with-berkeley-db=/usr</code>: <a class=
+          "ulink" href=
+          "https://anduin.linuxfromscratch.org/BLFS/bdb/db-5.3.28.tar.gz">Berkeley
+          DB</a> (非推奨) をインストールしている場合、このスイッチによりプラグイン <code class=
+          "filename">apr_dbm_db-1.so</code> をビルドすることを指示します。
+        </p>
+        <p>
+          <code class="option">--with-ldap</code>: <a class="xref" href=
+          "../server/openldap.html" title="OpenLDAP-2.6.6">OpenLDAP-2.6.6</a>
+          をインストールしている場合、このスイッチによりプラグイン <code class=
+          "filename">apr_ldap.so</code> をビルドすることを指示します。
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">apu-1-config</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libaprutil-1.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/lib/apr-util-1</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="apu-1-config" name="apu-1-config"></a><span class=
+                    "term"><span class=
+                    "command"><strong>apu-1-config</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is an APR-util script designed to allow easy command line
+                    access to APR-util configuration parameters
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libaprutil-1" name="libaprutil-1"></a><span class=
+                    "term"><code class=
+                    "filename">libaprutil-1.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains functions that provide a predictable and
+                    consistent interface to underlying client library
+                    interfaces
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="apr.html" title="Apr-1.7.4">戻る</a>
+          <p>
+            Apr-1.7.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="aspell.html" title="Aspell-0.60.8.1">次へ</a>
+          <p>
+            Aspell-0.60.8.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

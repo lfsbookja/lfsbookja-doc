@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Valgrind-3.22.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第13章 プログラミング言語
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="vala.html" title="Vala-0.56.14">戻る</a>
+          <p>
+            Vala-0.56.14
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="yasm.html" title="yasm-1.3.0">次へ</a>
+          <p>
+            yasm-1.3.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="prog.html" title="第13章 プログラミング言語">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="valgrind" name="valgrind"></a>Valgrind-3.22.0
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Valgrind の概要
+        </h2>
+        <p>
+          <span class="application">Valgrind</span> is an instrumentation
+          framework for building dynamic analysis tools. There are Valgrind
+          tools that can automatically detect many memory management and
+          threading bugs, and profile programs in detail. Valgrind can also
+          be used to build new tools.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://sourceware.org/pub/valgrind/valgrind-3.22.0.tar.bz2">
+                https://sourceware.org/pub/valgrind/valgrind-3.22.0.tar.bz2</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 38ea14f567efa09687a822b33b4d9d60
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 16 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 390 MB (テスト実施時はさらに 66 MB)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.5 SBU (テスト実施時はさらに 6.8 SBU; いずれも parallelism=4 利用時)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Valgrind の依存パッケージ
+        </h3>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="gdb.html" title="GDB-14.1">GDB-14.1</a>
+          (テスト用), <a class="xref" href="llvm.html" title=
+          "LLVM-17.0.6">LLVM-17.0.6</a> (Clang 込み), <a class="xref" href=
+          "which.html" title="Which-2.21 と別の実現方法">Which-2.21</a> (テスト用)
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Valgrind のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">Valgrind</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i 's|/doc/valgrind||' docs/Makefile.in &amp;&amp;
+
+./configure --prefix=/usr \
+            --datadir=/usr/share/doc/valgrind-3.22.0 &amp;&amp;
+make</kbd></pre>
+        <p>
+          To test the results, issue: <span class="command"><strong>make
+          regtest</strong></span>. The tests may hang forever if <a class=
+          "xref" href="gdb.html" title="GDB-14.1">GDB-14.1</a> is not
+          installed. Some tests are known to hang also, depending on the
+          version of glibc. A few tests can fail in various suites.
+          Problematic tests can be disabled by changing the <strong class=
+          "userinput"><code>prereq:</code></strong> line in the corresponding
+          <code class="filename">.vgtest</code> file to <strong class=
+          "userinput"><code>prereq: false</code></strong>. For example:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -e 's@prereq:.*@prereq: false@' \
+    -i {helgrind,drd}/tests/pth_cond_destroy_busy.vgtest</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            The <span class="application">OpenMP</span> tests are skipped if
+            libgomp has been compiled with <code class=
+            "option">--enable-linux-futex</code> (the default). If needed,
+            just recompile the libgomp library from the gcc build tree,
+            passing <code class="option">--disable-linux-futex</code> to
+            configure, storing the library to some place and changing the
+            link from <code class="filename">/usr/lib/libgomp.so.1</code> to
+            point to the new library.
+          </p>
+        </div>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <span class="command"><strong>sed -i ...
+          docs/Makefile.in</strong></span> : この sed
+          コマンドはドキュメントのインストールディレクトリをバージョン番号付きとします。
+        </p>
+        <p>
+          <code class="option">--enable-lto=yes</code>: This option allows
+          building Valgrind with LTO (link time optimization). This produces
+          a smaller/faster Valgrind (up to 10%), but build time increases to
+          about 5.5 SBU.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">callgrind_annotate, callgrind_control, cg_annotate,
+              cg_diff, cg_merge, ms_print, valgrind, valgrind-di-server,
+              valgrind-listener, vgdb</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/lib/valgrind, /usr/libexec/valgrind,
+              /usr/include/valgrind, /usr/share/doc/valgrind-3.22.0</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="valgrind-prog" name=
+                    "valgrind-prog"></a><span class="term"><span class=
+                    "command"><strong>valgrind</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a program for debugging and profiling Linux
+                    executables
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="callgrind_annotate" name=
+                    "callgrind_annotate"></a><span class="term"><span class=
+                    "command"><strong>callgrind_annotate</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    takes an output file produced by the <span class=
+                    "application">Valgrind</span> tool Callgrind and prints
+                    the information in an easy-to-read form
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="callgrind_control" name=
+                    "callgrind_control"></a><span class="term"><span class=
+                    "command"><strong>callgrind_control</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    controls programs being run by the <span class=
+                    "application">Valgrind</span> tool Callgrind
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cg_annotate" name="cg_annotate"></a><span class=
+                    "term"><span class=
+                    "command"><strong>cg_annotate</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a post-processing tool for the <span class=
+                    "application">Valgrind</span> tool Cachegrind
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cg_diff" name="cg_diff"></a><span class=
+                    "term"><span class=
+                    "command"><strong>cg_diff</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    compares two Cachegrind output files
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cg_merge" name="cg_merge"></a><span class=
+                    "term"><span class=
+                    "command"><strong>cg_merge</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    merges multiple Cachegrind output files into one
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ms_print" name="ms_print"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ms_print</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    takes an output file produced by the <span class=
+                    "application">Valgrind</span> tool Massif and prints the
+                    information in an easy-to-read form
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="valgrind-di-server" name=
+                    "valgrind-di-server"></a><span class="term"><span class=
+                    "command"><strong>valgrind-di-server</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a server that reads debuginfo from objects stored on a
+                    different machine
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="valgrind-listener" name=
+                    "valgrind-listener"></a><span class="term"><span class=
+                    "command"><strong>valgrind-listener</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    listens on a socket for Valgrind commentary
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="vgdb" name="vgdb"></a><span class=
+                    "term"><span class=
+                    "command"><strong>vgdb</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is an intermediary between Valgrind and GDB or a shell
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="vala.html" title="Vala-0.56.14">戻る</a>
+          <p>
+            Vala-0.56.14
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="yasm.html" title="yasm-1.3.0">次へ</a>
+          <p>
+            yasm-1.3.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="prog.html" title="第13章 プログラミング言語">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      NSS-3.96.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第4章 セキュリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="nettle.html" title="Nettle-3.9.1">戻る</a>
+          <p>
+            Nettle-3.9.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="openssh.html" title="OpenSSH-9.5p1">次へ</a>
+          <p>
+            OpenSSH-9.5p1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="security.html" title="第4章 セキュリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="nss" name="nss"></a>NSS-3.96.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          NSS の概要
+        </h2>
+        <p>
+          The Network Security Services (<span class=
+          "application">NSS</span>) package is a set of libraries designed to
+          support cross-platform development of security-enabled client and
+          server applications. Applications built with NSS can support SSL v2
+          and v3, TLS, PKCS #5, PKCS #7, PKCS #11, PKCS #12, S/MIME, X.509 v3
+          certificates, and other security standards. This is useful for
+          implementing SSL and S/MIME or other Internet security standards
+          into an application.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://archive.mozilla.org/pub/security/nss/releases/NSS_3_96_1_RTM/src/nss-3.96.1.tar.gz">
+                https://archive.mozilla.org/pub/security/nss/releases/NSS_3_96_1_RTM/src/nss-3.96.1.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: d9493377f6ae4f2ffa93b0167db18f5e
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 73 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 305 MB (add 148 MB for tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 1.1 SBU (with parallelism=4, add 14 SBU for tests on
+                AMD Ryzens or at least 30 SBU on Intel machines)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          追加のダウンロード
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                必要なパッチ: <a class="ulink" href=
+                "https://www.linuxfromscratch.org/patches/blfs/svn/nss-3.96.1-standalone-1.patch">
+                https://www.linuxfromscratch.org/patches/blfs/svn/nss-3.96.1-standalone-1.patch</a>
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          NSS の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/nspr.html" title=
+          "NSPR-4.35">NSPR-4.35</a>
+        </p>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../server/sqlite.html" title=
+          "SQLite-3.44.2">SQLite-3.44.2</a>, <a class="xref" href=
+          "p11-kit.html" title="p11-kit-0.25.3">p11-kit-0.25.3</a> （実行時）
+        </p>
+        <p class="usernotes">
+          編集ノート: <a class="ulink" href=
+          "https://wiki.linuxfromscratch.org/blfs/wiki/nss">https://wiki.linuxfromscratch.org/blfs/wiki/nss</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          NSS のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">NSS</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../nss-3.96.1-standalone-1.patch &amp;&amp;
+
+cd nss &amp;&amp;
+
+make BUILD_OPT=1                      \
+  NSPR_INCLUDE_DIR=/usr/include/nspr  \
+  USE_SYSTEM_ZLIB=1                   \
+  ZLIB_LIBS=-lz                       \
+  NSS_ENABLE_WERROR=0                 \
+  $([ $(uname -m) = x86_64 ] &amp;&amp; echo USE_64=1) \
+  $([ -f /usr/include/sqlite3.h ] &amp;&amp; echo NSS_USE_SYSTEM_SQLITE=1)</kbd></pre>
+        <p>
+          To run the tests, execute the following commands:
+        </p>
+        <pre class="userinput"><kbd class="command">cd tests &amp;&amp;
+HOST=localhost DOMSUF=localdomain ./all.sh
+cd ../</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            Some information about the tests:
+          </p>
+          <div class="itemizedlist">
+            <ul class="compact">
+              <li class="listitem">
+                <p>
+                  HOST=localhost and DOMSUF=localdomain are required. Without
+                  these variables, a FQDN is required to be specified and
+                  this generic way should work for everyone, provided
+                  <code class="systemitem">localhost.localdomain</code> is
+                  defined <span class="phrase">by the <code class=
+                  "systemitem">myhostname</code> NSS module, as specified in
+                  <a class="ulink" href=
+                  "../../../../lfs/view/systemd/chapter08/glibc.html#conf-glibc">
+                  the LFS book</a>.</span>
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  The tests take a long time to run. If desired there is
+                  information in the all.sh script about running subsets of
+                  the total test suite.
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  When interrupting the tests, the test suite fails to spin
+                  down test servers that are run. This leads to an infinite
+                  loop in the tests where the test suite tries to kill a
+                  server that doesn't exist anymore because it pulls the
+                  wrong PID.
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  Test suite results (in HTML format!) can be found at
+                  ../../test_results/security/localhost.1/results.html
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  A few tests might fail on some Intel machines for unknown
+                  reasons.
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <p>
+          <code class="systemitem">root</code> になって以下を実行します。
+        </p>
+        <pre class="root"><kbd class=
+        "command">cd ../dist                                                          &amp;&amp;
+
+install -v -m755 Linux*/lib/*.so              /usr/lib              &amp;&amp;
+install -v -m644 Linux*/lib/{*.chk,libcrmf.a} /usr/lib              &amp;&amp;
+
+install -v -m755 -d                           /usr/include/nss      &amp;&amp;
+cp -v -RL {public,private}/nss/*              /usr/include/nss      &amp;&amp;
+
+install -v -m755 Linux*/bin/{certutil,nss-config,pk12util} /usr/bin &amp;&amp;
+
+install -v -m644 Linux*/lib/pkgconfig/nss.pc  /usr/lib/pkgconfig</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>BUILD_OPT=1</code></em>: This option is
+          passed to <span class="command"><strong>make</strong></span> so
+          that the build is performed with no debugging symbols built into
+          the binaries and the default compiler optimizations are used.
+        </p>
+        <p>
+          <em class=
+          "parameter"><code>NSPR_INCLUDE_DIR=/usr/include/nspr</code></em>:
+          This option sets the location of the nspr headers.
+        </p>
+        <p>
+          <em class="parameter"><code>USE_SYSTEM_ZLIB=1</code></em>: This
+          option is passed to <span class=
+          "command"><strong>make</strong></span> to ensure that the
+          <code class="filename">libssl3.so</code> library is linked to the
+          system installed <span class="application">zlib</span> instead of
+          the in-tree version.
+        </p>
+        <p>
+          <em class="parameter"><code>ZLIB_LIBS=-lz</code></em>: This option
+          provides the linker flags needed to link to the system <span class=
+          "application">zlib</span>.
+        </p>
+        <p>
+          <span class="command"><strong>$([ $(uname -m) = x86_64 ] &amp;&amp;
+          echo USE_64=1)</strong></span>: The <em class=
+          "parameter"><code>USE_64=1</code></em> option is <span class=
+          "emphasis"><em>required on x86_64</em></span>, otherwise
+          <span class="command"><strong>make</strong></span> will try (and
+          fail) to create 32-bit objects. The [ $(uname -m) = x86_64 ] test
+          ensures it has no effect on a 32 bit system.
+        </p>
+        <p>
+          <span class="command"><strong>([ -f /usr/include/sqlite3.h ]
+          &amp;&amp; echo NSS_USE_SYSTEM_SQLITE=1)</strong></span>: This
+          tests if <span class="application">sqlite</span> is installed and
+          if so it <span class="command"><strong>echo</strong></span>s the
+          option NSS_USE_SYSTEM_SQLITE=1 to <span class=
+          "command"><strong>make</strong></span> so that <code class=
+          "filename">libsoftokn3.so</code> will link against the system
+          version of sqlite.
+        </p>
+        <p>
+          <code class="option">NSS_DISABLE_GTESTS=1</code>: If you don't need
+          to run NSS test suite, append this option to <span class=
+          "command"><strong>make</strong></span> command, to prevent the
+          compilation of tests and save some build time.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Configuring NSS
+        </h2>
+        <p>
+          If <a class="xref" href="p11-kit.html" title=
+          "p11-kit-0.25.3">p11-kit-0.25.3</a> is installed, the <span class=
+          "application">p11-kit</span> trust module (<code class=
+          "filename">/usr/lib/pkcs11/p11-kit-trust.so</code>) can be used as
+          a drop-in replacement for <code class=
+          "filename">/usr/lib/libnssckbi.so</code> to transparently make the
+          system CAs available to <span class="application">NSS</span> aware
+          applications, rather than the static list provided by <code class=
+          "filename">/usr/lib/libnssckbi.so</code>. As the <code class=
+          "systemitem">root</code> user, execute the following command:
+        </p>
+        <pre class="root"><kbd class=
+        "command">ln -sfv ./pkcs11/p11-kit-trust.so /usr/lib/libnssckbi.so</kbd></pre>
+        <p>
+          Additionally, for dependent applications that do not use the
+          internal database (<code class=
+          "filename">/usr/lib/libnssckbi.so</code>), the <code class=
+          "filename">/usr/sbin/make-ca</code> script included on the
+          <a class="xref" href="make-ca.html" title=
+          "make-ca-1.13">make-ca-1.13</a> page can generate a system wide NSS
+          DB with the <em class="parameter"><code>-n</code></em> switch, or
+          by modifying the <code class=
+          "filename">/etc/make-ca/make-ca.conf</code> file.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">certutil, nss-config, pk12util</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libcrmf.a, libfreebl3.so, libfreeblpriv3.so,
+              libnss3.so, libnssckbi.so, libnssckbi-testlib.so,
+              libnssdbm3.so, libnsssysinit.so, libnssutil3.so,
+              libpkcs11testmodule.so, libsmime3.so, libsoftokn3.so,
+              libssl3.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/nss</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="certutil" name="certutil"></a><span class=
+                    "term"><span class=
+                    "command"><strong>certutil</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the Mozilla Certificate Database Tool. It is a
+                    command-line utility that can create and modify the
+                    Netscape Communicator cert8.db and key3.db database
+                    files. It can also list, generate, modify, or delete
+                    certificates within the cert8.db file and create or
+                    change the password, generate new public and private key
+                    pairs, display the contents of the key database, or
+                    delete key pairs within the key3.db file
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="nss-config" name="nss-config"></a><span class=
+                    "term"><span class=
+                    "command"><strong>nss-config</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is used to determine the NSS library settings of the
+                    installed NSS libraries
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pk12util" name="pk12util"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pk12util</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool for importing certificates and keys from pkcs
+                    #12 files into NSS or exporting them. It can also list
+                    certificates and keys in such files
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="nettle.html" title="Nettle-3.9.1">戻る</a>
+          <p>
+            Nettle-3.9.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="openssh.html" title="OpenSSH-9.5p1">次へ</a>
+          <p>
+            OpenSSH-9.5p1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="security.html" title="第4章 セキュリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

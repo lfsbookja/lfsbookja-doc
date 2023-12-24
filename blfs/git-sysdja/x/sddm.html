@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      sddm-0.20.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第26章 ディスプレイマネージャー
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="lightdm.html" title="lightdm-1.32.0">戻る</a>
+          <p>
+            lightdm-1.32.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="wm.html" title="ウィンドウマネージャー">次へ</a>
+          <p>
+            ウィンドウマネージャー
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="dm.html" title="第26章 ディスプレイマネージャー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="sddm" name="sddm"></a>sddm-0.20.0
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to sddm
+        </h2>
+        <p>
+          The <span class="application">sddm</span> package contains a
+          lightweight display manager based upon <span class=
+          "application">Qt</span> and QML.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://github.com/sddm/sddm/archive/v0.20.0/sddm-0.20.0.tar.gz">
+                https://github.com/sddm/sddm/archive/v0.20.0/sddm-0.20.0.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: 7af67d5fb767639861d35c80eb4e1191
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 3.4 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 22 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: 0.3 SBU (Using parallelism=4)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          SDDM Dependencies
+        </h3>
+        <h4>
+          Required
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/cmake.html" title=
+          "CMake-3.28.1">CMake-3.28.1</a>, <a class="xref" href=
+          "../kde/extra-cmake-modules.html" title=
+          "extra-cmake-modules-5.113.0">extra-cmake-modules-5.113.0</a>, and
+          (<a class="xref" href="qt5.html" title="Qt-5.15.11">Qt-5.15.11</a>
+          または <a class="xref" href="qt5-alternate.html" title=
+          "qt-alternate-5.15.11">qt-alternate-5.15.11</a>)
+        </p>
+        <h4>
+          Recommended
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../general/python-modules.html#docutils"
+          title="docutils-0.20.1">docutils-0.20.1</a> (for the man pages),
+          <a class="xref" href="../postlfs/linux-pam.html" title=
+          "Linux-PAM-1.5.3">Linux-PAM-1.5.3</a>, and <a class="xref" href=
+          "../general/upower.html" title="UPower-1.90.2">UPower-1.90.2</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of SDDM
+        </h2>
+        <p>
+          First, create a dedicated user and group to take control of the
+          <span class="command"><strong>sddm</strong></span> daemon after it
+          is started. Issue the following commands as the <code class=
+          "systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">groupadd -g 64 sddm &amp;&amp;
+useradd  -c "sddm Daemon" \
+         -d /var/lib/sddm \
+         -u 64 -g sddm    \
+         -s /bin/false sddm</kbd></pre>
+        <p>
+          Install <span class="application">sddm</span> by running the
+          following commands:
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+cmake -DCMAKE_INSTALL_PREFIX=/usr \
+      -DCMAKE_BUILD_TYPE=Release  \
+      -DRUNTIME_DIR=/run/sddm     \
+      -DBUILD_MAN_PAGES=ON        \
+      -DDATA_INSTALL_DIR=/usr/share/sddm \
+      -DDBUS_CONFIG_FILENAME=sddm_org.freedesktop.DisplayManager.conf \
+      .. &amp;&amp;
+make</kbd></pre>
+        <p>
+          This package does not come with a test suite.
+        </p>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">make install &amp;&amp;
+install -v -dm755 -o sddm -g sddm /var/lib/sddm
+/usr/bin/sddm --example-config &gt; /etc/sddm.conf</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <em class="parameter"><code>-DCMAKE_BUILD_TYPE=Release</code></em>:
+          This switch is used to apply additional compiler optimizations.
+        </p>
+        <p>
+          <em class=
+          "parameter"><code>-DDBUS_CONFIG_FILENAME=sddm_org.freedesktop.DisplayManager.conf</code></em>:
+          This switch prevents the file <code class=
+          "filename">/etc/dbus-1/system.d/org.freedesktop.DisplayManager.conf</code>
+          from being overwritten, as it may be used by other DM's.
+        </p>
+        <p>
+          <em class="parameter"><code>-DBUILD_MAN_PAGES=ON</code></em>: This
+          switch is used to build and install man pages.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Configuring SDDM
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="sddm-config" name="sddm-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="sddm-config" name="sddm-config"></a>Config Files
+          </h4>
+          <p>
+            /etc/sddm.config
+          </p>
+          <p>
+            Normally, you want to edit this file. For example, if Xorg is
+            installed in /opt, use your preferred editor as the <code class=
+            "systemitem">root</code> user to replace the default <span class=
+            "emphasis"><em>XauthPath</em></span> value by <span class=
+            "emphasis"><em>/opt/xorg/bin/xauth</em></span>. Or, as the
+            <code class="systemitem">root</code> user, issue:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">sed -i.orig '/ServerPath/ s|usr|opt/xorg|' /etc/sddm.conf</kbd></pre>
+          <p>
+            This command will do the substitution and create a copy of the
+            original file with name <code class=
+            "filename">/etc/sddm.conf.orig</code>.
+          </p>
+          <p>
+            From now on, we will describe how to modify configurations using
+            sed. Of course, you may instead use your preferred editor as the
+            <code class="systemitem">root</code> user.
+          </p>
+          <p>
+            For security reasons, you normally want the default <span class=
+            "emphasis"><em>ServerArguments=-nolisten tcp</em></span>, unless
+            a remote machine needs access to the local X server. In that
+            case, as the <code class="systemitem">root</code> user, issue:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">sed -i 's/-nolisten tcp//' /etc/sddm.conf</kbd></pre>
+          <p>
+            Desktop (Notebook) users, normally want the Num Lock key on
+            (off). For that, as <code class="systemitem">root</code>, issue:
+          </p>
+          <pre class="root"><kbd class=
+          "command">sed -i '/Numlock/s/none/on/' /etc/sddm.conf</kbd></pre>
+          <p>
+            for Desktop users. For Notebook users, replace /on/ by /off/ in
+            the command above.
+          </p>
+          <p>
+            By default, a virtual keyboard is presented for the user. If this
+            is not desired, run as <code class="systemitem">root</code>:
+          </p>
+          <pre class="root"><kbd class=
+          "command">sed -i 's/qtvirtualkeyboard//' /etc/sddm.conf</kbd></pre>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="sddm-bootscript" name="sddm-bootscript"></a>
+          </h3>
+          <h4 class="title">
+            <a id="sddm-bootscript" name="sddm-bootscript"></a>Boot Script
+          </h4>
+          <p>
+            Enable the pre-installed systemd unit by running the following
+            command as the <code class="systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">systemctl enable sddm</kbd></pre>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id72156" name="id72156"></a>Linux PAM Configuration
+          </h4>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              The install procedure above installed a set of PAM
+              configuration files. These procedures overwrite them and use
+              versions compatible with a BLFS environment.
+            </p>
+          </div>
+          <p>
+            If you have built <span class="application">sddm</span> with
+            <span class="application">Linux PAM</span> support, create the
+            necessary configuration files by running the following commands
+            as the <code class="systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt; /etc/pam.d/sddm &lt;&lt; "EOF" &amp;&amp;
+<code class="literal"># Begin /etc/pam.d/sddm
+
+auth     requisite      pam_nologin.so
+auth     required       pam_env.so
+
+auth     required       pam_succeed_if.so uid &gt;= 1000 quiet
+auth     include        system-auth
+
+account  include        system-account
+password include        system-password
+
+session  required       pam_limits.so
+session  include        system-session
+
+# End /etc/pam.d/sddm</code>
+EOF
+
+cat &gt; /etc/pam.d/sddm-autologin &lt;&lt; "EOF" &amp;&amp;
+<code class="literal"># Begin /etc/pam.d/sddm-autologin
+
+auth     requisite      pam_nologin.so
+auth     required       pam_env.so
+
+auth     required       pam_succeed_if.so uid &gt;= 1000 quiet
+auth     required       pam_permit.so
+
+account  include        system-account
+
+password required       pam_deny.so
+
+session  required       pam_limits.so
+session  include        system-session
+
+# End /etc/pam.d/sddm-autologin</code>
+EOF
+
+cat &gt; /etc/pam.d/sddm-greeter &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/pam.d/sddm-greeter
+
+auth     required       pam_env.so
+auth     required       pam_permit.so
+
+account  required       pam_permit.so
+password required       pam_deny.so
+session  required       pam_unix.so
+-session optional       pam_systemd.so
+
+# End /etc/pam.d/sddm-greeter</code>
+EOF</kbd></pre>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="sddm-sessions" name="sddm-sessions"></a>
+          </h3>
+          <h4 class="title">
+            <a id="sddm-sessions" name="sddm-sessions"></a>Available Sessions
+          </h4>
+          <p>
+            The greeter offers a list of available sessions, depending on the
+            Window Managers and Desktop Environments installed. The list
+            includes sessions which have a corresponding <code class=
+            "filename">.desktop</code> file installed under <code class=
+            "filename">/usr/share/xsessions</code> or <code class=
+            "filename">/usr/share/wayland-sessions</code>. Most of the Window
+            Managers and Desktop Environments automatically provide those
+            files, but if necessary, you may include a custom one.
+          </p>
+        </div>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="sddm-themes" name="sddm-themes"></a>
+          </h3>
+          <h4 class="title">
+            <a id="sddm-themes" name="sddm-themes"></a>Themes
+          </h4>
+          <p>
+            Three themes are installed at <code class=
+            "filename">/usr/share/sddm/themes</code>: elarun, maldives, and
+            maya. There is also a default theme, which is not present in that
+            directory. You can install other themes in that directory. In
+            order to change the theme, you need to edit <code class=
+            "filename">/etc/sddm.conf</code>, to change the default (empty)
+            theme, replacing <span class="quote">「<span class=
+            "quote">Current=</span>」</span> with <span class=
+            "quote">「<span class="quote">Current=&lt;new
+            theme&gt;</span>」</span>, e.g. <span class="quote">「<span class=
+            "quote">Current=maldives</span>」</span>.
+          </p>
+          <p>
+            In order to see the theme without leaving the session, issue:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">sddm-greeter --test-mode --theme <em class=
+          "replaceable"><code>&lt;theme path&gt;</code></em></kbd></pre>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">sddm and sddm-greeter</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">None</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody">$QT5DIR/qml/SddmComponents,
+              /usr/share/sddm, and /var/lib/sddm</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sddm-prog" name="sddm-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sddm</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a display and login manager based on <span class=
+                    "application">Qt</span> libraries.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sddm-greeter" name="sddm-greeter"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sddm-greeter</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is an auxiliary process that displays the greeter, a
+                    graphical user interface that performs user
+                    authentication and initiates the selected window manager
+                    or display environment.
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="lightdm.html" title="lightdm-1.32.0">戻る</a>
+          <p>
+            lightdm-1.32.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="wm.html" title="ウィンドウマネージャー">次へ</a>
+          <p>
+            ウィンドウマネージャー
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="dm.html" title="第26章 ディスプレイマネージャー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

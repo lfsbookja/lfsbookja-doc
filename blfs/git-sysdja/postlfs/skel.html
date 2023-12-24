@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      ユーザー追加のための設定
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第3章 LFS 設定以降について
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="devices.html" title="デバイスに関して">戻る</a>
+          <p>
+            デバイスに関して
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="users.html" title="システムユーザーとグループについて">次へ</a>
+          <p>
+            システムユーザーとグループについて
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="config.html" title=
+          "第3章 LFS 設定以降について">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="postlfs-config-skel" name=
+        "postlfs-config-skel"></a>ユーザー追加のための設定
+      </h1>
+      <p>
+        <span class="command"><strong>/usr/sbin/useradd</strong></span> コマンドと
+        <code class="filename">/etc/skel</code> ディレクトリは (実行するのも整備するのも単純なもので)、
+        LFS システムに新たなユーザーを追加する際に用います。 これを利用して各ユーザーに対しての <code class=
+        "envar">PATH</code> 変数やキーボード設定などの環境設定を行ないます。
+        この仕組みを利用すれば、追加するユーザーの環境設定を同一の初期状態にすることができます。
+      </p>
+      <p>
+        <code class="filename">/etc/skel</code> ディレクトリは初期化などを行うファイル類を配置します。
+        <span class="command"><strong>/usr/sbin/useradd</strong></span>
+        コマンドによって新しいユーザーを生成した際には、<code class="filename">/etc/skel</code>
+        ディレクトリ内のファイルが、そのユーザーのホームディレクトリにコピーされます。
+      </p>
+      <h5>
+        Useradd
+      </h5>
+      <p>
+        <span class="command"><strong>useradd</strong></span> プログラムは
+        <code class="filename">/etc/default/useradd</code>
+        ファイルからさまざまなデフォルト値を参照します。 このファイルはベースシステムである LFS の構築時に <span class=
+        "application">Shadow</span> によってインストールされたものです。
+        そのファイルを削除または名称変更していた場合は <span class=
+        "command"><strong>useradd</strong></span>
+        コマンドが内部的に定めているデフォルト値が採用されます。 なおデフォルト値は <span class=
+        "command"><strong>/usr/sbin/useradd -D</strong></span> を実行すれば確認できます。
+      </p>
+      <p>
+        デフォルト値の変更が必要な場合は <code class="systemitem">root</code> ユーザーでログインして
+        <code class="filename">/etc/default/useradd</code>
+        ファイルを書き換えてしまう、というのが単純なやり方です。 ファイルを書き換えずに実現する方法としては <code class=
+        "systemitem">root</code> ユーザーでログインし <span class=
+        "command"><strong>useradd</strong></span>
+        コマンドを実行する際に、コマンドラインから変更したい値を指定することです。 指定方法については <span class=
+        "command"><strong>useradd</strong></span> の man ページを参照してください。
+      </p>
+      <h5>
+        /etc/skel
+      </h5>
+      <p>
+        まず初めに <code class="filename">/etc/skel</code> ディレクトリを生成します。
+        このディレクトリはシステム管理者のみが書き込み可能であるようにします。 システム管理者とは通常 <code class=
+        "systemitem">root</code> ユーザーのことです。 ディレクトリを生成するのも <code class=
+        "systemitem">root</code> ユーザーが行うことにするのが良いでしょう。
+      </p>
+      <p>
+        The mode of any files from this part of the book that you put in
+        <code class="filename">/etc/skel</code> should be writable only by
+        the owner. Also, since there is no telling what kind of sensitive
+        information a user may eventually place in their copy of these files,
+        you should make them unreadable by "group" and "other".
+      </p>
+      <p>
+        You can also put other files in <code class=
+        "filename">/etc/skel</code> and different permissions may be needed
+        for them.
+      </p>
+      <p>
+        Decide which initialization files should be provided in every (or
+        most) new user's home directory. The decisions you make will affect
+        what you do in the next two sections, <a class="xref" href=
+        "profile.html" title="Bash シェルの初期起動ファイル">Bash シェルの初期起動ファイル</a> and
+        <a class="xref" href="vimrc.html" title=
+        "/etc/vimrc ファイルと ~/.vimrc ファイル">vimrc ファイル</a>. Some or all of those
+        files will be useful for <code class="systemitem">root</code>, any
+        already-existing users, and new users.
+      </p>
+      <p>
+        The files from those sections that you might want to place in
+        <code class="filename">/etc/skel</code> include <code class=
+        "filename">.inputrc</code>, <code class=
+        "filename">.bash_profile</code>, <code class=
+        "filename">.bashrc</code>, <code class=
+        "filename">.bash_logout</code>, <code class=
+        "filename">.dircolors</code>, and <code class=
+        "filename">.vimrc</code>. If you are unsure which of these should be
+        placed there, just continue to the following sections, read each
+        section and any references provided, and then make your decision.
+      </p>
+      <p>
+        You will run a slightly modified set of commands for files which are
+        placed in <code class="filename">/etc/skel</code>. Each section will
+        remind you of this. In brief, the book's commands have been written
+        for files <span class="emphasis"><em>not</em></span> added to
+        <code class="filename">/etc/skel</code> and instead just sends the
+        results to the user's home directory. If the file is going to be in
+        <code class="filename">/etc/skel</code>, change the book's command(s)
+        to send output there instead and then just copy the file from
+        <code class="filename">/etc/skel</code> to the appropriate
+        directories, like <code class="filename">/etc</code>, <code class=
+        "filename">~</code> or the home directory of any other user already
+        in the system.
+      </p>
+      <h5>
+        ユーザーの追加
+      </h5>
+      <p>
+        <span class="command"><strong>useradd</strong></span>
+        コマンドを利用して新しいユーザーを追加するには <code class="option">-m</code> オプションを指定します。
+        これはユーザーのホームディレクトリを生成して、<code class="filename">/etc/skel</code>
+        ディレクトリにあるファイル類をホームディレクトリにコピーします。 <code class="systemitem">root</code>
+        ユーザーでログインして、例えば以下のように実行します。
+      </p>
+      <pre class="root"><kbd class="command">useradd -m <em class=
+      "replaceable"><code>&lt;newuser&gt;</code></em></kbd></pre>
+      <p>
+        If you are sharing a <code class="filename">/home</code> or
+        <code class="filename">/usr/src</code> with another Linux distro (for
+        example, the host distro used for building LFS), you can create a
+        user with the same UID (and, same primary group GID) to keep the file
+        ownership consistent across the systems. First, on <span class=
+        "emphasis"><em>the other distro</em></span>, get the UID of the user
+        and the GID of the user's primary group:
+      </p>
+      <pre class="userinput"><kbd class="command">getent passwd <em class=
+      "replaceable"><code>&lt;username&gt;</code></em> | cut -d ':' -f 3,4</kbd></pre>
+      <p>
+        The command should output the UID and GID, separated by a colon. Now
+        on the BLFS system, create the primary group and the user:
+      </p>
+      <pre class="root"><kbd class="command">groupadd -g <em class=
+      "replaceable"><code>&lt;GID&gt;</code></em> <em class=
+      "replaceable"><code>&lt;username&gt;</code></em> &amp;&amp;
+useradd -u <em class=
+"replaceable"><code>&lt;UID&gt;</code></em> -g <em class="replaceable"><code>&lt;username&gt;</code></em> <em class="replaceable"><code>&lt;username&gt;</code></em></kbd></pre>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="devices.html" title="デバイスに関して">戻る</a>
+          <p>
+            デバイスに関して
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="users.html" title="システムユーザーとグループについて">次へ</a>
+          <p>
+            システムユーザーとグループについて
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="config.html" title=
+          "第3章 LFS 設定以降について">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

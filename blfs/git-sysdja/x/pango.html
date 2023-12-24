@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Pango-1.50.14
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第25章 グラフィック環境ライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libxklavier.html" title=
+          "libxklavier-5.4">戻る</a>
+          <p>
+            libxklavier-5.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="pangomm.html" title="Pangomm-2.46.3">次へ</a>
+          <p>
+            Pangomm-2.46.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="lib.html" title=
+          "第25章 グラフィック環境ライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="pango" name="pango"></a>Pango-1.50.14
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Pango の概要
+        </h2>
+        <p>
+          <span class="application">Pango</span> is a library for laying out
+          and rendering text, with an emphasis on internationalization. It
+          can be used anywhere that text layout is needed, though most of the
+          work on <span class="application">Pango</span> so far has been done
+          in the context of the <span class="application">GTK+</span> widget
+          toolkit.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://download.gnome.org/sources/pango/1.50/pango-1.50.14.tar.xz">
+                https://download.gnome.org/sources/pango/1.50/pango-1.50.14.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: baa2a0a67c71935165a205a76da25954
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 4.1 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 47 MB (with tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU (Using parallelism=4; with tests)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Pango の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/fontconfig.html" title=
+          "Fontconfig-2.14.2">Fontconfig-2.14.2</a> (must be built with
+          <a class="xref" href="../general/freetype2.html" title=
+          "FreeType-2.13.2">FreeType-2.13.2</a> using <a class="xref" href=
+          "../general/harfbuzz.html" title=
+          "HarfBuzz-8.3.0">HarfBuzz-8.3.0</a>), <a class="xref" href=
+          "../general/fribidi.html" title=
+          "FriBidi-1.0.13">FriBidi-1.0.13</a>, and <a class="xref" href=
+          "../general/glib2.html" title="GLib-2.78.3">GLib-2.78.3</a>
+        </p>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="cairo.html" title=
+          "Cairo-1.18.0">Cairo-1.18.0</a>, <a class="xref" href=
+          "../general/gobject-introspection.html" title=
+          "gobject-introspection-1.78.1">gobject-introspection-1.78.1</a>
+          (Required if building GNOME), <a class="xref" href="x7lib.html"
+          title="Xorg ライブラリ">Xorg ライブラリ</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="TTF-and-OTF-fonts.html#cantarell-fonts"
+          title="Cantarell fonts">Cantarell fonts</a> (for tests), <a class=
+          "xref" href="../general/python-modules.html#gi-docgen" title=
+          "Gi-DocGen-2023.3">Gi-DocGen-2023.3</a> (to generate
+          documentation), <a class="ulink" href=
+          "https://ftpmirror.gnu.org/gnu/help2man">help2man</a>, <a class=
+          "ulink" href="https://linux.thai.net/projects/libthai">libthai</a>,
+          and <a class="ulink" href=
+          "https://wiki.gnome.org/Apps/Sysprof">sysprof</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Pango のインストール
+        </h2>
+        <p>
+          First work around a bug in gcc-13 which triggers a false warning
+          that breaks a release build:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i '/array-bounds/d' meson.build</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">Pango</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+meson setup --prefix=/usr          \
+            --buildtype=release    \
+            --wrap-mode=nofallback \
+            ..                     &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          If you have <a class="xref" href=
+          "../general/python-modules.html#gi-docgen" title=
+          "Gi-DocGen-2023.3">Gi-DocGen-2023.3</a> installed and wish to build
+          the API documentation for this package, issue:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed "/docs_dir =/s@\$@ / 'pango-1.50.14'@" -i ../docs/meson.build &amp;&amp;
+meson configure -Dgtk_doc=true                                    &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          To test the results, issue: <span class="command"><strong>ninja
+          test</strong></span>. One test, <code class=
+          "filename">test-font</code> is known to fail. Some tests may fail
+          if no Opentype or Truetype fonts are installed in <code class=
+          "filename">/usr/share/fonts</code>.
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">ninja install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--buildtype=release</code></em>:
+          本パッケージの安定版リリース向けに適したビルドタイプを指定します。
+          デフォルトにしていると、最適化されていないバイナリを生成する場合があるためです。
+        </p>
+        <p>
+          <code class="option">-Dintrospection=disabled</code>: Use this
+          switch if you do not want to use <a class="xref" href=
+          "../general/gobject-introspection.html" title=
+          "gobject-introspection-1.78.1">gobject-introspection-1.78.1</a>.
+        </p>
+        <p>
+          <em class="parameter"><code>--wrap-mode=nofallback</code></em>:
+          This switch prevents <span class=
+          "command"><strong>meson</strong></span> from using subproject
+          fallbacks for any dependency declarations in the build files,
+          stopping it downloading any optional dependency which is not
+          installed on the system.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Pango の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="pango-config" name="pango-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="pango-config" name="pango-config"></a>設定ファイル
+          </h4>
+          <p>
+            <code class="filename">/etc/pango/pangorc</code>, <code class=
+            "filename">~/.pangorc</code>, および環境変数 <code class=
+            "envar">PANGO_RC_FILE</code> にて指定されたファイル。
+          </p>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">pango-list, pango-segmentation, pango-view</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libpango-1.0.so, libpangocairo-1.0.so,
+              libpangoft2-1.0.so, libpangoxft-1.0.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/pango-1.0, /usr/share/doc/pango-1.50.14
+              (if gi-docgen is available)</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pango-list" name="pango-list"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pango-list</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    displays a list of fonts that <span class=
+                    "application">Pango</span> can use that are currently
+                    installed on the system
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pango-segmentation" name=
+                    "pango-segmentation"></a><span class="term"><span class=
+                    "command"><strong>pango-segmentation</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    shows text segmentation as determined by Pango.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pango-view" name="pango-view"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pango-view</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    renders a given text file through <span class=
+                    "application">Pango</span> for viewing purposes
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libpango-1" name="libpango-1"></a><span class=
+                    "term"><code class=
+                    "filename">libpango-1.0.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains low level layout rendering routines, a high
+                    level driver for laying out entire blocks of text, and
+                    routines to assist in editing internationalized text
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libxklavier.html" title=
+          "libxklavier-5.4">戻る</a>
+          <p>
+            libxklavier-5.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="pangomm.html" title="Pangomm-2.46.3">次へ</a>
+          <p>
+            Pangomm-2.46.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="lib.html" title=
+          "第25章 グラフィック環境ライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

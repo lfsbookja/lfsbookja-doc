@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      libwacom-2.9.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第9章 汎用的なライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libxslt.html" title="libxslt-1.1.39">戻る</a>
+          <p>
+            libxslt-1.1.39
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libwpe.html" title="libwpe-1.14.1">次へ</a>
+          <p>
+            libwpe-1.14.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="libwacom" name="libwacom"></a>libwacom-2.9.0
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libwacom の概要
+        </h2>
+        <p>
+          <span class="application">libwacom</span> パッケージは wacom
+          タブレットを識別しモデル固有の機能を実現するライブラリを提供します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/linuxwacom/libwacom/releases/download/libwacom-2.9.0/libwacom-2.9.0.tar.xz">
+                https://github.com/linuxwacom/libwacom/releases/download/libwacom-2.9.0/libwacom-2.9.0.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 2f4de3d56ae20702cbd4174e10a99aa8
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 112 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 3.5 MB（テスト込み）
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU 以下（テスト込み）
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          libwacom の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="libgudev.html" title=
+          "libgudev-238">libgudev-238</a>
+        </p>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="libxml2.html" title=
+          "libxml2-2.12.3">libxml2-2.12.3</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="doxygen.html" title=
+          "Doxygen-1.9.8">Doxygen-1.9.8</a>, <a class="xref" href="git.html"
+          title="Git-2.43.0">git-2.43.0</a>, <a class="xref" href=
+          "librsvg.html" title="librsvg-2.57.1">librsvg-2.57.1</a>, <a class=
+          "xref" href="valgrind.html" title=
+          "Valgrind-3.22.0">Valgrind-3.22.0</a> (一部のテストにて必要), <a class=
+          "ulink" href=
+          "https://pypi.org/project/libevdev/">python-libevdev</a> と
+          <a class="ulink" href="https://pypi.org/project/pyudev/">pyudev</a>
+          を含んだ <a class="xref" href="python-modules.html#pytest" title=
+          "Pytest-7.4.3">pytest-7.4.3</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libwacom のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">libwacom</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+meson setup ..            \
+      --prefix=/usr       \
+      --buildtype=release \
+      -Dtests=disabled    &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>ninja
+          test</strong></span> を実行します。 追加テストを実行するには <a class="xref" href=
+          "python-modules.html#pytest" title=
+          "Pytest-7.4.3">pytest-7.4.3</a>、python-libevdev、pyudev をインストールし、上の
+          meson のコマンド行から "-Dtests=disabled" オプションを取り除いて実行してください。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">ninja install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--buildtype=release</code></em>:
+          本パッケージの安定版リリース向けに適したビルドタイプを指定します。
+          デフォルトにしていると、最適化されていないバイナリを生成する場合があるためです。
+        </p>
+        <p>
+          <em class="parameter"><code>-Dtests=disabled</code></em>:
+          このパラメーターは、より高度なテストを無効化します。 それは <a class="xref" href=
+          "python-modules.html#pytest" title="Pytest-7.4.3">pytest-7.4.3</a>
+          に加えて、BLFS の範疇を超えた 2 つの Python モジュールが必要になるためです。
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">libwacom-list-devices, libwacom-list-local-devices,
+              libwacom-show-stylus, libwacom-update-db</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libwacom.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/libwacom-1.0, /usr/share/libwacom</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libwacom-list-devices" name=
+                    "libwacom-list-devices"></a><span class=
+                    "term"><span class=
+                    "command"><strong>libwacom-list-devices</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    lists all tablet devices that are supported by libwacom
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libwacom-list-local-devices" name=
+                    "libwacom-list-local-devices"></a><span class=
+                    "term"><span class=
+                    "command"><strong>libwacom-list-local-devices</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    システムに接続されているタブレットデバイスを一覧表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libwacom-show-stylus" name=
+                    "libwacom-show-stylus"></a><span class=
+                    "term"><span class="command"><strong>libwacom-show-stylus</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    タブレットのスタイラス（stylus）ID を一覧表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libwacom-update-db" name=
+                    "libwacom-update-db"></a><span class="term"><span class=
+                    "command"><strong>libwacom-update-db</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    updates the system according to the current set of tablet
+                    data files
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libwacom-lib" name="libwacom-lib"></a><span class=
+                    "term"><code class="filename">libwacom.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Wacom 情報のアクセスに利用する関数を提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libxslt.html" title="libxslt-1.1.39">戻る</a>
+          <p>
+            libxslt-1.1.39
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libwpe.html" title="libwpe-1.14.1">次へ</a>
+          <p>
+            libwpe-1.14.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

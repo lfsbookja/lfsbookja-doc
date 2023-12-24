@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      その他の KDE5 パッケージ
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第31章 KDE Frameworks 5 ベースのアプリケーション
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="k3b.html" title="k3b-23.08.4">戻る</a>
+          <p>
+            k3b-23.08.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="plasma5.html" title="KDE Plasma 5">次へ</a>
+          <p>
+            KDE Plasma 5
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="kf5-apps.html" title=
+          "第31章 KDE Frameworks 5 ベースのアプリケーション">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="kde-add-pkgs" name="kde-add-pkgs"></a>その他の KDE5 パッケージ
+      </h1>
+      <p>
+        本節は、利用可能な KDE5 ソフトウェアコンパイレーション (KDE5 Software Compilation)
+        のビルド手順までは説明しません。
+        ここに示すパッケージは、多くの方が標準的なデスクトップコンピューターにおいて利用したいと思うパッケージを選んでいます。
+      </p>
+      <p>
+        利用可能な全パッケージの詳細については KDE5 サーバー <a class="ulink" href=
+        "https://download.kde.org/stable/release-service/23.08.4/src">https://download.kde.org/stable/release-service/23.08.4/src</a>
+        を参照してください。
+      </p>
+      <p class="usernotes">
+        Editor Notes: <a class="ulink" href=
+        "https://wiki.linuxfromscratch.org/blfs/wiki/Further_KDE_Packages">https://wiki.linuxfromscratch.org/blfs/wiki/Further_KDE_Packages</a>
+      </p>
+      <p>
+        その他の KDE パッケージとして取り上げるのは以下のものです。
+      </p>
+      <div class="itemizedlist">
+        <ul>
+          <li class="listitem">
+            <p>
+              Juk: A lightweight music player.
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Dragon: A video player.
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Kcalc: A scientific calculator.
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Kwalletmanager: A credentials management application.
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              Marble: A global map program.
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              A variety (about 40) of KDE games including: kpat, kfourinline,
+              and kmines.
+            </p>
+          </li>
+        </ul>
+      </div>
+      <div class="admon note">
+        <img alt="[注記]" src="../images/note.png" />
+        <h3>
+          注記
+        </h3>
+        <p>
+          Some packages will require additional dependencies. To determine
+          what dependencies are needed, run from the top of the source tree:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cmake -Wno-dev -L .</kbd></pre>
+      </div>
+      <p>
+        Most of these packages can be built with the standard KDE5
+        instructions:
+      </p>
+      <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+cmake -DCMAKE_INSTALL_PREFIX=$KF5_PREFIX \
+      -DCMAKE_BUILD_TYPE=Release         \
+      -DBUILD_TESTING=OFF                \
+      -Wno-dev .. &amp;&amp;
+make</kbd></pre>
+      <p>
+        And as the <code class="systemitem">root</code> user:
+      </p>
+      <pre class="root"><kbd class="command">make install</kbd></pre>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="k3b.html" title="k3b-23.08.4">戻る</a>
+          <p>
+            k3b-23.08.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="plasma5.html" title="KDE Plasma 5">次へ</a>
+          <p>
+            KDE Plasma 5
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="kf5-apps.html" title=
+          "第31章 KDE Frameworks 5 ベースのアプリケーション">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

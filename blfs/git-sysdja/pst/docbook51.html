@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      docbook-xml-5.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第49章 拡張可能なマーク付け言語 (XML)
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="docbook5.html" title=
+          "docbook-xml-5.0">戻る</a>
+          <p>
+            docbook-xml-5.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="docbook-xsl.html" title=
+          "docbook-xsl-nons-1.79.2">次へ</a>
+          <p>
+            docbook-xsl-nons-1.79.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="xml.html" title=
+          "第49章 拡張可能なマーク付け言語 (XML)">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="docbook51" name="docbook51"></a>docbook-xml-5.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to DocBook XML Schemas 5.1
+        </h2>
+        <p>
+          The <span class="application">DocBook XML Schemas</span>-5.1
+          package contains schema files and Schematron rules for verification
+          of XML data files against the DocBook rule set. These are useful
+          for structuring books and software documentation to a standard
+          allowing you to utilize transformations already written for that
+          standard.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://docbook.org/xml/5.1/docbook-v5.1-os.zip">https://docbook.org/xml/5.1/docbook-v5.1-os.zip</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: d8bea8ddfc5743578a31cb18f9ae1f5a
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 752 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 8.5 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU 以下
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          DocBook XML Schemas 5.1 の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/libxml2.html" title=
+          "libxml2-2.12.3">libxml2-2.12.3</a>, <a class="xref" href=
+          "sgml-common.html" title="sgml-common-0.6.3">sgml-common-0.6.3</a>,
+          <a class="xref" href="../general/unzip.html" title=
+          "UnZip-6.0">UnZip-6.0</a> (or <a class="xref" href=
+          "../general/libarchive.html" title=
+          "libarchive-3.7.2">libarchive-3.7.2</a>)
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          DocBook XML Schemas 5.1 のインストール
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            本パッケージのソースは <code class="filename">zip</code> 形式で提供されているため
+            <span class="command"><strong>unzip</strong></span>（<span class=
+            "application">libarchive</span> の場合は <span class=
+            "command"><strong>bsdunzip</strong></span>） が必要になります。
+            ビルドにあたっては、まずディレクトリを生成してそのディレクトリに入り、それから zip 解凍を行います。
+            こうしておけばパッケージインストール後に、ソースファイルを簡単に削除できるようになります。
+          </p>
+        </div>
+        <p>
+          Install <span class="application">DocBook XML Schemas</span> by
+          running the following commands as the <code class=
+          "systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">install -vdm755 /usr/share/xml/docbook/schema/{rng,sch}/5.1         &amp;&amp;
+install -m644   schemas/rng/* /usr/share/xml/docbook/schema/rng/5.1 &amp;&amp;
+install -m644   schemas/sch/* /usr/share/xml/docbook/schema/sch/5.1 &amp;&amp;
+install -m755   tools/db4-entities.pl /usr/bin                      &amp;&amp;
+install -vdm755 /usr/share/xml/docbook/stylesheet/docbook5          &amp;&amp;
+install -m644   tools/db4-upgrade.xsl \
+                /usr/share/xml/docbook/stylesheet/docbook5</kbd></pre>
+        <p>
+          Create (or update) and populate the <code class=
+          "filename">/etc/xml/docbook-5.1</code> catalog file by running the
+          following commands as the <code class="systemitem">root</code>
+          user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">if [ ! -e /etc/xml/docbook-5.1 ]; then
+  xmlcatalog --noout --create /etc/xml/docbook-5.1
+fi &amp;&amp;
+
+xmlcatalog --noout --add "uri" \
+  "http://www.oasis-open.org/docbook/xml/5.1/rng/docbook.rng" \
+  "file:///usr/share/xml/docbook/schema/rng/5.1/docbook.rng" \
+  /etc/xml/docbook-5.1 &amp;&amp;
+xmlcatalog --noout --add "uri" \
+  "http://docbook.org/xml/5.1/rng/docbook.rng" \
+  "file:///usr/share/xml/docbook/schema/rng/5.1/docbook.rng" \
+  /etc/xml/docbook-5.1 &amp;&amp;
+xmlcatalog --noout --add "uri" \
+  "http://www.oasis-open.org/docbook/xml/5.1/rng/docbookxi.rng" \
+  "file:///usr/share/xml/docbook/schema/rng/5.1/docbookxi.rng" \
+  /etc/xml/docbook-5.1 &amp;&amp;
+xmlcatalog --noout --add "uri" \
+  "http://docbook.org/xml/5.1/rng/docbookxi.rng" \
+  "file:///usr/share/xml/docbook/schema/rng/5.1/docbookxi.rng" \
+  /etc/xml/docbook-5.1 &amp;&amp;
+xmlcatalog --noout --add "uri" \
+  "http://www.oasis-open.org/docbook/xml/5.1/rnc/docbook.rnc" \
+  "file:///usr/share/xml/docbook/schema/rng/5.1/docbook.rnc" \
+  /etc/xml/docbook-5.1 &amp;&amp;
+xmlcatalog --noout --add "uri" \
+  "http://docbook.org/xml/5.1/rng/docbook.rnc" \
+  "file:///usr/share/xml/docbook/schema/rng/5.1/docbook.rnc" \
+  /etc/xml/docbook-5.1 &amp;&amp;
+xmlcatalog --noout --add "uri" \
+  "http://www.oasis-open.org/docbook/xml/5.1/rnc/docbookxi.rnc" \
+  "file:///usr/share/xml/docbook/schema/rng/5.1/docbookxi.rnc" \
+  /etc/xml/docbook-5.1 &amp;&amp;
+xmlcatalog --noout --add "uri" \
+  "http://docbook.org/xml/5.1/rng/docbookxi.rnc" \
+  "file:///usr/share/xml/docbook/schema/rng/5.1/docbookxi.rnc" \
+  /etc/xml/docbook-5.1 &amp;&amp;
+
+xmlcatalog --noout --add "uri" \
+  "http://www.oasis-open.org/docbook/xml/5.1/sch/docbook.sch" \
+  "file:///usr/share/xml/docbook/schema/sch/5.1/docbook.sch" \
+  /etc/xml/docbook-5.1 &amp;&amp;
+xmlcatalog --noout --add "uri" \
+  "http://docbook.org/xml/5.1/sch/docbook.sch" \
+  "file:///usr/share/xml/docbook/schema/sch/5.1/docbook.sch" \
+  /etc/xml/docbook-5.1</kbd></pre>
+        <p>
+          While again as the <code class="systemitem">root</code> user,
+          create the individual catalogs:
+        </p>
+        <pre class="root"><kbd class=
+        "command">xmlcatalog --noout --create /usr/share/xml/docbook/schema/rng/5.1/catalog.xml &amp;&amp;
+
+xmlcatalog --noout --add "uri" \
+  "http://docbook.org/xml/5.1/schemas/rng/docbook.schemas/rng" \
+  "docbook.schemas/rng" /usr/share/xml/docbook/schema/rng/5.1/catalog.xml &amp;&amp;
+xmlcatalog --noout --add "uri" \
+  "http://www.oasis-open.org/docbook/xml/5.1/schemas/rng/docbook.schemas/rng" \
+  "docbook.schemas/rng" /usr/share/xml/docbook/schema/rng/5.1/catalog.xml &amp;&amp;
+xmlcatalog --noout --add "uri" \
+  "http://docbook.org/xml/5.1/schemas/rng/docbookxi.schemas/rng" \
+  "docbookxi.schemas/rng" /usr/share/xml/docbook/schema/rng/5.1/catalog.xml &amp;&amp;
+xmlcatalog --noout --add "uri" \
+  "http://www.oasis-open.org/docbook/xml/5.1/schemas/rng/docbookxi.schemas/rng" \
+  "docbookxi.schemas/rng" /usr/share/xml/docbook/schema/rng/5.1/catalog.xml &amp;&amp;
+xmlcatalog --noout --add "uri" \
+  "http://docbook.org/xml/5.1/schemas/rng/docbook.rnc" \
+  "docbook.rnc" /usr/share/xml/docbook/schema/rng/5.1/catalog.xml &amp;&amp;
+xmlcatalog --noout --add "uri" \
+  "http://www.oasis-open.org/docbook/xml/5.1/schemas/rng/docbook.rnc" \
+  "docbook.rnc" /usr/share/xml/docbook/schema/rng/5.1/catalog.xml &amp;&amp;
+xmlcatalog --noout --add "uri" \
+  "http://docbook.org/xml/5.1/schemas/rng/docbookxi.rnc" \
+  "docbookxi.rnc" /usr/share/xml/docbook/schema/rng/5.1/catalog.xml &amp;&amp;
+xmlcatalog --noout --add "uri" \
+  "http://www.oasis-open.org/docbook/xml/5.1/schemas/rng/docbookxi.rnc" \
+  "docbookxi.rnc" /usr/share/xml/docbook/schema/rng/5.1/catalog.xml
+xmlcatalog --noout --create /usr/share/xml/docbook/schema/sch/5.1/catalog.xml &amp;&amp;
+
+xmlcatalog --noout --add "uri" \
+  "http://docbook.org/xml/5.1/schemas/sch/docbook.schemas/sch" \
+  "docbook.schemas/sch" /usr/share/xml/docbook/schema/sch/5.1/catalog.xml &amp;&amp;
+xmlcatalog --noout --add "uri" \
+  "http://www.oasis-open.org/docbook/xml/5.1/schemas/sch/docbook.schemas/sch" \
+  "docbook.schemas/sch" /usr/share/xml/docbook/schema/sch/5.1/catalog.xml</kbd></pre>
+        <p>
+          Create (or update) and populate the system XML catalog
+          (<code class="filename">/etc/xml/catalog</code>) by running the
+          following commands as the <code class="systemitem">root</code>
+          user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">if [ ! -e /etc/xml/catalog ]; then
+  xmlcatalog --noout --create /etc/xml/catalog
+fi &amp;&amp;
+xmlcatalog --noout --add "delegatePublic" \
+  "-//OASIS//DTD DocBook XML 5.1//EN" \
+  "file:///usr/share/xml/docbook/schema/dtd/5.1/catalog.xml" \
+  /etc/xml/catalog &amp;&amp;
+xmlcatalog --noout --add "delegateSystem" \
+  "http://docbook.org/xml/5.1/dtd/" \
+  "file:///usr/share/xml/docbook/schema/dtd/5.1/catalog.xml" \
+  /etc/xml/catalog &amp;&amp;
+xmlcatalog --noout --add "delegateURI" \
+  "http://docbook.org/xml/5.1/dtd/" \
+  "file:///usr/share/xml/docbook/schema/dtd/5.1/catalog.xml" \
+  /etc/xml/catalog &amp;&amp;
+xmlcatalog --noout --add "delegateURI" \
+  "http://docbook.org/xml/5.1/rng/"  \
+  "file:///usr/share/xml/docbook/schema/rng/5.1/catalog.xml" \
+  /etc/xml/catalog &amp;&amp;
+xmlcatalog --noout --add "delegateURI" \
+  "http://docbook.org/xml/5.1/sch/"  \
+  "file:///usr/share/xml/docbook/schema/sch/5.1/catalog.xml" \
+  /etc/xml/catalog &amp;&amp;
+xmlcatalog --noout --add "delegateURI" \
+  "http://docbook.org/xml/5.1/xsd/"  \
+  "file:///usr/share/xml/docbook/schema/xsd/5.1/catalog.xml" \
+  /etc/xml/catalog</kbd></pre>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Configuring DocBook XML Schemas 5.1
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="docbook51-config" name="docbook51-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="docbook51-config" name="docbook51-config"></a>Config Files
+          </h4>
+          <p>
+            <code class="filename">/etc/xml/catalog</code>, <code class=
+            "filename">/etc/xml/docbook-5.1</code>
+          </p>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">db4-entities.pl</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">RNC, RNG, SCH, and XSL files</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/etc/xml, /usr/share/xml/docbook/stylesheets, and
+              /usr/share/xml/docbook/schema/{rng,sch}/5.1</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="db4-entries-pl" name=
+                    "db4-entries-pl"></a><span class="term"><code class=
+                    "filename">db4-entities.pl</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a script to convert DocBook 4.x filed to DocBook 5.1
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="Schema51-files" name=
+                    "Schema51-files"></a><span class="term"><code class=
+                    "filename">RNC, RNG, and SCH files</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contain the Docbook 5.1 RelaxNG, RelaxNG Compact, and
+                    Schematron schema definitions
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="db4-upgrade-xsl" name=
+                    "db4-upgrade-xsl"></a><span class="term"><code class=
+                    "filename">db4-upgrade.xsl</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is an XSL stylesheet to assist in conversion from DocBook
+                    4.x files to DocBook 5.1
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="docbook5.html" title=
+          "docbook-xml-5.0">戻る</a>
+          <p>
+            docbook-xml-5.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="docbook-xsl.html" title=
+          "docbook-xsl-nons-1.79.2">次へ</a>
+          <p>
+            docbook-xsl-nons-1.79.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="xml.html" title=
+          "第49章 拡張可能なマーク付け言語 (XML)">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

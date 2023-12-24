@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      libiodbc-3.52.15
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第9章 汎用的なライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libidn2.html" title="libidn2-2.3.4">戻る</a>
+          <p>
+            libidn2-2.3.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libksba.html" title="libksba-1.6.5">次へ</a>
+          <p>
+            libksba-1.6.5
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="libiodbc" name="libiodbc"></a>libiodbc-3.52.15
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libiodbc の概要
+        </h2>
+        <p>
+          <span class="application">libiodbc</span> ODBC 互換データベースに対する API
+          を提供します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://downloads.sourceforge.net/iodbc/libiodbc-3.52.15.tar.gz">
+                https://downloads.sourceforge.net/iodbc/libiodbc-3.52.15.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 89949a41e542bb1b880d7fcc4987dad2
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1.0 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 26 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.2 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          libiodbc の依存パッケージ
+        </h3>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../x/gtk2.html" title=
+          "GTK+-2.24.33">GTK+-2.24.33</a> (管理ツールを生成するために必要)
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          libiodbc のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">libiodbc</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr                   \
+            --with-iodbc-inidir=/etc/iodbc  \
+            --includedir=/usr/include/iodbc \
+            --disable-libodbc               \
+            --disable-static                &amp;&amp;
+make</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class=
+          "parameter"><code>--with-iodbc-inidir=/etc/iodbc</code></em>:
+          <span class="application">libiodbc</span>
+          は設定ファイルをこのディレクトリにインストールします。
+        </p>
+        <p>
+          <em class=
+          "parameter"><code>--includedir=/usr/include/iodbc</code></em>:
+          インターフェースヘッダーファイルを独自のディレクトリにインストールすることを指示します。 こうするのは <span class=
+          "application">unixODBC</span> がインストールするヘッダーファイルとの衝突を避けるものです。
+        </p>
+        <p>
+          <em class="parameter"><code>--disable-libodbc</code></em>:
+          <code class="filename">libodbc.so</code>
+          に対するシンボリックリンクをインストールしないようにします。 <span class=
+          "application">unixODBC</span> との衝突を避けるためです。
+        </p>
+        <p>
+          <em class="parameter"><code>--disable-static</code></em>:
+          このスイッチはスタティックライブラリをインストールしないようにします。
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">iodbc-config, iodbctest, iodbctestw,
+              iodbcadm-gtk</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libdrvproxy.so, libiodbc.so, libiodbcinst.so,
+              libiodbcadm.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/iodbc, /usr/share/libiodbc,
+              /etc/iodbc</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="iodbc-config" name="iodbc-config"></a><span class=
+                    "term"><span class=
+                    "command"><strong>iodbc-config</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    libiodbc のインストールオプションを検出するためのユーティリティ。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="iodbctest" name="iodbctest"></a><span class=
+                    "term"><span class=
+                    "command"><strong>iodbctest{,w}</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    対話的な SQL プロセッサー。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="iodbcadm" name="iodbcadm"></a><span class=
+                    "term"><span class=
+                    "command"><strong>iodbcadm-gtk</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    グラフィカルな管理ユーティリティ。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libidn2.html" title="libidn2-2.3.4">戻る</a>
+          <p>
+            libidn2-2.3.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libksba.html" title="libksba-1.6.5">次へ</a>
+          <p>
+            libksba-1.6.5
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genlib.html" title="第9章 汎用的なライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

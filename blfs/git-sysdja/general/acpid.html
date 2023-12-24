@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      acpid-2.0.34
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第12章 システムユーティリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="accountsservice.html" title=
+          "AccountsService-23.13.9">戻る</a>
+          <p>
+            AccountsService-23.13.9
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="at.html" title="at-3.2.5">次へ</a>
+          <p>
+            at-3.2.5
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="sysutils.html" title=
+          "第12章 システムユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="acpid" name="acpid"></a>acpid-2.0.34
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          acpid の概要
+        </h2>
+        <p>
+          The <span class="application">acpid</span> (Advanced Configuration
+          and Power Interface event daemon) is a completely flexible, totally
+          extensible daemon for delivering ACPI events. It listens on netlink
+          interface and when an event occurs, executes programs to handle the
+          event. The programs it executes are configured through a set of
+          configuration files, which can be dropped into place by packages or
+          by the user.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            Some other packages may handle some ACPI events as well and they
+            may conflict with this package. For example, <span class=
+            "phrase"><a class="xref" href="systemd.html" title=
+            "Systemd-255">Systemd-255</a></span> (read the documentation for
+            <code class="option">Handle*=</code> in <code class=
+            "filename">logind.conf(5)</code> for details) and <a class="xref"
+            href="upower.html" title="UPower-1.90.2">UPower-1.90.2</a> (used
+            by many desktop environments such as GNOME, KDE, and XFCE for
+            handling ACPI events). If you've installed such a package and
+            it's enough for your use case, this package is probably not
+            needed. If you really need this package, you must be careful
+            configuring it and the other packages handling ACPI events to
+            avoid conflicts. Notably, <span class="phrase"><a class="xref"
+            href="systemd.html" title="Systemd-255">Systemd-255</a></span>
+            handles some ACPI events by default, so the handling of these
+            events by <span class="phrase"><a class="xref" href=
+            "systemd.html" title="Systemd-255">Systemd-255</a></span> should
+            be disabled first if handling these events with acpid (again,
+            read <code class="filename">logind.conf(5)</code> for details).
+          </p>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://downloads.sourceforge.net/acpid2/acpid-2.0.34.tar.xz">
+                https://downloads.sourceforge.net/acpid2/acpid-2.0.34.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 988c2e3fd5ba0ea4492d3ba7273af295
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 160 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 1.9 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU 以下
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          acpid のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">acpid</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr \
+            --docdir=/usr/share/doc/acpid-2.0.34 &amp;&amp;
+make</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class=
+        "command">make install                         &amp;&amp;
+install -v -m755 -d /etc/acpi/events &amp;&amp;
+cp -r samples /usr/share/doc/acpid-2.0.34</kbd></pre>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          acpid の設定
+        </h2>
+        <p>
+          <span class="application">acpid</span> is configured by user
+          defined events. Place event files under <code class=
+          "filename">/etc/acpi/events</code> directory. If an event occurs,
+          <span class="command"><strong>acpid</strong></span> recurses
+          through the event files in order to see if the regex defined after
+          "event" matches. If they do, action is executed.
+        </p>
+        <p>
+          The following brief example will suspend the system when the laptop
+          lid is closed. The example also disables the default handling of
+          the lid close event by <span class="phrase"><a class="xref" href=
+          "systemd.html" title="Systemd-255">Systemd-255</a></span> when the
+          system is on battery and not connected to any external monitor, in
+          order to avoid a conflict:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; /etc/acpi/events/lid &lt;&lt; "EOF"
+<code class="literal">event=button/lid
+action=/etc/acpi/lid.sh</code>
+EOF
+
+cat &gt; /etc/acpi/lid.sh &lt;&lt; "EOF"
+<code class="literal">#!/bin/sh
+/bin/grep -q open /proc/acpi/button/lid/LID/state &amp;&amp; exit 0
+/usr/bin/systemctl suspend</code>
+EOF
+chmod +x /etc/acpi/lid.sh
+
+mkdir -pv /etc/systemd/logind.conf.d
+echo <code class=
+"literal">HandleLidSwitch=ignore</code> &gt; /etc/systemd/logind.conf.d/acpi.conf</kbd></pre>
+        <p>
+          Unfortunately, not every computer labels ACPI events in the same
+          way (for example, the lid may be recognized as <code class=
+          "filename">LID0</code> instead of <code class=
+          "filename">LID</code>). To determine how your buttons are
+          recognized, use the <span class=
+          "command"><strong>acpi_listen</strong></span> tool. Also, look in
+          the <code class="filename">samples</code> directory under
+          <code class="filename">/usr/share/doc/acpid-2.0.34</code> for more
+          examples.
+        </p>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="acpid-init" name="acpid-init"></a>
+          </h3>
+          <h4 class="title">
+            <a id="acpid-init" name="acpid-init"></a> <span class=
+            "phrase">Systemd ソケット</span>
+          </h4>
+          <p>
+            To start the <span class="command"><strong>acpid</strong></span>
+            daemon at boot, install the systemd unit from the <a class="xref"
+            href="../introduction/systemd-units.html" title=
+            "BLFS Systemd ユニット">blfs-systemd-units-20231205</a> package by
+            running the following command as the <code class=
+            "systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">make install-acpid</kbd></pre>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              This package uses socket based activation and will be started
+              when something needs it. No standalone unit file is provided
+              for this package.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">acpid, acpi_listen, kacpimon</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/etc/acpi, /usr/share/doc/acpid-2.0.34</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="acpid-prog" name="acpid-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>acpid</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ACPI イベントを待ち受け、受信したイベントに合致するルールを実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="acpi_listen" name="acpi_listen"></a><span class=
+                    "term"><span class=
+                    "command"><strong>acpi_listen</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>acpid</strong></span>
+                    に接続してイベントを待ち受けるための単純なツールです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="kacpimon" name="kacpimon"></a><span class=
+                    "term"><span class=
+                    "command"><strong>kacpimon</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a monitor program that connects to three sources of
+                    ACPI events (events file, netlink and input layer) and
+                    then reports on what it sees while it is connected
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="accountsservice.html" title=
+          "AccountsService-23.13.9">戻る</a>
+          <p>
+            AccountsService-23.13.9
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="at.html" title="at-3.2.5">次へ</a>
+          <p>
+            at-3.2.5
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="sysutils.html" title=
+          "第12章 システムユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

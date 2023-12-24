@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      GCC-13.2.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第13章 プログラミング言語
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="doxygen.html" title="Doxygen-1.9.8">戻る</a>
+          <p>
+            Doxygen-1.9.8
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gc.html" title="GC-8.2.4">次へ</a>
+          <p>
+            GC-8.2.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="prog.html" title="第13章 プログラミング言語">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="gcc" name="gcc"></a>GCC-13.2.0
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          GCC の概要
+        </h2>
+        <p>
+          The <span class="application">GCC</span> package contains the GNU
+          Compiler Collection. This page describes the installation of
+          compilers for the following languages: C, C++, Fortran, Objective
+          C, Objective C++, Go, and Modula2. Since C and C++ are installed in
+          LFS, this page is either for upgrading C and C++, or for installing
+          additional compilers.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            Additional languages, among which D and Ada, are available in the
+            collection. D and Ada have a binary bootstrap requirement for the
+            first installation, so their installation is not described here.
+            To install them, you can proceed along the same lines as below
+            after installing the corresponding compiler from a binary
+            package, adding <code class="option">ada</code> or <code class=
+            "option">d</code> to the <em class=
+            "parameter"><code>--enable-languages</code></em> line.
+          </p>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <div class="admon caution">
+          <img alt="[注意]" src="../images/caution.png" />
+          <h3>
+            注意
+          </h3>
+          <p>
+            If you are upgrading <span class="application">GCC</span> from
+            any other version prior to 13.2.0, then you must be careful
+            compiling 3rd party kernel modules. You should ensure that the
+            kernel and all its native modules are also compiled using the
+            same version of <span class="application">GCC</span> that you use
+            to build the 3rd party module. This issue does not affect native
+            kernel (and kernel modules) updates, as the instructions below
+            are a complete reinstallation of <span class=
+            "application">GCC</span>. If you have existing 3rd party modules
+            installed, ensure they are recompiled using the updated version
+            of <span class="application">GCC</span>. As always, never update
+            the kernel headers from the ones used when <span class=
+            "application">Glibc</span> was compiled during LFS.
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://ftp.gnu.org/gnu/gcc/gcc-13.2.0/gcc-13.2.0.tar.xz">https://ftp.gnu.org/gnu/gcc/gcc-13.2.0/gcc-13.2.0.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: e0e48554cc6e4f261d55ddee9ab69075
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 84 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 13 GB (2.9 GB installed with all listed languages;
+                add 1.5 GB for tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 13 SBU (add 29 SBU for tests; both with
+                parallelism=8)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          GCC の依存パッケージ
+        </h3>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="gdb.html" title="GDB-14.1">GDB-14.1</a>,
+          <a class="xref" href="valgrind.html" title=
+          "Valgrind-3.22.0">Valgrind-3.22.0</a> (for tests), <a class="ulink"
+          href="https://repo.or.cz/isl.git">ISL</a> (to enable graphite
+          optimization)
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          GCC のインストール
+        </h2>
+        <div class="admon important">
+          <img alt="[重要]" src="../images/important.png" />
+          <h3>
+            重要
+          </h3>
+          <p>
+            Even if you specify only languages other than C and C++ to the
+            <span class="command"><strong>./configure</strong></span> command
+            below, the installation process will overwrite your existing
+            <span class="application">GCC</span> C and C++ compilers and
+            libraries. Running the full suite of tests is recommended.
+          </p>
+          <p>
+            Do not continue with the <span class="command"><strong>make
+            install</strong></span> command until you are confident the build
+            was successful. You can compare your test results with those
+            found at <a class="ulink" href=
+            "https://gcc.gnu.org/ml/gcc-testresults/">https://gcc.gnu.org/ml/gcc-testresults/</a>.
+            You may also want to refer to the information found in the
+            <span class="application">GCC</span> section of Chapter 8 in the
+            LFS book (<a class="ulink" href=
+            "../../../../lfs/view/systemd/chapter08/gcc.html">../../../../lfs/view/systemd/chapter08/gcc.html</a>).
+          </p>
+        </div>
+        <p>
+          The instructions below are intentionally performing a <span class=
+          "quote">「<span class="quote">bootstrap</span>」</span> process.
+          Bootstrapping is needed for robustness and is highly recommended
+          when upgrading the compilers version. To disable bootstrap anyway,
+          add <em class="parameter"><code>--disable-bootstrap</code></em> to
+          the <span class="command"><strong>./configure</strong></span>
+          options below.
+        </p>
+        <p>
+          以下のコマンドを実行して <span class="application">GCC</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">case $(uname -m) in
+  x86_64)
+    sed -i.orig '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
+  ;;
+esac
+
+mkdir build               &amp;&amp;
+cd    build               &amp;&amp;
+
+../configure              \
+    --prefix=/usr         \
+    --disable-multilib    \
+    --with-system-zlib    \
+    --enable-default-pie  \
+    --enable-default-ssp  \
+    --disable-fixincludes \
+    --enable-languages=c,c++,fortran,go,objc,obj-c++,m2 &amp;&amp;
+make</kbd></pre>
+        <p>
+          If you have installed additional packages such as <span class=
+          "application">valgrind</span> and <span class=
+          "application">gdb</span>, the <span class="application">gcc</span>
+          part of the test suite will run more tests than in LFS. Some of
+          those will report FAIL and others XPASS (pass when expected to
+          FAIL). As of gcc-13.2.0, about 65 FAIL occur in the <span class=
+          "quote">「<span class="quote">guality</span>」</span> suite, as well
+          as miscellaneous failures throughout the rest of the test suite. If
+          all the compilers above are built, there will be a little over 80
+          unexpected failures out of over 546,000 tests. To run the tests,
+          issue:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">ulimit -s 32768 &amp;&amp;
+make -k check</kbd></pre>
+        <p>
+          The tests are very long, and the results may be hard to find in the
+          logs, specially if you use parallel jobs with make. You can get a
+          summary of the tests with:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">../contrib/test_summary</kbd></pre>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install &amp;&amp;
+
+mkdir -pv /usr/share/gdb/auto-load/usr/lib              &amp;&amp;
+mv -v /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib &amp;&amp;
+
+chown -v -R root:root \
+    /usr/lib/gcc/*linux-gnu/13.2.0/include{,-fixed}</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <span class="command"><strong>mkdir build; cd
+          build</strong></span>: The <span class="application">GCC</span>
+          documentation recommends building the package in a dedicated build
+          directory.
+        </p>
+        <p>
+          <em class="parameter"><code>--disable-multilib</code></em>: This
+          parameter ensures that files are created for the specific
+          architecture of your computer.
+        </p>
+        <p>
+          <em class="parameter"><code>--with-system-zlib</code></em>: Uses
+          the system <span class="application">zlib</span> instead of the
+          bundled one. <span class="application">zlib</span> is used for
+          compressing and decompressing <span class=
+          "application">GCC</span>'s intermediate language in LTO (Link Time
+          Optimization) object files.
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-default-pie</code></em>: Makes
+          the <code class="option">-fpie</code> option the default when
+          compiling programs. Together with the <a class="xref" href=
+          "../appendices/glossary.html#gASLR" title="ASLR"><acronym class=
+          "acronym">ASLR</acronym></a> feature enabled in the kernel, this
+          defeats some kind of attacks based on known memory layouts.
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-default-ssp</code></em>: Makes
+          the <code class="option">-fstack-protector-strong</code> option the
+          default when compiling programs. <a class="xref" href=
+          "../appendices/glossary.html#gSSP" title="SSP"><acronym class=
+          "acronym">SSP</acronym></a> is a technique preventing alteration of
+          the program flow by corrupting the parameter stack.
+        </p>
+        <p>
+          <em class=
+          "parameter"><code>--enable-languages=c,c++,fortran,go,objc,obj-c++,m2</code></em>:
+          This command identifies which languages to build. You may modify
+          this command to remove undesired languages. GCC also supports Ada
+          and D, but building GCC with Ada (or D) support needs an existing
+          Ada (or D) compiler. So they are not enabled here.
+        </p>
+        <p>
+          <span class="command"><strong>ulimit -s 32768</strong></span>: This
+          command prevents several tests from running out of stack space.
+        </p>
+        <p>
+          <span class="command"><strong>make -k check</strong></span>: This
+          command runs the test suite without stopping if any errors are
+          encountered.
+        </p>
+        <p>
+          <span class=
+          "command"><strong>../contrib/test_summary</strong></span>: This
+          command will produce a summary of the test suite results. You can
+          append <span class="command"><strong>| grep -A7
+          Summ</strong></span> to the command to produce an even more
+          condensed version of the summary. You may also wish to redirect the
+          output to a file for review and comparison later on.
+        </p>
+        <p>
+          <span class="command"><strong>mv -v /usr/lib/*gdb.py
+          ...</strong></span>: The installation stage puts some files used by
+          <span class="application">gdb</span> under the <code class=
+          "filename">/usr/lib</code> directory. This generates spurious error
+          messages when performing <span class=
+          "command"><strong>ldconfig</strong></span>. This command moves the
+          files to another location.
+        </p>
+        <p>
+          <span class="command"><strong>chown -v -R root:root
+          /usr/lib/gcc/*linux-gnu/...</strong></span>: If the package is
+          built by a user other than root, the ownership of the installed
+          <code class="filename">include</code> directory (and its content)
+          will be incorrect. This command changes the ownership to the
+          <code class="systemitem">root</code> user and group.
+        </p>
+        <p>
+          <code class="option">--enable-host-shared
+          --enable-languages=jit</code>: Build <code class=
+          "systemitem">libgccjit</code>, a library for embedding GCC inside
+          programs and libraries for generating machine code. Despite
+          <span class="quote">「<span class="quote">JIT</span>」</span>
+          (just-in-time) in the name, the library can be used for AOT
+          (ahead-of-time) compilation as well. <code class=
+          "option">--enable-host-shared</code> is needed for building
+          <code class="systemitem">libgccjit</code>, but it significantly
+          slows down GCC. So <code class="systemitem">libgccjit</code> should
+          be built and installed separately, not as a part of the
+          <span class="quote">「<span class="quote">main</span>」</span> GCC
+          installation. If you need this library, configure GCC with these
+          two options and install the library by running <span class=
+          "command"><strong>make -C gcc jit.install-common
+          jit.install-info</strong></span> as the <code class=
+          "systemitem">root</code> user. This library is not used by any BLFS
+          package, nor tested by the BLFS developers.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <p>
+          Some program and library names and descriptions are not listed
+          here, but can be found at <a class="ulink" href=
+          "../../../../lfs/view/systemd/chapter08/gcc.html#contents-gcc">LFS
+          section for GCC</a> as they were initially installed during the
+          building of LFS.
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">gccgo, gfortran, gm2, go, gofmt, hard-linked to
+              architecture specific names</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libgfortran.{so,a}, libgm2.{so,a} libgo.{so,a},
+              libgobegin.a, libgolibbegin.a, libobjc.{so,a}, and numerous
+              other run-time libraries and executables</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/lib/go</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gccgo" name="gccgo"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gccgo</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a GCC-based compiler for the <span class=
+                    "application">Go</span> language
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gm2" name="gm2"></a><span class=
+                    "term"><span class="command"><strong>gm2</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a GCC-based compiler for the <span class=
+                    "application">Modula-2</span> language
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="go" name="go"></a><span class="term"><span class=
+                    "command"><strong>go</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool for managing <span class=
+                    "application">Go</span> source code
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gofmt" name="gofmt"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gofmt</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool for formatting <span class=
+                    "application">Go</span> source code
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gfortran" name="gfortran"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gfortran</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a GCC-based compiler for the <span class=
+                    "application">Fortran</span> language
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="doxygen.html" title="Doxygen-1.9.8">戻る</a>
+          <p>
+            Doxygen-1.9.8
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gc.html" title="GC-8.2.4">次へ</a>
+          <p>
+            GC-8.2.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="prog.html" title="第13章 プログラミング言語">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

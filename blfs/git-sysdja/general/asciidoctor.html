@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Asciidoctor-2.0.20
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第11章 汎用ユーティリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="genutils.html" title="汎用ユーティリティ">戻る</a>
+          <p>
+            汎用ユーティリティ
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="bogofilter.html" title=
+          "Bogofilter-1.2.5">次へ</a>
+          <p>
+            Bogofilter-1.2.5
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genutils.html" title=
+          "第11章 汎用ユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="asciidoctor" name="asciidoctor"></a>Asciidoctor-2.0.20
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Asciidoctor の概要
+        </h2>
+        <p>
+          Asciidoctor is a fast, open source text processor and publishing
+          toolchain for converting AsciiDoc content to HTML5, DocBook, PDF,
+          and other formats.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/asciidoctor/asciidoctor/archive/v2.0.20/asciidoctor-2.0.20.tar.gz">
+                https://github.com/asciidoctor/asciidoctor/archive/v2.0.20/asciidoctor-2.0.20.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 11f40bda9a2c07f6b632a0fc91b43a13
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1.6 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 5.4 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU 以下
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Asciidoctor の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="ruby.html" title="Ruby-3.2.2">Ruby-3.2.2</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Asciidoctor のインストール
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            When building this package, the following message may appear:
+          </p>
+          <pre class=
+          "screen">fatal: not a git repository (or any of the parent directories): .git</pre>
+          <p>
+            . This is normal, and the package will continue building past
+            this point.
+          </p>
+        </div>
+        <p>
+          Ruby gem をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">gem build asciidoctor.gemspec</kbd></pre>
+        <p>
+          テストスイートは数多くの Ruby gem を必要としていて、BLFS の範囲を超えます。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class=
+        "command">gem install asciidoctor-2.0.20.gem &amp;&amp;
+install -vm644 man/asciidoctor.1 /usr/share/man/man1</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">asciidoctor</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/lib/ruby/gems/3.2.0/gems/asciidoctor-2.0.20,
+              /usr/lib/ruby/gems/3.2.0/doc/asciidoctor-2.0.20</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="asciidoctor-prog" name=
+                    "asciidoctor-prog"></a><span class="term"><span class=
+                    "command"><strong>asciidoctor</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    converts AsciiDoc source files to HTML, DocBook, and
+                    other formats
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="genutils.html" title="汎用ユーティリティ">戻る</a>
+          <p>
+            汎用ユーティリティ
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="bogofilter.html" title=
+          "Bogofilter-1.2.5">次へ</a>
+          <p>
+            Bogofilter-1.2.5
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genutils.html" title=
+          "第11章 汎用ユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

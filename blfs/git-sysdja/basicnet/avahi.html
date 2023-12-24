@@ -1,0 +1,655 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Avahi-0.8
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第16章 ネットワークユーティリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="netutils.html" title="ネットワークユーティリティ">戻る</a>
+          <p>
+            ネットワークユーティリティ
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="bind-utils.html" title=
+          "BIND Utilities-9.18.20">次へ</a>
+          <p>
+            BIND Utilities-9.18.20
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="netutils.html" title=
+          "第16章 ネットワークユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="avahi" name="avahi"></a>Avahi-0.8
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Avahi の概要
+        </h2>
+        <p>
+          <span class="application">avahi</span>
+          パッケージは、ローカルネットワーク内でのサービス検出を行う機能を提供します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/lathiat/avahi/releases/download/v0.8/avahi-0.8.tar.gz">
+                https://github.com/lathiat/avahi/releases/download/v0.8/avahi-0.8.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 229c6aa30674fc43c202b22c5f8c2be7
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 1.5 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 32 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.3 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Additional Downloads
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Required patch: <a class="ulink" href=
+                "https://www.linuxfromscratch.org/patches/blfs/svn/avahi-0.8-ipv6_race_condition_fix-1.patch">
+                https://www.linuxfromscratch.org/patches/blfs/svn/avahi-0.8-ipv6_race_condition_fix-1.patch</a>
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Avahi の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/glib2.html" title=
+          "GLib-2.78.3">GLib-2.78.3</a>
+        </p>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../general/gobject-introspection.html" title=
+          "gobject-introspection-1.78.1">gobject-introspection-1.78.1</a>,
+          <a class="xref" href="../x/gtk3.html" title=
+          "GTK+-3.24.38">GTK+-3.24.38</a>, <a class="xref" href=
+          "../general/libdaemon.html" title=
+          "libdaemon-0.14">libdaemon-0.14</a>, and (<a class="xref" href=
+          "../x/qt5.html" title="Qt-5.15.11">Qt-5.15.11</a> または <a class=
+          "xref" href="../x/qt5-alternate.html" title=
+          "qt-alternate-5.15.11">qt-alternate-5.15.11</a>)
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/python-modules.html#dbus-python"
+          title="D-Bus Python-1.3.2">D-Bus Python-1.3.2</a>, <a class="xref"
+          href="../x/gtk2.html" title="GTK+-2.24.33">GTK+-2.24.33</a>
+          (deprecated), <a class="xref" href="libevent.html" title=
+          "libevent-2.1.12">libevent-2.1.12</a>, <a class="xref" href=
+          "../general/doxygen.html" title="Doxygen-1.9.8">Doxygen-1.9.8</a>
+          and <a class="ulink" href=
+          "https://sourceforge.net/projects/xmltoman/">xmltoman</a>
+          (ドキュメント生成のため)
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Avahi のインストール
+        </h2>
+        <p>
+          デーモン <span class="command"><strong>avahi-daemon</strong></span>
+          が起動した後は、これを制御するための専用のユーザーおよびグループを利用する必要があります。 <code class=
+          "systemitem">root</code> ユーザーとなって以下を実行します。
+        </p>
+        <pre class="root"><kbd class=
+        "command">groupadd -fg 84 avahi &amp;&amp;
+useradd -c "Avahi Daemon Owner" -d /run/avahi-daemon -u 84 \
+        -g avahi -s /bin/false avahi</kbd></pre>
+        <p>
+          さらに <span class="application">Avahi</span>
+          クライアントに対しても、専用のアクセスグループを生成することが必要です。 <code class=
+          "systemitem">root</code> ユーザーとなって以下を実行します。
+        </p>
+        <pre class="root"><kbd class=
+        "command">groupadd -fg 86 netdev</kbd></pre>
+        <p>
+          Fix a regression that results in a race condition when IPv6 is in
+          use and multiple network adapters are present on the system:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../avahi-0.8-ipv6_race_condition_fix-1.patch</kbd></pre>
+        <p>
+          Fix a security vulnerability in <span class=
+          "command"><strong>avahi-daemon</strong></span>:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i '426a if (events &amp; AVAHI_WATCH_HUP) { \
+client_free(c); \
+return; \
+}' avahi-daemon/simple-protocol.c</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">Avahi</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">./configure \
+    --prefix=/usr        \
+    --sysconfdir=/etc    \
+    --localstatedir=/var \
+    --disable-static     \
+    --disable-libevent   \
+    --disable-mono       \
+    --disable-monodoc    \
+    --disable-python     \
+    --disable-qt3        \
+    --disable-qt4        \
+    --enable-core-docs   \
+    --with-distro=none   \
+    --with-dbus-system-address='unix:path=/run/dbus/system_bus_socket' &amp;&amp;
+make</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--disable-static</code></em>:
+          このスイッチはスタティックライブラリをインストールしないようにします。
+        </p>
+        <p>
+          <em class="parameter"><code>--disable-libevent</code></em>: This
+          parameter disables the use of <a class="xref" href="libevent.html"
+          title="libevent-2.1.12">libevent-2.1.12</a>. Remove if you have it
+          installed.
+        </p>
+        <p>
+          <em class="parameter"><code>--disable-mono</code></em>: このパラメーターは
+          <span class="application">Mono</span> バインディングを無効にします。
+        </p>
+        <p>
+          <em class="parameter"><code>--disable-monodoc</code></em>:
+          このパラメーターは <span class="application">Mono</span>
+          バインディングに対するドキュメントを生成しないようにします。
+        </p>
+        <p>
+          <em class="parameter"><code>--disable-python</code></em>: このパラメーターは
+          <span class="application">Python</span> に依存するスクリプトを無効にします。
+          さらに標準的なインストールを行います。
+        </p>
+        <p>
+          <em class="parameter"><code>--disable-qt3</code></em>:
+          このパラメーターは、本パッケージ内にて古くなった <span class="application">Qt3</span>
+          関連部分をビルドしないようにします。
+        </p>
+        <p>
+          <em class="parameter"><code>--disable-qt4</code></em>:
+          このパラメーターは、本パッケージ内にて古くなった <span class="application">Qt4Core</span>
+          関連部分をビルドしないようにします。
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-core-docs</code></em>:
+          このパラメーターはドキュメントのビルドを行います。
+        </p>
+        <p>
+          <em class="parameter"><code>--with-distro=none</code></em>: LFS
+          においては古くなったブートスクリプトが存在します。 このオプションはそれを無効にします。
+        </p>
+        <p>
+          <em class=
+          "parameter"><code>--with-dbus-system-address=</code></em>: This
+          option prevents the package from referring to the deprecated
+          <code class="filename">/var/run</code> directory.
+        </p>
+        <p>
+          <code class="option">--disable-dbus</code>: このパラメーターは <span class=
+          "application">D-Bus</span> を利用しないようにします。
+        </p>
+        <p>
+          <code class="option">--disable-gtk</code>: このパラメーターは <span class=
+          "application">GTK+2</span> を利用しないようにします。
+        </p>
+        <p>
+          <code class="option">--disable-gtk3</code>: このパラメーターは <span class=
+          "application">GTK+3</span> を利用しないようにします。
+        </p>
+        <p>
+          <code class="option">--disable-qt5</code>: This parameter disables
+          the use of <span class="application">Qt5</span>, and allows
+          building without it.
+        </p>
+        <p>
+          <code class="option">--disable-libdaemon</code>: このパラメーターは
+          <span class="application">libdaemon</span> を利用しないようにします。 この指定により
+          <span class="command"><strong>avahi-daemon</strong></span>
+          はビルドされません。
+        </p>
+        <p>
+          <code class="option">--enable-tests</code>: This option enables the
+          building of tests and examples.
+        </p>
+        <p>
+          <code class="option">--enable-compat-howl</code>: This option
+          enables the compatibility layer for <span class=
+          "application">HOWL</span>.
+        </p>
+        <p>
+          <code class="option">--enable-compat-libdns_sd</code>: This option
+          enables the compatibility layer for <span class=
+          "application">libdns_sd</span>.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          avahi の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="avahi-init" name="avahi-init"></a>
+          </h3>
+          <h4 class="title">
+            <a id="avahi-init" name="avahi-init"></a>ブートスクリプト
+          </h4>
+          <p>
+            To start the <span class=
+            "command"><strong>avahi-daemon</strong></span> daemon at boot,
+            enable the previously installed systemd unit by running the
+            following command as the <code class="systemitem">root</code>
+            user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">systemctl enable avahi-daemon</kbd></pre>
+          <p>
+            To start the <span class=
+            "command"><strong>avahi-dnsconfd</strong></span> daemon at boot,
+            enable the previously installed systemd unit by running the
+            following command as the <code class="systemitem">root</code>
+            user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">systemctl enable avahi-dnsconfd</kbd></pre>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">avahi-autoipd, avahi-browse, avahi-browse-domains,
+              avahi-daemon, avahi-discover-standalone, avahi-dnsconfd,
+              avahi-publish, avahi-publish-address, avahi-publish-service,
+              avahi-resolve, avahi-resolve-address, avahi-resolve-host-name,
+              avahi-set-host-name, bshell, bssh, and bvnc</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libavahi-client.so, libavahi-common.so,
+              libavahi-core.so, libavahi-glib.so, libavahi-gobject.so,
+              libavahi-libevent.so libavahi-ui-gtk3.so, libavahi-qt5,
+              libavahi-ui.so, libdns_sd.so, and libhowl.so,</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/etc/avahi/services,
+              /usr/include/{avahi-client,avahi-common, avahi-compat-howl,
+              avahi-compat-libdns_sd, avahi-core, avahi-glib, avahi-gobject,
+              avahi-libevent, avahi-qt5, avahi-ui}, /usr/lib/avahi,
+              /usr/share/avahi</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="avahi-autoipd" name=
+                    "avahi-autoipd"></a><span class="term"><span class=
+                    "command"><strong>avahi-autoipd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a IPv4LL network address configuration daemon
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="avahi-browse" name="avahi-browse"></a><span class=
+                    "term"><span class=
+                    "command"><strong>avahi-browse</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    browses for mDNS/DNS-SD services using the <span class=
+                    "application">Avahi</span> daemon
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="avahi-browse-domains" name=
+                    "avahi-browse-domains"></a><span class=
+                    "term"><span class="command"><strong>avahi-browse-domains</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    browses for mDNS/DNS-SD services using the <span class=
+                    "application">Avahi</span> daemon
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="avahi-daemon" name="avahi-daemon"></a><span class=
+                    "term"><span class=
+                    "command"><strong>avahi-daemon</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the <span class="application">Avahi</span> mDNS/DNS-SD
+                    daemon
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="avahi-discover-standalone" name=
+                    "avahi-discover-standalone"></a><span class=
+                    "term"><span class=
+                    "command"><strong>avahi-discover-standalone</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    browses for mDNS/DNS-SD services using the <span class=
+                    "application">Avahi</span> daemon
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="avahi-dnsconfd" name=
+                    "avahi-dnsconfd"></a><span class="term"><span class=
+                    "command"><strong>avahi-dnsconfd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a Unicast DNS server from mDNS/DNS-SD configuration
+                    daemon
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="avahi-publish" name=
+                    "avahi-publish"></a><span class="term"><span class=
+                    "command"><strong>avahi-publish</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    registers a mDNS/DNS-SD service or host name or address
+                    mapping using the <span class="application">Avahi</span>
+                    daemon
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="avahi-publish-address" name=
+                    "avahi-publish-address"></a><span class=
+                    "term"><span class=
+                    "command"><strong>avahi-publish-address</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    registers a mDNS/DNS-SD service or host name or address
+                    mapping using the <span class="application">Avahi</span>
+                    daemon
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="avahi-publish-service" name=
+                    "avahi-publish-service"></a><span class=
+                    "term"><span class=
+                    "command"><strong>avahi-publish-service</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    registers a mDNS/DNS-SD service or host name or address
+                    mapping using the <span class="application">Avahi</span>
+                    daemon
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="avahi-resolve" name=
+                    "avahi-resolve"></a><span class="term"><span class=
+                    "command"><strong>avahi-resolve</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    resolves one or more mDNS/DNS host name(s) to IP
+                    address(es) (and vice versa) using the <span class=
+                    "application">Avahi</span> daemon
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="avahi-resolve-address" name=
+                    "avahi-resolve-address"></a><span class=
+                    "term"><span class=
+                    "command"><strong>avahi-resolve-address</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    resolves one or more mDNS/DNS host name(s) to IP
+                    address(es) (and vice versa) using the <span class=
+                    "application">Avahi</span> daemon
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="avahi-resolve-host-name" name=
+                    "avahi-resolve-host-name"></a><span class=
+                    "term"><span class=
+                    "command"><strong>avahi-resolve-host-name</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    resolves one or more mDNS/DNS host name(s) to IP
+                    address(es) (and vice versa) using the <span class=
+                    "application">Avahi</span> daemon
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="avahi-set-host-name" name=
+                    "avahi-set-host-name"></a><span class="term"><span class=
+                    "command"><strong>avahi-set-host-name</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    changes the mDNS host name
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="bssh" name="bssh"></a><span class=
+                    "term"><span class=
+                    "command"><strong>bssh</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    browses for SSH servers on the local network
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="bvnc" name="bvnc"></a><span class=
+                    "term"><span class=
+                    "command"><strong>bvnc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    browses for VNC servers on the local network
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="netutils.html" title="ネットワークユーティリティ">戻る</a>
+          <p>
+            ネットワークユーティリティ
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="bind-utils.html" title=
+          "BIND Utilities-9.18.20">次へ</a>
+          <p>
+            BIND Utilities-9.18.20
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="netutils.html" title=
+          "第16章 ネットワークユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

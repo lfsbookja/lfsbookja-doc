@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      dosfstools-4.2
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第5章 ファイルシステムとディスク管理
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="btrfs-progs.html" title=
+          "btrfs-progs-6.6.1">戻る</a>
+          <p>
+            btrfs-progs-6.6.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="fuse.html" title="Fuse-3.16.2">次へ</a>
+          <p>
+            Fuse-3.16.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="filesystems.html" title=
+          "第5章 ファイルシステムとディスク管理">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="dosfstools" name="dosfstools"></a>dosfstools-4.2
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          dosfstools の概要
+        </h2>
+        <p>
+          <span class="application">dosfstools</span> パッケージは FAT
+          関連のファイルシステムを取り扱うユーティリティーを提供します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/dosfstools/dosfstools/releases/download/v4.2/dosfstools-4.2.tar.gz">
+                https://github.com/dosfstools/dosfstools/releases/download/v4.2/dosfstools-4.2.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 49c8e457327dc61efab5b115a27b087a
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 314 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 4.5 MB (with tests)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU 以下
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="kernel" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="dosfstools-kernel" name="dosfstools-kernel"></a>カーネルの設定
+        </h2>
+        <p>
+          FAT
+          系のファイルシステムをマウントする必要がある場合は、カーネル設定における以下のオプションを有効にして、カーネルを再コンパイルします。
+        </p>
+        <pre class="screen"><span class="blue">F</span>ile systems ---&gt;
+  <span class="blue">D</span>OS/FAT/EXFAT/NT Filesystems ---&gt;
+    &lt; /*/M&gt; M<span class=
+"blue">S</span>DOS fs support                                          [MSDOS_FS]
+    &lt;*/M&gt;   <span class=
+"blue">V</span>FAT (Windows-95) fs support                               [VFAT_FS]</pre>
+        <p>
+          Note that <code class="option">CONFIG_MSDOS_FS</code> deliberately
+          unsupport long file names. <code class=
+          "option">CONFIG_VFAT_FS</code> should be used instead unless you
+          really want to enforce the DOS-style <span class=
+          "quote">「<span class="quote">8.3</span>」</span> file names.
+        </p>
+        <p>
+          You can mount a FAT-family filesystem once the kernel supports it.
+          If you don't need to create, check, or relabel a FAT-family system,
+          you may skip this package.
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          dosfstools のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">dosfstools</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr            \
+            --enable-compat-symlinks \
+            --mandir=/usr/share/man  \
+            --docdir=/usr/share/doc/dosfstools-4.2 &amp;&amp;
+make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は <span class="command"><strong>make
+          check</strong></span> を実行します。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--enable-compat-symlinks</code></em>:
+          このスイッチは、各種のプログラムが必要としている <span class="application">dosfsck</span>,
+          <span class="application">dosfslabel</span>, <span class=
+          "application">fsck.msdos</span>, <span class=
+          "application">fsck.vfat</span>, <span class=
+          "application">mkdosfs</span>, <span class=
+          "application">mkfs.msdos</span>, <span class=
+          "application">mkfs.vfat</span> の各シンボリックリンクを生成します。
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">fatlabel, fsck.fat, mkfs.fat</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fatlabel" name="fatlabel"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fatlabel</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたデバイスの MS-DOS ファイルシステムラベルを取得または設定します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fsckfat" name="fsckfat"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fsck.fat</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    MS-DOS ファイルシステムをチェックし修復します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mkfsfat" name="mkfsfat"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mkfs.fat</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Linux 下において MS-DOS ファイルシステムを生成します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="btrfs-progs.html" title=
+          "btrfs-progs-6.6.1">戻る</a>
+          <p>
+            btrfs-progs-6.6.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="fuse.html" title="Fuse-3.16.2">次へ</a>
+          <p>
+            Fuse-3.16.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="filesystems.html" title=
+          "第5章 ファイルシステムとディスク管理">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

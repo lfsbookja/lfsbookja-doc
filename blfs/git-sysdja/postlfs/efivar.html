@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      efivar-38
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第5章 ファイルシステムとディスク管理
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="xfsprogs.html" title="xfsprogs-6.5.0">戻る</a>
+          <p>
+            xfsprogs-6.5.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="efibootmgr.html" title=
+          "efibootmgr-18">次へ</a>
+          <p>
+            efibootmgr-18
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="filesystems.html" title=
+          "第5章 ファイルシステムとディスク管理">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="efivar" name="efivar"></a>efivar-38
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          efivar の概要
+        </h2>
+        <p>
+          The <span class="application">efivar</span> package provides tools
+          and libraries to manipulate EFI variables.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/rhboot/efivar/releases/download/38/efivar-38.tar.bz2">
+                https://github.com/rhboot/efivar/releases/download/38/efivar-38.tar.bz2</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 243fdbc48440212695cb9c6e6fd0f44f
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 316 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 18 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU 以下
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          追加のダウンロード
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Optional patch (Required for 32-bit systems): <a class=
+                "ulink" href=
+                "https://www.linuxfromscratch.org/patches/blfs/svn/efivar-38-i686-1.patch">
+                https://www.linuxfromscratch.org/patches/blfs/svn/efivar-38-i686-1.patch</a>
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          efivar Dependencies
+        </h3>
+        <h4>
+          Required
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/mandoc.html" title=
+          "mandoc-1.14.6">mandoc-1.14.6</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          efivar のインストール
+        </h2>
+        <p>
+          First, fix an issue in Makefile causing the package to be rebuilt
+          during installation:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed '/prep :/a\\ttouch prep' -i src/Makefile</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            This package cannot function properly on a 32-bit system with a
+            64-bit UEFI implementation. Don't install this package (or
+            efibootmgr) on 32-bit system unless you are absolutely sure you
+            have a 32-bit UEFI implementation, which is very rare in
+            practice.
+          </p>
+        </div>
+        <p>
+          If building this package on a 32-bit system, apply a patch:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">[ $(getconf LONG_BIT) = 64 ] || patch -Np1 -i ../efivar-38-i686-1.patch</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">efivar</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">make ERRORS=</kbd></pre>
+        <p>
+          The test suite of this package is dangerous. Running it may trigger
+          firmware bugs and make your system unusable without using some
+          special hardware to reprogram the firmware.
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class=
+        "command">make install LIBDIR=/usr/lib</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>ERRORS=</code></em>: This option
+          overrides the <code class="option">-Werror</code> passed to GCC by
+          default, so the package won't fail to build with the <code class=
+          "option">-Wenum-int-mismatch</code> warning introduced in GCC 13.
+        </p>
+        <p>
+          <em class="parameter"><code>LIBDIR=/usr/lib</code></em>: This
+          option overrides the default library directory of the package
+          (<code class="filename">/usr/lib64</code>, which is not used by
+          LFS.)
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">efisecdb, efivar</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libefiboot.so, libefisec.so, libefivar.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/efivar</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="efisecdb" name="efisecdb"></a><span class=
+                    "term"><span class=
+                    "command"><strong>efisecdb</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is an utility for managing UEFI signature lists
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="efivar-prog" name="efivar-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>efivar</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool to manipulate UEFI variables
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libefiboot" name="libefiboot"></a><span class=
+                    "term"><code class="filename">libefiboot.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a library used by <span class=
+                    "command"><strong>efibootmgr</strong></span>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libefisec" name="libefisec"></a><span class=
+                    "term"><code class="filename">libefisec.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a library for managing UEFI signature lists
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libefivar" name="libefivar"></a><span class=
+                    "term"><code class="filename">libefivar.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a library for the manipulation of EFI variables
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="xfsprogs.html" title="xfsprogs-6.5.0">戻る</a>
+          <p>
+            xfsprogs-6.5.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="efibootmgr.html" title=
+          "efibootmgr-18">次へ</a>
+          <p>
+            efibootmgr-18
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="filesystems.html" title=
+          "第5章 ファイルシステムとディスク管理">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      SDL2-2.28.5
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第42章 マルチメディアライブラリとドライバー
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="sdl.html" title="sdl12-compat-1.2.68">戻る</a>
+          <p>
+            sdl12-compat-1.2.68
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="sound-theme-freedesktop.html" title=
+          "sound-theme-freedesktop-0.8">次へ</a>
+          <p>
+            sound-theme-freedesktop-0.8
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="libdriv.html" title=
+          "第42章 マルチメディアライブラリとドライバー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="sdl2" name="sdl2"></a>SDL2-2.28.5
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to SDL2
+        </h2>
+        <p>
+          The Simple DirectMedia Layer Version 2 (<span class=
+          "application">SDL2</span> for short) is a cross-platform library
+          designed to make it easy to write multimedia software, such as
+          games and emulators.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://www.libsdl.org/release/SDL2-2.28.5.tar.gz">https://www.libsdl.org/release/SDL2-2.28.5.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: a344eb827a03045c9b399e99af4af13d
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 7.1 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 173 MB (with docs)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: 0.5 SBU (using parallelism=4; with
+                docs)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          SDL2 Dependencies
+        </h3>
+        <h4>
+          Recommended
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../general/libxkbcommon.html" title=
+          "libxkbcommon-1.6.0">libxkbcommon-1.6.0</a>, <a class="xref" href=
+          "../general/wayland-protocols.html" title=
+          "Wayland-Protocols-1.32">wayland-protocols-1.32</a>, and <a class=
+          "xref" href="../x/x7lib.html" title="Xorg ライブラリ">Xorg ライブラリ</a> (if
+          those are not present, the corresponding modules are not built)
+        </p>
+        <h4>
+          Optional
+        </h4>
+        <p class="optional">
+          <a class="xref" href="alsa.html" title="ALSA-1.2.7">ALSA-1.2.7</a>,
+          <a class="xref" href="../general/doxygen.html" title=
+          "Doxygen-1.9.8">Doxygen-1.9.8</a> (to create documentation),
+          <a class="xref" href="../general/ibus.html" title=
+          "ibus-1.5.29">ibus-1.5.29</a>, <a class="xref" href=
+          "libsamplerate.html" title=
+          "libsamplerate-0.2.2">libsamplerate-0.2.2</a>, <a class="xref"
+          href="../general/nasm.html" title="NASM-2.16.01">NASM-2.16.01</a>,
+          <a class="xref" href="pipewire.html" title=
+          "Pipewire-1.0.0">pipewire-1.0.0</a>, <a class="xref" href=
+          "pulseaudio.html" title="PulseAudio-16.1">PulseAudio-16.1</a>,
+          <a class="xref" href="../x/installing.html" title=
+          "第24章 グラフィック環境">グラフィック環境</a>, <a class="ulink" href=
+          "https://pkgs.fedoraproject.org/repo/pkgs/directfb/">DirectFB</a>,
+          <a class="ulink" href="https://fcitx-im.org/">fcitx</a>, <a class=
+          "ulink" href="https://jackaudio.org/">jack</a>, and <a class=
+          "ulink" href="https://sndio.org/">sndio</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of SDL2
+        </h2>
+        <p>
+          Install <span class="application">SDL2</span> by running the
+          following commands:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr &amp;&amp;
+make</kbd></pre>
+        <p>
+          If you have <a class="xref" href="../general/doxygen.html" title=
+          "Doxygen-1.9.8">Doxygen-1.9.8</a> installed and want to build the
+          html documentation, run the following commands:
+        </p>
+        <pre class="userinput"><kbd class="command">pushd docs  &amp;&amp;
+  doxygen   &amp;&amp;
+popd</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            If you wish to build and run the package regression tests, do not
+            delete the static libraries below until after the tests are
+            built.
+          </p>
+        </div>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">make install              &amp;&amp;
+rm -v /usr/lib/libSDL2*.a</kbd></pre>
+        <p>
+          If you built the documentation, install it as the <code class=
+          "systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">install -v -m755 -d        /usr/share/doc/SDL2-2.28.5/html &amp;&amp;
+cp -Rv  docs/output/html/* /usr/share/doc/SDL2-2.28.5/html</kbd></pre>
+      </div>
+      <div class="testing" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Testing SDL2
+        </h2>
+        <p>
+          If you wish to, test the installation of <span class=
+          "application">SDL2</span> using the included test programs. None of
+          the resulting binaries need to be installed. Issue the following
+          commands to build the test programs:
+        </p>
+        <pre class="userinput"><kbd class="command">cd test &amp;&amp;
+./configure &amp;&amp;
+make</kbd></pre>
+        <p>
+          Each of the test programs (they are listed in the <code class=
+          "filename">README</code> file in this directory) will need to be
+          run individually. Many of them will need to be manually killed.
+          Additionally, speakers need to be on with the volume at a suitable
+          level.
+        </p>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <span class="command"><strong>rm -v
+          /usr/lib/libSDL2*.a</strong></span>: Normally static libraries can
+          be disabled with a <code class="option">--disable-static</code>
+          option to configure, but that breaks the build in this package.
+        </p>
+        <p>
+          <code class="option">--disable-alsa-shared</code>: This switch
+          disables dynamically loading ALSA shared libraries.
+        </p>
+        <p>
+          <code class="option">--disable-sdl-dlopen</code>: This switch
+          disables using dlopen for shared object loading. Loading image
+          backend libraries like libpng dynamically on the fly does not work.
+        </p>
+        <p>
+          <code class="option">--disable-x11-shared</code>: This switch
+          disables dynamically loading X11 shared libraries.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Configuring SDL2
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id94933" name="id94933"></a>Configuration Information
+          </h4>
+          <p>
+            ライブラリのほとんどは、どこにインストールされているかを定める方法がないものです。
+            したがってインストールされるディレクトリがどこかを捉えておく必要があります。 つまり <code class=
+            "filename">/etc/ld.so.conf</code> ファイル内に <code class=
+            "filename">/opt/lib</code> とか <code class=
+            "filename">/usr/local/lib</code> といったディレクトリを記述する必要が出てきます。
+            これを行っておかないと <span class="command"><strong>ldd</strong></span>
+            は共有ライブラリを見つけ出すことができません。 上の設定が必要であったなら、それを実施した上で <code class=
+            "systemitem">root</code> ユーザーでログインし <span class=
+            "command"><strong>/sbin/ldconfig</strong></span> を実行してください。
+          </p>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Program:</strong>
+              <span class="segbody">sdl2-config</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">libSDL2.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody">/usr/include/SDL2, /usr/lib/cmake/SDL2,
+              and /usr/share/doc/SDL-2.28.5</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sdl2-config" name="sdl2-config"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sdl2-config</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    determines the compile and linker flags that should be
+                    used to compile and link programs that use <code class=
+                    "filename">libSDL2</code>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libsdl2" name="libsdl2"></a><span class=
+                    "term"><code class="filename">libSDL2.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains functions that provide low level access to
+                    audio, keyboard, mouse, joystick, 3D hardware via OpenGL,
+                    and 2D frame buffer across multiple platforms
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="sdl.html" title="sdl12-compat-1.2.68">戻る</a>
+          <p>
+            sdl12-compat-1.2.68
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="sound-theme-freedesktop.html" title=
+          "sound-theme-freedesktop-0.8">次へ</a>
+          <p>
+            sound-theme-freedesktop-0.8
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="libdriv.html" title=
+          "第42章 マルチメディアライブラリとドライバー">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

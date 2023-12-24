@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Compface-1.5.2
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第11章 汎用ユーティリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="bogofilter.html" title=
+          "Bogofilter-1.2.5">戻る</a>
+          <p>
+            Bogofilter-1.2.5
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="desktop-file-utils.html" title=
+          "desktop-file-utils-0.27">次へ</a>
+          <p>
+            desktop-file-utils-0.27
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genutils.html" title=
+          "第11章 汎用ユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="compface" name="compface"></a>Compface-1.5.2
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Compface の概要
+        </h2>
+        <p>
+          <span class="application">Compface</span> provides utilities and a
+          library to convert from/to X-Face format, a 48x48 bitmap format
+          used to carry thumbnails of email authors in a mail header.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://anduin.linuxfromscratch.org/BLFS/compface/compface-1.5.2.tar.gz">
+                https://anduin.linuxfromscratch.org/BLFS/compface/compface-1.5.2.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 62f4f79c0861ad292ba3cf77b4c48319
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 47 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 520 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU 以下
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Compface のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">Compface</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr --mandir=/usr/share/man &amp;&amp;
+make</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make install &amp;&amp;
+install -m755 -v xbm2xface.pl /usr/bin</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">compface, uncompface, xbm2xface.pl</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libcompface.{so,a}</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="compface-prog" name=
+                    "compface-prog"></a><span class="term"><span class=
+                    "command"><strong>compface</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a filter for generating highly compressed
+                    representations of 48x48x1 face image files
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="uncompface" name="uncompface"></a><span class=
+                    "term"><span class=
+                    "command"><strong>uncompface</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is an inverse filter which performs an inverse
+                    transformation with no loss of data
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xbm2xface" name="xbm2xface"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xbm2xface.pl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a script to generate xfaces
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libcompface" name="libcompface"></a><span class=
+                    "term"><code class=
+                    "filename">libcompface.{so,a}</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    allows the compression and decompression algorithms to be
+                    used in other programs such as MTAs
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="bogofilter.html" title=
+          "Bogofilter-1.2.5">戻る</a>
+          <p>
+            Bogofilter-1.2.5
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="desktop-file-utils.html" title=
+          "desktop-file-utils-0.27">次へ</a>
+          <p>
+            desktop-file-utils-0.27
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genutils.html" title=
+          "第11章 汎用ユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

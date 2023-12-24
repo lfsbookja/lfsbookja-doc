@@ -1,0 +1,1549 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Qt-5.15.11
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第25章 グラフィック環境ライブラリ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="pangomm.html" title="Pangomm-2.46.3">戻る</a>
+          <p>
+            Pangomm-2.46.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="qt5-alternate.html" title=
+          "qt-alternate-5.15.11">次へ</a>
+          <p>
+            qt-alternate-5.15.11
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="lib.html" title=
+          "第25章 グラフィック環境ライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="qt5" name="qt5"></a>Qt-5.15.11
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to Qt5
+        </h2>
+        <p>
+          <span class="application">Qt5</span> is a cross-platform
+          application framework that is widely used for developing
+          application software with a graphical user interface (GUI) (in
+          which cases <span class="application">Qt5</span> is classified as a
+          widget toolkit), and also used for developing non-GUI programs such
+          as command-line tools and consoles for servers. Two of the major
+          users of <span class="application">Qt</span> are <span class=
+          "application">KDE Frameworks 5 (KF5)</span> and <span class=
+          "application">LXQt</span>.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://download.qt.io/archive/qt/5.15/5.15.11/single/qt-everywhere-opensource-src-5.15.11.tar.xz">
+                https://download.qt.io/archive/qt/5.15/5.15.11/single/qt-everywhere-opensource-src-5.15.11.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: 37b79a3764b0c9157fa3686df209b25a
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 630 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 15 GB (263 MB installed)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: 9 SBU (using parallelism=8)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Additional Downloads
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Now that <span class="application">Qt5</span> updates are
+                restricted to commercial customers, upstream patches for the
+                various modules are being curated at kde. Patches for the
+                modules required by packages in BLFS have been aggregated for
+                the non-modular Qt5 build we use.
+              </p>
+              <p>
+                Required patch: <a class="ulink" href=
+                "https://www.linuxfromscratch.org/patches/blfs/svn/qt-everywhere-opensource-src-5.15.11-kf5-1.patch">
+                https://www.linuxfromscratch.org/patches/blfs/svn/qt-everywhere-opensource-src-5.15.11-kf5-1.patch</a>
+              </p>
+              <p>
+                Details of the kde curation can be found at <a class="ulink"
+                href=
+                "https://dot.kde.org/2021/04/06/announcing-kdes-qt-5-patch-collection">
+                https://dot.kde.org/2021/04/06/announcing-kdes-qt-5-patch-collection</a>
+                and <a class="ulink" href=
+                "https://community.kde.org/Qt5PatchCollection">https://community.kde.org/Qt5PatchCollection</a>.
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Qt5 Dependencies
+        </h3>
+        <h4>
+          Required
+        </h4>
+        <p class="required">
+          <a class="xref" href="x7lib.html" title="Xorg ライブラリ">Xorg ライブラリ</a>
+        </p>
+        <h4>
+          Recommended
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../multimedia/alsa-lib.html" title=
+          "alsa-lib-1.2.10">alsa-lib-1.2.10</a>, <a class="xref" href=
+          "../postlfs/make-ca.html" title="make-ca-1.13">make-ca-1.13</a>,
+          <a class="xref" href="../pst/cups.html" title=
+          "Cups-2.4.7">Cups-2.4.7</a>, <a class="xref" href=
+          "../general/double-conversion.html" title=
+          "Double-conversion-3.3.0">double-conversion-3.3.0</a>, <a class=
+          "xref" href="../general/glib2.html" title=
+          "GLib-2.78.3">GLib-2.78.3</a>, <a class="xref" href=
+          "../multimedia/gst10-plugins-base.html" title=
+          "gst-plugins-base-1.22.7">gst-plugins-base-1.22.7</a> (QtMultimedia
+          backend), <a class="xref" href="../general/harfbuzz.html" title=
+          "HarfBuzz-8.3.0">HarfBuzz-8.3.0</a>, <a class="xref" href=
+          "../general/icu.html" title="ICU-74.1">ICU-74.1</a>, <a class=
+          "xref" href="../general/jasper.html" title=
+          "JasPer-4.1.1">JasPer-4.1.1</a>, <a class="xref" href=
+          "../general/libjpeg.html" title=
+          "libjpeg-turbo-3.0.1">libjpeg-turbo-3.0.1</a>, <a class="xref"
+          href="../general/libmng.html" title=
+          "libmng-2.0.3">libmng-2.0.3</a>, <a class="xref" href=
+          "../general/libpng.html" title="libpng-1.6.40">libpng-1.6.40</a>,
+          <a class="xref" href="../general/libtiff.html" title=
+          "libtiff-4.6.0">libtiff-4.6.0</a>, <a class="xref" href=
+          "../general/libwebp.html" title="libwebp-1.3.2">libwebp-1.3.2</a>,
+          <a class="xref" href="../general/libxkbcommon.html" title=
+          "libxkbcommon-1.6.0">libxkbcommon-1.6.0</a>, <a class="xref" href=
+          "mesa.html" title="Mesa-23.3.1">Mesa-23.3.1</a>, <a class="xref"
+          href="../general/mtdev.html" title="mtdev-1.1.6">mtdev-1.1.6</a>,
+          <a class="xref" href="../general/pcre2.html" title=
+          "PCRE2-10.42">pcre2-10.42</a>, <a class="xref" href=
+          "../server/sqlite.html" title="SQLite-3.44.2">SQLite-3.44.2</a>,
+          <a class="xref" href="../general/wayland.html" title=
+          "Wayland-1.22.0">Wayland-1.22.0</a> (<span class=
+          "application">Mesa</span> must be built with <span class=
+          "application">Wayland</span> EGL backend), <a class="xref" href=
+          "xcb-util-image.html" title=
+          "xcb-util-image-0.4.1">xcb-util-image-0.4.1</a>, <a class="xref"
+          href="xcb-util-keysyms.html" title=
+          "xcb-util-keysyms-0.4.1">xcb-util-keysyms-0.4.1</a>, <a class=
+          "xref" href="xcb-util-renderutil.html" title=
+          "xcb-util-renderutil-0.3.10">xcb-util-renderutil-0.3.10</a>, and
+          <a class="xref" href="xcb-util-wm.html" title=
+          "xcb-util-wm-0.4.2">xcb-util-wm-0.4.2</a>
+        </p>
+        <h4>
+          Optional
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/bluez.html" title=
+          "BlueZ-5.71">BlueZ-5.71</a> (for sdpscanner, and at runtime for
+          QtConnectivity module), <a class="xref" href="gtk3.html" title=
+          "GTK+-3.24.38">GTK+-3.24.38</a>, <a class="xref" href=
+          "../general/ibus.html" title="ibus-1.5.29">ibus-1.5.29</a>,
+          <a class="xref" href="x7driver.html#libinput" title=
+          "libinput-1.24.0">libinput-1.24.0</a>, <a class="xref" href=
+          "../server/mariadb.html" title=
+          "MariaDB-10.11.6">MariaDB-10.11.6</a> or <a class="ulink" href=
+          "https://www.mysql.com/">MySQL</a>, <a class="xref" href=
+          "../postlfs/mitkrb.html" title="MIT Kerberos V5-1.21.2">MIT
+          Kerberos V5-1.21.2</a>, <a class="xref" href=
+          "../general/mtdev.html" title="mtdev-1.1.6">mtdev-1.1.6</a>
+          <a class="xref" href="../general/pciutils.html" title=
+          "pciutils-3.10.0">pciutils-3.10.0</a>, <a class="xref" href=
+          "../server/postgresql.html" title=
+          "PostgreSQL-16.1">PostgreSQL-16.1</a>, <a class="xref" href=
+          "../multimedia/pulseaudio.html" title=
+          "PulseAudio-16.1">PulseAudio-16.1</a>, <a class="xref" href=
+          "../multimedia/sdl2.html" title="SDL2-2.28.5">SDL2-2.28.5</a>,
+          <a class="xref" href="../general/unixodbc.html" title=
+          "unixODBC-2.3.12">unixODBC-2.3.12</a>, <a class="xref" href=
+          "vulkan-loader.html" title=
+          "Vulkan-Loader-1.3.273">Vulkan-Loader-1.3.273</a>, <a class="ulink"
+          href="https://www.assimp.org/">assimp</a>, <a class="ulink" href=
+          "https://github.com/festvox/flite">Flite</a>, <a class="ulink"
+          href="https://www.firebirdsql.org/">Firebird</a>, <a class="ulink"
+          href="https://www.freetds.org/">FreeTDS</a>, <a class="ulink" href=
+          "https://libproxy.github.io/libproxy/">libproxy</a>, <a class=
+          "ulink" href="https://openal.org/">OpenAL</a>, <a class="ulink"
+          href="https://freebsoft.org/speechd/">speech-dispatcher</a>, and
+          <a class="ulink" href="http:///www.tslib.org/">tslib</a>
+        </p>
+      </div>
+      <div class="qt5-prefix" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Setting the installation prefix
+        </h2>
+        <h3>
+          Installing in /opt/qt5
+        </h3>
+        <p>
+          The BLFS editors recommend installing <span class=
+          "application">Qt5</span> in a directory other than <code class=
+          "filename">/usr</code>, ie <code class="filename">/opt/qt5</code>.
+          To do this, set the following environment variable:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">export QT5PREFIX=/opt/qt5</kbd></pre>
+        <div class="admon tip">
+          <img alt="[ヒント]" src="../images/tip.png" />
+          <h3>
+            ヒント
+          </h3>
+          <p>
+            Sometimes the installation paths are hardcoded into installed
+            files. This is the reason why <code class=
+            "filename">/opt/qt5</code> is used as installation prefix instead
+            of <code class="filename">/opt/qt-5.15.11</code>. To create a
+            versioned <span class="application">Qt5</span> directory, you may
+            create a versioned directory and a symlink:
+          </p>
+          <pre class="root"><kbd class="command">mkdir -pv /opt/qt-5.15.11
+ln -sfnv qt-5.15.11 /opt/qt5</kbd></pre>
+          <p>
+            Later on, you may want to install other versions of <span class=
+            "application">Qt5</span>. To do that, just remove the symlink,
+            create the new versioned directory, and recreate the <code class=
+            "filename">/opt/qt5</code> symlink again before building the new
+            version. Which version of <span class="application">Qt5</span>
+            you use depends only on where the symlink points.
+          </p>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            If <a class="xref" href="../general/qca.html" title=
+            "Qca-2.3.7">qca-2.3.7</a> has been installed and you are
+            reinstalling or updating this package, then <span class=
+            "application">qca</span> will need to be reinstalled.
+          </p>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of Qt5
+        </h2>
+        <div class="admon warning">
+          <img alt="[警告]" src="../images/warning.png" />
+          <h3>
+            警告
+          </h3>
+          <p>
+            If <span class="application">Qt5</span> is being reinstalled into
+            the same directory as an existing instance, run the commands done
+            by <code class="systemitem">root</code>, such as <span class=
+            "command"><strong>make install</strong></span>, from a console or
+            non-Qt5 based window manager. It overwrites <span class=
+            "application">Qt5</span> libraries that should not be in use
+            during the install process.
+          </p>
+        </div>
+        <div class="admon caution">
+          <img alt="[注意]" src="../images/caution.png" />
+          <h3>
+            注意
+          </h3>
+          <p>
+            If you did not install some of the recommended dependencies,
+            examine <span class="command"><strong>./configure
+            --help</strong></span> output to check how to disable them or use
+            internal versions bundled in the source tarball.
+          </p>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            The build time and space required for the full <span class=
+            "application">Qt5</span> is quite long. The instructions below do
+            not build the tutorials and examples. Removing the <em class=
+            "parameter"><code>-nomake</code></em> line will create a complete
+            build.
+          </p>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            The BLFS editors do not recommend installing <span class=
+            "application">Qt5</span> into the /usr hierarchy because it
+            becomes difficult to find components and to update to a new
+            version. If you do want to install <span class=
+            "application">Qt5</span> in /usr, the directories need to be
+            specified explicitly. In this case, set QT5PREFIX=/usr and add
+            the following to the configure arguments below:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">            -archdatadir    /usr/lib/qt5                \
+            -bindir         /usr/bin                    \
+            -plugindir      /usr/lib/qt5/plugins        \
+            -importdir      /usr/lib/qt5/imports        \
+            -headerdir      /usr/include/qt5            \
+            -datadir        /usr/share/qt5              \
+            -docdir         /usr/share/doc/qt5          \
+            -translationdir /usr/share/qt5/translations \
+            -examplesdir    /usr/share/doc/qt5/examples</kbd></pre>
+        </div>
+        <p>
+          The libxkbcommon-1.6.0 package removes some definitions that are
+          not used. Remove those here:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i '276,279d' qtbase/src/platformsupport/input/xkbcommon/qxkbcommon.cpp</kbd></pre>
+        <p>
+          Now apply a patch to pull in the fixes curated by kde for those
+          modules which are required by packages mentioned in this book:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../qt-everywhere-opensource-src-5.15.11-kf5-1.patch</kbd></pre>
+        <p>
+          The patch is supposed to be used in a git repository. Otherwise
+          some files that should be modified by <span class=
+          "command"><strong>configure</strong></span> after applying the
+          patch are not touched. Fortunately, it is enough to create a
+          <code class="filename">.git</code> directory in the <code class=
+          "filename">qmake</code> directory where the <span class=
+          "command"><strong>configure</strong></span> script is run:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mkdir -pv qtbase/.git</kbd></pre>
+        <p>
+          Add another fix for building with GCC-13:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -e "/pragma once/a#include &lt;cstdint&gt;"                                      \
+    -i qtlocation/src/3rdparty/mapbox-gl-native/include/mbgl/util/geometry.hpp \
+       qtlocation/src/3rdparty/mapbox-gl-native/include/mbgl/util/string.hpp   \
+       qtlocation/src/3rdparty/mapbox-gl-native/src/mbgl/gl/stencil_mode.hpp</kbd></pre>
+        <p>
+          Install <span class="application">Qt5</span> by running the
+          following commands:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure -prefix $QT5PREFIX                        \
+            -sysconfdir /etc/xdg                      \
+            -confirm-license                          \
+            -opensource                               \
+            -dbus-linked                              \
+            -openssl-linked                           \
+            -system-harfbuzz                          \
+            -system-sqlite                            \
+            -nomake examples                          \
+            -no-rpath                                 \
+            -journald                                 \
+            -skip qtwebengine                         &amp;&amp;
+make</kbd></pre>
+        <p>
+          This package does not come with a test suite.
+        </p>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+        <p>
+          Remove references to the build directory from installed library
+          dependency (prl) files by running the following command as the
+          <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">find $QT5PREFIX/ -name \*.prl \
+   -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;</kbd></pre>
+        <p>
+          Install images and create the menu entries for installed
+          applications. The <code class="envar">QT5BINDIR</code> variable is
+          used here to point to the directory for the executable programs. If
+          you have changed the bindir above, <code class=
+          "envar">QT5BINDIR</code> will need to be adjusted below. Be sure
+          that the <code class="envar">QT5BINDIR</code> variable is defined
+          in root's environment and as the <code class=
+          "systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">QT5BINDIR=$QT5PREFIX/bin
+
+install -v -dm755 /usr/share/pixmaps/                  &amp;&amp;
+
+install -v -Dm644 qttools/src/assistant/assistant/images/assistant-128.png \
+                  /usr/share/pixmaps/assistant-qt5.png &amp;&amp;
+
+install -v -Dm644 qttools/src/designer/src/designer/images/designer.png \
+                  /usr/share/pixmaps/designer-qt5.png  &amp;&amp;
+
+install -v -Dm644 qttools/src/linguist/linguist/images/icons/linguist-128-32.png \
+                  /usr/share/pixmaps/linguist-qt5.png  &amp;&amp;
+
+install -v -Dm644 qttools/src/qdbus/qdbusviewer/images/qdbusviewer-128.png \
+                  /usr/share/pixmaps/qdbusviewer-qt5.png &amp;&amp;
+
+install -dm755 /usr/share/applications &amp;&amp;
+
+cat &gt; /usr/share/applications/assistant-qt5.desktop &lt;&lt; EOF
+<code class="literal">[Desktop Entry]
+Name=Qt5 Assistant
+Comment=Shows Qt5 documentation and examples
+Exec=$QT5BINDIR/assistant
+Icon=assistant-qt5.png
+Terminal=false
+Encoding=UTF-8
+Type=Application
+Categories=Qt;Development;Documentation;</code>
+EOF
+
+cat &gt; /usr/share/applications/designer-qt5.desktop &lt;&lt; EOF
+<code class="literal">[Desktop Entry]
+Name=Qt5 Designer
+GenericName=Interface Designer
+Comment=Design GUIs for Qt5 applications
+Exec=$QT5BINDIR/designer
+Icon=designer-qt5.png
+MimeType=application/x-designer;
+Terminal=false
+Encoding=UTF-8
+Type=Application
+Categories=Qt;Development;</code>
+EOF
+
+cat &gt; /usr/share/applications/linguist-qt5.desktop &lt;&lt; EOF
+<code class="literal">[Desktop Entry]
+Name=Qt5 Linguist
+Comment=Add translations to Qt5 applications
+Exec=$QT5BINDIR/linguist
+Icon=linguist-qt5.png
+MimeType=text/vnd.trolltech.linguist;application/x-linguist;
+Terminal=false
+Encoding=UTF-8
+Type=Application
+Categories=Qt;Development;</code>
+EOF
+
+cat &gt; /usr/share/applications/qdbusviewer-qt5.desktop &lt;&lt; EOF
+<code class="literal">[Desktop Entry]
+Name=Qt5 QDbusViewer
+GenericName=D-Bus Debugger
+Comment=Debug D-Bus applications
+Exec=$QT5BINDIR/qdbusviewer
+Icon=qdbusviewer-qt5.png
+Terminal=false
+Encoding=UTF-8
+Type=Application
+Categories=Qt;Development;Debugger;</code>
+EOF</kbd></pre>
+        <p>
+          Some packages such as <a class="xref" href="../multimedia/vlc.html"
+          title="VLC-3.0.20">VLC-3.0.20</a> look for certain executables with
+          a -qt5 suffix. Run the following command as the <code class=
+          "systemitem">root</code> user to create the necessary symlinks:
+        </p>
+        <pre class="root"><kbd class=
+        "command">for file in moc uic rcc qmake lconvert lrelease lupdate; do
+  ln -sfvn $QT5BINDIR/$file /usr/bin/$file-qt5
+done</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <em class="parameter"><code>-confirm-license</code></em>: Accept
+          license without prompting user during configuration.
+        </p>
+        <p>
+          <em class="parameter"><code>-opensource</code></em>: Install the
+          opensource version of <span class="application">Qt</span>.
+        </p>
+        <p>
+          <em class="parameter"><code>-nomake examples</code></em>: This
+          switch disables building of the example programs included in the
+          source tarball. Remove it if you want to build them.
+        </p>
+        <p>
+          <em class="parameter"><code>-system-sqlite</code></em>: This switch
+          enables use of the system version of <span class=
+          "application">SQLite</span>.
+        </p>
+        <p>
+          <em class="parameter"><code>-dbus-linked</code></em> <em class=
+          "parameter"><code>-openssl-linked</code></em>: These switches
+          enable explicit linking of the <span class=
+          "application">D-Bus</span> and <span class=
+          "application">OpenSSL</span> libraries into <span class=
+          "application">Qt5</span> libraries instead of <span class=
+          "command"><strong>dlopen()</strong></span>-ing them.
+        </p>
+        <p>
+          <em class="parameter"><code>-journald</code></em>: This switch
+          allows to send Qt messages to the <span class=
+          "command"><strong>journald</strong></span> logging system.
+        </p>
+        <p>
+          <em class="parameter"><code>-skip qtwebengine</code></em>: This
+          switch disables building the QtWebEngine. The BLFS editors have
+          chosen to build <a class="xref" href="qtwebengine.html" title=
+          "QtWebEngine-5.15.17">qtwebengine-5.15.17</a> separately.
+        </p>
+        <p>
+          <em class="parameter"><code>-system-harfbuzz</code></em>: This
+          switch enables use of the system version of <span class=
+          "application">Harfbuzz</span>.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Configuring Qt5
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="qt5-config" name="qt5-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="qt5-config" name="qt5-config"></a>Configuration
+            Information
+          </h4>
+          <p>
+            If <a class="xref" href="../postlfs/sudo.html" title=
+            "Sudo-1.9.15p4">Sudo-1.9.15p4</a> is installed, QT5DIR should be
+            available to the super user as well. Execute the following
+            commands as the <code class="systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt; /etc/sudoers.d/qt &lt;&lt; "EOF"
+<code class="literal">Defaults env_keep += QT5DIR</code>
+EOF</kbd></pre>
+          <h4>
+            If you installed Qt5 in /usr
+          </h4>
+          <p>
+            If you installed <span class="application">Qt5</span> in
+            <code class="filename">/usr</code>, create an environment
+            variable needed by certain packages. As the <code class=
+            "systemitem">root</code> user:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">cat &gt; /etc/profile.d/qt5.sh &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/profile.d/qt5.sh
+
+QT5DIR=/usr
+export QT5DIR
+
+# End /etc/profile.d/qt5.sh</code>
+EOF</kbd></pre>
+          <h4>
+            If you did not install Qt5 in /usr
+          </h4>
+          <p>
+            If you installed <span class="application">Qt5</span> in a
+            location other than <code class="filename">/usr</code>, you need
+            to update the following configuration files so that <span class=
+            "application">Qt5</span> is correctly found by other packages and
+            system processes.
+          </p>
+          <p>
+            As the <code class="systemitem">root</code> user, update the
+            <code class="filename">/etc/ld.so.conf</code> file and the
+            dynamic linker's run-time cache file:
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt;&gt; /etc/ld.so.conf &lt;&lt; EOF
+<code class="literal"># Begin Qt addition
+
+/opt/qt5/lib
+
+# End Qt addition</code>
+EOF
+
+ldconfig</kbd></pre>
+          <p>
+            As the <code class="systemitem">root</code> user, create the
+            <code class="filename">/etc/profile.d/qt5.sh</code> file:
+          </p>
+          <pre class="root"><kbd class=
+          "command">cat &gt; /etc/profile.d/qt5.sh &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/profile.d/qt5.sh
+
+QT5DIR=/opt/qt5
+
+pathappend $QT5DIR/bin           PATH
+pathappend $QT5DIR/lib/pkgconfig PKG_CONFIG_PATH
+
+export QT5DIR
+
+# End /etc/profile.d/qt5.sh</code>
+EOF</kbd></pre>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">assistant, balsam, canbusutil, designer,
+              fixqt4headers.pl, lconvert, linguist, lprodump, lrelease,
+              lrelease-pro, lupdate, lupdate-pro, meshdebug, moc, pixeltool,
+              qcollectiongenerator, qdbus, qdbuscpp2xml, qdbusviewer,
+              qdbusxml2cpp, qdistancefieldgenerator, qdoc, qgltf,
+              qhelpgenerator, qlalr, qmake, qml, qmlcachegen, qmleasing,
+              qmlformat, qmlimportscanner, qmllint, qmlmin, qmlplugindump,
+              qmlpreview, qmlprofiler, qmlscene, qmltestrunner, qmltime,
+              qmltyperegistrar, qscxmlc, qtattributionscanner, qtdiag,
+              qtpaths, qtplugininfo, qtwaylandscanner, qvkgen, rcc, repc,
+              sdpscanner, syncqt.pl, tracegen, uic, xmlpatterns, and
+              xmlpatternsvalidator</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">libQt53DAnimation.so, libQt53DCore.so,
+              libQt53DExtras.so, libQt53DInput.so, libQt53DLogic.so,
+              libQt53DQuick.so, libQt53DQuickAnimation.so,
+              libQt53DQuickExtras.so, libQt53DQuickInput.so,
+              libQt53DQuickRender.so, libQt53DQuickScene2D.so,
+              libQt53DRender.so, libQt5AccessibilitySupport.a,
+              libQt5Bluetooth.so, libQt5Bodymovin.so, libQt5Bootstrap.a,
+              libQt5Charts.so, libQt5Concurrent.so, libQt5Core.so,
+              libQt5DataVisualization.so, libQt5DBus.so,
+              libQt5DesignerComponents.so, libQt5Designer.so,
+              libQt5DeviceDiscoverySupport.a, libQt5EdidSupport.a,
+              libQt5EglFSDeviceIntegration.so, libQt5EglFsKmsSupport.so,
+              libQt5EglSupport.a, libQt5EventDispatcherSupport.a,
+              libQt5FbSupport.a, libQt5FontDatabaseSupport.a,
+              libQt5Gamepad.so, libQt5GlxSupport.a,
+              libQt5Gui.so,libQt5Help.so, libQt5InputSupport.a,
+              libQt5KmsSupport.a, libQt5LinuxAccessibilitySupport.a,
+              libQt5Location.so, libQt5Multimedia.so,
+              libQt5MultimediaGstTools.so, libQt5MultimediaQuick.so,
+              libQt5MultimediaWidgets.so, libQt5Network.so,
+              libQt5NetworkAuth.so, libQt5Nfc.so, libQt5OpenGLExtensions.a,
+              libQt5OpenGL.so, libQt5PacketProtocol.a,
+              libQt5PlatformCompositorSupport.a, libQt5Positioning.so,
+              libQt5PositioningQuick.so, libQt5PrintSupport.so,
+              libQt5Purchasing.so, libQt5Qml.so, libQt5QmlDebug.a,
+              libQt5QmlDevTools.a, libQt5QmlModels.so,
+              libQt5QmlWorkerScript.so, libQt5Quick.so, libQt5Quick3D.so,
+              libQt5Quick3DAssetImport.so, libQt5Quick3DRender.so,
+              libQt5Quick3DRuntimeRender.so, libQt5Quick3DUtils.so,
+              libQt5QuickControls2.so, libQt5QuickParticles.so,
+              libQt5QuickShapes.so, libQt5QuickTemplates2.so,
+              libQt5QuickTest.so, libQt5QuickWidgets.so,
+              libQt5RemoteObjects.so, libQt5Script.so, libQt5ScriptTools.so,
+              libQt5Scxml.so, libQt5Sensors.so, libQt5SerialBus.so,
+              libQt5SerialPort.so, libQt5ServiceSupport.a, libQt5Sql.so,
+              libQt5Svg.so, libQt5Test.so, libQt5TextToSpeech.so,
+              libQt5ThemeSupport.a, libQt5UiTools.a,
+              libQt5VirtualKeyboard.so, libQt5VulkanSupport.a,
+              libQt5WaylandClient.so, libQt5WaylandCompositor.so,
+              libQt5WebChannel.so, libQt5WebSockets.so, libQt5WebView.so,
+              libQt5Widgets.so, libQt5X11Extras.so, libQt5XcbQpa.so,
+              libQt5XkbCommonSupport.a, libQt5Xml.so, libQt5XmlPatterns.so,
+              and several plugins under /opt/qt5/{plugins,qml}</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody">/usr/include/qt5, /usr/lib/qt5,
+              /usr/share/doc/qt5, and /usr/share/qt5 OR /opt/qt5 and
+              /opt/qt-5.15.11</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <a id="qt5-descriptions" name="qt5-descriptions"></a>
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="assistant-qt5" name=
+                    "assistant-qt5"></a><span class="term"><span class=
+                    "command"><strong>assistant</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool for presenting on-line documentation
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="balsam" name="balsam"></a><span class=
+                    "term"><span class=
+                    "command"><strong>balsam</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool to convert 3D scenes from various creation
+                    tools to QML format, for use by the new QtQuick 3D
+                    library
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="canbusutil" name="canbusutil"></a><span class=
+                    "term"><span class=
+                    "command"><strong>canbustil</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool to deal with arbitrary CAN bus frames. A
+                    Controller Area Network (CAN) is a vehicle bus standard
+                    designed to allow microcontrollers and devices to
+                    communicate with each other in applications without a
+                    host computer
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="designer-qt5" name="designer-qt5"></a><span class=
+                    "term"><span class=
+                    "command"><strong>designer</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a full-fledged GUI builder. It includes powerful
+                    features such as preview mode, automatic widget layout,
+                    support for custom widgets, and an advanced property
+                    editor
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fixqt4headers.pl" name=
+                    "fixqt4headers.pl"></a><span class="term"><span class=
+                    "command"><strong>fixqt4headers.pl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a script to replace all Qt 4 style includes with Qt 5
+                    includes
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lconvert-qt5" name="lconvert-qt5"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lconvert</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is part of Qt5's Linguist tool chain. It can be used as a
+                    standalone tool to convert and filter translation data
+                    files
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="linguist-qt5" name="linguist-qt5"></a><span class=
+                    "term"><span class=
+                    "command"><strong>linguist</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides support for translating applications into local
+                    languages
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lrelease-qt5" name="lrelease-qt5"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lrelease</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a simple command line tool. It reads XML-based
+                    translation file in TS format and produces message files
+                    used by the application
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lrelease-pro" name="lrelease-pro"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lrelease-pro</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    extracts project information from qmake projects and
+                    passes it to lrelease
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lupdate-qt5" name="lupdate-qt5"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lupdate</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    finds the translatable strings in the specified source,
+                    header and Qt Designer interface files, and stores the
+                    extracted messages in translation files to be processed
+                    by lrelease
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lupdate-pro" name="lupdate-pro"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lupdate-pro</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    reads a Qt project file, an passes the collected
+                    information to lupdate
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="meshdebug" name="meshdebug"></a><span class=
+                    "term"><span class=
+                    "command"><strong>meshdebug</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    displays information about qtquick-3d mesh files
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="moc-qt5" name="moc-qt5"></a><span class=
+                    "term"><span class=
+                    "command"><strong>moc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    generates Qt meta object support code
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pixeltool-qt5" name=
+                    "pixeltool-qt5"></a><span class="term"><span class=
+                    "command"><strong>pixeltool</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a desktop magnifier and as you move your mouse around
+                    the screen it will show the magnified contents in its
+                    window
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qcollectiongenerator-qt5" name=
+                    "qcollectiongenerator-qt5"></a><span class=
+                    "term"><span class=
+                    "command"><strong>qcollectiongenerator</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    processes and converts Qt help files
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qdbuscpp2xml-qt5" name=
+                    "qdbuscpp2xml-qt5"></a><span class="term"><span class=
+                    "command"><strong>qdbuscpp2xml</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    takes a C++ source file and generates a D-Bus XML
+                    definition of the interface
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qdbus-qt5" name="qdbus-qt5"></a><span class=
+                    "term"><span class=
+                    "command"><strong>qdbus</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    lists available services, object paths, methods, signals,
+                    and properties of objects on a bus
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qdbusviewer-qt5" name=
+                    "qdbusviewer-qt5"></a><span class="term"><span class=
+                    "command"><strong>qdbusviewer</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a graphical D-Bus browser
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qdbusxml2cpp-qt5" name=
+                    "qdbusxml2cpp-qt5"></a><span class="term"><span class=
+                    "command"><strong>qdbusxml2cpp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool that can be used to parse interface
+                    descriptions and produce static code representing those
+                    interfaces,
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qdistancefieldgenerator-qt5" name=
+                    "qdistancefieldgenerator-qt5"></a><span class=
+                    "term"><span class=
+                    "command"><strong>qdistancefieldgenerator</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    allows a font cache to be pregenerated for
+                    Text.QtRendering to speed up an application's startup if
+                    the user interface has a lot of text, or multiple fonts,
+                    or a large amount of distinct characters, e.g. in CJK
+                    writing systems
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qdoc-qt5" name="qdoc-qt5"></a><span class=
+                    "term"><span class=
+                    "command"><strong>qdoc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool used by <span class="application">Qt</span>
+                    Developers to generate documentation for software
+                    projects
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qgltf" name="qgltf"></a><span class=
+                    "term"><span class=
+                    "command"><strong>qgltf</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    imports a variety of 3D model formats and exports into
+                    fast-to-load, optimized glTF assets embedded into Qt
+                    resource files
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qhelpgenerator-qt5" name=
+                    "qhelpgenerator-qt5"></a><span class="term"><span class=
+                    "command"><strong>qhelpgenerator</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool used to generate a <span class=
+                    "application">Qt</span> compressed help file
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qlalr-qt5" name="qlalr-qt5"></a><span class=
+                    "term"><span class=
+                    "command"><strong>qlalr</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool used to generate code from grammar
+                    specifications
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qmake-qt5" name="qmake-qt5"></a><span class=
+                    "term"><span class=
+                    "command"><strong>qmake</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    uses information stored in project files to determine
+                    what should go in the makefiles it generates
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qml" name="qml"></a><span class=
+                    "term"><span class="command"><strong>qml</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    executes a QML file
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qmlcachegen" name="qmlcachegen"></a><span class=
+                    "term"><span class=
+                    "command"><strong>qmlcachegen</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    supports the creation of cache files at build time
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qmleasing-qt5" name=
+                    "qmleasing-qt5"></a><span class="term"><span class=
+                    "command"><strong>qmleasing</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool used to define the easing curves using an
+                    interactive curve editor
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qmlformat-qt5" name=
+                    "qmlformat-qt5"></a><span class="term"><span class=
+                    "command"><strong>qmlformat</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    formats QML files according to the QML coding conventions
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qmlimportscanner-qt5" name=
+                    "qmlimportscanner-qt5"></a><span class=
+                    "term"><span class="command"><strong>qmlimportscanner</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool used to import QML files from a directory
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qmllint-qt5" name="qmllint-qt5"></a><span class=
+                    "term"><span class=
+                    "command"><strong>qmllint</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a syntax checker for QML files
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qmlmin-qt5" name="qmlmin-qt5"></a><span class=
+                    "term"><span class=
+                    "command"><strong>qmlmin</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    removes comments and layout characters from a QML file
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qmlplugindump-qt5" name=
+                    "qmlplugindump-qt5"></a><span class="term"><span class=
+                    "command"><strong>qmlplugindump</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool to create a qmltypes file
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qmlpreview-qt5" name=
+                    "qmlpreview-qt5"></a><span class="term"><span class=
+                    "command"><strong>qmlpreview</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool used to analyze QML applications
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qmlprofiler-qt5" name=
+                    "qmlprofiler-qt5"></a><span class="term"><span class=
+                    "command"><strong>qmlprofiler</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool which watches QML and JavaScript files on disk
+                    and updates the application live with any changes
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qmlscene-qt5" name="qmlscene-qt5"></a><span class=
+                    "term"><span class=
+                    "command"><strong>qmlscene</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a utility that loads and displays QML documents even
+                    before the application is complete
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qmltestrunner-qt5" name=
+                    "qmltestrunner-qt5"></a><span class="term"><span class=
+                    "command"><strong>qmltestrunner</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool used to make tests
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qscxmlc-qt5" name="qscxmlc-qt5"></a><span class=
+                    "term"><span class=
+                    "command"><strong>qscxml</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    converts an input.scxml file to a header and cpp file
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qtattributionsscanner-qt5" name=
+                    "qtattributionsscanner-qt5"></a><span class=
+                    "term"><span class=
+                    "command"><strong>qtattributionsscanner</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    processes qt_attribution.json files in Qt sources
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qtdiag-qt5" name="qtdiag-qt5"></a><span class=
+                    "term"><span class=
+                    "command"><strong>qtdiag</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool for reporting diagnostic information about Qt
+                    and its environment
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qtpaths-qt5" name="qtpaths-qt5"></a><span class=
+                    "term"><span class=
+                    "command"><strong>qtpaths</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool to query Qt path information
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qtplugininfo" name="qtplugininfo"></a><span class=
+                    "term"><span class=
+                    "command"><strong>qtplugininfo</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    dumps meta-data about Qt plugins in JSON format
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qtwaylandscanner" name=
+                    "qtwaylandscanner"></a><span class="term"><span class=
+                    "command"><strong>qtwaylandscanner</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    converts Wayland specfiles to C++ headers and code needed
+                    for QtWayland
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qvkgen" name="qvkgen"></a><span class=
+                    "term"><span class=
+                    "command"><strong>qvkgen</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    converts Vulkan specfiles to C++ headers and code
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rcc-qt5" name="rcc-qt5"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rcc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a resource compiler used in conjunction with designer
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="repc" name="repc"></a><span class=
+                    "term"><span class=
+                    "command"><strong>repc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the Replica Compiler, which generates QObject header
+                    files based on an API definition file
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sdpscanner-qt5" name=
+                    "sdpscanner-qt5"></a><span class="term"><span class=
+                    "command"><strong>sdpscanner</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    performs a Session Description Protocol scan on a remote
+                    device, using the SDP server represented by the local
+                    Bluetooth device
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="syncqt.pl-qt5" name=
+                    "syncqt.pl-qt5"></a><span class="term"><span class=
+                    "command"><strong>syncqt.pl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a script to create the forwarding headers in the
+                    include directories. It is an internal development tool
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tracegen" name="tracegen"></a><span class=
+                    "term"><span class=
+                    "command"><strong>tracegen</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a trace generator for LTTng or ETW
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="uic-qt5" name="uic-qt5"></a><span class=
+                    "term"><span class=
+                    "command"><strong>uic</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a Qt user interface compiler
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xmlpatterns-qt5" name=
+                    "xmlpatterns-qt5"></a><span class="term"><span class=
+                    "command"><strong>xmlpatterns</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides support for XPath, XQuery, XSLT, and XML Schema
+                    validation
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xmlpatternsvalidator-qt5" name=
+                    "xmlpatternsvalidator-qt5"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xmlpatternsvalidator</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a tool used to validate XML documents
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="pangomm.html" title="Pangomm-2.46.3">戻る</a>
+          <p>
+            Pangomm-2.46.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="qt5-alternate.html" title=
+          "qt-alternate-5.15.11">次へ</a>
+          <p>
+            qt-alternate-5.15.11
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="lib.html" title=
+          "第25章 グラフィック環境ライブラリ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

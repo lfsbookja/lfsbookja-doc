@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      VLC-3.0.20
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第44章 Video Utilities
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="transcode.html" title=
+          "Transcode-1.1.7">戻る</a>
+          <p>
+            Transcode-1.1.7
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="xine-ui.html" title="xine-ui-0.99.14">次へ</a>
+          <p>
+            xine-ui-0.99.14
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="videoutils.html" title=
+          "第44章 Video Utilities">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="vlc" name="vlc"></a>VLC-3.0.20
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to VLC
+        </h2>
+        <p>
+          <span class="application">VLC</span> is a media player, streamer,
+          and encoder. It can play from many inputs, such as files, network
+          streams, capture devices, desktops, or DVD, SVCD, VCD, and audio
+          CD. It can use most audio and video codecs (MPEG 1/2/4, H264, VC-1,
+          DivX, WMV, Vorbis, AC3, AAC, etc.), and it can also convert to
+          different formats and/or send streams through the network.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://download.videolan.org/vlc/3.0.20/vlc-3.0.20.tar.xz">https://download.videolan.org/vlc/3.0.20/vlc-3.0.20.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: e8337fcd2df92f3901dad091fb85f545
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 24 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 726 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: 1.9 SBU (using parallelism=4; with
+                tests)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          VLC Dependencies
+        </h3>
+        <h4>
+          Recommended
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="alsa-lib.html" title=
+          "alsa-lib-1.2.10">alsa-lib-1.2.10</a>, <a class="xref" href=
+          "../general/desktop-file-utils.html" title=
+          "desktop-file-utils-0.27">desktop-file-utils-0.27</a>, <a class=
+          "xref" href="ffmpeg.html" title="FFmpeg-6.1">FFmpeg-6.1</a>,
+          <a class="xref" href="liba52.html" title=
+          "Liba52-0.7.4">liba52-0.7.4</a>, <a class="xref" href=
+          "../general/libgcrypt.html" title=
+          "libgcrypt-1.10.3">libgcrypt-1.10.3</a> <a class="xref" href=
+          "libmad.html" title="libmad-0.15.1b">libmad-0.15.1b</a>, <a class=
+          "xref" href="../general/lua.html" title="Lua-5.4.6">Lua-5.4.6</a>,
+          and <a class="xref" href="../x/installing.html" title=
+          "第24章 グラフィック環境">グラフィック環境</a>
+        </p>
+        <h4>
+          Optional features and packages
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/dbus.html" title=
+          "dbus-1.14.10">dbus-1.14.10</a>, <a class="xref" href=
+          "../general/libidn.html" title="libidn-1.41">libidn-1.41</a>, and
+          <a class="xref" href="../general/libssh2.html" title=
+          "libssh2-1.11.0">libssh2-1.11.0</a>
+        </p>
+        <h4>
+          Optional input plugins
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/libarchive.html" title=
+          "libarchive-3.7.2">libarchive-3.7.2</a>, <a class="xref" href=
+          "libcddb.html" title="libcddb-1.3.2">libcddb-1.3.2</a>, <a class=
+          "xref" href="libdv.html" title="Libdv-1.0.0">libdv-1.0.0</a>,
+          <a class="xref" href="libdvdcss.html" title=
+          "libdvdcss-1.4.3">libdvdcss-1.4.3</a>, <a class="xref" href=
+          "libdvdread.html" title="Libdvdread-6.1.3">libdvdread-6.1.3</a>,
+          <a class="xref" href="libdvdnav.html" title=
+          "Libdvdnav-6.1.1">libdvdnav-6.1.1</a>, <a class="xref" href=
+          "../general/opencv.html" title="opencv-4.8.1">opencv-4.8.1</a>,
+          <a class="xref" href="../basicnet/samba.html" title=
+          "Samba-4.19.3">Samba-4.19.3</a>, <a class="xref" href=
+          "v4l-utils.html" title="v4l-utils-1.26.1">v4l-utils-1.26.1</a>,
+          <a class="ulink" href=
+          "https://www.videolan.org/developers/libbluray.html">libbluray</a>,
+          <a class="ulink" href=
+          "https://sourceforge.net/projects/libdc1394/">libdc1394</a>,
+          <a class="ulink" href=
+          "https://github.com/sahlberg/libnfs">libnfs</a>, <a class="ulink"
+          href="https://github.com/libproxy/libproxy">libproxy</a>, <a class=
+          "ulink" href=
+          "https://sourceforge.net/projects/libraw1394/">libraw1394</a>,
+          <a class="ulink" href="http://www.live555.com/">Live555</a>, and
+          <a class="ulink" href=
+          "https://www.gnu.org/software/vcdimager/">VCDImager</a> (requires
+          <a class="xref" href="libcdio.html" title=
+          "libcdio-2.1.0">libcdio-2.1.0</a>)
+        </p>
+        <h4>
+          Optional mux/demux plugins
+        </h4>
+        <p class="optional">
+          <a class="xref" href="libogg.html" title=
+          "libogg-1.3.5">libogg-1.3.5</a>, <a class="ulink" href=
+          "https://github.com/kode54/Game_Music_Emu">Game Music Emu</a>,
+          <a class="ulink" href=
+          "https://www.videolan.org/developers/libdvbpsi.html">libdvbpsi</a>,
+          <a class="ulink" href=
+          "https://downloads.xiph.org/releases/libshout/">libshout</a>,
+          <a class="ulink" href=
+          "https://dl.matroska.org/downloads/libmatroska/">libmatroska</a>
+          (requires <a class="ulink" href=
+          "https://dl.matroska.org/downloads/libebml/">libebml</a>),
+          <a class="ulink" href=
+          "https://sourceforge.net/projects/modplug-xmms/">libmodplug</a>,
+          <a class="ulink" href="https://www.musepack.net/">Musepack</a>, and
+          <a class="ulink" href=
+          "https://sourceforge.net/projects/sidplay2/">sidplay-libs</a>
+        </p>
+        <h4>
+          Optional codec plugins
+        </h4>
+        <p class="optional">
+          <a class="xref" href="faad2.html" title=
+          "FAAD2-2.11.1">FAAD2-2.11.1</a>, <a class="xref" href="flac.html"
+          title="FLAC-1.4.3">FLAC-1.4.3</a>, <a class="xref" href=
+          "libaom.html" title="libaom-3.8.0">libaom-3.8.0</a>, <a class=
+          "xref" href="libass.html" title="libass-0.17.1">libass-0.17.1</a>,
+          <a class="xref" href="libmpeg2.html" title=
+          "libmpeg2-0.5.1">libmpeg2-0.5.1</a>, <a class="xref" href=
+          "../general/libpng.html" title="libpng-1.6.40">libpng-1.6.40</a>,
+          <a class="xref" href="libtheora.html" title=
+          "libtheora-1.1.1">libtheora-1.1.1</a>, <a class="xref" href=
+          "libva.html" title="libva-2.20.0">libva-2.20.0</a>, <a class="xref"
+          href="libvorbis.html" title="libvorbis-1.3.7">libvorbis-1.3.7</a>,
+          <a class="xref" href="opus.html" title="Opus-1.4">Opus-1.4</a>,
+          <a class="xref" href="speex.html" title=
+          "Speex-1.2.1">Speex-1.2.1</a>, <a class="xref" href="libvpx.html"
+          title="libvpx-1.13.1">libvpx-1.13.1</a>, <a class="xref" href=
+          "x264.html" title="x264-20230215">x264-20230215</a>, <a class=
+          "ulink" href="https://github.com/nkoriyama/aribb24">aribb24</a>,
+          <a class="ulink" href=
+          "https://code.videolan.org/videolan/dav1d">dav1d</a>, <a class=
+          "ulink" href="https://sourceforge.net/projects/dirac/">Dirac</a>,
+          <a class="ulink" href=
+          "https://github.com/divideconcept/FluidLite">FluidLite</a>,
+          <a class="ulink" href=
+          "https://sourceforge.net/projects/fluidsynth/">FluidSynth</a>,
+          <a class="ulink" href=
+          "https://www.videolan.org/developers/libdca.html">libdca</a>,
+          <a class="ulink" href=
+          "https://wiki.xiph.org/index.php/OggKate">libkate</a>, <a class=
+          "ulink" href="https://www.khronos.org/openmax/">OpenMAX</a>,
+          <a class="ulink" href=
+          "https://sourceforge.net/projects/schrodinger/">Schroedinger</a>,
+          <a class="ulink" href="https://github.com/toots/shine">Shine</a>,
+          <a class="ulink" href=
+          "https://sourceforge.net/p/soxr/wiki/Home/">SoX</a>, <a class=
+          "ulink" href="https://wiki.xiph.org/Tremor">Tremor</a>, <a class=
+          "ulink" href="https://www.twolame.org/">Twolame</a>, and <a class=
+          "ulink" href="https://sourceforge.net/projects/zapping/">Zapping
+          VBI</a>
+        </p>
+        <h4>
+          Optional video plugins
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/aalib.html" title=
+          "AAlib-1.4rc5">AAlib-1.4rc5</a>, <a class="xref" href=
+          "../general/fontconfig.html" title=
+          "Fontconfig-2.14.2">Fontconfig-2.14.2</a>, <a class="xref" href=
+          "../general/freetype2.html" title=
+          "FreeType-2.13.2">FreeType-2.13.2</a>, <a class="xref" href=
+          "../general/fribidi.html" title=
+          "FriBidi-1.0.13">FriBidi-1.0.13</a>, <a class="xref" href=
+          "libplacebo.html" title="libplacebo-6.338.1">libplacebo-6.338.1</a>
+          (currently broken), <a class="xref" href="../general/librsvg.html"
+          title="librsvg-2.57.1">librsvg-2.57.1</a>, <a class="xref" href=
+          "libvdpau.html" title="libvdpau-1.5">libvdpau-1.5</a>, <a class=
+          "xref" href="sdl.html" title=
+          "sdl12-compat-1.2.68">sdl12-compat-1.2.68</a>, <a class="ulink"
+          href="https://github.com/cacalabs/libcaca">libcaca</a>, <a class=
+          "ulink" href=
+          "https://github.com/Intel-Media-SDK/MediaSDK">libmfx</a>
+        </p>
+        <h4>
+          Optional audio plugins
+        </h4>
+        <p class="optional">
+          <a class="xref" href="pulseaudio.html" title=
+          "PulseAudio-16.1">PulseAudio-16.1</a>, <a class="xref" href=
+          "libsamplerate.html" title=
+          "libsamplerate-0.2.2">libsamplerate-0.2.2</a>, <a class="ulink"
+          href=
+          "https://github.com/videolabs/libspatialaudio">spatialaudio</a>,
+          and <a class="ulink" href="https://jackaudio.org/">JACK</a>
+        </p>
+        <h4>
+          Optional interface plugins
+        </h4>
+        <p class="optional">
+          (<a class="xref" href="../x/qt5.html" title=
+          "Qt-5.15.11">Qt-5.15.11</a> または <a class="xref" href=
+          "../x/qt5-alternate.html" title=
+          "qt-alternate-5.15.11">qt-alternate-5.15.11</a>) (required for the
+          graphical user interface), <a class="ulink" href=
+          "https://repo.or.cz/w/libtar.git/">libtar</a>, <a class="ulink"
+          href="https://libvnc.github.io/">libvncclient</a>, <a class="ulink"
+          href="https://www.lirc.org/">LIRC</a>, and <a class="ulink" href=
+          "https://www.freerdp.com/">freerdp</a>
+        </p>
+        <h4>
+          Optional visualisations and video filter plugins
+        </h4>
+        <p class="optional">
+          <a class="ulink" href=
+          "https://sourceforge.net/projects/goom/">Goom</a>, <a class="ulink"
+          href="https://www.vsxu.com">libvsxu</a>, and <a class="ulink" href=
+          "https://sourceforge.net/projects/projectm/">projectM</a>
+        </p>
+        <h4>
+          Optional service discovery plugins
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../basicnet/avahi.html" title=
+          "Avahi-0.8">Avahi-0.8</a>, <a class="ulink" href=
+          "https://sourceforge.net/projects/libmtp/">libmtp</a> and <a class=
+          "ulink" href="https://sourceforge.net/projects/pupnp/">libupnp</a>
+        </p>
+        <h4>
+          Miscellaneous options
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../postlfs/gnutls.html" title=
+          "GnuTLS-3.8.2">GnuTLS-3.8.2</a>, <a class="xref" href=
+          "../x/libnotify.html" title="libnotify-0.8.3">libnotify-0.8.3</a>,
+          <a class="xref" href="../general/libxml2.html" title=
+          "libxml2-2.12.3">libxml2-2.12.3</a>, <a class="xref" href=
+          "taglib.html" title="Taglib-1.13.1">taglib-1.13.1</a>, <a class=
+          "xref" href="../xsoft/xdg-utils.html" title=
+          "xdg-utils-1.1.3">xdg-utils-1.1.3</a> (runtime), <a class="ulink"
+          href=
+          "https://www.team-mediaportal.com/extensions/mp2-plugins/atmolight">
+          AtmoLight</a>, <a class="ulink" href=
+          "https://github.com/videolabs/libmicrodns">libmicrodns</a>,
+          <a class="ulink" href=
+          "https://developers.google.com/protocol-buffers/">protobuf</a>, and
+          <a class="ulink" href="https://github.com/Haivision/srt">Srt</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of VLC
+        </h2>
+        <p>
+          Install <span class="application">VLC</span> by running the
+          following commands:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">BUILDCC=gcc ./configure --prefix=/usr --disable-libplacebo &amp;&amp;
+make</kbd></pre>
+        <p>
+          To test the results, issue: <span class="command"><strong>make
+          check</strong></span>.
+        </p>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">make docdir=/usr/share/doc/vlc-3.0.20 install</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            This package installs icon files into the <code class=
+            "filename">/usr/share/icons/hicolor</code> hierarchy and desktop
+            files into the <code class=
+            "filename">/usr/share/applications</code> hierarchy. You can
+            improve system performance and memory usage by updating
+            <code class=
+            "filename">/usr/share/icons/hicolor/index.theme</code> and
+            <code class=
+            "filename">/usr/share/applications/mimeinfo.cache</code>. To
+            perform the update you must have <a class="xref" href=
+            "../x/gtk3.html" title="GTK+-3.24.38">GTK+-3.24.38</a> installed
+            (for the icon cache) and <a class="xref" href=
+            "../general/desktop-file-utils.html" title=
+            "desktop-file-utils-0.27">desktop-file-utils-0.27</a> (for the
+            desktop cache) and issue the following commands as the
+            <code class="systemitem">root</code> user:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">gtk-update-icon-cache -qtf /usr/share/icons/hicolor &amp;&amp;
+update-desktop-database -q</kbd></pre>
+        </div>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <em class="parameter"><code>--disable-libplacebo</code></em>: This
+          switch is required to disable support for using libplacebo as a
+          rendering pipeline because VLC is incompatible with the latest
+          version of libplacebo.
+        </p>
+        <p>
+          <code class="option">--disable-vpx</code>: Use this switch to
+          disable <span class="application">libvpx</span>.
+        </p>
+        <p>
+          <code class="option">--disable-mad</code>: Use this switch if you
+          don't have <span class="application">libmad</span> installed.
+        </p>
+        <p>
+          <code class="option">--disable-avcodec --disable-swscale</code>:
+          Use these switches if you don't have <span class=
+          "application">FFmpeg</span> installed.
+        </p>
+        <p>
+          <code class="option">--disable-a52</code>: Use this switch if you
+          don't have <span class="application">liba52</span> installed.
+        </p>
+        <p>
+          <code class="option">--disable-xcb</code>: Use this switch if you
+          don't have <span class="application">X Window System</span>
+          installed.
+        </p>
+        <p>
+          <code class="option">--disable-alsa</code>: Use this switch if you
+          don't have <span class="application">ALSA</span> installed.
+        </p>
+        <p>
+          <code class="option">--disable-libgcrypt</code>: Use this switch if
+          you don't have <span class="application">libgcrypt</span>
+          installed.
+        </p>
+        <p>
+          <code class="option">--disable-sftp</code>: The default is to build
+          the sftp module if <a class="xref" href="../general/libssh2.html"
+          title="libssh2-1.11.0">libssh2-1.11.0</a> is installed. Use this
+          switch if you do not want to build this module.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            There are many options to <span class="application">VLC</span>'s
+            <span class="command"><strong>configure</strong></span> command.
+            Check the <span class="command"><strong>configure
+            --help</strong></span> output for a complete list.
+          </p>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">cvlc, nvlc, qvlc, rvlc, svlc, vlc and
+              vlc-wrapper</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">libvlccore.so, libvlc.so, and many
+              plugins in /usr/lib/vlc/plugins</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directories:</strong>
+              <span class="segbody">/usr/{include,lib,share}/vlc,
+              /usr/share/kde4, and /usr/share/doc/vlc-3.0.20</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cvlc" name="cvlc"></a><span class=
+                    "term"><span class=
+                    "command"><strong>cvlc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a script to run VLC with the dummy interface
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="nvlc" name="nvlc"></a><span class=
+                    "term"><span class=
+                    "command"><strong>nvlc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a script to run VLC with the ncurses interface
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="qvlc" name="qvlc"></a><span class=
+                    "term"><span class=
+                    "command"><strong>qvlc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a script to run <span class="application">VLC</span>
+                    with the <span class="application">Qt</span> interface
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rvlc" name="rvlc"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rvlc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a script to run <span class="application">VLC</span>
+                    with a command line interface
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="svlc" name="svlc"></a><span class=
+                    "term"><span class=
+                    "command"><strong>svlc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a script to run <span class="application">VLC</span>
+                    with the skins interface
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="vlc-prog" name="vlc-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>vlc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the <span class="application">VLC</span> media player
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="vlc-wrapper" name="vlc-wrapper"></a><span class=
+                    "term"><span class=
+                    "command"><strong>vlc-wrapper</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a wrapper to drop privileges with <span class=
+                    "application">VLC</span>
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="transcode.html" title=
+          "Transcode-1.1.7">戻る</a>
+          <p>
+            Transcode-1.1.7
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="xine-ui.html" title="xine-ui-0.99.14">次へ</a>
+          <p>
+            xine-ui-0.99.14
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="videoutils.html" title=
+          "第44章 Video Utilities">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <title>
-      GRUB-2.06 for EFI
+      GRUB-2.12 for EFI
     </title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
     <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
@@ -24,11 +24,11 @@
     <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
     "text/css" media="print" />
   </head>
-  <body class="blfs" id="blfs-r12.0-1048+">
+  <body class="blfs" id="blfs-r12.0-1055+">
     <div class="navheader">
       <h4>
         Beyond Linux<sup>®</sup> From Scratch <span class="phrase">(System
-        V</span> 版) - Version r12.0-1048+
+        V</span> 版) - Version r12.0-1055+
       </h4>
       <h3>
         第5章 ファイルシステムとディスク管理
@@ -54,13 +54,13 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1055+">ホーム</a>
         </li>
       </ul>
     </div>
     <div class="sect1" lang="ja" xml:lang="ja">
       <h1 class="sect1">
-        <a id="grub-efi" name="grub-efi"></a>GRUB-2.06 for EFI
+        <a id="grub-efi" name="grub-efi"></a>GRUB-2.12 for EFI
       </h1>
       <div class="package" lang="ja" xml:lang="ja">
         <h2 class="sect2">
@@ -89,17 +89,17 @@
             <li class="listitem">
               <p>
                 ダウンロード (HTTP): <a class="ulink" href=
-                "https://ftp.gnu.org/gnu/grub/grub-2.06.tar.xz">https://ftp.gnu.org/gnu/grub/grub-2.06.tar.xz</a>
+                "https://ftp.gnu.org/gnu/grub/grub-2.12.tar.xz">https://ftp.gnu.org/gnu/grub/grub-2.12.tar.xz</a>
               </p>
             </li>
             <li class="listitem">
               <p>
-                ダウンロード MD5 sum: cf0fd928b1e5479c8108ee52cb114363
+                ダウンロード MD5 sum: 60c564b1bdc39d8e43b3aab4bc0fb140
               </p>
             </li>
             <li class="listitem">
               <p>
-                ダウンロードサイズ: 6.3 MB
+                ダウンロードサイズ: 6.4 MB
               </p>
             </li>
             <li class="listitem">
@@ -110,20 +110,6 @@
             <li class="listitem">
               <p>
                 概算ビルド時間: 0.4 SBU (on 64-bit LFS, using parallelism=4)
-              </p>
-            </li>
-          </ul>
-        </div>
-        <h3>
-          追加のダウンロード
-        </h3>
-        <div class="itemizedlist">
-          <ul class="compact">
-            <li class="listitem">
-              <p>
-                Required patch: <a class="ulink" href=
-                "https://www.linuxfromscratch.org/patches/blfs/svn/grub-2.06-upstream_fixes-1.patch">
-                https://www.linuxfromscratch.org/patches/blfs/svn/grub-2.06-upstream_fixes-1.patch</a>
               </p>
             </li>
           </ul>
@@ -214,14 +200,10 @@ gunzip -c ../unifont-15.1.04.pcf.gz &gt; /usr/share/fonts/unifont/unifont.pcf</k
           </p>
         </div>
         <p>
-          Fix an issue causing <span class=
-          "command"><strong>grub-install</strong></span> to fail when the
-          <code class="filename">/boot</code> partition (or the root
-          partition if <code class="filename">/boot</code> is not a separate
-          partition) is created by e2fsprogs-1.47.0 or later:
+          Add a file missing from the release tarball:
         </p>
-        <pre class="userinput"><kbd class=
-        "command">patch -Np1 -i ../grub-2.06-upstream_fixes-1.patch</kbd></pre>
+        <pre class="userinput"><kbd class="command">echo <code class=
+        "literal">depends bli part_gpt</code> &gt; grub-core/extra_deps.lst</kbd></pre>
         <p>
           If you are running a 32-bit LFS, prepare a 64-bit compiler:
         </p>
@@ -349,7 +331,7 @@ mv -v /etc/bash_completion.d/grub /usr/share/bash-completion/completions</kbd></
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1048+">ホーム</a>
+          "Beyond Linux® From Scratch    (System V 版) - Version r12.0-1055+">ホーム</a>
         </li>
       </ul>
     </div>

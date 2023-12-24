@@ -1,0 +1,687 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      ImageMagick-7.1.1-15
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第11章 汎用ユーティリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="ibus.html" title="ibus-1.5.29">戻る</a>
+          <p>
+            ibus-1.5.29
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="iso-codes.html" title=
+          "ISO Codes-4.15.0">次へ</a>
+          <p>
+            ISO Codes-4.15.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genutils.html" title=
+          "第11章 汎用ユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="imagemagick" name="imagemagick"></a>ImageMagick-7.1.1-15
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          ImageMagick の概要
+        </h2>
+        <p>
+          <span class="application">ImageMagick</span> is a collection of
+          tools and libraries to read, write, and manipulate an image in
+          various image formats. Image processing operations are available
+          from the command line. Bindings for Perl and C++ are also
+          available.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://www.imagemagick.org/archive/releases/ImageMagick-7.1.1-15.tar.xz">
+                https://www.imagemagick.org/archive/releases/ImageMagick-7.1.1-15.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: 14dc2057465df350005311b4ae3649b5
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 9.7 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 164 MB (with typical dependencies; add 31 MB for
+                checks)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.8 SBU (with typical dependencies; add 0.8 SBU for
+                checks, both using parallelism=4)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            The <span class="application">ImageMagick</span> source releases
+            are updated frequently and the version shown above may no longer
+            be available from the download locations. You can download a more
+            recent version and use the existing BLFS instructions to install
+            it. Chances are that it will work just fine, but this has not
+            been tested by the BLFS team. If the package version shown above
+            is not available from the locations shown above, you can download
+            it from the BLFS package server at Oregon State University:
+            <a class="ulink" href=
+            "https://ftp.osuosl.org/pub/blfs/conglomeration/ImageMagick/">https://ftp.osuosl.org/pub/blfs/conglomeration/ImageMagick/</a>.
+          </p>
+        </div>
+        <h3>
+          ImageMagick の依存パッケージ
+        </h3>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../x/x7lib.html" title="Xorg ライブラリ">Xorg
+          ライブラリ</a>
+        </p>
+        <p>
+          The optional dependencies listed below should be installed if you
+          need support for the specific format or the conversion tool the
+          dependency provides. Additional information about the dependencies
+          can be found in the <code class="filename">Install-unix.txt</code>
+          file located in the source tree as well as issuing the <span class=
+          "command"><strong>./configure --help</strong></span> command. A
+          summary of this information, as well as some additional notes can
+          be viewed on-line at <a class="ulink" href=
+          "https://imagemagick.org/script/install-source.php">https://imagemagick.org/script/install-source.php</a>.
+        </p>
+        <h4>
+          Optional System Utilities
+        </h4>
+        <p class="optional">
+          Clang from <a class="xref" href="llvm.html" title=
+          "LLVM-17.0.6">LLVM-17.0.6</a>, <a class="xref" href=
+          "../pst/cups.html" title="Cups-2.4.7">Cups-2.4.7</a>, <a class=
+          "xref" href="../basicnet/curl.html" title=
+          "cURL-8.5.0">cURL-8.5.0</a>, <a class="xref" href=
+          "../multimedia/ffmpeg.html" title="FFmpeg-6.1">FFmpeg-6.1</a>,
+          <a class="xref" href="fftw.html" title=
+          "fftw-3.3.10">fftw-3.3.10</a>, <a class="xref" href="p7zip.html"
+          title="p7zip-17.04">p7zip-17.04</a> (LZMA), <a class="xref" href=
+          "../pst/sane.html" title="SANE-1.2.1">SANE-1.2.1</a>, <a class=
+          "xref" href="../basicnet/wget.html" title=
+          "Wget-1.21.4">Wget-1.21.4</a>, <a class="xref" href=
+          "../xsoft/xdg-utils.html" title=
+          "xdg-utils-1.1.3">xdg-utils-1.1.3</a>, <a class="xref" href=
+          "../x/xterm.html" title="xterm-388">xterm-388</a>, <a class="ulink"
+          href="https://dmalloc.com/">Dmalloc</a>, <a class="ulink" href=
+          "https://linux.softpedia.com/get/Programming/Debuggers/Electric-Fence-3305.shtml/">
+          Electric Fence</a> and <a class="ulink" href=
+          "https://www.openpgp.org/about/">PGP</a> or <a class="xref" href=
+          "../postlfs/gnupg.html" title="GnuPG-2.4.3">GnuPG-2.4.3</a> (you'll
+          have to do some hacking to use <span class=
+          "application">GnuPG</span>), <a class="ulink" href=
+          "https://imagemagick.org/archive/delegates/">Profiles</a>
+        </p>
+        <h4>
+          Optional Graphics Libraries
+        </h4>
+        <p class="optional">
+          <a class="xref" href="jasper.html" title=
+          "JasPer-4.1.1">JasPer-4.1.1</a>, <a class="xref" href="lcms2.html"
+          title="Little CMS-2.14">Little CMS-2.14</a>, <a class="xref" href=
+          "libgxps.html" title="Libgxps-0.3.2">libgxps-0.3.2</a>, <a class=
+          "xref" href="libjpeg.html" title=
+          "libjpeg-turbo-3.0.1">libjpeg-turbo-3.0.1</a>, <a class="xref"
+          href="libpng.html" title="libpng-1.6.40">libpng-1.6.40</a>,
+          <a class="xref" href="libraw.html" title=
+          "libraw-0.21.2">libraw-0.21.2</a> (for dng files, needs the
+          thread-safe libraw_r), <a class="xref" href="librsvg.html" title=
+          "librsvg-2.57.1">librsvg-2.57.1</a>, <a class="xref" href=
+          "libtiff.html" title="libtiff-4.6.0">libtiff-4.6.0</a>, <a class=
+          "xref" href="libwebp.html" title="libwebp-1.3.2">libwebp-1.3.2</a>,
+          <a class="xref" href="openjpeg2.html" title=
+          "OpenJPEG-2.5.0">OpenJPEG-2.5.0</a>, <a class="xref" href=
+          "../x/pango.html" title="Pango-1.50.14">Pango-1.50.14</a>,
+          <a class="ulink" href=
+          "https://djvu.sourceforge.net/">DjVuLibre</a>, <a class="ulink"
+          href="https://imagemagick.org/archive/delegates/">FlashPIX
+          (libfpx)</a>, <a class="ulink" href=
+          "https://github.com/FLIF-hub/FLIF/releases">FLIF</a>, <a class=
+          "ulink" href=
+          "https://www.cl.cam.ac.uk/~mgk25/jbigkit/">JBIG-KIT</a>, <a class=
+          "ulink" href="https://github.com/strukturag/libheif/">libheif</a>
+          with <a class="ulink" href=
+          "https://github.com/strukturag/libde265/">libde265</a> (both needed
+          if converting macOS heic images), <a class="ulink" href=
+          "https://github.com/libjxl/libjxl/">libjxl</a>, <a class="ulink"
+          href="https://github.com/HOST-Oman/libraqm/">libraqm</a>, <a class=
+          "ulink" href="http://liblqr.wikidot.com/en:download-page">Liquid
+          Rescale</a>, <a class="ulink" href=
+          "https://www.openexr.com/">OpenEXR</a>, and <a class="ulink" href=
+          "http://www.agocg.ac.uk/train/cgm/ralcgm.htm">RALCGM</a> (or
+          <a class="ulink" href=
+          "http://www.mcmurchy.com/ralcgm/ralcgm-3.51.tar.gz">ralcgm</a>)
+        </p>
+        <h4>
+          Optional Graphics Utilities
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../x/TTF-and-OTF-fonts.html#dejavu-fonts"
+          title="DejaVu fonts">Dejavu fonts</a>, <a class="xref" href=
+          "../pst/gs.html" title=
+          "ghostscript-10.02.1">ghostscript-10.02.1</a>, <a class="xref"
+          href="../xsoft/gimp.html" title="Gimp-2.10.36">Gimp-2.10.36</a>,
+          <a class="xref" href="graphviz.html" title=
+          "Graphviz-9.0.0">Graphviz-9.0.0</a>, <a class="xref" href=
+          "../xsoft/inkscape.html" title="Inkscape-1.3.2">Inkscape-1.3.2</a>,
+          <a class="ulink" href="https://www.blender.org/">Blender</a>,
+          <a class="ulink" href=
+          "https://corefonts.sourceforge.net/">corefonts</a>, <a class=
+          "ulink" href=
+          "https://ghostscript.com/releases/gpcldnld.html">GhostPCL</a>,
+          <a class="ulink" href="http://www.gnuplot.info/">Gnuplot</a>,
+          <a class="ulink" href="https://www.povray.org/">POV-Ray</a>, and
+          <a class="ulink" href=
+          "https://www.radiance-online.org/">Radiance</a>
+        </p>
+        <h4>
+          Optional Conversion Tools
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../pst/enscript.html" title=
+          "Enscript-1.6.6">Enscript-1.6.6</a>, <a class="xref" href=
+          "potrace.html" title="Potrace-1.16">Potrace-1.16</a>, <a class=
+          "xref" href="../pst/texlive.html" title=
+          "texlive-20230313-source">texlive-20230313</a> (or <a class="xref"
+          href="../pst/tl-installer.html" title=
+          "install-tl-unx">install-tl-unx</a>) <a class="ulink" href=
+          "https://autotrace.sourceforge.net/">AutoTrace</a>, <a class=
+          "ulink" href="https://www.extensis.com/">GeoExpress Command Line
+          Utilities, AKA MrSID Utilities (binary package)</a>, <a class=
+          "ulink" href="https://www.gnu.org/software/hp2xx/">hp2xx</a>,
+          <a class="ulink" href="https://wvware.sourceforge.net/">libwmf</a>,
+          <a class="ulink" href=
+          "https://sk1project.net/uc2/">UniConvertor</a>, and <a class=
+          "ulink" href="https://www.cs.utah.edu/gdc/projects/urt/">Utah
+          Raster Toolkit</a> (or <a class="ulink" href=
+          "http://www.mcmurchy.com/urt/urt-3.1b.tar.gz">URT-3.1b</a>)
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          ImageMagick のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">ImageMagick</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr     \
+            --sysconfdir=/etc \
+            --enable-hdri     \
+            --with-modules    \
+            --with-perl       \
+            --disable-static  &amp;&amp;
+make</kbd></pre>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class=
+        "command">make DOCUMENTATION_PATH=/usr/share/doc/imagemagick-7.1.1 install</kbd></pre>
+        <p>
+          To test the installation, issue: <span class="command"><strong>make
+          check</strong></span>. Note that the EPS, PS, and PDF tests require
+          a working <span class="application">Ghostscript</span>. One test in
+          'make check' needs <span class="quote">「<span class=
+          "quote">Helvetica</span>」</span> from <span class=
+          "quote">「<span class="quote">Ghostscript Standard
+          Fonts</span>」</span>, which are optionally installed in <a class=
+          "xref" href="../pst/gs.html" title=
+          "ghostscript-10.02.1">ghostscript-10.02.1</a> - that test, and one
+          other, might fail, but all the validation can still pass.
+        </p>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--enable-hdri</code></em>: Enables
+          building of a high dynamic range version of ImageMagick.
+        </p>
+        <p>
+          <em class="parameter"><code>--with-modules</code></em>: Enables
+          support for dynamically loadable modules.
+        </p>
+        <p>
+          <em class="parameter"><code>--with-perl</code></em>: Enables
+          building and installing of PerlMagick.
+        </p>
+        <p>
+          <em class="parameter"><code>--disable-static</code></em>:
+          このスイッチはスタティックライブラリをインストールしないようにします。
+        </p>
+        <p>
+          <code class="option">--with-gslib</code>: Enables support to use
+          the <span class="application">Ghostscript</span> shared library.
+        </p>
+        <p>
+          <code class="option">--with-rsvg</code>: Enables support to use the
+          <span class="application">librsvg</span> library.
+        </p>
+        <p>
+          <code class="option">--with-autotrace</code>: Enables support to
+          use the <span class="application">Autotrace</span> library.
+        </p>
+        <p>
+          <code class="option">--with-wmf</code>: Enables support to use the
+          <span class="application">libwmf</span> library.
+        </p>
+        <p>
+          <code class="option">--with-gvc</code>: Enables support to use
+          <span class="application">GraphViz</span>.
+        </p>
+        <p>
+          <code class="option">--with-windows-font-dir= <em class=
+          "replaceable"><code>&lt;Some/Directory&gt;</code></em></code>: This
+          option specifies the directory where the Windows CoreFonts are
+          installed.
+        </p>
+        <p>
+          <code class="option">--with-dejavu-font-dir= <em class=
+          "replaceable"><code>&lt;Some/Directory&gt;</code></em></code>: This
+          option specifies the directory where the DejaVu fonts are
+          installed.
+        </p>
+        <p>
+          The options and parameters listed above are the only ones you
+          should have to pass to the <span class=
+          "command"><strong>configure</strong></span> script to activate all
+          the delegate dependencies. All other dependencies will be
+          automatically detected and utilized in the build if they are
+          installed.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">magick, Magick++-config, MagickCore-config, and
+              MagickWand-config. (animate, compare, composite, conjure,
+              convert, display, identify, import, magick-script, mogrify,
+              montage, and stream are all symbolic links to magick)</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libMagickCore-7.Q16HDRI.so,
+              libMagickWand-7.Q16HDRI.so, libMagick++-7.Q16HDRI.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/etc/ImageMagick-7, /usr/include/ImageMagick-7,
+              /usr/lib/ImageMagick-7.1.1,
+              /usr/lib/perl5/site_perl/5.38/{,auto}/Image/Magick,
+              /usr/share/doc/ImageMagick-7.1.1,
+              /usr/share/ImageMagick-7</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="animate" name="animate"></a><span class=
+                    "term"><span class=
+                    "command"><strong>animate</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    animates a sequence of images
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="compare" name="compare"></a><span class=
+                    "term"><span class=
+                    "command"><strong>compare</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    compares an image to a reconstructed image
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="composite" name="composite"></a><span class=
+                    "term"><span class=
+                    "command"><strong>composite</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    composites various images into the given base image
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="conjure" name="conjure"></a><span class=
+                    "term"><span class=
+                    "command"><strong>conjure</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    processes a MSL script to create an image
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="convert" name="convert"></a><span class=
+                    "term"><span class=
+                    "command"><strong>convert</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    converts image(s) from one format to another
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="display" name="display"></a><span class=
+                    "term"><span class=
+                    "command"><strong>display</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    イメージを表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="identify" name="identify"></a><span class=
+                    "term"><span class=
+                    "command"><strong>identify</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    describes the format and characteristics of an image file
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="import" name="import"></a><span class=
+                    "term"><span class=
+                    "command"><strong>import</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    X ウィンドウをキャプチャーします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="magick" name="magick"></a><span class=
+                    "term"><span class=
+                    "command"><strong>magick</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    convert between image formats as well as resize an image,
+                    blur, crop, despeckle, dither, draw on, flip, join,
+                    re-sample and much more
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="magick-config" name=
+                    "magick-config"></a><span class="term"><span class=
+                    "command"><strong>Magick{++,Core,Wand}-config</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    show information about the installed versions of the
+                    <span class="application">ImageMagick</span> libraries
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mogrify" name="mogrify"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mogrify</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    イメージを変形します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="montage" name="montage"></a><span class=
+                    "term"><span class=
+                    "command"><strong>montage</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    composites various images into a new image
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="stream" name="stream"></a><span class=
+                    "term"><span class=
+                    "command"><strong>stream</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    streams one or more pixel components of an image or
+                    portion of the image to your choice of storage formats
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="perlmagick" name="perlmagick"></a><span class=
+                    "term"><code class="filename">Image::Magick</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    allows the reading, manipulation and writing of a large
+                    number of image file formats using the <span class=
+                    "application">ImageMagick</span> library. Run
+                    <span class="command"><strong>make</strong></span> in the
+                    <code class="filename">PerlMagick/demo</code> directory
+                    of the package source tree after the package is installed
+                    to see a nice demo of the module's capabilities
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libMagickCore-7.Q16HDRI" name=
+                    "libMagickCore-7.Q16HDRI"></a><span class=
+                    "term"><code class=
+                    "filename">libMagickCore-7.Q16HDRI.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides the C API for ImageMagick
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libMagickWand-7.Q16HDRI" name=
+                    "libMagickWand-7.Q16HDRI"></a><span class=
+                    "term"><code class=
+                    "filename">libMagickWand-7.Q16HDRI.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is the recommended C API for ImageMagick. Unlike the
+                    MagickCore API it uses only a few opaque types
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libMagickpp-7.Q16HDRI" name=
+                    "libMagickpp-7.Q16HDRI"></a><span class=
+                    "term"><code class=
+                    "filename">libMagick++-7.Q16HDRI.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    provides the C++ API for ImageMagick
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="ibus.html" title="ibus-1.5.29">戻る</a>
+          <p>
+            ibus-1.5.29
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="iso-codes.html" title=
+          "ISO Codes-4.15.0">次へ</a>
+          <p>
+            ISO Codes-4.15.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="genutils.html" title=
+          "第11章 汎用ユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

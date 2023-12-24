@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Lm-sensors-3-6-0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第12章 システムユーティリティ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="lsb-tools.html" title=
+          "LSB-Tools-0.10">戻る</a>
+          <p>
+            LSB-Tools-0.10
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="logrotate.html" title=
+          "Logrotate-3.21.0">次へ</a>
+          <p>
+            Logrotate-3.21.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="sysutils.html" title=
+          "第12章 システムユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="lm_sensors" name="lm_sensors"></a>Lm-sensors-3-6-0
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Lm_sensors の概要
+        </h2>
+        <p>
+          The <span class="application">lm_sensors</span> package provides
+          userspace support for the hardware monitoring drivers in the Linux
+          kernel. This is useful for monitoring the temperature of the CPU
+          and adjusting the performance of some hardware (such as cooling
+          fans).
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://github.com/lm-sensors/lm-sensors/archive/V3-6-0/lm-sensors-3-6-0.tar.gz">
+                https://github.com/lm-sensors/lm-sensors/archive/V3-6-0/lm-sensors-3-6-0.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: f60e47b5eb50bbeed48a9f43bb08dd5e
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 268 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 2.6 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU 以下
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          lm_sensors の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="which.html" title=
+          "Which-2.21 と別の実現方法">Which-2.21</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="ulink" href="https://oss.oetiker.ch/rrdtool/">RRDtool</a>
+          (required to build the <span class=
+          "command"><strong>sensord</strong></span> program) and <a class=
+          "ulink" href="https://www.nongnu.org/dmidecode/">dmidecode</a>
+          (runtime)
+        </p>
+      </div>
+      <div class="kernel" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="lm_sensors-kernel" name="lm_sensors-kernel"></a>カーネルの設定
+        </h2>
+        <p>
+          The following configuration options attempt to cover the most
+          common hardware monitoring devices in a typical desktop or laptop
+          system. View the help of each (by pressing the <span class=
+          "keycap"><strong>H</strong></span> button with the option focused
+          in the <span class="command"><strong>make
+          menuconfig</strong></span>) to know if you need it. There are many
+          platform-specific hardware monitoring devices so it's impossible to
+          list the configuration for all of them here. You may investigate
+          the content of <code class="filename">/sys/class/hwmon</code>
+          within a <span class="quote">「<span class=
+          "quote">mainstream</span>」</span> distro running on the system to
+          know which drivers you need.
+        </p>
+        <pre class="screen"><span class=
+        "blue">P</span>ower management and ACPI options ---&gt;
+  [*] <span class=
+"blue">A</span>CPI (Advanced Configuration and Power Interface) Support ---&gt;      [ACPI]
+    &lt; /*/M&gt; <span class=
+"blue">B</span>attery                                               [ACPI_BATTERY]
+    &lt; /*/M&gt; <span class=
+"blue">T</span>hermal Zone                                          [ACPI_THERMAL]
+
+<span class="blue">D</span>evice Drivers ---&gt;
+  N<span class="blue">V</span>ME Support ---&gt;
+    &lt; /*&gt; N<span class=
+"blue">V</span>M Express block device                                [BLK_DEV_NVME]
+    # Set [HWMON] to &lt;*&gt; (not &lt;M&gt;!) or it will not show up:
+    [ /*] N<span class=
+"blue">V</span>Me hardware monitoring                                  [NVME_HWMON]
+  &lt;*/M&gt; H<span class=
+"blue">a</span>rdware Monitoring support ---&gt;                                 [HWMON]
+    &lt; /*/M&gt; <span class=
+"blue">A</span>MD Athlon64/FX or Opteron temperature sensor       [SENSORS_K8TEMP]
+    &lt; /*/M&gt; <span class=
+"blue">A</span>MD Family 10h+ temperature sensor                 [SENSORS_K10TEMP]
+    &lt; /*/M&gt; <span class=
+"blue">A</span>MD Family 15h processor power                [SENSORS_FAM15H_POWER]
+    &lt; /*/M&gt; <span class=
+"blue">I</span>ntel Core/Core2/Atom temperature sensor          [SENSORS_CORETEMP]</pre>
+        <p>
+          Recompile your kernel and reboot into the new kernel.
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Lm_sensors のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">Lm_sensors</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">make PREFIX=/usr        \
+     BUILD_STATIC_LIB=0 \
+     MANDIR=/usr/share/man</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">make PREFIX=/usr        \
+     BUILD_STATIC_LIB=0 \
+     MANDIR=/usr/share/man install &amp;&amp;
+
+install -v -m755 -d /usr/share/doc/lm_sensors-3-6-0 &amp;&amp;
+cp -rv              README INSTALL doc/* \
+                    /usr/share/doc/lm_sensors-3-6-0</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>BUILD_STATIC_LIB=0</code></em>: This
+          parameter disables compiling and installing the static version of
+          <code class="filename">libsensors</code>.
+        </p>
+        <p>
+          <code class="option">PROG_EXTRA=sensord</code>: This parameter
+          enables compiling <span class=
+          "command"><strong>sensord</strong></span>, a daemon that can
+          monitor your system at regular intervals. Compiling <span class=
+          "command"><strong>sensord</strong></span> requires <a class="ulink"
+          href="https://oss.oetiker.ch/rrdtool/">RRDtool</a>. Be sure to
+          install RRDtool in <code class="filename">/usr</code> by running
+          <span class="command"><strong>make prefix=/usr</strong></span> when
+          building it. Otherwise, Lm_sensors will not find it easily.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Lm_sensors の設定
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3">
+            <a id="lm_sensors-config" name="lm_sensors-config"></a>
+          </h3>
+          <h4 class="title">
+            <a id="lm_sensors-config" name="lm_sensors-config"></a>設定情報
+          </h4>
+          <p>
+            <code class="filename">/etc/sensors3.conf</code>
+          </p>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">fancontrol, isadump, isaset, pwmconfig, sensors,
+              sensors-conf-convert, sensors-detect, and optionally,
+              sensord</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libsensors.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/etc/sensors.d, /usr/include/sensors,
+              /usr/share/doc/lm_sensors-3-6-0</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fancontrol" name="fancontrol"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fancontrol</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a shell script for use with <span class=
+                    "application">lm_sensors</span>. It reads its
+                    configuration from a file, then calculates fan speeds
+                    from temperatures and sets the corresponding PWM outputs
+                    to the computed values
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="isadump" name="isadump"></a><span class=
+                    "term"><span class=
+                    "command"><strong>isadump</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a small helper program to examine registers visible
+                    through the ISA bus. It is intended to probe any chip
+                    that lives on the ISA bus working with an address
+                    register and a data register (I2C-like access) or a flat
+                    range (of up to 256 bytes)
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="isaset" name="isaset"></a><span class=
+                    "term"><span class=
+                    "command"><strong>isaset</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a small helper program to set registers visible
+                    through the ISA bus
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pwmconfig" name="pwmconfig"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pwmconfig</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    tests the pulse width modulation (PWM) outputs of sensors
+                    and configures fancontrol
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sensors" name="sensors"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sensors</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    prints the current readings of all sensor chips
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sensors-conf-convert" name=
+                    "sensors-conf-convert"></a><span class=
+                    "term"><span class="command"><strong>sensors-conf-convert</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a <span class="application">Perl</span> script to
+                    convert <span class="application">lm-sensors</span>
+                    version 2 configuration files to work with version 3
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sensors-detect" name=
+                    "sensors-detect"></a><span class="term"><span class=
+                    "command"><strong>sensors-detect</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a <span class="application">Perl</span> script that
+                    will walk you through the process of scanning your system
+                    for various hardware monitoring chips (sensors) supported
+                    by <code class="filename">libsensors</code>, or more
+                    generally by the <span class=
+                    "application">lm_sensors</span> tool suite
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sensord" name="sensord"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sensord</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    (optional) is a daemon that can be used to periodically
+                    log sensor readings
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libsensors" name="libsensors"></a><span class=
+                    "term"><code class="filename">libsensors.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains the <span class="application">lm_sensors</span>
+                    API functions
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="lsb-tools.html" title=
+          "LSB-Tools-0.10">戻る</a>
+          <p>
+            LSB-Tools-0.10
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="logrotate.html" title=
+          "Logrotate-3.21.0">次へ</a>
+          <p>
+            Logrotate-3.21.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="sysutils.html" title=
+          "第12章 システムユーティリティ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

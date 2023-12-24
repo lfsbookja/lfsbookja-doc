@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      asymptote-2.86
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第51章 組版処理
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="texlive.html" title=
+          "texlive-20230313-source">戻る</a>
+          <p>
+            texlive-20230313-source
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="biber.html" title="biber-2.19">次へ</a>
+          <p>
+            biber-2.19
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="typesetting.html" title="第51章 組版処理">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="asymptote" name="asymptote"></a>asymptote-2.86
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to asymptote
+        </h2>
+        <p>
+          <span class="application">Asymptote</span> is a powerful
+          descriptive vector graphics language that provides a natural
+          coordinate-based framework for technical drawing. Labels and
+          equations can be typeset with LaTeX. As well as EPS, PDF and PNG
+          output it can produce WebGL 3D HTML rendering and (using
+          <span class="application">dvisvgm</span>) SVG output.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://downloads.sourceforge.net/asymptote/asymptote-2.86.src.tgz">
+                https://downloads.sourceforge.net/asymptote/asymptote-2.86.src.tgz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: cbba3fe866982ed1dd60b903f632a04c
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 15 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 218 MB (54 MB installed, with
+                all the dependencies which are in BLFS)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: 1.3 SBU (using parallelism=4)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Additional Downloads
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Required patch: <a class="ulink" href=
+                "https://www.linuxfromscratch.org/patches/blfs/svn/asymptote-2.86-build_fix-1.patch">
+                https://www.linuxfromscratch.org/patches/blfs/svn/asymptote-2.86-build_fix-1.patch</a>
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          asymptote Dependencies
+        </h3>
+        <h4>
+          Required
+        </h4>
+        <p class="required">
+          <a class="xref" href="gs.html" title=
+          "ghostscript-10.02.1">ghostscript-10.02.1</a> and <a class="xref"
+          href="texlive.html" title=
+          "texlive-20230313-source">texlive-20230313</a>
+        </p>
+        <h4>
+          Recommended
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../basicnet/curl.html" title=
+          "cURL-8.5.0">cURL-8.5.0</a>, <a class="xref" href=
+          "../x/freeglut.html" title="Freeglut-3.4.0">Freeglut-3.4.0</a>,
+          <a class="xref" href="../general/gc.html" title=
+          "GC-8.2.4">GC-8.2.4</a>, <a class="xref" href="../x/glew.html"
+          title="GLEW-2.2.0">GLEW-2.2.0</a>, <a class="xref" href=
+          "../general/glm.html" title="GLM-0.9.9.8">GLM-0.9.9.8</a> and
+          <a class="xref" href="../basicnet/libtirpc.html" title=
+          "libtirpc-1.3.4">libtirpc-1.3.4</a>
+        </p>
+        <h4>
+          Recommended at runtime
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="dvisvgm.html" title=
+          "dvisvgm-3.1.2">dvisvgm-3.1.2</a> to allow svg output
+        </p>
+        <h4>
+          Optional
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/fftw.html" title=
+          "fftw-3.3.10">fftw-3.3.10</a>, <a class="xref" href=
+          "../general/gsl.html" title="Gsl-2.7.1">Gsl-2.7.1</a>, <a class=
+          "xref" href="../general/libsigsegv.html" title=
+          "libsigsegv-2.14">libsigsegv-2.14</a>, both <a class="xref" href=
+          "../general/boost.html" title="Boost-1.84.0">Boost-1.84.0</a> and
+          <a class="ulink" href=
+          "https://github.com/Tencent/rapidjson/releases/">rapidjson</a> to
+          use <a class="ulink" href=
+          "https://microsoft.github.io/language-server-protocol/implementors/tools/">
+          LSP</a> which can be used with <a class="ulink" href=
+          "https://asymptote.sourceforge.io/doc/Language-server-protocol.html#index-LSP/">
+          emacs</a>, and <a class="ulink" href=
+          "https://eigen.tuxfamily.org/">eigen</a>
+        </p>
+        <h4>
+          Optional (at runtime)
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/imagemagick.html" title=
+          "ImageMagick-7.1.1-15">ImageMagick-7.1.1-15</a> to convert output
+          to other formats such as JPEG or to create animated GIFs, <a class=
+          "ulink" href="https://pypi.org/project/PyQt5/">PyQt5</a> (not
+          tested, has a build dependency of (<a class="xref" href=
+          "../x/qt5.html" title="Qt-5.15.11">Qt-5.15.11</a> または <a class=
+          "xref" href="../x/qt5-alternate.html" title=
+          "qt-alternate-5.15.11">qt-alternate-5.15.11</a>)) to use xasy.
+        </p>
+        <p class="usernotes">
+          Editor Notes: <a class="ulink" href=
+          "https://wiki.linuxfromscratch.org/blfs/wiki/asymptote">https://wiki.linuxfromscratch.org/blfs/wiki/asymptote</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of asymptote
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            Certain 3D PDF scripts may not work when invoked from pdflatex on
+            some zen+ amdgpu APU machines.
+          </p>
+        </div>
+        <p>
+          First apply a patch to fix building without the Language Server
+          Protocol :
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../asymptote-2.86-build_fix-1.patch</kbd></pre>
+        <p>
+          Install <span class="application">asymptote</span> by running the
+          following commands:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">export TEXARCH=$(uname -m | sed -e 's/i.86/i386/' -e 's/$/-linux/') &amp;&amp;
+
+./configure --prefix=$TEXLIVE_PREFIX                          \
+            --bindir=$TEXLIVE_PREFIX/bin/$TEXARCH             \
+            --datarootdir=$TEXLIVE_PREFIX/texmf-dist          \
+            --infodir=$TEXLIVE_PREFIX/texmf-dist/doc/info     \
+            --libdir=$TEXLIVE_PREFIX/texmf-dist               \
+            --mandir=$TEXLIVE_PREFIX/texmf-dist/doc/man       \
+            --disable-lsp                                     \
+            --enable-gc=system                                \
+            --with-latex=$TEXLIVE_PREFIX/texmf-dist/tex/latex \
+            --with-context=$TEXLIVE_PREFIX/texmf-dist/tex/context/third &amp;&amp;
+
+make</kbd></pre>
+        <p>
+          To test the results, issue: <span class="command"><strong>make
+          check</strong></span>.
+        </p>
+        <p>
+          Now, as the <code class="systemitem">root</code> user:
+        </p>
+        <pre class="root"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <em class="parameter"><code>--prefix=</code></em>, <em class=
+          "parameter"><code>--bindir=</code></em>, <em class=
+          "parameter"><code>--datarootdir=</code></em>, and other
+          <span class="quote">「<span class="quote">dir</span>」</span>
+          switches: these switches ensure that the files installed from
+          source will overwrite any corresponding files previously installed
+          by <span class="application">install-tl-unx</span> so that the
+          alternative methods of installing <span class=
+          "application">texlive</span> are consistent.
+        </p>
+        <p>
+          <em class=
+          "parameter"><code>--libdir=$TEXLIVE_PREFIX/texmf-dist</code></em>:
+          This parameter ensures that the <code class=
+          "filename">asymptote</code> directory will similarly overwrite any
+          files installed by install-tl-unx.
+        </p>
+        <p>
+          <em class="parameter"><code>--disable-lsp</code></em>: The Language
+          Server Protocol is enabled by default, with several third-party
+          sources included, but it does not build unless boost and repidjson
+          have been installed.
+        </p>
+        <p>
+          <em class="parameter"><code>--enable-gc=system</code></em>: this
+          ensures that the system version of <code class=
+          "filename">libgc.so</code> will be used instead of the version
+          shipped with this package.
+        </p>
+        <p>
+          <em class="parameter"><code>--with-latex=</code></em> <em class=
+          "parameter"><code>--with-context=</code></em>: These switches
+          ensure that style files and a tex file will be installed into the
+          <span class="application">texlive</span> directories instead of
+          creating a <code class="filename">texmf-local</code> directory for
+          them.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Programs:</strong>
+              <span class="segbody">asy, xasy</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">None</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directory:</strong>
+              <span class="segbody">$TEXLIVE_PREFIX/texmf-dist/asymptote,
+              $TEXLIVE_PREFIX/doc/asymptote,
+              $TEXLIVE_PREFIX/info/asymptote</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="asy" name="asy"></a><span class=
+                    "term"><span class="command"><strong>asy</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a vector graphics program
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="xasy" name="xasy"></a><span class=
+                    "term"><span class=
+                    "command"><strong>xasy</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a Python3 script providing a Qt5 GUI for asy
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="texlive.html" title=
+          "texlive-20230313-source">戻る</a>
+          <p>
+            texlive-20230313-source
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="biber.html" title="biber-2.19">次へ</a>
+          <p>
+            biber-2.19
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="typesetting.html" title="第51章 組版処理">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

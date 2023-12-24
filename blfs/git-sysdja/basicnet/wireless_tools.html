@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Wireless Tools-29
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第15章 ネットワークプログラム
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="iw.html" title="iw-5.19">戻る</a>
+          <p>
+            iw-5.19
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="wpa_supplicant.html" title=
+          "wpa_supplicant-2.10">次へ</a>
+          <p>
+            wpa_supplicant-2.10
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="netprogs.html" title=
+          "第15章 ネットワークプログラム">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="wireless_tools" name="wireless_tools"></a>Wireless Tools-29
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Wireless Tools の概要
+        </h2>
+        <p>
+          The Wireless Extension (WE) is a generic API in the Linux kernel
+          allowing a driver to expose configuration and statistics specific
+          to common Wireless LANs to userspace. A single set of tools can
+          support all the variations of Wireless LANs, regardless of their
+          type, as long as the driver supports Wireless Extensions. WE
+          parameters may also be changed on the fly without restarting the
+          driver (or Linux).
+        </p>
+        <p>
+          The <span class="application">Wireless Tools</span> (WT) package is
+          a set of tools allowing manipulation of the Wireless Extensions.
+          They use a textual interface to support the full Wireless
+          Extension.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://hewlettpackard.github.io/wireless-tools/wireless_tools.29.tar.gz">
+                https://hewlettpackard.github.io/wireless-tools/wireless_tools.29.tar.gz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: e06c222e186f7cc013fd272d023710cb
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 288 KB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 2.0 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.1 SBU 以下
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          追加のダウンロード
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                必須のパッチ <a class="ulink" href=
+                "https://www.linuxfromscratch.org/patches/blfs/svn/wireless_tools-29-fix_iwlist_scanning-1.patch">
+                https://www.linuxfromscratch.org/patches/blfs/svn/wireless_tools-29-fix_iwlist_scanning-1.patch</a>
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Wireless Tools の依存パッケージ
+        </h3>
+        <h4>
+          必須 (実行時)
+        </h4>
+        <p class="nodump">
+          <a class="xref" href="wireless-kernel.html" title=
+          "Configuring the Linux Kernel for Wireless">Configuring the Linux
+          Kernel for Wireless</a>
+        </p>
+      </div>
+      <div class="kernel" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="wireless-tools-kernel" name=
+          "wireless-tools-kernel"></a>カーネルの設定
+        </h2>
+        <p>
+          To use <span class="application">Wireless Tools</span>, the kernel
+          must have the appropriate drivers and other support available.
+          Besides the configurations mentioned by <a class="xref" href=
+          "wireless-kernel.html" title=
+          "Configuring the Linux Kernel for Wireless">Configuring the Linux
+          Kernel for Wireless</a>, it's also needed to enable the following
+          options in the kernel configuration:
+        </p>
+        <pre class="screen">[*] N<span class=
+        "blue">e</span>tworking support ---&gt;                                                [NET]
+  [*] <span class=
+"blue">W</span>ireless ---&gt;                                                   [WIRELESS]
+    &lt;*/M&gt; <span class=
+"blue">c</span>fg80211 - wireless configuration API                       [CFG80211]
+    [*]     <span class=
+"blue">c</span>fg80211 wireless extensions compatibility           [CFG80211_WEXT]</pre>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Wireless Tools のインストール
+        </h2>
+        <p>
+          First, apply a patch that fixes a problem when numerous networks
+          are available:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../wireless_tools-29-fix_iwlist_scanning-1.patch</kbd></pre>
+        <p>
+          以下のコマンドを実行して <span class="application">Wireless Tools</span>
+          をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class=
+        "command">make PREFIX=/usr INSTALL_MAN=/usr/share/man install</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <span class=
+          "command"><strong>INSTALL_MAN=/usr/share/man</strong></span>:
+          Install manual pages in <code class=
+          "filename">/usr/share/man</code> instead of <code class=
+          "filename">/usr/man</code>.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">ifrename, iwconfig, iwevent, iwgetid, iwlist, iwpriv,
+              iwspy</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libiw.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">なし</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ifrename" name="ifrename"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ifrename</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    renames network interfaces based on various static
+                    criteria
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="iwconfig" name="iwconfig"></a><span class=
+                    "term"><span class=
+                    "command"><strong>iwconfig</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    configures a wireless network interface
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="iwevent" name="iwevent"></a><span class=
+                    "term"><span class=
+                    "command"><strong>iwevent</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    displays wireless events generated by drivers and setting
+                    changes
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="iwgetid" name="iwgetid"></a><span class=
+                    "term"><span class=
+                    "command"><strong>iwgetid</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    reports ESSID, NWID or AP/Cell Address of wireless
+                    networks
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="iwlist" name="iwlist"></a><span class=
+                    "term"><span class=
+                    "command"><strong>iwlist</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    gets detailed wireless information from a wireless
+                    interface
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="iwpriv" name="iwpriv"></a><span class=
+                    "term"><span class=
+                    "command"><strong>iwpriv</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    configures optional (private) parameters of a wireless
+                    network interface
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="iwspy" name="iwspy"></a><span class=
+                    "term"><span class=
+                    "command"><strong>iwspy</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    gets wireless statistics from specific node
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libiw" name="libiw"></a><span class=
+                    "term"><code class="filename">libiw.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    contains functions required by the wireless programs and
+                    provides an API for other programs
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="iw.html" title="iw-5.19">戻る</a>
+          <p>
+            iw-5.19
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="wpa_supplicant.html" title=
+          "wpa_supplicant-2.10">次へ</a>
+          <p>
+            wpa_supplicant-2.10
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="netprogs.html" title=
+          "第15章 ネットワークプログラム">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      EOG-45.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第34章 <span class="phrase">GNOME アプリケーション</span>
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="brasero.html" title="Brasero-3.12.3">戻る</a>
+          <p>
+            Brasero-3.12.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="evince.html" title="Evince-45.0">次へ</a>
+          <p>
+            Evince-45.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="applications.html" title=
+          "第34章 GNOME アプリケーション">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="eog" name="eog"></a>EOG-45.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          EOG の概要
+        </h2>
+        <p>
+          <span class="application">EOG</span> は、<span class=
+          "application">GNOME</span>
+          デスクトップ環境上にて、イメージファイルを表示しカタログ化するアプリケーションであり、基本的な編集機能を提供します。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          パッケージ情報
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                ダウンロード (HTTP): <a class="ulink" href=
+                "https://download.gnome.org/sources/eog/45/eog-45.1.tar.xz">https://download.gnome.org/sources/eog/45/eog-45.1.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロード MD5 sum: f4e40ec586e985fc625303faa5a36118
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                ダウンロードサイズ: 4.4 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                必要ディスク容量: 32 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                概算ビルド時間: 0.3 SBU
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          EOG の依存パッケージ
+        </h3>
+        <h4>
+          必須
+        </h4>
+        <p class="required">
+          <a class="xref" href="../x/adwaita-icon-theme.html" title=
+          "adwaita-icon-theme-45.0">adwaita-icon-theme-45.0</a>, <a class=
+          "xref" href="../general/exempi.html" title=
+          "Exempi-2.6.4">Exempi-2.6.4</a>, <a class="xref" href=
+          "gnome-desktop.html" title=
+          "gnome-desktop-44.0">gnome-desktop-44.0</a>, <a class="xref" href=
+          "../x/libhandy1.html" title="libhandy-1.8.2">libhandy-1.8.2</a>,
+          <a class="xref" href="../general/libjpeg.html" title=
+          "libjpeg-turbo-3.0.1">libjpeg-turbo-3.0.1</a>, <a class="xref"
+          href="libpeas.html" title="libpeas-1.36.0">libpeas-1.36.0</a>,
+          <a class="xref" href="../general/shared-mime-info.html" title=
+          "shared-mime-info-2.4">shared-mime-info-2.4</a>
+        </p>
+        <h4>
+          推奨
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../general/gobject-introspection.html" title=
+          "gobject-introspection-1.78.1">gobject-introspection-1.78.1</a>,
+          <a class="xref" href="../general/lcms2.html" title=
+          "Little CMS-2.14">Little CMS-2.14</a>, <a class="xref" href=
+          "../general/libexif.html" title=
+          "libexif-0.6.24">libexif-0.6.24</a>, <a class="xref" href=
+          "../general/librsvg.html" title=
+          "librsvg-2.57.1">librsvg-2.57.1</a>, <a class="xref" href=
+          "../general/webp-pixbuf-loader.html" title=
+          "webp-pixbuf-loader-0.2.4">webp-pixbuf-loader-0.2.4</a>
+        </p>
+        <h4>
+          任意
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/gtk-doc.html" title=
+          "GTK-Doc-1.33.2">GTK-Doc-1.33.2</a>, <a class="xref" href=
+          "../general/libportal.html" title=
+          "libportal-0.7.1">libportal-0.7.1</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          EOG のインストール
+        </h2>
+        <p>
+          以下のコマンドを実行して <span class="application">EOG</span> をビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build &amp;&amp;
+cd    build &amp;&amp;
+
+meson setup --prefix=/usr       \
+            --buildtype=release \
+            -Dlibportal=false   \
+            ..                  &amp;&amp;
+ninja</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          <code class="systemitem">root</code> ユーザーになって以下を実行します。
+        </p>
+        <pre class="root"><kbd class="command">ninja install</kbd></pre>
+        <p>
+          Still as the <code class="systemitem">root</code> user, rebuild the
+          cache database of MIME types handled by desktop files so <a class=
+          "xref" href="nautilus.html" title=
+          "Nautilus-45.2.1">Nautilus-45.2.1</a> will be able to open image
+          files with EOG.
+        </p>
+        <pre class="root"><kbd class=
+        "command">update-desktop-database</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          コマンド説明
+        </h2>
+        <p>
+          <em class="parameter"><code>--buildtype=release</code></em>:
+          本パッケージの安定版リリース向けに適したビルドタイプを指定します。
+          デフォルトにしていると、最適化されていないバイナリを生成する場合があるためです。
+        </p>
+        <p>
+          <em class="parameter"><code>-Dlibportal=false</code></em>: This
+          parameter disables building EOG with support for flatpak portals.
+          Remove this parameter if you have <a class="xref" href=
+          "../general/libportal.html" title=
+          "libportal-0.7.1">libportal-0.7.1</a> installed and wish to have
+          support for flatpak portals.
+        </p>
+        <p>
+          <code class="option">-Dgtk_doc=true</code>: Use this option if
+          <a class="xref" href="../general/gtk-doc.html" title=
+          "GTK-Doc-1.33.2">GTK-Doc-1.33.2</a> is installed and you wish to
+          rebuild and install the API documentation.
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          パッケージ構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">eog</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libeog.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/eog-3.0, /usr/lib/eog, /usr/share/eog,
+              /usr/share/gtk-doc/html/eog (任意インストール),
+              /usr/share/help/*/eog</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="eog-prog" name="eog-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>eog</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is a fast and functional image viewer as well as an image
+                    cataloging program. It has basic editing capabilities
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="brasero.html" title="Brasero-3.12.3">戻る</a>
+          <p>
+            Brasero-3.12.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="evince.html" title="Evince-45.0">次へ</a>
+          <p>
+            Evince-45.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="applications.html" title=
+          "第34章 GNOME アプリケーション">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

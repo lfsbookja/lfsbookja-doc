@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      Thunderbird-115.5.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <style type="text/css">
+    /*<![CDATA[*/
+    body { background-image: url('images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+  </head>
+  <body class="blfs" id="blfs-r12.0-1055+">
+    <div class="navheader">
+      <h4>
+        Beyond Linux<sup>®</sup> From Scratch <span class=
+        "phrase">(systemd</span> 版) - Version r12.0-1055+
+      </h4>
+      <h3>
+        第41章 X ベースのその他のプログラム
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="rxvt-unicode.html" title=
+          "rxvt-unicode-9.31">戻る</a>
+          <p>
+            rxvt-unicode-9.31
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="tigervnc.html" title=
+          "Tigervnc-1.13.1">次へ</a>
+          <p>
+            Tigervnc-1.13.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="other.html" title=
+          "第41章 X ベースのその他のプログラム">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <h1 class="sect1">
+        <a id="thunderbird" name="thunderbird"></a>Thunderbird-115.5.1
+      </h1>
+      <div class="package" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Introduction to Thunderbird
+        </h2>
+        <p>
+          <span class="application">Thunderbird</span> is a stand-alone
+          mail/news client based on the <span class=
+          "application">Mozilla</span> codebase. It uses the Gecko rendering
+          engine to enable it to display and compose HTML emails.
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS や依存パッケージが本ブックに示す最新安定バージョンでなかった場合には、BLFS
+            開発版においては、パッケージのビルドや処理実行が適切に行われないことがあります。
+          </p>
+        </div>
+        <h3>
+          Package Information
+        </h3>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                Download (HTTP): <a class="ulink" href=
+                "https://archive.mozilla.org/pub/thunderbird/releases/115.5.1/source/thunderbird-115.5.1.source.tar.xz">
+                https://archive.mozilla.org/pub/thunderbird/releases/115.5.1/source/thunderbird-115.5.1.source.tar.xz</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download MD5 sum: f4bdb62a3dabdba41296f875a1e86ac0
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Download size: 508 MB
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated disk space required: 6.4 GB (236 MB installed)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Estimated build time: 17 SBU (on a 8-core machine)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <h3>
+          Thunderbird Dependencies
+        </h3>
+        <h4>
+          Required
+        </h4>
+        <p class="required">
+          <a class="xref" href="../general/cbindgen.html" title=
+          "Cbindgen-0.26.0">Cbindgen-0.26.0</a>, <a class="xref" href=
+          "../general/dbus-glib.html" title=
+          "dbus-glib-0.112">dbus-glib-0.112</a>, <a class="xref" href=
+          "../x/gtk3.html" title="GTK+-3.24.38">GTK+-3.24.38</a>, <a class=
+          "xref" href="../general/llvm.html" title=
+          "LLVM-17.0.6">LLVM-17.0.6</a> including clang, <a class="xref"
+          href="../general/nodejs.html" title=
+          "Node.js-20.10.0">nodejs-20.10.0</a>, <a class="xref" href=
+          "../multimedia/pulseaudio.html" title=
+          "PulseAudio-16.1">PulseAudio-16.1</a> (or <a class="xref" href=
+          "../multimedia/alsa-lib.html" title=
+          "alsa-lib-1.2.10">alsa-lib-1.2.10</a> if you edit the mozconfig;
+          although it is now deprecated by mozilla), <a class="xref" href=
+          "../general/python3.html" title="Python-3.12.1">Python-3.12.1</a>
+          (rebuilt with the sqlite module), <a class="xref" href=
+          "../general/python-modules.html#six" title=
+          "six-1.16.0">six-1.16.0</a>, <a class="xref" href=
+          "../x/startup-notification.html" title=
+          "startup-notification-0.12">startup-notification-0.12</a>, and
+          <a class="xref" href="../general/unzip.html" title=
+          "UnZip-6.0">UnZip-6.0</a>
+        </p>
+        <h4>
+          Recommended
+        </h4>
+        <p class="recommended">
+          <a class="xref" href="../basicnet/libevent.html" title=
+          "libevent-2.1.12">libevent-2.1.12</a>, <a class="xref" href=
+          "../multimedia/libvpx.html" title=
+          "libvpx-1.13.1">libvpx-1.13.1</a>, <a class="xref" href=
+          "../general/libwebp.html" title="libwebp-1.3.2">libwebp-1.3.2</a>,
+          <a class="xref" href="../general/nasm.html" title=
+          "NASM-2.16.01">NASM-2.16.01</a>, <a class="xref" href=
+          "../general/nspr.html" title="NSPR-4.35">NSPR-4.35</a>, and
+          <a class="xref" href="../postlfs/nss.html" title=
+          "NSS-3.96.1">nss-3.96.1</a>
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            If you don't install recommended dependencies, then internal
+            copies of those packages will be used. They might be tested to
+            work, but they can be out of date or contain security holes.
+          </p>
+        </div>
+        <h4>
+          Optional
+        </h4>
+        <p class="optional">
+          <a class="xref" href="../general/pciutils.html" title=
+          "pciutils-3.10.0">pciutils-3.10.0</a> (runtime), <a class="xref"
+          href="../basicnet/wget.html" title="Wget-1.21.4">Wget-1.21.4</a>,
+          <a class="xref" href="../basicnet/wireless_tools.html" title=
+          "Wireless Tools-29">Wireless Tools-29</a>, and <a class="ulink"
+          href="https://facebook.github.io/watchman/">watchman</a>
+        </p>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Installation of Thunderbird
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            The build process for Thunderbird can use 8GB+ of RAM when
+            linking. Make sure that you have adequate swap or RAM before
+            continuing.
+          </p>
+        </div>
+        <p>
+          The building system ships several internal copies of the Python 3
+          modules <span class="application">setuptools</span> and
+          <code class="filename">six.py</code>. The shipped copies are too
+          old to work well with Python 3.12 or later. Replace them with the
+          symlinks to the LFS <span class="application">setuptools</span>
+          package and <a class="xref" href=
+          "../general/python-modules.html#six" title=
+          "six-1.16.0">six-1.16.0</a> already installed on the system, and
+          adapt the building system for these updated Python modules. We also
+          need to rewrite the code based on the <code class=
+          "filename">imp</code> module removed in Python 3.12 and later using
+          the <code class="filename">importlib</code> module:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">(for i in $(find -name six.py); do
+   ln -sfv /usr/lib/python3.12/site-packages/six.py $i
+   [ $? = 0 ] || exit $?
+ done) &amp;&amp;
+
+sed '/ConfigParser/s/Safe//'                          \
+    -i testing/mozbase/mozprofile/mozprofile/prefs.py &amp;&amp;
+
+(for i in setuptools distutils-precedence.pth  \
+          pkg_resources _distutils_hack; do
+   rm -rf third_party/python/setuptools/$i     &amp;&amp;
+   ln -sv /usr/lib/python3.12/site-packages/$i \
+          third_party/python/setuptools
+   [ $? = 0 ] || exit $?
+ done) &amp;&amp;
+
+sed 's/distutils/setuptools._&amp;/'            \
+    -i python/mozbuild/mozbuild/nodeutil.py &amp;&amp;
+
+sed -e '/^import/s/imp$/importlib.util/'             \
+    -e 's/imp.new_module/__import__/'                \
+    -e "s/imp.load_source\(.*\)/spec =               \
+        importlib.util.spec_from_file_location\1;    \
+        mod = importlib.util.module_from_spec(spec); \
+        spec.loader.exec_module(mod)/" -i python/mach/mach/main.py &amp;&amp;
+sed '/import imp/d' -i netwerk/dns/prepare_tlds.py
+</kbd></pre>
+        <p>
+          The configuration of <span class="application">Thunderbird</span>
+          is accomplished by creating a <code class=
+          "filename">mozconfig</code> file containing the desired
+          configuration options. A default <code class=
+          "filename">mozconfig</code> is created below. To see the entire
+          list of available configuration options (and a brief description of
+          each), issue <span class="command"><strong>./mach configure --
+          --help | less</strong></span>. Create the file with the following
+          command:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; mozconfig &lt;&lt; "EOF"
+<code class=
+"literal"># If you have a multicore machine, all cores will be used.
+
+# If you have installed wireless-tools comment out this line:
+ac_add_options --disable-necko-wifi
+
+# Uncomment the following option if you have not installed PulseAudio
+#ac_add_options --enable-audio-backends=alsa
+
+# Comment out following options if you have not installed
+# recommended dependencies:
+ac_add_options --with-system-libevent
+ac_add_options --with-system-libvpx
+ac_add_options --with-system-nspr
+ac_add_options --with-system-nss
+ac_add_options --with-system-webp
+
+# on some machines. It is supposed to improve startup time and it shrinks
+# libxul.so by a few MB.  With recent Binutils releases the linker already
+# supports a much safer and generic way for this.
+ac_add_options --disable-elf-hack
+export LDFLAGS="$LDFLAGS -Wl,-z,pack-relative-relocs"
+
+# The BLFS editors recommend not changing anything below this line:
+ac_add_options --prefix=/usr
+ac_add_options --enable-application=comm/mail
+
+ac_add_options --disable-crashreporter
+ac_add_options --disable-updater
+ac_add_options --disable-debug
+ac_add_options --disable-debug-symbols
+ac_add_options --disable-tests
+
+# This enables SIMD optimization in the shipped encoding_rs crate.
+ac_add_options --enable-rust-simd
+
+ac_add_options --enable-strip
+ac_add_options --enable-install-strip
+
+# You cannot distribute the binary if you do this.
+ac_add_options --enable-official-branding
+
+ac_add_options --enable-system-ffi
+ac_add_options --enable-system-pixman
+
+ac_add_options --with-system-jpeg
+ac_add_options --with-system-png
+ac_add_options --with-system-zlib
+
+# Using sandboxed wasm libraries has been moved to all builds instead
+# of only mozilla automation builds. It requires extra llvm packages
+# and was reported to seriously slow the build. Disable it.
+ac_add_options --without-wasm-sandboxed-libraries</code>
+EOF</kbd></pre>
+        <p>
+          Now invoke the Python <span class=
+          "command"><strong>mach</strong></span> script to compile
+          <span class="application">Thunderbird</span>:
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            If you are compiling this package in chroot you must ensure that
+            <code class="filename">/dev/shm</code> is mounted. If you do not
+            do this, the <span class="application">Python</span>
+            configuration will fail with a traceback report referencing
+            <code class=
+            "filename">/usr/lib/pythonN.N/multiprocessing/synchronize.py</code>.
+            As the <code class="systemitem">root</code> user, run:
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">mountpoint -q /dev/shm || mount -t tmpfs devshm /dev/shm</kbd></pre>
+        </div>
+        <pre class="userinput"><kbd class=
+        "command">export MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=none &amp;&amp;
+export MOZBUILD_STATE_PATH=./mozbuild               &amp;&amp;
+./mach configure                                    &amp;&amp;
+./mach build</kbd></pre>
+        <p>
+          This package does not come with a test suite.
+        </p>
+        <p>
+          Install <span class="application">Thunderbird</span> by running the
+          following commands as the <code class="systemitem">root</code>
+          user:
+        </p>
+        <pre class="root"><kbd class=
+        "command">MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=none ./mach install</kbd></pre>
+        <p>
+          Empty the environment variables which were set above:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">unset MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE MOZBUILD_STATE_PATH</kbd></pre>
+      </div>
+      <div class="commands" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Command Explanations
+        </h2>
+        <p>
+          <span class=
+          "command"><strong>MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=none</strong></span>:
+          Use the system python to create a virtual environment for
+          <span class="command"><strong>mach</strong></span> without
+          downloading any python wheels nor using the system python modules.
+          This prevent version mismatches between system modules and bundled
+          ones.
+        </p>
+        <p>
+          <span class="command"><strong>./mach configure</strong></span>:
+          This validates the supplied dependencies and the <code class=
+          "filename">mozconfig</code>.
+        </p>
+        <p>
+          <code class="option">./mach build --verbose</code>: Use this
+          alternative if you need details of which files are being compiled,
+          together with any C or C++ flags being used.
+        </p>
+        <p>
+          <code class="option">./mach build -jN</code>: The build should, by
+          default, use all the online CPU cores. If using all the cores
+          causes the build to swap because you have insufficient memory,
+          using fewer cores can be faster.
+        </p>
+        <p>
+          <code class="option"><code class="envar">CC=gcc
+          CXX=g++</code></code>: BLFS used to prefer to use gcc and g++
+          instead of upstream's defaults of the <span class=
+          "application">clang</span> programs. With the release of gcc-12 the
+          build takes longer with gcc and g++, primarily because of extra
+          warnings, and is bigger. Set these environment variables
+          <span class="emphasis"><em>before you run the configure
+          script</em></span> if you wish to continue to use gcc, g++.
+          Building with GCC on i?86 is currently broken.
+        </p>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Configuring Thunderbird
+        </h2>
+        <div class="sect3" lang="ja" xml:lang="ja">
+          <h3 class="sect3"></h3>
+          <h4 class="title">
+            <a id="id88736" name="id88736"></a>Configuration Information
+          </h4>
+          <p>
+            If your Window Manager or Desktop Environment does not allow you
+            to configure a default browser, you can add a configuration
+            parameter to <span class="application">Thunderbird</span> so that
+            a browser will start when you click on an Internet/intranet/local
+            URL. The procedure to check or modify any of the configuration
+            parameters is quite simple and the instructions here can be used
+            to view or modify any of the parameters.
+          </p>
+          <p>
+            First, open the configuration dialog by opening the <span class=
+            "quote">「<span class="quote">Edit</span>」</span> drop-down menu.
+            Choose <span class="quote">「<span class=
+            "quote">Preferences</span>」</span> and then scroll down to the
+            bottom of the page. Then, click the <span class=
+            "quote">「<span class="quote">Config Editor</span>」</span> button.
+            Click on the <span class="quote">「<span class="quote">I accept
+            the risk!</span>」</span> button. This will display a list of the
+            configuration preferences and information related to each one.
+            You can use the <span class="quote">「<span class=
+            "quote">Filter:</span>」</span> bar to enter search criteria and
+            narrow down the listed items. Changing a preference can be done
+            using two methods. One, if the preference has a boolean value
+            (True/False), simply double-click on the preference to toggle the
+            value and two, for other preferences simply right-click on the
+            desired line, choose <span class="quote">「<span class=
+            "quote">Modify</span>」</span> from the menu and change the value.
+            Creating new preference items is accomplished in the same way,
+            except choose <span class="quote">「<span class=
+            "quote">New</span>」</span> from the menu and provide the desired
+            data into the fields when prompted.
+          </p>
+          <p>
+            The configuration preference item you need to check so that
+            <span class="application">Thunderbird</span> uses a specified
+            browser is the <em class=
+            "parameter"><code>network.protocol-handler.app.http</code></em>
+            which should be set to the path of the desired browser, e.g.
+            <code class="option">/usr/bin/firefox</code>.
+          </p>
+          <p>
+            If you use a desktop environment such as <span class=
+            "application">GNOME</span> or <span class=
+            "application">KDE</span>, a desktop file <code class=
+            "filename">thunderbird.desktop</code> may be created, in order to
+            include a <span class="quote">「<span class="quote"><span class=
+            "application">Thunderbird</span></span>」</span> entry in the
+            menu. Run the following commands as the <code class=
+            "systemitem">root</code> user:
+          </p>
+          <pre class="root"><kbd class=
+          "command">mkdir -pv /usr/share/{applications,pixmaps} &amp;&amp;
+
+cat &gt; /usr/share/applications/thunderbird.desktop &lt;&lt; "EOF" &amp;&amp;
+<code class="literal">[Desktop Entry]
+Name=Thunderbird Mail
+Comment=Send and receive mail with Thunderbird
+GenericName=Mail Client
+Exec=thunderbird %u
+Terminal=false
+Type=Application
+Icon=thunderbird
+Categories=Network;Email;
+MimeType=application/xhtml+xml;text/xml;application/xhtml+xml;application/xml;application/rss+xml;x-scheme-handler/mailto;
+StartupNotify=true</code>
+EOF
+
+ln -sfv /usr/lib/thunderbird/chrome/icons/default/default256.png \
+        /usr/share/pixmaps/thunderbird.png</kbd></pre>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          Contents
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">Installed Program:</strong>
+              <span class="segbody">thunderbird</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Libraries:</strong>
+              <span class="segbody">Numerous libraries and modules in the
+              /usr/lib/thunderbird directory</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">Installed Directory:</strong>
+              <span class="segbody">/usr/lib/thunderbird</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            Short Descriptions
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="thunderbird-prog" name=
+                    "thunderbird-prog"></a><span class="term"><span class=
+                    "command"><strong>thunderbird</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    is <span class="application">Mozilla</span>'s email and
+                    newsgroup client
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="rxvt-unicode.html" title=
+          "rxvt-unicode-9.31">戻る</a>
+          <p>
+            rxvt-unicode-9.31
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="tigervnc.html" title=
+          "Tigervnc-1.13.1">次へ</a>
+          <p>
+            Tigervnc-1.13.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="other.html" title=
+          "第41章 X ベースのその他のプログラム">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Beyond Linux® From Scratch  (systemd  版) - Version r12.0-1055+">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
