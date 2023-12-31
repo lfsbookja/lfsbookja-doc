@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-120-systemd">
+  <body class="lfs" id="lfs-r12.0-124-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-120-systemd
+        Linux From Scratch - Version r12.0-124-systemd
       </h4>
       <h3>
         第5章 クロスツールチェーンの構築
@@ -40,7 +40,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-120-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.0-124-systemd">ホーム</a>
         </li>
       </ul>
     </div>
@@ -114,7 +114,8 @@ cd       build</kbd></pre>
              --target=$LFS_TGT   \
              --disable-nls       \
              --enable-gprofng=no \
-             --disable-werror</kbd></pre>
+             --disable-werror    \
+             --enable-default-hash-style=gnu</kbd></pre>
         <div class="variablelist">
           <p class="title">
             <strong>configure オプションの意味</strong>
@@ -179,6 +180,22 @@ cd       build</kbd></pre>
                 ホストのコンパイラーが警告を発した場合に、ビルドが中断することがないようにします。
               </p>
             </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-default-hash-style=gnu</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                リンカーにおいては、共有ライブラリや動的リンク実行ファイルのハッシュテーブルに関して、GNU スタイルのものと旧来の
+                ELF 形式のものの双方を生成することがデフォルトとなっています。
+                ハッシュテーブルは、動的リンカーがシンボル検索を実現するためのものです。 LFS における動的リンカー（Glibc
+                パッケージから提供されるもの）は、GNU
+                スタイルのハッシュを常に用いることにしており、シンボル検索をより早くなるようにしています。 したがって旧来の ELF
+                ハッシュテーブルは完全に無用です。 本指定はリンカーに対して、デフォルトでは GNU
+                スタイルのハッシュテーブルしか生成しないように指示します。 こうすることで、パッケージビルドの際に、旧来の ELF
+                ハッシュテーブルを生成する不要な時間、およびそれを収容するディスクスペースを軽減できます。
+              </p>
+            </dd>
           </dl>
         </div>
         <p>
@@ -219,7 +236,7 @@ cd       build</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-120-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.0-124-systemd">ホーム</a>
         </li>
       </ul>
     </div>

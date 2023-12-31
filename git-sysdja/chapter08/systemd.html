@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-120-systemd">
+  <body class="lfs" id="lfs-r12.0-124-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-120-systemd
+        Linux From Scratch - Version r12.0-124-systemd
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -39,7 +39,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-120-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.0-124-systemd">ホーム</a>
         </li>
       </ul>
     </div>
@@ -77,6 +77,13 @@
         <pre class="userinput"><kbd class=
         "command">sed -i -e 's/GROUP="render"/GROUP="video"/' \
        -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in</kbd></pre>
+        <p>
+          <span class="command"><strong>systemd-resolved</strong></span> の
+          DNSSEC 検証におけるセキュリティぜい弱性を修正します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -e '/return FLAGS_SET.*AUTHENTICATED/s/(t/(dt/' \
+    -i src/resolve/resolved-dns-transaction.c</kbd></pre>
         <p>
           systemd をコンパイルするための準備をします。
         </p>
@@ -1139,7 +1146,7 @@ meson setup \
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-120-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.0-124-systemd">ホーム</a>
         </li>
       </ul>
     </div>
