@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-124">
+  <body class="lfs" id="lfs-r12.0-127">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-124
+        Linux From Scratch - Version r12.0-127
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -39,7 +39,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-124">ホーム</a>
+          "Linux From Scratch - Version r12.0-127">ホーム</a>
         </li>
       </ul>
     </div>
@@ -168,9 +168,11 @@ meson setup \
         </div>
         <p>
           同梱されている udev ヘルパーの一覧を取得して、それを環境変数に保存します。
+          （変数をエクスポートしておくことは、厳密に言えば不要です。
+          ただしこうすると、一般ユーザーによるビルドやパッケージマネージャーの利用がしやすくなります。）
         </p>
         <pre class="userinput"><kbd class=
-        "command">udev_helpers=$(grep "'name' :" ../src/udev/meson.build | \
+        "command">export udev_helpers=$(grep "'name' :" ../src/udev/meson.build | \
                awk '{print $3}' | tr -d ",'" | grep -v 'udevadm')</kbd></pre>
         <p>
           udev に必要となるコンポーネントのみをビルドします。
@@ -228,6 +230,11 @@ sed 's|lib.*udevd|sbin/udevd|'                                        \
   &gt; /usr/share/man/man8/udevd.8
 
 rm /usr/share/man/man*/systemd*</kbd></pre>
+        <p>
+          <code class="envar">udev_helpers</code> 変数をクリアします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">unset udev_helpers</kbd></pre>
       </div>
       <div class="configuration" lang="ja" xml:lang="ja">
         <h2 class="sect2">
@@ -374,7 +381,7 @@ rm /usr/share/man/man*/systemd*</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-124">ホーム</a>
+          "Linux From Scratch - Version r12.0-127">ホーム</a>
         </li>
       </ul>
     </div>
