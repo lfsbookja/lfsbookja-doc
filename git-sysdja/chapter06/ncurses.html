@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <title>
-      6.3. Ncurses-6.4
+      6.3. Ncurses-6.4-20230520
     </title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
     <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-132-systemd">
+  <body class="lfs" id="lfs-r12.0-163-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-132-systemd
+        Linux From Scratch - Version r12.0-163-systemd
       </h4>
       <h3>
         第6章 クロスコンパイルによる一時的ツール
@@ -39,13 +39,14 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-132-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.0-163-systemd">ホーム</a>
         </li>
       </ul>
     </div>
     <div class="wrap" lang="ja" xml:lang="ja">
       <h1 class="sect1">
-        <a id="ch-tools-ncurses" name="ch-tools-ncurses"></a>6.3. Ncurses-6.4
+        <a id="ch-tools-ncurses" name="ch-tools-ncurses"></a>6.3.
+        Ncurses-6.4-20230520
       </h1>
       <div class="package" lang="ja" xml:lang="ja">
         <p>
@@ -183,8 +184,9 @@ popd</kbd></pre>
             <dd>
               <p>
                 本スイッチは通常のライブラリ (<code class=
-                "filename">libncurses.so.6.4</code>) ではなくワイド文字対応のライブラリ
-                (<code class="filename">libncursesw.so.6.4</code>)
+                "filename">libncurses.so.6.4-20230520</code>)
+                ではなくワイド文字対応のライブラリ (<code class=
+                "filename">libncursesw.so.6.4-20230520</code>)
                 をビルドすることを指示します。 ワイド文字対応のライブラリは、マルチバイトロケールと従来の
                 8ビットロケールの双方に対して利用可能です。 通常のライブラリでは 8ビットロケールに対してしか動作しません。
                 ワイド文字対応と通常のものとでは、ソース互換があるもののバイナリ互換がありません。
@@ -201,7 +203,9 @@ popd</kbd></pre>
         </p>
         <pre class="userinput"><kbd class=
         "command">make DESTDIR=$LFS TIC_PATH=$(pwd)/build/progs/tic install
-echo "INPUT(-lncursesw)" &gt; $LFS/usr/lib/libncurses.so</kbd></pre>
+ln -sv libncursesw.so $LFS/usr/lib/libncurses.so
+sed -e 's/^#if.*XOPEN.*$/#if 1/' \
+    -i $LFS/usr/include/curses.h</kbd></pre>
         <div class="variablelist">
           <p class="title">
             <strong>install オプションの意味</strong>
@@ -219,16 +223,34 @@ echo "INPUT(-lncursesw)" &gt; $LFS/usr/lib/libncurses.so</kbd></pre>
               </p>
             </dd>
             <dt>
-              <span class="term"><span class="command"><strong>echo
-              "INPUT(-lncursesw)" &gt;
+              <span class="term"><span class="command"><strong>ln -sv
+              libncursesw.so
               $LFS/usr/lib/libncurses.so</strong></span></span>
             </dt>
             <dd>
               <p>
-                パッケージの中で、わずかですが <code class="filename">libncurses.so</code>
-                を必要としているものがあります。 これはすぐに生成する予定のものです。 ここでこの小さなリンカースクリプトを生成します。
-                これは <a class="xref" href="../chapter08/chapter08.html" title=
-                "第8章 基本的なソフトウェアのインストール">第&nbsp;8&nbsp;章</a> においてビルドします。
+                これから作り出すパッケージの中で、わずかですが <code class=
+                "filename">libncurses.so</code> を必要としているものがあります。 このシンボリックリンクは
+                <code class="filename">libncursesw.so</code> に代わるものとして生成します。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><span class="command"><strong>sed -e
+              's/^#if.*XOPEN.*$/#if 1/' ...</strong></span></span>
+            </dt>
+            <dd>
+              <p>
+                ヘッダーファイル <code class="filename">curses.h</code> では Ncurses
+                データ構造に関するさまざまな定義が行われています。
+                プリプロセッサーマクロ定義を変えることによって、データ構造定義を二つの異なるセットとして定義しているものがあります。
+                つまり 8 ビット定義は <code class="filename">libncurses.so</code>
+                と互換性があり、ワイドキャラクター定義は <code class=
+                "filename">libncursesw.so</code> と互換性があります。 これまで <code class=
+                "filename">libncurses.so</code> の代わりとして <code class=
+                "filename">libncursesw.so</code>
+                を利用してきていることから、ヘッダーファイルを修正して、<code class=
+                "filename">libncursesw.so</code>
+                と互換性を持つワイドキャラクターデータ構造を常に用いるものとします。
               </p>
             </dd>
           </dl>
@@ -262,7 +284,7 @@ echo "INPUT(-lncursesw)" &gt; $LFS/usr/lib/libncurses.so</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-132-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.0-163-systemd">ホーム</a>
         </li>
       </ul>
     </div>

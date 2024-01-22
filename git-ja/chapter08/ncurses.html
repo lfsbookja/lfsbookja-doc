@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <title>
-      8.29. Ncurses-6.4
+      8.29. Ncurses-6.4-20230520
     </title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
     <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-132">
+  <body class="lfs" id="lfs-r12.0-163">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-132
+        Linux From Scratch - Version r12.0-163
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -39,14 +39,14 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-132">ホーム</a>
+          "Linux From Scratch - Version r12.0-163">ホーム</a>
         </li>
       </ul>
     </div>
     <div class="wrap" lang="ja" xml:lang="ja">
       <h1 class="sect1">
         <a id="ch-system-ncurses" name="ch-system-ncurses"></a>8.29.
-        Ncurses-6.4
+        Ncurses-6.4-20230520
       </h1>
       <div class="package" lang="ja" xml:lang="ja">
         <p>
@@ -165,36 +165,41 @@
           このときに、そのライブラリファイルのコードやデータを利用しているシェルプロセスが、クラッシュする場合があります。 そこで本パッケージは
           <code class="literal">DESTDIR</code> を使ってインストールして、<span class=
           "command"><strong>install</strong></span>
-          コマンドによってライブラリファイルを正しく置き換えるようにします。
+          コマンドによってライブラリファイルを正しく置き換えるようにします。 (ヘッダーファイル <code class=
+          "filename">curses.h</code> も <a class="xref" href=
+          "../chapter06/ncurses.html" title=
+          "6.3. Ncurses-6.4-20230520">「Ncurses-6.4-20230520」</a>
+          で行ったものと同様に、ワイドキャラクター ABI が確実に利用されるように修正されます。)
         </p>
         <pre class="userinput"><kbd class=
         "command">make DESTDIR=$PWD/dest install
 install -vm755 dest/usr/lib/libncursesw.so.6.4 /usr/lib
 rm -v  dest/usr/lib/libncursesw.so.6.4
+sed -e 's/^#if.*XOPEN.*$/#if 1/' \
+    -i dest/usr/include/curses.h
 cp -av dest/* /</kbd></pre>
         <p>
           アプリケーションによっては、ワイド文字対応ではないライブラリをリンカーが探し出すよう求めるものが多くあります。
-          そのようなアプリケーションに対しては、以下のようなシンボリックリンクやリンカースクリプトを作り出して、ワイド文字対応のライブラリにリンクさせるよう仕向けます。
+          そのようなアプリケーションに対しては、以下のようなシンボリックリンクを作り出して、ワイド文字対応のライブラリにリンクさせるよう仕向けます。
+          (<code class="filename">.so</code> のリンクは、編集された <code class=
+          "filename">curses.h</code> がワイドキャラクターに対して常に用いられるようにするためだけのものです。)
         </p>
         <pre class="userinput"><kbd class=
         "command">for lib in ncurses form panel menu ; do
-    rm -vf                    /usr/lib/lib${lib}.so
-    echo "INPUT(-l${lib}w)" &gt; /usr/lib/lib${lib}.so
-    ln -sfv ${lib}w.pc        /usr/lib/pkgconfig/${lib}.pc
+    ln -sfv lib${lib}w.so /usr/lib/lib${lib}.so
+    ln -sfv ${lib}w.pc    /usr/lib/pkgconfig/${lib}.pc
 done</kbd></pre>
         <p>
           最後に古いアプリケーションにおいて、ビルド時に <code class="filename">-lcurses</code>
           を指定するものがあるため、これもビルド可能なものにします。
         </p>
         <pre class="userinput"><kbd class=
-        "command">rm -vf                     /usr/lib/libcursesw.so
-echo "INPUT(-lncursesw)" &gt; /usr/lib/libcursesw.so
-ln -sfv libncurses.so      /usr/lib/libcurses.so</kbd></pre>
+        "command">ln -sfv libncursesw.so /usr/lib/libcurses.so</kbd></pre>
         <p>
           必要なら Ncurses のドキュメントをインストールします。
         </p>
         <pre class="userinput"><kbd class=
-        "command">cp -v -R doc -T /usr/share/doc/ncurses-6.4</kbd></pre>
+        "command">cp -v -R doc -T /usr/share/doc/ncurses-6.4-20230520</kbd></pre>
         <div class="admon note">
           <img alt="[注記]" src="../images/note.png" />
           <h3>
@@ -232,15 +237,15 @@ cp -av lib/lib*.so.5* /usr/lib</kbd></pre>
             </div>
             <div class="seg">
               <strong class="segtitle">インストールライブラリ:</strong> <span class=
-              "segbody">libcursesw.so (libncursesw.so
-              へのシンボリックリンクおよびリンカースクリプト), libformw.so, libmenuw.so,
-              libncursesw.so, libncurses++w.so, libpanelw.so,
-              これらに加えてワイド文字対応ではない通常のライブラリでその名称から "w" を取り除いたもの。</span>
+              "segbody">libcurses.so (シンボリックリンク), libform.so (シンボリックリンク),
+              libformw.so, libmenu.so (シンボリックリンク), libmenuw.so, libncurses.so
+              (シンボリックリンク), libncursesw.so, libncurses++w.so, libpanel.so
+              (シンボリックリンク), and libpanelw.so,</span>
             </div>
             <div class="seg">
               <strong class="segtitle">インストールディレクトリ:</strong> <span class=
               "segbody">/usr/share/tabset, /usr/share/terminfo,
-              /usr/share/doc/ncurses-6.4</span>
+              /usr/share/doc/ncurses-6.4-20230520</span>
             </div>
           </div>
         </div>
@@ -515,7 +520,7 @@ cp -av lib/lib*.so.5* /usr/lib</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-132">ホーム</a>
+          "Linux From Scratch - Version r12.0-163">ホーム</a>
         </li>
       </ul>
     </div>
