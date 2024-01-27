@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-170-systemd">
+  <body class="lfs" id="lfs-r12.0-172-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-170-systemd
+        Linux From Scratch - Version r12.0-172-systemd
       </h4>
       <h3>
         第9章 システム設定
@@ -39,14 +39,14 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-170-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.0-172-systemd">ホーム</a>
         </li>
       </ul>
     </div>
+    <h1 class="sect1">
+      <a id="ch-config-locale" name="ch-config-locale"></a>9.7. システムロケールの設定
+    </h1>
     <div class="sect1" lang="ja" xml:lang="ja">
-      <h1 class="sect1">
-        <a id="ch-config-locale" name="ch-config-locale"></a>9.7. システムロケールの設定
-      </h1>
       <p>
         以降に示す <code class="filename">/etc/locale.conf</code>
         ファイルは言語を設定するために必要となる環境変数を定義します。 これを設定することによって以下の内容が定められます。
@@ -84,15 +84,12 @@
       </div>
       <p>
         以下において <em class="replaceable"><code>&lt;ll&gt;</code></em>
-        と示しているものは、言語を表す２文字の英字 (例えば <span class="quote">「<span class=
-        "quote">en</span>」</span>) に、また <em class=
-        "replaceable"><code>&lt;CC&gt;</code></em> は、国を表す２文字の英字 (例えば
-        <span class="quote">「<span class="quote">GB</span>」</span>)
-        にそれぞれ置き換えてください。 <em class=
+        と示しているものは、言語を表す２文字の英字 (例えば <code class="literal">en</code>) に、また
+        <em class="replaceable"><code>&lt;CC&gt;</code></em> は、国を表す２文字の英字
+        (例えば <code class="literal">GB</code>) にそれぞれ置き換えてください。 <em class=
         "replaceable"><code>&lt;charmap&gt;</code></em>
-        は、選択したロケールに対応したキャラクターマップ (charmap) に置き換えてください。
-        オプションの修飾子として<span class="quote">「<span class=
-        "quote">@euro</span>」</span>といった記述もあります。
+        は、選択したロケールに対応したキャラクターマップ (charmap) に置き換えてください。 オプションの修飾子として
+        <code class="literal">@euro</code> といった記述もあります。
       </p>
       <p>
         以下のコマンドを実行すれば Glibc が取り扱うロケールを一覧で見ることができます。
@@ -104,11 +101,10 @@
         "quote">iso8859-1</span>」</span>や<span class="quote">「<span class=
         "quote">iso88591</span>」</span>として記述することもできます。
         ただしアプリケーションによってはエイリアスを正しく取り扱うことができないものがあります。 (<span class=
-        "quote">「<span class="quote">UTF-8</span>」</span> の場合、<span class=
-        "quote">「<span class=
-        "quote">UTF-8</span>」</span>と書かなければならず、これを<span class=
-        "quote">「<span class="quote">utf8</span>」</span>としてはならない場合があります。)
-        そこでロケールに対する正規の名称を選ぶのが最も無難です。 正規の名称は以下のコマンドを実行すれば分かります。 ここで <em class=
+        "quote">「<span class="quote">UTF-8</span>」</span> の場合 <code class=
+        "literal">UTF-8</code> と書かなければならず、これを <code class=
+        "literal">utf8</code> としてはならない場合があります。) そこでロケールに対する正規の名称を選ぶのが最も無難です。
+        正規の名称は以下のコマンドを実行すれば分かります。 ここで <em class=
         "replaceable"><code>&lt;locale name&gt;</code></em> は <span class=
         "command"><strong>locale -a</strong></span> コマンドの出力から得られたロケールを指定します。
         (本書の例では<span class="quote">「<span class=
@@ -123,9 +119,9 @@
       <pre class="screen"><code class=
       "computeroutput">ISO-8859-1</code></pre>
       <p>
-        出力された結果が<span class="quote">「<span class=
-        "quote">en_GB.ISO-8859-1</span>」</span>に対するロケール設定として用いるべきものです。
-        こうして探し出したロケールは動作確認しておくことが重要です。 Bash の起動ファイルに記述するのはその後です。
+        出力された結果が <code class="literal">en_GB.ISO-8859-1</code>
+        に対するロケール設定として用いるべきものです。 こうして探し出したロケールは動作確認しておくことが重要です。 Bash
+        の起動ファイルに記述するのはその後です。
       </p>
       <pre class="userinput"><kbd class=
       "command">LC_ALL=&lt;locale name&gt; locale language
@@ -144,21 +140,6 @@ LC_ALL=&lt;locale name&gt; locale int_prefix</kbd></pre>
         このエラーが発生したら <span class="command"><strong>localedef</strong></span>
         コマンドを使って、目的とするロケールをインストールするか、別のロケールを選ぶ必要があります。 これ以降の説明では Glibc
         がこのようなエラーを生成していないことを前提に話を進めます。
-      </p>
-      <p>
-        LFS には含まれない他のパッケージにて、指定したロケールをサポートしていないものがあります。 例えば X ライブラリ (X
-        ウィンドウシステムの一部)
-        では、内部ファイルに指定されたキャラクターマップ名に合致しないロケールを利用した場合に、以下のようなメッセージを出力します。
-      </p>
-      <pre class="screen"><code class=
-      "computeroutput">Warning: locale not supported by Xlib, locale set to C</code></pre>
-      <p>
-        Xlib ではキャラクターマップはたいてい、英大文字とダッシュ記号を用いて表現されます。 例えば "iso88591" ではなく
-        "ISO-8859-1" となります。
-        ロケール設定におけるキャラクターマップ部分を取り除いてみれば、適切なロケール設定を見出すことができます。 これはまた
-        <span class="command"><strong>locale charmap</strong></span>
-        コマンドを使って、設定を変えてみてロケールを指定してみれば確認できます。 例えば "de_DE.ISO-8859-15@euro"
-        という設定を "de_DE@euro" に変えてみて Xlib がそのロケールを認識するかどうか確認してみてください。
       </p>
       <p>
         これ以外のパッケージでも、パッケージが求めるものとは異なるロケール設定がなされた場合に、適切に処理されないケースがあります。
@@ -239,7 +220,7 @@ EOF</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-170-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.0-172-systemd">ホーム</a>
         </li>
       </ul>
     </div>

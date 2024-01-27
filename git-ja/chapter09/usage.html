@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-170">
+  <body class="lfs" id="lfs-r12.0-172">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-170
+        Linux From Scratch - Version r12.0-172
       </h4>
       <h3>
         第9章 システム設定
@@ -39,15 +39,15 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-170">ホーム</a>
+          "Linux From Scratch - Version r12.0-172">ホーム</a>
         </li>
       </ul>
     </div>
+    <h1 class="sect1">
+      <a id="ch-config-usage" name="ch-config-usage"></a>9.6. System V
+      ブートスクリプトの利用と設定
+    </h1>
     <div class="sect1" lang="ja" xml:lang="ja">
-      <h1 class="sect1">
-        <a id="ch-config-usage" name="ch-config-usage"></a>9.6. System V
-        ブートスクリプトの利用と設定
-      </h1>
       <div class="sect2" lang="ja" xml:lang="ja">
         <h2 class="sect2">
           9.6.1. System V ブートスクリプトはどのようにして動くのか
@@ -94,9 +94,11 @@
             注記
           </h3>
           <p>
-            従来より、上のランレベル 2 は「ネットワークなしにおけるマルチユーザーモード」として定義されていました。
+            従来より、上のランレベル 2 は<span class="quote">「<span class=
+            "quote">ネットワークなしにおけるマルチユーザーモード</span>」</span>として定義されていました。
             ただしこれは相当以前の話として、シリアルポートを介して複数ユーザーがシステムにログインするケースだけを表しています。
-            今日のコンピューター環境においてこれは意味をなしません。 そこでここでは「拡張用の予約」としています。
+            今日のコンピューター環境においてこれは意味をなしません。 そこでここでは<span class=
+            "quote">「<span class="quote">拡張用の予約</span>」</span>としています。
           </p>
         </div>
       </div>
@@ -408,8 +410,9 @@ EOF</kbd></pre>
           を見て、これらのプログラムに対する適切な引数を決定してください。
         </p>
         <p>
-          <code class="filename">/etc/sysconfig/console</code> ファイルの各行には、変数 =
-          "値" という記述を行います。 そして変数には以下に示すものが利用可能です。
+          <code class="filename">/etc/sysconfig/console</code> ファイルの各行には
+          <code class="envar">VARIABLE=value</code> という記述を行います。
+          そして変数には以下に示すものが利用可能です。
         </p>
         <div class="variablelist">
           <dl class="variablelist">
@@ -420,7 +423,9 @@ EOF</kbd></pre>
               <p>
                 この変数は、コンソールに出力されるカーネルメッセージのログレベルを指定するもので <span class=
                 "command"><strong>dmesg -n</strong></span> コマンドにより設定されます。
-                有効な設定値は "1" (メッセージ出力なし) から "8" まであり、デフォルトは "7" です。
+                有効な設定値は<code class="literal">1</code>(メッセージ出力なし)
+                から<code class="literal">8</code>まであります。 デフォルトは "7" です。
+                かなり詳細な出力となっています。
               </p>
             </dd>
             <dt>
@@ -429,9 +434,8 @@ EOF</kbd></pre>
             <dd>
               <p>
                 この変数は <span class="command"><strong>loadkeys</strong></span>
-                プログラムに対する引数を指定します。 このプログラムは<span class="quote">「<span class=
-                "quote">it</span>」</span>などのキーマップをロードします。
-                この変数がセットされていない場合、ブートスクリプトは <span class=
+                プログラムに対する引数を指定します。 このプログラムは <code class="literal">it</code>
+                などのキーマップをロードします。 この変数がセットされていない場合、ブートスクリプトは <span class=
                 "command"><strong>loadkeys</strong></span>
                 プログラムを実行せず、デフォルトのカーネルキーマップが用いられます。
                 キーマップによっては同一名に対して重複した定義を持つものもあります。 (cz とその変形が qwerty/ と
@@ -449,8 +453,8 @@ EOF</kbd></pre>
                 "command"><strong>loadkeys</strong></span>
                 プログラムを二度目に呼び出す際の引数を指定します。
                 普通のキーマップでは十分な設定にならない時の微調整を行うために利用します。
-                例えばユーロ記号がキーマップの中に含まれておらずこれを付け加える場合には、この変数に対して<span class=
-                "quote">「<span class="quote">euro2</span>」</span>を設定します。
+                例えばユーロ記号がキーマップの中に含まれておらずこれを付け加える場合には、この変数に対して <code class=
+                "literal">euro2</code> を設定します。
               </p>
             </dd>
             <dt>
@@ -459,14 +463,12 @@ EOF</kbd></pre>
             <dd>
               <p>
                 この変数は <span class="command"><strong>setfont</strong></span>
-                プログラムへの引数を指定します。 一般にこの変数にはフォント名、<span class=
-                "quote">「<span class=
-                "quote">-m</span>」</span>、アプリケーションキャラクターマップ (application
-                character map) を順に指定します。 例えばフォントとして <span class=
-                "quote">「<span class=
-                "quote">lat1-16</span>」</span>、アプリケーションキャラクターマップとして<span class="quote">「<span class="quote">8859-1</span>」</span>を指定する場合、この変数には<span class="quote">「<span class="quote">lat1-16
-                -m 8859-1</span>」</span>を設定します。 (これは米国にて適当な設定となります。) UTF-8
-                モードの場合、カーネルは UTF-8 キーマップ内の 8
+                プログラムへの引数を指定します。 一般にこの変数にはフォント名、<code class=
+                "literal">-m</code>、アプリケーションキャラクターマップ (application character
+                map) を順に指定します。 例えばフォントとして <span class="quote">「<span class=
+                "quote">lat1-16</span>」</span>、アプリケーションキャラクターマップとして<span class="quote">「<span class="quote">8859-1</span>」</span>を指定する場合、この変数には
+                <code class="literal">lat1-16 -m 8859-1</code> を設定します。
+                (これは米国にて適当な設定となります。) UTF-8 モードの場合、カーネルは UTF-8 キーマップ内の 8
                 ビットキーコードを変換するためにアプリケーションキャラクターマップを利用します。 したがって "-m"
                 パラメーターには、キーマップ内キーコードのエンコーディングを指定する必要があります。
               </p>
@@ -476,10 +478,9 @@ EOF</kbd></pre>
             </dt>
             <dd>
               <p>
-                コンソールを UTF-8 モードにするには、この変数を<span class="quote">「<span class=
-                "quote">1</span>」</span>、<span class="quote">「<span class=
-                "quote">yes</span>」</span>、<span class="quote">「<span class=
-                "quote">true</span>」</span>のいずれかに指定します。 UTF-8
+                コンソールを UTF-8 モードにするには、この変数を <code class="literal">1</code>,
+                <code class="literal">yes</code>, <code class=
+                "literal">true</code> のいずれかに指定します。 UTF-8
                 ベースのロケールであればこの設定を行います。 そうでないロケールにおいて設定するのは不適切です。
               </p>
             </dd>
@@ -882,7 +883,7 @@ EOF</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-170">ホーム</a>
+          "Linux From Scratch - Version r12.0-172">ホーム</a>
         </li>
       </ul>
     </div>
