@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <title>
-      9.7. Bash シェルの初期起動ファイル
+      9.7. システムロケールの設定
     </title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
     <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-172">
+  <body class="lfs" id="lfs-r12.0-188">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-172
+        Linux From Scratch - Version r12.0-188
       </h4>
       <h3>
         第9章 システム設定
@@ -40,46 +40,16 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-172">ホーム</a>
+          "Linux From Scratch - Version r12.0-188">ホーム</a>
         </li>
       </ul>
     </div>
     <h1 class="sect1">
-      <a id="ch-config-profile" name="ch-config-profile"></a>9.7. Bash
-      シェルの初期起動ファイル
+      <a id="ch-config-locale" name="ch-config-locale"></a>9.7. システムロケールの設定
     </h1>
     <div class="sect1" lang="ja" xml:lang="ja">
       <p>
-        シェルプログラムである <code class="filename">/bin/bash</code>
-        (これ以降は単に<span class="quote">「<span class=
-        "quote">シェル</span>」</span>と表現します) は、初期起動ファイルをいくつも利用して環境設定を行います。
-        個々のファイルにはそれぞれに目的があり、ログインや対話環境をさまざまに制御します。 <code class=
-        "filename">/etc</code> ディレクトリにあるファイルは一般にグローバルな設定を行います。
-        これに対応づいたファイルがユーザーのホームディレクトリにある場合は、グローバルな設定を上書きします。
-      </p>
-      <p>
-        対話型ログインシェルは <span class="command"><strong>/bin/login</strong></span>
-        プログラムを利用して <code class="filename">/etc/passwd</code>
-        ファイルを読み込み、ログインが成功することで起動します。 同じ対話型でも非ログインシェルの場合は <code class=
-        "prompt">[prompt]$</code><span class=
-        "command"><strong>/bin/bash</strong></span> のようなコマンドラインからの入力を経て起動します。
-        非対話型のシェルはシェルスクリプト動作中に実行されます。
-        非対話型であるのは、スクリプトの実行の最中にユーザーからの入力を待つことがないためです。
-      </p>
-      <p>
-        より詳しい情報は Bash の info ページ（<span class="command"><strong>info
-        bash</strong></span>）にある <span class="emphasis"><em>Bash
-        Features</em></span> の章の、<span class="emphasis"><em>Bash Startup
-        Files</em></span> および <span class="emphasis"><em>Interactive
-        Shells</em></span> の節を参照してください。
-      </p>
-      <p>
-        <code class="filename">/etc/profile</code> ファイルと <code class=
-        "filename">~/.bash_profile</code> ファイルは、対話型のログインシェルとして起動した時に読み込まれます。
-      </p>
-      <p>
-        本節の終わりに示す <code class="filename">/etc/profile</code>
-        ファイルは言語を設定するために必要となる環境変数を定義します。 これを設定することによって以下の内容が定められます。
+        環境変数の中には、ネイティブな言語サポートのために必要になるものがあります。 これを設定することによって以下の内容が定められます。
       </p>
       <div class="itemizedlist">
         <ul>
@@ -114,40 +84,34 @@
       </div>
       <p>
         以下において <em class="replaceable"><code>&lt;ll&gt;</code></em>
-        と示しているものは、言語を表す２文字の英字 (例えば <span class="quote">「<span class=
-        "quote">en</span>」</span>) に、また <em class=
-        "replaceable"><code>&lt;CC&gt;</code></em> は、国を表す２文字の英字 (例えば
-        <span class="quote">「<span class="quote">GB</span>」</span>)
-        にそれぞれ置き換えてください。 <em class=
+        と示しているものは、言語を表す２文字の英字 (例えば <code class="literal">en</code>) に、また
+        <em class="replaceable"><code>&lt;CC&gt;</code></em> は、国を表す２文字の英字
+        (例えば <code class="literal">GB</code>) にそれぞれ置き換えてください。 <em class=
         "replaceable"><code>&lt;charmap&gt;</code></em>
-        は、選択したロケールに対応したキャラクターマップ (charmap) に置き換えてください。
-        オプションの修飾子として<span class="quote">「<span class=
-        "quote">@euro</span>」</span>といった記述もあります。
+        は、選択したロケールに対応したキャラクターマップ (charmap) に置き換えてください。 オプションの修飾子として
+        <code class="literal">@euro</code> といった記述もあります。
       </p>
       <p>
         以下のコマンドを実行すれば Glibc が取り扱うロケールを一覧で見ることができます。
       </p>
       <pre class="userinput"><kbd class="command">locale -a</kbd></pre>
       <p>
-        キャラクターマップにはエイリアスがいくつもあります。 例えば<span class="quote">「<span class=
-        "quote">ISO-8859-1</span>」</span>は<span class="quote">「<span class=
-        "quote">iso8859-1</span>」</span>や<span class="quote">「<span class=
-        "quote">iso88591</span>」</span>として記述することもできます。
-        ただしアプリケーションによってはエイリアスを正しく取り扱うことができないものがあります。 (<span class=
-        "quote">「<span class="quote">UTF-8</span>」</span>の場合 <code class=
-        "literal">UTF-8</code> と書かなければならず、これを <code class=
-        "literal">utf8</code> としてはならない場合があります。) そこでロケールに対する正規の名称を選ぶのが最も無難です。
-        正規の名称は以下のコマンドを実行すれば分かります。 ここで <em class=
+        キャラクターマップにはエイリアスがいくつもあります。 例えば <code class=
+        "literal">ISO-8859-1</code> は <code class="literal">iso8859-1</code>
+        や <code class="literal">iso88591</code> として記述することもできます。
+        ただしアプリケーションによってはエイリアスを正しく取り扱うことができないものがあります。 (<code class=
+        "literal">UTF-8</code> の場合 <code class="literal">UTF-8</code>
+        と書かなければならず、これを <code class="literal">utf8</code> としてはならない場合があります。)
+        そこでロケールに対する正規の名称を選ぶのが最も無難です。 正規の名称は以下のコマンドを実行すれば分かります。 ここで <em class=
         "replaceable"><code>&lt;locale name&gt;</code></em> は <span class=
         "command"><strong>locale -a</strong></span> コマンドの出力から得られたロケールを指定します。
-        (本書の例では<span class="quote">「<span class=
-        "quote">en_GB.iso88591</span>」</span>としています。)
+        (本書の例では <code class="literal">en_GB.iso88591</code> としています。)
       </p>
       <pre class="userinput"><kbd class="command">LC_ALL=<em class=
       "replaceable"><code>&lt;locale name&gt;</code></em> locale charmap</kbd></pre>
       <p>
-        <span class="quote">「<span class=
-        "quote">en_GB.iso88591</span>」</span>ロケールの場合、上のコマンドの出力は以下となります。
+        <code class="literal">en_GB.iso88591</code>
+        ロケールの場合、上のコマンドの出力は以下となります。
       </p>
       <pre class="screen"><code class=
       "computeroutput">ISO-8859-1</code></pre>
@@ -164,9 +128,7 @@ LC_ALL=&lt;locale name&gt; locale int_prefix</kbd></pre>
       <p>
         上のコマンドを実行すると、言語名やロケールに応じたキャラクターエンコーディングが出力されます。
         また通貨や各国ごとの国際電話番号プレフィックスも出力されます。
-        コマンドを実行した際に以下のようなメッセージが表示されたら、<a class="xref" href=
-        "../chapter08/glibc.html" title=
-        "8.5. Glibc-2.38">「Glibc-2.38」</a>にてロケールをインストールしていないか、あるいはそのロケールが
+        コマンドを実行した際に以下のようなメッセージが表示されたら、第&nbsp;8&nbsp;章にてロケールをインストールしていないか、あるいはそのロケールが
         Glibc のデフォルトのインストールではサポートされていないかのいずれかです。
       </p>
       <pre class="screen"><code class=
@@ -182,37 +144,56 @@ LC_ALL=&lt;locale name&gt; locale int_prefix</kbd></pre>
         ディストリビューションがどのようにロケール設定をサポートしているかを調べてみると、有用な情報が得られるかもしれません。
       </p>
       <p>
-        適切なロケール設定が決まったら <code class="filename">/etc/profile</code>
-        ファイルを生成します。
+        シェルプログラムである <code class="filename">/bin/bash</code>
+        (これ以降は単に<span class="quote">「<span class=
+        "quote">シェル</span>」</span>と表現します) は、初期起動ファイルをいくつも利用して環境設定を行います。
+        個々のファイルにはそれぞれに目的があり、ログインや対話環境をさまざまに制御します。 <code class=
+        "filename">/etc</code> ディレクトリにあるファイルは一般にグローバルな設定を行います。
+        これに対応づいたファイルがユーザーのホームディレクトリにある場合は、グローバルな設定を上書きします。
+      </p>
+      <p>
+        対話型ログインシェルは <span class="command"><strong>/bin/login</strong></span>
+        プログラムを利用して <code class="filename">/etc/passwd</code>
+        ファイルを読み込み、ログインが成功することで起動します。 同じ対話型でも非ログインシェルの場合は <code class=
+        "prompt">[prompt]$</code><span class=
+        "command"><strong>/bin/bash</strong></span> のようなコマンドラインからの入力を経て起動します。
+        非対話型のシェルはシェルスクリプト動作中に実行されます。
+        非対話型であるのは、スクリプトの実行の最中にユーザーからの入力を待つことがないためです。
+      </p>
+      <p>
+        <span class="phrase">適切なロケール設定が定まったら <code class=
+        "filename">/etc/profile</code> を生成してロケールを望みどおりに設定します。</span> , ただし
+        Linux コンソールの起動中は、上ではなく <code class="literal">C.UTF-8</code> を設定します。
+        (Linux コンソールが表示できない文字を出力しないようにするためです。)
       </p>
       <pre class="userinput"><kbd class=
       "command">cat &gt; /etc/profile &lt;&lt; "EOF"
 <code class="literal"># Begin /etc/profile
 
-export LANG=<em class=
+for i in $(locale); do
+  unset ${i%=*}
+done
+
+if [[ "$TERM" = linux ]]; then
+  export LANG=C.UTF-8
+else
+  export LANG=<em class=
 "replaceable"><code>&lt;ll&gt;_&lt;CC&gt;.&lt;charmap&gt;&lt;@modifiers&gt;</code></em>
+fi
 
 # End /etc/profile</code>
 EOF</kbd></pre>
       <p>
-        ロケール設定の<span class="quote">「<span class=
-        "quote">C</span>」</span>(デフォルト) と<span class="quote">「<span class=
-        "quote">en_US.utf8</span>」</span>(米国の英語利用ユーザーに推奨) は異なります。
-        <span class="quote">「<span class="quote">C</span>」</span>は US-ASCII 7
-        ビットキャラクターセットを用います。 もし最上位ビットがセットされたキャラクターがあれば不適当なものとして取り扱います。 例えば
-        <span class="command"><strong>ls</strong></span>
+        ロケール設定の <code class="literal">C</code> (デフォルト) と <code class=
+        "literal">en_US</code> (米国の英語利用ユーザーに推奨) は異なります。 <code class=
+        "literal">C</code> は US-ASCII 7 ビットキャラクターセットを用います。
+        もし最上位ビットがセットされたキャラクターがあれば不適当なものとして取り扱います。 例えば <span class=
+        "command"><strong>ls</strong></span>
         コマンドにおいてクエスチョン記号が表示されることがあるのはこのためです。 また Mutt や Pine
-        などにより電子メールが送信される際に、そういった文字は RFC には適合しないメールとして送信されます。
-        送信された文字は<span class="quote">「<span class="quote">不明な 8ビット (unknown
-        8-bit)</span>」</span>として示されます。 そこで 8 ビット文字を必要としない場合のみ<span class=
-        "quote">「<span class="quote">C</span>」</span>ロケールを指定してください。
-      </p>
-      <p>
-        UTF-8 ベースのロケールは、プログラムによってはサポートしていないものもあります。 この問題については <a class=
-        "ulink" href=
-        "https://www.linuxfromscratch.org/blfs/view/svn/introduction/locale-issues.html">
-        https://www.linuxfromscratch.org/blfs/view/svn/introduction/locale-issues.html</a>
-        にて説明しており、可能なものは解決を図っていこうとしているところです。
+        などにより電子メールが送信される際に、そういった文字は RFC には適合しないメールとして送信されます。 送信された文字は
+        <code class="computeroutput">unknown 8-bit</code>(不明な 8ビット) として示されます。
+        そこで 8ビット文字を必要としないことが明らかな場合には <code class="literal">C</code>
+        ロケールを指定してください。
       </p>
     </div>
     <div class="navfooter">
@@ -236,7 +217,7 @@ EOF</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-172">ホーム</a>
+          "Linux From Scratch - Version r12.0-188">ホーム</a>
         </li>
       </ul>
     </div>

@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-172">
+  <body class="lfs" id="lfs-r12.0-188">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-172
+        Linux From Scratch - Version r12.0-188
       </h4>
       <h3>
         第9章 システム設定
@@ -28,10 +28,9 @@
           </p>
         </li>
         <li class="next">
-          <a accesskey="n" href="profile.html" title=
-          "Bash シェルの初期起動ファイル">次へ</a>
+          <a accesskey="n" href="locale.html" title="システムロケールの設定">次へ</a>
           <p>
-            Bash シェルの初期起動ファイル
+            システムロケールの設定
           </p>
         </li>
         <li class="up">
@@ -39,7 +38,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-172">ホーム</a>
+          "Linux From Scratch - Version r12.0-188">ホーム</a>
         </li>
       </ul>
     </div>
@@ -504,6 +503,35 @@ EOF</kbd></pre>
           <ul>
             <li class="listitem">
               <p>
+                <a class="xref" href="locale.html" title=
+                "9.7. システムロケールの設定">「システムロケールの設定」</a> においては、Linux
+                コンソールでの対話セッションのロケールは <code class="literal">C.UTF-8</code>
+                を用いることにしていました。 そこで <code class="literal">UNICODE</code> は
+                <code class="literal">1</code> にする必要があります。 <code class=
+                "literal">C.UTF-8</code>
+                のもとでプログラムメッセージの全文字に対するグリフを持っているコンソールフォントと言えば、<span class=
+                "application">Kbd</span> の中では <code class=
+                "filename">LatArCyrHeb*.psfu.gz</code>, <code class=
+                "filename">LatGrkCyr*.psfu.gz</code>, <code class=
+                "filename">Lat2-Terminus16.psfu.gz</code>, <code class=
+                "filename">pancyrillic.f16.psfu.gz</code> です。 これらは
+                <code class="filename">/usr/share/consolefonts</code> にあります。
+                (その他のコンソールフォントは、ユニコードの左右のクォーテーションマークや英語ダッシュなどのグリフが欠落しています。)
+                したがってデフォルトのコンソールフォントとして、たとえば <code class=
+                "filename">Lat2-Terminus16</code> を設定します。
+              </p>
+              <pre class="userinput"><kbd class=
+              "command">cat &gt; /etc/sysconfig/console &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/sysconfig/console
+
+UNICODE="1"
+FONT="Lat2-Terminus16"
+
+# End /etc/sysconfig/console</code>
+EOF</kbd></pre>
+            </li>
+            <li class="listitem">
+              <p>
                 Unicode を用いない設定では、普通は KEYMAP 変数と FONT 変数のみを定めます。
                 例えばポーランド語の設定であれば以下のようになります。
               </p>
@@ -596,10 +624,8 @@ EOF</kbd></pre>
                 ただしこれが正しく動作するのは、元の文字がマルチバイトではない場合に限ります。
                 このような欠点は西欧のキーマップでは問題にはなりません。 アクセント記号なら、アクセント記号がついていない ASCII
                 文字を使ったり、ASCII 文字を二つ使って工夫したりするからです。 しかし UTF-8 モードでは問題になります。
-                例えばギリシャ語にて<span class="quote">「<span class=
-                "quote">alpha</span>」</span>の文字の上にアクセント記号を付けたい場合が問題です。
-                これを解決するには、一つには UTF-8 の利用を諦めることであり、もう一つは X
-                ウィンドウシステムを使うことで、そのような入力処理の制約を解消することです。
+                例えばギリシャ語にて α の文字の上にアクセント記号を付けたい場合が問題です。 これを解決するには、一つには UTF-8
+                の利用を諦めることであり、もう一つは X ウィンドウシステムを使うことで、そのような入力処理の制約を解消することです。
               </p>
             </li>
             <li class="listitem">
@@ -872,10 +898,9 @@ EOF</kbd></pre>
           </p>
         </li>
         <li class="next">
-          <a accesskey="n" href="profile.html" title=
-          "Bash シェルの初期起動ファイル">次へ</a>
+          <a accesskey="n" href="locale.html" title="システムロケールの設定">次へ</a>
           <p>
-            Bash シェルの初期起動ファイル
+            システムロケールの設定
           </p>
         </li>
         <li class="up">
@@ -883,7 +908,7 @@ EOF</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-172">ホーム</a>
+          "Linux From Scratch - Version r12.0-188">ホーム</a>
         </li>
       </ul>
     </div>
