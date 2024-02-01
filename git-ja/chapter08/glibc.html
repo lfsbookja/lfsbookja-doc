@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-188">
+  <body class="lfs" id="lfs-r12.0-192">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-188
+        Linux From Scratch - Version r12.0-192
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -23,15 +23,15 @@
       <ul>
         <li class="prev">
           <a accesskey="p" href="iana-etc.html" title=
-          "Iana-Etc-20240117">戻る</a>
+          "Iana-Etc-20240125">戻る</a>
           <p>
-            Iana-Etc-20240117
+            Iana-Etc-20240125
           </p>
         </li>
         <li class="next">
-          <a accesskey="n" href="zlib.html" title="Zlib-1.3">次へ</a>
+          <a accesskey="n" href="zlib.html" title="Zlib-1.3.1">次へ</a>
           <p>
-            Zlib-1.3
+            Zlib-1.3.1
           </p>
         </li>
         <li class="up">
@@ -40,7 +40,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-188">ホーム</a>
+          "Linux From Scratch - Version r12.0-192">ホーム</a>
         </li>
       </ul>
     </div>
@@ -82,7 +82,7 @@
           関数が非常に遅くなっていたものです。
         </p>
         <pre class="userinput"><kbd class=
-        "command">patch -Np1 -i ../glibc-2.38-upstream_fixes-3.patch</kbd></pre>
+        "command">patch -Np1 -i ../glibc-2.38-upstream_fixes-4.patch</kbd></pre>
         <p>
           Glibc のドキュメントでは専用のビルドディレクトリを作成することが推奨されています。
         </p>
@@ -138,16 +138,10 @@ cd       build</kbd></pre>
               <p>
                 このオプション指定によりスタックに積まれる関数プリアンブル内に、追加のコードを付与することにより、システムセキュリティを向上させます。
                 その追加コードは、スタック破壊攻撃（stack smashing
-                attacks）のようなバッファーオーバーフローをチェックします。
-              </p>
-            </dd>
-            <dt>
-              <span class="term"><em class=
-              "parameter"><code>--with-headers=/usr/include</code></em></span>
-            </dt>
-            <dd>
-              <p>
-                このオプションはビルドシステムにおいて、カーネル API ヘッダーを探す場所を指定します。
+                attacks）のようなバッファーオーバーフローをチェックします。 なお Glibc
+                に対して明示的に指定されたオプションは、常に GCC のデフォルトを上書きします。 したがってこのオプションは、GCC
+                に対して <code class="option">--enable-default-ssp</code>
+                の設定を行っているからこそ、ここでも指定が必要になります。
               </p>
             </dd>
             <dt>
@@ -1125,15 +1119,15 @@ mkdir -pv /etc/ld.so.conf.d</kbd></pre>
       <ul>
         <li class="prev">
           <a accesskey="p" href="iana-etc.html" title=
-          "Iana-Etc-20240117">戻る</a>
+          "Iana-Etc-20240125">戻る</a>
           <p>
-            Iana-Etc-20240117
+            Iana-Etc-20240125
           </p>
         </li>
         <li class="next">
-          <a accesskey="n" href="zlib.html" title="Zlib-1.3">次へ</a>
+          <a accesskey="n" href="zlib.html" title="Zlib-1.3.1">次へ</a>
           <p>
-            Zlib-1.3
+            Zlib-1.3.1
           </p>
         </li>
         <li class="up">
@@ -1142,7 +1136,7 @@ mkdir -pv /etc/ld.so.conf.d</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-188">ホーム</a>
+          "Linux From Scratch - Version r12.0-192">ホーム</a>
         </li>
       </ul>
     </div>
