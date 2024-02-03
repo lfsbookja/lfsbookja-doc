@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <title>
-      8.5. Glibc-2.38
+      8.5. Glibc-2.39
     </title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
     <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-192">
+  <body class="lfs" id="lfs-r12.0-199">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-192
+        Linux From Scratch - Version r12.0-199
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -40,12 +40,12 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-192">ホーム</a>
+          "Linux From Scratch - Version r12.0-199">ホーム</a>
         </li>
       </ul>
     </div>
     <h1 class="sect1">
-      <a id="ch-system-glibc" name="ch-system-glibc"></a>8.5. Glibc-2.38
+      <a id="ch-system-glibc" name="ch-system-glibc"></a>8.5. Glibc-2.39
     </h1>
     <div class="wrap" lang="ja" xml:lang="ja">
       <div class="package" lang="ja" xml:lang="ja">
@@ -76,13 +76,7 @@
           FHS 準拠のディレクトリとします。
         </p>
         <pre class="userinput"><kbd class=
-        "command">patch -Np1 -i ../glibc-2.38-fhs-1.patch</kbd></pre>
-        <p>
-          ここで 2 つのセキュリティぜい弱性と機能後退を修正します。 機能後退は、特定環境下において posix_memalign()
-          関数が非常に遅くなっていたものです。
-        </p>
-        <pre class="userinput"><kbd class=
-        "command">patch -Np1 -i ../glibc-2.38-upstream_fixes-4.patch</kbd></pre>
+        "command">patch -Np1 -i ../glibc-2.39-fhs-1.patch</kbd></pre>
         <p>
           Glibc のドキュメントでは専用のビルドディレクトリを作成することが推奨されています。
         </p>
@@ -101,7 +95,7 @@ cd       build</kbd></pre>
         <pre class="userinput"><kbd class=
         "command">../configure --prefix=/usr                            \
              --disable-werror                         \
-             --enable-kernel=4.14                     \
+             --enable-kernel=4.19                     \
              --enable-stack-protector=strong          \
              --disable-nscd                           \
              libc_cv_slibdir=/usr/lib</kbd></pre>
@@ -121,11 +115,11 @@ cd       build</kbd></pre>
             </dd>
             <dt>
               <span class="term"><em class=
-              "parameter"><code>--enable-kernel=4.14</code></em></span>
+              "parameter"><code>--enable-kernel=4.19</code></em></span>
             </dt>
             <dd>
               <p>
-                本オプションはビルドシステムに対して、カーネルバージョンが 4.14 のように古くても、 Glibc
+                本オプションはビルドシステムに対して、カーネルバージョンが 4.19 のように古くても、 Glibc
                 が利用されるように指示します。
                 これより古いバージョンにおけるシステムコールが用いられないようにするため、その回避策をとるものです。
               </p>
@@ -228,6 +222,95 @@ cd       build</kbd></pre>
         </p>
         <pre class="userinput"><kbd class=
         "command">sed '/test-installation/s@$(PERL)@echo not running@' -i ../Makefile</kbd></pre>
+        <div class="admon important">
+          <img alt="[重要]" src="../images/important.png" />
+          <h3>
+            重要
+          </h3>
+          <p>
+            稼働中の LFS システムにおいて Glibc のマイナーバージョンを最新のものにアップグレードする場合 (たとえば
+            Glibc-2.36 を Glibc-2.39
+            にあげる場合)、いくつか追加の措置を講じることで、システムが壊れないようにすることが必要です。
+          </p>
+          <div class="itemizedlist">
+            <ul>
+              <li class="listitem">
+                <p>
+                  11.0 未満の Glibc をアップグレードすることは LFS システムにおいてはサポートしていません。
+                  そのような古い LFS システムにおいて最新の Glibc が必要になる場合は、LFS を再構築してください。
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  12.0 未満の Glibc をアップグレードする場合は <a class="xref" href=
+                  "libxcrypt.html" title=
+                  "8.26. Libxcrypt-4.4.36">「Libxcrypt-4.4.36.」</a> に従って
+                  <span class="application">Libxcrypt</span> をインストールしてください。
+                  さらにその <span class="application">Libxcrypt</span>
+                  の通常インストール手順に加えて、<span class="bold"><strong>Libxcrypt
+                  の注記の節に示されている手順に従って <code class=
+                  "filename">libcrypt.so.1*</code> のインストールを必ず行ってください
+                  (それ以前に行っている Glibc のビルドにおいてインストールした <code class=
+                  "filename">libcrypt.so.1</code>
+                  を上書きしてください)。</strong></span>.
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  12.1 未満の Glibc をアップグレードする場合は <span class=
+                  "command"><strong>nscd</strong></span> プログラムを削除してください。
+                </p>
+                <pre class="userinput"><kbd class=
+                "command">rm -f /usr/sbin/nscd</kbd></pre>
+                <p>
+                  (12.1 未満の) システムが Systemd に基づいている場合は、<span class=
+                  "command"><strong>nscd</strong></span> サービスは停止させ無効化します。
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  (現時点のカーネルバージョンは <span class="command"><strong>uname
+                  -r</strong></span> により確認することができますが) 4.19
+                  よりも古いカーネルをアップグレードして再起動する場合には <a class="xref" href=
+                  "../chapter10/kernel.html" title=
+                  "10.3. Linux-6.7.3">「Linux-6.7.3」</a> の説明に従ってください。
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  (現時点の API ヘッダーバージョンは <span class="command"><strong>cat
+                  /usr/include/linux/version.h</strong></span>
+                  により確認することができますが) 4.19 よりも古い API ヘッダーをアップグレードする場合は、<a class=
+                  "xref" href="../chapter05/linux-headers.html" title=
+                  "5.4. Linux-6.7.3 API ヘッダー">「Linux-6.7.3 API ヘッダー」</a>
+                  の説明に従ってください (ただし <span class=
+                  "command"><strong>cp</strong></span> コマンドからは <code class=
+                  "envar">$LFS</code> を取り除いてください)。
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  <code class="envar">DESTDIR</code> を利用したインストール方法により Glibc
+                  の共有ライブラリをアップグレードする場合には、以下のように一つの <span class=
+                  "command"><strong>install</strong></span> コマンドにより行ってください。
+                </p>
+                <pre class="userinput"><kbd class=
+                "command">make DESTDIR=$PWD/dest install
+install -vm755 dest/usr/lib/*.so.* /usr/lib</kbd></pre>
+              </li>
+            </ul>
+          </div>
+          <p>
+            自分が何をしているのかを完全に理解できていないのであれば、この手順に忠実に従ってください。 <span class=
+            "bold"><strong>不用意にこの手順を見逃して進めてしまうと、システムが完全に利用不能になりかねません。ここに警告しておきます。</strong></span>
+          </p>
+          <p>
+            <span class="command"><strong>make install</strong></span>
+            コマンドを実行し、<code class="filename">/usr/bin/ldd</code> に対する
+            <span class="command"><strong>sed</strong></span> コマンドを実行します。
+            ここまで行ったら即座にシステムを再起動してください。
+          </p>
+        </div>
         <p>
           パッケージをインストールします。
         </p>
@@ -294,7 +377,7 @@ localedef -i zh_TW -f UTF-8 zh_TW.UTF-8</kbd></pre>
         </p>
         <p>
           必要に応じて <code class=
-          "filename">glibc-2.38/localedata/SUPPORTED</code>
+          "filename">glibc-2.39/localedata/SUPPORTED</code>
           に示されるすべてのロケールを同時にインストールしてください。(そこには上のロケールも含め、すべてのロケールが列記されています。)
           以下のコマンドによりそれを実現します。 ただしこれには相当な処理時間を要します。
         </p>
@@ -302,7 +385,7 @@ localedef -i zh_TW -f UTF-8 zh_TW.UTF-8</kbd></pre>
         "command">make localedata/install-locales</kbd></pre>
         <p>
           さらに必要なら <code class=
-          "filename">glibc-2.38/localedata/SUPPORTED</code> ファイルに示されていないロケールは
+          "filename">glibc-2.39/localedata/SUPPORTED</code> ファイルに示されていないロケールは
           <span class="command"><strong>localedef</strong></span>
           コマンドを使って生成、インストールを行ってください。 たとえば以下の 2
           つのロケールは、本章で後に実施するテストにおいて必要になります。
@@ -367,7 +450,7 @@ EOF</kbd></pre>
             以下によりタイムゾーンデータをインストールし設定します。
           </p>
           <pre class="userinput"><kbd class=
-          "command">tar -xf ../../tzdata2023d.tar.gz
+          "command">tar -xf ../../tzdata2024a.tar.gz
 
 ZONEINFO=/usr/share/zoneinfo
 mkdir -pv $ZONEINFO/{posix,right}
@@ -866,7 +949,7 @@ mkdir -pv /etc/ld.so.conf.d</kbd></pre>
                   <p>
                     Glibc が内部で利用するもので、異常が発生しているプログラムを見つけ出します。(例えば Motif
                     アプリケーションなど) 詳しくは <code class=
-                    "filename">glibc-2.38/locale/broken_cur_max.c</code>
+                    "filename">glibc-2.39/locale/broken_cur_max.c</code>
                     に書かれたコメントを参照してください。
                   </p>
                 </td>
@@ -1136,7 +1219,7 @@ mkdir -pv /etc/ld.so.conf.d</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-192">ホーム</a>
+          "Linux From Scratch - Version r12.0-199">ホーム</a>
         </li>
       </ul>
     </div>
