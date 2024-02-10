@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-201-systemd">
+  <body class="lfs" id="lfs-r12.0-209-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-201-systemd
+        Linux From Scratch - Version r12.0-209-systemd
       </h4>
       <h3>
         第7章 chroot への移行と一時的ツールの追加ビルド
@@ -39,7 +39,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-201-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.0-209-systemd">ホーム</a>
         </li>
       </ul>
     </div>
@@ -101,14 +101,49 @@
           残りの仮想カーネルファイルシステムを以下のようにしてマウントします。
         </p>
         <pre class="userinput"><kbd class=
-        "command">mount -v --bind /dev/pts $LFS/dev/pts
+        "command">mount -vt devpts devpts -o gid=5,mode=0620 $LFS/dev/pts
 mount -vt proc proc $LFS/proc
 mount -vt sysfs sysfs $LFS/sys
 mount -vt tmpfs tmpfs $LFS/run</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>devpts に対するマウントオプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>gid=5</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このオプションは、devpts により生成されるデバイスノードを、グループID が 5 となるようにするものです。 この
+                ID は、この後に <code class="systemitem">tty</code> グループにおいて利用します。
+                ここではグループ名ではなくグループ ID を用いるものとしています。 この理由は、ホストシステムが
+                <code class="systemitem">tty</code> グループに対して異なる ID
+                を利用していることがあるためです。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>mode=0620</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このオプションは、devpts により生成されるデバイスノードのモードを 0620 にします。
+                (所有ユーザーが読み書き可、グループが書き込み可)
+                前のオプションとともにこのオプションを指定することによって、devpts が生成するデバイスノードが grantpt()
+                の要求を満たすようにします。 これはつまり、Glibc の ヘルパーコマンド <span class=
+                "command"><strong>pt_chown</strong></span>
+                (デフォルトではインストールされない) が必要ないことを意味します。
+              </p>
+            </dd>
+          </dl>
+        </div>
         <p>
           ホストシステムによっては <code class="filename">/dev/shm</code> が通常
           <code class="filename">/run/shm</code> へのシンボリックリンクになっているものがあります。
-          上の作業にて /run tmpfs がマウントされましたが、これはこのディレクトリを生成する必要がある時のみです。
+          上の作業にて /run tmpfs
+          がマウントされましたが、これを行うのはこのディレクトリを適切なパーミッションにより生成する必要がある場合のみです。
         </p>
         <p>
           別のホストシステムでは <code class="filename">/dev/shm</code> が tmpfs
@@ -117,7 +152,7 @@ mount -vt tmpfs tmpfs $LFS/run</kbd></pre>
         </p>
         <pre class="userinput"><kbd class=
         "command">if [ -h $LFS/dev/shm ]; then
-  mkdir -pv $LFS$(realpath /dev/shm)
+  install -v -d -m 1777 $LFS$(realpath /dev/shm)
 else
   mount -vt tmpfs -o nosuid,nodev tmpfs $LFS/dev/shm
 fi</kbd></pre>
@@ -143,7 +178,7 @@ fi</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-201-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.0-209-systemd">ホーム</a>
         </li>
       </ul>
     </div>

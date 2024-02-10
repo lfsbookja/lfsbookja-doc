@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-201-systemd">
+  <body class="lfs" id="lfs-r12.0-209-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-201-systemd
+        Linux From Scratch - Version r12.0-209-systemd
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -39,7 +39,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-201-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.0-209-systemd">ホーム</a>
         </li>
       </ul>
     </div>
@@ -79,11 +79,12 @@
        -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in</kbd></pre>
         <p>
           <span class="command"><strong>systemd-resolved</strong></span> の
-          DNSSEC 検証におけるセキュリティぜい弱性を修正します。
+          DNSSEC 検証におけるセキュリティぜい弱性を修正します。 またインスタンス化された systemd ユニット上において、実行中の
+          <span class="command"><strong>systemd-analyze
+          verify</strong></span> が壊れてしまうバグを修正します。
         </p>
         <pre class="userinput"><kbd class=
-        "command">sed -e '/return FLAGS_SET.*AUTHENTICATED/s/(t/(dt/' \
-    -i src/resolve/resolved-dns-transaction.c</kbd></pre>
+        "command">patch -Np1 -i ../systemd-255-upstream_fixes-1.patch</kbd></pre>
         <p>
           systemd をコンパイルするための準備をします。
         </p>
@@ -1146,7 +1147,7 @@ meson setup \
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-201-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.0-209-systemd">ホーム</a>
         </li>
       </ul>
     </div>

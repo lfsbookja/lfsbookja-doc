@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-201-systemd">
+  <body class="lfs" id="lfs-r12.0-209-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-201-systemd
+        Linux From Scratch - Version r12.0-209-systemd
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -39,7 +39,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-201-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.0-209-systemd">ホーム</a>
         </li>
       </ul>
     </div>
@@ -81,6 +81,25 @@
           8.16.1. Expect のインストール
         </h2>
         <p>
+          Expect は PTY が動作していることを必要とします。 chroot 環境内において PTY
+          が適切に動作しているかどうかを、以下の単純なテストにより確認します。 test:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">python3 -c 'from pty import spawn; spawn(["echo", "ok"])'</kbd></pre>
+        <p>
+          上のコマンドの出力は <code class="computeroutput">ok</code> となるべきものです。 そうならずに
+          <code class="computeroutput">OSError: out of pty devices</code>
+          となったら、その環境は PTY 操作を適切に行うような設定が行われていないということです。 その場合は chroot
+          から抜け出て、再度 <a class="xref" href="../chapter07/kernfs.html" title=
+          "7.3. 仮想カーネルファイルシステムの準備">「仮想カーネルファイルシステムの準備」</a>
+          を読み返して、<code class="systemitem">devpts</code> ファイルシステム
+          (および他の仮想カーネルファイルシステム）を適切にマウントしてください。 <a class="xref" href=
+          "../chapter07/chroot.html" title="7.4. Chroot 環境への移行">「Chroot
+          環境への移行」</a> に従って chroot 環境に再度入ってください。 このメッセージは、先に進む前に解消しておくことが必要です。
+          そうでないと Expect を必要とするテストスイート (たとえば Bash, Binutils, GCC, GDBM そして
+          Expect 自身のテストスイート) が大失敗し、些末な不備ならいくらでも発生してしまいます。
+        </p>
+        <p>
           Expect をコンパイルするための準備をします。
         </p>
         <pre class="userinput"><kbd class=
@@ -121,31 +140,10 @@
           パッケージをビルドします。
         </p>
         <pre class="userinput"><kbd class="command">make</kbd></pre>
-        <div class="admon important">
-          <img alt="[重要]" src="../images/important.png" />
-          <h3>
-            重要
-          </h3>
-          <p>
-            Expect におけるテストスイートは重要なものとされます。 どのような場合であっても必ず実行してください。
-          </p>
-        </div>
         <p>
           ビルド結果をテストする場合は、以下を実行します。
         </p>
         <pre class="userinput"><kbd class="command">make test</kbd></pre>
-        <p>
-          テストの中で <code class="computeroutput">The system has no more ptys.
-          Ask your system administrator to create more</code>
-          というメッセージが出力されて失敗したものがあった場合、それは <code class=
-          "systemitem">devpts</code> ファイルシステムが適切にマウントされていないことを表します。 chroot
-          環境からいったん抜け出て、もう一度 <a class="xref" href="../chapter07/kernfs.html"
-          title="7.3. 仮想カーネルファイルシステムの準備">「仮想カーネルファイルシステムの準備」</a> をお読みください。
-          そして <code class="systemitem">devpts</code>
-          ファイルシステム（それに加えて他の仮想カーネルファイルシステム）を適切にマウントしてください。 <a class="xref"
-          href="../chapter07/chroot.html" title="7.4. Chroot 環境への移行">「Chroot
-          環境への移行」</a> に従って chroot 環境に再度入ってください。 このメッセージは、先に進む前に解消しておくことが必要です。
-        </p>
         <p>
           パッケージをインストールします。
         </p>
@@ -233,7 +231,7 @@ ln -svf expect5.45.4/libexpect5.45.4.so /usr/lib</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-201-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.0-209-systemd">ホーム</a>
         </li>
       </ul>
     </div>
