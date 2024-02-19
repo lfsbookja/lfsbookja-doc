@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-212-systemd">
+  <body class="lfs" id="lfs-r12.0-215-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-212-systemd
+        Linux From Scratch - Version r12.0-215-systemd
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -40,7 +40,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-212-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.0-215-systemd">ホーム</a>
         </li>
       </ul>
     </div>
@@ -190,28 +190,34 @@ cd       build</kbd></pre>
             </li>
             <li class="listitem">
               <p>
-                3 つの <span class=
-                "emphasis"><em>nptl/tst-thread-affinity*</em></span>
-                テストが失敗します。
+                <span class=
+                "emphasis"><em>nss/tst-nss-files-hosts-multi</em></span>、<span class="emphasis"><em>nptl/tst-thread-affinity*</em></span>
+                のようなテストでは、タイムアウトを原因として
+                (特に比較的処理性能の低いシステムの利用や平行ビルドを使ったテストスイート実行において) そのテストが失敗します。
+                このようなテストは以下を実行すれば一覧として得られます。
               </p>
-            </li>
-            <li class="listitem">
+              <pre class="userinput"><kbd class=
+              "command">grep "Timed out" -l $(find -name \*.out)</kbd></pre>
               <p>
-                ホストのカーネルが比較的古い場合に <span class=
-                "emphasis"><em>stdlib/tst-arc4random-thread</em></span>
-                というテストが失敗します。
-              </p>
-            </li>
-            <li class="listitem">
-              <p>
+                <span class="command"><strong>TIMEOUTFACTOR=<em class=
+                "replaceable"><code>&lt;factor&gt;</code></em> make test
+                t=<em class="replaceable"><code>&lt;test
+                name&gt;</code></em></strong></span> というコマンド実行により、テスト 1
+                つずつに対してタイムアウト時間を拡張して再実行することができます。 たとえば <span class=
+                "command"><strong>TIMEOUTFACTOR=10 make test
+                t=nss/tst-nss-files-hosts-multi</strong></span> とすれば
                 <span class=
                 "emphasis"><em>nss/tst-nss-files-hosts-multi</em></span>
-                のようなテストでは、内部のタイムアウトが原因で比較的遅くなるシステム上では失敗します。
+                のテストが、元々のタイムアウトの 10 倍としながら再実行できます。
               </p>
             </li>
             <li class="listitem">
               <p>
-                さらに CPU モデルやホストのカーネルバージョンが比較的古い場合に、テストがいくつか失敗します。
+                さらに CPU モデルが古い場合に (たとえば <span class=
+                "emphasis"><em>elf/tst-cpu-features-cpuinfo</em></span>
+                が)、またホストのカーネルバージョンが古い場合に (たとえば <span class=
+                "emphasis"><em>stdlib/tst-arc4random-thread</em></span>
+                が)、それぞれ失敗することがあります。
               </p>
             </li>
           </ul>
@@ -1228,7 +1234,7 @@ mkdir -pv /etc/ld.so.conf.d</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-212-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.0-215-systemd">ホーム</a>
         </li>
       </ul>
     </div>
