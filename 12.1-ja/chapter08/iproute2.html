@@ -1,0 +1,417 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.65. IPRoute2-6.7.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.1">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.1
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gzip.html" title="Gzip-1.13">戻る</a>
+          <p>
+            Gzip-1.13
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="kbd.html" title="Kbd-2.6.4">次へ</a>
+          <p>
+            Kbd-2.6.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.1">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-system-iproute2" name="ch-system-iproute2"></a>8.65.
+      IPRoute2-6.7.0
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          IPRoute2 パッケージは IPV4 ベースの基本的または応用的ネットワーク制御を行うプログラムを提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.1 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">17 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.65.1. IPRoute2 のインストール
+        </h2>
+        <p>
+          本パッケージにて提供している <span class="command"><strong>arpd</strong></span>
+          プログラムは LFS では取り扱わない Berkeley DB に依存しています。 したがって <span class=
+          "command"><strong>arpd</strong></span> プログラムはインストールしません。 ただし
+          <span class="command"><strong>arpd</strong></span>
+          プログラムに対応するディレクトリや man ページはインストールされてしまいます。
+          これをインストールしないように、以下のコマンドを実行します。
+        </p>
+        <pre class="userinput"><kbd class="command">sed -i /ARPD/d Makefile
+rm -fv man/man8/arpd.8</kbd></pre>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make NETNS_RUN_DIR=/run/netns</kbd></pre>
+        <p>
+          本パッケージには有効なテストスイートはありません。
+        </p>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make SBINDIR=/usr/sbin install</kbd></pre>
+        <p>
+          必要な場合はドキュメントをインストールします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mkdir -pv             /usr/share/doc/iproute2-6.7.0
+cp -v COPYING README* /usr/share/doc/iproute2-6.7.0</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-iproute2" name="contents-iproute2"></a>8.65.2.
+          IPRoute2 の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">bridge, ctstat (lnstat へのリンク), genl, ifstat, ip,
+              lnstat, nstat, routel, rtacct, rtmon, rtpr, rtstat (lnstat
+              へのリンク), ss, tc</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/etc/iproute2, /usr/lib/tc,
+              /usr/share/doc/iproute2-6.7.0</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="bridge" name="bridge"></a><span class=
+                    "term"><span class=
+                    "command"><strong>bridge</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ネットワークブリッジを設定します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ctstat" name="ctstat"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ctstat</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    接続ステータスの表示ユーティリティ。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="genl" name="genl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>genl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    汎用的な netlink ユーティリティフロントエンド。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ifstat" name="ifstat"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ifstat</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    インターフェースの統計情報を表示します。 インターフェースによって送受信されたパケット量が示されます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ip" name="ip"></a><span class="term"><span class=
+                    "command"><strong>ip</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    主となる実行モジュールで、複数の機能性を持ちます。 以下のようなものです。
+                  </p>
+                  <p>
+                    <span class="command"><strong>ip link <em class=
+                    "replaceable"><code>&lt;デバイス名&gt;</code></em></strong></span>
+                    はデバイスのステータスを参照し、またステータスの変更を行います。
+                  </p>
+                  <p>
+                    <span class="command"><strong>ip addr</strong></span>
+                    はアドレスとその属性を参照し、新しいアドレスの追加、古いアドレスの削除を行います。
+                  </p>
+                  <p>
+                    <span class="command"><strong>ip neighbor</strong></span>
+                    は隣接ルーター (neighbor) の割り当てや属性を参照し、隣接ルーターの項目追加や古いものの削除を行います。
+                  </p>
+                  <p>
+                    <span class="command"><strong>ip rule</strong></span>
+                    はルーティングポリシー (routing policy) を参照し、変更を行います。
+                  </p>
+                  <p>
+                    <span class="command"><strong>ip route</strong></span>
+                    はルーティングテーブル (routing table) を参照し、ルーティングルール (routing table
+                    rule) を変更します。
+                  </p>
+                  <p>
+                    <span class="command"><strong>ip tunnel</strong></span> は
+                    IP トンネル (IP tunnel) やその属性を参照し、変更を行います。
+                  </p>
+                  <p>
+                    <span class="command"><strong>ip maddr</strong></span>
+                    はマルチキャストアドレス (multicast address) やその属性を参照し、変更を行います。
+                  </p>
+                  <p>
+                    <span class="command"><strong>ip mroute</strong></span>
+                    はマルチキャストルーティング (multicast routing) の設定、変更、削除を行います。
+                  </p>
+                  <p>
+                    <span class="command"><strong>ip monitor</strong></span>
+                    はデバイスの状態、アドレス、ルートを継続的に監視します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lnstat" name="lnstat"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lnstat</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Linux のネットワーク統計情報を提供します。 これはかつての <span class=
+                    "command"><strong>rtstat</strong></span>
+                    プログラムを汎用的に機能充足を図ったプログラムです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="nstat" name="nstat"></a><span class=
+                    "term"><span class=
+                    "command"><strong>nstat</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ネットワーク統計情報を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="routel" name="routel"></a><span class=
+                    "term"><span class=
+                    "command"><strong>routel</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>ip route</strong></span>
+                    のコンポーネント。 これはルーティングテーブルの一覧を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rtacct" name="rtacct"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rtacct</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <code class="filename">/proc/net/rt_acct</code>
+                    の内容を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rtmon" name="rtmon"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rtmon</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ルート監視ユーティリティー。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rtpr" name="rtpr"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rtpr</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>ip -o</strong></span>
+                    コマンドにより出力される内容を読みやすい形に戻します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rtstat" name="rtstat"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rtstat</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ルートステータスの表示ユーティリティー。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ss" name="ss"></a><span class="term"><span class=
+                    "command"><strong>ss</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>netstat</strong></span>
+                    コマンドと同じ。 アクティブな接続を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tc" name="tc"></a><span class="term"><span class=
+                    "command"><strong>tc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    QoS (Quality Of Service) と CoS (Class Of Service)
+                    を実装するトラフィック制御です。
+                  </p>
+                  <p>
+                    <span class="command"><strong>tc qdisc</strong></span>
+                    はキューイング規則 (queueing discipline) の設定を行います。
+                  </p>
+                  <p>
+                    <span class="command"><strong>tc class</strong></span>
+                    はキューイング規則スケジューリング (queueing discipline scheduling)
+                    に基づくクラスの設定を行います。
+                  </p>
+                  <p>
+                    <span class="command"><strong>tc filter</strong></span>
+                    は、QOS/COS パケットのフィルタリング設定を行います。
+                  </p>
+                  <p>
+                    <span class="command"><strong>tc monitor</strong></span>
+                    は、カーネル内のトラフィック制御に対して行われた変更を参照するために用いられます。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="gzip.html" title="Gzip-1.13">戻る</a>
+          <p>
+            Gzip-1.13
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="kbd.html" title="Kbd-2.6.4">次へ</a>
+          <p>
+            Kbd-2.6.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.1">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

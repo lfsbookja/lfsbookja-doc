@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      7.5. ディレクトリの生成
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.1-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.1-systemd
+      </h4>
+      <h3>
+        第7章 chroot への移行と一時的ツールの追加ビルド
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="chroot.html" title="Chroot 環境への移行">戻る</a>
+          <p>
+            Chroot 環境への移行
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="createfiles.html" title=
+          "重要なファイルとシンボリックリンクの生成">次へ</a>
+          <p>
+            重要なファイルとシンボリックリンクの生成
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter07.html" title=
+          "第7章 chroot への移行と一時的ツールの追加ビルド">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.1-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-tools-creatingdirs" name="ch-tools-creatingdirs"></a>7.5.
+      ディレクトリの生成
+    </h1>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <p>
+        LFS ファイルシステムにおける完全なディレクトリ構成を作り出していきます。
+      </p>
+      <div class="admon note">
+        <img alt="[注記]" src="../images/note.png" />
+        <h3>
+          注記
+        </h3>
+        <p>
+          本節において触れるディレクトリの中には、明示的な指示か、あるいは何かのパッケージインストールによってすでに生成済みであるものがあります。
+          以下では完全を期して繰り返し生成することにします。
+        </p>
+      </div>
+      <p>
+        ルートレベルのディレクトリをいくつか生成します。 これは前章において必要としていた限定的なものの中には含まれていないものです。
+        以下のコマンドを実行して生成します。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">mkdir -pv /{boot,home,mnt,opt,srv}</kbd></pre>
+      <p>
+        ルートレベル配下に、必要となる一連のサブディレクトリを、以下のコマンドにより生成します。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">mkdir -pv /etc/{opt,sysconfig}
+mkdir -pv /lib/firmware
+mkdir -pv /media/{floppy,cdrom}
+mkdir -pv /usr/{,local/}{include,src}
+mkdir -pv /usr/local/{bin,lib,sbin}
+mkdir -pv /usr/{,local/}share/{color,dict,doc,info,locale,man}
+mkdir -pv /usr/{,local/}share/{misc,terminfo,zoneinfo}
+mkdir -pv /usr/{,local/}share/man/man{1..8}
+mkdir -pv /var/{cache,local,log,mail,opt,spool}
+mkdir -pv /var/lib/{color,misc,locate}
+
+ln -sfv /run /var/run
+ln -sfv /run/lock /var/lock
+
+install -dv -m 0750 /root
+install -dv -m 1777 /tmp /var/tmp</kbd></pre>
+      <p>
+        ディレクトリは標準ではパーミッションモード 755 で生成されますが、どのディレクトリであっても、このままとするのは適当ではありません。
+        上のコマンド実行ではパーミッションを変更している箇所が二つあります。 一つは <code class=
+        "systemitem">root</code>
+        ユーザーのホームディレクトリに対してであり、もう一つはテンポラリディレクトリに対してです。
+      </p>
+      <p>
+        パーミッションモードを変更している一つめは <code class="filename">/root</code>
+        ディレクトリに対して、他のユーザーによるアクセスを制限するためです。
+        通常のユーザーが持つ、自分自身のホームディレクトリへのアクセス権設定と同じことを行ないます。 二つめのモード変更は
+        <code class="filename">/tmp</code> ディレクトリや <code class=
+        "filename">/var/tmp</code>
+        ディレクトリに対して、どのユーザーも書き込み可能とし、ただし他のユーザーが作成したファイルは削除できないようにします。 ビットマスク
+        1777 の最上位ビット、いわゆる<span class="quote">「<span class="quote">スティッキービット
+        (sticky bit)</span>」</span>を用いて実現します。
+      </p>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          7.5.1. FHS コンプライアンス情報
+        </h2>
+        <p>
+          本書のディレクトリ構成は標準ファイルシステム構成 (Filesystem Hierarchy Standard; FHS)
+          に基づいています。(その情報は <a class="ulink" href=
+          "https://refspecs.linuxfoundation.org/fhs.shtml">https://refspecs.linuxfoundation.org/fhs.shtml</a>
+          に示されています。) FHS では、追加ディレクトリとして <code class=
+          "filename">/usr/local/games</code> や <code class=
+          "filename">/usr/share/games</code> などを規定しています。 したがって LFS
+          では、本当に必要なディレクトリのみを作成していくことにします。 他のディレクトリについては、どうぞ自由に取り決めて作成してください。
+        </p>
+        <div class="admon warning">
+          <img alt="[警告]" src="../images/warning.png" />
+          <h3>
+            警告
+          </h3>
+          <p>
+            FHS ではディレクトリ <code class="filename">/usr/lib64</code>
+            の利用を必須とはしていません。 そこで LFS 編集者はこれを利用しないことに取り決めました。 LFS や BLFS
+            での手順を有効なものにするためには、このディレクトリをないものとして扱うことが必要です。
+            このディレクトリがないことを繰り返し確認してください。
+            うっかり生成してしまうようなことがあると、システムが壊れてしまうことがあるからです。
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="chroot.html" title="Chroot 環境への移行">戻る</a>
+          <p>
+            Chroot 環境への移行
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="createfiles.html" title=
+          "重要なファイルとシンボリックリンクの生成">次へ</a>
+          <p>
+            重要なファイルとシンボリックリンクの生成
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter07.html" title=
+          "第7章 chroot への移行と一時的ツールの追加ビルド">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.1-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

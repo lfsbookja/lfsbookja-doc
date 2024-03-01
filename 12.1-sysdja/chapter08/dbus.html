@@ -1,0 +1,352 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.76. D-Bus-1.14.10
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.1-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.1-systemd
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="systemd.html" title="Systemd-255">戻る</a>
+          <p>
+            Systemd-255
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="man-db.html" title="Man-DB-2.12.0">次へ</a>
+          <p>
+            Man-DB-2.12.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.1-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-system-dbus" name="ch-system-dbus"></a>8.76. D-Bus-1.14.10
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          D-Bus はメッセージバスシステムであり、アプリケーションから他のアプリケーションへの通信を容易に行う方法を提供します。 D-Bus
+          にはシステムデーモン (例えば "新たなハードウェアデバイスが追加されました" や "プリンターキューが変更されました"
+          といったイベント) やログインユーザーごとのセッションデーモン (ユーザーアプリケーション間で必要な一般的なIPC) があります。
+          またメッセージバスは、一般的な1対1によるメッセージ送受信のフレームワーク上にビルドされます。 これは二つのアプリケーション間にて
+          (メッセージバスデーモンを介さずに) 直接通信するために利用されます。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.1 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">20 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.76.1. D-Bus のインストール
+        </h2>
+        <p>
+          D-Bus をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr                        \
+            --sysconfdir=/etc                    \
+            --localstatedir=/var                 \
+            --runstatedir=/run                   \
+            --enable-user-session                \
+            --disable-static                     \
+            --disable-doxygen-docs               \
+            --disable-xml-docs                   \
+            --docdir=/usr/share/doc/dbus-1.14.10 \
+            --with-system-socket=/run/dbus/system_bus_socket</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>configure オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--runstatedir=/run</code></em> と <em class=
+              "parameter"><code>--with-system-socket=/run/dbus/system_bus_socket</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                これは PID ファイルとシステムバスソケットの場所を設定するものであり、かつての <code class=
+                "filename">/var/run</code> ではなく <code class=
+                "filename">/run</code> とします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-user-session</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                これは D-Bus の各ユーザー向けサービスやソケットユニットファイルを Systemd
+                用にインストールするようにします。 これは LFS の基本インストールにとっては必要のない（ただし害もない）ものです。
+                ただし BLFS において systemd に PAM サポートを含めて再ビルドする際には有用となります。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class="command">make check</kbd></pre>
+        <p>
+          テストの多くは、LFS に含まれない別のパッケージを必要とするため、無効化されます。 テストスイートの実行を分かりやすく説明する手順が
+          <a class="ulink" href=
+          "https://www.linuxfromscratch.org/blfs/view/stable-systemd/general/dbus.html">
+          BLFS ブック</a> に示されています。
+        </p>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+        <p>
+          シンボリックリンクを生成します。 D-Bus と systemd が同一の <code class=
+          "filename">machine-id</code> ファイルを利用できるようにするためです。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">ln -sfv /etc/machine-id /var/lib/dbus</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-dbus" name="contents-dbus"></a>8.76.2. D-Bus の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">dbus-cleanup-sockets, dbus-daemon, dbus-launch,
+              dbus-monitor, dbus-run-session, dbus-send, dbus-test-tool,
+              dbus-update-activation-environment, dbus-uuidgen</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libdbus-1.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/etc/dbus-1, /usr/include/dbus-1.0,
+              /usr/lib/dbus-1.0, /usr/share/dbus-1,
+              /usr/share/doc/dbus-1.14.10, /var/lib/dbus</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dbus-cleanup-sockets" name=
+                    "dbus-cleanup-sockets"></a><span class=
+                    "term"><span class="command"><strong>dbus-cleanup-sockets</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ディレクトリ内に取り残されたソケットを削除します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dbus-daemon" name="dbus-daemon"></a><span class=
+                    "term"><span class=
+                    "command"><strong>dbus-daemon</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    D-Bus メッセージバスデーモン。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dbus-launch" name="dbus-launch"></a><span class=
+                    "term"><span class=
+                    "command"><strong>dbus-launch</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    シェルスクリプトから <span class=
+                    "command"><strong>dbus-daemon</strong></span> を起動します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dbus-monitor" name="dbus-monitor"></a><span class=
+                    "term"><span class=
+                    "command"><strong>dbus-monitor</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    D-Bus メッセージバスを通じたメッセージ送信を監視します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dbus-run-session" name=
+                    "dbus-run-session"></a><span class="term"><span class=
+                    "command"><strong>dbus-run-session</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    シェルスクリプトから <span class=
+                    "command"><strong>dbus-daemon</strong></span>
+                    のセッションバスインスタンスを起動します。 そしてそのセッションにて指定されたプログラムを起動します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dbus-send" name="dbus-send"></a><span class=
+                    "term"><span class=
+                    "command"><strong>dbus-send</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    D-Bus メッセージバスにメッセージを送ります。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dbus-test-tool" name=
+                    "dbus-test-tool"></a><span class="term"><span class=
+                    "command"><strong>dbus-test-tool</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">D-Bus</span> のテストを補助するツールです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dbus-update-activation-environment" name=
+                    "dbus-update-activation-environment"></a><span class=
+                    "term"><span class=
+                    "command"><strong>dbus-update-activation-environment</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">D-Bus</span>
+                    のセッションサービスに対して設定される環境変数を更新します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dbus-uuidgen" name="dbus-uuidgen"></a><span class=
+                    "term"><span class=
+                    "command"><strong>dbus-uuidgen</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ユニーク ID を生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libdbus-1" name="libdbus-1"></a><span class=
+                    "term"><code class="filename">libdbus-1</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    D-Bus メッセージバスとの通信を行う API 関数を提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="systemd.html" title="Systemd-255">戻る</a>
+          <p>
+            Systemd-255
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="man-db.html" title="Man-DB-2.12.0">次へ</a>
+          <p>
+            Man-DB-2.12.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.1-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

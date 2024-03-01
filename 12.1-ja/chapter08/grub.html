@@ -1,0 +1,578 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.63. GRUB-2.12
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.1">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.1
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="groff.html" title="Groff-1.23.0">戻る</a>
+          <p>
+            Groff-1.23.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gzip.html" title="Gzip-1.13">次へ</a>
+          <p>
+            Gzip-1.13
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.1">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-system-grub" name="ch-system-grub"></a>8.63. GRUB-2.12
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          GRUB パッケージは GRand Unified Bootloader を提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.3 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">166 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.63.1. GRUB のインストール
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            システムが UEFI をサポートしていて、これを使って LFS を起動しようとする場合は、LFS
+            における本パッケージは省略することができます。 その場合は <a class="ulink" href=
+            "https://www.linuxfromscratch.org/blfs/view/12.1/postlfs/grub-efi.html">
+            BLFS ページ</a> に従って UEFI 対応の GRUB (およびその依存パッケージ) をインストールしてください。
+          </p>
+        </div>
+        <div class="admon warning">
+          <img alt="[警告]" src="../images/warning.png" />
+          <h3>
+            警告
+          </h3>
+          <p>
+            ビルドに影響を与える可能性のある環境変数をリセットします。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">unset {C,CPP,CXX,LD}FLAGS</kbd></pre>
+          <p>
+            このパッケージをビルドする際に、独自のコンパイルフラグを使って<span class="quote">「<span class=
+            "quote">チューニング</span>」</span>することは止めてください。 このパッケージはブートローダーです。
+            ソースコード内には低レベル操作が用いられており、過激な最適化フラグによってはその機能を壊してしまうかもしれないためです。
+          </p>
+        </div>
+        <p>
+          リリース tarball に含まれていないファイルを追加します。
+        </p>
+        <pre class="userinput"><kbd class="command">echo <code class=
+        "literal">depends bli part_gpt</code> &gt; grub-core/extra_deps.lst</kbd></pre>
+        <p>
+          GRUB をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr          \
+            --sysconfdir=/etc      \
+            --disable-efiemu       \
+            --disable-werror</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>configure オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--disable-werror</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                本オプションは、最新の flex によって警告が出力されても、ビルドを成功させるために指定します。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--disable-efiemu</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このオプションは LFS
+                にとって不要な機能を無効にし、一部のテストプログラムを実行しないようにした上で、ビルドを行います。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          本パッケージのテストスイートの利用はお勧めできません。 テストのほとんどが、限定されている今の LFS
+          環境内では利用できないパッケージに依存しています。 それでもテストを行うのであれば、<span class=
+          "command"><strong>make check</strong></span> を実行します。
+        </p>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install
+mv -v /etc/bash_completion.d/grub /usr/share/bash-completion/completions</kbd></pre>
+        <p>
+          GRUB を使ってシステムのブート起動設定を行う方法については <a class="xref" href=
+          "../chapter10/grub.html" title="10.4. GRUB を用いたブートプロセスの設定">「GRUB
+          を用いたブートプロセスの設定」</a>で説明しています。
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-gRUB" name="contents-gRUB"></a>8.63.2. GRUB の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">grub-bios-setup, grub-editenv, grub-file,
+              grub-fstest, grub-glue-efi, grub-install, grub-kbdcomp,
+              grub-macbless, grub-menulst2cfg, grub-mkconfig, grub-mkimage,
+              grub-mklayout, grub-mknetdir, grub-mkpasswd-pbkdf2,
+              grub-mkrelpath, grub-mkrescue, grub-mkstandalone,
+              grub-ofpathname, grub-probe, grub-reboot, grub-render-label,
+              grub-script-check, grub-set-default, grub-sparc64-setup,
+              grub-syslinux2cfg</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/lib/grub, /etc/grub.d, /usr/share/grub,
+              /boot/grub (grub-install が初めに起動される時)</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grub-bios-setup" name=
+                    "grub-bios-setup"></a><span class="term"><span class=
+                    "command"><strong>grub-bios-setup</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class=
+                    "command"><strong>grub-install</strong></span>
+                    に対するヘルパープログラム。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grub-editenv" name="grub-editenv"></a><span class=
+                    "term"><span class=
+                    "command"><strong>grub-editenv</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    環境ブロック (environment block) を編集するツール。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grub-file" name="grub-file"></a><span class=
+                    "term"><span class=
+                    "command"><strong>grub-file</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたファイルが指定されたタイプであるかどうかをチェックします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grub-fstest" name="grub-fstest"></a><span class=
+                    "term"><span class=
+                    "command"><strong>grub-fstest</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルシステムドライバーをデバッグするツール。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grub-glue-efi" name=
+                    "grub-glue-efi"></a><span class="term"><span class=
+                    "command"><strong>grub-glue-efi</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    32 ビットおよび 64 ビットの実行バイナリを単一ファイル（Apple マシン向け）に結合します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grub-install" name="grub-install"></a><span class=
+                    "term"><span class=
+                    "command"><strong>grub-install</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定したドライブに GRUB をインストールします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grub-kbdcomp" name="grub-kbdcomp"></a><span class=
+                    "term"><span class=
+                    "command"><strong>grub-kbdcomp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    xkb レイアウトを GRUB が認識できる他の書式に変換するスクリプト。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grub-macbless" name=
+                    "grub-macbless"></a><span class="term"><span class=
+                    "command"><strong>grub-macbless</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    HFS または HFS+ ファイルシステムに対する Mac 風の bless。 （<span class=
+                    "command"><strong>bless</strong></span> は Apple
+                    マシン専用です。デバイスをブータブルにします。）
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grub-menulst2cfg" name=
+                    "grub-menulst2cfg"></a><span class="term"><span class=
+                    "command"><strong>grub-menulst2cfg</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    GRUB Legacy の <code class="filename">menu.lst</code>を
+                    GRUB 2 にて利用される <code class="filename">grub.cfg</code>
+                    に変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grub-mkconfig" name=
+                    "grub-mkconfig"></a><span class="term"><span class=
+                    "command"><strong>grub-mkconfig</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <code class="filename">grub.cfg</code> ファイルを生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grub-mkimage" name="grub-mkimage"></a><span class=
+                    "term"><span class=
+                    "command"><strong>grub-mkimage</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    GRUB のブートイメージ (bootable image) を生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grub-mklayout" name=
+                    "grub-mklayout"></a><span class="term"><span class=
+                    "command"><strong>grub-mklayout</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    GRUB のキーボードレイアウトファイルを生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grub-mknetdir" name=
+                    "grub-mknetdir"></a><span class="term"><span class=
+                    "command"><strong>grub-mknetdir</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    GRUB のネットブートディレクトリを生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grub-mkpasswd-pbkdf2" name=
+                    "grub-mkpasswd-pbkdf2"></a><span class=
+                    "term"><span class="command"><strong>grub-mkpasswd-pbkdf2</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ブートメニューにて利用する、PBKDF2 により暗号化されたパスワードを生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grub-mkrelpath" name=
+                    "grub-mkrelpath"></a><span class="term"><span class=
+                    "command"><strong>grub-mkrelpath</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    システムのパスをルートからの相対パスとします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grub-mkrescue" name=
+                    "grub-mkrescue"></a><span class="term"><span class=
+                    "command"><strong>grub-mkrescue</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    フロッピーディスク、CDROM/DVD、USB ドライブ向けの GRUB のブートイメージを生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grub-mkstandalone" name=
+                    "grub-mkstandalone"></a><span class="term"><span class=
+                    "command"><strong>grub-mkstandalone</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    スタンドアロンイメージを生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grub-ofpathname" name=
+                    "grub-ofpathname"></a><span class="term"><span class=
+                    "command"><strong>grub-ofpathname</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    GRUB デバイスのパスを出力するヘルパープログラム。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grub-probe" name="grub-probe"></a><span class=
+                    "term"><span class=
+                    "command"><strong>grub-probe</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたパスやデバイスに対するデバイス情報を検証 (probe) します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grub-reboot" name="grub-reboot"></a><span class=
+                    "term"><span class=
+                    "command"><strong>grub-reboot</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    デフォルトのブートメニューを設定します。 これは次にブートした時だけ有効なものです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grub-render-label" name=
+                    "grub-render-label"></a><span class="term"><span class=
+                    "command"><strong>grub-render-label</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Apple Mac に対して Apple .disk_label を提供します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grub-script-check" name=
+                    "grub-script-check"></a><span class="term"><span class=
+                    "command"><strong>grub-script-check</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    GRUB の設定スクリプトにおける文法をチェックします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grub-set-default" name=
+                    "grub-set-default"></a><span class="term"><span class=
+                    "command"><strong>grub-set-default</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    デフォルトのブートメニューを設定します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grub-sparc64-setup" name=
+                    "grub-sparc64-setup"></a><span class="term"><span class=
+                    "command"><strong>grub-sparc64-setup</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    grub-setup に対するヘルパープログラム。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grub-syslinux2cfg" name=
+                    "grub-syslinux2cfg"></a><span class="term"><span class=
+                    "command"><strong>grub-syslinux2cfg</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    syslinux の設定ファイルを grub.cfg フォーマットに変換します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="groff.html" title="Groff-1.23.0">戻る</a>
+          <p>
+            Groff-1.23.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gzip.html" title="Gzip-1.13">次へ</a>
+          <p>
+            Gzip-1.13
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.1">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

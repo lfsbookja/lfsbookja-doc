@@ -1,0 +1,292 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      6.3. Ncurses-6.4-20230520
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.1-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.1-systemd
+      </h4>
+      <h3>
+        第6章 クロスコンパイルによる一時的ツール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="m4.html" title="M4-1.4.19">戻る</a>
+          <p>
+            M4-1.4.19
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="bash.html" title="Bash-5.2.21">次へ</a>
+          <p>
+            Bash-5.2.21
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter06.html" title=
+          "第6章 クロスコンパイルによる一時的ツール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.1-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-tools-ncurses" name="ch-tools-ncurses"></a>6.3.
+      Ncurses-6.4-20230520
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Ncurses パッケージは、端末に依存しない、文字ベースのスクリーン制御を行うライブラリを提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.3 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">51 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          6.3.1. Ncurses のインストール
+        </h2>
+        <p>
+          ビルドにあたって <span class="command"><strong>gawk</strong></span>
+          が必ず最初に見つかるようにします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i s/mawk// configure</kbd></pre>
+        <p>
+          そして以下のコマンドを実行して、ビルドホスト上に<span class="quote">「<span class=
+          "quote">tic</span>」</span>プログラムをビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build
+pushd build
+  ../configure
+  make -C include
+  make -C progs tic
+popd</kbd></pre>
+        <p>
+          Ncurses をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr                \
+            --host=$LFS_TGT              \
+            --build=$(./config.guess)    \
+            --mandir=/usr/share/man      \
+            --with-manpage-format=normal \
+            --with-shared                \
+            --without-normal             \
+            --with-cxx-shared            \
+            --without-debug              \
+            --without-ada                \
+            --disable-stripping          \
+            --enable-widec</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>configure オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-manpage-format=normal</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                本パラメーターは Ncurses が圧縮された man ページをインストールしないようにします。
+                ホストディストリビューションそのものが圧縮 man ページを利用していると、同じようになってしまうからです。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-shared</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                これは Ncurses において共有 C ライブラリをビルドしインストールします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--without-normal</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                これは Ncurses においてスタティックな C ライブラリのビルドおよびインストールを行わないようにします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--without-debug</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                これは Ncurses においてデバッグライブラリのビルドおよびインストールを行わないようにします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-cxx-shared</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                これは Ncurses において共有 C++ バインディングをビルドしインストールします。 同時にスタティックな C++
+                バインディングのビルドおよびインストールは行わないようにします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--without-ada</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このオプションは Ncurses に対して Ada コンパイラーのサポート機能をビルドしないよう指示します。
+                この機能はホストシステムでは提供されているかもしれませんが、<span class=
+                "command"><strong>chroot</strong></span>
+                環境に入ってしまうと利用できなくなります。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--disable-stripping</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                本スイッチは、ホスト上の <span class=
+                "command"><strong>strip</strong></span>
+                を、ビルドシステムが利用しないようにします。
+                クロスコンパイルされたプログラムに対して、ホスト上のツールを使うと、ビルド失敗の原因になります。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-widec</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                本スイッチは通常のライブラリ (<code class=
+                "filename">libncurses.so.6.4-20230520</code>)
+                ではなくワイド文字対応のライブラリ (<code class=
+                "filename">libncursesw.so.6.4-20230520</code>)
+                をビルドすることを指示します。 ワイド文字対応のライブラリは、マルチバイトロケールと従来の
+                8ビットロケールの双方に対して利用可能です。 通常のライブラリでは 8ビットロケールに対してしか動作しません。
+                ワイド文字対応と通常のものとでは、ソース互換があるもののバイナリ互換がありません。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make DESTDIR=$LFS TIC_PATH=$(pwd)/build/progs/tic install
+ln -sv libncursesw.so $LFS/usr/lib/libncurses.so
+sed -e 's/^#if.*XOPEN.*$/#if 1/' \
+    -i $LFS/usr/include/curses.h</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>install オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>TIC_PATH=$(pwd)/build/progs/tic</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                ビルドマシン上において、作り出したばかりの <span class=
+                "command"><strong>tic</strong></span> のパスを示すことが必要です。 こうすることで
+                terminal データベースがエラーなく生成できることになります。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><span class="command"><strong>ln -sv
+              libncursesw.so
+              $LFS/usr/lib/libncurses.so</strong></span></span>
+            </dt>
+            <dd>
+              <p>
+                これから作り出すパッケージの中で、わずかですが <code class=
+                "filename">libncurses.so</code> を必要としているものがあります。 このシンボリックリンクは
+                <code class="filename">libncursesw.so</code> に代わるものとして生成します。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><span class="command"><strong>sed -e
+              's/^#if.*XOPEN.*$/#if 1/' ...</strong></span></span>
+            </dt>
+            <dd>
+              <p>
+                ヘッダーファイル <code class="filename">curses.h</code> では Ncurses
+                データ構造に関するさまざまな定義が行われています。
+                プリプロセッサーマクロ定義を変えることによって、データ構造定義を二つの異なるセットとして定義しているものがあります。
+                つまり 8 ビット定義は <code class="filename">libncurses.so</code>
+                と互換性があり、ワイドキャラクター定義は <code class=
+                "filename">libncursesw.so</code> と互換性があります。 これまで <code class=
+                "filename">libncurses.so</code> の代わりとして <code class=
+                "filename">libncursesw.so</code>
+                を利用してきていることから、ヘッダーファイルを修正して、<code class=
+                "filename">libncursesw.so</code>
+                と互換性を持つワイドキャラクターデータ構造を常に用いるものとします。
+              </p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <p>
+          本パッケージの詳細は <a class="xref" href=
+          "../chapter08/ncurses.html#contents-ncurses" title=
+          "8.29.2. Ncurses の構成">「Ncurses の構成」</a>を参照してください。
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="m4.html" title="M4-1.4.19">戻る</a>
+          <p>
+            M4-1.4.19
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="bash.html" title="Bash-5.2.21">次へ</a>
+          <p>
+            Bash-5.2.21
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter06.html" title=
+          "第6章 クロスコンパイルによる一時的ツール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.1-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

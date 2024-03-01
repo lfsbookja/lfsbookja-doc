@@ -1,0 +1,685 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      10.3. Linux-6.7.4
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.1">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.1
+      </h4>
+      <h3>
+        第10章 LFS システムのブート設定
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="fstab.html" title=
+          "/etc/fstab ファイルの生成">戻る</a>
+          <p>
+            /etc/fstab ファイルの生成
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="grub.html" title=
+          "GRUB を用いたブートプロセスの設定">次へ</a>
+          <p>
+            GRUB を用いたブートプロセスの設定
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter10.html" title=
+          "第10章 LFS システムのブート設定">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.1">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-bootable-kernel" name="ch-bootable-kernel"></a>10.3.
+      Linux-6.7.4
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Linux パッケージは Linux カーネルを提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.6 - 20.4 SBU (一般的には 1.4 SBU 程度)</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">1.8 - 10.6 GB (一般的には 2 GB 程度)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          10.3.1. カーネル のインストール
+        </h2>
+        <p>
+          カーネルの構築は、カーネルの設定、コンパイル、インストールの順に行っていきます。
+          本書が行っているカーネル設定の方法以外については、カーネルソースツリー内にある <code class=
+          "filename">README</code> ファイルを参照してください。
+        </p>
+        <div class="admon important">
+          <img alt="[重要]" src="../images/important.png" />
+          <h3>
+            重要
+          </h3>
+          <p>
+            Linux カーネルの構築を初めて行うなら、LFS の中でも、かなりハードルの高い作業になります。
+            これをうまく成功させることができるかどうかは、対象システム向けの特定ハードウェアの存在や、どのように作り上げたいかの要求に依存します。
+            カーネルに設定できる項目は、ほぼ 12,000 項目もあります。 ただしたいていのコンピューターにおいて、必要となる項目はその 3
+            分の 1 程度です。 LFS
+            編集者としては、この作業手順に不慣れなユーザーであれば、以降に示す手順をほぼそっくり従って頂くことをお勧めしています。
+            ここでの目的は、後に <a class="xref" href="../chapter11/reboot.html" title=
+            "11.3. システムの再起動">「システムの再起動」</a>
+            を経てシステムを再起動した際に、この新システムに向けて、コマンドラインからログインできるようにすることです。
+            この段階では、最適化やカスタマイズを目指すものではありあせん。
+          </p>
+          <p>
+            カーネルの設定方法に関する一般的な情報が <a class="ulink" href=
+            "https://www.linuxfromscratch.org/hints/downloads/files/kernel-configuration.txt">
+            https://www.linuxfromscratch.org/hints/downloads/files/kernel-configuration.txt</a>
+            にあるので参照してください。 さらに詳しくカーネルの構築や設定を説明している <a class="ulink" href=
+            "https://anduin.linuxfromscratch.org/LFS/kernel-nutshell/">https://anduin.linuxfromscratch.org/LFS/kernel-nutshell/</a>
+            もあります。 この情報を少々古いものですが、理にかなった作業過程をおおまかに示しています。
+          </p>
+          <p>
+            それでもうまくいかなかった場合は、<a class="ulink" href=
+            "https://www.linuxfromscratch.org/mail.html">lfs-support</a>
+            メーリングリストに問い合わせる方法があります。 スパムメールを避ける目的から、このメーリングリストは登録が必要です。
+          </p>
+        </div>
+        <p>
+          コンパイルするための準備として以下のコマンドを実行します。
+        </p>
+        <pre class="userinput"><kbd class="command">make mrproper</kbd></pre>
+        <p>
+          これによりカーネルソースが完全にクリーンなものになります。
+          カーネル開発チームは、カーネルコンパイルするなら、そのたびにこれを実行することを推奨しています。 tar
+          コマンドにより伸張しただけのソースではクリーンなものにはなりません。
+        </p>
+        <p>
+          カーネルオプションの設定方法にはいくつかあります。 通常は以下に示すように、メニュー形式のインターフェースを通じて行います。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make menuconfig</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>追加する make 環境変数の意味:</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>LANG=&lt;host_LANG_value&gt;
+              LC_ALL=</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                これはホストのロケール設定を指示するものです。 この設定は UTF-8 での表示設定がされたテキストコンソールにて
+                menuconfig の ncurses による行表示を適切に行うために必要となります。
+              </p>
+              <p>
+                <em class=
+                "replaceable"><code>&lt;host_LANG_value&gt;</code></em>
+                の部分は、ホストの <code class="envar">$LANG</code> 変数の値に置き換えてください。
+                <code class="envar">$LC_ALL</code> あるいは <code class=
+                "envar">$LC_CTYPE</code> の値を設定することもできます。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><span class="command"><strong>make
+              menuconfig</strong></span></span>
+            </dt>
+            <dd>
+              <p>
+                これは ncurses によるメニュー形式のインターフェースを起動します。
+                これ以外の（グラフィカルな）インターフェースについては <span class=
+                "command"><strong>make help</strong></span> を入力して確認してください。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            カーネル設定を行うにあたって、分かりやすいやり方として <span class="command"><strong>make
+            defconfig</strong></span> を実行する方法があります。
+            これを実行することで基本的な設定がなされ、現在のシステム構成が考慮された、より良い設定が得られるかもしれません。
+          </p>
+          <p>
+            以下の機能項目についての有効、無効、設定状況を確認してください。
+            不適切である場合にはシステムが正常動作しなかったり起動できなかったりするかもしれません。
+          </p>
+          <pre class="screen"><span class="blue">G</span>eneral setup ---&gt;
+  [ ] <span class=
+"blue">C</span>ompile the kernel with warnings as errors                        [WERROR]
+  <span class="blue">C</span>PU/Task time and stats accounting ---&gt;
+    [*] <span class=
+"blue">P</span>ressure stall information tracking                                [PSI]
+    [ ]   <span class=
+"blue">R</span>equire boot parameter to enable pressure stall information tracking
+                                                     ...  [PSI_DEFAULT_DISABLED]
+  &lt; &gt; <span class=
+"blue">E</span>nable kernel headers through /sys/kernel/kheaders.tar.xz      [IKHEADERS]
+  [*] <span class=
+"blue">C</span>ontrol Group support ---&gt;                                       [CGROUPS]
+    [*] M<span class=
+"blue">e</span>mory controller                                                [MEMCG]
+  [ ] <span class=
+"blue">C</span>onfigure standard kernel features (expert users) ---&gt;            [EXPERT]
+
+<span class="blue">P</span>rocessor type and features ---&gt;
+  [*] <span class=
+"blue">B</span>uild a relocatable kernel                                   [RELOCATABLE]
+  [*]   <span class=
+"blue">R</span>andomize the address of the kernel image (KASLR)       [RANDOMIZE_BASE]
+
+<span class="blue">G</span>eneral architecture-dependent options ---&gt;
+  [*] <span class=
+"blue">S</span>tack Protector buffer overflow detection                 [STACKPROTECTOR]
+  [*]   <span class=
+"blue">S</span>trong Stack Protector                           [STACKPROTECTOR_STRONG]
+
+<span class="blue">D</span>evice Drivers ---&gt;
+  <span class="blue">G</span>eneric Driver Options ---&gt;
+    [ ] <span class=
+"blue">S</span>upport for uevent helper                                [UEVENT_HELPER]
+    [*] M<span class=
+"blue">a</span>intain a devtmpfs filesystem to mount at /dev               [DEVTMPFS]
+    [*]   <span class=
+"blue">A</span>utomount devtmpfs at /dev, after the kernel mounted the rootfs
+                                                           ...  [DEVTMPFS_MOUNT]
+  <span class="blue">G</span>raphics support ---&gt;
+    &lt; /*/M&gt; <span class=
+"blue">D</span>irect Rendering Manager (XFree86 4.1.0 and higher DRI support) ---&gt;
+                                                                      ...  [DRM]
+    # If [DRM] is selected as * or M, this must be selected:
+    [ /*]   <span class=
+"blue">E</span>nable legacy fbdev support for your modesetting driver
+                                                      ...  [DRM_FBDEV_EMULATION]
+    <span class="blue">C</span>onsole display driver support ---&gt;
+      # If [DRM] is selected as * or M, this must be selected:
+      [ /*] <span class=
+"blue">F</span>ramebuffer Console support                    [FRAMEBUFFER_CONSOLE]</pre>
+          <p>
+            64 ビットシステムの構築時は、追加機能をいくらか有効にしてください。 menuconfig を利用している場合、初めに
+            <em class="parameter"><code>CONFIG_PCI_MSI</code></em>
+            を有効にして、その後に <em class=
+            "parameter"><code>CONFIG_IRQ_REMAP</code></em>、<em class=
+            "parameter"><code>CONFIG_X86_X2APIC</code></em> を有効にします。
+            こうするのは、依存するオプションが選択されていないと、特定のオプションが現れてこないからです。
+          </p>
+          <pre class="screen"><span class=
+          "blue">P</span>rocessor type and features ---&gt;
+  [*] <span class=
+"blue">S</span>upport x2apic                                                [X86_X2APIC]
+
+<span class="blue">D</span>evice Drivers ---&gt;
+  [*] <span class=
+"blue">P</span>CI support ---&gt;                                                     [PCI]
+    [*] M<span class=
+"blue">e</span>ssage Signaled Interrupts (MSI and MSI-X)                    [PCI_MSI]
+  [*] <span class=
+"blue">I</span>OMMU Hardware Support ---&gt;                                [IOMMU_SUPPORT]
+    [*] <span class=
+"blue">S</span>upport for Interrupt Remapping                              [IRQ_REMAP]</pre>
+          <p>
+            32 ビットシステムの構築中であって、RAM が 4GB 以上ある場合は、64 GB までの物理 RAM
+            が利用できるようにカーネルを調整してください。
+          </p>
+          <pre class="screen"><span class=
+          "blue">P</span>rocessor type and features ---&gt;
+  H<span class="blue">i</span>gh Memory Support ---&gt;
+    (X) <span class=
+"blue">6</span>4GB                                                        [HIGHMEM64G]</pre>
+          <p>
+            LFS システムを配置するパーティションが NVME SSD（つまりデバイスノードが <code class=
+            "filename">/dev/sd*</code> でなく <code class=
+            "filename">/dev/nvme*</code>）である場合は、NVME サポートを有効にしてください。
+            これを行っていないと、LFS システムが起動しません。
+          </p>
+          <pre class="screen"><span class=
+          "blue">D</span>evice Drivers ---&gt;
+  N<span class="blue">V</span>ME Support ---&gt;
+    &lt;*&gt; N<span class=
+"blue">V</span>M Express block device                                  [BLK_DEV_NVME]</pre>
+        </div>
+        <p>
+          システムに特定の機能性が必要になれば、それだけ多くのオプションが必要となります。 例えば BLFS
+          パッケージにて必要となるオプションについては <a class="ulink" href=
+          "https://www.linuxfromscratch.org/blfs/view/12.1/longindex.html#kernel-config-index">
+          BLFS Index of Kernel Settings</a> を参照してください。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            ホストが UEFI を利用していて、これを使って LFS システムのブートを行いたい場合は、 <a class="ulink"
+            href=
+            "https://www.linuxfromscratch.org/blfs/view/12.1/postlfs/grub-setup.html#uefi-kernel">
+            BLFS ページ</a> に従って、カーネル設定を調整する必要があります。 <span class=
+            "bold"><strong>これは、ホストディストリビューションにて UEFI
+            ブートローダーを利用している場合であっても同様です。</strong></span>
+          </p>
+        </div>
+        <div class="variablelist">
+          <p class="title">
+            <strong>上の設定項目の説明</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class="parameter"><code>Randomize the
+              address of the kernel image (KASLR)</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                カーネルイメージにおいて ASLR を有効にします。
+                これによって、カーネル内にある機密コードやデータが、固定的なアドレスに存在することを前提とした攻撃を軽減できます。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class="parameter"><code>Compile the
+              kernel with warnings as errors</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                これを設定すると、カーネル開発者が採用するコンパイラーや設定と異なる場合に、カーネルビルドエラーとなる場合があります。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class="parameter"><code>Enable kernel
+              headers through /sys/kernel/kheaders.tar.xz</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                これは、 カーネルビルドにあたって <span class=
+                "command"><strong>cpio</strong></span> を必要とします。 <span class=
+                "command"><strong>cpio</strong></span> は LFS ではインストールしません。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class="parameter"><code>Configure
+              standard kernel features (expert users)</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                これは設定項目上にいくつかのオプションを表示するものですが、そのオプションを変更することは非常に危険なことです。
+                何を行っているのかがわかっていない場合には、触れないようにしてください。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class="parameter"><code>Strong Stack
+              Protector</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                カーネルにおいて SSP を有効にします。 ユーザー空間全体に対してこれを有効にするには、GCC のコンパイルにあたって
+                <em class="parameter"><code>--enable-default-ssp</code></em>
+                を指定します。 ただしカーネルは、GCC のデフォルト設定として SSP を利用しません。
+                したがってここで明示的な指定を行います。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class="parameter"><code>Support for
+              uevent helper</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                本項目を有効にすることで、デバイス管理を Udev により行ないます。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class="parameter"><code>Maintain a
+              devtmpfs</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                本項目は、カーネルにより事前登録される自動化デバイスノードを生成します。 これは Udev
+                が動作していなくても行われます。 Udev はその上で起動し、パーミッション管理やシンボリックリンクの追加を行います。
+                Udev を利用する場合には本項目を有効にすることが必要です。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class="parameter"><code>Automount
+              devtmpfs at /dev</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                これは、カーネルから見たデバイス情報を /dev 上にマウントするものです。 init
+                が起動される直前にルートファイルシステムに切り替えられます。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class="parameter"><code>Enable legacy
+              fbdev support for your modesetting driver</code></em> ,
+              <em class="parameter"><code>Framebuffer Console
+              support</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                これは DRI (Direct Rendering Infrastructure) ドライバーにより起動される GPU
+                上に Linux コンソールを表示するために必要となります。 <code class=
+                "option">CONFIG_DRM</code> (Direct Rendering Manager)
+                を有効にしている場合は、この 2 つのオプションも同じく有効にしておく必要があります。 そうしておかないと、DRI
+                ドライバーのロードの際に画面がブランクになってしまいます。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class="parameter"><code>Support
+              x2apic</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                64 ビット x86 プロセッサーの x2APIC モードでのインタラプトコントローラーの実行をサポートします。 64
+                ビット x86 システムにおいてはファームウェアが x2APIC を有効にすることがあります。 ファームウェアによって
+                x2APIC が有効である場合、カーネルにおいてこのオプションが無効であると、起動時にパニックを起こします。
+                本オプションには効果がありません。 またファームウェアによって x2APIC
+                が無効であった場合、このオプションは影響を及ぼしません。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          上のコマンドではなく、状況によっては <span class="command"><strong>make
+          oldconfig</strong></span> を実行することが適当な場合もあります。 詳細についてはカーネルソース内の
+          <code class="filename">README</code> ファイルを参照してください。
+        </p>
+        <p>
+          カーネル設定は行わずに、ホストシステムにあるカーネル設定ファイル <code class=
+          "filename">.config</code> をコピーして利用することもできます。 そのファイルが存在すればの話です。
+          その場合は <code class="filename">linux-6.7.4</code>
+          ディレクトリにそのファイルをコピーしてください。 もっともこのやり方はお勧めしません。
+          設定項目をメニューから探し出して、カーネル設定を一から行っていくことが望ましいことです。
+        </p>
+        <p>
+          カーネルイメージとモジュールをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          カーネルモジュールを利用する場合 <code class="filename">/etc/modprobe.d</code>
+          ディレクトリ内での設定を必要とします。 モジュールやカーネル設定に関する情報は <a class="xref" href=
+          "../chapter09/udev.html" title=
+          "9.3. デバイスとモジュールの扱いについて">「デバイスとモジュールの扱いについて」</a>や <code class=
+          "filename">linux-6.7.4/Documentation</code>
+          ディレクトリにあるカーネルドキュメントを参照してください。 また <a class="ulink" href=
+          "https://man.archlinux.org/man/modprobe.d.5">modprobe.d(5)</a>
+          も有用です。
+        </p>
+        <p>
+          カーネル設定においてモジュールの利用を無効にしているのでなければ、ここでモジュールをインストールします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make modules_install</kbd></pre>
+        <p>
+          カーネルのコンパイルが終わったら、インストールの完了に向けてあと少し作業を行います。 <code class=
+          "filename">/boot</code> ディレクトリにいくつかのファイルをコピーします。
+        </p>
+        <div class="admon caution">
+          <img alt="[注意]" src="../images/caution.png" />
+          <h3>
+            注意
+          </h3>
+          <p>
+            LFS システムにおいて、<code class="filename">/boot</code>
+            パーティションを切り分けて用意することにした場合（おそらくホストディストロの <code class=
+            "filename">/boot</code> パーティションを共用とする場合）、以降でコピーするファイルがそこに入ります。
+            これを最も簡単に行うには、<code class="filename">/etc/fstab</code> 内に
+            <code class="filename">/boot</code>
+            用のエントリーを生成します（詳細は前節を参照してください）。 そして <span class=
+            "emphasis"><em>chroot 環境</em></span> 内の <code class=
+            "systemitem">root</code> ユーザーになって、以下のコマンドを実行します。
+          </p>
+          <pre class="userinput"><kbd class="command">mount /boot</kbd></pre>
+          <p>
+            コマンド実行にあたっては、デバイスノードへのパスは省略します。 これは <span class=
+            "command"><strong>mount</strong></span> コマンドが <code class=
+            "filename">/etc/fstab</code> から読み込むからです。
+          </p>
+        </div>
+        <p>
+          カーネルイメージへのパスは、利用しているプラットフォームによってさまざまです。 そのファイル名は、好みにより自由に変更して構いません。
+          ただし <span class="emphasis"><em>vmlinuz</em></span> という語は必ず含めてください。
+          これにより、次節で説明するブートプロセスを自動的に設定するために必要なことです。 以下のコマンドは x86
+          アーキテクチャーの場合の例です。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cp -iv arch/x86/boot/bzImage /boot/vmlinuz-6.7.4-lfs-12.1</kbd></pre>
+        <p>
+          <code class="filename">System.map</code> はカーネルに対するシンボルファイルです。
+          このファイルはカーネル API の各関数のエントリポイントをマッピングしています。
+          同様に実行中のカーネルのデータ構成のアドレスを保持します。
+          このファイルは、カーネルに問題があった場合にその状況を調べる手段として利用できます。
+          マップファイルをインストールするには以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cp -iv System.map /boot/System.map-6.7.4</kbd></pre>
+        <p>
+          カーネル設定ファイル <code class="filename">.config</code> は、上で実行した
+          <span class="command"><strong>make menuconfig</strong></span>
+          によって生成されます。 このファイル内には、今コンパイルしたカーネルの設定項目の情報がすべて保持されています。
+          将来このファイルを参照する必要が出てくるかもしれないため、このファイルを保存しておきます。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cp -iv .config /boot/config-6.7.4</kbd></pre>
+        <p>
+          Linux カーネルのドキュメントをインストールします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cp -r Documentation -T /usr/share/doc/linux-6.7.4</kbd></pre>
+        <p>
+          カーネルのソースディレクトリは所有者が <span class="emphasis"><em>root</em></span>
+          ユーザーになっていません。 我々は chroot 環境内の <span class=
+          "emphasis"><em>root</em></span>
+          ユーザーとなってパッケージを展開してきましたが、展開されたファイル類はパッケージ開発者が用いていたユーザー ID、グループ ID
+          が適用されています。 このことは普通はあまり問題になりません。
+          というのもパッケージをインストールした後のソースファイルは、たいていは削除するからです。 一方 Linux
+          のソースファイルは、削除せずに保持しておくことがよく行われます。
+          このことがあるため開発者の用いたユーザーIDが、インストールしたマシン内の誰かの ID に割り当たった状態となりえます。
+          その人はカーネルソースを自由に書き換えてしまう権限を持つことになるわけです。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            カーネルの設定は、BLFS をインストールしていくにつれて、設定を更新していかなければならないことが多々あります。
+            一般にパッケージのソースは削除することが通常ですが、カーネルのソースに関しては、カーネルをもう一度新たにインストールするなら、削除しなくて構いません。
+          </p>
+          <p>
+            カーネルのソースファイルを保持しておくつもりなら <code class=
+            "filename">linux-6.7.4</code> ディレクトリにおいて <span class=
+            "command"><strong>chown -R 0:0</strong></span> を実行しておいてください。
+            これによりそのディレクトリの所有者は <span class="emphasis"><em>root</em></span>
+            ユーザーとなります。
+          </p>
+        </div>
+        <div class="admon warning">
+          <img alt="[警告]" src="../images/warning.png" />
+          <h3>
+            警告
+          </h3>
+          <p>
+            カーネルを説明する書の中には、カーネルのソースディレクトリに対してシンボリックリンク <code class=
+            "filename">/usr/src/linux</code> の生成を勧めているものがあります。 これはカーネル 2.6
+            系以前におけるものであり LFS システム上では生成<span class=
+            "emphasis"><em>してはなりません</em></span> 。 ベースとなる LFS
+            システムを構築し、そこに新たなパッケージを追加していこうとした際に、そのことが問題となるからです。
+          </p>
+        </div>
+        <div class="admon warning">
+          <img alt="[警告]" src="../images/warning.png" />
+          <h3>
+            警告
+          </h3>
+          <p>
+            さらに <code class="filename">include</code> ディレクトリ (<code class=
+            "filename">/usr/include</code>) にあるヘッダーファイルは、<span class=
+            "emphasis"><em>必ず</em></span> Glibc のコンパイル時のものでなければなりません。 つまり
+            <a class="xref" href="../chapter05/linux-headers.html" title=
+            "5.4. Linux-6.7.4 API ヘッダー">「Linux-6.7.4 API ヘッダー」</a>
+            によってインストールされた、健全化 (sanitizing) したものです。
+            したがって生のカーネルヘッダーや他のカーネルにて健全化されたヘッダーによって上書きされてしまうのは避けなければなりません。
+          </p>
+        </div>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="conf-modprobe" name="conf-modprobe"></a>10.3.2. Linux
+          モジュールのロード順の設定
+        </h2>
+        <p>
+          たいていの場合 Linux モジュールは自動的にロードされます。 しかし中には特定の指示を必要とするものもあります。
+          モジュールをロードするプログラム、<span class=
+          "command"><strong>modprobe</strong></span> または <span class=
+          "command"><strong>insmod</strong></span> は、そのような指示を行う目的で
+          <code class="filename">/etc/modprobe.d/usb.conf</code> を利用します。 USB
+          ドライバー (ehci_hcd, ohci_hcd, uhci_hcd)
+          がモジュールとしてビルドされていた場合には、それらを正しい順でロードしなければならず、そのために <code class=
+          "filename">/etc/modprobe.d/usb.conf</code> ファイルが必要となります。 ehci_hcd は
+          ohci_hcd や uhci_hcd よりも先にロードしなければなりません。
+          これを行わないとブート時に警告メッセージが出力されます。
+        </p>
+        <p>
+          以下のコマンドを実行して <code class="filename">/etc/modprobe.d/usb.conf</code>
+          ファイルを生成します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">install -v -m755 -d /etc/modprobe.d
+cat &gt; /etc/modprobe.d/usb.conf &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/modprobe.d/usb.conf
+
+install ohci_hcd /sbin/modprobe ehci_hcd ; /sbin/modprobe -i ohci_hcd ; true
+install uhci_hcd /sbin/modprobe ehci_hcd ; /sbin/modprobe -i uhci_hcd ; true
+
+# End /etc/modprobe.d/usb.conf</code>
+EOF</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-kernel" name="contents-kernel"></a>10.3.3. Linux
+          の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールファイル:</strong> <span class=
+              "segbody">config-6.7.4, vmlinuz-6.7.4-lfs-12.1, and
+              System.map-6.7.4</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/lib/modules, /usr/share/doc/linux-6.7.4</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="config" name="config"></a><span class=
+                    "term"><code class="filename">config-6.7.4</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    カーネルの設定をすべて含みます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lfskernel" name="lfskernel"></a><span class=
+                    "term"><code class=
+                    "filename">vmlinuz-6.7.4-lfs-12.1</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Linux システムのエンジンです。
+                    コンピューターを起動した際には、オペレーティングシステム内にて最初にロードされるものです。
+                    カーネルはコンピューターのハードウェアを構成するあらゆるコンポーネントを検知して初期化します。
+                    そしてそれらのコンポーネントをツリー階層のファイルとして、ソフトウェアが利用できるようにします。 ただひとつの
+                    CPU からマルチタスクを処理するマシンとして、あたかも多数のプログラムが同時稼動しているように仕向けます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="System.map" name="System.map"></a><span class=
+                    "term"><code class=
+                    "filename">System.map-6.7.4</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    アドレスとシンボルのリストです。 カーネル内のすべての関数とデータ構成のエントリポイントおよびアドレスを示します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="fstab.html" title=
+          "/etc/fstab ファイルの生成">戻る</a>
+          <p>
+            /etc/fstab ファイルの生成
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="grub.html" title=
+          "GRUB を用いたブートプロセスの設定">次へ</a>
+          <p>
+            GRUB を用いたブートプロセスの設定
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter10.html" title=
+          "第10章 LFS システムのブート設定">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.1">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

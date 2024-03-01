@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      2.3. 作業段階ごとの LFS 構築
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.1-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.1-systemd
+      </h4>
+      <h3>
+        第2章 ホストシステムの準備
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="hostreqs.html" title="ホストシステム要件">戻る</a>
+          <p>
+            ホストシステム要件
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="creatingpartition.html" title=
+          "新しいパーティションの生成">次へ</a>
+          <p>
+            新しいパーティションの生成
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter02.html" title=
+          "第2章 ホストシステムの準備">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.1-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-partitioning-stages" name="ch-partitioning-stages"></a>2.3.
+      作業段階ごとの LFS 構築
+    </h1>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <p>
+        LFS は一度にすべてを構築するものとして説明を行っています。 つまり作業途中にシステムをシャットダウンすることは想定していません。
+        ただこれは、システム構築を立ち止まることなくやり続けろと言っているわけではありません。 LFS
+        構築を途中から再開する場合には、どの段階からなのかに応じて、特定の作業を再度行うことが必要となります。
+      </p>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          2.3.1. 第&nbsp;1&nbsp;章～第&nbsp;4&nbsp;章
+        </h2>
+        <p>
+          これらの章ではホストシステム上でコマンド実行します。 作業を再開する際には以下に注意します。
+        </p>
+        <div class="itemizedlist">
+          <ul>
+            <li class="listitem">
+              <p>
+                2.4 節以降において <code class="systemitem">root</code>
+                ユーザーにより実行する作業では LFS 環境変数の設定が必要です。 さらにそれは<span class=
+                "emphasis"><em>root ユーザーにおいて</em></span>設定されていなければなりません。
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          2.3.2. 第&nbsp;5&nbsp;章～第&nbsp;6&nbsp;章
+        </h2>
+        <div class="itemizedlist">
+          <ul>
+            <li class="listitem">
+              <p>
+                /mnt/lfs パーティションがマウントされていることが必要です。
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                この 2 つの章における処理は<span class=
+                "emphasis"><em>すべて</em></span>、ユーザー <code class=
+                "systemitem">lfs</code> により実施してください。 処理の実施前には <span class=
+                "command"><strong>su - lfs</strong></span> を行ないます。
+                これを行わなかった場合、パッケージインストールがホストに対して行われてしまい、利用不能になってしまうリスクがあります。
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="../partintro/generalinstructions.html"
+                title="全般的なコンパイル手順">全般的なコンパイル手順</a>に示す内容は極めて重要です。
+                パッケージのインストール作業に少しでも疑わしい点があったならば、展開作業を行った tarball
+                やその展開ディレクトリをいったん消去し、再度展開し作業をやり直してください。
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          2.3.3. 第&nbsp;7&nbsp;章～第&nbsp;10&nbsp;章
+        </h2>
+        <div class="itemizedlist">
+          <ul>
+            <li class="listitem">
+              <p>
+                /mnt/lfs パーティションがマウントされていることが必要です。
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="quote">「<span class=
+                "quote">所有者の変更</span>」</span>から<span class=
+                "quote">「<span class="quote">Chroot
+                環境への移行</span>」</span>までの操作は、<code class=
+                "systemitem">root</code> ユーザーで行います。 LFS 環境変数が <code class=
+                "systemitem">root</code> ユーザーにおいて設定されている必要があります。
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                chroot 環境に入った際には、環境変数 LFS が <code class=
+                "systemitem">root</code> ユーザーにおいて設定されている必要があります。 chroot
+                環境に入った後は、LFS 変数は使いません。
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                仮想ファイルシステムがマウントされている必要があります。 これは chroot
+                環境への移行前後において、ホストの仮想端末を変更することで実現します。 <code class=
+                "systemitem">root</code> ユーザーとなって <a class="xref" href=
+                "../chapter07/kernfs.html#ch-tools-bindmount" title=
+                "7.3.1. /dev のマウントと有効化">「/dev のマウントと有効化」</a> と <a class=
+                "xref" href="../chapter07/kernfs.html#ch-tools-kernfsmount"
+                title="7.3.2. 仮想カーネルファイルシステムのマウント">「仮想カーネルファイルシステムのマウント」</a>
+                を実行する必要があります。
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="hostreqs.html" title="ホストシステム要件">戻る</a>
+          <p>
+            ホストシステム要件
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="creatingpartition.html" title=
+          "新しいパーティションの生成">次へ</a>
+          <p>
+            新しいパーティションの生成
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter02.html" title=
+          "第2章 ホストシステムの準備">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.1-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      2.4. 新しいパーティションの生成
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.1-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.1-systemd
+      </h4>
+      <h3>
+        第2章 ホストシステムの準備
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="stages.html" title="作業段階ごとの LFS 構築">戻る</a>
+          <p>
+            作業段階ごとの LFS 構築
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="creatingfilesystem.html" title=
+          "ファイルシステムの生成">次へ</a>
+          <p>
+            ファイルシステムの生成
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter02.html" title=
+          "第2章 ホストシステムの準備">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.1-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-partitioning-creatingpartition" name=
+      "ch-partitioning-creatingpartition"></a>2.4. 新しいパーティションの生成
+    </h1>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <p>
+        どのようなオペレーティングシステムでも同じことが言えますが、本システムでもインストール先は専用のパーティションを用いることにします。
+        LFS
+        システムを構築していくには、利用可能な空のパーティションか、あるいはパーティション化していないものをパーティションとして生成して利用することにします。
+      </p>
+      <p>
+        最小限のシステムであれば 10 GB 程度のディスク容量があれば十分です。
+        これだけあればパッケージやソースの収容に十分で、そこでコンパイル作業を行っていくことができます。 しかし主要なシステムとして LFS
+        を構築するなら、さらにソフトウェアをインストールすることになるはずなので、さらなる容量が必要となります。 30 GB
+        ほどのパーティションがあれば、増量していくことを考えても十分な容量でしょう。 LFS
+        システムそのものがそれだけの容量を要するわけではありません。 これだけの容量は十分なテンポラリ領域のために必要となるものであり、また
+        LFS の完成後に機能追加していくためのものです。
+        パッケージをインストールした後はテンポラリ領域は開放されますが、コンパイルの間は多くの領域を利用します。
+      </p>
+      <p>
+        コンパイル処理において十分なランダムアクセスメモリ (Random Access Memory; RAM)
+        を確保できるとは限りませんので、スワップ (<code class="systemitem">swap</code>)
+        領域をパーティションとして設けるのが普通です。
+        この領域へは利用頻度が低いデータを移すことで、アクティブな処理プロセスがより多くのメモリを確保できるようにカーネルが制御します。
+        <code class="systemitem">swap</code> パーティションは、LFS
+        システムのものとホストシステムのものを共有することもできます。 その場合は新しいパーティションを作る必要はありません。
+      </p>
+      <p>
+        ディスクのパーティション生成は <span class="command"><strong>cfdisk</strong></span>
+        コマンドや <span class="command"><strong>fdisk</strong></span>
+        コマンドを使って行います。 コマンドラインオプションにはパーティションを生成するハードディスク名を指定します。
+        例えばプライマリーディスクであれば <code class="filename">/dev/sda</code> といったものになります。
+        そして Linux ネイティブパーティションと、必要なら <code class="systemitem">swap</code>
+        パーティションを生成します。 プログラムの利用方法について不明であれば <a class="ulink" href=
+        "https://man.archlinux.org/man/cfdisk.8">cfdisk(8)</a> や <a class=
+        "ulink" href="https://man.archlinux.org/man/fdisk.8">fdisk(8)</a>
+        を参照してください。
+      </p>
+      <div class="admon note">
+        <img alt="[注記]" src="../images/note.png" />
+        <h3>
+          注記
+        </h3>
+        <p>
+          上級者の方であれば別のパーティション設定も可能です。 最新の LFS システムは、ソフトウェア <a class="ulink"
+          href=
+          "https://www.linuxfromscratch.org/blfs/view/stable-systemd/postlfs/raid.html">
+          RAID</a> アレーや、<a class="ulink" href=
+          "https://www.linuxfromscratch.org/blfs/view/stable-systemd/postlfs/aboutlvm.html">LVM</a>
+          論理ボリュームを利用することができます。 ただしこれらを実現するには <a class="ulink" href=
+          "https://www.linuxfromscratch.org/blfs/view/stable-systemd/postlfs/initramfs.html">
+          initramfs</a> が必要であり、高度なトピックです。 こういったパーティション設定は、LFS 初心者にはお勧めしません。
+        </p>
+      </div>
+      <p>
+        新しく生成したパーティションの名前を覚えておいてください。 (例えば <code class="filename">sda5</code>
+        など。) 本書ではこのパーティションを LFS パーティションとして説明していきます。 また <code class=
+        "systemitem">swap</code> パーティションの名前も忘れないでください。 これらの名前は、後に生成する
+        <code class="filename">/etc/fstab</code> ファイルに記述するために必要となります。
+      </p>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          2.4.1. パーティションに関するその他の問題
+        </h2>
+        <p>
+          LFS メーリングリストにてパーティションに関する有用情報を望む声をよく聞きます。 これは個人の趣味にもよる極めて主観的なものです。
+          既存ディストリビューションが採用しているデフォルトのパーティションサイズと言えば、たいていはスワップパーティションを小容量で配置した上で、そのドライブ内の残容量すべてのサイズを割り当てています。
+          このようなサイズ設定は LFS では最適ではありません。その理由はいくつかあります。
+          そのようにしてしまうと、複数のディストリビューションの導入時や LFS 構築時に、柔軟さを欠き、構築がしにくくなります。
+          バックアップを取る際にも無用な時間を要し、ファイルシステム上にて不適当なファイル配置を生み出すため、余計なディスク消費を発生させます。
+        </p>
+        <div class="sect3">
+          <h3 class="sect3">
+            2.4.1.1. ルートパーティション
+          </h3>
+          <p>
+            ルートパーティション (これを <code class="filename">/root</code>
+            ディレクトリと混同しないでください) は 20 GB もあれば、どんなシステムであっても妥当なところでしょう。 それだけあれば
+            LFS 構築も、また BLFS においてもおそらく十分なはずです。
+            実験的に複数パーティションを設けるとしても、これだけのサイズで十分です。
+          </p>
+        </div>
+        <div class="sect3">
+          <h3 class="sect3">
+            2.4.1.2. スワップパーティション
+          </h3>
+          <p>
+            既存のディストリビューションは、たいていはスワップパーティションを自動的に生成します。
+            一般にスワップパーティションのサイズは、物理 RAM サイズの二倍の容量とすることが推奨されています。
+            しかしそれだけの容量はほとんど必要ありません。 ディスク容量が限られているなら、スワップパーティションの容量を 2GB
+            程度に抑えておいて、ディスクスワップがどれだけ発生するかを確認してみてください。
+          </p>
+          <p>
+            Linux のハイバーネーション（ディスクへの退避状態）機能を利用する場合、マシンが停止する前に RAM
+            の内容がスワップパーティションに書き出されます。 この場合、スワップパーティションの容量は、システムの RAM
+            容量と最低でも同程度である必要があります。
+          </p>
+          <p>
+            スワップは好ましいことではありません。
+            物理的なハードドライブの場合、スワップが発生しているかどうかは、単純にディスク音を聞いたり、コマンド実行時にシステムがどのように反応するかを見ればわかります。
+            SSD の場合、スワップ時の音は聞こえてきません。 その場合は <span class=
+            "command"><strong>top</strong></span> や <span class=
+            "command"><strong>free</strong></span>
+            プログラムを使ってスワップ使用量を確認することができます。 SSD にスワップパーティションを割り当てることは極力避けるべきです。
+            最初は 5GB くらいのファイルを編集するといった極端なコマンド実行を行ってみて、スワップが起きるかどうかを確認してみてください。
+            スワップがごく普通に発生するようであれば、RAMを増設するのが適切です。
+          </p>
+        </div>
+        <div class="sect3">
+          <h3 class="sect3">
+            2.4.1.3. Grub バイオスパーティション
+          </h3>
+          <p>
+            GUID パーティションテーブル (GUID Partition Table; GPT) を利用して <span class=
+            "emphasis"><em>ブートディスク</em></span> をパーティショニングした場合、普通は 1 MB
+            程度の小さなパーティションをさらに用意しておくことが必要です。
+            このパーティションのフォーマットは不要であり、ブートローダーをインストールする際に GRUB
+            が利用できるものでなければなりません。 通常このパーティションは <span class=
+            "command"><strong>fdisk</strong></span> を用いた場合は 'BIOS Boot'
+            と名付けられます。 また <span class="command"><strong>gdisk</strong></span>
+            コマンドを用いた場合は<span class="emphasis"><em>EF02</em></span>
+            というコード名が与えられます。
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              Grub バイオスパーティションは、BIOS がシステムブート時に用いるドライブ上になければなりません。 これは LFS
+              ルートパーティションがあるドライブと同一にする必要はありません。
+              システム上にあるドライブは、同一のパーティションテーブルタイプを利用していないことがあります。 つまりこの Grub
+              バイオスパーティションに必要なのは、ブートディスクのパーティションテーブルタイプに合わせることだけです。
+            </p>
+          </div>
+        </div>
+        <div class="sect3">
+          <h3 class="sect3">
+            2.4.1.4. 有用なパーティション
+          </h3>
+          <p>
+            この他にも、必要のないパーティションというものがいくつかあります。
+            しかしディスクレイアウトを取り決めるには考えておく必要があります。
+            以下に示すのは十分な説明ではありませんが、一つの目安として示すものです。
+          </p>
+          <div class="itemizedlist">
+            <ul>
+              <li class="listitem">
+                <p>
+                  /boot – 作成することが強く推奨されます。 カーネルやブート情報を収納するために利用するパーティションです。
+                  容量の大きなディスクの場合、ブート時に問題が発生することがあるので、これを回避するには、一つ目のディスクドライブの物理的に一番最初のパーティションを選びます。
+                  パーティションサイズを 200MB とすればそれで十分です。
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  /boot/efi – EFI システムパーティションであり、UEFI を使ってシステム起動する場合に必要です。
+                  詳しくは <a class="ulink" href=
+                  "https://www.linuxfromscratch.org/blfs/view/stable-systemd/postlfs/grub-setup.html">
+                  BLFS ページ</a> を参照してください。
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  /home – 作成することが強く推奨されます。 複数のディストリビューションや LFS
+                  の間で、ホームディレクトリおよびユーザー固有の設定を共有することができます。
+                  パーティションサイズは、ある程度大きく取ることになりますが、利用可能なディスク残容量に依存します。
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  /usr – LFS においては <code class="filename">/bin</code>,
+                  <code class="filename">/lib</code>, <code class=
+                  "filename">/sbin</code> の各ディレクトリは、<code class=
+                  "filename">/usr</code> 配下からのシンボリックリンクとしています。 したがって
+                  <code class="filename">/usr</code>
+                  には、システムを動作させるために必要となる実行モジュールがすべて置かれます。 LFS において
+                  <code class="filename">/usr</code> を別パーティションとすることは、普通は不要です。
+                  それでもこれを生成する場合、システム内のプログラムやライブラリすべてが収容できるように、そのパーティション容量を十分に確保することが必要です。
+                  root パーティションは、このような設定とするなら、極端に小さなサイズ（1 ギガバイト程度）でも十分です。
+                  これはシンクライアントやディスクなしワークステーションに適しています。 （そういった環境では <code class=
+                  "filename">/usr</code> がリモートサーバーにマウントされます。） ただし（LFS
+                  では対応していない）initramfs を利用する際には、これがブートする際に <code class=
+                  "filename">/usr</code> が別パーティションになっていることが必要であるため、注意してください。
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  /opt – このディレクトリは BLFS などにおいて、KDE や Texlive
+                  といった巨大なパッケージをいくつもインストールする際に活用されます。 /usr
+                  ディレクトリ以外にインストールする場合です。 これを別パーティションとするなら、一般的には 5 ～ 10 GB
+                  程度が適当でしょう。
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  /tmp – systemd はデフォルトで <code class=
+                  "systemitem">tmpfs</code> をマウントします。 この動作を上書きしたい場合は
+                  <a class="xref" href=
+                  "../chapter09/systemd-custom.html#systemd-no-tmpfs" title=
+                  "9.10.3. /tmp の tmpfs としての生成抑止">「/tmp の tmpfs としての生成抑止」</a>
+                  に従って LFS システムを設定してください。
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  /usr/src – このパーティションは LFS のパッケージソースを収容し LFS
+                  ビルド工程にて共用するものとして有効に利用することができます。 さらに BLFS
+                  パッケージソースを収容しビルドする場所としても利用可能です。 30～50GBくらいの容量があれば、十分なものです。
+                </p>
+              </li>
+            </ul>
+          </div>
+          <p>
+            ブート時に自動的にパーティションをマウントしたい場合は <code class=
+            "filename">/etc/fstab</code> ファイルにて設定します。 パーティションの設定方法については
+            <a class="xref" href="../chapter10/fstab.html" title=
+            "10.2. /etc/fstab ファイルの生成">「/etc/fstab ファイルの生成」</a>で説明しています。
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="stages.html" title="作業段階ごとの LFS 構築">戻る</a>
+          <p>
+            作業段階ごとの LFS 構築
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="creatingfilesystem.html" title=
+          "ファイルシステムの生成">次へ</a>
+          <p>
+            ファイルシステムの生成
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter02.html" title=
+          "第2章 ホストシステムの準備">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.1-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,356 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      9.4. デバイスの管理
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.1">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.1
+      </h4>
+      <h3>
+        第9章 システム設定
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="udev.html" title="デバイスとモジュールの扱いについて">戻る</a>
+          <p>
+            デバイスとモジュールの扱いについて
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="network.html" title="全般的なネットワークの設定">次へ</a>
+          <p>
+            全般的なネットワークの設定
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter09.html" title="第9章 システム設定">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.1">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-config-symlinks" name="ch-config-symlinks"></a>9.4. デバイスの管理
+    </h1>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          9.4.1. ネットワークデバイス
+        </h2>
+        <p>
+          Udev はデフォルトにおいて、ネットワークデバイスの名前づけを、ファームウェア/BIOS
+          データや物理的特性、つまりバス、スロット、MACアドレスに基づいて取り決めます。
+          このような命名規則とする目的は、複数のネットワークデバイスの命名を正確に行うためであり、検出した順番に命名することがないようにするためです。
+          かつての古いバージョンの Linux の場合に、たとえば Intel 製と Realtek 製の 2
+          つのネットワークカードを持つコンピューターにおいて、 Intel 製が eth0、Realtek 製が eth1 となったとします。
+          システムを再起動した際には、番号割り振りが逆転することもあります。
+        </p>
+        <p>
+          新たな命名スキーマでは、ネットワークデバイス名が例えば enp5s0 や wlp3s0 といったものになります。
+          もしこの命名規則を望まない場合は、従来の命名規則とすることもできます。 またはカスタムスキーマを定義することもできます。
+        </p>
+        <div class="sect3">
+          <h3 class="sect3">
+            9.4.1.1. カーネルコマンドラインによる持続的命名の回避
+          </h3>
+          <p>
+            従来の命名スキーマ、例えば eth0、eth1 といったものは、カーネルコマンドラインに <strong class=
+            "userinput"><code>net.ifnames=0</code></strong> を加えることで利用できます。
+            この設定は、イーサネットデバイスをただ一つしか持たないシステムでは適正なものとなります。 一方ノート PC には、たいていは
+            eth0 と wlan0 といった 2 つのイーサネット接続があります。 上に示した方法は、ノート PC に対しても適用できます。
+            カーネルコマンドラインは GRUB の設定ファイルにて設定できます。 詳しくは<a class="xref" href=
+            "../chapter10/grub.html#grub-cfg" title=
+            "10.4.4. GRUB 設定ファイルの生成">「GRUB 設定ファイルの生成」</a>を参照してください。
+          </p>
+        </div>
+        <div class="sect3">
+          <h3 class="sect3">
+            9.4.1.2. Udev カスタムルールの生成
+          </h3>
+          <p>
+            命名スキーマは udev カスタムルールを生成することによってカスタマイズが可能です。 Udev
+            には初期ルールを生成するスクリプトが含まれています。 このルールを生成するには以下を実行します。
+          </p>
+          <pre class="install"><kbd class=
+          "command">bash /usr/lib/udev/init-net-rules.sh</kbd></pre>
+          <p>
+            そして <code class=
+            "filename">/etc/udev/rules.d/70-persistent-net.rules</code>
+            ファイルを参照し、どういった名前によりネットワークデバイスが定められているかを確認します。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">cat /etc/udev/rules.d/70-persistent-net.rules</kbd></pre>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              ネットワークカードに対して手動で MAC アドレスを割り当てた場合、あるいは Qemu や Xen
+              のような仮想環境における場合においては、ネットワークルールファイルが生成されないことがあります。
+              これはアドレスの割り当てが確定されないためです。 こういった場合は本方法を利用することはできません。
+            </p>
+          </div>
+          <p>
+            このファイルの先頭にはコメントが数行あり、続いてそれぞれの NIC に対する行があります。 NIC
+            ごとの記述では一行めがコメントで、そのハードウェア ID が記されています。 (PCI カードである場合、PCI ベンダとデバイス
+            ID が記述されます。) また（ドライバーが検出できている場合にはカッコ書きで）ドライバー名も示されます。 ハードウェア ID
+            もドライバー名も、インターフェースに対して与えられる名称とは無関係で、単に分かりやすくするために記されているにすぎません。
+            二行めは udev ルールであり、その NIC を定め、名称を割り当てている記述です。
+          </p>
+          <p>
+            udev ルールはいくつかのキーワードで構成され、それぞれがカンマで区切られるか、場合によっては空白文字で区切られています。
+            このキーワードとその内容は以下のようになります。
+          </p>
+          <div class="itemizedlist">
+            <ul>
+              <li class="listitem">
+                <p>
+                  <code class="literal">SUBSYSTEM=="net"</code> -
+                  ネットワークカードではないデバイスは無視することを指示します。
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  <code class="literal">ACTION=="add"</code> - uevent の add
+                  イベントではないものは無視することを指示します。 (uevent の "remove" イベントや "change"
+                  イベントも発生しますが、これらはネットワークインターフェースの名前を変更するものではありません。)
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  <code class="literal">DRIVERS=="?*"</code> - udev に対して VLAN
+                  やブリッジサブインターフェース (bridge sub-interfaces) を無視することを指示します。
+                  (サブインターフェースにはドライバーがないためです。)
+                  サブインターフェースに名前が割り当てられたとすると、親デバイスの名前と衝突してしまうため、サブインターフェースの名前割り当てはスキップされます。
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  <code class="literal">ATTR{address}</code> - このキーワードの値は NIC
+                  の MAC アドレスを表します。
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  <code class="literal">ATTR{type}=="1"</code> -
+                  特定のワイヤレスドライバーでは複数の仮想インターフェースが生成されますが、そのうちの主となるインターフェースにのみルールが合致するようにします。
+                  二つめ以降のインターフェースに対する処理は、VLAN
+                  やブリッジサブインターフェースがスキップされるのと同じくスキップされます。
+                  名前割り当てが行われてしまうと名前衝突を起こすためです。
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  <code class="literal">NAME</code> - udev
+                  がインターフェースに対して割り当てる名前をキーワードの値として指定します。
+                </p>
+              </li>
+            </ul>
+          </div>
+          <p>
+            <code class="literal">NAME</code> に定義される値が重要です。
+            どのネットワークカードにどんな名前が割り当てられているかをよく確認してください。 そしてネットワーク設定ファイルを生成する際には
+            <code class="literal">NAME</code> に定義されている名称を利用してください。
+          </p>
+          <p>
+            たとえカスタムルールファイルを生成していても、udev は NIC
+            に対して、その物理的特性からいくつかの名前を割り振るかもしれません。 仮にカスタム udev ルールが定めた NIC 名が、他の
+            NIC に割り当てられた別名と同じものに割り当てられた場合、その udev ルールは失敗します。
+            この問題が発生する場合には、設定ファイル <code class=
+            "filename">/etc/udev/network/99-default.link</code>
+            を生成して、空の別名割り当てポリシーを設定することで、デフォルトの設定である <code class=
+            "filename">/usr/lib/udev/network/99-default.link</code>
+            を上書きするようにします。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">sed -e '/^AlternativeNamesPolicy/s/=.*$/=/'  \
+    -i /usr/lib/udev/network/99-default.link \
+     &gt; /etc/udev/network/99-default.link</kbd></pre>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          9.4.2. CD-ROM のシンボリックリンク
+        </h2>
+        <p>
+          後にインストールしていくソフトウェア (例えばメディアプレーヤーなど) では、<code class=
+          "filename">/dev/cdrom</code> や <code class=
+          "filename">/dev/dvd</code> といったシンボリックリンクを必要とするものがあります。 これらはそれぞれ
+          CD-ROM、DVD-ROM を指し示しています。 こういったシンボリックリンクは <code class=
+          "filename">/etc/fstab</code> ファイルに設定しておくのが便利です。 Udev
+          が提供するスクリプトファイルで、ルールファイル (rules files) を生成するものがあります。
+          そのルールファイルは、各デバイスの性能に応じてシンボリックファイルを構成します。
+          もっともこのスクリプトファイルを利用する際には、二つ存在する動作モードのいずれを用いるかを決めなければなりません。
+        </p>
+        <p>
+          一つは<span class="quote">「<span class="quote">パス
+          (by-path)</span>」</span>モードです。 これは USB
+          デバイスやファームウェアデバイスに対してデフォルトで利用されます。 これによって作り出されるルールは CD や DVD
+          デバイスに対して物理パスが用いられます。 二つめは<span class="quote">「<span class=
+          "quote">ID (by-id)</span>」</span>モードです。 デフォルトで IDE や SCSI
+          デバイスに利用されます。 このモードで作り出されるルールは CD や DVD デバイス自身が持つ識別文字列が用いられます。 パスは
+          udev の <span class="command"><strong>path_id</strong></span>
+          スクリプトによって決定します。 一方、識別文字列は <span class=
+          "command"><strong>ata_id</strong></span> プログラムまたは <span class=
+          "command"><strong>scsi_id</strong></span> プログラムによってハードウェアから読み出されます。
+          <span class="command"><strong>ata_id</strong></span>、<span class=
+          "command"><strong>scsi_id</strong></span>
+          のいずれであるかは、そのデバイスによって決まります。
+        </p>
+        <p>
+          二つの方法にはそれぞれに利点があります。 どちらの方法が適切であるかは、デバイスがどのように変更されるかによります。
+          デバイスに対する物理パス (そのデバイスが接続しているポートやスロット) を変更したい場合、例えば IDE ポートや USB
+          コネクタを切り替えたいような場合、<span class="quote">「<span class="quote">ID
+          (by-id)</span>」</span>モードを使うべきです。
+          一方、デバイスの識別文字列を変えたい場合、つまりデバイスが故障したために、新しいデバイスを同一コネクタに接続しようとする場合は、<span class="quote">「<span class="quote">パス
+          (by-path)</span>」</span>モードを使うべきです。
+        </p>
+        <p>
+          いずれの変更の可能性もあるならば、より変更の可能性の高いケースに従ってモードを選ぶべきです。
+        </p>
+        <div class="admon important">
+          <img alt="[重要]" src="../images/important.png" />
+          <h3>
+            重要
+          </h3>
+          <p>
+            外部接続のデバイス (例えば USB 接続の CD ドライブなど) はパス (by-path) モードを用いるべきではありません。
+            そのようなデバイスは接続するたびに外部ポートが新しくなり、物理パスが変わってしまうためです。
+            こういった外部接続のデバイスを物理パスで認識させ udev
+            ルールを構成した場合は、あらゆるデバイスがこの問題を抱えることになります。 これは CD や DVD
+            ドライブだけに限った話ではありません。
+          </p>
+        </div>
+        <p>
+          udev スクリプトが利用しているキーの値を確認したい場合は <code class="filename">/sys</code>
+          ディレクトリ配下を確認します。 例えば CD-ROM デバイスについては <code class=
+          "filename">/sys/block/hdd</code> を確認します。 そして以下のようなコマンドを実行します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">udevadm test /sys/block/hdd</kbd></pre>
+        <p>
+          出力結果には *_id というプログラム名を示した行がたくさん表示されます。 <span class=
+          "quote">「<span class="quote">ID (by-id)</span>」</span>モードは
+          ID_SERIAL 値が存在して空でなければこれを利用します。 そうでない時は ID_MODEL と ID_REVISION
+          を利用します。 <span class="quote">「<span class="quote">パス
+          (by-path)</span>」</span>モードは ID_PATH の値を利用します。
+        </p>
+        <p>
+          デフォルトモードが利用状況に合わない場合は、<code class=
+          "filename">/etc/udev/rules.d/83-cdrom-symlinks.rules</code>
+          ファイルに対して以下のように修正を行います。 <em class=
+          "replaceable"><code>mode</code></em> の部分は<span class=
+          "quote">「<span class="quote">by-id</span>」</span>か<span class=
+          "quote">「<span class="quote">by-path</span>」</span>に置き換えます。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -e 's/"write_cd_rules"/"write_cd_rules <em class=
+        "replaceable"><code>mode</code></em>"/' \
+    -i /etc/udev/rules.d/83-cdrom-symlinks.rules</kbd></pre>
+        <p>
+          ここでルールファイルやシンボリックリンクを作成する必要はありません。 この時点ではホストの <code class=
+          "filename">/dev</code> ディレクトリに対して LFS システムに向けてのバインドマウント
+          (bind-mounted) を行っており、ホスト上にシンボリックリンクが存在していると仮定しているからです。
+          ルールファイルとシンボリックリンクは LFS システムを初めてブートした時に生成されます。
+        </p>
+        <p>
+          もっとも CD-ROM
+          デバイスが複数あると、ブート時に生成されるシンボリックリンクが、ホスト利用時に指し示されていたものとは異なる場合が発生します。
+          デバイスの検出順は予測できないものだからです。 LFS システムを初めて起動した時の割り当ては、たぶん固定的に行われるはずです。
+          つまりこのことは、ホストシステムと LFS
+          システムの双方で、シンボリックリンクが同じデバイスを指し示すことが必要である場合にのみ問題となります。
+          これが必要であるなら、生成されている <code class=
+          "filename">/etc/udev/rules.d/70-persistent-cd.rules</code>
+          ファイルを起動後に調査して (おそらくは編集して) 割り当てられたシンボリックリンクが望むものになっているかどうかを確認してください。
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          9.4.3. 重複するデバイスの取り扱い方
+        </h2>
+        <p>
+          <a class="xref" href="udev.html" title=
+          "9.3. デバイスとモジュールの扱いについて">「デバイスとモジュールの扱いについて」</a>で説明したように、<code class="filename">/dev</code>
+          内に同一機能を有するデバイスがあったとすると、その検出順は本質的にランダムです。 例えば USB 接続のウェブカメラと TV
+          チューナーがあったとして、<code class="filename">/dev/video0</code> がウェブカメラを、また
+          <code class="filename">/dev/video1</code>
+          がチューナーをそれぞれ参照していたとしても、システム起動後はその順が変わることがあります。
+          サウンドカードやネットワークカードを除いた他のハードウェアであれば、udev
+          ルールを適切に記述することで、固定的なシンボリックリンクを作り出すことができます。 ネットワークカードについては、別途
+          <a class="xref" href="network.html" title=
+          "9.5. 全般的なネットワークの設定">「全般的なネットワークの設定」</a>にて説明しています。 またサウンドカードの設定方法は
+          <a class="ulink" href=
+          "https://www.linuxfromscratch.org/blfs/view/12.1/postlfs/devices.html">
+          BLFS</a> にて説明しています。
+        </p>
+        <p>
+          利用しているデバイスに上の問題の可能性がある場合 (お使いの Linux ディストリビューションではそのような問題がなかったとしても)
+          <code class="filename">/sys/class</code> ディレクトリや <code class=
+          "filename">/sys/block</code> ディレクトリ配下にある対応ディレクトリを探してください。
+          ビデオデバイスであれば <code class=
+          "filename">/sys/class/video4linux/video<em class=
+          "replaceable"><code>X</code></em></code> といったディレクトリです。
+          そしてそのデバイスを一意に特定する識別情報を確認してください。 (通常はベンダー名、プロダクトID、シリアル番号などです。)
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">udevadm info -a -p /sys/class/video4linux/video0</kbd></pre>
+        <p>
+          シンボリックリンクを生成するルールを作ります。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; /etc/udev/rules.d/83-duplicate_devs.rules &lt;&lt; "EOF"
+<code class="literal">
+# Persistent symlinks for webcam and tuner
+KERNEL=="video*", ATTRS{idProduct}=="1910", ATTRS{idVendor}=="0d81", SYMLINK+="webcam"
+KERNEL=="video*", ATTRS{device}=="0x036f",  ATTRS{vendor}=="0x109e", SYMLINK+="tvtuner"
+</code>
+EOF</kbd></pre>
+        <p>
+          こうしたとしても <code class="filename">/dev/video0</code> と <code class=
+          "filename">/dev/video1</code>
+          はチューナーとウェブカメラのいずれかをランダムに指し示すことに変わりありません。
+          (したがって直接このデバイス名を使ってはなりません。) しかしシンボリックリンク <code class=
+          "filename">/dev/tvtuner</code> と <code class=
+          "filename">/dev/webcam</code> は常に正しいデバイスを指し示すようになります。
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="udev.html" title="デバイスとモジュールの扱いについて">戻る</a>
+          <p>
+            デバイスとモジュールの扱いについて
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="network.html" title="全般的なネットワークの設定">次へ</a>
+          <p>
+            全般的なネットワークの設定
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter09.html" title="第9章 システム設定">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.1">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

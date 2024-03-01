@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      4.2. LFS ファイルシステムの限定的なディレクトリレイアウトの生成
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.1">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.1
+      </h4>
+      <h3>
+        第4章 準備作業の仕上げ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="introduction.html" title="はじめに">戻る</a>
+          <p>
+            はじめに
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="addinguser.html" title="LFS ユーザーの追加">次へ</a>
+          <p>
+            LFS ユーザーの追加
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter04.html" title=
+          "第4章 準備作業の仕上げ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.1">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-tools-creatingminlayout" name=
+      "ch-tools-creatingminlayout"></a>4.2. LFS ファイルシステムの限定的なディレクトリレイアウトの生成
+    </h1>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <p>
+        本節では最終的な Linux システムを構成する各種部品を LFS ファイルシステムに追加します。
+        はじめに行うのは、限定的なディレクトリの生成です。 <a class="xref" href=
+        "../chapter06/chapter06.html" title=
+        "第6章 クロスコンパイルによる一時的ツール">第&nbsp;6&nbsp;章</a>（また glibc や libstdc++
+        においては <a class="xref" href="../chapter05/chapter05.html" title=
+        "第5章 クロスツールチェーンの構築">第&nbsp;5&nbsp;章</a>）においてビルドするプログラムを、最終的なディレクトリにインストールするためです。
+        <a class="xref" href="../chapter08/chapter08.html" title=
+        "第8章 基本的なソフトウェアのインストール">第&nbsp;8&nbsp;章</a>
+        にある一時的なプログラムを、再構築して上書きしていくために必要となります。
+      </p>
+      <p>
+        必要となるディレクトリレイアウトを生成するため、<code class="systemitem">root</code>
+        ユーザーになって以下のコマンドを実行します。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">mkdir -pv $LFS/{etc,var} $LFS/usr/{bin,lib,sbin}
+
+for i in bin lib sbin; do
+  ln -sv usr/$i $LFS/$i
+done
+
+case $(uname -m) in
+  x86_64) mkdir -pv $LFS/lib64 ;;
+esac</kbd></pre>
+      <p>
+        <a class="xref" href="../chapter06/chapter06.html" title=
+        "第6章 クロスコンパイルによる一時的ツール">第&nbsp;6&nbsp;章</a>
+        にあるプログラムはクロスコンパイラーによってビルドされます。 （詳しくは <a class="xref" href=
+        "../partintro/toolchaintechnotes.html" title=
+        "ツールチェーンの技術的情報">ツールチェーンの技術的情報</a> を参照してください。）
+        クロスコンパイラーは他のプログラムとは切り分けるため、特別なディレクトリにインストールすることにします。 <code class=
+        "systemitem">root</code> ユーザーのまま、ここでそのディレクトリを生成します。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">mkdir -pv $LFS/tools</kbd></pre>
+      <div class="admon note">
+        <img alt="[注記]" src="../images/note.png" />
+        <h3>
+          注記
+        </h3>
+        <p>
+          LFS の編集者は <code class="filename">/usr/lib64</code>
+          ディレクトリは意図的に利用しないこととしました。
+          ツールチェーンにおいてはこのディレクトリを利用しないように、手順をいくつか進めています。
+          何らかの理由によってこのディレクトリが出てきたとしたら（ビルド手順を誤っていた、LFS
+          構築後にバイナリーパッケージをインストールしたような場合には）、システムが壊れる場合があります。
+          したがってこのディレクトリが用いられていないことを常に確認してください。
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="introduction.html" title="はじめに">戻る</a>
+          <p>
+            はじめに
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="addinguser.html" title="LFS ユーザーの追加">次へ</a>
+          <p>
+            LFS ユーザーの追加
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter04.html" title=
+          "第4章 準備作業の仕上げ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.1">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.52. Flit-Core-3.9.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.1-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.1-systemd
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="Python.html" title="Python-3.12.2">戻る</a>
+          <p>
+            Python-3.12.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="wheel.html" title="Wheel-0.42.0">次へ</a>
+          <p>
+            Wheel-0.42.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.1-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-system-flit-core" name="ch-system-flit-core"></a>8.52.
+      Flit-Core-3.9.0
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Flit-core は Flit（簡単な Python モジュール向けパッケージングツール）の配布物ビルド部分です。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.1 SBU 以下</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">1.6 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.52.1. Flit-Core のインストール
+        </h2>
+        <p>
+          パッケージをビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">pip3 wheel -w dist --no-cache-dir --no-build-isolation --no-deps $PWD</kbd></pre>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">pip3 install --no-index --no-user --find-links dist flit_core</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>pip3 の configure オプションとコマンドの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><span class=
+              "command"><strong>wheel</strong></span></span>
+            </dt>
+            <dd>
+              <p>
+                このコマンドは、本パッケージ向けの wheel アーカイブを生成します。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class="parameter"><code>-w
+              dist</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                生成した wheel を <code class="filename">dist</code>
+                ディレクトリに置くことを指示します。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--no-cache-dir</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                生成された wheel を <code class="filename">/root/.cache/pip</code>
+                ディレクトリにコピーしないようにします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><span class=
+              "command"><strong>install</strong></span></span>
+            </dt>
+            <dd>
+              <p>
+                このコマンドはパッケージをインストールします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--no-build-isolation</code></em>, <em class=
+              "parameter"><code>--no-deps</code></em>, <em class=
+              "parameter"><code>--no-index</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                これらのオプションは、オンラインパッケージリポジトリ（PyPI) からファイルを取得しないようにします。
+                パッケージ類が適切な順番でインストールされていれば、最初にファイルを取得しておく必要はないはずです。
+                ただしこのオプションをつけておくことで、ユーザーが操作を誤っても安全であるようにします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class="parameter"><code>--find-links
+              dist</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                <code class="filename">dist</code> ディレクトリから wheel
+                アーカイブを検索することを指示します。
+              </p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-flit-core" name="contents-flit-core"></a>8.52.2.
+          Flit-Core の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/lib/python3.12/site-packages/flit_core,
+              /usr/lib/python3.12/site-packages/flit_core-3.9.0.dist-info</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="Python.html" title="Python-3.12.2">戻る</a>
+          <p>
+            Python-3.12.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="wheel.html" title="Wheel-0.42.0">次へ</a>
+          <p>
+            Wheel-0.42.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.1-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
