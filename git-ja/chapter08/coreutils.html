@@ -12,19 +12,19 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-230">
+  <body class="lfs" id="lfs-r12.0-247">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-230
+        Linux From Scratch - Version r12.0-247
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
       </h3>
       <ul>
         <li class="prev">
-          <a accesskey="p" href="meson.html" title="Meson-1.3.2">戻る</a>
+          <a accesskey="p" href="meson.html" title="Meson-1.4.0">戻る</a>
           <p>
-            Meson-1.3.2
+            Meson-1.4.0
           </p>
         </li>
         <li class="next">
@@ -39,7 +39,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-230">ホーム</a>
+          "Linux From Scratch - Version r12.0-247">ホーム</a>
         </li>
       </ul>
     </div>
@@ -164,10 +164,13 @@ FORCE_UNSAFE_CONFIGURE=1 ./configure \
         <pre class="userinput"><kbd class=
         "command">chown -R tester . </kbd></pre>
         <p>
-          テストを実行します。
+          テストを実行します。 (テストの実行は標準入力を <code class="filename">/dev/null</code>
+          とします。 そうしておかないと、LFS をグラフィック端末上でビルドしている場合、あるいは SSH 上や GNU Screen
+          上でのセッションで実行している場合に、2 つのテストが失敗します。 この理由は標準入力がホストディストロにおいて PTY
+          に接続されているからであり、その PTY のようなデバイスノードは、LFS の chroot 環境からはアクセスできないからです。)
         </p>
         <pre class="userinput"><kbd class=
-        "command">su tester -c "PATH=$PATH make RUN_EXPENSIVE_TESTS=yes check"</kbd></pre>
+        "command">su tester -c "PATH=$PATH make RUN_EXPENSIVE_TESTS=yes check" &lt; /dev/null</kbd></pre>
         <p>
           一時的に作成したグループを削除します。
         </p>
@@ -1696,9 +1699,9 @@ sed -i 's/"1"/"8"/' /usr/share/man/man8/chroot.8</kbd></pre>
     <div class="navfooter">
       <ul>
         <li class="prev">
-          <a accesskey="p" href="meson.html" title="Meson-1.3.2">戻る</a>
+          <a accesskey="p" href="meson.html" title="Meson-1.4.0">戻る</a>
           <p>
-            Meson-1.3.2
+            Meson-1.4.0
           </p>
         </li>
         <li class="next">
@@ -1713,7 +1716,7 @@ sed -i 's/"1"/"8"/' /usr/share/man/man8/chroot.8</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-230">ホーム</a>
+          "Linux From Scratch - Version r12.0-247">ホーム</a>
         </li>
       </ul>
     </div>
