@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <title>
-      8.59. Check-0.15.2
+      8.9. Lz4-1.9.4
     </title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
     <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
@@ -12,26 +12,25 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-256">
+  <body class="lfs" id="lfs-r12.0-256-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-256
+        Linux From Scratch - Version r12.0-256-systemd
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
       </h3>
       <ul>
         <li class="prev">
-          <a accesskey="p" href="coreutils.html" title="Coreutils-9.4">戻る</a>
+          <a accesskey="p" href="xz.html" title="Xz-5.6.1">戻る</a>
           <p>
-            Coreutils-9.4
+            Xz-5.6.1
           </p>
         </li>
         <li class="next">
-          <a accesskey="n" href="diffutils.html" title=
-          "Diffutils-3.10">次へ</a>
+          <a accesskey="n" href="zstd.html" title="Zstd-1.5.5">次へ</a>
           <p>
-            Diffutils-3.10
+            Zstd-1.5.5
           </p>
         </li>
         <li class="up">
@@ -40,67 +39,67 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-256">ホーム</a>
+          "Linux From Scratch - Version r12.0-256-systemd">ホーム</a>
         </li>
       </ul>
     </div>
     <h1 class="sect1">
-      <a id="ch-system-check" name="ch-system-check"></a>8.59. Check-0.15.2
+      <a id="ch-system-lz4" name="ch-system-lz4"></a>8.9. Lz4-1.9.4
     </h1>
     <div class="wrap" lang="ja" xml:lang="ja">
       <div class="package" lang="ja" xml:lang="ja">
         <p>
-          Check は C 言語に対してのユニットテストのフレームワークです。
+          Lz4 は可逆圧縮アルゴリズムであり、1 コアあたり 500 MB/秒を超える圧縮速度を誇ります。
+          非常に高速なデコーダーも備えており、コアあたりの GB/秒 速度がさまざまにあります。 Lz4 は Zstandard (zstd)
+          と連携して、双方のアルゴリズムを用いて、より早く圧縮することができます。
         </p>
         <div class="segmentedlist">
           <div class="seglistitem">
             <div class="seg">
               <strong class="segtitle">概算ビルド時間:</strong> <span class=
-              "segbody">0.1 SBU (テスト込みで約 1.6 SBU)</span>
+              "segbody">0.1 SBU</span>
             </div>
             <div class="seg">
               <strong class="segtitle">必要ディスク容量:</strong> <span class=
-              "segbody">12 MB</span>
+              "segbody">83 MB</span>
             </div>
           </div>
         </div>
       </div>
       <div class="installation" lang="ja" xml:lang="ja">
         <h2 class="sect2">
-          8.59.1. Check のインストール
+          8.9.1. Lz4 のインストール
         </h2>
         <p>
-          Check をコンパイルするための準備をします。
+          パッケージをコンパイルします。
         </p>
         <pre class="userinput"><kbd class=
-        "command">./configure --prefix=/usr --disable-static</kbd></pre>
+        "command">make BUILD_STATIC=no</kbd></pre>
         <p>
-          パッケージをビルドします。
+          ビルド結果をテストする場合は以下を実行します。
         </p>
-        <pre class="userinput"><kbd class="command">make</kbd></pre>
-        <p>
-          コンパイルが終了しました。 テストスイートを実行する場合は、以下を実行します。
-        </p>
-        <pre class="userinput"><kbd class="command">make check</kbd></pre>
+        <pre class="userinput"><kbd class=
+        "command">make -j1 check</kbd></pre>
         <p>
           パッケージをインストールします。
         </p>
         <pre class="userinput"><kbd class=
-        "command">make docdir=/usr/share/doc/check-0.15.2 install</kbd></pre>
+        "command">make BUILD_STATIC=no PREFIX=/usr install</kbd></pre>
       </div>
       <div class="content" lang="ja" xml:lang="ja">
         <h2 class="sect2">
-          <a id="contents-check" name="contents-check"></a>8.59.2. Check の構成
+          <a id="contents-lz4" name="contents-lz4"></a>8.9.2. Lz4 の構成
         </h2>
         <div class="segmentedlist">
           <div class="seglistitem">
             <div class="seg">
               <strong class="segtitle">インストールプログラム:</strong> <span class=
-              "segbody">checkmk</span>
+              "segbody">lz4, lz4c (lz4 へのリンク), lz4cat (lz4 へのリンク), unlz4 (lz4
+              へのリンク)</span>
             </div>
             <div class="seg">
               <strong class="segtitle">インストールライブラリ:</strong> <span class=
-              "segbody">libcheck.so</span>
+              "segbody">liblz4.so</span>
             </div>
           </div>
         </div>
@@ -117,28 +116,68 @@
               <tr>
                 <td>
                   <p>
-                    <a id="checkmk" name="checkmk"></a><span class=
-                    "term"><span class=
-                    "command"><strong>checkmk</strong></span></span>
+                    <a id="lz4" name="lz4"></a><span class=
+                    "term"><span class="command"><strong>lz4</strong></span></span>
                   </p>
                 </td>
                 <td>
                   <p>
-                    Check ユニットテストフレームワークにて利用される、C 言語ユニットテストを生成するための Awk
-                    スクリプト。
+                    LZ4 フォーマットを使ってファイルの圧縮、伸長を行います。
                   </p>
                 </td>
               </tr>
               <tr>
                 <td>
                   <p>
-                    <a id="libcheck" name="libcheck"></a><span class=
-                    "term"><code class="filename">libcheck.so</code></span>
+                    <a id="lz4c" name="lz4c"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lz4c</strong></span></span>
                   </p>
                 </td>
                 <td>
                   <p>
-                    テストプログラムから Check を呼び出すための関数を提供します。
+                    LZ4 フォーマットを使ってファイルの圧縮を行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lz4cat" name="lz4cat"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lz4cat</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    LZ4 フォーマットにより圧縮されたファイルの内容一覧を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="unlz4" name="unlz4"></a><span class=
+                    "term"><span class=
+                    "command"><strong>unlz4</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    LZ4 フォーマットを使ってファイルの伸長を行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="liblz4" name="liblz4"></a><span class=
+                    "term"><code class="filename">liblz4</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    LZ4 アルゴリズムを利用した可逆データ圧縮を実装するライブラリを提供します。
                   </p>
                 </td>
               </tr>
@@ -150,16 +189,15 @@
     <div class="navfooter">
       <ul>
         <li class="prev">
-          <a accesskey="p" href="coreutils.html" title="Coreutils-9.4">戻る</a>
+          <a accesskey="p" href="xz.html" title="Xz-5.6.1">戻る</a>
           <p>
-            Coreutils-9.4
+            Xz-5.6.1
           </p>
         </li>
         <li class="next">
-          <a accesskey="n" href="diffutils.html" title=
-          "Diffutils-3.10">次へ</a>
+          <a accesskey="n" href="zstd.html" title="Zstd-1.5.5">次へ</a>
           <p>
-            Diffutils-3.10
+            Zstd-1.5.5
           </p>
         </li>
         <li class="up">
@@ -168,7 +206,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-256">ホーム</a>
+          "Linux From Scratch - Version r12.0-256-systemd">ホーム</a>
         </li>
       </ul>
     </div>
