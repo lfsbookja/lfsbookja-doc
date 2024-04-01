@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <title>
-      8.58. Coreutils-9.4
+      8.58. Coreutils-9.5
     </title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
     <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-256-systemd">
+  <body class="lfs" id="lfs-r12.0-261-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-256-systemd
+        Linux From Scratch - Version r12.0-261-systemd
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -39,13 +39,13 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-256-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.0-261-systemd">ホーム</a>
         </li>
       </ul>
     </div>
     <h1 class="sect1">
       <a id="ch-system-coreutils" name="ch-system-coreutils"></a>8.58.
-      Coreutils-9.4
+      Coreutils-9.5
     </h1>
     <div class="wrap" lang="ja" xml:lang="ja">
       <div class="package" lang="ja" xml:lang="ja">
@@ -75,7 +75,7 @@
           以下のパッチは標準に準拠することと、国際化処理に関連するバグを解消することを行います。
         </p>
         <pre class="userinput"><kbd class=
-        "command">patch -Np1 -i ../coreutils-9.4-i18n-1.patch</kbd></pre>
+        "command">patch -Np1 -i ../coreutils-9.5-i18n-1.patch</kbd></pre>
         <div class="admon note">
           <img alt="[注記]" src="../images/note.png" />
           <h3>
@@ -86,13 +86,6 @@
             の開発者に報告する前に、このパッチの適用前でもバグが再現するかどうかを確認してください。
           </p>
         </div>
-        <p>
-          <span class="command"><strong>split</strong></span>
-          ユーティリティーにおけるセキュリティぜい弱性を修正します。
-        </p>
-        <pre class="userinput"><kbd class=
-        "command">sed -e '/n_out += n_hold/,+4 s|.*bufsize.*|//&amp;|' \
-    -i src/split.c</kbd></pre>
         <p>
           Coreutils をコンパイルするための準備をします。
         </p>
@@ -176,6 +169,10 @@ FORCE_UNSAFE_CONFIGURE=1 ./configure \
         </p>
         <pre class="userinput"><kbd class=
         "command">groupdel dummy</kbd></pre>
+        <p>
+          tests/cp/preserve-mode.sh、tests/mv/acl.sh というテストは chroot
+          環境内では失敗します。 ただし完成したシステム内では成功します。
+        </p>
         <p>
           パッケージをインストールします。
         </p>
@@ -1716,7 +1713,7 @@ sed -i 's/"1"/"8"/' /usr/share/man/man8/chroot.8</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-256-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.0-261-systemd">ホーム</a>
         </li>
       </ul>
     </div>
