@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <title>
-      8.29. GCC-13.2.0
+      8.29. GCC-14.1.0
     </title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
     <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-287-systemd">
+  <body class="lfs" id="lfs-r12.0-291-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-287-systemd
+        Linux From Scratch - Version r12.0-291-systemd
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -28,9 +28,10 @@
           </p>
         </li>
         <li class="next">
-          <a accesskey="n" href="ncurses.html" title="Ncurses-6.5">次へ</a>
+          <a accesskey="n" href="ncurses.html" title=
+          "Ncurses-6.4-20230520">次へ</a>
           <p>
-            Ncurses-6.5
+            Ncurses-6.4-20230520
           </p>
         </li>
         <li class="up">
@@ -39,12 +40,12 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-287-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.0-291-systemd">ホーム</a>
         </li>
       </ul>
     </div>
     <h1 class="sect1">
-      <a id="ch-system-gcc" name="ch-system-gcc"></a>8.29. GCC-13.2.0
+      <a id="ch-system-gcc" name="ch-system-gcc"></a>8.29. GCC-14.1.0
     </h1>
     <div class="wrap" lang="ja" xml:lang="ja">
       <div class="package" lang="ja" xml:lang="ja">
@@ -91,6 +92,7 @@ cd       build</kbd></pre>
              --enable-languages=c,c++ \
              --enable-default-pie     \
              --enable-default-ssp     \
+             --enable-host-pie        \
              --disable-multilib       \
              --disable-bootstrap      \
              --disable-fixincludes    \
@@ -184,6 +186,15 @@ cd       build</kbd></pre>
         <pre class="userinput"><kbd class=
         "command">ulimit -s 32768</kbd></pre>
         <p>
+          テストスイートの不備をここで削除/修正します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -e '/cpython/d'               -i ../gcc/testsuite/gcc.dg/plugin/plugin.exp
+sed -e 's/no-pic /&amp;-no-pie /'     -i ../gcc/testsuite/gcc.target/i386/pr113689-1.c
+sed -e 's/300000/(1|300000)/'     -i ../libgomp/testsuite/libgomp.c-c++-common/pr109062.c
+sed -e 's/{ target nonpic } //' \
+    -e '/GOTPCREL/d'              -i ../gcc/testsuite/gcc.target/i386/fentryname3.c</kbd></pre>
+        <p>
           一般ユーザーにてテストを行います。 ただしエラーがあっても停止しないようにします。
         </p>
         <pre class="userinput"><kbd class="command">chown -R tester .
@@ -205,18 +216,7 @@ su tester -c "PATH=$PATH make -k check"</kbd></pre>
           にある情報と比較することができます。
         </p>
         <p>
-          (185,000 以上におよぶテストの中から) gcc テストの 8 つ、すなわち <code class=
-          "filename">pr56837.c</code>、それに <code class=
-          "filename">analyzer</code> ディレクトリにある 7 つのテストが失敗します。 (15,000 以上の )
-          libstdc++ テスト <code class="filename">copy.cc</code> が 1 つだけ失敗します。
-          g++ においては (およそ 250,000 のテストのうち) 21 個のテスト、14 個の<span class=
-          "quote">「<span class="quote">AddressSanitizer*</span>」</span>テスト、7
-          個の <code class="filename">interception-malloc-test-1.C</code>
-          テストが失敗します。 さらに <code class="filename">vect</code>
-          ディレクトリ内にあるテストが、AVX に対するハードウェアサポートがないために、いくつか失敗します。
-        </p>
-        <p>
-          テスト失敗は回避することができません。 GCC の開発者はこの問題を認識していますが、まだ解決していない状況です。 上記の URL
+          テスト失敗は回避することができません。 その中には特定のハードウェアに起因するものもあります。 上記の URL
           に示されている結果と大きく異なっていなかったら、問題はありませんので先に進んでください。
         </p>
         <p>
@@ -229,7 +229,7 @@ su tester -c "PATH=$PATH make -k check"</kbd></pre>
           <code class="systemitem">root</code> ユーザーとグループに変更します。
         </p>
         <pre class="userinput"><kbd class="command">chown -v -R root:root \
-    /usr/lib/gcc/$(gcc -dumpmachine)/13.2.0/include{,-fixed}</kbd></pre>
+    /usr/lib/gcc/$(gcc -dumpmachine)/14.1.0/include{,-fixed}</kbd></pre>
         <p>
           <a class="ulink" href=
           "https://refspecs.linuxfoundation.org/FHS_3.0/fhs/ch03s09.html">FHS</a>
@@ -241,7 +241,7 @@ su tester -c "PATH=$PATH make -k check"</kbd></pre>
           各種パッケージは C コンパイラーとして <span class=
           "command"><strong>cc</strong></span> を呼び出しているものが数多くあります。 <a class=
           "xref" href="../chapter06/gcc-pass2.html" title=
-          "6.18. GCC-13.2.0 - 2回め">GCC 2回め</a> においては、シンボリックリンクとして
+          "6.18. GCC-14.1.0 - 2回め">GCC 2回め</a> においては、シンボリックリンクとして
           <span class="command"><strong>cc</strong></span> をすでに生成しています。
           同様にしてその man ページについてもシンボリックリンクとして生成することにします。
         </p>
@@ -252,7 +252,7 @@ su tester -c "PATH=$PATH make -k check"</kbd></pre>
           によりプログラム構築できるように、シンボリックリンクを作ります。
         </p>
         <pre class="userinput"><kbd class=
-        "command">ln -sfv ../../libexec/gcc/$(gcc -dumpmachine)/13.2.0/liblto_plugin.so \
+        "command">ln -sfv ../../libexec/gcc/$(gcc -dumpmachine)/14.1.0/liblto_plugin.so \
         /usr/lib/bfd-plugins/</kbd></pre>
         <p>
           最終的なツールチェーンが出来上がりました。 ここで再びコンパイルとリンクが正しく動作することを確認することが必要です。
@@ -277,9 +277,9 @@ readelf -l a.out | grep ': /lib'</kbd></pre>
           上のコマンドの出力は以下のようになるはずです。
         </p>
         <pre class="screen"><code class=
-        "computeroutput">/usr/lib/gcc/x86_64-pc-linux-gnu/13.2.0/../../../../lib/Scrt1.o succeeded
-/usr/lib/gcc/x86_64-pc-linux-gnu/13.2.0/../../../../lib/crti.o succeeded
-/usr/lib/gcc/x86_64-pc-linux-gnu/13.2.0/../../../../lib/crtn.o succeeded</code></pre>
+        "computeroutput">/usr/lib/gcc/x86_64-pc-linux-gnu/14.1.0/../../../../lib/Scrt1.o succeeded
+/usr/lib/gcc/x86_64-pc-linux-gnu/14.1.0/../../../../lib/crti.o succeeded
+/usr/lib/gcc/x86_64-pc-linux-gnu/14.1.0/../../../../lib/crtn.o succeeded</code></pre>
         <p>
           作業しているマシンアーキテクチャーによっては、上の結果が微妙に異なるかもしれません。 その違いは、たいていは <code class=
           "filename">/usr/lib/gcc</code> の次のディレクトリ名にあります。 注意すべき重要な点は
@@ -297,9 +297,9 @@ readelf -l a.out | grep ': /lib'</kbd></pre>
         </p>
         <pre class="screen"><code class=
         "computeroutput">#include &lt;...&gt; search starts here:
- /usr/lib/gcc/x86_64-pc-linux-gnu/13.2.0/include
+ /usr/lib/gcc/x86_64-pc-linux-gnu/14.1.0/include
  /usr/local/include
- /usr/lib/gcc/x86_64-pc-linux-gnu/13.2.0/include-fixed
+ /usr/lib/gcc/x86_64-pc-linux-gnu/14.1.0/include-fixed
  /usr/include</code></pre>
         <p>
           もう一度触れておきますが、プラットフォームの<span class="quote">「<span class="quote">三つの組
@@ -395,7 +395,7 @@ mv -v /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib</kbd></pre>
             <div class="seg">
               <strong class="segtitle">インストールディレクトリ:</strong> <span class=
               "segbody">/usr/include/c++, /usr/lib/gcc, /usr/libexec/gcc,
-              /usr/share/gcc-13.2.0</span>
+              /usr/share/gcc-14.1.0</span>
             </div>
           </div>
         </div>
@@ -836,9 +836,10 @@ mv -v /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib</kbd></pre>
           </p>
         </li>
         <li class="next">
-          <a accesskey="n" href="ncurses.html" title="Ncurses-6.5">次へ</a>
+          <a accesskey="n" href="ncurses.html" title=
+          "Ncurses-6.4-20230520">次へ</a>
           <p>
-            Ncurses-6.5
+            Ncurses-6.4-20230520
           </p>
         </li>
         <li class="up">
@@ -847,7 +848,7 @@ mv -v /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-287-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.0-291-systemd">ホーム</a>
         </li>
       </ul>
     </div>
