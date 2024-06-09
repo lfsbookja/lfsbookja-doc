@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-310">
+  <body class="lfs" id="lfs-r12.0-315">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-310
+        Linux From Scratch - Version r12.0-315
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -39,7 +39,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-310">ホーム</a>
+          "Linux From Scratch - Version r12.0-315">ホーム</a>
         </li>
       </ul>
     </div>
@@ -78,6 +78,13 @@
         <pre class="userinput"><kbd class=
         "command">sed -i '/MV.*old/d' Makefile.in
 sed -i '/{OLDSUFF}/c:' support/shlib-install</kbd></pre>
+        <p>
+          共有ライブラリに対して、ライブラリ検索パス (rpath) がハードコーディングされないようにします。
+          本パッケージは標準的なディレクトリにインストールするため rpath を必要ありません。 rpath
+          は時に思わぬ弊害やセキュリティ問題を引き起こす場合があります。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i 's/-Wl,-rpath,[^ ]*//' support/shobj-conf</kbd></pre>
         <p>
           またアップストリームが認識している問題を修正します。
         </p>
@@ -224,7 +231,7 @@ sed -i '/{OLDSUFF}/c:' support/shlib-install</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-310">ホーム</a>
+          "Linux From Scratch - Version r12.0-315">ホーム</a>
         </li>
       </ul>
     </div>
