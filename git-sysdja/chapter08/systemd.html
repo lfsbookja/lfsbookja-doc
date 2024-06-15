@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <title>
-      8.76. Systemd-255
+      8.76. Systemd-256
     </title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
     <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-315-systemd">
+  <body class="lfs" id="lfs-r12.0-319-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-315-systemd
+        Linux From Scratch - Version r12.0-319-systemd
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -39,13 +39,13 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-315-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.0-319-systemd">ホーム</a>
         </li>
       </ul>
     </div>
     <h1 class="sect1">
       <a id="ch-system-systemd" name="ch-system-systemd"></a>8.76.
-      Systemd-255
+      Systemd-256
     </h1>
     <div class="wrap" lang="ja" xml:lang="ja">
       <div class="package" lang="ja" xml:lang="ja">
@@ -78,27 +78,6 @@
         "command">sed -i -e 's/GROUP="render"/GROUP="video"/' \
        -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in</kbd></pre>
         <p>
-          linux-6.9 以降の API ヘッダーとの互換性を持つように修正します。
-        </p>
-        <pre class="userinput"><kbd class=
-        "command">sed -i '/DEVMEM_MAGIC 0/{n;n;a \
-/* cb12fd8e0dabb9a1c8aef55a6a41e2c255fcdf4b (6.8) */ \
-#ifndef PID_FS_MAGIC \
-#define PID_FS_MAGIC 0x50494446 \
-#endif
-}' src/basic/missing_magic.h
-
-sed -i '/OVERLAYFS_SUPER_MAGIC/a \
-pidfs,           {PID_FS_MAGIC}' src/basic/filesystems-gperf.gperf</kbd></pre>
-        <p>
-          <span class="command"><strong>systemd-resolved</strong></span> の
-          DNSSEC 検証におけるセキュリティぜい弱性を修正します。 またインスタンス化された systemd ユニット上において、実行中の
-          <span class="command"><strong>systemd-analyze
-          verify</strong></span> が壊れてしまうバグを修正します。
-        </p>
-        <pre class="userinput"><kbd class=
-        "command">patch -Np1 -i ../systemd-255-upstream_fixes-1.patch</kbd></pre>
-        <p>
           systemd をコンパイルするための準備をします。
         </p>
         <pre class="userinput"><kbd class="command">mkdir -p build
@@ -122,7 +101,7 @@ meson setup \
       -Dnobody-group=nogroup        \
       -Dsysupdate=disabled          \
       -Dukify=disabled              \
-      -Ddocdir=/usr/share/doc/systemd-255 \
+      -Ddocdir=/usr/share/doc/systemd-256 \
       ..</kbd></pre>
         <div class="variablelist">
           <p class="title">
@@ -302,9 +281,11 @@ meson setup \
         "command">echo 'NAME="Linux From Scratch"' &gt; /etc/os-release
 ninja test</kbd></pre>
         <p>
-          <code class="literal">systemd:core / test-namespace</code> というテストは
-          LFS の chroot 環境内では失敗します。
-          また別のテストでも失敗するものがありますが、これはさまざまなカーネルオプションに依存しているためです。
+          <code class="literal">systemd:core /
+          test-namespace</code>、<code class=
+          "literal">test-chase</code>、<code class=
+          "literal">test-systemd-tmpfiles</code> という 3 つのテストは LFS の chroot
+          環境内では失敗します。 また別のテストでも失敗するものがありますが、これはさまざまなカーネルオプションに依存しているためです。
         </p>
         <p>
           パッケージをインストールします。
@@ -314,7 +295,7 @@ ninja test</kbd></pre>
           man ページをインストールします。
         </p>
         <pre class="userinput"><kbd class=
-        "command">tar -xf ../../systemd-man-pages-255.tar.xz \
+        "command">tar -xf ../../systemd-man-pages-256.tar.xz \
     --no-same-owner --strip-components=1   \
     -C /usr/share/man</kbd></pre>
         <p>
@@ -362,7 +343,7 @@ ninja test</kbd></pre>
               <strong class="segtitle">インストールライブラリ:</strong> <span class=
               "segbody">libnss_myhostname.so.2, libnss_mymachines.so.2,
               libnss_resolve.so.2, libnss_systemd.so.2, libsystemd.so,
-              libsystemd-shared-255.so (/usr/lib/systemd ディレクトリ内),
+              libsystemd-shared-256.so (/usr/lib/systemd ディレクトリ内),
               libudev.so</span>
             </div>
             <div class="seg">
@@ -373,7 +354,7 @@ ninja test</kbd></pre>
               /usr/lib/udev, /usr/include/systemd, /usr/lib/binfmt.d,
               /usr/lib/environment.d, /usr/lib/kernel,
               /usr/lib/modules-load.d, /usr/lib/sysctl.d, /usr/lib/systemd,
-              /usr/lib/tmpfiles.d, /usr/share/doc/systemd-255,
+              /usr/lib/tmpfiles.d, /usr/share/doc/systemd-256,
               /usr/share/factory, /usr/share/systemd, /var/lib/systemd,
               /var/log/journal</span>
             </div>
@@ -1172,7 +1153,7 @@ ninja test</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-315-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.0-319-systemd">ホーム</a>
         </li>
       </ul>
     </div>
