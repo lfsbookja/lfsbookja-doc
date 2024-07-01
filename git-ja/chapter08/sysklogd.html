@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <title>
-      8.81. Sysklogd-1.5.1
+      8.81. Sysklogd-2.5.2
     </title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
     <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-319">
+  <body class="lfs" id="lfs-r12.0-322">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-319
+        Linux From Scratch - Version r12.0-322
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -40,13 +40,13 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-319">ホーム</a>
+          "Linux From Scratch - Version r12.0-322">ホーム</a>
         </li>
       </ul>
     </div>
     <h1 class="sect1">
       <a id="ch-system-sysklogd" name="ch-system-sysklogd"></a>8.81.
-      Sysklogd-1.5.1
+      Sysklogd-2.5.2
     </h1>
     <div class="wrap" lang="ja" xml:lang="ja">
       <div class="package" lang="ja" xml:lang="ja">
@@ -72,12 +72,13 @@
           8.81.1. Sysklogd のインストール
         </h2>
         <p>
-          特定の条件において klogd がセグメンテーションフォールトを起こすため、この問題を修正します。
-          また古いプログラム構造を修正します。
+          本パッケージ をコンパイルするための準備をします。
         </p>
         <pre class="userinput"><kbd class=
-        "command">sed -i '/Error loading kernel symbols/{n;n;d}' ksym_mod.c
-sed -i 's/union wait/int/' syslogd.c</kbd></pre>
+        "command">./configure --prefix=/usr      \
+            --sysconfdir=/etc  \
+            --runstatedir=/run \
+            --without-logger</kbd></pre>
         <p>
           パッケージをコンパイルします。
         </p>
@@ -121,7 +122,7 @@ EOF</kbd></pre>
           <div class="seglistitem">
             <div class="seg">
               <strong class="segtitle">インストールプログラム:</strong> <span class=
-              "segbody">klogd, syslogd</span>
+              "segbody">syslogd</span>
             </div>
           </div>
         </div>
@@ -135,20 +136,6 @@ EOF</kbd></pre>
               <col />
             </colgroup>
             <tbody>
-              <tr>
-                <td>
-                  <p>
-                    <a id="klogd" name="klogd"></a><span class=
-                    "term"><span class=
-                    "command"><strong>klogd</strong></span></span>
-                  </p>
-                </td>
-                <td>
-                  <p>
-                    カーネルメッセージを受け取り出力するシステムデーモン。
-                  </p>
-                </td>
-              </tr>
               <tr>
                 <td>
                   <p>
@@ -191,7 +178,7 @@ EOF</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-319">ホーム</a>
+          "Linux From Scratch - Version r12.0-322">ホーム</a>
         </li>
       </ul>
     </div>

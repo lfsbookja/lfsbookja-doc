@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <title>
-      8.76. Systemd-256 から取り出した Udev
+      8.76. Systemd-256.1 から取り出した Udev
     </title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
     <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-319">
+  <body class="lfs" id="lfs-r12.0-322">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-319
+        Linux From Scratch - Version r12.0-322
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -39,12 +39,12 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-319">ホーム</a>
+          "Linux From Scratch - Version r12.0-322">ホーム</a>
         </li>
       </ul>
     </div>
     <h1 class="sect1">
-      <a id="ch-system-udev" name="ch-system-udev"></a>8.76. Systemd-256
+      <a id="ch-system-udev" name="ch-system-udev"></a>8.76. Systemd-256.1
       から取り出した Udev
     </h1>
     <div class="wrap" lang="ja" xml:lang="ja">
@@ -70,8 +70,8 @@
           8.76.1. Udev のインストール
         </h2>
         <p>
-          Udev は systemd-256 パッケージの一部です。 ソース tarball としては systemd-256.tar.xz
-          ファイルを用います。
+          Udev は systemd-256.1 パッケージの一部です。 ソース tarball としては
+          systemd-256.1.tar.xz ファイルを用います。
         </p>
         <p>
           <code class="systemitem">render</code> と <code class=
@@ -97,15 +97,14 @@
         <pre class="userinput"><kbd class="command">mkdir -p build
 cd       build
 
-meson setup \
-      --prefix=/usr                 \
-      --buildtype=release           \
-      -Dmode=release                \
-      -Ddev-kvm-mode=0660           \
-      -Dlink-udev-shared=false      \
-      -Dlogind=false                \
-      -Dvconsole=false              \
-      ..</kbd></pre>
+meson setup ..                  \
+      --prefix=/usr             \
+      --buildtype=release       \
+      -D mode=release           \
+      -D dev-kvm-mode=0660      \
+      -D link-udev-shared=false \
+      -D logind=false           \
+      -D vconsole=false</kbd></pre>
         <div class="variablelist">
           <p class="title">
             <strong>meson オプションの意味</strong>
@@ -123,8 +122,8 @@ meson setup \
               </p>
             </dd>
             <dt>
-              <span class="term"><em class=
-              "parameter"><code>-Dmode=release</code></em></span>
+              <span class="term"><em class="parameter"><code>-D
+              mode=release</code></em></span>
             </dt>
             <dd>
               <p>
@@ -132,8 +131,8 @@ meson setup \
               </p>
             </dd>
             <dt>
-              <span class="term"><em class=
-              "parameter"><code>-Ddev-kvm-mode=0660</code></em></span>
+              <span class="term"><em class="parameter"><code>-D
+              dev-kvm-mode=0660</code></em></span>
             </dt>
             <dd>
               <p>
@@ -143,8 +142,8 @@ meson setup \
               </p>
             </dd>
             <dt>
-              <span class="term"><em class=
-              "parameter"><code>-Dlink-udev-shared=false</code></em></span>
+              <span class="term"><em class="parameter"><code>-D
+              link-udev-shared=false</code></em></span>
             </dt>
             <dd>
               <p>
@@ -155,8 +154,8 @@ meson setup \
               </p>
             </dd>
             <dt>
-              <span class="term"><em class="parameter"><code>-Dlogind=false
-              -Dvconsole=false</code></em></span>
+              <span class="term"><em class="parameter"><code>-D logind=false
+              -D vconsole=false</code></em></span>
             </dt>
             <dd>
               <p>
@@ -381,7 +380,7 @@ rm /usr/share/man/man*/systemd*</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-319">ホーム</a>
+          "Linux From Scratch - Version r12.0-322">ホーム</a>
         </li>
       </ul>
     </div>

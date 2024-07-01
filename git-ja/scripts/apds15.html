@@ -12,13 +12,13 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-319">
+  <body class="lfs" id="lfs-r12.0-322">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-319
+        Linux From Scratch - Version r12.0-322
       </h4>
       <h3>
-        付録D ブートスクリプトと sysconfig スクリプト version-20240416
+        付録D ブートスクリプトと sysconfig スクリプト version-20240630
       </h3>
       <ul>
         <li class="prev">
@@ -37,11 +37,11 @@
         </li>
         <li class="up">
           <a accesskey="u" href="scripts.html" title=
-          "付録D ブートスクリプトと sysconfig スクリプト version-20240416">上に戻る</a>
+          "付録D ブートスクリプトと sysconfig スクリプト version-20240630">上に戻る</a>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-319">ホーム</a>
+          "Linux From Scratch - Version r12.0-322">ホーム</a>
         </li>
       </ul>
     </div>
@@ -58,6 +58,9 @@
 # Authors     : Gerard Beekmans - gerard@linuxfromscratch.org
 #               DJ Lucas - dj@linuxfromscratch.org
 # Update      : Bruce Dubbs - bdubbs@linuxfromscratch.org
+# Update      : Bruce Dubbs - bdubbs@linuxfromscratch.org LFS12.1
+#               Remove kernel log daemon.  The functionality has been
+#               merged with syslogd.                
 #
 # Version     : LFS 7.0
 #
@@ -71,8 +74,8 @@
 # Should-Stop:         sendsignals
 # Default-Start:       2 3 4 5
 # Default-Stop:        0 1 6
-# Short-Description:   Starts kernel and system log daemons.
-# Description:         Starts kernel and system log daemons.
+# Short-Description:   Starts system log daemon.
+# Description:         Starts system log daemon.
 #                      /etc/fstab.
 # X-LFS-Provided-By:   LFS
 ### END INIT INFO
@@ -85,17 +88,9 @@ case "${1}" in
       parms=${SYSKLOGD_PARMS-'-m 0'}
       start_daemon /sbin/syslogd $parms
       evaluate_retval
-
-      log_info_msg "Starting kernel log daemon..."
-      start_daemon /sbin/klogd
-      evaluate_retval
       ;;
 
    stop)
-      log_info_msg "Stopping kernel log daemon..."
-      killproc /sbin/klogd
-      evaluate_retval
-
       log_info_msg "Stopping system log daemon..."
       killproc /sbin/syslogd
       evaluate_retval
@@ -116,7 +111,6 @@ case "${1}" in
 
    status)
       statusproc /sbin/syslogd
-      statusproc klogd
       ;;
 
    *)
@@ -148,11 +142,11 @@ exit 0
         </li>
         <li class="up">
           <a accesskey="u" href="scripts.html" title=
-          "付録D ブートスクリプトと sysconfig スクリプト version-20240416">上に戻る</a>
+          "付録D ブートスクリプトと sysconfig スクリプト version-20240630">上に戻る</a>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-319">ホーム</a>
+          "Linux From Scratch - Version r12.0-322">ホーム</a>
         </li>
       </ul>
     </div>
