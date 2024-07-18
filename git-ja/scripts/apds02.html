@@ -12,13 +12,13 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-322">
+  <body class="lfs" id="lfs-r12.0-333">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-322
+        Linux From Scratch - Version r12.0-333
       </h4>
       <h3>
-        付録D ブートスクリプトと sysconfig スクリプト version-20240630
+        付録D ブートスクリプトと sysconfig スクリプト version-20240717
       </h3>
       <ul>
         <li class="prev">
@@ -37,11 +37,11 @@
         </li>
         <li class="up">
           <a accesskey="u" href="scripts.html" title=
-          "付録D ブートスクリプトと sysconfig スクリプト version-20240630">上に戻る</a>
+          "付録D ブートスクリプトと sysconfig スクリプト version-20240717">上に戻る</a>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-322">ホーム</a>
+          "Linux From Scratch - Version r12.0-333">ホーム</a>
         </li>
       </ul>
     </div>
@@ -110,11 +110,21 @@ SCRIPT_STAT="0"
 # Set any user specified environment variables e.g. HEADLESS
 [ -r /etc/sysconfig/rc.site ]  &amp;&amp; . /etc/sysconfig/rc.site
 
-## Screen Dimensions
-# Find current screen size
-if [ -z "${COLUMNS}" ]; then
-   COLUMNS=$(stty size)
-   COLUMNS=${COLUMNS##* }
+# If HEADLESS is set, use that.  
+# If file descriptor 1 or 2 (stdout and stderr) is not open or
+# does not refer to a terminal, consider the script headless.
+[ ! -t 1 -o ! -t 2 ] &amp;&amp; HEADLESS=${HEADLESS:-yes}
+
+if [ "x$HEADLESS" != "xyes" ]
+then 
+  ## Screen Dimensions
+  # Find current screen size
+  if [ -z "${COLUMNS}" ]; then
+    COLUMNS=$(stty size)
+    COLUMNS=${COLUMNS##* }
+  fi
+else
+   COLUMNS=80
 fi
 
 # When using remote connections, such as a serial port, stty size returns 0
@@ -627,9 +637,14 @@ timespec()
 ################################################################################
 log_success_msg()
 {
-    /bin/echo -n -e "${BMPREFIX}${@}"
-    /bin/echo -e "${CURS_ZERO}${SUCCESS_PREFIX}${SET_COL}${SUCCESS_SUFFIX}"
-
+    if [ "x$HEADLESS" != "xyes" ]
+    then 
+      /bin/echo -n -e "${BMPREFIX}${@}"
+      /bin/echo -e "${CURS_ZERO}${SUCCESS_PREFIX}${SET_COL}${SUCCESS_SUFFIX}"
+    else
+      logmessage=`echo "${@}" | sed 's/\\\033[^a-zA-Z]*.//g'`
+      /bin/echo -e "${logmessage} OK" 
+    fi
     # Strip non-printable characters from log file
     logmessage=`echo "${@}" | sed 's/\\\033[^a-zA-Z]*.//g'`
 
@@ -641,8 +656,13 @@ log_success_msg()
 
 log_success_msg2()
 {
-    /bin/echo -n -e "${BMPREFIX}${@}"
-    /bin/echo -e "${CURS_ZERO}${SUCCESS_PREFIX}${SET_COL}${SUCCESS_SUFFIX}"
+    if [ "x$HEADLESS" != "xyes" ]
+    then 
+      /bin/echo -n -e "${BMPREFIX}${@}"
+      /bin/echo -e "${CURS_ZERO}${SUCCESS_PREFIX}${SET_COL}${SUCCESS_SUFFIX}"
+    else
+      echo " OK" 
+    fi
 
     echo " OK" &gt;&gt; ${BOOTLOG}
 
@@ -662,8 +682,14 @@ log_success_msg2()
 ################################################################################
 log_failure_msg()
 {
-    /bin/echo -n -e "${BMPREFIX}${@}"
-    /bin/echo -e "${CURS_ZERO}${FAILURE_PREFIX}${SET_COL}${FAILURE_SUFFIX}"
+    if [ "x$HEADLESS" != "xyes" ]
+    then 
+      /bin/echo -n -e "${BMPREFIX}${@}"
+      /bin/echo -e "${CURS_ZERO}${FAILURE_PREFIX}${SET_COL}${FAILURE_SUFFIX}"
+    else
+      logmessage=`echo "${@}" | sed 's/\\\033[^a-zA-Z]*.//g'`
+      /bin/echo -e "${logmessage} FAIL"
+    fi
 
     # Strip non-printable characters from log file
 
@@ -676,8 +702,13 @@ log_failure_msg()
 
 log_failure_msg2()
 {
-    /bin/echo -n -e "${BMPREFIX}${@}"
-    /bin/echo -e "${CURS_ZERO}${FAILURE_PREFIX}${SET_COL}${FAILURE_SUFFIX}"
+    if [ "x$HEADLESS" != "xyes" ]
+    then 
+      /bin/echo -n -e "${BMPREFIX}${@}"
+      /bin/echo -e "${CURS_ZERO}${FAILURE_PREFIX}${SET_COL}${FAILURE_SUFFIX}"
+    else
+      echo "FAIL"
+    fi
 
     echo "FAIL" &gt;&gt; ${BOOTLOG}
 
@@ -695,8 +726,14 @@ log_failure_msg2()
 ################################################################################
 log_warning_msg()
 {
-    /bin/echo -n -e "${BMPREFIX}${@}"
-    /bin/echo -e "${CURS_ZERO}${WARNING_PREFIX}${SET_COL}${WARNING_SUFFIX}"
+    if [ "x$HEADLESS" != "xyes" ]
+    then
+      /bin/echo -n -e "${BMPREFIX}${@}"
+      /bin/echo -e "${CURS_ZERO}${WARNING_PREFIX}${SET_COL}${WARNING_SUFFIX}"
+    else
+      logmessage=`echo "${@}" | sed 's/\\\033[^a-zA-Z]*.//g'`
+      /bin/echo -e "${logmessage} WARN"
+    fi 
 
     # Strip non-printable characters from log file
     logmessage=`echo "${@}" | sed 's/\\\033[^a-zA-Z]*.//g'`
@@ -708,8 +745,14 @@ log_warning_msg()
 
 log_skip_msg()
 {
-    /bin/echo -n -e "${BMPREFIX}${@}"
-    /bin/echo -e "${CURS_ZERO}${SKIP_PREFIX}${SET_COL}${SKIP_SUFFIX}"
+    if [ "x$HEADLESS" != "xyes" ]
+    then
+      /bin/echo -n -e "${BMPREFIX}${@}"
+      /bin/echo -e "${CURS_ZERO}${SKIP_PREFIX}${SET_COL}${SKIP_SUFFIX}"
+    else
+      logmessage=`echo "${@}" | sed 's/\\\033[^a-zA-Z]*.//g'`
+      /bin/echo "SKIP"
+    fi
 
     # Strip non-printable characters from log file
     logmessage=`echo "${@}" | sed 's/\\\033[^a-zA-Z]*.//g'`
@@ -729,7 +772,13 @@ log_skip_msg()
 ################################################################################
 log_info_msg()
 {
-    /bin/echo -n -e "${BMPREFIX}${@}"
+    if [ "x$HEADLESS" != "xyes" ]
+    then
+      /bin/echo -n -e "${BMPREFIX}${@}"
+    else
+      logmessage=`echo "${@}" | sed 's/\\\033[^a-zA-Z]*.//g'`
+      /bin/echo -n -e "${logmessage}"
+    fi
 
     # Strip non-printable characters from log file
     logmessage=`echo "${@}" | sed 's/\\\033[^a-zA-Z]*.//g'`
@@ -741,7 +790,13 @@ log_info_msg()
 
 log_info_msg2()
 {
-    /bin/echo -n -e "${@}"
+    if [ "x$HEADLESS" != "xyes" ]
+    then
+      /bin/echo -n -e "${@}"
+    else
+      logmessage=`echo "${@}" | sed 's/\\\033[^a-zA-Z]*.//g'`
+      /bin/echo -n -e "${logmessage}"
+    fi
 
     # Strip non-printable characters from log file
     logmessage=`echo "${@}" | sed 's/\\\033[^a-zA-Z]*.//g'`
@@ -880,11 +935,11 @@ is_true()
         </li>
         <li class="up">
           <a accesskey="u" href="scripts.html" title=
-          "付録D ブートスクリプトと sysconfig スクリプト version-20240630">上に戻る</a>
+          "付録D ブートスクリプトと sysconfig スクリプト version-20240717">上に戻る</a>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-322">ホーム</a>
+          "Linux From Scratch - Version r12.0-333">ホーム</a>
         </li>
       </ul>
     </div>
