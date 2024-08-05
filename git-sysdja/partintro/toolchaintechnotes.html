@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-342-systemd">
+  <body class="lfs" id="lfs-r12.0-347-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-342-systemd
+        Linux From Scratch - Version r12.0-347-systemd
       </h4>
       <h3>
         重要な準備事項
@@ -39,7 +39,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-342-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.0-347-systemd">ホーム</a>
         </li>
       </ul>
     </div>
@@ -338,9 +338,9 @@
             となります。） ダイナミックリンカーの名前を確実に決定するには、何でもよいのでホスト上の実行モジュールを調べます。
             <strong class="userinput"><code>readelf -l &lt;name of binary&gt;
             | grep interpreter</code></strong> というコマンドを実行することです。 出力結果を見てください。
-            どのようなプラットフォームであっても確実な方法は、<code class=
-            "filename">shlib-versions</code> というファイルを見てみることです。 これは glibc
-            ソースツリーのルートに存在しています。
+            どのようなプラットフォームであっても確実な方法は、<a class="ulink" href=
+            "https://sourceware.org/glibc/wiki/ABIList">Glibc wiki ページ</a>
+            を見てみることです。
           </p>
         </div>
         <p>
@@ -576,22 +576,17 @@ checking what linker to use... /mnt/lfs/tools/i686-lfs-linux-gnu/bin/ld</code></
         <p>
           次のパッケージは glibc です。 glibc
           構築の際に気にかけるべき重要なものは、コンパイラー、バイナリツール、カーネルヘッダーです。
-          コンパイラーについては、一般にはあまり問題にはなりません。 glibc は常に configure スクリプトにて指定される
-          <em class="parameter"><code>--host</code></em>
+          コンパイラーやバイナリーツールについては、一般にはあまり問題にはなりません。 glibc は常に configure
+          スクリプトにて指定される <em class="parameter"><code>--host</code></em>
           パラメーターに関連づけしたコンパイラーを用いるからです。 我々の作業においてそのコンパイラーとは <span class=
-          "command"><strong>$LFS_TGT-gcc</strong></span> になります。
-          バイナリツールとカーネルヘッダーは多少複雑です。 従って無理なことはせずに有効な configure
-          オプションを選択することが必要です。 <span class=
-          "command"><strong>configure</strong></span> 実行の後は <code class=
-          "filename">build</code> ディレクトリにある <code class=
-          "filename">config.make</code> ファイルに重要な情報が示されているので確認してみてください。 なお
-          <em class="parameter"><code>CC="$LFS_TGT-gcc"</code></em>
-          とすれば、（<code class="envar">$LFS_TGT</code>
-          が展開されて）どこにある実行モジュールを利用するかを制御でき <em class=
-          "parameter"><code>-nostdinc</code></em> と <em class=
-          "parameter"><code>-isystem</code></em>
-          を指定すれば、コンパイラーに対してインクルードファイルの検索パスを制御できます。 これらの指定は Glibc
-          パッケージの重要な面を示しています。 glibc
+          "command"><strong>$LFS_TGT-gcc</strong></span> であり、<span class=
+          "command"><strong>readelf</strong></span> ツールは <span class=
+          "command"><strong>$LFS_TGT-readelf</strong></span> になります。
+          カーネルヘッダーは多少複雑です。 したがって無理なことはせずに有効な configure オプションを選択することが必要です。
+          <span class="command"><strong>configure</strong></span> 実行の後は
+          <code class="filename">build</code> ディレクトリにある <code class=
+          "filename">config.make</code> ファイルに重要な情報が示されているので確認してみてください。
+          これらの指定は Glibc パッケージの重要な面を示しています。 glibc
           がビルドされるメカニズムは自己完結したビルドが行われるものであり、ツールチェーンのデフォルト設定には基本的に依存しないことを示しています。
         </p>
         <p>
@@ -644,7 +639,7 @@ checking what linker to use... /mnt/lfs/tools/i686-lfs-linux-gnu/bin/ld</code></
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-342-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.0-347-systemd">ホーム</a>
         </li>
       </ul>
     </div>
