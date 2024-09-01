@@ -1,0 +1,434 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      9.10. Systemd の利用と設定
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.2-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.2-systemd
+      </h4>
+      <h3>
+        第9章 システム設定
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="etcshells.html" title=
+          "/etc/shells ファイルの生成">戻る</a>
+          <p>
+            /etc/shells ファイルの生成
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="../chapter10/chapter10.html" title=
+          "LFS システムのブート設定">次へ</a>
+          <p>
+            LFS システムのブート設定
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter09.html" title="第9章 システム設定">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.2-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-config-systemd-custom" name=
+      "ch-config-systemd-custom"></a>9.10. Systemd の利用と設定
+    </h1>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          9.10.1. 基本的な設定
+        </h2>
+        <p>
+          <code class="filename">/etc/systemd/system.conf</code> ファイルには、基本的な
+          systemd 動作を制御するための設定オプション項目があります。
+          デフォルトのファイルは、各項目のデフォルト値が示された上でそれがコメントアウトされています。
+          このファイルでは基本的なジャーナル設定やログレベルを設定する必要があります。 各オプションの詳細については man ページ
+          <a class="ulink" href=
+          "https://man.archlinux.org/man/systemd-system.conf.5">systemd-system.conf(5)</a>
+          を参照してください。
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          9.10.2. ブート時の画面クリアの防止
+        </h2>
+        <p>
+          通常 systemd はブート処理の最後に画面をクリアします。 必要ならばこの動きを以下のようにして変更することができます。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mkdir -pv /etc/systemd/system/getty@tty1.service.d
+
+cat &gt; /etc/systemd/system/getty@tty1.service.d/noclear.conf &lt;&lt; EOF
+<code class="literal">[Service]
+TTYVTDisallocate=no</code>
+EOF</kbd></pre>
+        <p>
+          ブートメッセージは、<code class="systemitem">root</code> ユーザーになってコマンド
+          <strong class="userinput"><code>journalctl -b</code></strong>
+          を実行することで、常に表示しておくこともできます。
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="systemd-no-tmpfs" name="systemd-no-tmpfs"></a>9.10.3. /tmp の
+          tmpfs としての生成抑止
+        </h2>
+        <p>
+          デフォルトでは <code class="filename">/tmp</code> は tmpfs として生成されます。
+          これが適当ではないならば、以下のコマンドによりオーバーライドすることができます。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">ln -sfv /dev/null /etc/systemd/system/tmp.mount</kbd></pre>
+        <p>
+          それとは別に <code class="filename">/tmp</code>
+          を別パーティションとする場合は、<code class="filename">/etc/fstab</code>
+          にそのパーティションを指定します。
+        </p>
+        <div class="admon warning">
+          <img alt="[警告]" src="../images/warning.png" />
+          <h3>
+            警告
+          </h3>
+          <p>
+            <code class="filename">/tmp</code>
+            を別パーティションとした場合、このパーティションに対してシンボリックリンクを作成することは避けてください。
+            これを行ってしまうと、ルートファイルシステム（/）を r/w
+            として再マウントすることができなくなり、システムを再起動すると利用できなくなります。
+          </p>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          9.10.4. 自動的なファイル生成、削除の設定
+        </h2>
+        <p>
+          ファイルやディレクトリを生成、削除するサービスがいくつかあります。
+        </p>
+        <div class="itemizedlist">
+          <ul>
+            <li class="listitem">
+              <p>
+                systemd-tmpfiles-clean.service
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                systemd-tmpfiles-setup-dev.service
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                systemd-tmpfiles-setup.service
+              </p>
+            </li>
+          </ul>
+        </div>
+        <p>
+          システム用設定ファイルは <code class=
+          "filename">/usr/lib/tmpfiles.d/*.conf</code> です。 ローカル用設定ファイルは
+          <code class="filename">/etc/tmpfiles.d/*.conf</code> に置きます。
+          <code class="filename">/etc/tmpfiles.d</code> にあるファイルは <code class=
+          "filename">/usr/lib/tmpfiles.d</code> にある同名ファイルをオーバーライドします。
+          ファイル書式の詳細については man ページ <a class="ulink" href=
+          "https://man.archlinux.org/man/tmpfiles.d.5">tmpfiles.d(5)</a>
+          を参照してください。
+        </p>
+        <p>
+          <code class="filename">/usr/lib/tmpfiles.d/*.conf</code>
+          ファイルの文法はやっかいなものです。 例えば /tmp ディレクトリ内のファイルを消去するためのデフォルト設定は
+          <code class="filename">/usr/lib/tmpfiles.d/tmp.conf</code>
+          ファイルに以下のように記述されます。
+        </p>
+        <pre class="screen">q /tmp 1777 root root 10d</pre>
+        <p>
+          型を表わす q はクォータを用いたサブボリュームを生成することを意味します。 ただこれが適用できるのは btrfs
+          ファイルシステムのみです。 この型は v を参照し、次に d（ディレクトリ）を参照します。
+          指定されたディレクトリが存在しない場合はそれが生成されて、パーミッションと所有者が指定されたものに設定されます。
+          時間指定が行われた場合、そのディレクトリ内のファイルは、それに応じて削除されます。
+        </p>
+        <p>
+          デフォルトパラーメーターを必要としない場合は、設定ファイルを <code class=
+          "filename">/etc/tmpfiles.d</code> にコピーして必要な設定を行っておきます。 例えば以下です。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir -p /etc/tmpfiles.d
+cp /usr/lib/tmpfiles.d/tmp.conf /etc/tmpfiles.d</kbd></pre>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          9.10.5. デフォルトのサービス動作のオーバーライド
+        </h2>
+        <p>
+          ユニットパラメーターをオーバーライドするには <code class=
+          "filename">/etc/systemd/system</code> ディレクトリを生成して設定ファイルを作成します。
+          例えば以下のとおりです。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mkdir -pv /etc/systemd/system/foobar.service.d
+
+cat &gt; /etc/systemd/system/foobar.service.d/foobar.conf &lt;&lt; EOF
+<code class="literal">[Service]
+Restart=always
+RestartSec=30</code>
+EOF</kbd></pre>
+        <p>
+          詳しくは man ページ <a class="ulink" href=
+          "https://man.archlinux.org/man/systemd.unit.5">systemd.unit(5)</a>
+          を参照してください。 設定ファイルを作成したら <strong class="userinput"><code>systemctl
+          daemon-reload</code></strong> と <strong class=
+          "userinput"><code>systemctl restart foobar</code></strong> を実行します。
+          これによりサービスの設定内容が反映されます。
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          9.10.6. ブートシーケンスのデバッグ
+        </h2>
+        <p>
+          SysVinit や BSD スタイルの起動システムにおいては単純なシェルスクリプトが用いられていますが、 systemd
+          ではさまざまな形式の起動ファイル (あるいはユニット) を統一化するフォーマットが用いられています。 <span class=
+          "command"><strong>systemctl</strong></span>
+          コマンドがユニットファイルの有効/無効、状態制御/参照を行います。 以下に示すものがよく用いられます。
+        </p>
+        <div class="itemizedlist">
+          <ul>
+            <li class="listitem">
+              <p>
+                <span class="command"><strong>systemctl list-units -t
+                <em class="replaceable"><code>&lt;service&gt;</code></em>
+                [--all]</strong></span>: サービスタイプのユニットファイルをロードします。
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="command"><strong>systemctl list-units -t
+                <em class="replaceable"><code>&lt;target&gt;</code></em>
+                [--all]</strong></span>: ターゲットタイプのユニットファイルをロードします。
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="command"><strong>systemctl show -p Wants
+                <em class=
+                "replaceable"><code>&lt;multi-user.target&gt;</code></em></strong></span>:
+                マルチユーザーターゲットに依存するユニットをすべて表示します。 ターゲットは特別なユニットファイルであり、SysVinit
+                におけるランレベルに相当します。
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="command"><strong>systemctl status <em class=
+                "replaceable"><code>&lt;servicename.service&gt;</code></em></strong></span>:
+                servicename で示されるサービスの状態を表示します。 拡張子 .service
+                は、他に同名のサービスがない限り、例えば .socket ファイルであるような場合は省略することができます。
+                (.socket ファイルは inetd/xinetd と同様の機能を提供するソケットを生成します。)
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          9.10.7. Systemd ジャーナル関連の操作
+        </h2>
+        <p>
+          systemd により起動したシステムのシステムログは、従来の unix syslog デーモンとは異なり、デフォルトで
+          systemd-journald により扱われます。 必要に応じて標準的な syslog
+          デーモンを追加することも可能で、両者を併用することもできます。 systemd-journald
+          プログラムはジャーナル項目を保存しますが、それはテキストログファイルではなく、バイナリフォーマットファイルです。
+          そのファイル内容を確認するために <span class=
+          "command"><strong>journalctl</strong></span> コマンドが提供されています。
+          以下に示すものがよく用いられます。
+        </p>
+        <div class="itemizedlist">
+          <ul>
+            <li class="listitem">
+              <p>
+                <span class="command"><strong>journalctl -r</strong></span>:
+                ジャーナル項目すべてを日付の昇順により表示します。
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="command"><strong>journalctl -u <em class=
+                "replaceable"><code>UNIT</code></em></strong></span>: 指定された
+                UNIT ファイルに関連したジャーナル項目を表示します。
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="command"><strong>journalctl -b[=ID]
+                -r</strong></span>: 直近の起動成功から (あるいはブートIDから)
+                のジャーナル項目を、日付の昇順により表示します。
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="command"><strong>journalctl -f</strong></span>:
+                tail -f と同様の機能を提供します。
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          9.10.8. コアダンプ関連の操作
+        </h2>
+        <p>
+          クラッシュしたプログラムをデバッグするのに、コアダンプというものが重宝します。 特にデーモンプロセスがクラッシュした場合です。
+          systemd によるブートシステムにおいて、コアダンプは <span class=
+          "command"><strong>systemd-coredump</strong></span> が取り扱います。
+          このプログラムはジャーナル内にコアダンプのログを出力し、コアダンプそのものは <code class=
+          "filename">/var/lib/systemd/coredump</code> に保存します。
+          コアダンプを取り出して処理するために <span class=
+          "command"><strong>coredumpctl</strong></span> というツールが提供されています。
+          よく利用されるコマンド例を以下に示します。
+        </p>
+        <div class="itemizedlist">
+          <ul>
+            <li class="listitem">
+              <p>
+                <span class="command"><strong>coredumpctl -r</strong></span>:
+                すべてのコアダンプを新しい順に一覧表示します。
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="command"><strong>coredumpctl -1
+                info</strong></span>: 最新のコアダンプの情報を表示します。
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="command"><strong>coredumpctl -1
+                debug</strong></span>: 最新のコアダンプを <a class="ulink" href=
+                "https://www.linuxfromscratch.org/blfs/view/stable-systemd/general/gdb.html">
+                GDB</a> にロードします。
+              </p>
+            </li>
+          </ul>
+        </div>
+        <p>
+          コアダンプはディスク容量を大量に消費することがあります。 <code class=
+          "filename">/etc/systemd/coredump.conf.d</code> に設定ファイルを生成して、
+          コアダンプに利用するディスク容量の最大を制御することができます。 たとえば以下のとおりです。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mkdir -pv /etc/systemd/coredump.conf.d
+
+cat &gt; /etc/systemd/coredump.conf.d/maxuse.conf &lt;&lt; EOF
+<code class="literal">[Coredump]
+MaxUse=5G</code>
+EOF</kbd></pre>
+        <p>
+          詳細は <a class="ulink" href=
+          "https://man.archlinux.org/man/systemd-coredump.8">systemd-coredump(8)</a>,
+          <a class="ulink" href=
+          "https://man.archlinux.org/man/coredumpctl.1">coredumpctl(1)</a>,
+          <a class="ulink" href=
+          "https://man.archlinux.org/man/coredump.conf.d.5">coredump.conf.d(5)</a>
+          の各 man ページを参照してください。
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          9.10.9. 稼動し続けるプロセス
+        </h2>
+        <p>
+          systemd-230 より取り入れられた機能として、ユーザープロセスは、たとえ nohup が用いられたり、あるいは
+          <code class="function">daemon()</code> や <code class=
+          "function">setsid()</code> が利用されたプロセスであっても、ユーザーセッションが終了するとともに終了します。
+          この機能変更は、従来からの柔軟な実装を厳格なものとする意図で行われたものです。 したがって稼動し続けるプロセスが利用されていると
+          (例えば <span class="command"><strong>screen</strong></span> や
+          <span class="command"><strong>tmux</strong></span>
+          など)、この機能変更が問題を引き起こすことになるかもしれません。
+          つまりユーザーセッションが終了した後にもプロセスをアクティブにしておくことが必要になります。
+          ユーザーセッション終了後にプロセスを継続させる方法として、以下の三つの方法があります。
+        </p>
+        <div class="itemizedlist">
+          <ul>
+            <li class="listitem">
+              <p>
+                <span class="emphasis"><em>指定ユーザーのプロセスを継続させる方法</em></span>:
+                標準的なユーザーは自身のユーザー権限においてコマンド <span class=
+                "command"><strong>loginctl enable-linger</strong></span>
+                を実行して、プロセスを継続させることができます。 システム管理者は <em class=
+                "parameter"><code>user</code></em>
+                引数を利用して、そのユーザーに対して同一のコマンドを実行可能です。 そしてそのユーザーは <span class=
+                "command"><strong>systemd-run</strong></span>
+                コマンドを実行することでプロセスを継続的に稼動させます。 例えば <span class=
+                "command"><strong>systemd-run --scope --user
+                /usr/bin/screen</strong></span> などとします。
+                特定ユーザーに対してのプロセス継続を行った場合、ログインセッションがすべて終了しても user@.service
+                が残ります。 そしてこれはシステム起動時にも自動実行されます。
+                つまりユーザーセッションが終了した後にもプロセスの有効無効の制御が明示的に行えるものであり、<span class=
+                "command"><strong>nohup</strong></span> や <code class=
+                "function">deamon()</code> を利用するユーティリティーなどの下位互換性をなくすものです。
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="emphasis"><em>システムワイドなプロセスを継続させる方法</em></span>:
+                <code class="filename">/etc/systemd/logind.conf</code> ファイル内に
+                <em class="parameter"><code>KillUserProcesses=no</code></em>
+                を指定すれば、全ユーザーに対してグローバルにプロセスを継続起動させることができます。
+                これは明示的に制御する方法を無用とし、従来どおり全ユーザーに対しての方式を残すメリットがあります。
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="emphasis"><em>機能変更をビルド時に無効化する方法</em></span>:
+                プロセス継続をデフォルトとするために systemd のビルド時に <span class=
+                "command"><strong>meson</strong></span> コマンドにおいて <em class=
+                "parameter"><code>-D
+                default-kill-user-processes=false</code></em>
+                スイッチを指定する方法があります。 この方法をとれば、systemd
+                がセッション終了時にユーザープロセスを終了させてしまう機能を完全に無効化することができます。
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="etcshells.html" title=
+          "/etc/shells ファイルの生成">戻る</a>
+          <p>
+            /etc/shells ファイルの生成
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="../chapter10/chapter10.html" title=
+          "LFS システムのブート設定">次へ</a>
+          <p>
+            LFS システムのブート設定
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter09.html" title="第9章 システム設定">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.2-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

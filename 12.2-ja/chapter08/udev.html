@@ -1,0 +1,388 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.76. Systemd-256.4 から取り出した Udev
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.2">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.2
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="jinja2.html" title="Jinja2-3.1.4">戻る</a>
+          <p>
+            Jinja2-3.1.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="man-db.html" title="Man-DB-2.12.1">次へ</a>
+          <p>
+            Man-DB-2.12.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.2">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-system-udev" name="ch-system-udev"></a>8.76. Systemd-256.4
+      から取り出した Udev
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Udev パッケージはデバイスノードを動的に生成するプログラムを提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.2 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">144 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.76.1. Udev のインストール
+        </h2>
+        <p>
+          Udev は systemd-256.4 パッケージの一部です。 ソース tarball としては
+          systemd-256.4.tar.xz ファイルを用います。
+        </p>
+        <p>
+          <code class="systemitem">render</code> と <code class=
+          "systemitem">sgx</code> という 2 つのグループが不要であるため、デフォルトの udev
+          ルールから削除します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i -e 's/GROUP="render"/GROUP="video"/' \
+       -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in</kbd></pre>
+        <p>
+          Systemd を完全にインストールしていることを前提としている udev ルールを削除します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed '/systemd-sysctl/s/^/#/' -i rules.d/99-systemd.rules.in</kbd></pre>
+        <p>
+          ネットワーク設定ファイルへのパスがハードコーディングされているため、独立した udev インストールとして修正します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed '/NETWORK_DIRS/s/systemd/udev/' -i src/basic/path-lookup.h</kbd></pre>
+        <p>
+          Udev をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir -p build
+cd       build
+
+meson setup ..                  \
+      --prefix=/usr             \
+      --buildtype=release       \
+      -D mode=release           \
+      -D dev-kvm-mode=0660      \
+      -D link-udev-shared=false \
+      -D logind=false           \
+      -D vconsole=false</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>meson オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--buildtype=release</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                本スイッチはデフォルトのビルドタイプ (<span class="quote">「<span class=
+                "quote">debug</span>」</span>) をオーバーライドします。
+                そのデフォルトでは、最適化されていないバイナリーが生成されます。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class="parameter"><code>-D
+              mode=release</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                アップストリームが試験的なものとしている機能を無効化します。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class="parameter"><code>-D
+              dev-kvm-mode=0660</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                デフォルトの udev ルールは、全ユーザーが <code class=
+                "filename">/dev/kvm</code> にアクセスできるようになります。
+                しかし本書ではこれは危険なものと捉えています。 本オプションはこれをオーバーライドします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class="parameter"><code>-D
+              link-udev-shared=false</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                本オプションは、内部提供されている systemd 共有ライブラリ <code class=
+                "systemitem">libsystemd-shared</code> を udev にリンクしないようにします。
+                このライブラリは Systemd 内の数多くのライブラリが共有するものとして作られていますが、udev
+                のみをインストールする際には少々おおげさなものです。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class="parameter"><code>-D logind=false
+              -D vconsole=false</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                これらのオプションは、udev ルールをいくつか生成しないようにするものです。
+                そのルールは、インストールする予定としていない Systemd コンポーネントに対するものであるためです。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          同梱されている udev ヘルパーの一覧を取得して、それを環境変数に保存します。
+          （変数をエクスポートしておくことは、厳密に言えば不要です。
+          ただしこうすると、一般ユーザーによるビルドやパッケージマネージャーの利用がしやすくなります。）
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">export udev_helpers=$(grep "'name' :" ../src/udev/meson.build | \
+                      awk '{print $3}' | tr -d ",'" | grep -v 'udevadm')</kbd></pre>
+        <p>
+          udev に必要となるコンポーネントのみをビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">ninja udevadm systemd-hwdb                                           \
+      $(ninja -n | grep -Eo '(src/(lib)?udev|rules.d|hwdb.d)/[^ ]*') \
+      $(realpath libudev.so --relative-to .)                         \
+      $udev_helpers</kbd></pre>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">install -vm755 -d {/usr/lib,/etc}/udev/{hwdb.d,rules.d,network}
+install -vm755 -d /usr/{lib,share}/pkgconfig
+install -vm755 udevadm                             /usr/bin/
+install -vm755 systemd-hwdb                        /usr/bin/udev-hwdb
+ln      -svfn  ../bin/udevadm                      /usr/sbin/udevd
+cp      -av    libudev.so{,*[0-9]}                 /usr/lib/
+install -vm644 ../src/libudev/libudev.h            /usr/include/
+install -vm644 src/libudev/*.pc                    /usr/lib/pkgconfig/
+install -vm644 src/udev/*.pc                       /usr/share/pkgconfig/
+install -vm644 ../src/udev/udev.conf               /etc/udev/
+install -vm644 rules.d/* ../rules.d/README         /usr/lib/udev/rules.d/
+install -vm644 $(find ../rules.d/*.rules \
+                      -not -name '*power-switch*') /usr/lib/udev/rules.d/
+install -vm644 hwdb.d/*  ../hwdb.d/{*.hwdb,README} /usr/lib/udev/hwdb.d/
+install -vm755 $udev_helpers                       /usr/lib/udev
+install -vm644 ../network/99-default.link          /usr/lib/udev/network</kbd></pre>
+        <p>
+          LFS 環境において有用となるカスタムルールやサポートファイルをインストールします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">tar -xvf ../../udev-lfs-20230818.tar.xz
+make -f udev-lfs-20230818/Makefile.lfs install</kbd></pre>
+        <p>
+          man ページをインストールします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">tar -xf ../../systemd-man-pages-256.4.tar.xz                            \
+    --no-same-owner --strip-components=1                              \
+    -C /usr/share/man --wildcards '*/udev*' '*/libudev*'              \
+                                  '*/systemd.link.5'                  \
+                                  '*/systemd-'{hwdb,udevd.service}.8
+
+sed 's|systemd/network|udev/network|'                                 \
+    /usr/share/man/man5/systemd.link.5                                \
+  &gt; /usr/share/man/man5/udev.link.5
+
+sed 's/systemd\(\\\?-\)/udev\1/' /usr/share/man/man8/systemd-hwdb.8   \
+                               &gt; /usr/share/man/man8/udev-hwdb.8
+
+sed 's|lib.*udevd|sbin/udevd|'                                        \
+    /usr/share/man/man8/systemd-udevd.service.8                       \
+  &gt; /usr/share/man/man8/udevd.8
+
+rm /usr/share/man/man*/systemd*</kbd></pre>
+        <p>
+          <code class="envar">udev_helpers</code> 変数をクリアします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">unset udev_helpers</kbd></pre>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="conf-udev" name="conf-udev"></a>8.76.2. Udev の設定
+        </h2>
+        <p>
+          ハードウェアデバイスに関する情報は <code class="filename">/etc/udev/hwdb.d</code> と
+          <code class="filename">/usr/lib/udev/hwdb.d</code>
+          の両ディレクトリ内にて保守されています。 <span class="application">Udev</span>
+          にとってこれらの情報は、バイナリーデータベース <code class=
+          "filename">/etc/udev/hwdb.bin</code> にコンパイルするために必要となります。
+          初期データベースを以下のようにして生成します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">udev-hwdb update</kbd></pre>
+        <p>
+          このコマンドは、ハードウェア情報が更新されるたびに実行する必要があります。
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-udev" name="contents-udev"></a>8.76.3. Udev の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">udevadm, udevd (udevadm へのシンボリックリンク),
+              udev-hwdb</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libudev.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/etc/udev, /usr/lib/udev</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="udevadm" name="udevadm"></a><span class=
+                    "term"><span class=
+                    "command"><strong>udevadm</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    汎用的な udev 管理ツール。 udevd デーモンの制御、Udev
+                    データベースデータからの情報提供、uevent の監視、uevent の完了までの待機、Udev
+                    設定のテスト、指定デバイスに対する uevent の起動、といったことを行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="udevd" name="udevd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>udevd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    netlink ソケット上の uevent を待ち受けるデーモン。 デバイスを生成し、その uevent
+                    に応じて設定された外部プログラムを実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="udev-hwdb" name="udev-hwdb"></a><span class=
+                    "term"><span class=
+                    "command"><strong>udev-hwdb</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ハードウェアデータベースの更新および参照を行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libudev" name="libudev"></a><span class=
+                    "term"><code class="filename">libudev</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    udev デバイス情報へのライブラリインターフェース。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="etc-udev" name="etc-udev"></a><span class=
+                    "term"><code class="filename">/etc/udev</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Udev 設定ファイル、デバイスのパーミッション、デバイスの命名規則を定めます。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="jinja2.html" title="Jinja2-3.1.4">戻る</a>
+          <p>
+            Jinja2-3.1.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="man-db.html" title="Man-DB-2.12.1">次へ</a>
+          <p>
+            Man-DB-2.12.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.2">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

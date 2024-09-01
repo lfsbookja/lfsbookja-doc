@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      3.1. はじめに
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.2">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.2
+      </h4>
+      <h3>
+        第3章 パッケージとパッチ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="chapter03.html" title="パッケージとパッチ">戻る</a>
+          <p>
+            パッケージとパッチ
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="packages.html" title="全パッケージ">次へ</a>
+          <p>
+            全パッケージ
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter03.html" title=
+          "第3章 パッケージとパッチ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.2">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-materials-introduction" name=
+      "ch-materials-introduction"></a>3.1. はじめに
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <p>
+        この章では基本的な Linux システム構築のためにダウンロードするべきパッケージの一覧を示します。
+        各パッケージのバージョンは動作が確認されているものを示しており、本書ではこれに基づいて説明します。 LFS errata
+        やセキュリティアドバイザリーに示されていれば別ですが、ここに示すバージョンとは異なるものは使わないようお勧めします。
+        あるバージョンでビルドしたコマンドが、違うバージョンで動作する保証はないからです。
+        最新のパッケージの場合、何かの対処を要するかもしれません。
+        そのような対処方法は本書の開発版において開発され安定化が図られるかもしれません。
+      </p>
+      <p>
+        パッケージによっては、リリース tarball に加えて (Git や SVN の) リポジトリスナップショット tarball
+        があって、両者を同じファイル名で提供している場合があります。 リリース tarball
+        には、該当するリポジトリスナップショットの内容に加えて生成済みファイル（たとえば <span class=
+        "command"><strong>autoconf</strong></span> が作り出す <span class=
+        "command"><strong>configure</strong></span> スクリプト）が含まれます。
+        本書では可能な限りリリース tarball を用いることにします。 本書が指定するリリース tarball
+        ではなく、リポジトリスナップショットを利用すると、問題が発生するかもしれません。
+      </p>
+      <p>
+        ダウンロードサイトは常にアクセス可能であるとは限りません。 本書が提供された後にダウンロードする場所が変更になっていたら Google
+        (<a class="ulink" href=
+        "https://www.google.com/">https://www.google.com/</a>)
+        を使って検索してみてください。 たいていのパッケージを見つけ出すことが出来るはずです。 それでも見つけられなかったら <a class=
+        "ulink" href=
+        "https://www.linuxfromscratch.org/lfs/packages.html#packages">https://www.linuxfromscratch.org/lfs/packages.html#packages</a>
+        から入手してください。
+      </p>
+      <p>
+        ダウンロードしたパッケージやパッチは、ビルド作業を通じて常に利用可能な場所を選んで保存しておく必要があります。
+        またソース類を伸張してビルドを行うための作業ディレクトリも必要です。 そこで本書では <code class=
+        "filename">$LFS/sources</code>
+        ディレクトリを用意し、ソースやパッチの保存場所とし、そこでビルドを行う作業ディレクトリとします。 このディレクトリにしておけば LFS
+        パーティションに位置することから LFS ビルドを行う全工程において常に利用することが出来ます。
+      </p>
+      <p>
+        ダウンロードを行う前にまずはそのようなディレクトリを生成します。 <code class="systemitem">root</code>
+        ユーザーとなって以下のコマンドを実行します。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">mkdir -v $LFS/sources</kbd></pre>
+      <p>
+        このディレクトリには書き込み権限とスティッキーを与えます。 <span class="quote">「<span class=
+        "quote">スティッキー (Sticky)</span>
+        」</span>は複数ユーザーに対して書き込み権限が与えられても、削除については所有者しか実行出来ないようにします。
+        以下のコマンドによって書き込み権限とスティッキーを定めます。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">chmod -v a+wt $LFS/sources</kbd></pre>
+      <p>
+        LFS のビルドに必要なパッケージやパッチを得る方法は、いろいろとあります。
+      </p>
+      <div class="itemizedlist">
+        <ul>
+          <li class="listitem">
+            <p>
+              各ファイルは次の２節に示されているので、個々に入手することができます。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              本書の安定版であれば、それに対して必要となるファイルを集めた tarball が、<a class="ulink" href=
+              "https://www.linuxfromscratch.org/mirrors.html#files">https://www.linuxfromscratch.org/mirrors.html#files</a>
+              に示すミラーサイトからダウンロードできます。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              <span class="command"><strong>wget</strong></span> と以下に示す
+              wget-list-sysv ファイルを利用すれば、すべてのファイルをダウンロードすることができます。
+            </p>
+          </li>
+        </ul>
+      </div>
+      <p>
+        パッケージとパッチのダウンロードを行うため <a class="ulink" href=
+        "../wget-list-sysv">wget-list-sysv</a> を利用することにします。 これは以下のように
+        <span class="command"><strong>wget</strong></span> コマンドの入力引数に指定します。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">wget --input-file=wget-list-sysv --continue --directory-prefix=$LFS/sources</kbd></pre>
+      <div class="admon note">
+        <img alt="[注記]" src="../images/note.png" />
+        <h3>
+          日本語訳情報
+        </h3>
+        <p>
+          オリジナルの LFS ブックでは、<a class="ulink" href=
+          "../wget-list-sysv">wget-list-sysv</a> 内に含まれる、各種パッケージの入手 URL
+          が主に米国サイトとなっています。 一方、日本国内にて作業する方であれば、例えば GNU
+          のパッケージ類は国内に数多くのミラーサイトが存在するため、そちらから取得するのが適切でしょう。
+          これはネットワークリソースを利用する際のマナーとも言えるものです。 堅苦しい話をするつもりはありません。
+          国内サイトから入手することにすればダウンロード速度が断然早くなります。 メリットは大きいと思いますのでお勧めします。
+        </p>
+        <p>
+          国内から入手可能なものは国内から入手することを目指し、訳者は以下の手順により <a class="ulink" href=
+          "../wget-list-sysv">wget-list-sysv</a> を書き換えて利用しています。
+          一例として国内には理化学研究所のサイト (ftp.riken.jp) があります。 そこでは GNU
+          パッケージ類がミラー提供されています。 そこで <a class="ulink" href=
+          "../wget-list-sysv">wget-list-sysv</a> にて ftp.gnu.org を指し示している URL
+          を ftp.riken.jp に置き換えます。 また同じ方法で Linux カーネル、<span class=
+          "application">Perl</span>、<span class="application">Vim</span>
+          の入手先も変更します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; wl.sed &lt;&lt; "EOF"
+<code class="literal">s|ftp\.gnu\.org/gnu/|ftp.riken.jp/GNU/|g
+s|www\.kernel\.org/pub/linux/|ftp.riken.jp/Linux/kernel.org/linux/|g
+s|www\.cpan\.org|ftp.riken.jp/lang/CPAN|g
+s|ftp\.vim\.org|ftp.jp.vim.org|g</code>
+EOF
+sed -f wl.sed -i.orig wget-list-sysv
+rm wl.sed</kbd></pre>
+        <p>
+          上記はあくまで一例です。しかもすべてのパッケージについて、国内サイトからの入手となるわけではありません。
+          ただし上記を行うだけでも、大半のパッケージは国内サイトを向くことになります。 上記にて国内のミラーサイトは、ネットワーク的に
+          "より近い" ものを選んでください。 サイトを変えた場合は、パッケージの URL が異なることが多々あるため、適宜 sed
+          置換内容を書き換えてください。
+        </p>
+        <p>
+          注意する点として各パッケージが更新されたばかりの日付では、国内ミラーサイトへの同期、反映が間に合わず、ソース類が存在しないことが考えられます。
+          その場合にはパッケージ取得に失敗してしまいます。 そこで wget-list-sysv と wget-list-sysv.orig
+          を順に利用し、かつ <span class="application">wget</span> コマンドにて -N オプションを使って
+          (取得済のものはスキップするようにして) 以下のコマンドを実行すれば、確実にすべてのパッケージを入手することができます。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">wget -N --input-file=wget-list-sysv --continue --directory-prefix=$LFS/sources
+wget -N --input-file=wget-list-sysv.orig --continue --directory-prefix=$LFS/sources</kbd></pre>
+      </div>
+      <p>
+        さらに LFS-7.0 からは <a class="ulink" href="../md5sums">md5sums</a>
+        というファイルを用意しています。 このファイルは、入手した各種パッケージのファイルが正しいことを確認するために用いることができます。
+        このファイルを <code class="filename">$LFS/sources</code> に配置して以下を実行してください。
+      </p>
+      <pre class="userinput"><kbd class="command">pushd $LFS/sources
+  md5sum -c md5sums
+popd</kbd></pre>
+      <p>
+        必要なファイルを入手した方法が前述のどの方法であっても、この md5sum チェックを実施することができます。
+      </p>
+      <p>
+        パッケージとパッチを非 <code class="systemitem">root</code>
+        ユーザーによってダウンロードした場合、各ファイルはそのユーザーが所有します。 ファイルシステムは、UID
+        によって所有者を記録しますが、ホスト上の一般ユーザーの UID は LFS 内には割り当てられていません。 したがって各ファイルは、最終の
+        LFS システムにおいて、名前付けられていない UID によって所有されたまま残ります。 LFS
+        システムに存在する自身のユーザーに対して、同じ UID を割り当てるつもりがないのであれば、各ファイルの所有者を <code class=
+        "systemitem">root</code> に変更することで、この状況を解消してください。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">chown root:root $LFS/sources/*</kbd></pre>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="chapter03.html" title="パッケージとパッチ">戻る</a>
+          <p>
+            パッケージとパッチ
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="packages.html" title="全パッケージ">次へ</a>
+          <p>
+            全パッケージ
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter03.html" title=
+          "第3章 パッケージとパッチ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.2">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

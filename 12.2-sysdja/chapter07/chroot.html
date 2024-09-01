@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      7.4. Chroot 環境への移行
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.2-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.2-systemd
+      </h4>
+      <h3>
+        第7章 chroot への移行と一時的ツールの追加ビルド
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="kernfs.html" title=
+          "仮想カーネルファイルシステムの準備">戻る</a>
+          <p>
+            仮想カーネルファイルシステムの準備
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="creatingdirs.html" title="ディレクトリの生成">次へ</a>
+          <p>
+            ディレクトリの生成
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter07.html" title=
+          "第7章 chroot への移行と一時的ツールの追加ビルド">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.2-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-tools-chroot" name="ch-tools-chroot"></a>7.4. Chroot 環境への移行
+    </h1>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <p>
+        残るツール類をビルドするために必要なパッケージは、ここまでにすべてビルドしました。 そこで chroot
+        環境に入って、一時的ツールのインストールを済ませます。 この環境は、最終システムに向けたインストールを行う際にも用います。
+        <code class="systemitem">root</code> ユーザーになって以下のコマンドを実行します。 chroot
+        環境内は、この時点では一時的なツール類のみが利用可能な状態です。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">chroot "$LFS" /usr/bin/env -i   \
+    HOME=/root                  \
+    TERM="$TERM"                \
+    PS1='(lfs chroot) \u:\w\$ ' \
+    PATH=/usr/bin:/usr/sbin     \
+    MAKEFLAGS="-j<em class="replaceable"><code>$(nproc)</code></em>"      \
+    TESTSUITEFLAGS="-j<em class="replaceable"><code>$(nproc)</code></em>" \
+    /bin/bash --login</kbd></pre>
+      <p>
+        本章と次章のパッケージビルドにおいて、論理コアをすべて利用したくない場合、<em class=
+        "replaceable"><code>$(nproc)</code></em> の部分は、利用したい論理コア数に書き換えてください。
+        <a class="xref" href="../chapter08/chapter08.html" title=
+        "第8章 基本的なソフトウェアのインストール">第&nbsp;8&nbsp;章</a> において（特に
+        Autoconf、Libtool、Tar など）は、テストスイートにおいて <code class=
+        "envar">MAKEFLAGS</code> を参照しないものがあり、そこでは環境変数 <code class=
+        "envar">TESTSUITEFLAGS</code> が代わりに用いられています。
+        そこでここでは同様にして、テストスイートを複数コアにより実行するための設定も行います。
+      </p>
+      <p>
+        <span class="command"><strong>env</strong></span> コマンドの <em class=
+        "parameter"><code>-i</code></em> パラメーターは、chroot
+        環境での変数定義をすべてクリアするものです。 そして <code class="envar">HOME</code>,
+        <code class="envar">TERM</code>, <code class="envar">PS1</code>,
+        <code class="envar">PATH</code> という変数だけここで定義し直します。 <em class=
+        "parameter"><code>TERM=$TERM</code></em> は chroot 環境に入る前と同じ値を
+        <code class="envar">TERM</code> 変数に与えます。 この設定は <span class=
+        "command"><strong>vim</strong></span> や <span class=
+        "command"><strong>less</strong></span>
+        のようなプログラムの処理が適切に行われるために必要となります。 これ以外の変数として <code class=
+        "envar">CFLAGS</code> や <code class="envar">CXXFLAGS</code>
+        などが必要であれば、ここで定義しておくと良いでしょう。
+      </p>
+      <p>
+        ここから先は <code class="envar">LFS</code> 変数は不要となります。 すべての作業は LFS
+        ファイルシステム内で行っていくことになるからです。 <span class=
+        "command"><strong>chroot</strong></span> コマンドは、<code class=
+        "filename">$LFS</code> ディレクトリがルート (<code class="filename">/</code>
+        ディレクトリ) となるようにして Bash シェルを起動します。
+      </p>
+      <p>
+        <code class="filename">/tools/bin</code> が <code class=
+        "envar">PATH</code> 内には存在しません。 つまりクロスチェーンは、もはや利用しないということです。
+      </p>
+      <p>
+        <span class="command"><strong>bash</strong></span> のプロンプトに
+        <code class="computeroutput">I have no name!</code> と表示されますがこれは正常です。
+        この時点ではまだ <code class="filename">/etc/passwd</code> を生成していないからです。
+      </p>
+      <div class="admon note">
+        <img alt="[注記]" src="../images/note.png" />
+        <h3>
+          注記
+        </h3>
+        <p>
+          本章のこれ以降と次章では、すべてのコマンドを chroot 環境内にて実行することが必要です。 例えばシステムを再起動する場合のように
+          chroot 環境からいったん抜け出した場合には、<a class="xref" href=
+          "kernfs.html#ch-tools-bindmount" title=
+          "7.3.1. /dev のマウントと有効化">「/dev のマウントと有効化」</a>と <a class="xref" href=
+          "kernfs.html#ch-tools-kernfsmount" title=
+          "7.3.2. 仮想カーネルファイルシステムのマウント">「仮想カーネルファイルシステムのマウント」</a>にて説明した仮想カーネルファイルシステムがマウントされていることを確認してください。
+          そして chroot 環境に入り直してからインストール作業を再開してください。
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="kernfs.html" title=
+          "仮想カーネルファイルシステムの準備">戻る</a>
+          <p>
+            仮想カーネルファイルシステムの準備
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="creatingdirs.html" title="ディレクトリの生成">次へ</a>
+          <p>
+            ディレクトリの生成
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter07.html" title=
+          "第7章 chroot への移行と一時的ツールの追加ビルド">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.2-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,455 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.2. パッケージ管理
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.2-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.2-systemd
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="introduction.html" title="はじめに">戻る</a>
+          <p>
+            はじめに
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="man-pages.html" title=
+          "Man-pages-6.9.1">次へ</a>
+          <p>
+            Man-pages-6.9.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.2-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-system-pkgmgt" name="ch-system-pkgmgt"></a>8.2. パッケージ管理
+    </h1>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <p>
+        パッケージ管理についての説明を LFS ブックに加えて欲しいとの要望をよく頂きます。
+        パッケージ管理ツールが優れていれば、パッケージを再インストールしたりアップグレードしたりするときでも、ユーザーによる設定を保持しつつ、設定ファイルを適切に取り扱ってくれます。
+        パッケージ管理ツールでは、バイナリファイルやライブラリファイルだけでなく、設定ファイル類のインストールも取り扱います。
+        パッケージ管理ツールをどうしたら・・・ いえいえ本節は特定のパッケージ管理ツールを説明するわけでなく、その利用を勧めるものでもありません。
+        もっと広い意味で、管理手法にはどういったものがあり、どのように動作するかを説明します。
+        あなたにとって最適なパッケージ管理がこの中にあるかもしれません。 あるいはそれらをいくつか組み合わせて実施することになるかもしれません。
+        本節ではパッケージのアップグレードを行う際に発生する問題についても触れます。
+      </p>
+      <p>
+        LFS や BLFS においてパッケージ管理ツールに触れていない理由には以下のものがあります。
+      </p>
+      <div class="itemizedlist">
+        <ul>
+          <li class="listitem">
+            <p>
+              本書の目的は Linux システムがいかに構築されているかを学ぶことです。 パッケージ管理はその目的からはずれてしまいます。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              パッケージ管理についてはいくつもの方法があり、それらには一長一短があります。
+              ユーザーに対して満足のいくものを選び出すのは困難です。
+            </p>
+          </li>
+        </ul>
+      </div>
+      <p>
+        <a class="ulink" href=
+        "https://www.linuxfromscratch.org/hints/downloads/files/">ヒントプロジェクト
+        (Hints Project)</a> ページにパッケージ管理についての情報が示されています。
+        望むものがあるかどうか確認してみてください。
+      </p>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="pkgmgmt-upgrade-issues" name=
+          "pkgmgmt-upgrade-issues"></a>8.2.1. アップグレードに関する問題
+        </h2>
+        <p>
+          パッケージ管理ツールがあれば、各種ソフトウェアの最新版がリリースされた際に容易にアップグレードができます。 全般に LFS ブックや
+          BLFS ブックに示されている作業手順に従えば、新しいバージョンへのアップグレードを行っていくことはできます。
+          以下ではパッケージをアップグレードする際に注意すべき点、特に稼動中のシステムに対して実施するポイントについて説明します。
+        </p>
+        <div class="itemizedlist">
+          <ul>
+            <li class="listitem">
+              <p>
+                カーネルをアップグレードする必要がある場合 (たとえば 5.10.17 から 5.10.18 や 5.11.1
+                へ、など)、これ以外に再ビルドを必要とするものはありません。
+                カーネルとユーザー空間のインターフェースが適切に定義されているため、システムは動作し続けるはずです。 特に Linux
+                API ヘッダーは、カーネルに伴ってアップグレードする必要もありません。
+                アップグレードしたカーネルは、システムを再起動しさえすれば利用できるようになります。
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Glibc を新しいバージョン (たとえば Glibc-2.31 から Glibc-2.40)
+                にアップグレードする必要が発生した場合は、システムが壊れないようにすることが必要です。 詳しくは <a class=
+                "xref" href="glibc.html" title=
+                "8.5. Glibc-2.40">「Glibc-2.40」</a> を参照してください。
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                共有ライブラリを提供しているパッケージをアップデートする場合で、そのライブラリ名が変更になったとします。
+                この場合は、このライブラリに動的リンクを行っていたパッケージは、新たなライブラリに向けてのリンクとなるように再コンパイルすることが必要になります。
+                （なおパッケージバージョンとライブラリ名には関連性はありません。） たとえば foo-1.2.3
+                というパッケージがあって、これが共有ライブラリ <code class=
+                "filename">libfoo.so.1</code> をインストールしているとします。 そして新バージョン
+                foo-1.2.4 が共有ライブラリ <code class="filename">libfoo.so.2</code>
+                を持っていて、これにアップグレードするものとします。 この場合 <code class=
+                "filename">libfoo.so.1</code>
+                に動的リンクを行っていたパッケージは、すべて新ライブラリバージョン <code class=
+                "filename">libfoo.so.2</code> へのリンクを行うように再コンパイルしなければなりません。
+                そのように依存していたパッケージをすべて再コンパイルしてからでないと、古いバージョンのライブラリは削除するべきではありません。
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                あるパッケージが（直接的か間接的に）一つの共有ライブラリにリンクしていて、しかも古いライブラリ名と新しいライブラリ名にリンクしているとします。
+                （たとえばそのパッケージが <code class="filename">libfoo.so.2</code> と
+                <code class="filename">libbar.so.1</code>
+                にリンクしていて、さらに後者のライブラリは <code class=
+                "filename">libfoo.so.3</code> にリンクしているとします。）
+                その場合にはパッケージが誤動作する可能性があります。
+                なぜなら共有ライブラリのリビジョンが異なると、一部のシンボル名に対する定義の互換性が失われる可能性があるからです。
+                こういった状況が起こりうるのは、共有ライブラリを提供するパッケージがアップグレードされた際に、古い共有ライブラリ名にリンクしているパッケージを（すべてではなく）一部だけ再ビルドしたような場合です。
+                この問題を回避するため、共有ライブラリにリンクするパッケージをすべて、（たとえば libfoo.so.2 から
+                libfoo.so.3 のように）アップグレードされたリビジョンを使ってできるだけ、早くに再ビルドすることです。
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                共有ライブラリを提供しているパッケージをアップデートする場合で、そのライブラリ名には変更がなかったとします。
+                ただしライブラリ名の変更はなくても、ライブラリ<span class=
+                "bold"><strong>ファイル</strong></span>のバージョン番号が減らされたとします。
+                （たとえばライブラリ <code class="filename">libfoo.so.1</code>
+                はそのままの名前であったとして、ライブラリファイル名が <code class=
+                "filename">libfoo.so.1.25</code> から <code class=
+                "filename">libfoo.so.1.24</code> に変更となった場合です。）
+                この場合、それまでインストールされていたバージョン（例では <code class=
+                "filename">libfoo.so.1.25</code>）のライブラリファイルは削除すべきです。
+                そうしておかないと、<span class=
+                "command"><strong>ldconfig</strong></span>
+                を実行したときに（自分でコマンドライン実行したり、別のパッケージをインストールする際に実施されたりしたときに）、シンボリックリンク
+                <code class="filename">libfoo.so.1</code>
+                がリセットされますが、それが指し示す先が古いライブラリファイルとなってしまいます。
+                なぜならバージョン番号がより大きい方なので、そのバージョンの方が<span class=
+                "quote">「<span class="quote">より新しい</span>」</span>と解釈されるためです。
+                こういった状況は、パッケージをダウングレードした場合や、パッケージの作者がバージョン番号づけの取り決めを変更してしまった場合に起こり得るものです。
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                共有ライブラリを提供しているパッケージをアップデートする場合で、そのライブラリ名に変更はなかったとします。
+                ただしそこでは重大な問題（特にセキュリティぜい弱性）が解消されているような場合は、この共有ライブラリにリンクしている実行中プログラムは、すべて再起動してください。
+                アップグレードした後に、以下のコマンドを <code class="systemitem">root</code>
+                で実行すると、どういったプロセスが古いバージョンのライブラリを利用しているかの一覧が表示されます。 （<em class=
+                "replaceable"><code>libfoo</code></em>
+                の部分は、目的のライブラリ名に置き換えてください。）
+              </p>
+              <pre class="userinput"><kbd class="command">grep -l '<em class=
+              "replaceable"><code>libfoo</code></em>.*deleted' /proc/*/maps | tr -cd 0-9\\n | xargs -r ps u</kbd></pre>
+              <p>
+                <span class="application">OpenSSH</span>
+                を利用してシステムにアクセスしている場合であって、これがリンクするライブラリがアップデートされたとします。 その場合は
+                <span class="command"><strong>sshd</strong></span>
+                サービスの再起動が必要です。
+                またシステムからはいったんログアウトしてログインし直し、前に示したコマンドをもう一度実行して、削除されたライブラリを利用していないかどうかの確認を行ってください。
+              </p>
+              <p>
+                <span class="command"><strong>systemd</strong></span>
+                デーモンが（PID 1
+                として実行されていて）、アップデートしたライブラリにリンクされていた場合は、リブートするのではなく、<code class="systemitem">root</code>
+                ユーザーになって <span class="command"><strong>systemctl
+                daemon-reexec</strong></span> を実行すれば再起動できます。
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                実行プログラムや共有ライブラリが上書きされると、その実行プログラムや共有バイナリ内のコードやデータを利用するプロセスがクラッシュすることがあります。
+                プロセスがクラッシュしないように、プログラムや共有ライブラリを正しく更新する方法は、まず初めに削除を行ってから、新たなものをインストールすることです。
+                <span class="application">coreutils</span> が提供する <span class=
+                "command"><strong>install</strong></span>
+                コマンドは、すでにこの処理が実装されているため、たいていのパッケージにおいて、バイナリファイルやライブラリをインストールするコマンドとして利用しています。
+                したがってそのような問題に悩まされることは、これまでほとんどなかったはずです。 しかしパッケージの中には (特に BLFS
+                にある SpiderMonkey
+                など)、すでにあるファイルを上書きする方式をとっているため、クラッシュするものがあります。
+                そこでパッケージ更新の前には、それまでの作業を保存して、不要な起動プロセスは停止することが安全です。
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.2.2. パッケージ管理手法
+        </h2>
+        <p>
+          以下に一般的なパッケージ管理手法について示します。
+          パッケージ管理マネージャーを用いる前に、さまざまな方法を検討し特にそれぞれの欠点も確認してください。
+        </p>
+        <div class="sect3">
+          <h3 class="sect3">
+            8.2.2.1. すべては頭の中で
+          </h3>
+          <p>
+            そうです。 これもパッケージ管理のやり方の一つです。
+            いろいろなパッケージに精通していて、どんなファイルがインストールされるか分かっている人もいます。
+            そんな人はパッケージ管理ツールを必要としません。
+            あるいはパッケージが更新された際には、いつでもシステム全体を再構築しようと考える人なら、やはりパッケージ管理ツールを必要としません。
+          </p>
+        </div>
+        <div class="sect3">
+          <h3 class="sect3">
+            8.2.2.2. 異なるディレクトリへのインストール
+          </h3>
+          <p>
+            これは最も単純なパッケージ管理のテクニックであり、パッケージ管理のための特別なプログラムを必要としません。
+            個々のパッケージを個別のディレクトリにインストールする方法です。 例えば foo-1.1 というパッケージを
+            <code class="filename">/opt/foo-1.1</code> ディレクトリにインストールし、この
+            <code class="filename">/opt/foo-1.1</code> に対するシンボリックリンク
+            <code class="filename">/opt/foo</code> を作成します。 このパッケージの新しいバージョン
+            foo-1.2 がリリースされた際には <code class="filename">/opt/foo-1.2</code>
+            ディレクトリにインストールした上で、先ほどのシンボリックリンクをこのディレクトリを指し示すように置き換えます。
+          </p>
+          <p>
+            <code class="envar">PATH</code>、<code class=
+            "envar">MANPATH</code>、<code class=
+            "envar">INFOPATH</code>、<code class=
+            "envar">PKG_CONFIG_PATH</code>、<code class=
+            "envar">CPPFLAGS</code>、<code class="envar">LDFLAGS</code>
+            といった環境変数、あるいは設定ファイル <code class="filename">/etc/ld.so.conf</code>
+            に対しては、<code class="filename">/opt/foo</code> ディレクトリを加えることで、対応する
+            <code class="filename">/opt/foo-x.y</code>
+            ディレクトリを含める必要があるかもしれません。
+          </p>
+          <p>
+            このやり方は BLFS ブックが採用するものであり、大規模のパッケージを用意にアップグレードできるようにします。
+            ただし多数のパッケージをインストールするとなると、このやり方では管理がしにくくなってきます。 また（たとえば Linux API
+            ヘッダーや Glibc などのように）パッケージの中には、このやり方ではうまく動作しないものも出てきてしまいます。
+            <span class=
+            "bold"><strong>このやり方は、システム全体に渡るものについては用いないでください。</strong></span>
+          </p>
+        </div>
+        <div class="sect3">
+          <h3 class="sect3">
+            8.2.2.3. シンボリックリンク方式による管理
+          </h3>
+          <p>
+            これは一つ前に示したパッケージ管理テクニックの応用です。 各パッケージは、上で説明した方法と同じようにインストールします。
+            ただし先ほどのように、汎用的なパッケージ名によるシンボリックリンクを生成するのではなく <code class=
+            "filename">/usr</code> ディレクトリ階層の中に各ファイルのシンボリックリンクを生成します。
+            この方法であれば環境変数を追加設定する必要がなくなります。
+            シンボリックリンクはユーザーが生成することもできますが、パッケージ管理者の多くは、この手法を使っています。
+            よく知られているものとして Stow、Epkg、Graft、Depot があります。
+          </p>
+          <p>
+            インストールスクリプトは、意図的にダマす指示が必要です。 パッケージにとっては <code class=
+            "filename">/usr</code> にインストールすることが指定されたものとなりますが、実際には
+            <code class="filename">/usr/pkg</code> 配下にインストールされるわけです。
+            このインストール方法は単純なものではありません。 例えば今 libfoo-1.1 というパッケージをインストールするものとします。
+            以下のようなコマンドでは、このパッケージを正しくインストールできません。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">./configure --prefix=/usr/pkg/libfoo/1.1
+make
+make install</kbd></pre>
+          <p>
+            インストール自体は動作しますが、このパッケージに依存している他のパッケージは期待どおりには libfoo を正しくリンクしません。
+            例えば libfoo をリンクするパッケージをコンパイルする際には <code class=
+            "filename">/usr/lib/libfoo.so.1</code> がリンクされると思うかもしれませんが、実際には
+            <code class="filename">/usr/pkg/libfoo/1.1/lib/libfoo.so.1</code>
+            がリンクされることになります。 結局、正しい方法は <code class="envar">DESTDIR</code>
+            変数を使って、パッケージを直接インストールすることです。 この方法は以下のようにして行います。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">./configure --prefix=/usr
+make
+make DESTDIR=/usr/pkg/libfoo/1.1 install</kbd></pre>
+          <p>
+            この手法をサポートするパッケージは数多く存在しますが、そうでないものもあります。
+            この手法を取り入れていないパッケージに対しては、手作業でインストールすることが必要になります。
+            またはそういった問題を抱えるパッケージであれば <code class="filename">/opt</code>
+            ディレクトリにインストールする方が簡単かもしれません。
+          </p>
+        </div>
+        <div class="sect3">
+          <h3 class="sect3">
+            8.2.2.4. タイムスタンプによる管理方法
+          </h3>
+          <p>
+            この方法ではパッケージをインストールするにあたって、あるファイルにタイムスタンプが記されます。 インストールの直後に
+            <span class="command"><strong>find</strong></span>
+            コマンドを適当なオプション指定により用いることで、インストールされるすべてのファイルのログが生成されます。
+            これはタイムスタンプファイルの生成の後に行われます。 この方法を用いたパッケージ管理ツールとして install-log
+            があります。
+          </p>
+          <p>
+            この方法はシンプルであるという利点がありますが、以下の二つの欠点があります。
+            インストールの際に、いずれかのファイルのタイムスタンプが現在時刻でなかった場合、そういったファイルはパッケージ管理ツールが正しく制御できません。
+            またこの方法は、インストールされるパッケージが、その時には一つだけであることを前提とします。
+            例えば二つのパッケージが二つの異なる端末から同時にインストールされるような場合は、ログファイルが適切に生成されません。
+          </p>
+        </div>
+        <div class="sect3">
+          <h3 class="sect3">
+            8.2.2.5. インストールスクリプトの追跡管理
+          </h3>
+          <p>
+            この方法はインストールスクリプトが実行するコマンドを記録するものです。 これには以下の二種類の手法があります。
+          </p>
+          <p>
+            インストールされるライブラリを事前にロードする場所を環境変数 <code class=
+            "envar">LD_PRELOAD</code> に定めておいてそれからインストールを行う方法です。
+            パッケージのインストール中には <span class=
+            "command"><strong>cp</strong></span>、<span class=
+            "command"><strong>install</strong></span>、<span class=
+            "command"><strong>mv</strong></span>
+            など、さまざまな実行モジュールにそのライブラリをリンクさせ、ファイルシステムを変更するようなシステムコールを監視することで、そのライブラリがパッケージを追跡管理できるようにします。
+            この方法を実現するためには、動的リンクする実行モジュールはすべて suid ビット、sgid ビットがオフでなければなりません。
+            事前にライブラリをロードしておくと、インストール中に予期しない副作用が発生するかもしれません。
+            したがって、ある程度のテスト確認を行って、パッケージ管理ツールが不具合を引き起こさないこと、しかるべきファイルの記録が取られていることが良いとされます。
+          </p>
+          <p>
+            別の方法として <span class="command"><strong>strace</strong></span>
+            を用いるものがあります。 これはインストールスクリプトの実行中に発生するシステムコールを記録するものです。
+          </p>
+        </div>
+        <div class="sect3">
+          <h3 class="sect3">
+            8.2.2.6. パッケージのアーカイブを生成する方法
+          </h3>
+          <p>
+            この方法では、シンボリックリンク方式によるパッケージ管理にて説明したのと同じように、パッケージが個別のディレクトリにインストールされます。
+            インストールの後は、インストールされたファイルのアーカイブが生成されます。 このアーカイブはローカル PC
+            へのインストールに用いられたり、他の PC へのインストールにも利用されたりします。
+          </p>
+          <p>
+            商用ディストリビューションが採用しているパッケージ管理ツールは、ほとんどがこの方法によるものです。
+            この方法に従ったパッケージ管理ツールの例に RPM があります。 (これは <a class="ulink" href=
+            "https://refspecs.linuxfoundation.org/lsb.shtml">Linux Standard
+            Base Specification</a> が規定しています。) また pkg-utils、Debian の
+            apt、Gentoo の Portage システムがあります。 このパッケージ管理手法を LFS システムに適用するヒント情報が
+            <a class="ulink" href=
+            "https://www.linuxfromscratch.org/hints/downloads/files/fakeroot.txt">
+            https://www.linuxfromscratch.org/hints/downloads/files/fakeroot.txt</a>
+            にあります。
+          </p>
+          <p>
+            パッケージファイルにその依存パッケージ情報まで含めてアーカイブ生成することは、非常に複雑となり LFS の範疇を超えるものです。
+          </p>
+          <p>
+            Slackware は、パッケージアーカイブに対して <span class=
+            "command"><strong>tar</strong></span> ベースのシステムを利用しています。
+            他のパッケージ管理ツールはパッケージの依存性を取り扱いますが、このシステムは意図的にこれを行っていません。 Slackware
+            のパッケージ管理に関する詳細は <a class="ulink" href=
+            "https://www.slackbook.org/html/package-management.html">https://www.slackbook.org/html/package-management.html</a>
+            を参照してください。
+          </p>
+        </div>
+        <div class="sect3">
+          <h3 class="sect3">
+            8.2.2.7. ユーザー情報をベースとする管理方法
+          </h3>
+          <p>
+            この手法は LFS に固有のものであり Matthias Benkmann により考案されました。 <a class=
+            "ulink" href=
+            "https://www.linuxfromscratch.org/hints/downloads/files/">ヒントプロジェクト
+            (Hints Project)</a> から入手することが出来ます。
+            考え方としては、各パッケージを個々のユーザーが共有ディレクトリにインストールします。
+            パッケージに属するファイル類は、ユーザーIDを確認することで容易に特定出来るようになります。
+            この手法の特徴や短所については、複雑な話となるため本節では説明しません。 詳しくは <a class="ulink" href=
+            "https://www.linuxfromscratch.org/hints/downloads/files/more_control_and_pkg_man.txt">
+            https://www.linuxfromscratch.org/hints/downloads/files/more_control_and_pkg_man.txt</a>
+            に示されているヒントを参照してください。
+          </p>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.2.3. 他システムへの LFS の配置
+        </h2>
+        <p>
+          LFS システムの利点の一つとして、どのファイルもディスク上のどこに位置していても構わないことです。
+          他のコンピューターに対してビルドした LFS の複製を作ろうとするなら、それが同等のアーキテクチャーであれば容易に実現できます。
+          つまり <span class="command"><strong>tar</strong></span> コマンドを使って LFS
+          のルートディレクトリを含むパーティション (LFS の基本的なビルドの場合、非圧縮で 900MB 程度)
+          をまとめ、これをネットワーク転送か、あるいは CD-ROM や USB スティックを通じて新しいシステムにコピーし、伸張 (解凍)
+          するだけです。 その後は、設定ファイルにいくらかの変更を行うことが必要です。 変更が必要となる設定ファイルは以下のとおりです。
+          <code class="filename">/etc/hosts</code>, <code class=
+          "filename">/etc/fstab</code>, <code class=
+          "filename">/etc/passwd</code>, <code class=
+          "filename">/etc/group</code>, <span class="phrase"><code class=
+          "filename">/etc/shadow</code>, <code class=
+          "filename">/etc/ld.so.conf</code></span>
+        </p>
+        <p>
+          新しいシステムのハードウェアと元のカーネルに差異があるかもしれないため、カーネルを新しいシステム向けに再ビルドする必要があるでしょう。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            類似するアーキテクチャーのシステム間にてコピーを行う際には問題が生じるとの報告があります。
+            例えばインテルアーキテクチャーに対する命令セットは AMD
+            プロセッサーに対するものと完全に一致しているわけではないため、一方の命令セットが後に他方で動作しなくなることも考えられます。
+          </p>
+        </div>
+        <p>
+          最後に新システムを起動可能とするために <a class="xref" href="../chapter10/grub.html"
+          title="10.4. GRUB を用いたブートプロセスの設定">「GRUB
+          を用いたブートプロセスの設定」</a>を設定する必要があります。
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="introduction.html" title="はじめに">戻る</a>
+          <p>
+            はじめに
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="man-pages.html" title=
+          "Man-pages-6.9.1">次へ</a>
+          <p>
+            Man-pages-6.9.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.2-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

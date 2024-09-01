@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.25. Acl-2.3.2
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.2-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.2-systemd
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="attr.html" title="Attr-2.5.2">戻る</a>
+          <p>
+            Attr-2.5.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libcap.html" title="Libcap-2.70">次へ</a>
+          <p>
+            Libcap-2.70
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.2-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-system-acl" name="ch-system-acl"></a>8.25. Acl-2.3.2
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Acl パッケージは、アクセスコントロールリスト (Access Control Lists)
+          を管理するユーティリティーを提供します。
+          これはファイルやディレクトリに対して、きめ細かく詳細にアクセス権限を設定するものとして利用されます。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.1 SBU 以下</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">6.3 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.25.1. Acl のインストール
+        </h2>
+        <p>
+          Acl をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr         \
+            --disable-static      \
+            --docdir=/usr/share/doc/acl-2.3.2</kbd></pre>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          Acl のテストは、<span class="application">Acl</span>
+          ライブラリを使うアクセス制御がサポートされたファイルシステム上にて実施する必要がありますが、<span class=
+          "application">Coreutils</span> をビルドするまでは、その必要はありません。
+          テスト実施が必要である場合は、<span class="application">Coreutils</span>
+          のビルドが終わってから、再び本パッケージに戻って <span class="command"><strong>make
+          check</strong></span> を実行してください。
+        </p>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-acl" name="contents-acl"></a>8.25.2. Acl の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">chacl, getfacl, setacl</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libacl.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/acl, /usr/share/doc/acl-2.3.2</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="chacl" name="chacl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>chacl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルまたはディレクトリに対するアクセスコントロールリストを設定します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="getfacl" name="getfacl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>getfacl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルアクセスコントロールリストを取得します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="setfacl" name="setfacl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>setfacl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルアクセスコントロールリストを設定します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libacl" name="libacl"></a><span class=
+                    "term"><code class="filename">libacl</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    アクセスコントロールリスト (Access Control Lists) を制御するライブラリ関数を提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="attr.html" title="Attr-2.5.2">戻る</a>
+          <p>
+            Attr-2.5.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libcap.html" title="Libcap-2.70">次へ</a>
+          <p>
+            Libcap-2.70
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.2-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

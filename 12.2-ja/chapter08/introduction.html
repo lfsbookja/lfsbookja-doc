@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.1. はじめに
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.2">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.2
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="chapter08.html" title=
+          "基本的なソフトウェアのインストール">戻る</a>
+          <p>
+            基本的なソフトウェアのインストール
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="pkgmgt.html" title="パッケージ管理">次へ</a>
+          <p>
+            パッケージ管理
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.2">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-system-introduction" name="ch-system-introduction"></a>8.1.
+      はじめに
+    </h1>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <p>
+        この章では LFS システムの構築作業を始めます。
+      </p>
+      <p>
+        パッケージ類のインストール作業は簡単なものです。 インストール手順の説明は、たいていは手短に一般的なものだけで済ますこともできます。
+        ただ誤りの可能性を極力減らすために、個々のインストール手順の説明は十分に行うことにします。 Linux
+        システムがどのようにして動作しているかを学ぶには、個々のパッケージが何のために用いられていて、なぜユーザー (あるいはシステム)
+        がそれを必要としているのかを知ることが重要になります。
+      </p>
+      <p>
+        コンパイラーにはカスタマイズ可能な最適化がありますが、これを利用することはお勧めしません。
+        コンパイラーのカスタマイズ最適化を用いればプログラムが若干速くなる場合もありますが、そもそもコンパイルが出来なかったり、プログラムの実行時に問題が発生したりする場合があります。
+        もしコンパイラーのカスタマイズ最適化によってパッケージビルドが出来なかったら、最適化をなしにしてもう一度コンパイルすることで解決するかどうかを確認してください。
+        最適化を行ってパッケージがコンパイル出来たとしても、コードとビルドツールの複雑な関連に起因してコンパイルが適切に行われないリスクをはらんでいます。
+        また <code class="option">-march</code> オプションや <code class=
+        "option">-mtune</code>
+        オプションにて指定する値は、本書には明示しておらずテストも行っていませんので注意してください。 これらはツールチェーンパッケージ
+        (Binutils、GCC、Glibc) に影響を及ぼすことがあります。
+        最適化オプションを用いることによって得られるものがあったとしても、それ以上にリスクを伴うことがしばしばです。 初めて LFS
+        構築を手がける方は、最適化オプションをなしにすることをお勧めします。
+      </p>
+      <p>
+        一方で、各パッケージにおける最適化のデフォルト設定は、そのまま用いることにします。
+        さらにデフォルトでは有効になっていないものであっても、パッケージが提供する最適化設定を有効にする場合もあります。
+        パッケージ管理者はそういった設定についてのテストは行っていて、安全だと考えているからです。
+        したがってその設定を利用しても、ビルドに失敗することはないはずです。 一般的にデフォルトの設定では <code class=
+        "option">-O2</code> または <code class="option">-O3</code> を有効にしています。
+        つまりビルドされる結果のシステムは、他のカスタマイズ最適化オプションがなくても、充分に早く動作し、同時に安定しているはずです。
+      </p>
+      <p>
+        各ページではインストール手順の説明よりも前に、パッケージの内容やそこに何が含まれているかを簡単に説明し、ビルドにどれくらいの時間を要するか、ビルド時に必要となるディスク容量はどれくらいかを示しています。
+        またインストール手順の最後には、パッケージがインストールするプログラムやライブラリの一覧を示し、それらがどのようなものかを簡単に説明しています。
+      </p>
+      <div class="admon note">
+        <img alt="[注記]" src="../images/note.png" />
+        <h3>
+          注記
+        </h3>
+        <p>
+          <a class="xref" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">第&nbsp;8&nbsp;章</a> にて導入するパッケージにおいて SBU
+          値と必要ディスク容量には、テストスイート実施による時間や容量をすべて含んでいます。 なお SBU 値は特に断りのない限り、4 CPU
+          コア（-j4）を用いて算出しています。
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.1.1. ライブラリについて
+        </h2>
+        <p>
+          LFS 編集者は全般にスタティックライブラリは作らないものとしています。 スタティックライブラリのほとんどは、現在の Linux
+          システムにとってはもはや古いものになっています。 スタティックライブラリをリンクすると障害となることすらあります。
+          例えばセキュリティ問題を解決するためにライブラリリンクを更新しなければならなくなったら、スタティックライブラリにリンクしていたプログラムはすべて再構築しなければなりません。
+          したがってスタティックライブラリを使うべきかどうかは、いつも迷うところであり、関連するプログラム (あるいはリンクされるプロシージャ)
+          であってもどちらかに定めなければなりません。
+        </p>
+        <p>
+          本章の手順では、スタティックライブラリのインストールはたいてい行わないようにしています。 多くのケースでは <span class=
+          "command"><strong>configure</strong></span> に対して <code class=
+          "option">--disable-static</code>
+          を与えることで実現しますが、これができない場合には他の方法を取ります。 ただし Glibc や GCC
+          などにおいては、パッケージビルドの手順にとって重要な機能となるため、スタティックライブラリを利用します。
+        </p>
+        <p>
+          ライブラリに関してのより詳細な議論については BLFS ブックの <a class="ulink" href=
+          "https://www.linuxfromscratch.org/blfs/view/12.2/introduction/libraries.html">
+          Libraries: Static or shared?</a> を参照してください。
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="chapter08.html" title=
+          "基本的なソフトウェアのインストール">戻る</a>
+          <p>
+            基本的なソフトウェアのインストール
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="pkgmgt.html" title="パッケージ管理">次へ</a>
+          <p>
+            パッケージ管理
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.2">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

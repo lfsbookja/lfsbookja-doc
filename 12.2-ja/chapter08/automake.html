@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.47. Automake-1.17
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.2">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.2
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="autoconf.html" title="Autoconf-2.72">戻る</a>
+          <p>
+            Autoconf-2.72
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="openssl.html" title="OpenSSL-3.3.1">次へ</a>
+          <p>
+            OpenSSL-3.3.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.2">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-system-automake" name="ch-system-automake"></a>8.47.
+      Automake-1.17
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Automake パッケージは Autoconf が利用する Makefile などを生成するプログラムを提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.1 SBU 以下 (テスト込みで約 1.1 SBU)</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">121 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.47.1. Automake のインストール
+        </h2>
+        <p>
+          Automake をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr --docdir=/usr/share/doc/automake-1.17</kbd></pre>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          4 つの並行ビルドとすることにより、テストを速く進めることができます。
+          たとえ論理コア数がそれより少ない場合であっても有用であり、個々のテストにおける内部遅延に関係するためです。
+          ビルド結果をテストするには以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class="command">make <em class=
+        "replaceable"><code>-j$(($(nproc)&gt;4?$(nproc):4))</code></em> check</kbd></pre>
+        <p>
+          <em class="replaceable"><code>$((...))</code></em>
+          の部分は、利用したい論理コア数に書き換えてください。
+        </p>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-automake" name="contents-automake"></a>8.47.2.
+          Automake の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">aclocal, aclocal-1.17 (aclocal へのハードリンク), automake,
+              automake-1.17 (automake へのハードリンク)</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/share/aclocal-1.17, /usr/share/automake-1.17,
+              /usr/share/doc/automake-1.17</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="aclocal" name="aclocal"></a><span class=
+                    "term"><span class=
+                    "command"><strong>aclocal</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <code class="filename">configure.in</code> ファイルの内容に基づいて
+                    <code class="filename">aclocal.m4</code> ファイルを生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="aclocalversion" name=
+                    "aclocalversion"></a><span class="term"><span class=
+                    "command"><strong>aclocal-1.17</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>aclocal</strong></span>
+                    へのハードリンク。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="automake" name="automake"></a><span class=
+                    "term"><span class=
+                    "command"><strong>automake</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <code class="filename">Makefile.am</code> ファイルから
+                    <code class="filename">Makefile.in</code> ファイルを自動生成するツール。
+                    パッケージ内のすべての <code class="filename">Makefile.in</code>
+                    ファイルを作るには、このプログラムをトップディレクトリから実行します。 <code class=
+                    "filename">configure.in</code> ファイルを調べて、適切な <code class=
+                    "filename">Makefile.am</code> ファイルを検索します。 そして対応する
+                    <code class="filename">Makefile.in</code> ファイルを生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="automake-version" name=
+                    "automake-version"></a><span class="term"><span class=
+                    "command"><strong>automake-1.17</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>automake</strong></span>
+                    へのハードリンク。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="autoconf.html" title="Autoconf-2.72">戻る</a>
+          <p>
+            Autoconf-2.72
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="openssl.html" title="OpenSSL-3.3.1">次へ</a>
+          <p>
+            OpenSSL-3.3.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.2">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

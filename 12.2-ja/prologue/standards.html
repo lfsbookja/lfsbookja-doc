@@ -1,0 +1,369 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      LFS と各種標準
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.2">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.2
+      </h4>
+      <h3>
+        序文
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="prerequisites.html" title="必要な知識">戻る</a>
+          <p>
+            必要な知識
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="package-choices.html" title=
+          "各パッケージを用いる理由">次へ</a>
+          <p>
+            各パッケージを用いる理由
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="preface.html" title="序文">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.2">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="pre-standards" name="pre-standards"></a>v. LFS と各種標準
+    </h1>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <p>
+        LFS の構成は出来る限り Linux の各種標準に従うようにしています。 主な標準は以下のものです。
+      </p>
+      <div class="itemizedlist">
+        <ul>
+          <li class="listitem">
+            <p>
+              <a class="ulink" href=
+              "https://pubs.opengroup.org/onlinepubs/9699919799/">POSIX.1-2008</a>
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              <a class="ulink" href=
+              "https://refspecs.linuxfoundation.org/FHS_3.0/fhs/index.html">Filesystem
+              Hierarchy Standard (FHS) Version 3.0</a>
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              <a class="ulink" href=
+              "https://refspecs.linuxfoundation.org/lsb.shtml">Linux Standard
+              Base (LSB) Version 5.0 (2015)</a>
+            </p>
+            <p>
+              LSB はさらに以下の４つの仕様から構成されます。 コア (Core)、デスクトップ (Desktop)、ランタイム言語
+              (Runtime Languages)、画像処理 (Imaging) です。
+              コアとデスクトップの中には、アーキテクチャーに固有の要求事項もあります。 Gtk3
+              やグラフィックスという二項目に関しての試しの仕様も含んでいます。 LFS では前節にて示したように、IA32 (32 ビット
+              x86) や AMD64 (x86_64) アーキテクチャーに対応する LSB 仕様への適合を目指しています。
+            </p>
+            <div class="admon note">
+              <img alt="[注記]" src="../images/note.png" />
+              <h3>
+                注記
+              </h3>
+              <p>
+                このような要求に対しては異論のある方も多いでしょう。 LSB の目的は、私有ソフトウェア (proprietary
+                software) をインストールした場合に、要求事項を満たしたシステム上にて問題なく動作することを目指すためです。
+                LFS はソースコードから構築するシステムですから、どのパッケージを利用するかをユーザー自身が完全に制御できます。 また
+                LSB にて要求されているパッケージであっても、インストールしない選択をとることもできます。
+              </p>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <p>
+        LFS の構築にあたっては LSB に適合していることを確認するテスト (certifications tests)
+        を<span class="quote">「<span class=
+        "quote">一から</span>」</span>クリアしていくように構築することも可能です。 ただし LFS
+        ブックの範囲外にあるパッケージ類を追加しなければ実現できません。 そのような追加パッケージ類については、おおむね BLFS
+        にて導入手順を説明しています。
+      </p>
+      <div class="variablelist">
+        <h3>
+          LFS 提供のパッケージで LSB 要求に従うもの
+        </h3>
+        <table border="0" class="variablelist">
+          <colgroup>
+            <col align="left" valign="top" />
+            <col />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td>
+                <p>
+                  <span class="term"><span class="emphasis"><em>LSB
+                  コア:</em></span></span>
+                </p>
+              </td>
+              <td>
+                <p>
+                  Bash, Bc, Binutils, Coreutils, Diffutils, File, Findutils,
+                  Gawk, Grep, Gzip, M4, Man-DB, Ncurses, Procps, Psmisc, Sed,
+                  Shadow, Tar, Util-linux, Zlib
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p>
+                  <span class="term"><span class="emphasis"><em>LSB
+                  デスクトップ:</em></span></span>
+                </p>
+              </td>
+              <td>
+                <p>
+                  なし
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p>
+                  <span class="term"><span class="emphasis"><em>LSB
+                  ランタイム言語:</em></span></span>
+                </p>
+              </td>
+              <td>
+                <p>
+                  Perl, Python
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p>
+                  <span class="term"><span class="emphasis"><em>LSB
+                  画像処理:</em></span></span>
+                </p>
+              </td>
+              <td>
+                <p>
+                  なし
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p>
+                  <span class="term"><span class="emphasis"><em>LSB Gtk3、LSB
+                  グラフィックス (試用):</em></span></span>
+                </p>
+              </td>
+              <td>
+                <p>
+                  なし
+                </p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="variablelist">
+        <h3>
+          BLFS 提供のパッケージで LSB 要求に従うもの
+        </h3>
+        <table border="0" class="variablelist">
+          <colgroup>
+            <col align="left" valign="top" />
+            <col />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td>
+                <p>
+                  <span class="term"><span class="emphasis"><em>LSB
+                  コア:</em></span></span>
+                </p>
+              </td>
+              <td>
+                <p>
+                  At, Batch (At の一部), Cpio, Ed, Fcrontab, LSB-Tools, NSPR,
+                  NSS, PAM, Pax, Sendmail (または Postfix または Exim), time
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p>
+                  <span class="term"><span class="emphasis"><em>LSB
+                  デスクトップ:</em></span></span>
+                </p>
+              </td>
+              <td>
+                <p>
+                  Alsa, ATK, Cairo, Desktop-file-utils, Freetype, Fontconfig,
+                  Gdk-pixbuf, Glib2, GTK+2, Icon-naming-utils, Libjpeg-turbo,
+                  Libpng, Libtiff, Libxml2, MesaLib, Pango, Qt4, Xdg-utils,
+                  Xorg
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p>
+                  <span class="term"><span class="emphasis"><em>LSB
+                  ランタイム言語:</em></span></span>
+                </p>
+              </td>
+              <td>
+                <p>
+                  Libxml2, Libxslt
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p>
+                  <span class="term"><span class="emphasis"><em>LSB
+                  画像処理:</em></span></span>
+                </p>
+              </td>
+              <td>
+                <p>
+                  CUPS, Cups-filters, Ghostscript, SANE
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p>
+                  <span class="term"><span class="emphasis"><em>LSB Gtk3、LSB
+                  グラフィックス (試用):</em></span></span>
+                </p>
+              </td>
+              <td>
+                <p>
+                  GTK+3
+                </p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="variablelist">
+        <h3>
+          LFS, BLFS で提供しないパッケージで LSB 要求に従うもの
+        </h3>
+        <table border="0" class="variablelist">
+          <colgroup>
+            <col align="left" valign="top" />
+            <col />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td>
+                <p>
+                  <span class="term"><span class="emphasis"><em>LSB
+                  コア:</em></span></span>
+                </p>
+              </td>
+              <td>
+                <p>
+                  なし
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p>
+                  <span class="term"><span class="emphasis"><em>LSB
+                  デスクトップ:</em></span></span>
+                </p>
+              </td>
+              <td>
+                <p>
+                  Qt4 (Qt5 が提供されている)
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p>
+                  <span class="term"><span class="emphasis"><em>LSB
+                  ランタイム言語:</em></span></span>
+                </p>
+              </td>
+              <td>
+                <p>
+                  なし
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p>
+                  <span class="term"><span class="emphasis"><em>LSB
+                  画像処理:</em></span></span>
+                </p>
+              </td>
+              <td>
+                <p>
+                  なし
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p>
+                  <span class="term"><span class="emphasis"><em>LSB Gtk3、LSB
+                  グラフィックス (試用):</em></span></span>
+                </p>
+              </td>
+              <td>
+                <p>
+                  なし
+                </p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="prerequisites.html" title="必要な知識">戻る</a>
+          <p>
+            必要な知識
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="package-choices.html" title=
+          "各パッケージを用いる理由">次へ</a>
+          <p>
+            各パッケージを用いる理由
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="preface.html" title="序文">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.2">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

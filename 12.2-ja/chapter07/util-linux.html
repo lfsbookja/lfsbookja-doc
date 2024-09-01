@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      7.12. Util-linux-2.40.2
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.2">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.2
+      </h4>
+      <h3>
+        第7章 chroot への移行と一時的ツールの追加ビルド
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="texinfo.html" title="Texinfo-7.1">戻る</a>
+          <p>
+            Texinfo-7.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="cleanup.html" title=
+          "一時的システムのクリーンアップと保存">次へ</a>
+          <p>
+            一時的システムのクリーンアップと保存
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter07.html" title=
+          "第7章 chroot への移行と一時的ツールの追加ビルド">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.2">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-tools-util-linux" name="ch-tools-util-linux"></a>7.12.
+      Util-linux-2.40.2
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Util-linux パッケージはさまざまなユーティリティープログラムを提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.2 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">180 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          7.12.1. Util-linux のインストール
+        </h2>
+        <p>
+          FHS では <code class="filename">adjtime</code> ファイルの配置場所として
+          <code class="filename">/etc</code> ディレクトリではなく <code class=
+          "filename">/var/lib/hwclock</code> ディレクトリを推奨しています。
+          そこで以下によりそのディレクトリを生成します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mkdir -pv /var/lib/hwclock</kbd></pre>
+        <p>
+          Util-linux をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --libdir=/usr/lib     \
+            --runstatedir=/run    \
+            --disable-chfn-chsh   \
+            --disable-login       \
+            --disable-nologin     \
+            --disable-su          \
+            --disable-setpriv     \
+            --disable-runuser     \
+            --disable-pylibmount  \
+            --disable-static      \
+            --disable-liblastlog2 \
+            --without-python      \
+            ADJTIME_PATH=/var/lib/hwclock/adjtime \
+            --docdir=/usr/share/doc/util-linux-2.40.2</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>configure オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>ADJTIME_PATH=/var/lib/hwclock/adjtime</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                これはハードウェアクロックの情報を保持したファイルの場所を設定するものであり、FHS に従ったものです。
+                一時的なツールにとって厳密には必要ではありませんが、別の場所にはファイル生成するわけにはいきません。 最終的な
+                util-linux パッケージをビルドする際に、上書きしたり削除したりすることができなくなるからです。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--libdir=/usr/lib</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                本スイッチは、共有ライブラリを示す <code class="filename">.so</code>
+                シンボリックリンクを同一ディレクトリ（<code class=
+                "filename">/usr/lib</code>）に直接生成するようにします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--disable-*</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                コンポーネントのビルドの際に、LFS
+                にはない、あるいはまだインストールしていない別のパッケージがあり、そのために発生する警告メッセージを無効にします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--without-python</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                本スイッチは <span class="application">Python</span> を用いないようにします。
+                ビルドの際に不要なバインディングを作らないようにするためです。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>runstatedir=/run</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                本スイッチは <span class="command"><strong>uuidd</strong></span> や
+                <code class="filename">libuuid</code> が利用するソケットの場所を適切に設定します。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <p>
+          本パッケージの詳細は <a class="xref" href=
+          "../chapter08/util-linux.html#contents-utillinux" title=
+          "8.79.2. Util-linux の構成">「Util-linux の構成」</a>を参照してください。
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="texinfo.html" title="Texinfo-7.1">戻る</a>
+          <p>
+            Texinfo-7.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="cleanup.html" title=
+          "一時的システムのクリーンアップと保存">次へ</a>
+          <p>
+            一時的システムのクリーンアップと保存
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter07.html" title=
+          "第7章 chroot への移行と一時的ツールの追加ビルド">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.2">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

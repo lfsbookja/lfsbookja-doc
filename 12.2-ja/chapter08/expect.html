@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.17. Expect-5.45.4
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.2">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.2
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="tcl.html" title="Tcl-8.6.14">戻る</a>
+          <p>
+            Tcl-8.6.14
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="dejagnu.html" title="DejaGNU-1.6.3">次へ</a>
+          <p>
+            DejaGNU-1.6.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.2">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-system-expect" name="ch-system-expect"></a>8.17.
+      Expect-5.45.4
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          <span class="application">Expect</span> パッケージには <span class=
+          "command"><strong>telnet</strong></span>, <span class=
+          "command"><strong>ftp</strong></span>, <span class=
+          "command"><strong>passwd</strong></span>, <span class=
+          "command"><strong>fsck</strong></span>, <span class=
+          "command"><strong>rlogin</strong></span>, <span class=
+          "command"><strong>tip</strong></span>
+          といった対話処理ツールを、スクリプト化されたダイアログを通じて自動化するツールを提供します。 <span class=
+          "application">Expect</span> はこういったアプリケーションをテストする場合にも利用できます。
+          また本パッケージを利用しないと相当に困難となるようなタスクを、いとも簡単に処理できるようになります。 <span class=
+          "application">DejaGnu</span> フレームワークはこの <span class=
+          "application">Expect</span> を用いて記述されています。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.2 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">3.9 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.17.1. Expect のインストール
+        </h2>
+        <p>
+          Expect は PTY が動作していることを必要とします。 chroot 環境内において PTY
+          が適切に動作しているかどうかを、以下の単純なテストにより確認します。 test:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">python3 -c 'from pty import spawn; spawn(["echo", "ok"])'</kbd></pre>
+        <p>
+          上のコマンドの出力は <code class="computeroutput">ok</code> となるべきものです。 そうならずに
+          <code class="computeroutput">OSError: out of pty devices</code>
+          となったら、その環境は PTY 操作を適切に行うような設定が行われていないということです。 その場合は chroot
+          から抜け出て、再度 <a class="xref" href="../chapter07/kernfs.html" title=
+          "7.3. 仮想カーネルファイルシステムの準備">「仮想カーネルファイルシステムの準備」</a>
+          を読み返して、<code class="systemitem">devpts</code> ファイルシステム
+          (および他の仮想カーネルファイルシステム）を適切にマウントしてください。 <a class="xref" href=
+          "../chapter07/chroot.html" title="7.4. Chroot 環境への移行">「Chroot
+          環境への移行」</a> に従って chroot 環境に再度入ってください。 このメッセージは、先に進む前に解消しておくことが必要です。
+          そうでないと Expect を必要とするテストスイート (たとえば Bash, Binutils, GCC, GDBM そして
+          Expect 自身のテストスイート) が大失敗し、些末な不備ならいくらでも発生してしまいます。
+        </p>
+        <p>
+          パッケージが gcc-14.1 以降に対応するための変更を加えます。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../expect-5.45.4-gcc14-1.patch</kbd></pre>
+        <p>
+          Expect をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr           \
+            --with-tcl=/usr/lib     \
+            --enable-shared         \
+            --disable-rpath         \
+            --mandir=/usr/share/man \
+            --with-tclinclude=/usr/include</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>configure オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-tcl=/usr/lib</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                本パラメーターは <span class=
+                "command"><strong>configure</strong></span> に対して、<span class=
+                "command"><strong>tclConfig.sh</strong></span>
+                スクリプトが存在するディレクトリを指示するために必要となります。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-tclinclude=/usr/include</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                Tcl の内部ヘッダーファイルを探し出す場所を指定します。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          パッケージをビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は、以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class="command">make test</kbd></pre>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install
+ln -svf expect5.45.4/libexpect5.45.4.so /usr/lib</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-expect" name="contents-expect"></a>8.17.2. Expect
+          の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">expect</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libexpect5.45.4.so</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="expect" name="expect"></a><span class=
+                    "term"><span class=
+                    "command"><strong>expect</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    スクリプトを通じて他の対話的なプログラムとの処理を行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libexpect" name="libexpect"></a><span class=
+                    "term"><code class=
+                    "filename">libexpect-5.45.4.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Tcl 拡張機能を通じて、あるいは (Tcl がない場合に) C や C++ から直接、Expect
+                    とのやりとりを行う関数を提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="tcl.html" title="Tcl-8.6.14">戻る</a>
+          <p>
+            Tcl-8.6.14
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="dejagnu.html" title="DejaGNU-1.6.3">次へ</a>
+          <p>
+            DejaGNU-1.6.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.2">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,404 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.78. Procps-ng-4.0.4
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.2">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.2
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="man-db.html" title="Man-DB-2.12.1">戻る</a>
+          <p>
+            Man-DB-2.12.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="util-linux.html" title=
+          "Util-linux-2.40.2">次へ</a>
+          <p>
+            Util-linux-2.40.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.2">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-system-procps" name="ch-system-procps"></a>8.78.
+      Procps-ng-4.0.4
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Procps-ng パッケージはプロセス監視を行うプログラムを提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.1 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">26 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.78.1. Procps-ng のインストール
+        </h2>
+        <p>
+          Procps-ng をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr                           \
+            --docdir=/usr/share/doc/procps-ng-4.0.4 \
+            --disable-static                        \
+            --disable-kill</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>configure オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--disable-kill</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                本スイッチは <span class="command"><strong>kill</strong></span>
+                コマンドをビルドしないようにします。 このコマンドは Util-linux パッケージにてインストールされます。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          テストスイートを実行する場合は、以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class="command">chown -R tester .
+su tester -c "PATH=$PATH make check"</kbd></pre>
+        <p>
+          ホストカーネルが <code class="literal">CONFIG_BSD_PROCESS_ACCT</code>
+          を有効にしてビルドされていない場合に、<code class="literal">ps with output flag
+          bsdtime,cputime,etime,etimes</code> という名前のテスト 1 つが失敗します。
+        </p>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-procps" name="contents-procps"></a>8.78.2.
+          Procps-ng の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">free, pgrep, pidof, pkill, pmap, ps, pwdx, slabtop,
+              sysctl, tload, top, uptime, vmstat, w, watch</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libproc-2.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/procps,
+              /usr/share/doc/procps-ng-4.0.4</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="free" name="free"></a><span class=
+                    "term"><span class=
+                    "command"><strong>free</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    物理メモリ、スワップメモリの双方において、メモリの使用量、未使用量を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pgrep" name="pgrep"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pgrep</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    プロセスの名前などの属性によりプロセスを調べます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pidof" name="pidof"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pidof</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたプログラムの PID を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pkill" name="pkill"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pkill</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    プロセスの名前などの属性によりプロセスに対してシグナルを送信します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pmap" name="pmap"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pmap</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたプロセスのメモリマップを表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ps" name="ps"></a><span class="term"><span class=
+                    "command"><strong>ps</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    現在実行中のプロセスを一覧表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pwdx" name="pwdx"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pwdx</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    プロセスが実行されているカレントディレクトリを表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="slabtop" name="slabtop"></a><span class=
+                    "term"><span class=
+                    "command"><strong>slabtop</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    リアルタイムにカーネルのスラブキャッシュ（slab cache）情報を詳細に示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sysctl" name="sysctl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sysctl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    システム稼動中にカーネル設定を修正します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tload" name="tload"></a><span class=
+                    "term"><span class=
+                    "command"><strong>tload</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    システムの負荷平均 (load average) をグラフ化して表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="top" name="top"></a><span class=
+                    "term"><span class="command"><strong>top</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    CPU をより多く利用しているプロセスの一覧を表示します。
+                    これはリアルタイムにプロセッサーの動作状況を逐次表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="uptime" name="uptime"></a><span class=
+                    "term"><span class=
+                    "command"><strong>uptime</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    システムの稼動時間、ログインユーザー数、システム負荷平均 (load average) を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="vmstat" name="vmstat"></a><span class=
+                    "term"><span class=
+                    "command"><strong>vmstat</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    仮想メモリの統計情報を表示します。 そこではプロセス、メモリ、ページング、ブロック入出力
+                    (Input/Output; IO)、トラップ、CPU 使用状況を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="w" name="w"></a><span class="term"><span class=
+                    "command"><strong>w</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    どのユーザーがログインしていて、どこから、そしていつからログインしているかを表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="watch" name="watch"></a><span class=
+                    "term"><span class=
+                    "command"><strong>watch</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたコマンドを繰り返し実行します。 そしてその出力結果の先頭の一画面分を表示します。
+                    出力結果が時間の経過とともにどのように変わるかを確認することができます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libproc-2" name="libproc-2"></a><span class=
+                    "term"><code class="filename">libproc-2</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    本パッケージのほとんどのプログラムが利用している関数を提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="man-db.html" title="Man-DB-2.12.1">戻る</a>
+          <p>
+            Man-DB-2.12.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="util-linux.html" title=
+          "Util-linux-2.40.2">次へ</a>
+          <p>
+            Util-linux-2.40.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.2">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

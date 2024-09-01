@@ -1,0 +1,716 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.78. Man-DB-2.12.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.2-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.2-systemd
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="dbus.html" title="D-Bus-1.14.10">戻る</a>
+          <p>
+            D-Bus-1.14.10
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="procps-ng.html" title=
+          "Procps-ng-4.0.4">次へ</a>
+          <p>
+            Procps-ng-4.0.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.2-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-system-man-db" name="ch-system-man-db"></a>8.78.
+      Man-DB-2.12.1
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Man-DB パッケージは man ページを検索したり表示したりするプログラムを提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.3 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">43 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.78.1. Man-DB のインストール
+        </h2>
+        <p>
+          Man-DB をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr                         \
+            --docdir=/usr/share/doc/man-db-2.12.1 \
+            --sysconfdir=/etc                     \
+            --disable-setuid                      \
+            --enable-cache-owner=bin              \
+            --with-browser=/usr/bin/lynx          \
+            --with-vgrind=/usr/bin/vgrind         \
+            --with-grap=/usr/bin/grap</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>configure オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--disable-setuid</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                これは <span class="command"><strong>man</strong></span> プログラムが
+                <code class="systemitem">man</code> ユーザーに対して setuid
+                を実行しないようにします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-cache-owner=bin</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                システムワイドなキャッシュファイルの所有ユーザーを <code class="systemitem">bin</code>
+                とします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-...</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                この三つのオプションはデフォルトで利用するプログラムを指定します。 <span class=
+                "command"><strong>lynx</strong></span> はテキストベースの Web ブラウザーです。
+                (BLFS でのインストール手順を参照してください。) <span class=
+                "command"><strong>vgrind</strong></span> はプログラムソースを Groff
+                の入力形式に変換します。 <span class=
+                "command"><strong>grap</strong></span> は Groff
+                文書においてグラフを組版するために利用します。 <span class=
+                "command"><strong>vgrind</strong></span> と <span class=
+                "command"><strong>grap</strong></span> は man
+                ページを見るだけであれば必要ありません。 これらは LFS や BLFS には含まれません。 もし利用したい場合は LFS
+                の構築を終えた後に自分でインストールしてください。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class="command">make check</kbd></pre>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.78.2. LFS における英語以外のマニュアルページ
+        </h2>
+        <p>
+          以下に示す表は <code class="filename">/usr/share/man/&lt;ll&gt;</code>
+          配下にインストールされる man ページとそのエンコーディングを示します。 Man-DB は man ページが UTF-8
+          エンコーディングかどうかを正しく認識します。
+        </p>
+        <div class="table">
+          <a id="id15442" name="id15442"></a>
+          <p class="title">
+            <strong>表8.1 8 ビット man ページのキャラクターエンコーディング</strong>
+          </p>
+          <div class="table-contents">
+            <table class="table" summary="8 ビット man ページのキャラクターエンコーディング"
+            border="1">
+              <colgroup>
+                <col width="1.5in" />
+                <col width="1in" />
+                <col width="2.5in" />
+                <col width="1in" />
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>
+                    言語 (コード)
+                  </th>
+                  <th>
+                    エンコーディング
+                  </th>
+                  <th>
+                    言語 (コード)
+                  </th>
+                  <th>
+                    エンコーディング
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    デンマーク語 (da)
+                  </td>
+                  <td>
+                    ISO-8859-1
+                  </td>
+                  <td>
+                    クロアチア語 (hr)
+                  </td>
+                  <td>
+                    ISO-8859-2
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    ドイツ語 (de)
+                  </td>
+                  <td>
+                    ISO-8859-1
+                  </td>
+                  <td>
+                    ハンガリー語 (hu)
+                  </td>
+                  <td>
+                    ISO-8859-2
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    英語 (en)
+                  </td>
+                  <td>
+                    ISO-8859-1
+                  </td>
+                  <td>
+                    日本語 (ja)
+                  </td>
+                  <td>
+                    EUC-JP
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    スペイン語 (es)
+                  </td>
+                  <td>
+                    ISO-8859-1
+                  </td>
+                  <td>
+                    韓国語 (ko)
+                  </td>
+                  <td>
+                    EUC-KR
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    エストニア語 (et)
+                  </td>
+                  <td>
+                    ISO-8859-1
+                  </td>
+                  <td>
+                    リトアニア語 (lt)
+                  </td>
+                  <td>
+                    ISO-8859-13
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    フィンランド語 (fi)
+                  </td>
+                  <td>
+                    ISO-8859-1
+                  </td>
+                  <td>
+                    ラトビア語 (lv)
+                  </td>
+                  <td>
+                    ISO-8859-13
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    フランス語 (fr)
+                  </td>
+                  <td>
+                    ISO-8859-1
+                  </td>
+                  <td>
+                    マケドニア語 (mk)
+                  </td>
+                  <td>
+                    ISO-8859-5
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    アイルランド語 (ga)
+                  </td>
+                  <td>
+                    ISO-8859-1
+                  </td>
+                  <td>
+                    ポーランド語 (pl)
+                  </td>
+                  <td>
+                    ISO-8859-2
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    ガリシア語 (gl)
+                  </td>
+                  <td>
+                    ISO-8859-1
+                  </td>
+                  <td>
+                    ルーマニア語 (ro)
+                  </td>
+                  <td>
+                    ISO-8859-2
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    インドネシア語 (id)
+                  </td>
+                  <td>
+                    ISO-8859-1
+                  </td>
+                  <td>
+                    ギリシア語 (el)
+                  </td>
+                  <td>
+                    ISO-8859-7
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    アイスランド語 (is)
+                  </td>
+                  <td>
+                    ISO-8859-1
+                  </td>
+                  <td>
+                    スロバキア語 (sk)
+                  </td>
+                  <td>
+                    ISO-8859-2
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    イタリア語 (it)
+                  </td>
+                  <td>
+                    ISO-8859-1
+                  </td>
+                  <td>
+                    スロベニア語 (sl)
+                  </td>
+                  <td>
+                    ISO-8859-2
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    ノルウェー語 ブークモール (Norwegian Bokmal; nb)
+                  </td>
+                  <td>
+                    ISO-8859-1
+                  </td>
+                  <td>
+                    セルビア Latin (sr@latin)
+                  </td>
+                  <td>
+                    ISO-8859-2
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    オランダ語 (nl)
+                  </td>
+                  <td>
+                    ISO-8859-1
+                  </td>
+                  <td>
+                    セルビア語 (sr)
+                  </td>
+                  <td>
+                    ISO-8859-5
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    ノルウェー語 ニーノシュク (Norwegian Nynorsk; nn)
+                  </td>
+                  <td>
+                    ISO-8859-1
+                  </td>
+                  <td>
+                    トルコ語 (tr)
+                  </td>
+                  <td>
+                    ISO-8859-9
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    ノルウェー語 (no)
+                  </td>
+                  <td>
+                    ISO-8859-1
+                  </td>
+                  <td>
+                    ウクライナ語 (uk)
+                  </td>
+                  <td>
+                    KOI8-U
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    ポルトガル語 (pt)
+                  </td>
+                  <td>
+                    ISO-8859-1
+                  </td>
+                  <td>
+                    ベトナム語 (vi)
+                  </td>
+                  <td>
+                    TCVN5712-1
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    スウェーデン語 (sv)
+                  </td>
+                  <td>
+                    ISO-8859-1
+                  </td>
+                  <td>
+                    中国語 簡体字 (Simplified Chinese) (zh_CN)
+                  </td>
+                  <td>
+                    GBK
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    ベラルーシ語 (be)
+                  </td>
+                  <td>
+                    CP1251
+                  </td>
+                  <td>
+                    中国語 簡体字 (Simplified Chinese), シンガポール (zh_SG)
+                  </td>
+                  <td>
+                    GBK
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    ブルガリア語 (bg)
+                  </td>
+                  <td>
+                    CP1251
+                  </td>
+                  <td>
+                    中国語 繁体字 (Traditional Chinese), 香港 (zh_HK)
+                  </td>
+                  <td>
+                    BIG5HKSCS
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    チェコ語 (cs)
+                  </td>
+                  <td>
+                    ISO-8859-2
+                  </td>
+                  <td>
+                    中国語 繁体字 (Traditional Chinese) (zh_TW)
+                  </td>
+                  <td>
+                    BIG5
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div><br class="table-break" />
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            上に示されていない言語によるマニュアルページはサポートされません。
+          </p>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-man-db" name="contents-man-db"></a>8.78.3. Man-DB
+          の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">accessdb, apropos (whatis へのリンク), catman, lexgrog,
+              man, man-recode, mandb, manpath, whatis</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libman.so, libmandb.so (いずれも /usr/lib/man-db
+              ディレクトリ内)</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/lib/man-db, /usr/libexec/man-db,
+              /usr/share/doc/man-db-2.12.1</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="accessdb" name="accessdb"></a><span class=
+                    "term"><span class=
+                    "command"><strong>accessdb</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>whatis</strong></span>
+                    データベースの内容をダンプして読みやすい形で出力します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="apropos" name="apropos"></a><span class=
+                    "term"><span class=
+                    "command"><strong>apropos</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>whatis</strong></span>
+                    データベースを検索して、指定した文字列を含むシステムコマンドの概略説明を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="catman" name="catman"></a><span class=
+                    "term"><span class=
+                    "command"><strong>catman</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    フォーマット済マニュアルページを生成、更新します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lexgrog" name="lexgrog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lexgrog</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたマニュアルページについて、一行のサマリー情報を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="man" name="man"></a><span class=
+                    "term"><span class="command"><strong>man</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたマニュアルページを整形して表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="man-recode" name="man-recode"></a><span class=
+                    "term"><span class=
+                    "command"><strong>man-recode</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    マニュアルページを別のエンコーディングに変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mandb" name="mandb"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mandb</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>whatis</strong></span>
+                    データベースを生成、更新します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="manpath" name="manpath"></a><span class=
+                    "term"><span class=
+                    "command"><strong>manpath</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    $MANPATH の内容を表示します。 あるいは ($MANPATH が設定されていない場合は) man.conf
+                    内の設定とユーザー設定に基づいて適切な検索パスを表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="whatis" name="whatis"></a><span class=
+                    "term"><span class=
+                    "command"><strong>whatis</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>whatis</strong></span>
+                    データベースを検索して、指定されたキーワードを含むシステムコマンドの概略説明を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libman" name="libman"></a><span class=
+                    "term"><code class="filename">libman</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>man</strong></span>
+                    に対しての実行時のサポート機能を提供します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libmandb" name="libmandb"></a><span class=
+                    "term"><code class="filename">libmandb</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>man</strong></span>
+                    に対しての実行時のサポート機能を提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="dbus.html" title="D-Bus-1.14.10">戻る</a>
+          <p>
+            D-Bus-1.14.10
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="procps-ng.html" title=
+          "Procps-ng-4.0.4">次へ</a>
+          <p>
+            Procps-ng-4.0.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.2-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

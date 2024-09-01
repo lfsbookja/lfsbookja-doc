@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      4.6. テストスイートについて
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.2-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.2-systemd
+      </h4>
+      <h3>
+        第4章 準備作業の仕上げ
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="aboutsbus.html" title="SBU 値について">戻る</a>
+          <p>
+            SBU 値について
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="../part3.html" title=
+          "LFS クロスチェーンと一時的ツールの構築">次へ</a>
+          <p>
+            LFS クロスチェーンと一時的ツールの構築
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter04.html" title=
+          "第4章 準備作業の仕上げ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.2-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-preps-abouttestsuites" name=
+      "ch-preps-abouttestsuites"></a>4.6. テストスイートについて
+    </h1>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <p>
+        各パッケージにはたいていテストスイートがあります。 新たに構築したパッケージに対してはテストスイートを実行しておくのがよいでしょう。
+        テストスイートは<span class="quote">「<span class="quote">健全性検査 (sanity
+        check)</span>」</span>を行い、パッケージのコンパイルが正しく行われたことを確認します。
+        テストスイートの実行によりいくつかのチェックが行われ、開発者の意図したとおりにパッケージが正しく動作することを確認していきます。
+        ただこれは、パッケージにバグがないことを保証するものではありません。
+      </p>
+      <p>
+        テストスイートの中には他のものにも増して重要なものがあります。 例えば、ツールチェーンの要である GCC、binutils、glibc
+        に対してのテストスイートです。 これらのパッケージはシステム機能を確実なものとする重要な役割を担うものであるためです。 GCC と
+        glibc におけるテストスイートはかなりの時間を要します。 それが低い性能のマシンであればなおさらです。
+        でもそれらを実行しておくことを強く推奨します。
+      </p>
+      <div class="admon note">
+        <img alt="[注記]" src="../images/note.png" />
+        <h3>
+          注記
+        </h3>
+        <p>
+          <a class="xref" href="../chapter05/chapter05.html" title=
+          "第5章 クロスツールチェーンの構築">第&nbsp;5&nbsp;章</a> と <a class="xref" href=
+          "../chapter06/chapter06.html" title=
+          "第6章 クロスコンパイルによる一時的ツール">第&nbsp;6&nbsp;章</a>
+          においてテストスイートを実行することに意味がありません。。
+          各テストプログラムはクロスコンパイラーによってコンパイルされているので、ビルドしているホスト上で実行することができないためです。
+        </p>
+      </div>
+      <p>
+        binutils と GCC におけるテストスイートの実行では、擬似端末 (pseudo terminals; PTY)
+        を使い尽くす問題が発生します。 これにより相当数のテストが失敗します。
+        これが発生する理由はいくつかありますが、もっともありがちな理由としてはホストシステムの <code class=
+        "systemitem">devpts</code> ファイルシステムが正しく構成されていないことがあげられます。 この点については
+        <a class="ulink" href=
+        "https://www.linuxfromscratch.org/lfs/faq.html#no-ptys">https://www.linuxfromscratch.org/lfs/faq.html#no-ptys</a>
+        においてかなり詳しく説明しています。
+      </p>
+      <p>
+        パッケージの中にはテストスイートに失敗するものがあります。 しかしこれらは開発元が認識しているもので致命的なものではありません。 以下の
+        <a class="ulink" href=
+        "https://www.linuxfromscratch.org/lfs/build-logs/12.2/">https://www.linuxfromscratch.org/lfs/build-logs/12.2/</a>
+        に示すログを参照して、失敗したテストが実は予期されているものであるかどうかを確認してください。
+        このサイトは本書におけるすべてのテストスイートの正常な処理結果を示すものです。
+      </p>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="aboutsbus.html" title="SBU 値について">戻る</a>
+          <p>
+            SBU 値について
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="../part3.html" title=
+          "LFS クロスチェーンと一時的ツールの構築">次へ</a>
+          <p>
+            LFS クロスチェーンと一時的ツールの構築
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter04.html" title=
+          "第4章 準備作業の仕上げ">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.2-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

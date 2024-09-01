@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      LFS が対象とする CPU アーキテクチャー
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.2">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.2
+      </h4>
+      <h3>
+        序文
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="audience.html" title="対象読者">戻る</a>
+          <p>
+            対象読者
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="prerequisites.html" title="必要な知識">次へ</a>
+          <p>
+            必要な知識
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="preface.html" title="序文">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.2">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="pre-architecture" name="pre-architecture"></a>iii. LFS が対象とする
+      CPU アーキテクチャー
+    </h1>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <p>
+        LFS が対象としている CPU アーキテクチャーは AMD/インテル x86 CPU (32ビット) と x86_64 CPU
+        (64ビット) です。 Power PC や ARM については、本書の手順を多少修正することで動作することが確認されています。 これらの
+        CPU
+        を利用したシステムをビルドする場合は、この後に示す諸条件を満たす必要がありますが、まずはそのアーキテクチャーをターゲットとする、LFS
+        システムそのものや Ubuntu、Red Hat/Fedora、SuSE などの Linux システムが必要です。 (ホストが 64
+        ビット AMD/インテルによるシステムであったとしても 32 ビットシステムは問題なくインストールできます。)
+      </p>
+      <p>
+        64 ビットシステムを用いることは 32 ビットシステムを用いた場合に比べて大きな効果はありません。 たとえば Core i7-4790
+        CPU 上において、4 コアを使って試しに LFS-9.1 をビルドしてみたところ、以下のような情報が得られました。
+      </p>
+      <pre class="screen"><code class="computeroutput">アーキテクチャー ビルド時間  ビルドサイズ
+32 ビット        239.9 分    3.6 GB
+64 ビット        233.2 分    4.4 GB</code></pre>
+      <p>
+        ご存知かと思いますが、同一ハードウェア上にて 64 ビットによりビルドを行っても、32 ビットのときのビルドに比べて 3%
+        早くなるだけです (22% は大きなものになります)。 仮に LFS を使って LAMP
+        サーバーやファイアーウォールを実現しようとする場合、32 ビット CPU を用いるのでも充分です。 一方 BLFS
+        にあるパッケージの中には、ビルド時や実行時に 4 GB 以上の RAM を必要としているものもあります。 このため LFS
+        をデスクトップ環境に利用するなら、64 ビットシステムをビルドすることをお勧めします。
+      </p>
+      <p>
+        LFS の手順に従って作り出す 64 ビットシステムは、<span class="quote">「<span class=
+        "quote">純粋な</span>」</span>64 ビットシステムです。 つまりそのシステムは 64
+        ビット実行モジュールのみをサポートするということです。 <span class="quote">「<span class=
+        "quote">複数のライブラリ</span>」</span>によるシステムをビルドするのなら、多くのアプリケーションを二度ビルドしなければなりません。
+        一度は 32 ビット用であり、一度は 64 ビット用です。 本書ではこの点を直接サポートしていません。 この理由は、素直な Linux
+        ベースシステムを構築するという LFS の教育的で最小限のものとする目的とは合致しないからです。 LFS/BLFS
+        編集者の中に、マルチライブラリを行う LFS フォークを構築している方もいます。 これは <a class="ulink" href=
+        "https://www.linuxfromscratch.org/~thomas/multilib/index.html">https://www.linuxfromscratch.org/~thomas/multilib/index.html</a>
+        からアクセスすることができます。 ただしこれは応用的なトピックです。
+      </p>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="audience.html" title="対象読者">戻る</a>
+          <p>
+            対象読者
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="prerequisites.html" title="必要な知識">次へ</a>
+          <p>
+            必要な知識
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="preface.html" title="序文">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.2">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

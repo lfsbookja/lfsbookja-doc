@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      2.6. 変数 $LFS の設定
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.2">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.2
+      </h4>
+      <h3>
+        第2章 ホストシステムの準備
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="creatingfilesystem.html" title=
+          "ファイルシステムの生成">戻る</a>
+          <p>
+            ファイルシステムの生成
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="mounting.html" title=
+          "新しいパーティションのマウント">次へ</a>
+          <p>
+            新しいパーティションのマウント
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter02.html" title=
+          "第2章 ホストシステムの準備">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.2">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-partitioning-aboutlfs" name=
+      "ch-partitioning-aboutlfs"></a>2.6. 変数 $LFS の設定
+    </h1>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <p>
+        本書の中では環境変数 <code class="envar">LFS</code> を何度も用います。 LFS
+        システムのビルド作業時には常に定義しておくことを忘れないでください。 この変数は LFS
+        パーティションとして選んだマウントポイントを定義します。 例えば <code class=
+        "filename">/mnt/lfs</code> というものです。 他の名前にしても構いません。 LFS
+        を別のパーティションにビルドする場合、このマウントポイントはそのパーティションを示すようにしてください。
+        ディレクトリを取り決めたら、変数を以下のコマンドにより設定します。
+      </p>
+      <pre class="userinput"><kbd class="command">export LFS=<em class=
+      "replaceable"><code>/mnt/lfs</code></em></kbd></pre>
+      <p>
+        上のように変数を定義しておくと、例えば <span class="command"><strong>mkdir
+        $LFS/tools</strong></span> といったコマンドを、この通りに入力することで実行できるので便利です。
+        これが実行されると、シェルが<span class="quote">「<span class=
+        "quote">$LFS</span>」</span>を<span class="quote">「<span class=
+        "quote">/mnt/lfs</span>」</span>に (あるいは変数にセットされている別のディレクトリに)
+        置換して処理してくれます。
+      </p>
+      <div class="admon caution">
+        <img alt="[注意]" src="../images/caution.png" />
+        <h3>
+          注意
+        </h3>
+        <p>
+          <code class="envar">$LFS</code> が常にセットされていることを忘れずに確認してください。
+          特に、別ユーザーでログインし直した場合 (<span class=
+          "command"><strong>su</strong></span> コマンドによって <code class=
+          "systemitem">root</code> ユーザーや別のユーザーでログインした場合) には、忘れずに確認してください。
+        </p>
+        <pre class="userinput"><kbd class="command">echo $LFS</kbd></pre>
+        <p>
+          上の出力結果が LFS システムのビルドディレクトリであることを確認してください。 本書に示す例に従っている場合は
+          <code class="filename">/mnt/lfs</code> が表示されるはずです。
+          出力が正しくない場合は、冒頭に示したコマンド実行により <code class="envar">$LFS</code>
+          変数に正しいディレクトリを設定してください。
+        </p>
+      </div>
+      <div class="admon note">
+        <img alt="[注記]" src="../images/note.png" />
+        <h3>
+          注記
+        </h3>
+        <p>
+          <code class="envar">LFS</code> 変数を確実に設定しておくために、ローカルな <code class=
+          "filename">.bash_profile</code> および <code class=
+          "filename">/root/.bash_profile</code> に上記変数を export
+          するコマンドを記述しておく方法もあります。 なお <code class="filename">/etc/passwd</code>
+          ファイルにて <code class="envar">LFS</code> 変数を必要とするユーザーは、シェルとして bash
+          を利用するようにしてください。 <code class="filename">/root/.bash_profile</code>
+          ファイルはログインプロセスの一部として機能するためです。
+        </p>
+        <p>
+          もう一つ気にかけることとして、ホストシステム上にログ出力を行う方法に関してです。
+          グラフィカルディスプレイマネージャーを通じてログ出力を行うと、仮想端末が起動する際に、ユーザー独自の <code class=
+          "filename">.bash_profile</code> は普通は用いられません。 この場合は、各ユーザー用と
+          <code class="systemitem">root</code> 用の <code class=
+          "filename">.bashrc</code> に export コマンドを追加してください。
+          ここでディストリビューションの中には、"if" テストを利用して残りの <code class=
+          "filename">.bashrc</code> を実行しないようにしているものがあります。
+          非対話形式を利用する場合は、そのテストの直前に export コマンドを追加してください。
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="creatingfilesystem.html" title=
+          "ファイルシステムの生成">戻る</a>
+          <p>
+            ファイルシステムの生成
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="mounting.html" title=
+          "新しいパーティションのマウント">次へ</a>
+          <p>
+            新しいパーティションのマウント
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter02.html" title=
+          "第2章 ホストシステムの準備">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.2">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
