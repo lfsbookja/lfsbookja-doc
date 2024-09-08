@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-369-systemd">
+  <body class="lfs" id="lfs-r12.2-5-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-369-systemd
+        Linux From Scratch - Version r12.2-5-systemd
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -39,7 +39,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-369-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.2-5-systemd">ホーム</a>
         </li>
       </ul>
     </div>
@@ -180,10 +180,15 @@ cd       build</kbd></pre>
           </p>
         </div>
         <p>
-          GCC テストスイートの中で、デフォルトのスタックを使い果たすものがあります。 そこでテスト実施にあたり、スタックサイズを増やします。
+          コンパイルするコードパターンが極端に複雑な場合に GCC はより多くのスタック領域を必要とする場合があります。
+          ホストディストロのスタック制限が厳しいかもしれないため、それを予防する意味でスタックサイズのハード上限を無制限に設定します。
+          ホストシステムのほとんど (そして最終的な LFS システム)
+          はデフォルトでハード上限は無制限としていますが、それを明示的に設定したところで何も問題はありません。
+          スタックサイズのソフト上限を変更する必要はありません。 これは GCC
+          が自動的に設定するものであり、その値がハード上限を超えない限りは適切に設定してくれます。
         </p>
         <pre class="userinput"><kbd class=
-        "command">ulimit -s 32768</kbd></pre>
+        "command">ulimit -s -H unlimited</kbd></pre>
         <p>
           テストスイートの不備をここで削除/修正します。
         </p>
@@ -846,7 +851,7 @@ mv -v /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-369-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.2-5-systemd">ホーム</a>
         </li>
       </ul>
     </div>

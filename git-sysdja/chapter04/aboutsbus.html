@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-369-systemd">
+  <body class="lfs" id="lfs-r12.2-5-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-369-systemd
+        Linux From Scratch - Version r12.2-5-systemd
       </h4>
       <h3>
         第4章 準備作業の仕上げ
@@ -40,7 +40,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-369-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.2-5-systemd">ホーム</a>
         </li>
       </ul>
     </div>
@@ -73,7 +73,7 @@
       <p>
         最新のシステムの場合、マザーボードにシステムクロック速度の制御機能があります。 これは <span class=
         "command"><strong>powerprofilesctl</strong></span> などのコマンドを使って制御します。
-        LFS では利用できないものですが、ホストシステムでは利用できるものかもしれません。 LFS の構築を終えた後に <a class=
+        LFS では利用できないものですが、ホストディストロでは利用できるものかもしれません。 LFS の構築を終えた後に <a class=
         "ulink" href=
         "https://www.linuxfromscratch.org/blfs/view/systemd/sysutils/power-profiles-daemon.html">
         BLFS power-profiles-daemon</a> に示される手順に従えば、システムにその機能を追加することができます。
@@ -83,26 +83,21 @@
         "5.2. Binutils-2.43.1 - 1回め">binutils 1回め</a>
         や他パッケージのビルドの際には、システムがさまざまな処理反応を示すためです。
         測定するパッケージに対して同一プロファイルを用いていたとしても、極端に測定値が不適切となる場合もあることに留意しておいてください。
-        これはビルド処理開始の際にシステムがアイドル状態となっていると、システムの反応がより遅くなるためです。 電源プロファイルを
-        "performance" に設定しておけば、この問題は解消します。
+        これはビルド処理開始の際にシステムがアイドル状態となっていると、システムの反応がより遅くなるためです。
+        電源プロファイルを<span class="quote">「<span class=
+        "quote">performance</span>」</span>に設定しておけば、この問題は解消します。 さらに LFS
+        ビルドは明らかに早くなるはずです。
       </p>
       <p>
-        ディストリビューションのほとんどにおいて電源プロファイルは、<span class=
-        "command"><strong>power-profiles-daemon</strong></span> または
-        <span class="command"><strong>tuned</strong></span> によって管理されています。
         <span class="command"><strong>power-profiles-daemon</strong></span>
-        を利用している場合は <span class="command"><strong>powerprofilesctl set
+        が利用可能である場合は <span class="command"><strong>powerprofilesctl set
         performance</strong></span> コマンドを実行して <code class=
-        "literal">performance</code> プロファイルを選択します。 また <span class=
-        "command"><strong>tuned</strong></span> を利用している場合は <span class=
-        "command"><strong>tuned-adm profile
-        throughput-performance</strong></span> コマンドを実行して <code class=
+        "literal">performance</code> プロファイルを選択します。 ディストロの中にはプロファイルの管理に
+        <span class="command"><strong>powerprofilesctl</strong></span> ではなく
+        <span class="command"><strong>tuned-adm</strong></span>
+        コマンドを利用しているものがあります。 その場合は <span class="command"><strong>tuned-adm
+        profile throughput-performance</strong></span> コマンドを実行して <code class=
         "literal">throughput-performance</code> プロファイルを選択します。
-      </p>
-      <p>
-        SBU 値を測定するつもりがない場合であっても、LFS
-        ビルドにあたってはパフォーマンスを最大とするために、上のような電源プロファイルを選択しておくことが適切です。 そうしておけば LFS
-        パッケージのビルドが (明らかに) 早く実行できるからです。
       </p>
       <div class="admon note">
         <img alt="[注記]" src="../images/note.png" />
@@ -145,7 +140,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-369-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.2-5-systemd">ホーム</a>
         </li>
       </ul>
     </div>

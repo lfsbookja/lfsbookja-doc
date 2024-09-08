@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.0-369-systemd">
+  <body class="lfs" id="lfs-r12.2-5-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.0-369-systemd
+        Linux From Scratch - Version r12.2-5-systemd
       </h4>
       <h3>
         第6章 クロスコンパイルによる一時的ツール
@@ -39,7 +39,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-369-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.2-5-systemd">ホーム</a>
         </li>
       </ul>
     </div>
@@ -69,18 +69,12 @@
           6.3.1. Ncurses のインストール
         </h2>
         <p>
-          ビルドにあたって <span class="command"><strong>gawk</strong></span>
-          が必ず最初に見つかるようにします。
-        </p>
-        <pre class="userinput"><kbd class=
-        "command">sed -i s/mawk// configure</kbd></pre>
-        <p>
-          そして以下のコマンドを実行して、ビルドホスト上に<span class="quote">「<span class=
+          以下のコマンドを実行して、ビルドホスト上に<span class="quote">「<span class=
           "quote">tic</span>」</span>プログラムをビルドします。
         </p>
         <pre class="userinput"><kbd class="command">mkdir build
 pushd build
-  ../configure
+  ../configure AWK=gawk
   make -C include
   make -C progs tic
 popd</kbd></pre>
@@ -98,7 +92,8 @@ popd</kbd></pre>
             --with-cxx-shared            \
             --without-debug              \
             --without-ada                \
-            --disable-stripping</kbd></pre>
+            --disable-stripping          \
+            AWK=gawk</kbd></pre>
         <div class="variablelist">
           <p class="title">
             <strong>configure オプションの意味</strong>
@@ -173,6 +168,19 @@ popd</kbd></pre>
                 "command"><strong>strip</strong></span>
                 を、ビルドシステムが利用しないようにします。
                 クロスコンパイルされたプログラムに対して、ホスト上のツールを使うと、ビルド失敗の原因になります。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>AWK=gawk</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                本スイッチはホスト上の <span class=
+                "command"><strong>mawk</strong></span>
+                を使ったビルドが行われないようにするものです。 <span class=
+                "command"><strong>mawk</strong></span>
+                のバージョンによっては、本パッケージのビルドに失敗するものがあるためです。
               </p>
             </dd>
           </dl>
@@ -267,7 +275,7 @@ sed -e 's/^#if.*XOPEN.*$/#if 1/' \
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.0-369-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.2-5-systemd">ホーム</a>
         </li>
       </ul>
     </div>
