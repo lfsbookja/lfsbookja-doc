@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.2-8">
+  <body class="lfs" id="lfs-r12.2-12">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.2-8
+        Linux From Scratch - Version r12.2-12
       </h4>
       <h3>
         序文
@@ -39,7 +39,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.2-8">ホーム</a>
+          "Linux From Scratch - Version r12.2-12">ホーム</a>
         </li>
       </ul>
     </div>
@@ -72,8 +72,8 @@
               Base (LSB) Version 5.0 (2015)</a>
             </p>
             <p>
-              LSB はさらに以下の４つの仕様から構成されます。 コア (Core)、デスクトップ (Desktop)、ランタイム言語
-              (Runtime Languages)、画像処理 (Imaging) です。
+              LSB はさらに以下の４つの仕様から構成されます。 コア (Core)、デスクトップ (Desktop)、言語
+              (Languages)、画像処理 (Imaging) です。
               コアとデスクトップの中には、アーキテクチャーに固有の要求事項もあります。 Gtk3
               やグラフィックスという二項目に関しての試しの仕様も含んでいます。 LFS では前節にて示したように、IA32 (32 ビット
               x86) や AMD64 (x86_64) アーキテクチャーに対応する LSB 仕様への適合を目指しています。
@@ -120,8 +120,9 @@
               <td>
                 <p>
                   Bash, Bc, Binutils, Coreutils, Diffutils, File, Findutils,
-                  Gawk, Grep, Gzip, M4, Man-DB, Ncurses, Procps, Psmisc, Sed,
-                  Shadow, Tar, Util-linux, Zlib
+                  Gawk, GCC, Gettext, Glibc, Grep, Gzip, M4, Man-DB, Procps,
+                  Psmisc, Sed, Shadow, <span class="phrase">SysVinit</span>,
+                  Tar, Util-linux, Zlib
                 </p>
               </td>
             </tr>
@@ -142,12 +143,12 @@
               <td>
                 <p>
                   <span class="term"><span class="emphasis"><em>LSB
-                  ランタイム言語:</em></span></span>
+                  言語:</em></span></span>
                 </p>
               </td>
               <td>
                 <p>
-                  Perl, Python
+                  Perl
                 </p>
               </td>
             </tr>
@@ -199,8 +200,9 @@
               </td>
               <td>
                 <p>
-                  At, Batch (At の一部), Cpio, Ed, Fcrontab, LSB-Tools, NSPR,
-                  NSS, PAM, Pax, Sendmail (または Postfix または Exim), time
+                  At, Batch (At の一部), BLFS Bash Startup Files, Cpio, Ed,
+                  Fcrontab, LSB-Tools, NSPR, NSS, PAM, Pax, Sendmail (または
+                  Postfix または Exim), Time
                 </p>
               </td>
             </tr>
@@ -214,9 +216,8 @@
               <td>
                 <p>
                   Alsa, ATK, Cairo, Desktop-file-utils, Freetype, Fontconfig,
-                  Gdk-pixbuf, Glib2, GTK+2, Icon-naming-utils, Libjpeg-turbo,
-                  Libpng, Libtiff, Libxml2, MesaLib, Pango, Qt4, Xdg-utils,
-                  Xorg
+                  Gdk-pixbuf, Glib2, GLU, Icon-naming-utils, Libjpeg-turbo,
+                  Libxml2, Mesa, Pango, Xdg-utils, Xorg
                 </p>
               </td>
             </tr>
@@ -224,7 +225,7 @@
               <td>
                 <p>
                   <span class="term"><span class="emphasis"><em>LSB
-                  ランタイム言語:</em></span></span>
+                  言語:</em></span></span>
                 </p>
               </td>
               <td>
@@ -264,7 +265,7 @@
       </div>
       <div class="variablelist">
         <h3>
-          LFS, BLFS で提供しないパッケージで LSB 要求に従うもの
+          LFS, BLFS で提供しない、あるいはオプションで提供されているコンポーネントで LSB 要求に従うもの
         </h3>
         <table border="0" class="variablelist">
           <colgroup>
@@ -281,7 +282,15 @@
               </td>
               <td>
                 <p>
-                  なし
+                  <span class=
+                  "command"><strong>install_initd</strong></span>,
+                  <code class="filename">libcrypt.so.1</code> (LFS の
+                  Libxcrypt パッケージにおける任意実施の手順により提供), <code class=
+                  "filename">libncurses.so.5</code> (LFS の Ncurses
+                  パッケージにおける任意実施の手順により提供), <code class=
+                  "filename">libncursesw.so.5</code> (ただし <code class=
+                  "filename">libncursesw.so.6</code> は LFS の Ncurses
+                  パッケージにより提供)
                 </p>
               </td>
             </tr>
@@ -294,7 +303,18 @@
               </td>
               <td>
                 <p>
-                  Qt4 (Qt5 が提供されている)
+                  <code class="filename">libgdk-x11-2.0</code> (ただし
+                  <code class="filename">libgdk-3.so</code> は BLFS GTK+-3
+                  パッケージが提供), <code class="filename">libgtk-x11-2.0</code>
+                  (ただし <code class="filename">libgtk-3.so</code> と
+                  <code class="filename">libgtk-4.so</code> はBLFS GTK+-3 と
+                  GTK-4 パッケージが提供), <code class="filename">libpng12.so</code>
+                  (ただし <code class="filename">libpng16.so</code> は BLFS
+                  Libpng パッケージが提供), <code class="filename">libQt*.so.4</code>
+                  (ただし <code class="filename">libQt6*.so.6</code> は BLFS Qt6
+                  パッケージが提供), <code class="filename">libtiff.so.4</code> (ただし
+                  <code class="filename">libtiff.so.6</code> は BLFS Libtiff
+                  パッケージが提供)
                 </p>
               </td>
             </tr>
@@ -302,12 +322,14 @@
               <td>
                 <p>
                   <span class="term"><span class="emphasis"><em>LSB
-                  ランタイム言語:</em></span></span>
+                  言語:</em></span></span>
                 </p>
               </td>
               <td>
                 <p>
-                  なし
+                  <span class=
+                  "command"><strong>/usr/bin/python</strong></span> (LSB は
+                  Python2 を要求しているが LFS と BLFS は Python3 のみを提供)
                 </p>
               </td>
             </tr>
@@ -333,7 +355,8 @@
               </td>
               <td>
                 <p>
-                  なし
+                  <code class="filename">libpng15.so</code> (ただし <code class=
+                  "filename">libpng16.so</code> は BLFS Libpng パッケージが提供)
                 </p>
               </td>
             </tr>
@@ -361,7 +384,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.2-8">ホーム</a>
+          "Linux From Scratch - Version r12.2-12">ホーム</a>
         </li>
       </ul>
     </div>
