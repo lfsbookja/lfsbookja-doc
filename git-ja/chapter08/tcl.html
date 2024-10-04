@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <title>
-      8.16. Tcl-9.0.0
+      8.16. Tcl-8.6.15
     </title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
     <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.2-12">
+  <body class="lfs" id="lfs-r12.2-14">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.2-12
+        Linux From Scratch - Version r12.2-14
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -39,12 +39,12 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.2-12">ホーム</a>
+          "Linux From Scratch - Version r12.2-14">ホーム</a>
         </li>
       </ul>
     </div>
     <h1 class="sect1">
-      <a id="ch-system-tcl" name="ch-system-tcl"></a>8.16. Tcl-9.0.0
+      <a id="ch-system-tcl" name="ch-system-tcl"></a>8.16. Tcl-8.6.15
     </h1>
     <div class="wrap" lang="ja" xml:lang="ja">
       <div class="package" lang="ja" xml:lang="ja">
@@ -106,8 +106,7 @@ cd unix
         <p>
           パッケージをビルドします。
         </p>
-        <pre class="userinput"><kbd class=
-        "command">make NATIVE_ZIP=$PWD/minizip
+        <pre class="userinput"><kbd class="command">make
 
 sed -e "s|$SRCDIR/unix|/usr/lib|" \
     -e "s|$SRCDIR|/usr/include|"  \
@@ -119,10 +118,10 @@ sed -e "s|$SRCDIR/unix/pkgs/tdbc1.1.9|/usr/lib/tdbc1.1.9|" \
     -e "s|$SRCDIR/pkgs/tdbc1.1.9|/usr/include|"            \
     -i pkgs/tdbc1.1.9/tdbcConfig.sh
 
-sed -e "s|$SRCDIR/unix/pkgs/itcl4.3.1|/usr/lib/itcl4.3.1|" \
-    -e "s|$SRCDIR/pkgs/itcl4.3.1/generic|/usr/include|"    \
-    -e "s|$SRCDIR/pkgs/itcl4.3.1|/usr/include|"            \
-    -i pkgs/itcl4.3.1/itclConfig.sh
+sed -e "s|$SRCDIR/unix/pkgs/itcl4.3.0|/usr/lib/itcl4.3.0|" \
+    -e "s|$SRCDIR/pkgs/itcl4.3.0/generic|/usr/include|"    \
+    -e "s|$SRCDIR/pkgs/itcl4.3.0|/usr/include|"            \
+    -i pkgs/itcl4.3.0/itclConfig.sh
 
 unset SRCDIR</kbd></pre>
         <p>
@@ -135,9 +134,6 @@ unset SRCDIR</kbd></pre>
         </p>
         <pre class="userinput"><kbd class="command">make test</kbd></pre>
         <p>
-          chroot 環境内では 12 個のテストが失敗します。
-        </p>
-        <p>
           パッケージをインストールします。
         </p>
         <pre class="userinput"><kbd class="command">make install</kbd></pre>
@@ -145,7 +141,7 @@ unset SRCDIR</kbd></pre>
           インストールされたライブラリを書き込み可能にします。 こうすることで後にデバッグシンボルを削除できるようにします。
         </p>
         <pre class="userinput"><kbd class=
-        "command">chmod -v u+w /usr/lib/libtcl9.0.so</kbd></pre>
+        "command">chmod -v u+w /usr/lib/libtcl8.6.so</kbd></pre>
         <p>
           Tcl のヘッダーファイルをインストールします。 これらは次にビルドする Expect が必要とするファイルです。
         </p>
@@ -155,7 +151,7 @@ unset SRCDIR</kbd></pre>
           必要となるシンボリックリンクを生成します。
         </p>
         <pre class="userinput"><kbd class=
-        "command">ln -sfv tclsh9.0 /usr/bin/tclsh</kbd></pre>
+        "command">ln -sfv tclsh8.6 /usr/bin/tclsh</kbd></pre>
         <p>
           Perl の man ページと重複するものを名称変更します。
         </p>
@@ -165,9 +161,9 @@ unset SRCDIR</kbd></pre>
           任意の作業として、 以下のコマンドを実行してインストールします。
         </p>
         <pre class="userinput"><kbd class="command">cd ..
-tar -xf ../tcl9.0.0-html.tar.gz --strip-components=1
-mkdir -v -p /usr/share/doc/tcl-9.0.0
-cp -v -r  ./html/* /usr/share/doc/tcl-9.0.0</kbd></pre>
+tar -xf ../tcl8.6.15-html.tar.gz --strip-components=1
+mkdir -v -p /usr/share/doc/tcl-8.6.15
+cp -v -r  ./html/* /usr/share/doc/tcl-8.6.15</kbd></pre>
       </div>
       <div class="content" lang="ja" xml:lang="ja">
         <h2 class="sect2">
@@ -177,11 +173,11 @@ cp -v -r  ./html/* /usr/share/doc/tcl-9.0.0</kbd></pre>
           <div class="seglistitem">
             <div class="seg">
               <strong class="segtitle">インストールプログラム:</strong> <span class=
-              "segbody">tclsh (tclsh9.0 へのリンク), tclsh9.0</span>
+              "segbody">tclsh (tclsh8.6 へのリンク), tclsh8.6</span>
             </div>
             <div class="seg">
               <strong class="segtitle">インストールライブラリ:</strong> <span class=
-              "segbody">libtcl9.0.so, libtclstub9.0.a</span>
+              "segbody">libtcl8.6.so, libtclstub8.6.a</span>
             </div>
           </div>
         </div>
@@ -198,9 +194,9 @@ cp -v -r  ./html/* /usr/share/doc/tcl-9.0.0</kbd></pre>
               <tr>
                 <td>
                   <p>
-                    <a id="tclsh9.0" name="tclsh9.0"></a><span class=
+                    <a id="tclsh8.6" name="tclsh8.6"></a><span class=
                     "term"><span class=
-                    "command"><strong>tclsh9.0</strong></span></span>
+                    "command"><strong>tclsh8.6</strong></span></span>
                   </p>
                 </td>
                 <td>
@@ -219,15 +215,15 @@ cp -v -r  ./html/* /usr/share/doc/tcl-9.0.0</kbd></pre>
                 </td>
                 <td>
                   <p>
-                    tclsh9.0 へのリンク
+                    tclsh8.6 へのリンク
                   </p>
                 </td>
               </tr>
               <tr>
                 <td>
                   <p>
-                    <a id="libtcl9.0.so" name="libtcl9.0.so"></a><span class=
-                    "term"><code class="filename">libtcl9.0.so</code></span>
+                    <a id="libtcl8.6.so" name="libtcl8.6.so"></a><span class=
+                    "term"><code class="filename">libtcl8.6.so</code></span>
                   </p>
                 </td>
                 <td>
@@ -239,9 +235,9 @@ cp -v -r  ./html/* /usr/share/doc/tcl-9.0.0</kbd></pre>
               <tr>
                 <td>
                   <p>
-                    <a id="libtclstub9.0.a" name=
-                    "libtclstub9.0.a"></a><span class="term"><code class=
-                    "filename">libtclstub9.0.a</code></span>
+                    <a id="libtclstub8.6.a" name=
+                    "libtclstub8.6.a"></a><span class="term"><code class=
+                    "filename">libtclstub8.6.a</code></span>
                   </p>
                 </td>
                 <td>
@@ -275,7 +271,7 @@ cp -v -r  ./html/* /usr/share/doc/tcl-9.0.0</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.2-12">ホーム</a>
+          "Linux From Scratch - Version r12.2-14">ホーム</a>
         </li>
       </ul>
     </div>
