@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.2-25-systemd">
+  <body class="lfs" id="lfs-r12.2-29-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.2-25-systemd
+        Linux From Scratch - Version r12.2-29-systemd
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -40,7 +40,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.2-25-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.2-29-systemd">ホーム</a>
         </li>
       </ul>
     </div>
@@ -78,8 +78,7 @@
           <p>
             Linux-PAM をすでにインストールしている場合は、本ページではなく <a class="ulink" href=
             "https://www.linuxfromscratch.org/blfs/view/systemd/postlfs/shadow.xml">
-            BLFS の shadow のページ</a> に従って shadow
-            のビルド（または再ビルドやアップグレード）を行う必要があります。
+            BLFS の 手順</a> に従って shadow のビルド（または再ビルドやアップグレード）を行う必要があります。
           </p>
         </div>
         <div class="admon note">
@@ -88,14 +87,14 @@
             注記
           </h3>
           <p>
-            もっと強力なパスワードを利用したい場合は <a class="ulink" href=
-            "https://www.linuxfromscratch.org/blfs/view/systemd/postlfs/cracklib.html">
-            https://www.linuxfromscratch.org/blfs/view/systemd/postlfs/cracklib.html</a>
-            にて示している Cracklib パッケージを参照してください。 Cracklib パッケージは Shadow
-            パッケージよりも前にインストールします。 その場合 Shadow パッケージの <span class=
-            "command"><strong>configure</strong></span> スクリプトでは <em class=
-            "parameter"><code>--with-libcrack</code></em>
-            パラメーターをつけて実行する必要があります。
+            もっと強力なパスワードを利用したい場合は、まずは <a class="ulink" href=
+            "https://www.linuxfromscratch.org/blfs/view/systemd/postlfs/linux-pam.html">
+            Linux-PAM のインストールと設定</a> を行ってください。 そして <a class="ulink" href=
+            "https://www.linuxfromscratch.org/blfs/view/systemd/postlfs/shadow.html">
+            PAM サポートつきの shadow のインストールと設定</a> を行ってください。 最後に <a class="ulink"
+            href=
+            "https://www.linuxfromscratch.org/blfs/view/systemd/postlfs/libpwquality.html">
+            libpwquality のインストールと、これを利用する PAM の設定</a> を行います。
           </p>
         </div>
         <p>
@@ -139,17 +138,6 @@ find man -name Makefile.in -exec sed -i 's/passwd\.5 / /'   {} \;</kbd></pre>
     -e 's:/var/spool/mail:/var/mail:'                   \
     -e '/PATH=/{s@/sbin:@@;s@/bin:@@}'                  \
     -i etc/login.defs</kbd></pre>
-        <div class="admon note">
-          <img alt="[注記]" src="../images/note.png" />
-          <h3>
-            注記
-          </h3>
-          <p>
-            Cracklib のサポートを含めて Shadow をビルドする場合は以下を実行します。
-          </p>
-          <pre class="userinput"><kbd class=
-          "command">sed -i 's:DICTPATH.*:DICTPATH\t/lib/cracklib/pw_dict:' etc/login.defs</kbd></pre>
-        </div>
         <p>
           Shadow をコンパイルするための準備をします。
         </p>
@@ -890,7 +878,7 @@ useradd -D --gid 999</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.2-25-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.2-29-systemd">ホーム</a>
         </li>
       </ul>
     </div>
