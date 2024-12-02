@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <title>
-      10.3. Linux-6.11.8
+      10.3. Linux-6.12.1
     </title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
     <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.2-29">
+  <body class="lfs" id="lfs-r12.2-38">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.2-29
+        Linux From Scratch - Version r12.2-38
       </h4>
       <h3>
         第10章 LFS システムのブート設定
@@ -41,13 +41,13 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.2-29">ホーム</a>
+          "Linux From Scratch - Version r12.2-38">ホーム</a>
         </li>
       </ul>
     </div>
     <h1 class="sect1">
       <a id="ch-bootable-kernel" name="ch-bootable-kernel"></a>10.3.
-      Linux-6.11.8
+      Linux-6.12.1
     </h1>
     <div class="wrap" lang="ja" xml:lang="ja">
       <div class="package" lang="ja" xml:lang="ja">
@@ -209,18 +209,26 @@
     [*]   <span class=
 "blue">A</span>utomount devtmpfs at /dev, after the kernel mounted the rootfs
                                                            ...  [DEVTMPFS_MOUNT]
+  <span class="blue">F</span>irmware Drivers ---&gt;
+    [*] M<span class=
+"blue">a</span>rk VGA/VBE/EFI FB as generic system framebuffer       [SYSFB_SIMPLEFB]
   <span class="blue">G</span>raphics support ---&gt;
-    &lt; /*/M&gt; <span class=
+    &lt;*&gt; <span class=
 "blue">D</span>irect Rendering Manager (XFree86 4.1.0 and higher DRI support) ---&gt;
                                                                       ...  [DRM]
-      # If [DRM] is selected as * or M, this must be selected:
-      [ /*] <span class=
+      [*]    <span class=
+"blue">D</span>isplay a user-friendly message when a kernel panic occurs
+                                                                ...  [DRM_PANIC]
+      (kmsg)   <span class=
+"blue">P</span>anic screen formatter                         [DRM_PANIC_SCREEN]
+      [*]    <span class=
 "blue">E</span>nable legacy fbdev support for your modesetting driver
                                                       ...  [DRM_FBDEV_EMULATION]
+      &lt;*&gt;    <span class=
+"blue">S</span>imple framebuffer driver                           [DRM_SIMPLEDRM]
     <span class="blue">C</span>onsole display driver support ---&gt;
-      # If [DRM] is selected as * or M, this must be selected:
-      [ /*] <span class=
-"blue">F</span>ramebuffer Console support                    [FRAMEBUFFER_CONSOLE]</pre>
+      [*] <span class=
+"blue">F</span>ramebuffer Console support                      [FRAMEBUFFER_CONSOLE]</pre>
           <p>
             64 ビットシステムの構築時は、追加機能をいくらか有効にしてください。 menuconfig を利用している場合、初めに
             <em class="parameter"><code>CONFIG_PCI_MSI</code></em>
@@ -372,6 +380,64 @@
               </p>
             </dd>
             <dt>
+              <span class="term"><em class="parameter"><code>Display a
+              user-friendly message when a kernel panic
+              occurs</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                カーネルパニック発生にあたって、起動中の DRM
+                ドライバーの出力機能が適切にサポートされている場合に、メッセージを正しく表示します。
+                これがなかった場合には、パニック内容を調べることがより困難になります。 たとえば DRM
+                ドライバーが起動していなかった場合は、VGA コンソールを利用することになり、その場合には 24
+                行の表示しか行われず、相当数のカーネルメッセージは消えてなくなってしまいます。 また DRM
+                ドライバーが起動していても、パニック時のメッセージは非常に複雑です。 Linux-6.12 の場合、主要な GPU
+                モデルの専用ドライバーはどれもこれに対応していませんが、<span class="quote">「<span class=
+                "quote">Simple framebuffer driver</span>」</span>であれば対応しています。
+                これであれば VESA (あるいは EFI) フレームバッファー上で作動し、GPU
+                専用ドライバーがロードされる前であってかまいません。 GPU 専用ドライバーが (カーネルイメージの一部としてではなく)
+                モジュールとしてビルドされていて、かつ initramfs
+                が利用されていない場合は、ルートファイルシステムのマウント前であっても正しく機能します。 そして LFS
+                の設定誤りがパニックを引き起こしている (たとえば <a class="xref" href="grub.html"
+                title="10.4. GRUB を用いたブートプロセスの設定">「GRUB
+                を用いたブートプロセスの設定」</a>における <em class=
+                "parameter"><code>root=</code></em> の設定が適切でない)
+                場合に、情報表示が充分に行われることになります。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class="parameter"><code>Panic screen
+              formatter</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                これを <code class="literal">kmsg</code>
+                に設定すると、カーネルパニックが発生した際に、カーネルメッセージの最終行付近を確実に表示するようになります。
+                デフォルト設定は <code class="literal">user</code>
+                であり、その場合カーネルは<span class="quote">「<span class=
+                "quote">ユーザーフレンドリーな</span>」</span>
+                パニックメッセージしか表示せず、これでは解析になんら役立ちません。 もう一つの設定として <code class=
+                "literal">qr_code</code> がありますが、これはカーネルメッセージの最終行付近を圧縮して QR
+                コードとして表示します。 QR
+                コードであればプレーンテキストに比べて、それ以上に多くのメッセージを保持することができ、別のデバイス
+                (たとえばスマートホン) 上で圧縮の展開を行うことができます。 ただしこれを実現するためには LFS では提供していない
+                Rust コンパイラーが必要となります。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class="parameter"><code>Mark VGA/VBE/EFI
+              FB as generic system framebuffer</code></em> , <em class=
+              "parameter"><code>Simple framebuffer driver</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                これは DRM デバイスとして VESA フレームバッファーを利用するようにします (UEFI 経由により LFS
+                システムを起動する場合には EFI フレームバッファーを利用するようにします)。 VESA フレームバッファーは GRUB
+                によって (あるいは EFI フレームバッファーにおいては UEFI ファームウェアによって) 設定されます。 したがって
+                DRM におけるパニック処理は、GPU 固有の DRM ドライバーがロードされる前であっても正しく機能します。
+              </p>
+            </dd>
+            <dt>
               <span class="term"><em class="parameter"><code>Enable legacy
               fbdev support for your modesetting driver</code></em> ,
               <em class="parameter"><code>Framebuffer Console
@@ -409,7 +475,7 @@
         <p>
           カーネル設定は行わずに、ホストシステムにあるカーネル設定ファイル <code class=
           "filename">.config</code> をコピーして利用することもできます。 そのファイルが存在すればの話です。
-          その場合は <code class="filename">linux-6.11.8</code>
+          その場合は <code class="filename">linux-6.12.1</code>
           ディレクトリにそのファイルをコピーしてください。 もっともこのやり方はお勧めしません。
           設定項目をメニューから探し出して、カーネル設定を一から行っていくことが望ましいことです。
         </p>
@@ -422,7 +488,7 @@
           ディレクトリ内での設定を必要とします。 モジュールやカーネル設定に関する情報は <a class="xref" href=
           "../chapter09/udev.html" title=
           "9.3. デバイスとモジュールの扱いについて">「デバイスとモジュールの扱いについて」</a>や <code class=
-          "filename">linux-6.11.8/Documentation</code>
+          "filename">linux-6.12.1/Documentation</code>
           ディレクトリにあるカーネルドキュメントを参照してください。 また <a class="ulink" href=
           "https://man.archlinux.org/man/modprobe.d.5">modprobe.d(5)</a>
           も有用です。
@@ -465,7 +531,7 @@
           アーキテクチャーの場合の例です。
         </p>
         <pre class="userinput"><kbd class=
-        "command">cp -iv arch/x86/boot/bzImage /boot/vmlinuz-6.11.8-lfs-r12.2-29</kbd></pre>
+        "command">cp -iv arch/x86/boot/bzImage /boot/vmlinuz-6.12.1-lfs-r12.2-38</kbd></pre>
         <p>
           <code class="filename">System.map</code> はカーネルに対するシンボルファイルです。
           このファイルはカーネル API の各関数のエントリポイントをマッピングしています。
@@ -474,7 +540,7 @@
           マップファイルをインストールするには以下を実行します。
         </p>
         <pre class="userinput"><kbd class=
-        "command">cp -iv System.map /boot/System.map-6.11.8</kbd></pre>
+        "command">cp -iv System.map /boot/System.map-6.12.1</kbd></pre>
         <p>
           カーネル設定ファイル <code class="filename">.config</code> は、上で実行した
           <span class="command"><strong>make menuconfig</strong></span>
@@ -482,12 +548,12 @@
           将来このファイルを参照する必要が出てくるかもしれないため、このファイルを保存しておきます。
         </p>
         <pre class="userinput"><kbd class=
-        "command">cp -iv .config /boot/config-6.11.8</kbd></pre>
+        "command">cp -iv .config /boot/config-6.12.1</kbd></pre>
         <p>
           Linux カーネルのドキュメントをインストールします。
         </p>
         <pre class="userinput"><kbd class=
-        "command">cp -r Documentation -T /usr/share/doc/linux-6.11.8</kbd></pre>
+        "command">cp -r Documentation -T /usr/share/doc/linux-6.12.1</kbd></pre>
         <p>
           カーネルのソースディレクトリは所有者が <span class="emphasis"><em>root</em></span>
           ユーザーになっていません。 我々は chroot 環境内の <span class=
@@ -510,7 +576,7 @@
           </p>
           <p>
             カーネルのソースファイルを保持しておくつもりなら <code class=
-            "filename">linux-6.11.8</code> ディレクトリにおいて <span class=
+            "filename">linux-6.12.1</code> ディレクトリにおいて <span class=
             "command"><strong>chown -R 0:0</strong></span> を実行しておいてください。
             これによりそのディレクトリの所有者は <span class="emphasis"><em>root</em></span>
             ユーザーとなります。
@@ -539,7 +605,7 @@
             "filename">/usr/include</code>) にあるヘッダーファイルは、<span class=
             "emphasis"><em>必ず</em></span> Glibc のコンパイル時のものでなければなりません。 つまり
             <a class="xref" href="../chapter05/linux-headers.html" title=
-            "5.4. Linux-6.11.8 API ヘッダー">「Linux-6.11.8 API ヘッダー」</a>
+            "5.4. Linux-6.12.1 API ヘッダー">「Linux-6.12.1 API ヘッダー」</a>
             によってインストールされた、健全化 (sanitizing) したものです。
             したがって生のカーネルヘッダーや他のカーネルにて健全化されたヘッダーによって上書きされてしまうのは避けなければなりません。
           </p>
@@ -586,12 +652,12 @@ EOF</kbd></pre>
           <div class="seglistitem">
             <div class="seg">
               <strong class="segtitle">インストールファイル:</strong> <span class=
-              "segbody">config-6.11.8, vmlinuz-6.11.8-lfs-r12.2-29, and
-              System.map-6.11.8</span>
+              "segbody">config-6.12.1, vmlinuz-6.12.1-lfs-r12.2-38, and
+              System.map-6.12.1</span>
             </div>
             <div class="seg">
               <strong class="segtitle">インストールディレクトリ:</strong> <span class=
-              "segbody">/lib/modules, /usr/share/doc/linux-6.11.8</span>
+              "segbody">/lib/modules, /usr/share/doc/linux-6.12.1</span>
             </div>
           </div>
         </div>
@@ -609,7 +675,7 @@ EOF</kbd></pre>
                 <td>
                   <p>
                     <a id="config" name="config"></a><span class=
-                    "term"><code class="filename">config-6.11.8</code></span>
+                    "term"><code class="filename">config-6.12.1</code></span>
                   </p>
                 </td>
                 <td>
@@ -623,7 +689,7 @@ EOF</kbd></pre>
                   <p>
                     <a id="lfskernel" name="lfskernel"></a><span class=
                     "term"><code class=
-                    "filename">vmlinuz-6.11.8-lfs-r12.2-29</code></span>
+                    "filename">vmlinuz-6.12.1-lfs-r12.2-38</code></span>
                   </p>
                 </td>
                 <td>
@@ -641,7 +707,7 @@ EOF</kbd></pre>
                   <p>
                     <a id="System.map" name="System.map"></a><span class=
                     "term"><code class=
-                    "filename">System.map-6.11.8</code></span>
+                    "filename">System.map-6.12.1</code></span>
                   </p>
                 </td>
                 <td>
@@ -677,7 +743,7 @@ EOF</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.2-29">ホーム</a>
+          "Linux From Scratch - Version r12.2-38">ホーム</a>
         </li>
       </ul>
     </div>

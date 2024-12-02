@@ -12,19 +12,19 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.2-29-systemd">
+  <body class="lfs" id="lfs-r12.2-38-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.2-29-systemd
+        Linux From Scratch - Version r12.2-38-systemd
       </h4>
       <h3>
         第10章 LFS システムのブート設定
       </h3>
       <ul>
         <li class="prev">
-          <a accesskey="p" href="kernel.html" title="Linux-6.11.8">戻る</a>
+          <a accesskey="p" href="kernel.html" title="Linux-6.12.1">戻る</a>
           <p>
-            Linux-6.11.8
+            Linux-6.12.1
           </p>
         </li>
         <li class="next">
@@ -40,7 +40,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.2-29-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.2-38-systemd">ホーム</a>
         </li>
       </ul>
     </div>
@@ -194,9 +194,10 @@ set timeout=5
 insmod part_gpt
 insmod ext2
 set root=(hd0,2)
+set gfxpayload=1024x768x32
 
-menuentry "GNU/Linux, Linux 6.11.8-lfs-r12.2-29-systemd" {
-        linux   /boot/vmlinuz-6.11.8-lfs-r12.2-29-systemd root=/dev/sda2 ro
+menuentry "GNU/Linux, Linux 6.12.1-lfs-r12.2-38-systemd" {
+        linux   /boot/vmlinuz-6.12.1-lfs-r12.2-38-systemd root=/dev/sda2 ro
 }</code>
 EOF</kbd></pre>
         <p>
@@ -215,6 +216,14 @@ EOF</kbd></pre>
           したがってごく普通の設定を行っていれば、上述の 2 つのもジュールはすでに埋め込まれていることとなり、<span class=
           "command"><strong>insmod</strong></span> コマンドは何も行わないことになります。
           そうなったとしても何も問題はありませんが、特殊な設定を行った際には必要となるかもしれません。
+        </p>
+        <p>
+          The <span class="command"><strong>set
+          gfxpayload=1024x768x32</strong></span> command sets the resolution
+          and color depth of the VESA framebuffer to be passed to the kernel.
+          It's necessary for the kernel SimpleDRM driver to use the VESA
+          framebuffer. You can use a different resolution or color depth
+          value which better suits for your monitor.
         </p>
         <div class="admon note">
           <img alt="[注記]" src="../images/note.png" />
@@ -299,9 +308,9 @@ EOF</kbd></pre>
     <div class="navfooter">
       <ul>
         <li class="prev">
-          <a accesskey="p" href="kernel.html" title="Linux-6.11.8">戻る</a>
+          <a accesskey="p" href="kernel.html" title="Linux-6.12.1">戻る</a>
           <p>
-            Linux-6.11.8
+            Linux-6.12.1
           </p>
         </li>
         <li class="next">
@@ -317,7 +326,7 @@ EOF</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.2-29-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.2-38-systemd">ホーム</a>
         </li>
       </ul>
     </div>
