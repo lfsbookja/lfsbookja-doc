@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <title>
-      8.76. Systemd-256.5 から取り出した Udev
+      8.76. Systemd-257 から取り出した Udev
     </title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
     <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.2-43">
+  <body class="lfs" id="lfs-r12.2-51">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.2-43
+        Linux From Scratch - Version r12.2-51
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -39,12 +39,12 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.2-43">ホーム</a>
+          "Linux From Scratch - Version r12.2-51">ホーム</a>
         </li>
       </ul>
     </div>
     <h1 class="sect1">
-      <a id="ch-system-udev" name="ch-system-udev"></a>8.76. Systemd-256.5
+      <a id="ch-system-udev" name="ch-system-udev"></a>8.76. Systemd-257
       から取り出した Udev
     </h1>
     <div class="wrap" lang="ja" xml:lang="ja">
@@ -70,8 +70,8 @@
           8.76.1. Udev のインストール
         </h2>
         <p>
-          Udev は systemd-256.5 パッケージの一部です。 ソース tarball としては
-          systemd-256.5.tar.xz ファイルを用います。
+          Udev は systemd-257 パッケージの一部です。 ソース tarball としては systemd-257.tar.xz
+          ファイルを用います。
         </p>
         <p>
           <code class="systemitem">render</code> と <code class=
@@ -79,18 +79,20 @@
           ルールから削除します。
         </p>
         <pre class="userinput"><kbd class=
-        "command">sed -i -e 's/GROUP="render"/GROUP="video"/' \
-       -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in</kbd></pre>
+        "command">sed -e 's/GROUP="render"/GROUP="video"/' \
+    -e 's/GROUP="sgx", //'               \
+    -i rules.d/50-udev-default.rules.in</kbd></pre>
         <p>
           Systemd を完全にインストールしていることを前提としている udev ルールを削除します。
         </p>
         <pre class="userinput"><kbd class=
-        "command">sed '/systemd-sysctl/s/^/#/' -i rules.d/99-systemd.rules.in</kbd></pre>
+        "command">sed -i '/systemd-sysctl/s/^/#/' rules.d/99-systemd.rules.in</kbd></pre>
         <p>
           ネットワーク設定ファイルへのパスがハードコーディングされているため、独立した udev インストールとして修正します。
         </p>
         <pre class="userinput"><kbd class=
-        "command">sed '/NETWORK_DIRS/s/systemd/udev/' -i src/basic/path-lookup.h</kbd></pre>
+        "command">sed -e '/NETWORK_DIRS/s/systemd/udev/' \
+    -i src/libsystemd/sd-network/network-util.h</kbd></pre>
         <p>
           Udev をコンパイルするための準備をします。
         </p>
@@ -380,7 +382,7 @@ rm /usr/share/man/man*/systemd*</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.2-43">ホーム</a>
+          "Linux From Scratch - Version r12.2-51">ホーム</a>
         </li>
       </ul>
     </div>
