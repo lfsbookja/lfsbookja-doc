@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.2-51">
+  <body class="lfs" id="lfs-r12.2-59">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.2-51
+        Linux From Scratch - Version r12.2-59
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -39,7 +39,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.2-51">ホーム</a>
+          "Linux From Scratch - Version r12.2-59">ホーム</a>
         </li>
       </ul>
     </div>
@@ -71,11 +71,12 @@
           8.33.1. Gettext のインストール
         </h2>
         <p>
-          他のプログラムとの互換性に問題があるため、これを修正します。
+          はじめに libxml-2.12 またはそれ以降を使ったビルドに失敗するパッケージがあるため、その問題を修正します。 この修正は
+          LFS 構築にとっては任意作業ですが、libxml をインストールした BLFS
+          において本パッケージを再ビルドする場合には必須となります。
         </p>
         <pre class="userinput"><kbd class=
-        "command">sed -e '/libxml\/xmlerror.h/i #include &lt;libxml/xmlversion.h&gt;' \
-    -e 's/xmlError *err/const &amp;/'                             \
+        "command">sed -e '/^structured/s/xmlError \*/typeof(xmlCtxtGetLastError(NULL)) /' \
     -i gettext-tools/src/its.c</kbd></pre>
         <p>
           Gettext をコンパイルするための準備をします。
@@ -568,7 +569,7 @@ chmod -v 0755 /usr/lib/preloadable_libintl.so</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.2-51">ホーム</a>
+          "Linux From Scratch - Version r12.2-59">ホーム</a>
         </li>
       </ul>
     </div>
