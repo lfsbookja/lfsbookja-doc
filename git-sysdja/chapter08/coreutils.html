@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <title>
-      8.58. Coreutils-9.5
+      8.58. Coreutils-9.6
     </title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
     <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
@@ -12,19 +12,19 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.2-82-systemd">
+  <body class="lfs" id="lfs-r12.2-85-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.2-82-systemd
+        Linux From Scratch - Version r12.2-85-systemd
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
       </h3>
       <ul>
         <li class="prev">
-          <a accesskey="p" href="meson.html" title="Meson-1.6.1">戻る</a>
+          <a accesskey="p" href="meson.html" title="Meson-1.7.0">戻る</a>
           <p>
-            Meson-1.6.1
+            Meson-1.7.0
           </p>
         </li>
         <li class="next">
@@ -39,13 +39,13 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.2-82-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.2-85-systemd">ホーム</a>
         </li>
       </ul>
     </div>
     <h1 class="sect1">
       <a id="ch-system-coreutils" name="ch-system-coreutils"></a>8.58.
-      Coreutils-9.5
+      Coreutils-9.6
     </h1>
     <div class="wrap" lang="ja" xml:lang="ja">
       <div class="package" lang="ja" xml:lang="ja">
@@ -75,7 +75,7 @@
           以下のパッチは標準に準拠することと、国際化処理に関連するバグを解消することを行います。
         </p>
         <pre class="userinput"><kbd class=
-        "command">patch -Np1 -i ../coreutils-9.5-i18n-2.patch</kbd></pre>
+        "command">patch -Np1 -i ../coreutils-9.6-i18n-1.patch</kbd></pre>
         <div class="admon note">
           <img alt="[注記]" src="../images/note.png" />
           <h3>
@@ -89,7 +89,8 @@
         <p>
           Coreutils をコンパイルするための準備をします。
         </p>
-        <pre class="userinput"><kbd class="command">autoreconf -fiv
+        <pre class="userinput"><kbd class="command">autoreconf -fv
+automake -af
 FORCE_UNSAFE_CONFIGURE=1 ./configure \
             --prefix=/usr            \
             --enable-no-install-program=kill,uptime</kbd></pre>
@@ -105,6 +106,15 @@ FORCE_UNSAFE_CONFIGURE=1 ./configure \
             <dd>
               <p>
                 国際化対応を行うパッチによってビルドシステムが修正されます。 したがって設定ファイル類を再生成する必要があります。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><span class=
+              "command"><strong>automake</strong></span></span>
+            </dt>
+            <dd>
+              <p>
+                autotools の旧バージョンにおいて発生する問題を回避します。
               </p>
             </dd>
             <dt>
@@ -1698,9 +1708,9 @@ sed -i 's/"1"/"8"/' /usr/share/man/man8/chroot.8</kbd></pre>
     <div class="navfooter">
       <ul>
         <li class="prev">
-          <a accesskey="p" href="meson.html" title="Meson-1.6.1">戻る</a>
+          <a accesskey="p" href="meson.html" title="Meson-1.7.0">戻る</a>
           <p>
-            Meson-1.6.1
+            Meson-1.7.0
           </p>
         </li>
         <li class="next">
@@ -1715,7 +1725,7 @@ sed -i 's/"1"/"8"/' /usr/share/man/man8/chroot.8</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.2-82-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.2-85-systemd">ホーム</a>
         </li>
       </ul>
     </div>
