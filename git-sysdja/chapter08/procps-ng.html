@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.2-85-systemd">
+  <body class="lfs" id="lfs-r12.2-95-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.2-85-systemd
+        Linux From Scratch - Version r12.2-95-systemd
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -40,7 +40,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.2-85-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.2-95-systemd">ホーム</a>
         </li>
       </ul>
     </div>
@@ -61,7 +61,7 @@
             </div>
             <div class="seg">
               <strong class="segtitle">必要ディスク容量:</strong> <span class=
-              "segbody">26 MB</span>
+              "segbody">28 MB</span>
             </div>
           </div>
         </div>
@@ -78,6 +78,7 @@
             --docdir=/usr/share/doc/procps-ng-4.0.5 \
             --disable-static                        \
             --disable-kill                          \
+            --enable-watch8bit                      \
             --with-systemd</kbd></pre>
         <div class="variablelist">
           <p class="title">
@@ -94,6 +95,17 @@
                 コマンドをビルドしないようにします。 このコマンドは Util-linux パッケージにてインストールされます。
               </p>
             </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-watch8bit</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                本スイッチは <span class="command"><strong>watch</strong></span>
+                コマンドに対して ncursesw サポートを有効にします。 これによって 8
+                ビット文字を取り扱うことができるようになります。
+              </p>
+            </dd>
           </dl>
         </div>
         <p>
@@ -108,7 +120,8 @@ su tester -c "PATH=$PATH make check"</kbd></pre>
         <p>
           ホストカーネルが <code class="literal">CONFIG_BSD_PROCESS_ACCT</code>
           を有効にしてビルドされていない場合に、<code class="literal">ps with output flag
-          bsdtime,cputime,etime,etimes</code> という名前のテスト 1 つが失敗します。
+          bsdtime,cputime,etime,etimes</code> という名前のテスト 1 つが失敗します。 また pgrep
+          のテスト 1 つが chroot 環境内では失敗します。
         </p>
         <p>
           パッケージをインストールします。
@@ -397,7 +410,7 @@ su tester -c "PATH=$PATH make check"</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.2-85-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.2-95-systemd">ホーム</a>
         </li>
       </ul>
     </div>

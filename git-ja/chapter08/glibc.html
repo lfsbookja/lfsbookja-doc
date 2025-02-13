@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.2-85">
+  <body class="lfs" id="lfs-r12.2-95">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.2-85
+        Linux From Scratch - Version r12.2-95
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -40,7 +40,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.2-85">ホーム</a>
+          "Linux From Scratch - Version r12.2-95">ホーム</a>
         </li>
       </ul>
     </div>
@@ -61,7 +61,7 @@
             </div>
             <div class="seg">
               <strong class="segtitle">必要ディスク容量:</strong> <span class=
-              "segbody">3.1 GB</span>
+              "segbody">3.2 GB</span>
             </div>
           </div>
         </div>
@@ -176,7 +176,7 @@ cd       build</kbd></pre>
         </p>
         <pre class="userinput"><kbd class="command">make check</kbd></pre>
         <p>
-          テストに失敗する場合があります。 これは Glibc のテストスイートがホストシステムにある程度依存しているためです。 5000
+          テストに失敗する場合があります。 これは Glibc のテストスイートがホストシステムにある程度依存しているためです。 6000
           を超えるテストの中で、ほんの少数のテストは失敗しますが、無視できるものです。 LFS
           の当バージョンにおいて発生しがちな問題を以下に示します。
         </p>
@@ -282,7 +282,7 @@ cd       build</kbd></pre>
                   -r</strong></span> により確認することができますが) 5.4
                   よりも古いカーネルをアップグレードして再起動する場合には <a class="xref" href=
                   "../chapter10/kernel.html" title=
-                  "10.3. Linux-6.13.1">「Linux-6.13.1」</a> の説明に従ってください。
+                  "10.3. Linux-6.13.2">「Linux-6.13.2」</a> の説明に従ってください。
                 </p>
               </li>
               <li class="listitem">
@@ -291,7 +291,7 @@ cd       build</kbd></pre>
                   /usr/include/linux/version.h</strong></span>
                   により確認することができますが) 5.4 よりも古い API ヘッダーをアップグレードする場合は、<a class=
                   "xref" href="../chapter05/linux-headers.html" title=
-                  "5.4. Linux-6.13.1 API ヘッダー">「Linux-6.13.1 API ヘッダー」</a>
+                  "5.4. Linux-6.13.2 API ヘッダー">「Linux-6.13.2 API ヘッダー」</a>
                   の説明に従ってください (ただし <span class=
                   "command"><strong>cp</strong></span> コマンドからは <code class=
                   "envar">$LFS</code> を取り除いてください)。
@@ -319,6 +319,15 @@ install -vm755 dest/usr/lib/*.so.* /usr/lib</kbd></pre>
             "command"><strong>sed</strong></span>
             コマンド、ロケールをインストールするコマンドを順に実行します。 ここまで行ったら即座にシステムを再起動してください。
           </p>
+          <p>
+            システムの再起動が成功したら次を行います。 今起動させている LFS システムが 12.0 よりも最新のものであって、GCC
+            のビルド時に <em class=
+            "parameter"><code>--disable-fixincludes</code></em>
+            オプションをつけていなかった場合は、Glibc ヘッダーファイルにおける<span class=
+            "quote">「<span class="quote">fixed</span>」</span>を削除します。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">rm -rfv $(dirname $(gcc -print-libgcc-file-name))/include-fixed/*</kbd></pre>
         </div>
         <p>
           パッケージをインストールします。
@@ -1228,7 +1237,7 @@ mkdir -pv /etc/ld.so.conf.d</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.2-85">ホーム</a>
+          "Linux From Scratch - Version r12.2-95">ホーム</a>
         </li>
       </ul>
     </div>

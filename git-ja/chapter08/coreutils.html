@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.2-85">
+  <body class="lfs" id="lfs-r12.2-95">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.2-85
+        Linux From Scratch - Version r12.2-95
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -39,7 +39,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.2-85">ホーム</a>
+          "Linux From Scratch - Version r12.2-95">ホーム</a>
         </li>
       </ul>
     </div>
@@ -56,11 +56,11 @@
           <div class="seglistitem">
             <div class="seg">
               <strong class="segtitle">概算ビルド時間:</strong> <span class=
-              "segbody">1.1 SBU</span>
+              "segbody">1.2 SBU</span>
             </div>
             <div class="seg">
               <strong class="segtitle">必要ディスク容量:</strong> <span class=
-              "segbody">173 MB</span>
+              "segbody">182 MB</span>
             </div>
           </div>
         </div>
@@ -96,25 +96,32 @@ FORCE_UNSAFE_CONFIGURE=1 ./configure \
             --enable-no-install-program=kill,uptime</kbd></pre>
         <div class="variablelist">
           <p class="title">
-            <strong>configure オプションの意味</strong>
+            <strong>コマンドと configure オプションの意味</strong>
           </p>
           <dl class="variablelist">
             <dt>
-              <span class="term"><span class=
-              "command"><strong>autoreconf</strong></span></span>
+              <span class="term"><span class="command"><strong>autoreconf
+              -fv</strong></span></span>
             </dt>
             <dd>
               <p>
                 国際化対応を行うパッチによってビルドシステムが修正されます。 したがって設定ファイル類を再生成する必要があります。
+                通常なら <em class="parameter"><code>-i</code></em>
+                オプションを使って標準的な補助 (auxilary)
+                ファイルのアップデートを行うところですが、本パッケージに関してはそれが通用しません。 それは <code class=
+                "filename">configure.ac</code> が古い gettext バージョンを指定しているためです。
               </p>
             </dd>
             <dt>
-              <span class="term"><span class=
-              "command"><strong>automake</strong></span></span>
+              <span class="term"><span class="command"><strong>automake
+              -af</strong></span></span>
             </dt>
             <dd>
               <p>
-                autotools の旧バージョンにおいて発生する問題を回避します。
+                automake の補助 (auxilary) ファイルは、<span class=
+                "command"><strong>autoreconf</strong></span> において <em class=
+                "parameter"><code>-i</code></em> オプションを指定しなかったため更新されていません。
+                以下のコマンドによってこれを更新し、ビルドが失敗しないようにします。
               </p>
             </dd>
             <dt>
@@ -180,11 +187,6 @@ FORCE_UNSAFE_CONFIGURE=1 ./configure \
         </p>
         <pre class="userinput"><kbd class=
         "command">groupdel dummy</kbd></pre>
-        <p>
-          <code class=
-          "filename">tests/cp/preserve-mode.sh</code>、<code class="filename">tests/mv/acl.sh</code>
-          というテストは chroot 環境内では失敗します。 ただし完成したシステム内では成功します。
-        </p>
         <p>
           パッケージをインストールします。
         </p>
@@ -1725,7 +1727,7 @@ sed -i 's/"1"/"8"/' /usr/share/man/man8/chroot.8</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.2-85">ホーム</a>
+          "Linux From Scratch - Version r12.2-95">ホーム</a>
         </li>
       </ul>
     </div>

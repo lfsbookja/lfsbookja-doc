@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.2-85">
+  <body class="lfs" id="lfs-r12.2-95">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.2-85
+        Linux From Scratch - Version r12.2-95
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -39,7 +39,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.2-85">ホーム</a>
+          "Linux From Scratch - Version r12.2-95">ホーム</a>
         </li>
       </ul>
     </div>
@@ -56,11 +56,11 @@
           <div class="seglistitem">
             <div class="seg">
               <strong class="segtitle">概算ビルド時間:</strong> <span class=
-              "segbody">2.0 SBU</span>
+              "segbody">1.6 SBU</span>
             </div>
             <div class="seg">
               <strong class="segtitle">必要ディスク容量:</strong> <span class=
-              "segbody">2.7 GB</span>
+              "segbody">819 MB</span>
             </div>
           </div>
         </div>
@@ -81,7 +81,6 @@ cd       build</kbd></pre>
         <pre class="userinput"><kbd class=
         "command">../configure --prefix=/usr       \
              --sysconfdir=/etc   \
-             --enable-gold       \
              --enable-ld=default \
              --enable-plugins    \
              --enable-shared     \
@@ -95,15 +94,6 @@ cd       build</kbd></pre>
             <strong>configure パラメーターの意味</strong>
           </p>
           <dl class="variablelist">
-            <dt>
-              <span class="term"><em class=
-              "parameter"><code>--enable-gold</code></em></span>
-            </dt>
-            <dd>
-              <p>
-                ゴールドリンカー (gold linker) をビルドし ld.gold としてインストールします。
-              </p>
-            </dd>
             <dt>
               <span class="term"><em class=
               "parameter"><code>--enable-ld=default</code></em></span>
@@ -181,20 +171,16 @@ cd       build</kbd></pre>
         <pre class="userinput"><kbd class=
         "command">grep '^FAIL:' $(find -name '*.log')</kbd></pre>
         <p>
-          GCC に対して <code class="option">--enable-default-pie</code> と
-          <code class="option">--enable-default-ssp</code>
-          の両オプションを指定した場合には、gold テストスイートにおいて 12 個のテストが失敗します。
-        </p>
-        <p>
           パッケージをインストールします。
         </p>
         <pre class="userinput"><kbd class=
         "command">make tooldir=/usr install</kbd></pre>
         <p>
-          不要なスタティックライブラリを削除します。
+          不要なスタティックライブラリなどのファイルを削除します。
         </p>
         <pre class="userinput"><kbd class=
-        "command">rm -fv /usr/lib/lib{bfd,ctf,ctf-nobfd,gprofng,opcodes,sframe}.a</kbd></pre>
+        "command">rm -rfv /usr/lib/lib{bfd,ctf,ctf-nobfd,gprofng,opcodes,sframe}.a \
+        /usr/share/doc/gprofng/</kbd></pre>
       </div>
       <div class="content" lang="ja" xml:lang="ja">
         <h2 class="sect2">
@@ -206,8 +192,8 @@ cd       build</kbd></pre>
             <div class="seg">
               <strong class="segtitle">インストールプログラム:</strong> <span class=
               "segbody">addr2line, ar, as, c++filt, dwp, elfedit, gprof,
-              gprofng, ld, ld.bfd, ld.gold, nm, objcopy, objdump, ranlib,
-              readelf, size, strings, strip</span>
+              gprofng, ld, ld.bfd, nm, objcopy, objdump, ranlib, readelf,
+              size, strings, strip</span>
             </div>
             <div class="seg">
               <strong class="segtitle">インストールライブラリ:</strong> <span class=
@@ -354,20 +340,6 @@ cd       build</kbd></pre>
                   <p>
                     複数のオブジェクトファイルやアーカイブファイルから、一つのファイルを生成するリンカー。
                     データの再配置やシンボル参照情報の結合を行います。
-                  </p>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <p>
-                    <a id="ld.gold" name="ld.gold"></a><span class=
-                    "term"><span class=
-                    "command"><strong>ld.gold</strong></span></span>
-                  </p>
-                </td>
-                <td>
-                  <p>
-                    elf オブジェクト向けファイルフォーマットのサポートにのみ特化した ld の限定バージョン。
                   </p>
                 </td>
               </tr>
@@ -613,7 +585,7 @@ cd       build</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.2-85">ホーム</a>
+          "Linux From Scratch - Version r12.2-95">ホーム</a>
         </li>
       </ul>
     </div>
