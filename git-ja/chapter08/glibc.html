@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.2-99">
+  <body class="lfs" id="lfs-r12.2-107">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.2-99
+        Linux From Scratch - Version r12.2-107
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -40,7 +40,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.2-99">ホーム</a>
+          "Linux From Scratch - Version r12.2-107">ホーム</a>
         </li>
       </ul>
     </div>
@@ -323,11 +323,15 @@ install -vm755 dest/usr/lib/*.so.* /usr/lib</kbd></pre>
             システムの再起動が成功したら次を行います。 今起動させている LFS システムが 12.0 よりも最新のものであって、GCC
             のビルド時に <em class=
             "parameter"><code>--disable-fixincludes</code></em>
-            オプションをつけていなかった場合は、Glibc ヘッダーファイルにおける<span class=
-            "quote">「<span class="quote">fixed</span>」</span>を削除します。
+            オプションをつけていなかった場合は、2 つの GCC ヘッダーファイルを適切な位置に移動させた上で Glibc
+            ヘッダーファイルにおける<span class="quote">「<span class=
+            "quote">fixed</span>」</span>を削除します。
           </p>
           <pre class="userinput"><kbd class=
-          "command">rm -rfv $(dirname $(gcc -print-libgcc-file-name))/include-fixed/*</kbd></pre>
+          "command">DIR=$(dirname $(gcc -print-libgcc-file-name))
+[ -e $DIR/include/limits.h ] || mv $DIR/include{-fixed,}/limits.h
+[ -e $DIR/include/syslimits.h ] || mv $DIR/include{-fixed,}/syslimits.h
+rm -rfv $(dirname $(gcc -print-libgcc-file-name))/include-fixed/*</kbd></pre>
         </div>
         <p>
           パッケージをインストールします。
@@ -1237,7 +1241,7 @@ mkdir -pv /etc/ld.so.conf.d</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.2-99">ホーム</a>
+          "Linux From Scratch - Version r12.2-107">ホーム</a>
         </li>
       </ul>
     </div>
