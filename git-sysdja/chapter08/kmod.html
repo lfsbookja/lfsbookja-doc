@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <title>
-      8.49. Kmod-33
+      8.57. Kmod-34
     </title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
     <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
@@ -12,26 +12,25 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.2-110-systemd">
+  <body class="lfs" id="lfs-r12.2-111-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.2-110-systemd
+        Linux From Scratch - Version r12.2-111-systemd
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
       </h3>
       <ul>
         <li class="prev">
-          <a accesskey="p" href="openssl.html" title="OpenSSL-3.4.1">戻る</a>
+          <a accesskey="p" href="meson.html" title="Meson-1.7.0">戻る</a>
           <p>
-            OpenSSL-3.4.1
+            Meson-1.7.0
           </p>
         </li>
         <li class="next">
-          <a accesskey="n" href="libelf.html" title=
-          "Elfutils-0.192 から取り出した libelf">次へ</a>
+          <a accesskey="n" href="coreutils.html" title="Coreutils-9.6">次へ</a>
           <p>
-            Elfutils-0.192 から取り出した libelf
+            Coreutils-9.6
           </p>
         </li>
         <li class="up">
@@ -40,12 +39,12 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.2-110-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.2-111-systemd">ホーム</a>
         </li>
       </ul>
     </div>
     <h1 class="sect1">
-      <a id="ch-system-kmod" name="ch-system-kmod"></a>8.49. Kmod-33
+      <a id="ch-system-kmod" name="ch-system-kmod"></a>8.57. Kmod-34
     </h1>
     <div class="wrap" lang="ja" xml:lang="ja">
       <div class="package" lang="ja" xml:lang="ja">
@@ -67,47 +66,26 @@
       </div>
       <div class="installation" lang="ja" xml:lang="ja">
         <h2 class="sect2">
-          8.49.1. Kmod のインストール
+          8.57.1. Kmod のインストール
         </h2>
         <p>
           Kmod をコンパイルするための準備をします。
         </p>
-        <pre class="userinput"><kbd class=
-        "command">./configure --prefix=/usr     \
-            --sysconfdir=/etc \
-            --with-openssl    \
-            --with-xz         \
-            --with-zstd       \
-            --with-zlib       \
-            --disable-manpages</kbd></pre>
+        <pre class="userinput"><kbd class="command">mkdir -p build
+cd       build
+
+meson setup --prefix=/usr ..    \
+            --sbindir=/usr/sbin \
+            --buildtype=release \
+            -D manpages=false</kbd></pre>
         <div class="variablelist">
           <p class="title">
             <strong>configure オプションの意味</strong>
           </p>
           <dl class="variablelist">
             <dt>
-              <span class="term"><em class=
-              "parameter"><code>--with-openssl</code></em></span>
-            </dt>
-            <dd>
-              <p>
-                このオプションは Kmod において、カーネルモジュールに対する PKCS7 署名を取り扱えるようにします。
-              </p>
-            </dd>
-            <dt>
-              <span class="term"><em class=
-              "parameter"><code>--with-xz</code></em>, <em class=
-              "parameter"><code>--with-zlib</code></em>, <em class=
-              "parameter"><code>--with-zstd</code></em></span>
-            </dt>
-            <dd>
-              <p>
-                これらのオプションは、Kmod が圧縮されたカーネルモジュールを取り扱えるようにするものです。
-              </p>
-            </dd>
-            <dt>
-              <span class="term"><em class=
-              "parameter"><code>--disable-manpages</code></em></span>
+              <span class="term"><em class="parameter"><code>-D
+              manpages=false</code></em></span>
             </dt>
             <dd>
               <p>
@@ -119,7 +97,7 @@
         <p>
           パッケージをコンパイルします。
         </p>
-        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <pre class="userinput"><kbd class="command">ninja</kbd></pre>
         <p>
           本パッケージのテストスイートでは、 生のカーネルヘッダー（以前にインストールした<span class=
           "quote">「<span class=
@@ -127,23 +105,13 @@
           の範囲を超えているものです。
         </p>
         <p>
-          パッケージインストールし、Module-Init-Tools パッケージとの互換性を保つためにシンボリックリンクを再生成します。
-          （Module-Init-Tools パッケージは、これまで Linux カーネルモジュールを取り扱っていました。）
-          ビルドしているシステムはシンボリックリンクを <code class="filename">/usr/bin</code>
-          に生成しますが、ここでは <span class="command"><strong>lsmod</strong></span>
-          のみそのままにして、残りは <code class="filename">/usr/sbin</code>
-          へのシンボリックリンクとします。
+          パッケージをインストールします。
         </p>
-        <pre class="userinput"><kbd class="command">make install
-
-for target in depmod insmod modinfo modprobe rmmod; do
-  ln -sfv ../bin/kmod /usr/sbin/$target
-  rm -fv /usr/bin/$target
-done</kbd></pre>
+        <pre class="userinput"><kbd class="command">ninja install</kbd></pre>
       </div>
       <div class="content" lang="ja" xml:lang="ja">
         <h2 class="sect2">
-          <a id="contents-kmod" name="contents-kmod"></a>8.49.2. Kmod の構成
+          <a id="contents-kmod" name="contents-kmod"></a>8.57.2. Kmod の構成
         </h2>
         <div class="segmentedlist">
           <div class="seglistitem">
@@ -293,16 +261,15 @@ done</kbd></pre>
     <div class="navfooter">
       <ul>
         <li class="prev">
-          <a accesskey="p" href="openssl.html" title="OpenSSL-3.4.1">戻る</a>
+          <a accesskey="p" href="meson.html" title="Meson-1.7.0">戻る</a>
           <p>
-            OpenSSL-3.4.1
+            Meson-1.7.0
           </p>
         </li>
         <li class="next">
-          <a accesskey="n" href="libelf.html" title=
-          "Elfutils-0.192 から取り出した libelf">次へ</a>
+          <a accesskey="n" href="coreutils.html" title="Coreutils-9.6">次へ</a>
           <p>
-            Elfutils-0.192 から取り出した libelf
+            Coreutils-9.6
           </p>
         </li>
         <li class="up">
@@ -311,7 +278,7 @@ done</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.2-110-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.2-111-systemd">ホーム</a>
         </li>
       </ul>
     </div>
