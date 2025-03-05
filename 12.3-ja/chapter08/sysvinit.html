@@ -1,0 +1,295 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.82. SysVinit-3.14
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.3">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.3
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="sysklogd.html" title="Sysklogd-2.7.0">戻る</a>
+          <p>
+            Sysklogd-2.7.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="aboutdebug.html" title="デバッグシンボルについて">次へ</a>
+          <p>
+            デバッグシンボルについて
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-system-sysvinit" name="ch-system-sysvinit"></a>8.82.
+      SysVinit-3.14
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          SysVinit パッケージは、システムの起動、実行、シャットダウンを制御するプログラムを提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.1 SBU 以下</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">2.9 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.82.1. SysVinit のインストール
+        </h2>
+        <p>
+          まず他のパッケージによりインストールされるプログラムを取り除いたり、出力メッセージの明確化、警告メッセージの修正などを行うパッチを適用します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../sysvinit-3.14-consolidated-1.patch</kbd></pre>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-sysvinit" name="contents-sysvinit"></a>8.82.2.
+          SysVinit の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">bootlogd, fstab-decode, halt, init, killall5,
+              poweroff (halt へのリンク), reboot (halt へのリンク), runlevel, shutdown,
+              telinit (init へのリンク)</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="bootlogd" name="bootlogd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>bootlogd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ブート時のメッセージをログファイルに出力します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fstab-decode" name="fstab-decode"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fstab-decode</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    fstab 形式の (fstab-encoded の) 引数とともにコマンドを実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="halt-sysv" name="halt-sysv"></a><span class=
+                    "term"><span class=
+                    "command"><strong>halt</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ランレベルが既に 0 ではない通常の起動状態の場合に <span class=
+                    "command"><strong>shutdown</strong></span> をオプション
+                    <em class="parameter"><code>-h</code></em> をつけて実行します。
+                    そしてカーネルに対してシステム停止を指示します。 システムが停止される状況は <code class=
+                    "filename">/var/log/wtmp</code> ファイルに記録されます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="init-sysv" name="init-sysv"></a><span class=
+                    "term"><span class=
+                    "command"><strong>init</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    カーネルがハードウェアを初期化した後に、最初に起動するプロセスです。
+                    ブート処理がこのプロセスに引き継がれ、設定ファイルにて指定されたプロセスをすべて起動していきます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="killall5" name="killall5"></a><span class=
+                    "term"><span class=
+                    "command"><strong>killall5</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    プロセスすべてに対してシグナルを送信します。 ただし自分のセッション内の起動プロセスは除きます。
+                    つまり本コマンドを実行した親シェルは停止しません。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="poweroff-sysv" name=
+                    "poweroff-sysv"></a><span class="term"><span class=
+                    "command"><strong>poweroff</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    カーネルに対してシステムの停止を指示し、コンピューターの電源を切ります。(<span class=
+                    "command"><strong>halt</strong></span> を参照してください。)
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="reboot-sysv" name="reboot-sysv"></a><span class=
+                    "term"><span class=
+                    "command"><strong>reboot</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    カーネルに対してシステムの再起動を指示します。(<span class=
+                    "command"><strong>halt</strong></span> を参照してください。)
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="runlevel-sysv" name=
+                    "runlevel-sysv"></a><span class="term"><span class=
+                    "command"><strong>runlevel</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    現在のランレベルと直前のランレベルを表示します。 最新のランレベルは <code class=
+                    "filename">/run/utmp</code> ファイルに記録されています。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="shutdown-sysv" name=
+                    "shutdown-sysv"></a><span class="term"><span class=
+                    "command"><strong>shutdown</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    システムの終了を安全に行います。
+                    その際にはプロセスすべてへのシグナル送信を行い、ログインユーザーへの通知も行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="telinit-sysv" name="telinit-sysv"></a><span class=
+                    "term"><span class=
+                    "command"><strong>telinit</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>init</strong></span>
+                    に対してランレベルの変更を指示します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="sysklogd.html" title="Sysklogd-2.7.0">戻る</a>
+          <p>
+            Sysklogd-2.7.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="aboutdebug.html" title="デバッグシンボルについて">次へ</a>
+          <p>
+            デバッグシンボルについて
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,916 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      9.6. System V ブートスクリプトの利用と設定
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.3">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.3
+      </h4>
+      <h3>
+        第9章 システム設定
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="network.html" title="全般的なネットワークの設定">戻る</a>
+          <p>
+            全般的なネットワークの設定
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="locale.html" title="システムロケールの設定">次へ</a>
+          <p>
+            システムロケールの設定
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter09.html" title="第9章 システム設定">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-config-usage" name="ch-config-usage"></a>9.6. System V
+      ブートスクリプトの利用と設定
+    </h1>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          9.6.1. System V ブートスクリプトはどのようにして動くのか
+        </h2>
+        <p>
+          本バージョンの LFS では SysVinit という特別なブート機能を利用しており、<span class=
+          "emphasis"><em>ランレベル (run-levels)</em></span> という考え方に基づいています。
+          ブート処理はシステムによって大きく異なります。 つまり特定の Linux ディストリビューションにおける 1
+          つの処理方法がうまく動作しているからといって、LFS においても全く同じように動くわけではありません。 LFS
+          では独自の方法でこれを取り入れることにします。 ただし標準として受け入れられるような方法を取ります。
+        </p>
+        <p>
+          ブート処理の別方法として <span class="command"><strong>systemd</strong></span>
+          があります。 ここではブート処理に関して、これ以上のことを述べません。 詳しくは <a class="ulink" href=
+          "https://www.linux.com/training-tutorials/understanding-and-using-systemd/">
+          https://www.linux.com/training-tutorials/understanding-and-using-systemd/</a>
+          を参照してください。
+        </p>
+        <p>
+          SysVinit (これ以降は<span class="quote">「<span class=
+          "quote">init</span>」</span>と表現します) はランレベルという仕組みを利用しています。 ランレベルには 7
+          つのレベル、0 から 6 があります。 (実際にはランレベルはそれ以上あるのですが、特殊な場合であって普通は利用されません。 詳しくは
+          <a class="ulink" href=
+          "https://man.archlinux.org/man/init.8">init(8)</a> を参照してください。)
+          各レベルは、コンピューターの起動時や終了時における処理動作に対応づいており、デフォルトのランレベルは 3 となっています。 LFS
+          において実装されるランレベルの詳細を以下に説明します。
+        </p>
+        <div class="literallayout">
+          <p>
+            0:&nbsp;コンピューターの停止<br />
+            1:&nbsp;シングルユーザーモード<br />
+            2:&nbsp;拡張用として予約されています。&nbsp;拡張がなければ&nbsp;3&nbsp;と同じです。<br />
+            3:&nbsp;マルチユーザーモード、ネットワークあり<br />
+            4:&nbsp;拡張用として予約されています。&nbsp;拡張がなければ&nbsp;3&nbsp;と同じです。<br />
+            5:&nbsp;4&nbsp;と同様。通常&nbsp;(GNOME&nbsp;の&nbsp;<span class=
+            "command"><strong>gdm</strong></span>&nbsp;や&nbsp;LXDE&nbsp;の&nbsp;<span class="command"><strong>lxdm</strong></span>&nbsp;のような)&nbsp;GUI&nbsp;ログインに用いられます。<br />
+
+            6:&nbsp;コンピューターの再起動
+          </p>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            従来より、上のランレベル 2 は<span class="quote">「<span class=
+            "quote">ネットワークなしにおけるマルチユーザーモード</span>」</span>として定義されていました。
+            ただしこれは相当以前の話として、シリアルポートを介して複数ユーザーがシステムにログインするケースだけを表しています。
+            今日のコンピューター環境においてこれは意味をなしません。 そこでここでは<span class=
+            "quote">「<span class="quote">拡張用の予約</span>」</span>としています。
+          </p>
+        </div>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="conf-sysvinit" name="conf-sysvinit"></a>9.6.2. SysVinit の設定
+        </h2>
+        <p>
+          カーネルの初期化にあたって最初に起動するプログラムは（コマンドラインから指定されていなければ）<span class=
+          "command"><strong>init</strong></span> です。 このプログラムは初期設定ファイル
+          <code class="filename">/etc/inittab</code> を読み込みます。
+          そのファイルは以下のようにして生成します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; /etc/inittab &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/inittab
+
+id:3:initdefault:
+
+si::sysinit:/etc/rc.d/init.d/rc S
+
+l0:0:wait:/etc/rc.d/init.d/rc 0
+l1:S1:wait:/etc/rc.d/init.d/rc 1
+l2:2:wait:/etc/rc.d/init.d/rc 2
+l3:3:wait:/etc/rc.d/init.d/rc 3
+l4:4:wait:/etc/rc.d/init.d/rc 4
+l5:5:wait:/etc/rc.d/init.d/rc 5
+l6:6:wait:/etc/rc.d/init.d/rc 6
+
+ca:12345:ctrlaltdel:/sbin/shutdown -t1 -a -r now
+
+su:S06:once:/sbin/sulogin
+s1:1:respawn:/sbin/sulogin
+
+1:2345:respawn:/sbin/agetty --noclear tty1 9600
+2:2345:respawn:/sbin/agetty tty2 9600
+3:2345:respawn:/sbin/agetty tty3 9600
+4:2345:respawn:/sbin/agetty tty4 9600
+5:2345:respawn:/sbin/agetty tty5 9600
+6:2345:respawn:/sbin/agetty tty6 9600
+
+# End /etc/inittab</code>
+EOF</kbd></pre>
+        <p>
+          この初期化ファイルに関することは <span class="emphasis"><em>inittab</em></span> の
+          man ページにて説明されています。 LFS において重要となるコマンドは <span class=
+          "command"><strong>rc</strong></span> です。 初期化ファイルは <span class=
+          "command"><strong>rc</strong></span> コマンドに対してスクリプトの実行を指示します。
+          実行されるスクリプトは <code class="filename">/etc/rc.d/rcS.d</code> ディレクトリにて
+          S で始まるスクリプトです。 そしてその後に <code class=
+          "filename">/etc/rc.d/rc?.d</code> ディレクトリにて、同じく S で始まるスクリプトも実行されます。
+          ここで ? は、初期化を行う際の数値を示します。
+        </p>
+        <p>
+          扱いやすさを考慮して、<span class="command"><strong>rc</strong></span> スクリプトは
+          <code class="filename">/lib/lsb/init-functions</code>
+          ディレクトリにあるライブラリ群を読み込む形にしています。 このライブラリは、さらにオプションで設定ファイル <code class=
+          "filename">/etc/sysconfig/rc.site</code> を読み込みます。
+          本節以降に説明している、各種の設定パラメーターは、上のファイルにて設定することもできます。
+          上のファイルは、システム上のパラメーターを１つのファイルに集約して設定できるようになっています。
+        </p>
+        <p>
+          デバッグがしやすいように、各ライブラリの関数スクリプトは、すべて <code class=
+          "filename">/run/var/bootlog</code> にログを出力するようになっています。 <code class=
+          "filename">/run</code> ディレクトリは tmpfs であることから、<code class=
+          "filename">/run/var/bootlog</code> ファイルはブート前後にて恒常的なファイルではありません。
+          ただしブート処理の最後には、恒常的なファイルである <code class=
+          "filename">/var/log/boot.log</code> に情報が出力されます。
+        </p>
+        <div class="sect3">
+          <h3 class="sect3">
+            <a id="init-levels" name="init-levels"></a>9.6.2.1. ランレベルの変更
+          </h3>
+          <p>
+            ランレベルを変更するには <span class="command"><strong>init <em class=
+            "replaceable"><code>&lt;runlevel&gt;</code></em></strong></span>
+            を実行します。 <em class=
+            "replaceable"><code>&lt;runlevel&gt;</code></em> はランレベルを示す数字です。
+            例えばコンピューターを再起動するには <span class="command"><strong>init
+            6</strong></span> コマンドを実行します。 これは <span class=
+            "command"><strong>reboot</strong></span> コマンドのエイリアスとなっています。 同様に
+            <span class="command"><strong>init 0</strong></span> は
+            <span class="command"><strong>halt</strong></span> のエイリアスです。
+          </p>
+          <p>
+            <code class="filename">/etc/rc.d</code>
+            ディレクトリの配下には複数のサブディレクトリがあります。 そのディレクトリ名は <code class=
+            "filename">rc?.d</code> のようになっています。 (? はランレベルの数字を表します。) また
+            <code class="filename">rcS.d</code> というサブディレクトリもあります。
+            それらサブディレクトリ内には数多くのシンボリックリンクがあります。 シンボリックリンクの先頭一文字には <span class=
+            "emphasis"><em>K</em></span> や <span class=
+            "emphasis"><em>S</em></span> が用いられ、続いて二桁の数値文字がつけられています。 K
+            はサービスの停止 (kill)、S はサービスの起動 (start) を意味します。
+            二桁の数字はスクリプトの起動順を定めるもので、00 から 99 までが割振られ、小さな数字から順に実行されます。
+            <span class="command"><strong>init</strong></span>
+            コマンドによってランレベルが変更される時は、そのランレベルに応じて必要なサービスが起動するか停止することになります。
+          </p>
+          <p>
+            スクリプトファイルは <code class="filename">/etc/rc.d/init.d</code>
+            ディレクトリにあります。 実際の処理はここにあるファイルが用いられます。 これらに対してはシンボリックリンクが用意されています。
+            サービスの起動 (S で始まる) と停止 (K で始まる) を行うシンボリックリンクは <code class=
+            "filename">/etc/rc.d/init.d</code> ディレクトリにあるスクリプトを指し示しています。
+            このようにしているのは、各スクリプトが <em class=
+            "parameter"><code>start</code></em>、 <em class=
+            "parameter"><code>stop</code></em>、 <em class=
+            "parameter"><code>restart</code></em>、 <em class=
+            "parameter"><code>reload</code></em>、 <em class=
+            "parameter"><code>status</code></em>
+            といったさまざまなパラメーターにより呼び出されるためです。 K の名前を持つシンボリックリンクが起動されるということは
+            <em class="parameter"><code>stop</code></em>
+            パラメーターをつけて該当するスクリプトが実行されるということです。 同様に S
+            の名前を持つシンボリックリンクが起動されるということは <em class=
+            "parameter"><code>start</code></em> パラメーターをつけて呼び出されるということになります。
+          </p>
+          <p>
+            スクリプトに対するパラメーターは以下のとおりです。
+          </p>
+          <div class="variablelist">
+            <dl class="variablelist">
+              <dt>
+                <span class="term"><em class=
+                "parameter"><code>start</code></em></span>
+              </dt>
+              <dd>
+                <p>
+                  サービスを起動します。
+                </p>
+              </dd>
+              <dt>
+                <span class="term"><em class=
+                "parameter"><code>stop</code></em></span>
+              </dt>
+              <dd>
+                <p>
+                  サービスを停止します。
+                </p>
+              </dd>
+              <dt>
+                <span class="term"><em class=
+                "parameter"><code>restart</code></em></span>
+              </dt>
+              <dd>
+                <p>
+                  サービスをいったん停止し再起動します。
+                </p>
+              </dd>
+              <dt>
+                <span class="term"><em class=
+                "parameter"><code>reload</code></em></span>
+              </dt>
+              <dd>
+                <p>
+                  サービスの設定ファイルを更新します。 設定ファイルが変更されたものの、サービスの再起動は必要ではない場合に利用します。
+                </p>
+              </dd>
+              <dt>
+                <span class="term"><em class=
+                "parameter"><code>status</code></em></span>
+              </dt>
+              <dd>
+                <p>
+                  サービスがどの PID 値で動いているかを表示します。
+                </p>
+              </dd>
+            </dl>
+          </div>
+          <p>
+            ブート機能を動作させる方法は自由に取り決めて設定して構いません。 このシステムはつまるところあなた自身のシステムだからです。
+            上に示したファイル類はブート機能を定めた一例に過ぎません。
+          </p>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          9.6.3. Udev ブートスクリプト
+        </h2>
+        <p>
+          初期起動スクリプト <code class="filename">/etc/rc.d/init.d/udev</code> は
+          <span class="command"><strong>udevd</strong></span>
+          を起動し、カーネルにより既に生成されている "コールドプラグ" のデバイスをすべて稼動させます。
+          そしてすべてのルールが起動完了するのを待ちます。 このスクリプトは <code class=
+          "filename">/sbin/hotplug</code> のデフォルトから uevent ハンドラーを取り除きます。
+          この時点でカーネルは、他の実行モジュールを呼び出す必要がないからです。 そのかわりに、<span class=
+          "command"><strong>udevd</strong></span>は、カーネルが起動する uevent
+          をネットリンクソケット (netlink socket) 上で待ち受けます。
+        </p>
+        <p>
+          <span class=
+          "command"><strong>/etc/rc.d/init.d/udev_retry</strong></span>
+          スクリプトは、サブシステムに対するイベントの再起動を行ないます。
+          そのサブシステムとはファイルシステムに依存するもので、<span class=
+          "command"><strong>mountfs</strong></span> が実行されるまでマウントされません。 (特に
+          <code class="filename">/usr</code> や <code class=
+          "filename">/var</code> がこれに該当します。) <span class=
+          "command"><strong>mountfs</strong></span>
+          スクリプトの後にこのスクリプトが実行されるので、(イベントが再起動されるものであれば) 二度目には成功します。 このスクリプトは
+          <code class="filename">/etc/sysconfig/udev_retry</code>
+          ファイルにより設定が可能で、コメントを除く記述項目はすべてサブシステム名を表わし、二度目の起動時のリトライ対象となります。
+          (デバイスのサブシステムを知るには <span class="command"><strong>udevadm info
+          --attribute-walk &lt;device&gt;</strong></span> を実行します。 ここで
+          &lt;device&gt; は、/dev や /sys から始まる絶対パスであり /dev/sr0 や /sys/class/rtc
+          などを表します。)
+        </p>
+        <p>
+          カーネルモジュールのロードや udev に関しては <a class="xref" href=
+          "udev.html#module-loading" title=
+          "9.3.2.3. モジュールのロード">「モジュールのロード」</a> を参照してください。
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="ch-config-clock" name="ch-config-clock"></a>9.6.4.
+          システムクロックの設定
+        </h2>
+        <p>
+          <span class="command"><strong>setclock</strong></span>
+          スクリプトはハードウェアクロックから時刻を読み取ります。 ハードウェアクロックは BIOS クロック、あるいは CMOS
+          (Complementary Metal Oxide Semiconductor) クロックとしても知られているものです。
+          ハードウェアクロックが UTC に設定されていると <span class=
+          "command"><strong>setclock</strong></span> スクリプトは <code class=
+          "filename">/etc/localtime</code>
+          ファイルを参照して、ハードウェアクロックの示す時刻をローカル時刻に変換します。 <code class=
+          "filename">/etc/localtime</code> ファイルは <span class=
+          "command"><strong>hwclock</strong></span>
+          プログラムに対して、ユーザーがどのタイムゾーンを利用するかを伝えます。 ハードウェアクロックが UTC
+          に設定されているかどうかを知る方法はないので、手動で設定を行う必要があります。
+        </p>
+        <p>
+          <span class="command"><strong>setclock</strong></span> スクリプトは
+          <span class="application">udev</span>
+          によって起動されます。この時というのはブート時であり、カーネルがハードウェアを検出する時です。
+          停止パラメータを与えて手動でこのスクリプトを実行することもできます。 その場合 CMOS クロックに対してシステム時刻が保存されます。
+        </p>
+        <p>
+          ハードウェアクロックが UTC に設定されているかどうか忘れた場合は <strong class=
+          "userinput"><code>hwclock --localtime --show</code></strong>
+          を実行すれば確認できます。 このコマンドにより、ハードウェアクロックに基づいた現在時刻が表示されます。
+          その時刻が手元の時計と同じ時刻であれば、ローカル時刻として設定されているわけです。 一方それがローカル時刻でなかった場合は、おそらくは
+          UTC に設定されているからでしょう。 <span class=
+          "command"><strong>hwclock</strong></span>
+          によって示された時刻からタイムゾーンに応じた一定時間を加減してみてください。 例えばタイムゾーンが MST であった場合、これは
+          GMT -0700 なので、7時間を加えればローカル時刻となります。
+        </p>
+        <p>
+          ハードウェアクロックが UTC 時刻として設定<span class=
+          "emphasis"><em>されていない</em></span>場合は、以下に示す変数 <code class=
+          "envar">UTC</code> の値を <em class="parameter"><code>0</code></em>
+          (ゼロ) にしてください。
+        </p>
+        <p>
+          以下のコマンドを実行して <code class="filename">/etc/sysconfig/clock</code>
+          ファイルを新規に作成します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; /etc/sysconfig/clock &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/sysconfig/clock
+
+UTC=1
+
+# Set this to any options you might need to give to hwclock,
+# such as machine hardware clock type for Alphas.
+CLOCKPARAMS=
+
+# End /etc/sysconfig/clock</code>
+EOF</kbd></pre>
+        <p>
+          LFS において時刻の取り扱い方を示した分かりやすいヒントが <a class="ulink" href=
+          "https://www.linuxfromscratch.org/hints/downloads/files/time.txt">https://www.linuxfromscratch.org/hints/downloads/files/time.txt</a>
+          にあります。 そこではタイムゾーン、UTC、環境変数 <code class="envar">TZ</code>
+          などについて説明しています。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            CLOCKPARAMS と UTC パラメーターは <code class=
+            "filename">/etc/sysconfig/rc.site</code> ファイルにて設定することもできます。
+          </p>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="ch-config-console" name="ch-config-console"></a>9.6.5. Linux
+          コンソールの設定
+        </h2>
+        <p>
+          この節ではブートスクリプト <span class="command"><strong>console</strong></span>
+          の設定方法について説明します。 このスクリプトはキーボードマップ、コンソールフォント、カーネルログレベルを設定します。 非アスキー文字
+          (例えば著作権、ポンド記号、ユーロ記号など) を使わず、キーボードが US 配列であるなら、本節は読み飛ばしてください。
+          <span class="command"><strong>console</strong></span>
+          ブートスクリプトの設定ファイルが存在しない場合 (あるいはこれと同等の設定が <code class=
+          "filename">rc.site</code> にない場合) は、このスクリプトは何も行いません。
+        </p>
+        <p>
+          <span class="command"><strong>console</strong></span> スクリプトは、設定情報を
+          <code class="filename">/etc/sysconfig/console</code> ファイルから読み込みます。
+          まずは利用するキーボードマップとスクリーンフォントを定めます。 さまざまな言語に応じた設定方法については <a class=
+          "ulink" href=
+          "https://tldp.org/HOWTO/HOWTO-INDEX/other-lang.html">https://tldp.org/HOWTO/HOWTO-INDEX/other-lang.html</a>
+          を参照してください。 よく分からない場合は <code class=
+          "filename">/usr/share/keymaps</code> ディレクトリや <code class=
+          "filename">/usr/share/consolefonts</code>
+          ディレクトリを見て、正しいキーマップとスクリーンフォントを探してください。 マニュアルページ <a class="ulink"
+          href="https://man.archlinux.org/man/loadkeys.1">loadkeys(1)</a> と
+          <a class="ulink" href=
+          "https://man.archlinux.org/man/setfont.8">setfont(8)</a>
+          を見て、これらのプログラムに対する適切な引数を決定してください。
+        </p>
+        <p>
+          <code class="filename">/etc/sysconfig/console</code> ファイルの各行には
+          <code class="envar">VARIABLE=value</code> という記述を行います。
+          そして変数には以下に示すものが利用可能です。
+        </p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt>
+              <span class="term">LOGLEVEL</span>
+            </dt>
+            <dd>
+              <p>
+                この変数は、コンソールに出力されるカーネルメッセージのログレベルを指定するもので <span class=
+                "command"><strong>dmesg -n</strong></span> コマンドにより設定されます。
+                有効な設定値は<code class="literal">1</code>(メッセージ出力なし)
+                から<code class="literal">8</code>まであります。 デフォルトは "7" です。
+                かなり詳細な出力となっています。
+              </p>
+            </dd>
+            <dt>
+              <span class="term">KEYMAP</span>
+            </dt>
+            <dd>
+              <p>
+                この変数は <span class="command"><strong>loadkeys</strong></span>
+                プログラムに対する引数を指定します。 このプログラムは <code class="literal">it</code>
+                などのキーマップをロードします。 この変数がセットされていない場合、ブートスクリプトは <span class=
+                "command"><strong>loadkeys</strong></span>
+                プログラムを実行せず、デフォルトのカーネルキーマップが用いられます。
+                キーマップによっては同一名に対して重複した定義を持つものもあります。 (cz とその変形が qwerty/ と
+                qwertz/ にあり、es は olpc/ と qwerty/ に、trf は fgGIod/ と qwerty/
+                にあります) こういった場合には、適切なキーマップがロードされるように、親ディレクトリを必ず指定する必要があります
+                (qwerty/es など)。
+              </p>
+            </dd>
+            <dt>
+              <span class="term">KEYMAP_CORRECTIONS</span>
+            </dt>
+            <dd>
+              <p>
+                この変数は (あまり利用されませんが) <span class=
+                "command"><strong>loadkeys</strong></span>
+                プログラムを二度目に呼び出す際の引数を指定します。
+                普通のキーマップでは十分な設定にならない時の微調整を行うために利用します。
+                例えばユーロ記号がキーマップの中に含まれておらずこれを付け加える場合には、この変数に対して <code class=
+                "literal">euro2</code> を設定します。
+              </p>
+            </dd>
+            <dt>
+              <span class="term">FONT</span>
+            </dt>
+            <dd>
+              <p>
+                この変数は <span class="command"><strong>setfont</strong></span>
+                プログラムへの引数を指定します。 一般にこの変数にはフォント名、<code class=
+                "literal">-m</code>、アプリケーションキャラクターマップ (application character
+                map) を順に指定します。 例えばフォントとして <span class="quote">「<span class=
+                "quote">lat1-16</span>」</span>、アプリケーションキャラクターマップとして<span class="quote">「<span class="quote">8859-1</span>」</span>を指定する場合、この変数には
+                <code class="literal">lat1-16 -m 8859-1</code> を設定します。
+                (これは米国にて適当な設定となります。) UTF-8 モードの場合、カーネルは UTF-8 キーマップ内の 8
+                ビットキーコードを変換するためにアプリケーションキャラクターマップを利用します。 したがって "-m"
+                パラメーターには、キーマップ内キーコードのエンコーディングを指定する必要があります。
+              </p>
+            </dd>
+            <dt>
+              <span class="term">UNICODE</span>
+            </dt>
+            <dd>
+              <p>
+                コンソールを UTF-8 モードにするには、この変数を <code class="literal">1</code>,
+                <code class="literal">yes</code>, <code class=
+                "literal">true</code> のいずれかに指定します。 UTF-8
+                ベースのロケールであればこの設定を行います。 そうでないロケールにおいて設定するのは不適切です。
+              </p>
+            </dd>
+            <dt>
+              <span class="term">LEGACY_CHARSET</span>
+            </dt>
+            <dd>
+              <p>
+                キーボードレイアウトの多くに対して、Kbd パッケージは標準的な Unicode キーマップを提供していません。
+                この変数にて UTF-8 ではないキーマップのエンコーディングが指定されていたら <span class=
+                "command"><strong>console</strong></span> ブートスクリプトは利用可能な
+                UTF-8 キーマップに変換します。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          以下はいくつかの設定例です。
+        </p>
+        <div class="itemizedlist">
+          <ul>
+            <li class="listitem">
+              <p>
+                <a class="xref" href="locale.html" title=
+                "9.7. システムロケールの設定">「システムロケールの設定」</a> においては、Linux
+                コンソールでの対話セッションのロケールは <code class="literal">C.UTF-8</code>
+                を用いることにしていました。 そこで <code class="literal">UNICODE</code> は
+                <code class="literal">1</code> にする必要があります。 <code class=
+                "literal">C.UTF-8</code>
+                のもとでプログラムメッセージの全文字に対するグリフを持っているコンソールフォントと言えば、<span class=
+                "application">Kbd</span> の中では <code class=
+                "filename">LatArCyrHeb*.psfu.gz</code>, <code class=
+                "filename">LatGrkCyr*.psfu.gz</code>, <code class=
+                "filename">Lat2-Terminus16.psfu.gz</code>, <code class=
+                "filename">pancyrillic.f16.psfu.gz</code> です。 これらは
+                <code class="filename">/usr/share/consolefonts</code> にあります。
+                (その他のコンソールフォントは、ユニコードの左右のクォーテーションマークや英語ダッシュなどのグリフが欠落しています。)
+                したがってデフォルトのコンソールフォントとして、たとえば <code class=
+                "filename">Lat2-Terminus16</code> を設定します。
+              </p>
+              <pre class="userinput"><kbd class=
+              "command">cat &gt; /etc/sysconfig/console &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/sysconfig/console
+
+UNICODE="1"
+FONT="Lat2-Terminus16"
+
+# End /etc/sysconfig/console</code>
+EOF</kbd></pre>
+            </li>
+            <li class="listitem">
+              <p>
+                Unicode を用いない設定では、普通は KEYMAP 変数と FONT 変数のみを定めます。
+                例えばポーランド語の設定であれば以下のようになります。
+              </p>
+              <pre class="userinput"><kbd class=
+              "command">cat &gt; /etc/sysconfig/console &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/sysconfig/console
+
+KEYMAP="pl2"
+FONT="lat2a-16 -m 8859-2"
+
+# End /etc/sysconfig/console</code>
+EOF</kbd></pre>
+            </li>
+            <li class="listitem">
+              <p>
+                上で述べたように、普通のキーマップの設定に対して多少の修正を必要とする場合もあります。
+                以下の例はドイツ語のキーマップにユーロ記号を加える例です。
+              </p>
+              <pre class="userinput"><kbd class=
+              "command">cat &gt; /etc/sysconfig/console &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/sysconfig/console
+
+KEYMAP="de-latin1"
+KEYMAP_CORRECTIONS="euro2"
+FONT="lat0-16 -m 8859-15"
+UNICODE="1"
+
+# End /etc/sysconfig/console</code>
+EOF</kbd></pre>
+            </li>
+            <li class="listitem">
+              <p>
+                以下は Unicode を用いたブルガリア語の設定例です。 通常のキーマップが存在しているものと仮定しています。
+              </p>
+              <pre class="userinput"><kbd class=
+              "command">cat &gt; /etc/sysconfig/console &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/sysconfig/console
+
+UNICODE="1"
+KEYMAP="bg_bds-utf8"
+FONT="LatArCyrHeb-16"
+
+# End /etc/sysconfig/console</code>
+EOF</kbd></pre>
+            </li>
+            <li class="listitem">
+              <p>
+                上の例においては 512 個のグリフを持つ LatArCyrHeb-16 フォントを利用しています。
+                この場合、フレームバッファーを利用していなければ Linux コンソール上に鮮やかな色づけを行うことは出来なくなります。
+                フレームバッファーがない状態で文字フォントを変更することなく色づけを適切に行いたい場合は、以下に示すように 256
+                個のグリフを持った、この言語に固有のフォントを用いる方法もあります。
+              </p>
+              <pre class="userinput"><kbd class=
+              "command">cat &gt; /etc/sysconfig/console &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/sysconfig/console
+
+UNICODE="1"
+KEYMAP="bg_bds-utf8"
+FONT="cyr-sun16"
+
+# End /etc/sysconfig/console</code>
+EOF</kbd></pre>
+            </li>
+            <li class="listitem">
+              <p>
+                以下の例では ISO-8859-15 から UTF-8 へのキーマップ変換の自動化 (keymap
+                autoconversion) を指定し、Unicode におけるデッドキー (dead keys)
+                を有効にするものです。
+              </p>
+              <pre class="userinput"><kbd class=
+              "command">cat &gt; /etc/sysconfig/console &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/sysconfig/console
+
+UNICODE="1"
+KEYMAP="de-latin1"
+KEYMAP_CORRECTIONS="euro2"
+LEGACY_CHARSET="iso-8859-15"
+FONT="LatArCyrHeb-16 -m 8859-15"
+
+# End /etc/sysconfig/console</code>
+EOF</kbd></pre>
+            </li>
+            <li class="listitem">
+              <p>
+                キーマップにデッドキー (dead keys) を持つものがあります。
+                そのキー自身は文字を意味するものではなく、次のキー入力による文字に対するアクセント記号をつける目的のものなどです。
+                または複合的な入力規則を定義するもの、例えば<span class="quote">「<span class=
+                "quote">Ctrl+.、A、E を入力することで Æ を得るもの</span>」</span>があります。
+                Linux-6.13.4 ではキーマップに応じてデッドキーや複合的な入力規則を解釈します。
+                ただしこれが正しく動作するのは、元の文字がマルチバイトではない場合に限ります。
+                このような欠点は西欧のキーマップでは問題にはなりません。 アクセント記号なら、アクセント記号がついていない ASCII
+                文字を使ったり、ASCII 文字を二つ使って工夫したりするからです。 しかし UTF-8 モードでは問題になります。
+                例えばギリシャ語にて α の文字の上にアクセント記号を付けたい場合が問題です。 これを解決するには、一つには UTF-8
+                の利用を諦めることであり、もう一つは X ウィンドウシステムを使うことで、そのような入力処理の制約を解消することです。
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                中国語、日本語、韓国語などを利用する場合 Linux コンソールにはそれらの文字を表示できません。
+                この言語を利用するユーザーは X ウィンドウシステムを使ってください。
+                そこで用いるフォントは、必要となるコード範囲の文字を有しており、入力メソッドも用意されています。(例えば SCIM
+                は数多くの言語入力をサポートしています。)
+              </p>
+            </li>
+          </ul>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            <code class="filename">/etc/sysconfig/console</code> ファイルは Linux
+            のテキストコンソール上の言語設定を行うだけです。 X ウィンドウシステム、SSH
+            セッション、シリアルコンソールでのキーボードレイアウトや端末フォントの設定とは無関係です。
+            それらに対しては、上に列記した最後の二項目における制約は適用されません。
+          </p>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="ch-config-createfiles" name=
+          "ch-config-createfiles"></a>9.6.6. ブート時のファイル生成
+        </h2>
+        <p>
+          ブート時にファイルを生成したいときがあります。 例えば <code class=
+          "filename">/tmp/.ICE-unix</code> ディレクトリが必要であったとします。 これは
+          <code class="filename">/etc/sysconfig/createfiles</code>
+          スクリプトに設定を行うことで実現できます。
+          このファイルの書式は、デフォルト設定ファイル内にコメントとして埋め込まれているので参照してください。
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="ch-config-sysklogd" name="ch-config-sysklogd"></a>9.6.7.
+          Sysklogd スクリプトの設定
+        </h2>
+        <p>
+          <code class="filename">sysklogd</code> スクリプトは System V の一連の初期化に際して
+          <span class="command"><strong>syslogd</strong></span> プログラムを起動します。
+          オプション <em class="parameter"><code>-m 0</code></em>
+          により実行され、<span class="command"><strong>syslogd</strong></span>
+          がデフォルトで 20分おきにログファイルに対して周期的にタイムスタンプを書き込む機能を無効にします。 この機能を有効にしたい場合は
+          <code class="filename">/etc/sysconfig/rc.site</code>
+          ファイルを新たに作るか既存のものを編集して、SYSKLOGD_PARMS 変数を必要な値に設定してください。
+          例えばすべてのパラメーターを無効にする場合は、変数値をヌル値とします。
+        </p>
+        <pre class="screen">SYSKLOGD_PARMS=</pre>
+        <p>
+          詳しくは <strong class="userinput"><code>man syslogd</code></strong>
+          を入力して man ページを参照してください。
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="ch-config-site" name="ch-config-site"></a>9.6.8. rc.site
+          ファイル
+        </h2>
+        <p>
+          オプションファイル <code class="filename">/etc/sysconfig/rc.site</code>
+          は、System V の各ブートスクリプトにて自動的に設定される内容を含んでいます。 <code class=
+          "filename">/etc/sysconfig/</code> ディレクトリにおける <code class=
+          "filename">hostname</code>, <code class="filename">console</code>,
+          <code class="filename">clock</code> の各ファイルにて値の設定を行うこともできます。
+          関係する変数が、これらのファイルと <code class="filename">rc.site</code>
+          の双方に存在する場合、スクリプトにて指定されたファイル内の値が優先されます。
+        </p>
+        <p>
+          <code class="filename">rc.site</code>
+          では、起動時におけるその他の機能をカスタマイズするためのパラメーターも含まれています。 変数 IPROMPT
+          を設定すると、起動するブートスクリプトを選択することができます。
+          この他のオプションについては、このファイル内にてコメントとして記述されています。 このファイルのデフォルト版は以下のとおりです。
+        </p>
+        <pre class="auto"># rc.site
+# Optional parameters for boot scripts.
+
+# Distro Information
+# These values, if specified here, override the defaults
+#DISTRO="Linux From Scratch" # The distro name
+#DISTRO_CONTACT="lfs-dev@lists.linuxfromscratch.org" # Bug report address
+#DISTRO_MINI="LFS" # Short name used in filenames for distro config
+
+# Define custom colors used in messages printed to the screen
+
+# Please consult `man console_codes` for more information
+# under the "ECMA-48 Set Graphics Rendition" section
+#
+# Warning: when switching from a 8bit to a 9bit font,
+# the linux console will reinterpret the bold (1;) to
+# the top 256 glyphs of the 9bit font.  This does
+# not affect framebuffer consoles
+
+# These values, if specified here, override the defaults
+#BRACKET="\\033[1;34m" # Blue
+#FAILURE="\\033[1;31m" # Red
+#INFO="\\033[1;36m"    # Cyan
+#NORMAL="\\033[0;39m"  # Grey
+#SUCCESS="\\033[1;32m" # Green
+#WARNING="\\033[1;33m" # Yellow
+
+# Use a colored prefix
+# These values, if specified here, override the defaults
+#BMPREFIX="      "
+#SUCCESS_PREFIX="${SUCCESS}  *  ${NORMAL} "
+#FAILURE_PREFIX="${FAILURE}*****${NORMAL} "
+#WARNING_PREFIX="${WARNING} *** ${NORMAL} "
+
+# Manually set the right edge of message output (characters)
+# Useful when resetting console font during boot to override
+# automatic screen width detection
+#COLUMNS=120
+
+# Interactive startup
+#IPROMPT="yes" # Whether to display the interactive boot prompt
+#itime="3"    # The amount of time (in seconds) to display the prompt
+
+# The total length of the distro welcome string, without escape codes
+#wlen=$(echo "Welcome to ${DISTRO}" | wc -c )
+#welcome_message="Welcome to ${INFO}${DISTRO}${NORMAL}"
+
+# The total length of the interactive string, without escape codes
+#ilen=$(echo "Press 'I' to enter interactive startup" | wc -c )
+#i_message="Press '${FAILURE}I${NORMAL}' to enter interactive startup"
+
+# Set scripts to skip the file system check on reboot
+#FASTBOOT=yes
+
+# Skip reading from the console
+#HEADLESS=yes
+
+# Write out fsck progress if yes
+#VERBOSE_FSCK=no
+
+# Speed up boot without waiting for settle in udev
+#OMIT_UDEV_SETTLE=y
+
+# Speed up boot without waiting for settle in udev_retry
+#OMIT_UDEV_RETRY_SETTLE=yes
+
+# Skip cleaning /tmp if yes
+#SKIPTMPCLEAN=no
+
+# For setclock
+#UTC=1
+#CLOCKPARAMS=
+
+# For consolelog (Note that the default, 7=debug, is noisy)
+#LOGLEVEL=7
+
+# For network
+#HOSTNAME=mylfs
+
+# Delay between TERM and KILL signals at shutdown
+#KILLDELAY=3
+
+# Optional sysklogd parameters
+#SYSKLOGD_PARMS="-m 0"
+
+# Console parameters
+#UNICODE=1
+#KEYMAP="de-latin1"
+#KEYMAP_CORRECTIONS="euro2"
+#FONT="lat0-16 -m 8859-15"
+#LEGACY_CHARSET=
+
+</pre>
+        <div class="sect3">
+          <h3 class="sect3">
+            9.6.8.1. ブートおよびシャットダウンスクリプトのカスタマイズ
+          </h3>
+          <p>
+            LFS のブートスクリプト類により、システムの起動および終了が適正に行われます。 ただし rc.site
+            ファイルにおいては改善の余地があって、処理性能を向上させたり出力メッセージを調整したりすることができます。
+            種々の設定は、上に示した <code class="filename">/etc/sysconfig/rc.site</code>
+            ファイルへの変更により実現します。
+          </p>
+          <div class="itemizedlist">
+            <ul>
+              <li class="listitem">
+                <p>
+                  ブートスクリプト <code class="filename">udev</code> の起動中には
+                  <span class="command"><strong>udev settle</strong></span>
+                  の呼び出しが行われます。
+                  ただこの呼び出しは特定の場合において必要となるものであり、それはシステム上に存在するデバイスに依存します。
+                  単純なパーティション設定を行っていて、またイーサネットカードを１つのみ利用している場合には、ブート時に上のコマンドを実行する必要はないかもしれません。
+                  このコマンドの実行をスキップする場合は、変数の設定として OMIT_UDEV_SETTLE=y を記述します。
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  ブートスクリプト <code class="filename">udev_retry</code> も同様に
+                  <span class="command"><strong>udev settle</strong></span>
+                  を実行します。 このコマンドはデフォルトでは、<code class="filename">/var</code>
+                  ディレクトリが個別にマウントされている時にのみ必要となります。 それはクロックが <code class=
+                  "filename">/var/lib/hwclock/adjtime</code> ファイルを必要とするためです。
+                  これ以外にも udev の処理を待つことが必要になるケースがありますが、本当に必要になることはまれです。
+                  変数の設定として OMIT_UDEV_RETRY_SETTLE=y を行えば、コマンドをスキップすることができます。
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  デフォルトにおいてファイルシステムのチェックは、何も表示されることなく処理が行われるので、処理が遅延して行われているかのように見えます。
+                  <span class="command"><strong>fsck</strong></span>
+                  による出力を有効とするには、変数の設定を VERBOSE_FSCK=y とします。
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  再起動時にはファイルシステムのチェック、つまり <span class=
+                  "command"><strong>fsck</strong></span>
+                  の実行を完全に行う必要はないと考えられる場合もあります。 そうであるなら、ファイル <code class=
+                  "filename">/fastboot</code> を生成するか、<span class=
+                  "command"><strong>/sbin/shutdown -f -r now</strong></span>
+                  というコマンドを実行します。 一方、ファイルシステムのチェックを必ず行うのであれば、ファイル <code class=
+                  "filename">/forcefsck</code> を生成するか、<span class=
+                  "command"><strong>shutdown</strong></span> コマンドの実行において
+                  <em class="parameter"><code>-f</code></em> ではなく <em class=
+                  "parameter"><code>-F</code></em> というパラメーターをつける方法があります。
+                </p>
+                <p>
+                  変数の設定として FASTBOOT=y を行えば、ブート時において <span class=
+                  "command"><strong>fsck</strong></span> を実行しないようにすることができます。
+                  この設定を恒常的に行うことは推奨されません。
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  通常 <code class="filename">/tmp</code>
+                  ディレクトリ内にあるファイルは、ブート時にすべて削除されます。
+                  ファイル数やディレクトリ数が膨大になっていた場合は、ブート処理が極端に時間を要することにもなります。 変数の設定
+                  SKIPTMPCLEAN=y を行うと、ファイルの削除が行われなくなります。
+                </p>
+              </li>
+              <li class="listitem">
+                <p>
+                  シャットダウン時には <span class=
+                  "command"><strong>init</strong></span> プログラムが稼働中のプログラム
+                  (agetty など) に対して TERM シグナルを送信し、一定時間 (デフォルトでは3秒) 待ちます。
+                  そして各プロセスに対して KILL シグナルを送信して再度待ちます。
+                  各プロセスが自身のスクリプト内にてシャットダウンしないようであれば <span class=
+                  "command"><strong>sendsignals</strong></span>
+                  スクリプトにて上の処理が繰り返されます。 <span class=
+                  "command"><strong>init</strong></span>
+                  が起動するまでの時間は、パラメーターにより制御することができます。 例えば <span class=
+                  "command"><strong>init</strong></span>
+                  の遅延を無くす場合は、シャットダウンまたはリブート時のコマンドに -t0 パラメーターを与えます。 (つまり
+                  <span class="command"><strong>/sbin/shutdown -t0 -r
+                  now</strong></span> といったコマンド実行とします。) <span class=
+                  "command"><strong>sendsignals</strong></span>
+                  スクリプトの遅延を無くすには、パラメーターの設定を KILLDELAY=0 とします。
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="network.html" title="全般的なネットワークの設定">戻る</a>
+          <p>
+            全般的なネットワークの設定
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="locale.html" title="システムロケールの設定">次へ</a>
+          <p>
+            システムロケールの設定
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter09.html" title="第9章 システム設定">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

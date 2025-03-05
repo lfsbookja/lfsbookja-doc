@@ -1,0 +1,274 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.48. OpenSSL-3.4.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.3">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.3
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="automake.html" title="Automake-1.17">戻る</a>
+          <p>
+            Automake-1.17
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libelf.html" title=
+          "Elfutils-0.192 から取り出した libelf">次へ</a>
+          <p>
+            Elfutils-0.192 から取り出した libelf
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-system-openssl" name="ch-system-openssl"></a>8.48.
+      OpenSSL-3.4.1
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          OpenSSL パッケージは暗号化に関する管理ツールやライブラリを提供します。
+          これを利用することにより、他のパッケージにおいて暗号化機能が実現されます。 例えば OpenSSH、Email
+          アプリケーション、（HTTPS サイトアクセスを行う）ウェブブラウザーなどです。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">1.8 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">920 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.48.1. OpenSSL のインストール
+        </h2>
+        <p>
+          OpenSSL をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./config --prefix=/usr         \
+         --openssldir=/etc/ssl \
+         --libdir=lib          \
+         shared                \
+         zlib-dynamic</kbd></pre>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class="command">HARNESS_JOBS=<em class=
+        "replaceable"><code>$(nproc)</code></em> make test</kbd></pre>
+        <p>
+          30-test_afalg.t というテストが 1 つだけ失敗します。 それはカーネルオプションの <code class=
+          "option">CONFIG_CRYPTO_USER_API_SKCIPHER</code> が有効でない場合、あるいは CBC
+          が実装された AES 機能を提供するオプション（たとえば <code class=
+          "option">CONFIG_CRYPTO_AES</code> と <code class=
+          "option">CONFIG_CRYPTO_CBC</code> との組み合わせや、CPU が AES-NI をサポートする際の
+          <code class="option">CONFIG_CRYPTO_AES_NI_INTEL</code>
+          など）が一つもない場合です。 失敗しても、無視してかまいません。
+        </p>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i '/INSTALL_LIBS/s/libcrypto.a libssl.a//' Makefile
+make MANSUFFIX=ssl install</kbd></pre>
+        <p>
+          ドキュメントディレクトリにバージョンを含めます。 他のパッケージとの整合をとるためです。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mv -v /usr/share/doc/openssl /usr/share/doc/openssl-3.4.1</kbd></pre>
+        <p>
+          必要であれば、さらにドキュメントをインストールします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cp -vfr doc/* /usr/share/doc/openssl-3.4.1</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            ぜい弱性への対処を行った新バージョンが公開されたら、OpenSSL をアップデートすることになります。 OpenSSL 3.0.0
+            以降では、バージョンのつけ方が MAJOR.MINOR.PATCH という形式になりました。 API/API の互換性は、同一の
+            MAJOR バージョン番号では保証されます。 本パッケージは <code class=
+            "filename">libcrypto.so</code> または <code class=
+            "filename">libssl.so</code> へのリンクを行っていますが、LFS
+            では共有ライブラリをインストールするだけなので、<span class="bold"><strong>MAJOR
+            バージョン番号が同一のアップグレードである限り</strong></span> は、パッケージを再コンパイルする必要はありません。
+          </p>
+          <p>
+            そうであっても、それらのライブラリにリンクしているプログラムが稼働中であるなら、一度停止してから再起動することが必要です。
+            詳しくは関連する話が <a class="xref" href=
+            "pkgmgt.html#pkgmgmt-upgrade-issues" title=
+            "8.2.1. アップグレードに関する問題">「アップグレードに関する問題」</a> にあるので参照してください。
+          </p>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-openssl" name="contents-openssl"></a>8.48.2.
+          OpenSSL の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">c_rehash, openssl</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libcrypto.so, libssl.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/etc/ssl, /usr/include/openssl, /usr/lib/engines,
+              /usr/share/doc/openssl-3.4.1</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="c_rehash" name="c_rehash"></a><span class=
+                    "term"><span class=
+                    "command"><strong>c_rehash</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ディレクトリ内のすべてのファイルをスキャンする <span class=
+                    "application">Perl</span> スクリプト。
+                    それらのファイルに対するハッシュ値へのシンボリックリンクを生成します。 <span class=
+                    "command"><strong>c_rehash</strong></span>
+                    の利用は非推奨と考えられており、この代わりに <span class=
+                    "command"><strong>openssl rehash</strong></span>
+                    コマンドを使ってください。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="openssl-prog" name="openssl-prog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>openssl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="application">OpenSSL</span>
+                    の暗号化ライブラリが提供するさまざまな関数を、シェルから利用するためのコマンドラインツール。 <a class=
+                    "ulink" href=
+                    "https://man.archlinux.org/man/openssl.1">openssl(1)</a>
+                    に示される数多くの関数を利用することができます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libcrypto" name="libcrypto"></a><span class=
+                    "term"><code class="filename">libcrypto.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    各種のインターネット標準にて採用されている暗号化アルゴリズムを幅広く実装しています。
+                    このライブラリが提供する機能は、SSL、TLS、S/MIME を実装する <span class=
+                    "application">OpenSSL</span> において利用されており、また <span class=
+                    "application">OpenSSH</span>、<span class=
+                    "application">OpenPGP</span>、あるいはこの他の暗号化標準の実装にも利用されています。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libssl" name="libssl"></a><span class=
+                    "term"><code class="filename">libssl.so</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    トランスポート層セキュリティ（Transport Layer Security; TLFS
+                    v1）プロトコルを実装しています。 これは豊富な API 関数とそのドキュメントを提供します。 ドキュメントは
+                    <a class="ulink" href=
+                    "https://man.archlinux.org/man/ssl.7">ssl(7)</a> にあります。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="automake.html" title="Automake-1.17">戻る</a>
+          <p>
+            Automake-1.17
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="libelf.html" title=
+          "Elfutils-0.192 から取り出した libelf">次へ</a>
+          <p>
+            Elfutils-0.192 から取り出した libelf
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      1.1. LFS をどうやって作るか
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.3">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.3
+      </h4>
+      <h3>
+        第1章 はじめに
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="chapter01.html" title="はじめに">戻る</a>
+          <p>
+            はじめに
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="whatsnew.html" title="前版からの変更点">次へ</a>
+          <p>
+            前版からの変更点
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter01.html" title="第1章 はじめに">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-intro-how" name="ch-intro-how"></a>1.1. LFS をどうやって作るか
+    </h1>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <p>
+        LFS システムは、既にインストールされている Linux ディストリビューション
+        (Debian、OpenMandriva、Fedora、openSUSE など) を利用して構築していきます。 この既存の Linux
+        システム（ホスト）は、LFS 構築のためにさまざまなプログラム類を利用する基盤となります。
+        プログラム類とはコンパイラー、リンカー、シェルなどです。 したがってそのディストリビューションのインストール時には<span class=
+        "quote">「<span class="quote">開発
+        (development)</span>」</span>オプションを選択し、それらのプログラム類を含めておく必要があります。
+      </p>
+      <div class="admon note">
+        <img alt="[注記]" src="../images/note.png" />
+        <h3>
+          注記
+        </h3>
+        <p>
+          Linux ディストリビューションのインストールには、さまざまな方法がありますが、デフォルトインストールでは、普通は LFS
+          システムの構築には適していません。 商用ディストリビューションにおける設定方法に関しては <a class="ulink" href=
+          "https://www.linuxfromscratch.org/hints/downloads/files/partitioning-for-lfs.txt">
+          https://www.linuxfromscratch.org/hints/downloads/files/partitioning-for-lfs.txt</a>
+          を参照してください。
+        </p>
+      </div>
+      <p>
+        コンピューター内にインストールされているディストリビューションを利用するのではなく、他に提供されている LiveCD
+        を利用することもできます。
+      </p>
+      <p>
+        <a class="xref" href="../chapter02/chapter02.html" title=
+        "第2章 ホストシステムの準備">第&nbsp;2&nbsp;章</a>では、新しく構築する Linux
+        のためのパーティションとファイルシステムの生成方法について説明します。 そのパーティション上にて LFS
+        システムをコンパイルしインストールします。 <a class="xref" href=
+        "../chapter03/chapter03.html" title=
+        "第3章 パッケージとパッチ">第&nbsp;3&nbsp;章</a>では LFS 構築に必要となるパッケージとパッチについて説明します。
+        これらをダウンロードして新たなファイルシステム内に保存します。 <a class="xref" href=
+        "../chapter04/chapter04.html" title=
+        "第4章 準備作業の仕上げ">第&nbsp;4&nbsp;章</a>は作業環境の準備について述べています。
+        この章では重要な説明を行っていますので、<a class="xref" href=
+        "../chapter05/chapter05.html" title=
+        "第5章 クロスツールチェーンの構築">第&nbsp;5&nbsp;章</a>以降に進む前に是非注意して読んでください。
+      </p>
+      <p>
+        <a class="xref" href="../chapter05/chapter05.html" title=
+        "第5章 クロスツールチェーンの構築">第&nbsp;5&nbsp;章</a>では初期のツールチェーン（binutils、gcc、glibc）を、クロスコンパイルによりインストールします。
+        これによりこの新たなツールをホストシステムから切り離します。
+      </p>
+      <p>
+        <a class="xref" href="../chapter06/chapter06.html" title=
+        "第6章 クロスコンパイルによる一時的ツール">第&nbsp;6&nbsp;章</a>では、上で作ったクロスツールチェーンを利用して、基本的ユーティリティのクロスコンパイル方法を示します。
+      </p>
+      <p>
+        <a class="xref" href="../chapter07/chapter07.html" title=
+        "第7章 chroot への移行と一時的ツールの追加ビルド">第&nbsp;7&nbsp;章</a>では "chroot"
+        環境に入ります。 そして今作り上げたビルドツールを使って、最終的なシステムをビルドしテストするために必要となる残りのツールをビルドします。
+      </p>
+      <p>
+        ホストシステムのツール類から新しいシステムを切り離していくこの手順は、やり過ぎのように見えるかもしれません。 <a class=
+        "xref" href="../partintro/toolchaintechnotes.html" title=
+        "ツールチェーンの技術的情報">ツールチェーンの技術的情報</a>にて詳細に説明しているので参照してください。
+      </p>
+      <p>
+        <a class="xref" href="../chapter08/chapter08.html" title=
+        "第8章 基本的なソフトウェアのインストール">第&nbsp;8&nbsp;章</a>において本格的な LFS システムが出来上がります。
+        <span class="command"><strong>chroot</strong></span>
+        を使うもう一つのメリットは、LFS 構築作業にあたって引き続きホストシステムを利用できることです。
+        パッケージをコンパイルしている最中には、いつもどおり別の作業を行うことができます。
+      </p>
+      <p>
+        インストールの仕上げとして<a class="xref" href="../chapter09/chapter09.html"
+        title="第9章 システム設定">第&nbsp;9&nbsp;章</a>にてベースシステムの設定を行い、<a class="xref"
+        href="../chapter10/chapter10.html" title=
+        "第10章 LFS システムのブート設定">第&nbsp;10&nbsp;章</a>にてカーネルとブートローダーを生成します。
+        <a class="xref" href="../chapter11/chapter11.html" title=
+        "第11章 作業終了">第&nbsp;11&nbsp;章</a>では LFS
+        システム構築経験を踏まえて、その先に進むための情報を示します。 本章に示す作業をすべて実施すれば、新たな LFS
+        システムを起動することが出来ます。
+      </p>
+      <p>
+        上はごく簡単な説明にすぎません。 各作業の詳細はこれ以降の章やパッケージの説明を参照してください。
+        内容が難しいと思っていても、それは徐々に理解していけるはずです。 読者の皆さんには、是非 LFS
+        アドベンチャーに挑んで頂きたいと思います。
+      </p>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="chapter01.html" title="はじめに">戻る</a>
+          <p>
+            はじめに
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="whatsnew.html" title="前版からの変更点">次へ</a>
+          <p>
+            前版からの変更点
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter01.html" title="第1章 はじめに">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

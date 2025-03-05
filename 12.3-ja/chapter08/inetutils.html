@@ -1,0 +1,359 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.41. Inetutils-2.6
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.3">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.3
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="expat.html" title="Expat-2.6.4">戻る</a>
+          <p>
+            Expat-2.6.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="less.html" title="Less-668">次へ</a>
+          <p>
+            Less-668
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-system-inetutils" name="ch-system-inetutils"></a>8.41.
+      Inetutils-2.6
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Inetutils パッケージはネットワーク制御を行う基本的なプログラムを提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.2 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">35 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.41.1. Inetutils のインストール
+        </h2>
+        <p>
+          gcc-14.1 以降を用いて本パッケージがビルドできるようにします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i 's/def HAVE_TERMCAP_TGETENT/ 1/' telnet/telnet.c</kbd></pre>
+        <p>
+          Inetutils をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr        \
+            --bindir=/usr/bin    \
+            --localstatedir=/var \
+            --disable-logger     \
+            --disable-whois      \
+            --disable-rcp        \
+            --disable-rexec      \
+            --disable-rlogin     \
+            --disable-rsh        \
+            --disable-servers</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>configure オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--disable-logger</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このオプションは <span class="command"><strong>logger</strong></span>
+                プログラムをインストールしないようにします。
+                このプログラムはシステムログデーモンに対してメッセージ出力を行うスクリプトにて利用されます。
+                ここでこれをインストールしないのは、後に Util-linux
+                パッケージにおいて、より最新のバージョンをインストールするためです。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--disable-whois</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このオプションは <span class="command"><strong>whois</strong></span>
+                のクライアントプログラムをインストールしないようにします。 このプログラムはもはや古いものです。 より良い
+                <span class="command"><strong>whois</strong></span>
+                プログラムのインストール手順については BLFS ブックにて説明しています。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--disable-r*</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                これらのパラメーターは、セキュリティの問題により用いるべきではない古いプログラムを作らないようにします。
+                古いプログラムによる機能は BLFS ブックにて示す <span class=
+                "application">openssh</span> でも提供されています。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--disable-servers</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このオプションは Inetutils パッケージに含まれるさまざまなネットワークサーバーをインストールしないようにします。
+                これらのサーバーは基本的な LFS システムには不要なものと考えられます。
+                サーバーの中には本質的にセキュアでないものがあり、信頼のあるネットワーク内でのみしか安全に扱うことができないものもあります。
+                サーバーの多くは、これに代わる他の適切なものが存在します。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class="command">make check</kbd></pre>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+        <p>
+          各種プログラムを適切な場所に移動します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mv -v /usr/{,s}bin/ifconfig</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-inetutils" name="contents-inetutils"></a>8.41.2.
+          Inetutils の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">dnsdomainname, ftp, ifconfig, hostname, ping, ping6,
+              talk, telnet, tftp, traceroute</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dnsdomainname" name=
+                    "dnsdomainname"></a><span class="term"><span class=
+                    "command"><strong>dnsdomainname</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    システムの DNS ドメイン名を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ftp" name="ftp"></a><span class=
+                    "term"><span class="command"><strong>ftp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイル転送プロトコル (file transfer protocol) に基づくプログラム。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hostname" name="hostname"></a><span class=
+                    "term"><span class=
+                    "command"><strong>hostname</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ホスト名の表示または設定を行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ifconfig" name="ifconfig"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ifconfig</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ネットワークインターフェースを管理します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ping" name="ping"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ping</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    エコーリクエスト (echo-request) パケットを送信し、返信にどれだけ要したかを表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ping6" name="ping6"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ping6</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    IPv6 ネットワーク向けの <span class=
+                    "command"><strong>ping</strong></span>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="talk" name="talk"></a><span class=
+                    "term"><span class=
+                    "command"><strong>talk</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    他ユーザーとのチャットに利用します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="telnet" name="telnet"></a><span class=
+                    "term"><span class=
+                    "command"><strong>telnet</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    TELNET プロトコルインターフェース。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tftp" name="tftp"></a><span class=
+                    "term"><span class=
+                    "command"><strong>tftp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    軽量なファイル転送プログラム。(trivial file transfer program)
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="traceroute" name="traceroute"></a><span class=
+                    "term"><span class=
+                    "command"><strong>traceroute</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    処理起動したホストからネットワーク上の他のホストまで、送出したパケットの経由ルートを追跡します。
+                    その合間に検出されたすべての hops (= ゲートウェイ) も表示します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="expat.html" title="Expat-2.6.4">戻る</a>
+          <p>
+            Expat-2.6.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="less.html" title="Less-668">次へ</a>
+          <p>
+            Less-668
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

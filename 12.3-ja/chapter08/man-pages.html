@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.3. Man-pages-6.12
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.3">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.3
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="pkgmgt.html" title="パッケージ管理">戻る</a>
+          <p>
+            パッケージ管理
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="iana-etc.html" title=
+          "Iana-Etc-20250123">次へ</a>
+          <p>
+            Iana-Etc-20250123
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-system-man-pages" name="ch-system-man-pages"></a>8.3.
+      Man-pages-6.12
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Man-pages パッケージは 2,400 以上のマニュアルページを提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.1 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">52 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.3.1. Man-pages のインストール
+        </h2>
+        <p>
+          パスワードのハッシュ処理に関する man ページを 2 つ削除します。 その man ページは <span class=
+          "application">Libxcrypt</span> が、より良いものを提供してくれます。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">rm -v man3/crypt*</kbd></pre>
+        <p>
+          Man-pages をインストールするために以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make -R GIT=false prefix=/usr install</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>-R</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                これは <span class="command"><strong>make</strong></span>
+                がビルトイン変数を設定しないようにします。 man-pages
+                のビルドシステムにおいては、ビルトイン変数が適切に制御できません。 現状においてコマンドラインから <em class=
+                "parameter"><code>-R</code></em> を指定する以外に、それを制御する方法は存在していません。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>GIT=false</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                これはビルドシステムが <code class="computeroutput">git: command not
+                found</code> という警告メッセージ行を出力しないようにします。
+              </p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-manpages" name="contents-manpages"></a>8.3.2.
+          Man-pages の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールファイル:</strong> <span class=
+              "segbody">さまざまな man ページ</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="man-pages" name="man-pages"></a><span class=
+                    "term"><code class="filename">man</code> ページ</span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    C 言語の関数、重要なデバイスファイル、重要な設定ファイルなどを説明します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="pkgmgt.html" title="パッケージ管理">戻る</a>
+          <p>
+            パッケージ管理
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="iana-etc.html" title=
+          "Iana-Etc-20250123">次へ</a>
+          <p>
+            Iana-Etc-20250123
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

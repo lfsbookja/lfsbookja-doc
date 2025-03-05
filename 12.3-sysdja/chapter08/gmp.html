@@ -1,0 +1,257 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.21. GMP-6.3.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.3-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.3-systemd
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="binutils.html" title="Binutils-2.44">戻る</a>
+          <p>
+            Binutils-2.44
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="mpfr.html" title="MPFR-4.2.1">次へ</a>
+          <p>
+            MPFR-4.2.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-system-gmp" name="ch-system-gmp"></a>8.21. GMP-6.3.0
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          GMP パッケージは数値演算ライブラリを提供します。 このライブラリには任意精度演算 (arbitrary precision
+          arithmetic) を行う有用な関数が含まれます。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.3 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">54 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.21.1. GMP のインストール
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            32 ビット x86 CPU にて環境構築する際に、64 ビットコードを扱う CPU 環境であって <span class=
+            "emphasis"><em>かつ</em></span> <code class="envar">CFLAGS</code>
+            を指定していると、本パッケージの configure スクリプトは 64 ビット用の処理を行い失敗します。
+            これを回避するには、以下のように処理してください。
+          </p>
+          <pre class="userinput"><kbd class="command"><em class=
+          "parameter"><code>ABI=32</code></em> ./configure ...</kbd></pre>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            GMP のデフォルト設定に従うと、ホストのプロセッサー向けに最適化したライブラリを生成してしまいます。
+            ホストに比べて、やや性能の劣るプロセッサーに向けたライブラリを必要とする場合は、汎用ライブラリを生成するために、<span class="command"><strong>configure</strong></span>
+            コマンドに <code class="option">--host=none-linux-gnu</code>
+            オプションを加えます。
+          </p>
+        </div>
+        <p>
+          GMP をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr    \
+            --enable-cxx     \
+            --disable-static \
+            --docdir=/usr/share/doc/gmp-6.3.0</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>configure オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-cxx</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                C++ サポートを有効にします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--docdir=/usr/share/doc/gmp-6.3.0</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                ドキュメントのインストール先を適切に設定します。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          パッケージをコンパイルし HTML ドキュメントを生成します。
+        </p>
+        <pre class="userinput"><kbd class="command">make
+make html</kbd></pre>
+        <div class="admon important">
+          <img alt="[重要]" src="../images/important.png" />
+          <h3>
+            重要
+          </h3>
+          <p>
+            本節における GMP のテストスイートは極めて重要なものです。 したがってどのような場合であっても必ず実行してください。
+          </p>
+        </div>
+        <p>
+          テストを実行します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make check 2&gt;&amp;1 | tee gmp-check-log</kbd></pre>
+        <div class="admon caution">
+          <img alt="[注意]" src="../images/caution.png" />
+          <h3>
+            注意
+          </h3>
+          <p>
+            gmp のコードはビルドするプロセッサー向けに高度に最適化されます。
+            このためプロセッサーを特定したコードが実はシステム性能を的確に制御できないことも起こりえます。
+            それはテストにおいてエラーを引き起こしたり、gmp を利用する他のアプリケーションにおいて <code class=
+            "computeroutput">Illegal instruction</code>
+            というエラーとして発生したりすることがあります。 そういった場合は gmp の再ビルドが必要であり、その際にはオプション
+            <code class="option">--host=none-linux-gnu</code> をつける必要があります。
+          </p>
+        </div>
+        <p>
+          最低でも 199 個のテストが完了することを確認してください。 テスト結果は以下のコマンドにより確認することができます。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">awk '/# PASS:/{total+=$3} ; END{print total}' gmp-check-log</kbd></pre>
+        <p>
+          パッケージと HTML ドキュメントをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install
+make install-html</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-gmp" name="contents-gmp"></a>8.21.2. GMP の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libgmp.so, libgmpxx.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/share/doc/gmp-6.3.0</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libgmp" name="libgmp"></a><span class=
+                    "term"><code class="filename">libgmp</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    精度演算関数 (precision math functions) を提供します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libgmpxx" name="libgmpxx"></a><span class=
+                    "term"><code class="filename">libgmpxx</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    C++ 用の精度演算関数を提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="binutils.html" title="Binutils-2.44">戻る</a>
+          <p>
+            Binutils-2.44
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="mpfr.html" title="MPFR-4.2.1">次へ</a>
+          <p>
+            MPFR-4.2.1
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

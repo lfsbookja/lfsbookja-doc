@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      9.6. Linux コンソールの設定
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.3-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.3-systemd
+      </h4>
+      <h3>
+        第9章 システム設定
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="clock.html" title="システムクロックの設定">戻る</a>
+          <p>
+            システムクロックの設定
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="locale.html" title="システムロケールの設定">次へ</a>
+          <p>
+            システムロケールの設定
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter09.html" title="第9章 システム設定">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-config-console" name="ch-config-console"></a>9.6. Linux
+      コンソールの設定
+    </h1>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <p>
+        この節ではシステムサービス <span class=
+        "command"><strong>systemd-vconsole-setup</strong></span>
+        の設定方法について説明します。 このサービスは仮想コンソールフォントとコンソールキーマップを設定します。
+      </p>
+      <p>
+        <span class="command"><strong>systemd-vconsole-setup</strong></span>
+        サービスは、<code class="filename">/etc/vconsole.conf</code>
+        ファイルにて示される設定情報を読み込みます。 キーマップやスクリーンフォントには何を用いるのかを定めてください。 各言語に対する
+        HOWTO も確認してください。 <a class="ulink" href=
+        "https://tldp.org/HOWTO/HOWTO-INDEX/other-lang.html">https://tldp.org/HOWTO/HOWTO-INDEX/other-lang.html</a>
+        が参考になるでしょう。 <span class="command"><strong>localectl
+        list-keymaps</strong></span> を実行すると、設定可能なコンソールキーマップを確認できます。 また
+        <code class="filename">/usr/share/consolefonts</code>
+        ディレクトリを見れば、設定可能なスクリーンフォントを確認できます。
+      </p>
+      <p>
+        <code class="filename">/etc/vconsole.conf</code> ファイルの各行は
+        <code class="envar">VARIABLE=value</code> といった書式により構成されます。 VARIABLE
+        には以下の変数を利用します。
+      </p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt>
+            <span class="term">KEYMAP</span>
+          </dt>
+          <dd>
+            <p>
+              この変数はキーボードに対するキーマッピングテーブルを指定します。 これが定められていない場合はデフォルトで
+              <code class="literal">us</code> が設定されます。
+            </p>
+          </dd>
+          <dt>
+            <span class="term">KEYMAP_TOGGLE</span>
+          </dt>
+          <dd>
+            <p>
+              この変数は二番目のトグルキーマップを設定します。 デフォルトでは本変数は設定されません。
+            </p>
+          </dd>
+          <dt>
+            <span class="term">FONT</span>
+          </dt>
+          <dd>
+            <p>
+              この変数は仮想コンソールにて用いられるフォントを指定します。
+            </p>
+          </dd>
+          <dt>
+            <span class="term">FONT_MAP</span>
+          </dt>
+          <dd>
+            <p>
+              この変数はコンソールマップを指定します。
+            </p>
+          </dd>
+          <dt>
+            <span class="term">FONT_UNIMAP</span>
+          </dt>
+          <dd>
+            <p>
+              この変数は Unicode フォントマップを指定します。
+            </p>
+          </dd>
+        </dl>
+      </div>
+      <p>
+        <a class="xref" href="locale.html" title=
+        "9.7. システムロケールの設定">「システムロケールの設定」</a> においては、Linux コンソールでの対話セッションのロケールは
+        <code class="literal">C.UTF-8</code> を用いることにします。 <code class=
+        "literal">C.UTF-8</code>
+        のもとでプログラムメッセージの全文字に対するグリフを持っているコンソールフォントと言えば、<span class=
+        "application">Kbd</span> の中では <code class=
+        "filename">LatArCyrHeb*.psfu.gz</code>, <code class=
+        "filename">LatGrkCyr*.psfu.gz</code>, <code class=
+        "filename">Lat2-Terminus16.psfu.gz</code>, <code class=
+        "filename">pancyrillic.f16.psfu.gz</code> です。 これらは <code class=
+        "filename">/usr/share/consolefonts</code> にあります。
+        (その他のコンソールフォントは、ユニコードの左右のクォーテーションマークや英語ダッシュなどのグリフが欠落しています。)
+        したがってデフォルトのコンソールフォントとして、たとえば <code class=
+        "filename">Lat2-Terminus16</code> を設定します。
+      </p>
+      <pre class="userinput"><kbd class="command">echo <code class=
+      "literal">FONT=Lat2-Terminus16</code> &gt; /etc/vconsole.conf</kbd></pre>
+      <p>
+        ドイツのキーボードおよびコンソールの設定例は以下です。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">cat &gt; /etc/vconsole.conf &lt;&lt; "EOF"
+<code class="literal">KEYMAP=de-latin1
+FONT=Lat2-Terminus16</code>
+EOF</kbd></pre>
+      <p>
+        <span class="command"><strong>localectl</strong></span>
+        ユーティリティーを用いれば、システム稼動中に KEYMAP 変数を変更することができます。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">localectl set-keymap MAP</kbd></pre>
+      <div class="admon note">
+        <img alt="[注記]" src="../images/note.png" />
+        <h3>
+          注記
+        </h3>
+        <p>
+          <span class="command"><strong>localectl</strong></span> コマンドは
+          chroot 環境内では動作しない点に注意してください。 systemd を使って LFS
+          システムを起動したときになって、初めて利用できるものです。
+        </p>
+      </div>
+      <p>
+        <span class="command"><strong>localectl</strong></span>
+        ユーティリティーはまた、X11 キーボードレイアウト、モデル、ヴァリアント、オプションをそれぞれ対応する変数により設定することができます。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">localectl set-x11-keymap LAYOUT [MODEL] [VARIANT] [OPTIONS]</kbd></pre>
+      <p>
+        <span class="command"><strong>localectl
+        set-x11-keymap</strong></span> に対して設定可能な値の一覧は、以下の変数を使って <span class=
+        "command"><strong>localectl</strong></span> を実行して得ることができます。
+      </p>
+      <div class="variablelist">
+        <dl class="variablelist">
+          <dt>
+            <span class="term">list-x11-keymap-models</span>
+          </dt>
+          <dd>
+            <p>
+              X11 キーボードマッピングモデルを表示します。
+            </p>
+          </dd>
+          <dt>
+            <span class="term">list-x11-keymap-layouts</span>
+          </dt>
+          <dd>
+            <p>
+              X11 キーボードマッピングレイアウトを表示します。
+            </p>
+          </dd>
+          <dt>
+            <span class="term">list-x11-keymap-variants</span>
+          </dt>
+          <dd>
+            <p>
+              X11 キーボードマッピングヴァリアントを表示します。
+            </p>
+          </dd>
+          <dt>
+            <span class="term">list-x11-keymap-options</span>
+          </dt>
+          <dd>
+            <p>
+              X11 キーボードマッピングオプションを表示します。
+            </p>
+          </dd>
+        </dl>
+      </div>
+      <div class="admon note">
+        <img alt="[注記]" src="../images/note.png" />
+        <h3>
+          注記
+        </h3>
+        <p>
+          上に示す変数を利用するにあたっては BLFS ブックに説明する XKeyboard-Config パッケージが必要です。
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="clock.html" title="システムクロックの設定">戻る</a>
+          <p>
+            システムクロックの設定
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="locale.html" title="システムロケールの設定">次へ</a>
+          <p>
+            システムロケールの設定
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter09.html" title="第9章 システム設定">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

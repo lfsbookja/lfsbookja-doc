@@ -1,0 +1,868 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.63. Groff-1.23.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.3-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.3-systemd
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="findutils.html" title=
+          "Findutils-4.10.0">戻る</a>
+          <p>
+            Findutils-4.10.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="grub.html" title="GRUB-2.12">次へ</a>
+          <p>
+            GRUB-2.12
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-system-groff" name="ch-system-groff"></a>8.63. Groff-1.23.0
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Groff パッケージはテキストやイメージを処理して整形するプログラムを提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.2 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">108 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.63.1. Groff のインストール
+        </h2>
+        <p>
+          Groff はデフォルトの用紙サイズを設定する環境変数 <code class="envar">PAGE</code> を参照します。
+          米国のユーザーであれば <em class="parameter"><code>PAGE=letter</code></em>
+          と設定するのが適当です。 その他のユーザーなら <em class=
+          "parameter"><code>PAGE=A4</code></em> とするのが良いかもしれません。
+          このデフォルト用紙サイズはコンパイルにあたって設定されます。 <span class="quote">「<span class=
+          "quote">A4</span>」</span>なり<span class="quote">「<span class=
+          "quote">letter</span>」</span>なりの値は <code class=
+          "filename">/etc/papersize</code> ファイルにて設定することも可能です。
+        </p>
+        <p>
+          Groff をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class="command">PAGE=<em class=
+        "replaceable"><code>&lt;paper_size&gt;</code></em> ./configure --prefix=/usr</kbd></pre>
+        <p>
+          パッケージをビルドします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class="command">make check</kbd></pre>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-groff" name="contents-groff"></a>8.63.2. Groff の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">addftinfo, afmtodit, chem, eqn, eqn2graph, gdiffmk,
+              glilypond, gperl, gpinyin, grap2graph, grn, grodvi, groff,
+              groffer, grog, grolbp, grolj4, gropdf, grops, grotty, hpftodit,
+              indxbib, lkbib, lookbib, mmroff, neqn, nroff, pdfmom, pdfroff,
+              pfbtops, pic, pic2graph, post-grohtml, preconv, pre-grohtml,
+              refer, roff2dvi, roff2html, roff2pdf, roff2ps, roff2text,
+              roff2x, soelim, tbl, tfmtodit, troff</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/lib/groff, /usr/share/doc/groff-1.23.0,
+              /usr/share/groff</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="addftinfo" name="addftinfo"></a><span class=
+                    "term"><span class=
+                    "command"><strong>addftinfo</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    troff のフォントファイルを読み込んで <span class=
+                    "command"><strong>groff</strong></span>
+                    システムが利用する付加的なフォントメトリック情報を追加します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="afmtodit" name="afmtodit"></a><span class=
+                    "term"><span class=
+                    "command"><strong>afmtodit</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>groff</strong></span> と
+                    <span class="command"><strong>grops</strong></span>
+                    が利用するフォントファイルを生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="chem" name="chem"></a><span class=
+                    "term"><span class=
+                    "command"><strong>chem</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    化学構造図 (chemical structure diagrams) を生成するための Groff
+                    プロセッサー。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="eqn" name="eqn"></a><span class=
+                    "term"><span class="command"><strong>eqn</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    troff の入力ファイル内に埋め込まれている記述式をコンパイルして <span class=
+                    "command"><strong>troff</strong></span>
+                    が解釈できるコマンドとして変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="eqn2graph" name="eqn2graph"></a><span class=
+                    "term"><span class=
+                    "command"><strong>eqn2graph</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    troff の EQN (数式) を、刈り込んだ (crop した) イメージに変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gdiffmk" name="gdiffmk"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gdiffmk</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    groff、nroff、troff の入力ファイルを比較して、その差異を変更マークとして出力します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="glilypond" name="glilypond"></a><span class=
+                    "term"><span class=
+                    "command"><strong>glilypond</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    lilypond 言語で書かれたシートミュージック (sheet music) を groff 言語に変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gperl" name="gperl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gperl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    groff プリプロセッサーであり groff ファイルへの perl コード追加を行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gpinyin" name="gpinyin"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gpinyin</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    groff プリプロセッサーであり groff ファイルへの
+                    Pinyin（北京語のローマ字つづり）追加を行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grap2graph" name="grap2graph"></a><span class=
+                    "term"><span class=
+                    "command"><strong>grap2graph</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    grap プログラムファイルを、刈り込んだ (crop した) ビットマップイメージに変換します。 （grap
+                    は、ダイアグラムを生成する、かつての Unix プログラミング言語です。）
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grn" name="grn"></a><span class=
+                    "term"><span class="command"><strong>grn</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    gremlin 図を表すファイルを処理するための <span class=
+                    "command"><strong>groff</strong></span> プリプロセッサー。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grodvi" name="grodvi"></a><span class=
+                    "term"><span class=
+                    "command"><strong>grodvi</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    TeX の出力ファイルである dvi フォーマットを生成するための <span class=
+                    "command"><strong>groff</strong></span> ドライバープログラム。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="groff" name="groff"></a><span class=
+                    "term"><span class=
+                    "command"><strong>groff</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    groff 文書整形システムのためのフロントエンド。 通常は <span class=
+                    "command"><strong>troff</strong></span>
+                    プログラムを起動し、指定されたデバイスに適合したポストプロセッサーを呼び出します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="groffer" name="groffer"></a><span class=
+                    "term"><span class=
+                    "command"><strong>groffer</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    groff ファイルや man ページを X 上や TTY 端末上に表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grog" name="grog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>grog</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    入力ファイルを読み込んで、印刷時には <span class=
+                    "command"><strong>groff</strong></span>
+                    コマンドオプションのどれが必要かを推定します。 コマンドオプションは <code class=
+                    "option">-e</code>、<code class=
+                    "option">-man</code>、<code class=
+                    "option">-me</code>、<code class=
+                    "option">-mm</code>、<code class=
+                    "option">-ms</code>、<code class=
+                    "option">-p</code>、<code class="option">-s</code>
+                    のいずれかです。 そしてそのオプションを含んだ <span class=
+                    "command"><strong>groff</strong></span> コマンドを表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grolbp" name="grolbp"></a><span class=
+                    "term"><span class=
+                    "command"><strong>grolbp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Canon CAPSL プリンター (LBP-4 または LBP-8 シリーズのレーザープリンター) に対する
+                    <span class="command"><strong>groff</strong></span>
+                    ドライバープログラム。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grolj4" name="grolj4"></a><span class=
+                    "term"><span class=
+                    "command"><strong>grolj4</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    HP LaserJet 4 プリンターに対しての PCL5 フォーマットを出力する <span class=
+                    "command"><strong>groff</strong></span> ドライバープログラム。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gropdf" name="gropdf"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gropdf</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    GNU <span class="command"><strong>troff</strong></span>
+                    の出力を PDF に変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grops" name="grops"></a><span class=
+                    "term"><span class=
+                    "command"><strong>grops</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    GNU <span class="command"><strong>troff</strong></span>
+                    の出力を PostScript に変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grotty" name="grotty"></a><span class=
+                    "term"><span class=
+                    "command"><strong>grotty</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    GNU <span class="command"><strong>troff</strong></span>
+                    の出力を、タイプライター風のデバイスに適した形式に変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hpftodit" name="hpftodit"></a><span class=
+                    "term"><span class=
+                    "command"><strong>hpftodit</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    HP のタグ付けが行われたフォントメトリックファイルから <span class=
+                    "command"><strong>groff -Tlj4</strong></span>
+                    コマンドにて利用されるフォントファイルを生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="indxbib" name="indxbib"></a><span class=
+                    "term"><span class=
+                    "command"><strong>indxbib</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたファイル内に示される参考文献データベース (bibliographic database)
+                    に対しての逆引きインデックス (inverted index) を生成します。 これは <span class=
+                    "command"><strong>refer</strong></span>、<span class=
+                    "command"><strong>lookbib</strong></span>、<span class=
+                    "command"><strong>lkbib</strong></span> といったコマンドが利用します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lkbib" name="lkbib"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lkbib</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたキーを用いて参考文献データベースを検索し、合致したすべての情報を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lookbib" name="lookbib"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lookbib</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    (標準入力が端末であれば)
+                    標準エラー出力にプロンプトを表示して、標準入力から複数のキーワードを含んだ一行を読み込みます。
+                    そして指定されたファイルにて示される参考文献データベース内に、そのキーワードが含まれるかどうかを検索します。
+                    キーワードが含まれるものを標準出力に出力します。入力がなくなるまでこれを繰り返します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mmroff" name="mmroff"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mmroff</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>groff</strong></span>
+                    用の単純なプリプロセッサー。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="neqn" name="neqn"></a><span class=
+                    "term"><span class=
+                    "command"><strong>neqn</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    数式を ASCII (American Standard Code for Information
+                    Interchange) 形式で出力します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="nroff" name="nroff"></a><span class=
+                    "term"><span class=
+                    "command"><strong>nroff</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>groff</strong></span> を利用して
+                    <span class="command"><strong>nroff</strong></span>
+                    コマンドをエミュレートするスクリプト。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pdfmom" name="pdfmom"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pdfmom</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    groff 関連ラッパー。mom マクロによるファイルから PDF を生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pdfroff" name="pdfroff"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pdfroff</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>groff</strong></span> を利用して
+                    pdf 文書ファイルを生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pfbtops" name="pfbtops"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pfbtops</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <code class="filename">.pfb</code> フォーマットの PostScript
+                    フォントを ASCII フォーマットに変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pic" name="pic"></a><span class=
+                    "term"><span class="command"><strong>pic</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    troff または TeX の入力ファイル内に埋め込まれた図の記述を、<span class=
+                    "command"><strong>troff</strong></span> または TeX
+                    が処理できるコマンドの形式に変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pic2graph" name="pic2graph"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pic2graph</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    PIC ダイアグラムを、刈り込んだ (crop した) イメージに変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="post-grohtml" name="post-grohtml"></a><span class=
+                    "term"><span class=
+                    "command"><strong>post-grohtml</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    GNU <span class="command"><strong>troff</strong></span>
+                    の出力を HTML に変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="preconv" name="preconv"></a><span class=
+                    "term"><span class=
+                    "command"><strong>preconv</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    入力ファイルのエンコーディングを GNU <span class=
+                    "command"><strong>troff</strong></span> が取り扱うものに変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pre-grohtml" name="pre-grohtml"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pre-grohtml</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    GNU <span class="command"><strong>troff</strong></span>
+                    の出力を HTML に変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="refer" name="refer"></a><span class=
+                    "term"><span class=
+                    "command"><strong>refer</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイル内容を読み込んで、そのコピーを標準出力へ出力します。 ただし引用文を表す <span class=
+                    "emphasis"><em>.[</em></span> と <span class=
+                    "emphasis"><em>.]</em></span>
+                    で囲まれた行、および引用文をどのように処理するかを示したコマンドを意味する <span class=
+                    "emphasis"><em>.R1</em></span> と <span class=
+                    "emphasis"><em>.R2</em></span> で囲まれた行は、コピーの対象としません。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="roff2dvi" name="roff2dvi"></a><span class=
+                    "term"><span class=
+                    "command"><strong>roff2dvi</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    roff ファイルを DVI フォーマットに変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="roff2html" name="roff2html"></a><span class=
+                    "term"><span class=
+                    "command"><strong>roff2html</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    roff ファイルを HTML フォーマットに変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="roff2pdf" name="roff2pdf"></a><span class=
+                    "term"><span class=
+                    "command"><strong>roff2pdf</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    roff ファイルを PDF フォーマットに変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="roff2ps" name="roff2ps"></a><span class=
+                    "term"><span class=
+                    "command"><strong>roff2ps</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    roff ファイルを ps ファイルに変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="roff2text" name="roff2text"></a><span class=
+                    "term"><span class=
+                    "command"><strong>roff2text</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    roff ファイルをテキストファイルに変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="roff2x" name="roff2x"></a><span class=
+                    "term"><span class=
+                    "command"><strong>roff2x</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    roff ファイルを他のフォーマットに変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="soelim" name="soelim"></a><span class=
+                    "term"><span class=
+                    "command"><strong>soelim</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    入力ファイルを読み込んで <span class="emphasis"><em>.so
+                    ファイル</em></span> の形式で記述されている行を、記述されている <span class=
+                    "emphasis"><em>ファイル</em></span> だけに置き換えます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tbl" name="tbl"></a><span class=
+                    "term"><span class="command"><strong>tbl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    troff 入力ファイル内に埋め込まれた表の記述を <span class=
+                    "command"><strong>troff</strong></span>
+                    が処理できるコマンドの形式に変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tfmtodit" name="tfmtodit"></a><span class=
+                    "term"><span class=
+                    "command"><strong>tfmtodit</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    コマンド <span class="command"><strong>groff
+                    -Tdvi</strong></span> を使ってフォントファイルを生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="troff" name="troff"></a><span class=
+                    "term"><span class=
+                    "command"><strong>troff</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Unix の <span class=
+                    "command"><strong>troff</strong></span> コマンドと高い互換性を持ちます。
+                    通常は <span class="command"><strong>groff</strong></span>
+                    コマンドを用いて本コマンドが起動されます。 <span class=
+                    "command"><strong>groff</strong></span>
+                    コマンドは、プリプロセッサー、ポストプロセッサーを、適切な順で適切なオプションをつけて起動します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="findutils.html" title=
+          "Findutils-4.10.0">戻る</a>
+          <p>
+            Findutils-4.10.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="grub.html" title="GRUB-2.12">次へ</a>
+          <p>
+            GRUB-2.12
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

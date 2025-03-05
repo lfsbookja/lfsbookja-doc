@@ -1,0 +1,886 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.28. Shadow-4.17.3
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.3-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.3-systemd
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libxcrypt.html" title=
+          "Libxcrypt-4.4.38">戻る</a>
+          <p>
+            Libxcrypt-4.4.38
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gcc.html" title="GCC-14.2.0">次へ</a>
+          <p>
+            GCC-14.2.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-system-shadow" name="ch-system-shadow"></a>8.28.
+      Shadow-4.17.3
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Shadow パッケージはセキュアなパスワード管理を行うプログラムを提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.1 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">114 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.28.1. Shadow のインストール
+        </h2>
+        <div class="admon important">
+          <img alt="[重要]" src="../images/important.png" />
+          <h3>
+            重要
+          </h3>
+          <p>
+            Linux-PAM をすでにインストールしている場合は、本ページではなく <a class="ulink" href=
+            "https://www.linuxfromscratch.org/blfs/view/stable-systemd/postlfs/shadow.xml">
+            BLFS の 手順</a> に従って shadow のビルド（または再ビルドやアップグレード）を行う必要があります。
+          </p>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            もっと強力なパスワードを利用したい場合は、まずは <a class="ulink" href=
+            "https://www.linuxfromscratch.org/blfs/view/stable-systemd/postlfs/linux-pam.html">
+            Linux-PAM のインストールと設定</a> を行ってください。 そして <a class="ulink" href=
+            "https://www.linuxfromscratch.org/blfs/view/stable-systemd/postlfs/shadow.html">
+            PAM サポートつきの shadow のインストールと設定</a> を行ってください。 最後に <a class="ulink"
+            href=
+            "https://www.linuxfromscratch.org/blfs/view/stable-systemd/postlfs/libpwquality.html">
+            libpwquality のインストールと、これを利用する PAM の設定</a> を行います。
+          </p>
+        </div>
+        <p>
+          <span class="command"><strong>groups</strong></span> コマンドとその man
+          ページをインストールしないようにします。 これは Coreutils パッケージにて、より良いバージョンが提供されているからです。
+          また <a class="xref" href="man-pages.html" title=
+          "8.3. Man-pages-6.12">「Man-pages-6.12」</a> にてインストールされている man
+          ページはインストールしないようにします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i 's/groups$(EXEEXT) //' src/Makefile.in
+find man -name Makefile.in -exec sed -i 's/groups\.1 / /'   {} \;
+find man -name Makefile.in -exec sed -i 's/getspnam\.3 / /' {} \;
+find man -name Makefile.in -exec sed -i 's/passwd\.5 / /'   {} \;</kbd></pre>
+        <p>
+          <a id="shadow-login_defs" name="shadow-login_defs"></a>
+          パスワード暗号化に関して、デフォルトの <span class="emphasis"><em>crypt</em></span>
+          手法ではなく、より強力な <span class="emphasis"><em>YESCRYPT</em></span>
+          手法を用いることにします。 こうしておくと 8文字以上のパスワード入力が可能となります。 メールボックスを収めるディレクトリとして
+          Shadow ではデフォルトで <code class="filename">/var/spool/mail</code>
+          ディレクトリを利用していますが、これは古いものであるため <code class=
+          "filename">/var/mail</code> ディレクトリに変更します。 また <code class=
+          "envar">PATH</code> から <code class="filename">/bin</code> と
+          <code class="filename">/sbin</code> を削除します。 これらは <code class=
+          "filename">/usr</code> からのシンボリックリンクであるからです。
+        </p>
+        <div class="admon warning">
+          <img alt="[警告]" src="../images/warning.png" />
+          <h3>
+            警告
+          </h3>
+          <p>
+            <code class="envar">PATH</code> 変数に <code class=
+            "filename">/bin</code> や <code class="filename">/sbin</code>
+            を含めると、BLFS パッケージのビルドに失敗することがあります。 したがって <code class=
+            "filename">.bashrc</code> ファイルをはじめ、どの設定ファイルでもその設定は行わないでください。
+          </p>
+        </div>
+        <pre class="userinput"><kbd class=
+        "command">sed -e 's:#ENCRYPT_METHOD DES:ENCRYPT_METHOD YESCRYPT:' \
+    -e 's:/var/spool/mail:/var/mail:'                   \
+    -e '/PATH=/{s@/sbin:@@;s@/bin:@@}'                  \
+    -i etc/login.defs</kbd></pre>
+        <p>
+          Shadow をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class="command">touch /usr/bin/passwd
+./configure --sysconfdir=/etc   \
+            --disable-static    \
+            --with-{b,yes}crypt \
+            --without-libbsd    \
+            --with-group-name-max-length=32</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>configure オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><span class="command"><strong>touch
+              /usr/bin/passwd</strong></span></span>
+            </dt>
+            <dd>
+              <p>
+                プログラムの中には <code class="filename">/usr/bin/passwd</code>
+                のパスがそのままハードコーディングされているものがあります。
+                それがまだ存在していない場合には、インストールスクリプトが間違った場所に作り出してしまいます。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-{b,yes}crypt</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                これはシェルによって 2 つのスイッチ、つまり <em class=
+                "parameter"><code>--with-bcrypt</code></em> と <em class=
+                "parameter"><code>--with-yescrypt</code></em> に展開されます。
+                パスワードのハッシュ処理を行うための Bcrypt および Yescrypt アルゴリズムが <span class=
+                "application">Libxcrypt</span> において実装されており、本スイッチは shadow
+                がそれを用いることを指示します。 このアルゴリズムは従来の SHA アルゴリズムに比べて、（特に GPU
+                ベースの攻撃への耐性が高く）より安全性を有しています。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-group-name-max-length=32</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                ユーザー名の最大文字数は 32 です。 そこでグループ名の最大文字数も同様とします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--without-libbsd</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                libbsd の readpassphrase 関数は LFS 内には無いため用いないようにします。
+                その代わりに内部にコピーされている分を用います。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          このパッケージにテストスイートはありません。
+        </p>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make exec_prefix=/usr install
+make -C man install-man</kbd></pre>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="conf-shadow" name="conf-shadow"></a>8.28.2. Shadow の設定
+        </h2>
+        <p>
+          このパッケージには、ユーザーやグループの追加、修正、削除、そのパスワードの設定、変更、その他の管理操作を行うユーティリティが含まれます。
+          <span class="emphasis"><em>パスワードのシャドウイング (password
+          shadowing)</em></span> というものが何を意味するのか、その詳細についてはこのパッケージのソース内にある
+          <code class="filename">doc/HOWTO</code> を参照してください。 Shadow
+          によるサポートを利用する場合、パスワード認証を必要とするプログラム (ディスプレイマネージャー、FTP
+          プログラム、POP3、デーモン、など) は Shadow に準拠したものでなければなりません。
+          つまりそれらのプログラムが、シャドウ化された (shadowed) パスワードを受け入れて動作しなければならないということです。
+        </p>
+        <p>
+          Shadow によるパスワードの利用を有効にするために、以下のコマンドを実行します。
+        </p>
+        <pre class="userinput"><kbd class="command">pwconv</kbd></pre>
+        <p>
+          また Shadow によるグループパスワードを有効にするために、以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class="command">grpconv</kbd></pre>
+        <p>
+          Shadow の <span class="command"><strong>useradd</strong></span>
+          コマンドに対するデフォルトの設定には、説明が必要です。 まず <span class=
+          "command"><strong>useradd</strong></span>
+          コマンドによりユーザーを生成する場合のデフォルトの動作では、ユーザー名と同じグループを自動生成します。 ユーザーID (UID)
+          とグループID (GID) は 1000 以上が割り当てられます。 <span class=
+          "command"><strong>useradd</strong></span>
+          コマンドの利用時に特に追加でパラメーターを与えなければ、追加するユーザーのグループは新たな固有グループが生成されることになります。
+          この動作が不適当であれば <span class="command"><strong>useradd</strong></span>
+          コマンドの実行時に <em class="parameter"><code>-g</code></em> パラメーターか
+          <em class="parameter"><code>-N</code></em> のいずれかを利用することが必要です。 あるいは
+          <code class="filename">/etc/login.defs</code> 内にある <em class=
+          "parameter"><code>USERGROUPS_ENAB</code></em> の設定を書き換えてください。 詳しくは
+          <a class="ulink" href=
+          "https://man.archlinux.org/man/useradd.8">useradd(8)</a> を参照してください。
+        </p>
+        <p>
+          次にデフォルトパラメーターを変更します。 そのためにはファイル <code class=
+          "filename">/etc/default/useradd</code> の生成が必要です。
+          特定の状況に合わせてこれを設定します。 まずは以下のようにして、このファイルを生成します。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir -p /etc/default
+useradd -D --gid 999</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong><code class="filename">/etc/default/useradd</code>
+            のパラメーター説明</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>GROUP=999</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このパラメーターは <code class="filename">/etc/group</code>
+                ファイルにおいて設定されるグループ ID の先頭番号を指定します。 999 という値は、上に示した <em class=
+                "parameter"><code>--gid</code></em> からきています。
+                必要なら任意の数値に設定することもできます。 <span class=
+                "command"><strong>useradd</strong></span> コマンドは既存の UID 値、GID
+                値を再利用することはありません。
+                このパラメーターによって指定された数値が実際に利用されていた場合、その値以降で利用可能な値が採用されます。 また
+                <span class="command"><strong>useradd</strong></span>
+                コマンドの実行にあたって パラメーター <em class=
+                "parameter"><code>-g</code></em> を利用せずに、その数値によって表される ID
+                を持ったグループがシステム上に存在しなかった場合は、以下のようなメッセージが出力されます。 <code class=
+                "computeroutput">useradd: unknown GID 999</code> ("GID 999
+                が不明です") この場合でも、アカウントは正しく生成されます。 だからこそ<a class="xref" href=
+                "../chapter07/createfiles.html" title=
+                "7.6. 重要なファイルとシンボリックリンクの生成">「重要なファイルとシンボリックリンクの生成」</a>において、グループ
+                ID を指定してグループ <code class="systemitem">users</code>
+                を生成できたわけです。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>CREATE_MAIL_SPOOL=yes</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このパラメーターは <span class=
+                "command"><strong>useradd</strong></span>
+                コマンドの実行によって、各ユーザー用のメールボックスに関するファイルが生成されます。 <span class=
+                "command"><strong>useradd</strong></span>
+                コマンドは、このファイルのグループ所有者を <code class="systemitem">mail</code>
+                (グループID 0660) に設定します。
+                メールボックスに関するファイルを生成したくない場合は、以下のコマンドを実行します。
+              </p>
+              <pre class="userinput"><kbd class=
+              "command">sed -i '/MAIL/s/yes/no/' /etc/default/useradd</kbd></pre>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.28.3. root パスワードの設定
+        </h2>
+        <p>
+          <span class="emphasis"><em>root</em></span> ユーザーのパスワードを設定します。
+        </p>
+        <pre class="userinput"><kbd class="command">passwd root</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-shadow" name="contents-shadow"></a>8.28.4. Shadow
+          の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">chage, chfn, chgpasswd, chpasswd, chsh, expiry,
+              faillog, getsubids, gpasswd, groupadd, groupdel, groupmems,
+              groupmod, grpck, grpconv, grpunconv, login, logoutd, newgidmap,
+              newgrp, newuidmap, newusers, nologin, passwd, pwck, pwconv,
+              pwunconv, sg (newgrp へのリンク), su, useradd, userdel, usermod,
+              vigr (vipw へのリンク), vipw</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/etc/default, /usr/include/shadow</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">libsubid.so</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="chage" name="chage"></a><span class=
+                    "term"><span class=
+                    "command"><strong>chage</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ユーザーのパスワード変更を行うべき期間を変更します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="chfn" name="chfn"></a><span class=
+                    "term"><span class=
+                    "command"><strong>chfn</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ユーザーのフルネームや他の情報を変更します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="chgpasswd" name="chgpasswd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>chgpasswd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    グループのパスワードをバッチモードにて更新します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="chpasswd" name="chpasswd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>chpasswd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ユーザーのパスワードをバッチモードにて更新します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="chsh" name="chsh"></a><span class=
+                    "term"><span class=
+                    "command"><strong>chsh</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ユーザーのデフォルトのログインシェルを変更します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="expiry" name="expiry"></a><span class=
+                    "term"><span class=
+                    "command"><strong>expiry</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    現時点でのパスワード失効に関する設定をチェックし更新します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="faillog" name="faillog"></a><span class=
+                    "term"><span class=
+                    "command"><strong>faillog</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ログイン失敗のログを調査します。
+                    ログインの失敗を繰り返すことでアカウントがロックされる際の、最大の失敗回数を設定します。
+                    またその失敗回数をリセットします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="getsubids" name="getsubids"></a><span class=
+                    "term"><span class=
+                    "command"><strong>getsubids</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ユーザーのサブ id 範囲の一覧取得に用いられます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gpasswd" name="gpasswd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gpasswd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    グループに対してメンバーや管理者を追加、削除します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="groupadd" name="groupadd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>groupadd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定した名前でグループを生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="groupdel" name="groupdel"></a><span class=
+                    "term"><span class=
+                    "command"><strong>groupdel</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定された名前のグループを削除します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="groupmems" name="groupmems"></a><span class=
+                    "term"><span class=
+                    "command"><strong>groupmems</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    スーパーユーザー権限を持たなくても、自分自身のグループのメンバーリストを管理可能とします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="groupmod" name="groupmod"></a><span class=
+                    "term"><span class=
+                    "command"><strong>groupmod</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたグループの名前や GID を修正します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grpck" name="grpck"></a><span class=
+                    "term"><span class=
+                    "command"><strong>grpck</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    グループファイル <code class="filename">/etc/group</code> と
+                    <code class="filename">/etc/gshadow</code> の整合性を確認します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grpconv" name="grpconv"></a><span class=
+                    "term"><span class=
+                    "command"><strong>grpconv</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    通常のグループファイルから Shadow グループファイルを生成、更新します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grpunconv" name="grpunconv"></a><span class=
+                    "term"><span class=
+                    "command"><strong>grpunconv</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <code class="filename">/etc/gshadow</code> ファイルを元に
+                    <code class="filename">/etc/group</code> ファイルを更新し
+                    <code class="filename">/etc/gshadow</code> ファイルを削除します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="login" name="login"></a><span class=
+                    "term"><span class=
+                    "command"><strong>login</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ユーザーのログインを行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="logoutd" name="logoutd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>logoutd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ログオン時間とポートに対する制限を実施するためのデーモン。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="newgidmap" name="newgidmap"></a><span class=
+                    "term"><span class=
+                    "command"><strong>newgidmap</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ユーザー空間における gid マッピングを設定します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="newgrp" name="newgrp"></a><span class=
+                    "term"><span class=
+                    "command"><strong>newgrp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ログインセッション中に現在の GID を変更します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="newuidmap" name="newuidmap"></a><span class=
+                    "term"><span class=
+                    "command"><strong>newuidmap</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ユーザー空間における uid マッピングを設定します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="newusers" name="newusers"></a><span class=
+                    "term"><span class=
+                    "command"><strong>newusers</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    複数ユーザーのアカウント情報を生成または更新します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="nologin" name="nologin"></a><span class=
+                    "term"><span class=
+                    "command"><strong>nologin</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ユーザーアカウントが利用不能であることをメッセージ表示します。
+                    利用不能なユーザーアカウントに対するデフォルトシェルとして利用することを意図しています。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="passwd" name="passwd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>passwd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ユーザーアカウントまたはグループアカウントに対するパスワードを変更します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pwck" name="pwck"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pwck</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    パスワードファイル <code class="filename">/etc/passwd</code> と
+                    <code class="filename">/etc/shadow</code> の整合性を確認します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pwconv" name="pwconv"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pwconv</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    通常のパスワードファイルを元に shadow パスワードファイルを生成、更新します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pwunconv" name="pwunconv"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pwunconv</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <code class="filename">/etc/shadow</code> ファイルを元に
+                    <code class="filename">/etc/passwd</code> ファイルを更新し
+                    <code class="filename">/etc/shadow</code> を削除します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sg" name="sg"></a><span class="term"><span class=
+                    "command"><strong>sg</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ユーザーの GID を指定されたグループにセットした上で、指定されたコマンドを実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="su" name="su"></a><span class="term"><span class=
+                    "command"><strong>su</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ユーザー ID とグループ ID を変更してシェルを実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="useradd" name="useradd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>useradd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定した名前で新たなユーザーを生成します。 あるいは新規ユーザーのデフォルトの情報を更新します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="userdel" name="userdel"></a><span class=
+                    "term"><span class=
+                    "command"><strong>userdel</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたユーザーアカウントを削除します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="usermod" name="usermod"></a><span class=
+                    "term"><span class=
+                    "command"><strong>usermod</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたユーザーのログイン名、UID (User
+                    Identification)、利用シェル、初期グループ、ホームディレクトリなどを変更します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="vigr" name="vigr"></a><span class=
+                    "term"><span class=
+                    "command"><strong>vigr</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <code class="filename">/etc/group</code> ファイルあるいは
+                    <code class="filename">/etc/gshadow</code> ファイルを編集します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="vipw" name="vipw"></a><span class=
+                    "term"><span class=
+                    "command"><strong>vipw</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <code class="filename">/etc/passwd</code> ファイルあるいは
+                    <code class="filename">/etc/shadow</code> ファイルを編集します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libsubid" name="libsubid"></a><span class=
+                    "term"><code class="filename">libsubid</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ユーザーに対するサブ ID 範囲を取り扱うライブラリ。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="libxcrypt.html" title=
+          "Libxcrypt-4.4.38">戻る</a>
+          <p>
+            Libxcrypt-4.4.38
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gcc.html" title="GCC-14.2.0">次へ</a>
+          <p>
+            GCC-14.2.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

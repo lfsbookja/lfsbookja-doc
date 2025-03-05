@@ -1,0 +1,1855 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.80. Util-linux-2.40.4
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.3-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.3-systemd
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="procps-ng.html" title=
+          "Procps-ng-4.0.5">戻る</a>
+          <p>
+            Procps-ng-4.0.5
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="e2fsprogs.html" title=
+          "E2fsprogs-1.47.2">次へ</a>
+          <p>
+            E2fsprogs-1.47.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-system-util-linux" name="ch-system-util-linux"></a>8.80.
+      Util-linux-2.40.4
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Util-linux パッケージはさまざまなユーティリティプログラムを提供します。
+          ファイルシステム、コンソール、パーティション、カーネルメッセージなどを取り扱うユーティリティです。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.5 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">316 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.80.1. Util-linux のインストール
+        </h2>
+        <p>
+          Util-linux をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --bindir=/usr/bin     \
+            --libdir=/usr/lib     \
+            --runstatedir=/run    \
+            --sbindir=/usr/sbin   \
+            --disable-chfn-chsh   \
+            --disable-login       \
+            --disable-nologin     \
+            --disable-su          \
+            --disable-setpriv     \
+            --disable-runuser     \
+            --disable-pylibmount  \
+            --disable-liblastlog2 \
+            --disable-static      \
+            --without-python      \
+            ADJTIME_PATH=/var/lib/hwclock/adjtime \
+            --docdir=/usr/share/doc/util-linux-2.40.4</kbd></pre>
+        <p>
+          --disable と --without のオプションは、LFS
+          では必要のないパッケージ、あるいは他のパッケージのインストールによって不整合となったパッケージに対して出力される警告をなくします。
+        </p>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          ダミーの <code class="filename">/etc/fstab</code> ファイルを作れば 2
+          つのテストがうまく実行できます。 テストスイートの実行は <code class="systemitem">root</code>
+          ユーザー以外にて以下を実行します。
+        </p>
+        <div class="admon warning">
+          <img alt="[警告]" src="../images/warning.png" />
+          <h3>
+            警告
+          </h3>
+          <p>
+            <code class="systemitem">root</code>
+            ユーザーによりテストスイートを実行すると、システムに悪影響を及ぼすことがあります。
+            テストスイートを実行するためには、カーネルオプション CONFIG_SCSI_DEBUG
+            が現環境にて有効であり、かつモジュールとしてビルドされていなければなりません。 カーネルに組み込んでいるとブートできません。
+            またテストを完全に実施するには BLFS での各種パッケージのインストールも必要になります。 テストが必要であるなら、構築済
+            LFS システムを起動して以下を実行します。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">bash tests/run.sh --srcdir=$PWD --builddir=$PWD</kbd></pre>
+        </div>
+        <pre class="userinput"><kbd class="command">touch /etc/fstab
+chown -R tester .
+su tester -c "make -k check"</kbd></pre>
+        <p>
+          <span class="emphasis"><em>hardlink</em></span>テストは失敗する場合があります。
+          それはカーネルオプションの <code class=
+          "option">CONFIG_CRYPTO_USER_API_HASH</code> が有効でない場合、あるいは SHA256
+          機能を提供するオプション（たとえば <code class="option">CONFIG_CRYPTO_SHA256</code>
+          や CPU が Supplemental SSE3 をサポートする際の <code class=
+          "option">CONFIG_CRYPTO_SHA256_SSSE3</code> など）が一つもない場合です。
+          さらにカーネルオプション <code class="option">CONFIG_NETLINK_DIAG</code>
+          が無効である場合、lsfd 内のテスト inotify が失敗します。
+        </p>
+        <p>
+          lsfd: SOURCE column と utmp: last という 2 つのテストが chroot 環境内では失敗します。
+        </p>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-utillinux" name="contents-utillinux"></a>8.80.2.
+          Util-linux の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">addpart, agetty, blkdiscard, blkid, blkzone,
+              blockdev, cal, cfdisk, chcpu, chmem, choom, chrt, col, colcrt,
+              colrm, column, ctrlaltdel, delpart, dmesg, eject, fallocate,
+              fdisk, fincore, findfs, findmnt, flock, fsck, fsck.cramfs,
+              fsck.minix, fsfreeze, fstrim, getopt, hardlink, hexdump,
+              hwclock, i386 (setarch へのリンク), ionice, ipcmk, ipcrm, ipcs,
+              irqtop, isosize, kill, last, lastb (last へのリンク), ldattach,
+              linux32 (setarch へのリンク), linux64 (setarch へのリンク), logger, look,
+              losetup, lsblk, lscpu, lsipc, lsirq, lsfd, lslocks, lslogins,
+              lsmem, lsns, mcookie, mesg, mkfs, mkfs.bfs, mkfs.cramfs,
+              mkfs.minix, mkswap, more, mount, mountpoint, namei, nsenter,
+              partx, pivot_root, prlimit, readprofile, rename, renice,
+              resizepart, rev, rfkill, rtcwake, script, scriptlive,
+              scriptreplay, setarch, setsid, setterm, sfdisk, sulogin,
+              swaplabel, swapoff, swapon, switch_root, taskset, uclampset,
+              ul, umount, uname26 (setarch へのリンク), unshare, utmpdump, uuidd,
+              uuidgen, uuidparse, wall, wdctl, whereis, wipefs, x86_64
+              (setarch へのリンク), zramctl</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libblkid.so, libfdisk.so, libmount.so,
+              libsmartcols.so, libuuid.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/blkid, /usr/include/libfdisk,
+              /usr/include/libmount, /usr/include/libsmartcols,
+              /usr/include/uuid, /usr/share/doc/util-linux-2.40.4,
+              /var/lib/hwclock</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="addpart" name="addpart"></a><span class=
+                    "term"><span class=
+                    "command"><strong>addpart</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Linux カーネルに対して新しいパーティションの情報を通知します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="agetty" name="agetty"></a><span class=
+                    "term"><span class=
+                    "command"><strong>agetty</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    tty ポートを開いてログイン名の入力を受け付けます。 そして <span class=
+                    "command"><strong>login</strong></span> プログラムを起動します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="blkdiscard" name="blkdiscard"></a><span class=
+                    "term"><span class=
+                    "command"><strong>blkdiscard</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    デバイス上のセクターを取り除きます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="blkid" name="blkid"></a><span class=
+                    "term"><span class=
+                    "command"><strong>blkid</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ブロックデバイスの属性を見つけて表示するためのコマンドラインユーティリティ。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="blkzone" name="blkzone"></a><span class=
+                    "term"><span class=
+                    "command"><strong>blkzone</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ゾーン処理されたブロックデバイスの管理に用いられます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="blockdev" name="blockdev"></a><span class=
+                    "term"><span class=
+                    "command"><strong>blockdev</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    コマンドラインからブロックデバイスの ioctl の呼び出しを行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cal" name="cal"></a><span class=
+                    "term"><span class="command"><strong>cal</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    簡単なカレンダーを表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cfdisk" name="cfdisk"></a><span class=
+                    "term"><span class=
+                    "command"><strong>cfdisk</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたデバイスのパーティションテーブルを操作します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="chcpu" name="chcpu"></a><span class=
+                    "term"><span class=
+                    "command"><strong>chcpu</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    CPU の状態を変更します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="chmem" name="chmem"></a><span class=
+                    "term"><span class=
+                    "command"><strong>chmem</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    メモリを設定します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="choom" name="choom"></a><span class=
+                    "term"><span class=
+                    "command"><strong>choom</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    OOM-killer スコアを表示し調整します。 Linux が Out Of Memory
+                    となった場合に、どのプロセスを最初に kill するべきかを判断するために用いられます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="chrt" name="chrt"></a><span class=
+                    "term"><span class=
+                    "command"><strong>chrt</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    リアルタイムプロセスの属性を操作します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="col" name="col"></a><span class=
+                    "term"><span class="command"><strong>col</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    逆改行 (reverse line feeds) を取り除きます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="colcrt" name="colcrt"></a><span class=
+                    "term"><span class=
+                    "command"><strong>colcrt</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    性能が不十分な端末のために <span class=
+                    "command"><strong>nroff</strong></span> の出力結果から重ね書き
+                    (overstriking) や半改行 (half-lines) を取り除きます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="colrm" name="colrm"></a><span class=
+                    "term"><span class=
+                    "command"><strong>colrm</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたカラムを取り除きます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="column" name="column"></a><span class=
+                    "term"><span class=
+                    "command"><strong>column</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたファイルの内容を複数カラムに整形します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ctrlaltdel" name="ctrlaltdel"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ctrlaltdel</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ハードリセットまたはソフトリセットを行うために Ctrl+Alt+Del キー押下時の機能を設定します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="delpart" name="delpart"></a><span class=
+                    "term"><span class=
+                    "command"><strong>delpart</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Linux カーネルに対してパーティションが削除されているかどうかを確認します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dmesg" name="dmesg"></a><span class=
+                    "term"><span class=
+                    "command"><strong>dmesg</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    カーネルのブートメッセージをダンプします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="eject" name="eject"></a><span class=
+                    "term"><span class=
+                    "command"><strong>eject</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    リムーバブルメディアをイジェクトします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fallocate" name="fallocate"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fallocate</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルのための領域を事前割り当てします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fdisk" name="fdisk"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fdisk</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたデバイスのパーティションテーブルを操作します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fincore" name="fincore"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fincore</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    メモリコア内にあるファイル情報のページ数を調べます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="findfs" name="findfs"></a><span class=
+                    "term"><span class=
+                    "command"><strong>findfs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルシステムに対するラベルまたは UUID (Universally Unique Identifier)
+                    を使ってファイルシステムを検索します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="findmnt" name="findmnt"></a><span class=
+                    "term"><span class=
+                    "command"><strong>findmnt</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    libmount ライブラリに対するコマンドラインインターフェース。 mountinfo, fstab, mtab
+                    の各ファイルに対しての処理を行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="flock" name="flock"></a><span class=
+                    "term"><span class=
+                    "command"><strong>flock</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルロックを取得してロックしたままコマンドを実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fsck" name="fsck"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fsck</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルシステムのチェックを行い、必要に応じて修復を行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fsck.cramfs" name="fsck.cramfs"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fsck.cramfs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたデバイス上の Cramfs ファイルシステムに対して一貫性検査 (consistency check)
+                    を行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fsck.minix" name="fsck.minix"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fsck.minix</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたデバイス上の Minix ファイルシステムに対して一貫性検査 (consistency check)
+                    を行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fsfreeze" name="fsfreeze"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fsfreeze</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    カーネルドライバー制御における FIFREEZE/FITHAW ioctl に対する単純なラッパープログラム。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fstrim" name="fstrim"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fstrim</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    マウントされたファイルシステム上にて、利用されていないブロックを破棄します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="getopt" name="getopt"></a><span class=
+                    "term"><span class=
+                    "command"><strong>getopt</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたコマンドラインのオプション引数を解析します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hardlink" name="hardlink"></a><span class=
+                    "term"><span class=
+                    "command"><strong>hardlink</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ハードリンクを生成することで重複ファイルを統合します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hexdump" name="hexdump"></a><span class=
+                    "term"><span class=
+                    "command"><strong>hexdump</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたファイルを 16 進数、10 進数、8 進数、アスキーの各書式でダンプします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hwclock" name="hwclock"></a><span class=
+                    "term"><span class=
+                    "command"><strong>hwclock</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    システムのハードウェアクロックを読み取ったり設定したりします。 このハードウェアクロックはリアルタイムクリック
+                    (Real-Time Clock; RTC) または BIOS (Basic Input-Output
+                    System) クロックとも呼ばれます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="i386" name="i386"></a><span class=
+                    "term"><span class=
+                    "command"><strong>i386</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    setarch へのシンボリックリンク。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ionice" name="ionice"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ionice</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    プログラムに対する I/O スケジュールクラスとスケジュール優先度を取得または設定します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ipcmk" name="ipcmk"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ipcmk</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    さまざまな IPC リソースを生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ipcrm" name="ipcrm"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ipcrm</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定された IPC (Inter-Process Communication) リソースを削除します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ipcs" name="ipcs"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ipcs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    IPC のステータス情報を提供します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="irqtop" name="irqtop"></a><span class=
+                    "term"><span class=
+                    "command"><strong>irqtop</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    カーネルのインタラプトカウンター情報を <a class="ulink" href=
+                    "https://man.archlinux.org/man/top.1">top(1)</a>
+                    スタイルにより表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="isosize" name="isosize"></a><span class=
+                    "term"><span class=
+                    "command"><strong>isosize</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    iso9660 ファイルシステムのサイズを表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="kill" name="kill"></a><span class=
+                    "term"><span class=
+                    "command"><strong>kill</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    プロセスに対してシグナルを送信します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="last" name="last"></a><span class=
+                    "term"><span class=
+                    "command"><strong>last</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ユーザーの最新のログイン (ログアウト) の情報を表示します。 これは <code class=
+                    "filename">/var/log/wtmp</code> ファイルの終わりから調べているものです。
+                    またシステムブート、シャットダウン、ランレベルの変更時の情報も示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lastb" name="lastb"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lastb</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ログインに失敗した情報を表示します。 これは <code class=
+                    "filename">/var/log/btmp</code> に記録されています。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ldattach" name="ldattach"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ldattach</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    シリアル回線 (serial line) に対して回線規則 (line discipline) を割り当てます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="linux32" name="linux32"></a><span class=
+                    "term"><span class=
+                    "command"><strong>linux32</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    setarch へのシンボリックリンク。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="linux64" name="linux64"></a><span class=
+                    "term"><span class=
+                    "command"><strong>linux64</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    setarch へのシンボリックリンク。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="logger" name="logger"></a><span class=
+                    "term"><span class=
+                    "command"><strong>logger</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定したメッセージをシステムログに出力します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="look" name="look"></a><span class=
+                    "term"><span class=
+                    "command"><strong>look</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定された文字列で始まる行を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="losetup" name="losetup"></a><span class=
+                    "term"><span class=
+                    "command"><strong>losetup</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ループデバイス (loop device) の設定と制御を行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lsblk" name="lsblk"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lsblk</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ブロックデバイスのすべて、あるいは指定されたものの情報を、木構造のような形式で一覧表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lscpu" name="lscpu"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lscpu</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    CPU アーキテクチャーの情報を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lsfd" name="lsfd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lsfd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    オープンしているファイルについての情報を表示します。 <span class=
+                    "command"><strong>lsof</strong></span> に代わるものです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lsipc" name="lsipc"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lsipc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    システムに搭載されている IPC 機能の情報を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lsirq" name="lsirq"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lsirq</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    カーネルのインタラプトカウンター情報を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lslocks" name="lslocks"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lslocks</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ローカルのシステムロックを一覧表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lslogins" name="lslogins"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lslogins</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ユーザー、グループ、システムアカウントの情報を一覧表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lsmem" name="lsmem"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lsmem</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    オンライン状態にある利用可能なメモリ範囲を一覧表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lsns" name="lsns"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lsns</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    名前空間を一覧表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mcookie" name="mcookie"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mcookie</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>xauth</strong></span>
+                    のためのマジッククッキー (128ビットのランダムな16進数値) を生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mesg" name="mesg"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mesg</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    現在のユーザーの端末に対して、他のユーザーがメッセージ送信できるかどうかを制御します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mkfs" name="mkfs"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mkfs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    デバイス上にファイルシステムを構築します。 (通常はハードディスクパーティションに対して行います。)
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mkfs.bfs" name="mkfs.bfs"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mkfs.bfs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    SCO (Santa Cruz Operations) の bfs ファイルシステムを生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mkfs.cramfs" name="mkfs.cramfs"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mkfs.cramfs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    cramfs ファイルシステムを生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mkfs.minix" name="mkfs.minix"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mkfs.minix</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Minix ファイルシステムを生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mkswap" name="mkswap"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mkswap</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたデバイスまたはファイルをスワップ領域として初期化します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="more" name="more"></a><span class=
+                    "term"><span class=
+                    "command"><strong>more</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    テキストを一度に一画面分だけ表示するフィルタープログラム。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mount" name="mount"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mount</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルシステムツリー内の特定のディレクトリを、指定されたデバイス上のファイルシステムに割り当てます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mountpoint" name="mountpoint"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mountpoint</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ディレクトリがマウントポイントであるかどうかをチェックします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="namei" name="namei"></a><span class=
+                    "term"><span class=
+                    "command"><strong>namei</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたパスに存在するシンボリックリンクを表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="nsenter" name="nsenter"></a><span class=
+                    "term"><span class=
+                    "command"><strong>nsenter</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    他プロセスの名前空間にてプログラムを実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="partx" name="partx"></a><span class=
+                    "term"><span class=
+                    "command"><strong>partx</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    カーネルに対して、ディスク上にパーティションが存在するか、何番が存在するかを伝えます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pivot_root" name="pivot_root"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pivot_root</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたファイルシステムを、現在のプロセスに対する新しいルートファイルシステムにします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="prlimit" name="prlimit"></a><span class=
+                    "term"><span class=
+                    "command"><strong>prlimit</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    プロセスが利用するリソースの限界値を取得または設定します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="readprofile" name="readprofile"></a><span class=
+                    "term"><span class=
+                    "command"><strong>readprofile</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    カーネルのプロファイリング情報を読み込みます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rename" name="rename"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rename</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたファイルの名称を変更します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="renice" name="renice"></a><span class=
+                    "term"><span class=
+                    "command"><strong>renice</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    実行中のプロセスの優先度を変更します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="resizepart" name="resizepart"></a><span class=
+                    "term"><span class=
+                    "command"><strong>resizepart</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Linux カーネルに対してパーティションのリサイズを指示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rev" name="rev"></a><span class=
+                    "term"><span class="command"><strong>rev</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたファイル内の行の並びを入れ替えます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rfkill" name="rfkill"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rfkill</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ワイアレスデバイスの有効化、無効化を行うツール。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rtcwake" name="rtcwake"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rtcwake</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定された起動時刻までの間、システムをスリープ状態とするモードを指定します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="script" name="script"></a><span class=
+                    "term"><span class=
+                    "command"><strong>script</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    端末セッション上での出力結果の写し (typescript) を生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="scriptlive" name="scriptlive"></a><span class=
+                    "term"><span class=
+                    "command"><strong>scriptlive</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    タイミング情報を使って、セッションのタイプスクリプトを再実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="scriptreplay" name="scriptreplay"></a><span class=
+                    "term"><span class=
+                    "command"><strong>scriptreplay</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    タイミング情報 (timing information) を利用して、出力結果の写し (typescript)
+                    を再生します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="setarch" name="setarch"></a><span class=
+                    "term"><span class=
+                    "command"><strong>setarch</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    新しいプログラム環境にて、表示されるアーキテクチャーを変更します。 また設定フラグ (personality
+                    flag) の設定も行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="setsid" name="setsid"></a><span class=
+                    "term"><span class=
+                    "command"><strong>setsid</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    新しいセッションで指定されたプログラムを実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="setterm" name="setterm"></a><span class=
+                    "term"><span class=
+                    "command"><strong>setterm</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    端末の属性を設定します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sfdisk" name="sfdisk"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sfdisk</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ディスクパーティションテーブルを操作します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sulogin" name="sulogin"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sulogin</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <code class="systemitem">root</code> ユーザーでのログインを行います。 通常は
+                    <span class="command"><strong>init</strong></span>
+                    が起動するもので、システムがシングルユーザーモードで起動する際に利用されます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="swaplabel" name="swaplabel"></a><span class=
+                    "term"><span class=
+                    "command"><strong>swaplabel</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    スワップ領域の UUID とラベルを変更します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="swapoff" name="swapoff"></a><span class=
+                    "term"><span class=
+                    "command"><strong>swapoff</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ページングまたはスワッピングに利用しているデバイスまたはファイルを無効にします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="swapon" name="swapon"></a><span class=
+                    "term"><span class=
+                    "command"><strong>swapon</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ページングまたはスワッピングに利用しているデバイスまたはファイルを有効にします。
+                    また現在利用されているデバイスまたはファイルを一覧表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="switch_root" name="switch_root"></a><span class=
+                    "term"><span class=
+                    "command"><strong>switch_root</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    別のファイルシステムを、マウントツリーのルートとして変更します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="taskset" name="taskset"></a><span class=
+                    "term"><span class=
+                    "command"><strong>taskset</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    プロセスの CPU 親和性 (affinity) を表示または設定します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="uclampset" name="uclampset"></a><span class=
+                    "term"><span class=
+                    "command"><strong>uclampset</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    システムやプロセスの使用率クランプ属性を操作します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ul" name="ul"></a><span class="term"><span class=
+                    "command"><strong>ul</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    使用中の端末にて、アンダースコア文字を、エスケープシーケンスを用いた下線文字に変換するためのフィルター。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="umount" name="umount"></a><span class=
+                    "term"><span class=
+                    "command"><strong>umount</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    システムのファイルツリーからファイルシステムを切断します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="uname26" name="uname26"></a><span class=
+                    "term"><span class=
+                    "command"><strong>uname26</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    setarch へのシンボリックリンク。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="unshare" name="unshare"></a><span class=
+                    "term"><span class=
+                    "command"><strong>unshare</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    上位の名前空間とは異なる名前空間にてプログラムを実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="utmpdump" name="utmpdump"></a><span class=
+                    "term"><span class=
+                    "command"><strong>utmpdump</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたログインファイルの内容を分かりやすい書式で表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="uuidd" name="uuidd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>uuidd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    UUID ライブラリから利用されるデーモン。 時刻情報に基づく UUID
+                    を、安全にそして一意性を確保して生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="uuidgen" name="uuidgen"></a><span class=
+                    "term"><span class=
+                    "command"><strong>uuidgen</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    新しい UUID を生成します。 生成される UUID
+                    は乱数であり、自他システムでも過去現在にわたってもユニークなものです。
+                    その可能性は極めて高いものです（2<sup>128</sup>個の UUID が可能です）。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="uuidparse" name="uuidparse"></a><span class=
+                    "term"><span class=
+                    "command"><strong>uuidparse</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ユニークな識別子を解析するためのユーティリティー。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="wall" name="wall"></a><span class=
+                    "term"><span class=
+                    "command"><strong>wall</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルの内容、あるいはデフォルトでは標準入力から入力された内容を、現在ログインしている全ユーザーの端末上に表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="wdctl" name="wdctl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>wdctl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ハードウェアの watchdog ステータスを表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="whereis" name="whereis"></a><span class=
+                    "term"><span class=
+                    "command"><strong>whereis</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたコマンドの実行モジュール、ソース、man ページの場所を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="wipefs" name="wipefs"></a><span class=
+                    "term"><span class=
+                    "command"><strong>wipefs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルシステムのシグニチャーをデバイスから消去します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="x86_64" name="x86_64"></a><span class=
+                    "term"><span class=
+                    "command"><strong>x86_64</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    setarch へのシンボリックリンク。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="zramctl" name="zramctl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>zramctl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    zram (compressed ram disk) デバイスを初期化し制御するためのプログラム。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libblkid" name="libblkid"></a><span class=
+                    "term"><code class="filename">libblkid</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    デバイスの識別やトークンの抽出を行う処理ルーチンを提供します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libfdisk" name="libfdisk"></a><span class=
+                    "term"><code class="filename">libfdisk</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    パーティションテーブルを操作する処理ルーチンを提供します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libmount" name="libmount"></a><span class=
+                    "term"><code class="filename">libmount</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ブロックデバイスのマウントとアンマウントに関する処理ルーチンを提供します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libsmartcols" name="libsmartcols"></a><span class=
+                    "term"><code class="filename">libsmartcols</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    タブラー形式 (tabular form) による画面出力を補助する処理ルーチンを提供します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libuuid" name="libuuid"></a><span class=
+                    "term"><code class="filename">libuuid</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ローカルシステム内だけに限らずアクセスされるオブジェクトに対して、一意性が保証された識別子を生成する処理ルーチンを提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="procps-ng.html" title=
+          "Procps-ng-4.0.5">戻る</a>
+          <p>
+            Procps-ng-4.0.5
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="e2fsprogs.html" title=
+          "E2fsprogs-1.47.2">次へ</a>
+          <p>
+            E2fsprogs-1.47.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

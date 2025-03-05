@@ -1,0 +1,420 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      9.3. デバイスとモジュールの扱いについて
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.3">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.3
+      </h4>
+      <h3>
+        第9章 システム設定
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="bootscripts.html" title=
+          "LFS-ブートスクリプト-20240825">戻る</a>
+          <p>
+            LFS-ブートスクリプト-20240825
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="symlinks.html" title="デバイスの管理">次へ</a>
+          <p>
+            デバイスの管理
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter09.html" title="第9章 システム設定">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-config-udev" name="ch-config-udev"></a>9.3. デバイスとモジュールの扱いについて
+    </h1>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <p>
+        <a class="xref" href="../chapter08/chapter08.html" title=
+        "第8章 基本的なソフトウェアのインストール">第&nbsp;8&nbsp;章</a>の <span class=
+        "phrase">eudev</span> のビルドを通じて udev デーモンをインストールしました。 この udev
+        がどのように動作するかの詳細を説明する前に、デバイスを取り扱うかつての方法について順を追って説明していきます。
+      </p>
+      <p>
+        Linux システムは一般に、スタティックなデバイス生成方法を採用していました。 この方法では <code class=
+        "filename">/dev</code> のもとに膨大な量の (場合によっては何千にもおよぶ) デバイスノードが生成されます。
+        実際にハードウェアデバイスが存在するかどうかに関わらずです。 これは <span class=
+        "command"><strong>MAKEDEV</strong></span> スクリプトを通じて生成されます。 このスクリプトからは
+        <span class="command"><strong>mknod</strong></span>
+        プログラムが呼び出されますが、その呼び出しは、この世に存在するありとあらゆるデバイスのメジャー/マイナー番号を用いて行われます。
+      </p>
+      <p>
+        udev による方法では、カーネルが検知したデバイスに対してのみ、デバイスノードが生成されます。
+        デバイスノードはシステムが起動するたびに生成されることになるので、 <code class=
+        "systemitem">devtmpfs</code> ファイルシステム上に保存されます。 (<code class=
+        "systemitem">devtmpfs</code> は仮想ファイルシステムであり、システムメモリ上に置かれます。)
+        デバイスノードの情報はさほど多くないので、消費するメモリ容量は無視できるほど少ないものです。
+      </p>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          9.3.1. 開発経緯
+        </h2>
+        <p>
+          2000年2月に新しいファイルシステム <code class="systemitem">devfs</code> がカーネル
+          2.3.46 に導入され、2.4系の安定版カーネルにて利用できるようになりました。
+          このファイルシステムはカーネルのソース内に含まれ実現されていましたが、デバイスを動的に生成するこの手法は、主要なカーネル開発者の十分な支援は得られませんでした。
+        </p>
+        <p>
+          <code class="systemitem">devfs</code>
+          が採用した手法で問題になるのは、主にデバイスの検出、生成、命名の方法です。 特にデバイスの命名方法がおそらく最も重大な問題です。
+          一般的に言えることとして、デバイス名が変更可能であるならデバイス命名の規則はシステム管理者が考えることであって、特定の開発者に委ねるべきことではありません。
+          また <code class="systemitem">devfs</code>
+          にはその設計に起因した競合の問題があるため、根本的にカーネルを修正しなければ解消できる問題ではありません。 そこで長い間
+          <code class="systemitem">devfs</code> は非推奨 (deprecated) とされ、最終的に
+          2006年6月にはカーネルから取り除かれました。
+        </p>
+        <p>
+          開発版の 2.5 系カーネルと、後にリリースされた安定版のカーネル 2.6 系を経て、新しい仮想ファイルシステム
+          <code class="systemitem">sysfs</code> が登場しました。 <code class=
+          "systemitem">sysfs</code>
+          が実現したのは、システムのハードウェア設定をユーザー空間のプロセスに対して提供したことです。
+          ユーザー空間での設定を可視化したことによって <code class="systemitem">devfs</code>
+          が為していたことを、ユーザー空間にて開発することが可能になったわけです。
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          9.3.2. Udev の実装
+        </h2>
+        <div class="sect3">
+          <h3 class="sect3">
+            9.3.2.1. Sysfs ファイルシステム
+          </h3>
+          <p>
+            <code class="systemitem">sysfs</code> ファイルシステムについては上で簡単に触れました。
+            <code class="systemitem">sysfs</code>
+            はどのようにしてシステム上に存在するデバイスを知るのか、そしてどのデバイス番号を用いるべきなのか。 そこが知りたいところです。
+            カーネルに組み込まれて構築されたドライバーの場合は、対象のオブジェクトをカーネルが検出し、そのオブジェクトを
+            <code class="systemitem">sysfs</code> (内部的には devtmpfs) に登録します。
+            モジュールとしてコンパイルされたドライバーの場合は、そのモジュールがロードされたときに登録されます。 <code class=
+            "systemitem">sysfs</code> ファイルシステムが (<code class=
+            "filename">/sys</code> に) マウントされると、ドライバーによって <code class=
+            "systemitem">sysfs</code> に登録されたデータは、ユーザー空間のプロセスと (デバイスノードの修正を含む)
+            さまざまな処理を行う udevd にて利用可能となります。
+          </p>
+        </div>
+        <div class="sect3">
+          <h3 class="sect3">
+            <a id="ch-config-udev-device-node-creation" name=
+            "ch-config-udev-device-node-creation"></a>9.3.2.2. デバイスノードの生成
+          </h3>
+          <p>
+            デバイスファイルはカーネルによって、<code class="systemitem">devtmpfs</code>
+            ファイルシステム内に作り出されます。 デバイスノードを登録しようとするドライバーは (デバイスコア経由で)
+            <code class="systemitem">devtmpfs</code> を通じて登録を行います。
+            <code class="systemitem">devtmpfs</code> のインスタンスが <code class=
+            "filename">/dev</code>
+            上にマウントされると、デバイスノードには固定的な名称、パーミッション、所有者の情報とともに名前空間が公開されます。
+          </p>
+          <p>
+            この後にカーネルは <span class="command"><strong>udevd</strong></span>
+            に対して uevent を送信します。 <span class=
+            "command"><strong>udevd</strong></span> は、<code class=
+            "filename">/etc/udev/rules.d</code>, <code class=
+            "filename">/usr/lib/udev/rules.d</code>, <code class=
+            "filename">/run/udev/rules.d</code>
+            の各ディレクトリ内にあるファイルの設定ルールに従って、デバイスノードに対するシンボリックリンクを生成したり、パーミッション、所有者、グループの情報を変更したり、内部的な
+            <span class="command"><strong>udevd</strong></span>
+            データベースの項目を修正したりします。
+          </p>
+          <p>
+            上の三つのディレクトリ内にて指定されるルールは番号づけされており、三つのディレクトリの内容は一つにまとめられます。
+            デバイスノードの生成時に <span class="command"><strong>udevd</strong></span>
+            がそのルールを見つけ出せなかった時は、<code class="systemitem">devtmpfs</code>
+            が利用される際の初期のパーミッションと所有者の情報のままとなります。
+          </p>
+        </div>
+        <div class="sect3">
+          <h3 class="sect3">
+            <a id="module-loading" name="module-loading"></a>9.3.2.3.
+            モジュールのロード
+          </h3>
+          <p>
+            モジュールとしてコンパイルされたデバイスドライバーの場合、デバイス名の別名が作り出されています。 その別名は
+            <span class="command"><strong>modinfo</strong></span>
+            プログラムを使えば確認することができます。 そしてこの別名は、モジュールがサポートするバス固有の識別子に関連づけられます。 例えば
+            <span class="emphasis"><em>snd-fm801</em></span> ドライバーは、ベンダーID
+            0x1319 とデバイスID 0x0801 の PCI ドライバーをサポートします。 そして <code class=
+            "literal">pci:v00001319d00000801sv*sd*bc04sc01i*</code>
+            というエイリアスがあります。 たいていのデバイスでは、<code class="systemitem">sysfs</code>
+            を通じてドライバーがデバイスを扱うものであり、ドライバーのエイリアスをバスドライバーが提供します。 <code class=
+            "filename">/sys/bus/pci/devices/0000:00:0d.0/modalias</code>
+            ファイルならば <code class=
+            "literal">pci:v00001319d00000801sv00001319sd00001319bc04sc01i00</code>
+            という文字列を含んでいるはずです。 udev が提供するデフォルトの生成規則によって <span class=
+            "command"><strong>udevd</strong></span> から <span class=
+            "command"><strong>/sbin/modprobe</strong></span>
+            が呼び出されることになり、その際には uevent に関する環境変数 <code class=
+            "envar">MODALIAS</code> の設定内容が利用されます。 (この環境変数の内容は sysfs 内の
+            <code class="filename">modalias</code> ファイルの内容と同じはずです。)
+            そしてワイルドカードが指定されているならそれが展開された上で、エイリアス文字列に合致するモジュールがすべてロードされることになります。
+          </p>
+          <p>
+            上の例で <span class="emphasis"><em>forte</em></span>
+            ドライバーがあったとすると、<span class="emphasis"><em>snd-fm801</em></span>
+            の他にそれもロードされてしまいます。 これは古いものでありロードされて欲しくないものです。
+            不要なドライバーのロードを防ぐ方法については後述しているので参照してください。
+          </p>
+          <p>
+            カーネルは、ネットワークプロトコル、ファイルシステム、NLS
+            サポートといった各種モジュールも、要求に応じてロードすることもできます。
+          </p>
+        </div>
+        <div class="sect3">
+          <h3 class="sect3">
+            9.3.2.4. ホットプラグ可能な/ダイナミックなデバイスの扱い
+          </h3>
+          <p>
+            USB (Universal Serial Bus) で MP3
+            プレイヤーを接続しているような場合、カーネルは現在そのデバイスが接続されているということを認識しており、uevent
+            が生成済の状態にあります。 その uevent は上で述べたように <span class=
+            "command"><strong>udevd</strong></span> が取り扱うことになります。
+          </p>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          9.3.3. モジュールロードとデバイス生成の問題
+        </h2>
+        <p>
+          自動的にデバイスが生成される際には、いくつか問題が発生します。
+        </p>
+        <div class="sect3">
+          <h3 class="sect3">
+            9.3.3.1. カーネルモジュールが自動的にロードされない問題
+          </h3>
+          <p>
+            udev がモジュールをロードできるためには、バス固有のエイリアスがあって、バスドライバーが <code class=
+            "systemitem">sysfs</code> に対して適切なエイリアスを提供していることが必要です。
+            そうでない場合は、別の手段を通じてモジュールのロードを仕組まなければなりません。 Linux-6.13.4 においての udev
+            は、INPUT、IDE、PCI、USB、SCSI、SERIO、FireWire の各デバイスに対するドライバーをロードします。
+            それらのデバイスドライバーが適切に構築されているからです。
+          </p>
+          <p>
+            目的のデバイスドライバーが udev に対応しているかどうかは、<span class=
+            "command"><strong>modinfo</strong></span>
+            コマンドに引数としてモジュール名を与えて実行します。 <code class="filename">/sys/bus</code>
+            ディレクトリ配下にあるそのデバイス用のディレクトリを見つけ出して、<code class=
+            "filename">modalias</code> ファイルが存在しているかどうかを見ることで分かります。
+          </p>
+          <p>
+            <code class="systemitem">sysfs</code> に <code class=
+            "filename">modalias</code>
+            ファイルが存在しているなら、そのドライバーはデバイスをサポートし、デバイスとの直接のやり取りが可能であることを表します。
+            ただしエイリアスを持っていなければ、それはドライバーのバグです。 その場合は udev
+            に頼ることなくドライバーをロードするしかありません。 そしてそのバグが解消されるのを待つしかありません。
+          </p>
+          <p>
+            <code class="filename">/sys/bus</code> ディレクトリ配下の対応するディレクトリ内に
+            <code class="filename">modalias</code>
+            ファイルがなかったら、これはカーネル開発者がそのバス形式に対する modalias のサポートをまだ行っていないことを意味します。
+            Linux-6.13.4 では ISA バスがこれに該当します。 最新のカーネルにて解消されることを願うしかありません。
+          </p>
+          <p>
+            Udev は <span class="emphasis"><em>snd-pcm-oss</em></span>
+            のような<span class="quote">「<span class="quote">ラッパー
+            (wrapper)</span>」</span>ドライバーや <span class=
+            "emphasis"><em>loop</em></span>
+            のような、現実のハードウェアに対するものではないドライバーは、ロードすることができません。
+          </p>
+        </div>
+        <div class="sect3">
+          <h3 class="sect3">
+            9.3.3.2. カーネルモジュールが自動的にロードされず Udev もロードしようとしない問題
+          </h3>
+          <p>
+            <span class="quote">「<span class="quote">ラッパー
+            (wrapper)</span>」</span>モジュールが単に他のモジュールの機能を拡張するだけのものであるなら (例えば
+            <span class="emphasis"><em>snd-pcm-oss</em></span> は <span class=
+            "emphasis"><em>snd-pcm</em></span> の機能拡張を行うもので、OSS
+            アプリケーションに対してサウンドカードを利用可能なものにするだけのものであるため) <span class=
+            "command"><strong>modprobe</strong></span>
+            の設定によってラッパーモジュールを先にロードし、その後でラップされるモジュールがロードされるようにします。
+            これは以下のように、対応する <code class="filename">/etc/modprobe.d/<em class=
+            "replaceable"><code>&lt;filename&gt;</code></em>.conf</code>
+            ファイル内にて<span class="quote">「<span class=
+            "quote">softdep</span>」</span>の記述行を加えることで実現します。
+          </p>
+          <pre class="screen"><code class=
+          "literal">softdep snd-pcm post: snd-pcm-oss</code></pre>
+          <p>
+            <span class="quote">「<span class=
+            "quote">softdep</span>」</span>コマンドは <code class=
+            "literal">pre:</code> を付与することもでき、あるいは <code class=
+            "literal">pre:</code> と <code class="literal">post:</code>
+            の双方を付与することもできます。 その記述方法や機能に関する詳細は man ページ <a class="ulink" href=
+            "https://man.archlinux.org/man/modprobe.d.5">modprobe.d(5)</a>
+            を参照してください。
+          </p>
+          <p>
+            問題のモジュールがラッパーモジュールではなく、単独で利用できるものであれば、 <span class=
+            "command"><strong>modules</strong></span>
+            ブートスクリプトを編集して、システム起動時にこのモジュールがロードされるようにします。 これは <code class=
+            "filename">/etc/sysconfig/modules</code>
+            ファイルにて、そのモジュール名を単独の行に記述することで実現します。
+            この方法はラッパーモジュールに対しても動作しますが、この場合は次善策となります。
+          </p>
+        </div>
+        <div class="sect3">
+          <h3 class="sect3">
+            9.3.3.3. Udev が不必要なモジュールをロードする問題
+          </h3>
+          <p>
+            不必要なモジュールはこれをビルドしないことにするか、あるいは <code class=
+            "filename">/etc/modprobe.d/blacklist.conf</code> ファイルにブラックリスト
+            (blacklist) として登録してください。 例えば <span class=
+            "emphasis"><em>forte</em></span> モジュールをブラックリストに登録するには以下のようにします。
+          </p>
+          <pre class="screen"><code class=
+          "literal">blacklist forte</code></pre>
+          <p>
+            ブラックリストに登録されたモジュールは <span class=
+            "command"><strong>modprobe</strong></span>
+            コマンドを使えば手動でロードすることもできます。
+          </p>
+        </div>
+        <div class="sect3">
+          <h3 class="sect3">
+            9.3.3.4. Udev が不正なデバイスを生成する、または誤ったシンボリックリンクを生成する問題
+          </h3>
+          <p>
+            デバイス生成規則が意図したデバイスに合致していないと、この状況が往々にして起こります。
+            例えば生成規則の記述が不十分であった場合、SCSI ディスク (本来望んでいるデバイス)
+            と、それに対応づいたものとしてベンダーが提供する SCSI ジェネリックデバイス (これは誤ったデバイス)
+            の両方に生成規則が合致してしまいます。 記述されている生成規則を探し出して正確に記述してください。 その際には
+            <span class="command"><strong>udevadm info</strong></span>
+            コマンドを使って情報を確認してください。
+          </p>
+        </div>
+        <div class="sect3">
+          <h3 class="sect3">
+            9.3.3.5. Udev 規則が不審な動きをする問題
+          </h3>
+          <p>
+            この問題は、一つ前に示したものが別の症状となって現れたものかもしれません。 そのような理由でなく、生成規則が正しく
+            <code class="systemitem">sysfs</code>
+            の属性を利用しているのであれば、それはカーネルの処理タイミングに関わる問題であって、カーネルを修正すべきものです。
+            今の時点では、該当する <code class="systemitem">sysfs</code>
+            の属性の利用を待ち受けるような生成規則を生成し、<code class=
+            "filename">/etc/udev/rules.d/10-wait_for_sysfs.rules</code>
+            ファイルにそれを追加することで対処できます。 (<code class=
+            "filename">/etc/udev/rules.d/10-wait_for_sysfs.rules</code>
+            ファイルがなければ新規に生成します。) もしこれを実施してうまくいった場合は LFS 開発メーリングリストにお知らせください。
+          </p>
+        </div>
+        <div class="sect3">
+          <h3 class="sect3">
+            9.3.3.6. Udev がデバイスを生成しない問題
+          </h3>
+          <p>
+            ここでは以下のことを前提としています。
+            まずドライバーがカーネル内に組み入れられて構築されているか、あるいは既にモジュールとしてロードされていること。 そして udev
+            が間違った名前のデバイスを生成していないことです。
+          </p>
+          <p>
+            カーネルドライバーがそのデータを <code class="systemitem">sysfs</code>
+            にエクスポートしていない場合、udev はデバイスノード生成に必要な情報を得ていないことになります。
+            これはカーネルツリーの外に配置されるサードパーティ製のドライバーであれば当たり前のことです。 したがって <code class=
+            "filename">/usr/lib/udev/devices</code>
+            において、適切なメジャー、マイナー番号を用いた静的なデバイスノードを生成してください。 (カーネルのドキュメント
+            <code class="filename">devices.txt</code>
+            またはサードパーティベンダーが提供するドキュメントを参照してください。) この静的デバイスノードは、<span class=
+            "command"><strong>udev</strong></span> によって <code class=
+            "filename">/dev</code> にコピーされます。
+          </p>
+        </div>
+        <div class="sect3">
+          <h3 class="sect3">
+            9.3.3.7. 再起動後にデバイスの命名順がランダムに変わってしまう問題
+          </h3>
+          <p>
+            これは udev の設計仕様に従って発生するもので、uevent の扱いとモジュールのロードが平行して行われるためです。
+            このために命名順が予期できないものになります。 これを<span class="quote">「<span class=
+            "quote">固定的に</span>」</span>することはできません。
+            ですからカーネルがデバイス名を固定的に定めるようなことを求めるのではなく、シンボリックリンクを用いた独自の生成規則を作り出して、そのデバイスの固定的な属性を用いた固定的な名前を用いる方法を取ります。
+            固定的な属性とは例えば、udev によってインストールされるさまざまな *_id
+            という名のユーティリティが出力するシリアル番号などです。 設定例については <a class="xref" href=
+            "symlinks.html" title="9.4. デバイスの管理">「デバイスの管理」</a>や <a class=
+            "xref" href="network.html" title=
+            "9.5. 全般的なネットワークの設定">「全般的なネットワークの設定」</a>を参照してください。
+          </p>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          9.3.4. 参考情報
+        </h2>
+        <p>
+          さらに参考になるドキュメントが以下のサイトにあります：
+        </p>
+        <div class="itemizedlist">
+          <ul>
+            <li class="listitem">
+              <p>
+                <code class="systemitem">devfs</code> のユーザー空間での実装方法 <a class=
+                "ulink" href=
+                "http://www.kroah.com/linux/talks/ols_2003_udev_paper/Reprint-Kroah-Hartman-OLS2003.pdf">
+                http://www.kroah.com/linux/talks/ols_2003_udev_paper/Reprint-Kroah-Hartman-OLS2003.pdf</a>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <code class="systemitem">sysfs</code> ファイルシステム <a class=
+                "ulink" href=
+                "https://www.kernel.org/pub/linux/kernel/people/mochel/doc/papers/ols-2005/mochel.pdf">
+                https://www.kernel.org/pub/linux/kernel/people/mochel/doc/papers/ols-2005/mochel.pdf</a>
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="bootscripts.html" title=
+          "LFS-ブートスクリプト-20240825">戻る</a>
+          <p>
+            LFS-ブートスクリプト-20240825
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="symlinks.html" title="デバイスの管理">次へ</a>
+          <p>
+            デバイスの管理
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter09.html" title="第9章 システム設定">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

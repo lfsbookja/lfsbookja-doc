@@ -1,0 +1,647 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      ツールチェーンの技術的情報
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.3">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.3
+      </h4>
+      <h3>
+        重要な準備事項
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="introduction.html" title="はじめに">戻る</a>
+          <p>
+            はじめに
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="generalinstructions.html" title=
+          "全般的なコンパイル手順">次へ</a>
+          <p>
+            全般的なコンパイル手順
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="partintro.html" title="重要な準備事項">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-tools-toolchaintechnotes" name=
+      "ch-tools-toolchaintechnotes"></a>ii. ツールチェーンの技術的情報
+    </h1>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <p>
+        本節ではシステムをビルドする原理や技術的な詳細について説明します。 この節のすべてをすぐに理解する必要はありません。
+        この先、実際の作業を行っていけば、いろいろな情報が明らかになってくるはずです。
+        各作業を進めながら、いつでもこの節に戻って読み直してみてください。
+      </p>
+      <p>
+        <a class="xref" href="../chapter05/chapter05.html" title=
+        "第5章 クロスツールチェーンの構築">第&nbsp;5&nbsp;章</a> と <a class="xref" href=
+        "../chapter06/chapter06.html" title=
+        "第6章 クロスコンパイルによる一時的ツール">第&nbsp;6&nbsp;章</a>
+        の最終目標は一時的なシステム環境を構築することです。
+        この一時的なシステムはシステム構築のための十分なツール類を有していて、ホストシステムとは切り離されたものです。 この環境へは chroot
+        によって移行します。この環境は <a class="xref" href="../chapter08/chapter08.html"
+        title="第8章 基本的なソフトウェアのインストール">第&nbsp;8&nbsp;章</a> において、クリーンでトラブルのない
+        LFS システムの構築を行う土台となるものです。
+        構築手順の説明においては、初心者の方であっても失敗を最小限にとどめ、同時に最大限の学習材料となるように心がけています。
+      </p>
+      <p>
+        ビルド過程は <span class="emphasis"><em>クロスコンパイル</em></span> を基本として行います。
+        通常クロスコンパイルとは、ビルドを行うマシンとは異なるマシン向けにコンパイラーや関連ツールチェーンをビルドすることです。 これは厳密には
+        LFS に必要なものではありません。 というのも新たに作り出すシステムは、ビルドに使ったマシンと同一環境で動かすことにしているためです。
+        しかしクロスコンパイルには大きな利点があって、クロスコンパイルによってビルドしたものは、ホスト環境上にはまったく依存できないものとなります。
+      </p>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="cross-compile" name="cross-compile"></a>クロスコンパイルについて
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            LFS はクロスツールチェーン（あるいはネイティブツールチェーン）のビルドを説明する書ではなく、その説明は行っていません。
+            クロスツールチェーンは、LFS
+            のビルドとは異なる別の目的で用いるものであるため、何を行っているのかが十分に分かっていないまま、クロスチェーン向けのコマンドを利用することは避けてください。
+          </p>
+        </div>
+        <p>
+          クロスコンパイルには必要な捉え方があって、それだけで 1 つの節を当てて説明するだけの価値があるものです。
+          初めて読む方は、この節を読み飛ばしてかまいません。
+          ただしビルド過程を十分に理解するためには、後々この節に戻ってきて読んで頂くことをお勧めします。
+        </p>
+        <p>
+          ここにおいて取り上げる用語を定義しておきます。
+        </p>
+        <div class="variablelist">
+          <dl class="variablelist">
+            <dt>
+              <span class="term">ビルド（build）</span>
+            </dt>
+            <dd>
+              <p>
+                ビルド作業を行うマシンのこと。 このマシンは<span class="quote">「<span class=
+                "quote">ホスト</span>」</span>（host）と呼ぶこともあります。
+              </p>
+            </dd>
+            <dt>
+              <span class="term">ホスト（host）</span>
+            </dt>
+            <dd>
+              <p>
+                ビルドされたプログラムを実行するマシンまたはシステムのこと。 ここでいう "ホスト"
+                とは、他の節でいうものと同一ではありません。
+              </p>
+            </dd>
+            <dt>
+              <span class="term">ターゲット（target）</span>
+            </dt>
+            <dd>
+              <p>
+                コンパイラーにおいてのみ用いられます。 コンパイラーの生成コードを必要とするマシンのこと。
+                これはビルドやホストとは異なることもあります。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          例として以下のシナリオを考えてみます。 （これはよく "カナディアンクロス（Canadian Cross）" とも呼ばれるものです。）
+          コンパイラーが低速なマシン上にだけあるとします。 これをマシン A と呼び、コンパイラーは ccA とします。
+          これとは別に高速なマシン（マシン B）があって、ただしそこにはコンパイラーがありません。
+          そしてここから作り出すプログラムコードは、まったく別の低速マシン（マシン C）向けであるとします。 マシン C
+          向けにコンパイラーをビルドするためには、以下の 3 つの段階を経ることになります。
+        </p>
+        <div class="informaltable">
+          <table class="informaltable" border="1">
+            <colgroup>
+              <col align="center" />
+              <col align="center" />
+              <col align="center" />
+              <col align="center" />
+              <col align="left" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th align="center">
+                  段階
+                </th>
+                <th align="center">
+                  ビルド
+                </th>
+                <th align="center">
+                  ホスト
+                </th>
+                <th align="center">
+                  ターゲット
+                </th>
+                <th align="left">
+                  作業
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td align="center">
+                  1
+                </td>
+                <td align="center">
+                  A
+                </td>
+                <td align="center">
+                  A
+                </td>
+                <td align="center">
+                  B
+                </td>
+                <td align="left">
+                  マシン A 上の ccA を使い、クロスコンパイラー cc1 をビルド。
+                </td>
+              </tr>
+              <tr>
+                <td align="center">
+                  2
+                </td>
+                <td align="center">
+                  A
+                </td>
+                <td align="center">
+                  B
+                </td>
+                <td align="center">
+                  C
+                </td>
+                <td align="left">
+                  マシン A 上の cc1 を使い、クロスコンパイラー cc2 をビルド。
+                </td>
+              </tr>
+              <tr>
+                <td align="center">
+                  3
+                </td>
+                <td align="center">
+                  B
+                </td>
+                <td align="center">
+                  C
+                </td>
+                <td align="center">
+                  C
+                </td>
+                <td align="left">
+                  マシン B 上の cc2 を使い、コンパイラー ccC をビルド。
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          マシン C 上で必要となる他のプログラムは、高速なマシン B 上において cc2 を用いてコンパイルすることができます。 マシン B
+          がマシン C 向けのプログラムを実行できなかったとすると、マシン C
+          そのものが動作するようにならない限り、プログラムのビルドやテストは一切できないことになります。 たとえば ccC
+          においてテストスイートを実行するには、以下の 4 つめの段階が必要になります。
+        </p>
+        <div class="informaltable">
+          <table class="informaltable" border="1">
+            <colgroup>
+              <col align="center" />
+              <col align="center" />
+              <col align="center" />
+              <col align="center" />
+              <col align="left" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th align="center">
+                  段階
+                </th>
+                <th align="center">
+                  ビルド
+                </th>
+                <th align="center">
+                  ホスト
+                </th>
+                <th align="center">
+                  ターゲット
+                </th>
+                <th align="left">
+                  作業
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td align="center">
+                  4
+                </td>
+                <td align="center">
+                  C
+                </td>
+                <td align="center">
+                  C
+                </td>
+                <td align="center">
+                  C
+                </td>
+                <td align="left">
+                  マシン C 上にて ccC を使い ccC そのものの再ビルドとテストを実施。
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          上の例において cc1 と cc2 だけがクロスコンパイラーです。
+          つまりこのコンパイラーは、これを実行しているマシンとは別のマシンに対するコードを生成できるものです。 これに比べて ccA と ccC
+          というコンパイラーは、実行しているマシンと同一マシン向けのコードしか生成できません。
+          そういうコンパイラーのこを<span class="emphasis"><em>ネイティブ</em></span>
+          コンパイラーと呼びます。
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="lfs-cross" name="lfs-cross"></a>LFS におけるクロスコンパイラーの実装方法
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            本書におけるクロスコンパイルパッケージは、すべて autoconf ベースのビルドシステムを利用しています。 この
+            autoconf ベースのビルドシステムは、システムのタイプとして cpu-vendor-kernel-os
+            という形式のシステムトリプレット (system triplet) を用いています。
+            ベンダー項目はたいていは正しくないため、autoconf では無視されます。
+          </p>
+          <p>
+            よく考えてみると、4 つの項目からなる名前なのに、どうして<span class="quote">「<span class=
+            "quote">3 つの組 (triplet)</span>」</span>というのでしょう。 カーネルと OS
+            の各項目は、元は<span class="quote">「<span class="quote">システム
+            (system)</span>」</span>項目に由来しています。 したがって 3
+            つの項目からなる書式が、今も有効に扱われるシステムもあります。 たとえば <code class=
+            "literal">x86_64-unknown-freebsd</code> です。 異なる 2
+            システム間で同一カーネルを共有することも不可能ではありませんが、それにしても同一トリプレットとするには、あまりにも差異がありすぎます。
+            たとえば携帯端末で動作する Android は ARM64 サーバー上で動作する Ubuntu とでは、確かに同一の CPU
+            タイプ (ARM64) であり、同一カーネル (Linux) を使っているとは言っても、明らかに違います。
+          </p>
+          <p>
+            エミュレーション層を設けない限り、携帯端末上にサーバー向け実行モジュールを起動することはできません。 この逆の場合も同様です。
+            そこで<span class="quote">「<span class="quote">システム
+            (system)</span>」</span>フィールドは kernel と os
+            に分けられ、システムを明確に指定するようになりました。 たとえば上の例における Android システムは
+            <code class="literal">aarch64-unknown-linux-android</code>
+            と指定され、Ubuntu システムは <code class=
+            "literal">aarch64-unknown-linux-gnu</code> と指定されるようになります。
+          </p>
+          <p>
+            <span class="quote">「<span class="quote">トリプレット</span>」</span>
+            という名前が辞書に残っただけです。 システムのトリプレットを確認する一番簡単な方法は、<span class=
+            "command"><strong>config.guess</strong></span> スクリプトを実行することです。
+            これは多くのパッケージのソースに含まれています。 binutils のソースを伸張（解凍）し、この <strong class=
+            "userinput"><code>./config.guess</code></strong>
+            スクリプトを実行して、その出力を確認してください。 たとえば 32 ビットのインテルプロセッサーであれば、<span class=
+            "emphasis"><em>i686-pc-linux-gnu</em></span> と出力されます。 64
+            ビットシステムであれば <span class=
+            "emphasis"><em>x86_64-pc-linux-gnu</em></span> となります。 ほとんどの Linux
+            システムでは、より簡単に <span class="command"><strong>gcc
+            -dumpmachine</strong></span> コマンドを実行すれば、同様の情報を得ることができます。
+          </p>
+          <p>
+            またプラットフォームのダイナミックリンカーの名前にも注意してください。 これはダイナミックローダーとも呼ばれます。
+            （binutils の一部である標準リンカー <span class=
+            "command"><strong>ld</strong></span> とは別ものですから混同しないでください。）
+            ダイナミックリンカーは glibc
+            パッケージによって提供されているもので、何かのプログラムが必要とする共有ライブラリを検索しロードします。
+            そして実行できるような準備を行って、実際に実行します。 32 ビットインテルマシンに対するダイナミックリンカーの名前は
+            <code class="filename">ld-linux.so.2</code> となります。 （64
+            ビットシステムであれば <code class="filename">ld-linux-x86-64.so.2</code>
+            となります。） ダイナミックリンカーの名前を確実に決定するには、何でもよいのでホスト上の実行モジュールを調べます。
+            <strong class="userinput"><code>readelf -l &lt;name of binary&gt;
+            | grep interpreter</code></strong> というコマンドを実行することです。 出力結果を見てください。
+            どのようなプラットフォームであっても確実な方法は、<a class="ulink" href=
+            "https://sourceware.org/glibc/wiki/ABIList">Glibc wiki ページ</a>
+            を見てみることです。
+          </p>
+        </div>
+        <p>
+          LFS ではクロスコンパイルに似せた作業を行うため、ホストのトリプレットを多少調整します。 <code class=
+          "envar">LFS_TGT</code> 変数において "vendor" 項目を変更します。
+          またクロスリンカーやクロスコンパイラーを生成する際には <em class=
+          "parameter"><code>--with-sysroot</code></em> オプションを利用します。
+          これはホスト内に必要となるファイルがどこにあるかを指示するものです。 <a class="xref" href=
+          "../chapter06/chapter06.html" title=
+          "第6章 クロスコンパイルによる一時的ツール">第&nbsp;6&nbsp;章</a>
+          においてビルドされる他のプログラムが、ビルドマシンのライブラリにリンクできないようにするためです。 以下の 2
+          段階は必須ですが、最後の 1 つはテスト用です。
+        </p>
+        <div class="informaltable">
+          <table class="informaltable" border="1">
+            <colgroup>
+              <col align="center" />
+              <col align="center" />
+              <col align="center" />
+              <col align="center" />
+              <col align="left" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th align="center">
+                  段階
+                </th>
+                <th align="center">
+                  ビルド
+                </th>
+                <th align="center">
+                  ホスト
+                </th>
+                <th align="center">
+                  ターゲット
+                </th>
+                <th align="left">
+                  作業
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td align="center">
+                  1
+                </td>
+                <td align="center">
+                  pc
+                </td>
+                <td align="center">
+                  pc
+                </td>
+                <td align="center">
+                  lfs
+                </td>
+                <td align="left">
+                  pc 上の cc-pc を使い、クロスコンパイラー cc1 をビルド。
+                </td>
+              </tr>
+              <tr>
+                <td align="center">
+                  2
+                </td>
+                <td align="center">
+                  pc
+                </td>
+                <td align="center">
+                  lfs
+                </td>
+                <td align="center">
+                  lfs
+                </td>
+                <td align="left">
+                  pc 上の cc1 を使い、クロスコンパイラー cc-lfs をビルド。
+                </td>
+              </tr>
+              <tr>
+                <td align="center">
+                  3
+                </td>
+                <td align="center">
+                  lfs
+                </td>
+                <td align="center">
+                  lfs
+                </td>
+                <td align="center">
+                  lfs
+                </td>
+                <td align="left">
+                  lfs 上の cc-lfs を使い cc-lfs そのものの再ビルドとテストを実施。
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          上の表において "pc 上の"
+          というのは、すでにそのディストリビューションにおいてインストールされているコマンドを実行することを意味します。 また "lfs 上の"
+          とは、chroot 環境下にてコマンドを実行することを意味します。
+        </p>
+        <p>
+          話はまだまだあります。 C 言語というと単にコンパイラーがあるだけではなく、標準ライブラリも定義しています。 本書では glibc
+          と呼ぶ GNU C ライブラリを用いています（別の選択肢として "musl" があります）。 このライブラリは lfs
+          マシン向けにコンパイルされたものでなければなりません。 つまりクロスコンパイラー cc1 を使うということです。
+          しかしコンパイラーには内部ライブラリというものがあって、アセンブラー命令セットだけでは利用できない複雑なサブルーチンが含まれます。
+          その内部ライブラリは libgcc と呼ばれ、完全に機能させるには glibc ライブラリにリンクさせなければなりません。 さらに
+          C++ (libstdc++) に対する標準ライブラリも、glibc にリンクさせる必要があります。
+          このようなニワトリと卵の問題を解決するには、まず libgcc に基づいた低機能版の cc1 をビルドします。 この cc1
+          にはスレッド処理や例外処理といった機能が含まれていません。 その後に、この低機能なコンパイラーを使って glibc をビルドします。
+          （glibc 自体は低機能ではありません。） そして libstdc++ をビルドします。 libstdc++ もやはり、libgcc
+          の機能がいくつか欠如しています。
+        </p>
+        <p>
+          上の段落における結論は以下のようになります。 グレードの落ちた libgcc を使っている以上、cc1 からは完全な
+          libstdc++ はビルドできないということです。 しかし第 2 段階においては、C/C++
+          ライブラリをビルドできる唯一のコンパイラーです。 第 2 段階でビルドしたコンパイラー cc-lfs
+          を、そういったライブラリビルド用として即座には利用しない理由が 2 つあります。
+        </p>
+        <div class="itemizedlist">
+          <ul>
+            <li class="listitem">
+              <p>
+                一般的に cc-lfs は PC（ホストシステム）上で動作させることはできません。 PC と LFS
+                のトリプレットに互換性があったとしても、LFS 向けの実行ファイルは Glibc-2.41
+                に依存していなければなりません。 一方ホストディストロは、異なる libc 実装（たとえば musl）や古い
+                Glibc（たとえば glibc-2.13）を利用しているかもしれません。
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                PC 上において cc-lfs が動作できたとしても、それを使い続けると、その PC
+                上のライブラリにリンクしてしまうリスクがあります。 これは cc-lfs がネイティブコンパイラーであるからです。
+              </p>
+            </li>
+          </ul>
+        </div>
+        <p>
+          そこで libstdc++ は、2 回めの gcc の一部として再ビルドしないといけません。 そこで GCC 2
+          回めのビルドにあたっては、cc1 を使って libgcc と libstdc++ を再ビルドするように指示します。
+          ただしこのとき、libstdc++ がリンクされるのは、デグレードした古い libgcc ではなく、新たに再ビルドされた libgcc
+          です。 こうして libstdc++ は再ビルドによって完全な機能を備えることになります。
+        </p>
+        <p>
+          <a class="xref" href="../chapter08/chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">第&nbsp;8&nbsp;章</a> (つまり<span class=
+          "quote">「<span class="quote">3 回め</span>」</span>) において、LFS
+          システムに必要なパッケージがすべてビルドされます。 それまでの章において、特定のパッケージがたとえ LFS
+          システムにインストールされていても、再ビルドをし続けます。
+          そのようにしてパッケージを再ビルドする最大の理由は、そのパッケージを安定させるためです。 完全に仕上がった LFS
+          システムに、どれかの LFS パッケージを再インストールしたとしたら、その際にインストールされる内容は、<a class="xref"
+          href="../chapter08/chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">第&nbsp;8&nbsp;章</a>
+          において初めてインストールされるものと、全く同一でなければなりません。 <a class="xref" href=
+          "../chapter06/chapter06.html" title=
+          "第6章 クロスコンパイルによる一時的ツール">第&nbsp;6&nbsp;章</a> や <a class="xref" href=
+          "../chapter07/chapter07.html" title=
+          "第7章 chroot への移行と一時的ツールの追加ビルド">第&nbsp;7&nbsp;章</a>
+          においてインストールする一時的なパッケージでは、この要件を満たしません。
+          なぜならそういったものに対しては、任意の依存パッケージを含めずにビルドしているからです。 また <a class="xref"
+          href="../chapter06/chapter06.html" title=
+          "第6章 クロスコンパイルによる一時的ツール">第&nbsp;6&nbsp;章</a> において autoconf
+          が行う機能チェックは、クロスコンパイルが原因で一部が適切に行われません。
+          そうなると一時パッケージには、オプション機能がコンパイルされなかったり、最適化が不十分なコードルーチンが用いられたりすることがあります。
+          さらにパッケージ再ビルドのもう一つの理由は、テストスイートを実行するためです。
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="other-details" name="other-details"></a>その他の手順詳細
+        </h2>
+        <p>
+          クロスコンパイラーは、他から切り離された <code class="filename">$LFS/tools</code>
+          ディレクトリにインストールされます。 このクロスコンパイラーは、最終システムに含めるものではないからです。
+        </p>
+        <p>
+          binutils をまず初めにインストールします。 この後の gcc や glibc の <span class=
+          "command"><strong>configure</strong></span>
+          スクリプトの実行ではアセンブラーやリンカーに対するさまざまな機能テストが行われるためで、そこではどの機能が利用可能または利用不能であるかが確認されます。
+          ただ重要なのは binutils を一番初めにビルドするという点だけではありません。 gcc や glibc の configure
+          が正しく処理されなかったとすると、ツールチェーンがわずかながらも不完全な状態で生成されてしまいます。
+          この状態は、すべてのビルド作業を終えた最後になって、大きな不具合となって現れてくることになります。
+          テストスイートを実行することが欠かせません。 これを実行しておけば、この先に行う多くの作業に入る前に不備があることが分かるからです。
+        </p>
+        <p>
+          Binutils はアセンブラーとリンカーを二箇所にインストールします。 <code class=
+          "filename">$LFS/tools/bin</code> と <code class=
+          "filename">$LFS/tools/$LFS_TGT/bin</code> です。
+          これらは一方が他方のハードリンクとなっています。 リンカーの重要なところはライブラリを検索する順番です。 <span class=
+          "command"><strong>ld</strong></span> コマンドに <em class=
+          "parameter"><code>--verbose</code></em> オプションをつけて実行すれば詳しい情報が得られます。
+          例えば <span class="command"><strong>$LFS_TGT-ld --verbose | grep
+          SEARCH</strong></span> を実行すると、検索するライブラリのパスとその検索順を示してくれます。
+          (この例は見て分かるように <code class="systemitem">lfs</code>
+          ユーザーでログインしている場合のみ実行することができます。 この後にもう一度このページに戻ってきたときには、<span class=
+          "command"><strong>$LFS_TGT-ld</strong></span> を単に <span class=
+          "command"><strong>ld</strong></span> と置き換えてください。)
+        </p>
+        <p>
+          次にインストールするのは gcc です。 <span class=
+          "command"><strong>configure</strong></span> の実行時には以下のような出力が行われます。
+        </p>
+        <pre class="screen"><code class=
+        "computeroutput">checking what assembler to use... /mnt/lfs/tools/i686-lfs-linux-gnu/bin/as
+checking what linker to use... /mnt/lfs/tools/i686-lfs-linux-gnu/bin/ld</code></pre>
+        <p>
+          これを示すのには重要な意味があります。 gcc の configure スクリプトは、利用するツール類を探し出す際に PATH
+          ディレクトリを参照していないということです。 しかし <span class=
+          "command"><strong>gcc</strong></span>
+          の実際の処理にあたっては、その検索パスが必ず使われるわけでもありません。 <span class=
+          "command"><strong>gcc</strong></span> が利用する標準的なリンカーを確認するには
+          <strong class="userinput"><code>gcc
+          -print-prog-name=ld</code></strong> を実行します。
+          (上でも述べたように、後でこのページに戻ってきたときは <span class=
+          "command"><strong>$LFS_TGT-</strong></span> の部分を取り除いてください。)
+        </p>
+        <p>
+          <span class="command"><strong>gcc</strong></span>
+          からさらに詳細な情報を知りたいときは、プログラムをコンパイルする際に <em class=
+          "parameter"><code>-v</code></em> オプションをつけて実行します。 たとえば <span class=
+          "command"><strong>$LFS_TGT-gcc -v <em class=
+          "replaceable"><code>example.c</code></em></strong></span> と
+          (あるいは後にここに戻ってきたときは <span class=
+          "command"><strong>$LFS_TGT-</strong></span> 部分を除いて)
+          入力すると、プリプロセッサー、コンパイル、アセンブルの各処理工程が示されますが、さらに <span class=
+          "command"><strong>gcc</strong></span>
+          がインクルードヘッダーを検索するパスとその読み込み順も示されます。
+        </p>
+        <p>
+          次に健全化された (sanitized) Linux API ヘッダーをインストールします。 これにより、標準 C ライブラリ
+          (glibc) が Linux カーネルが提供する機能とのインターフェースを可能とします。
+        </p>
+        <p>
+          次のパッケージは glibc です。 glibc
+          構築の際に気にかけるべき重要なものは、コンパイラー、バイナリツール、カーネルヘッダーです。
+          コンパイラーやバイナリーツールについては、一般にはあまり問題にはなりません。 glibc は常に configure
+          スクリプトにて指定される <em class="parameter"><code>--host</code></em>
+          パラメーターに関連づけしたコンパイラーを用いるからです。 我々の作業においてそのコンパイラーとは <span class=
+          "command"><strong>$LFS_TGT-gcc</strong></span> であり、<span class=
+          "command"><strong>readelf</strong></span> ツールは <span class=
+          "command"><strong>$LFS_TGT-readelf</strong></span> になります。
+          カーネルヘッダーは多少複雑です。 したがって無理なことはせずに有効な configure オプションを選択することが必要です。
+          <span class="command"><strong>configure</strong></span> 実行の後は
+          <code class="filename">build</code> ディレクトリにある <code class=
+          "filename">config.make</code> ファイルに重要な情報が示されているので確認してみてください。
+          これらの指定は Glibc パッケージの重要な面を示しています。 glibc
+          がビルドされるメカニズムは自己完結したビルドが行われるものであり、ツールチェーンのデフォルト設定には基本的に依存しないことを示しています。
+        </p>
+        <p>
+          すでに述べたように、標準 C++ ライブラリはこの後にコンパイルします。 そして <a class="xref" href=
+          "../chapter06/chapter06.html" title=
+          "第6章 クロスコンパイルによる一時的ツール">第&nbsp;6&nbsp;章</a>
+          では、自己依存性を持ったプログラムをビルドできるように、その依存性を無視するためにクロスコンパイル行っていきます。
+          そのようなパッケージのインストール手順においては <code class="envar">DESTDIR</code>
+          変数を使って、LFS ファイルシステム内にインストールするようにします。
+        </p>
+        <p>
+          <a class="xref" href="../chapter06/chapter06.html" title=
+          "第6章 クロスコンパイルによる一時的ツール">第&nbsp;6&nbsp;章</a> の最後には、LFS
+          のネイティブコンパイラーをインストールします。 はじめに <code class="envar">DESTDIR</code>
+          ディレクトリを使って binutils 2 回めをビルドし、他のプログラムにおいても同じようにインストールを行います。 2 回めとなる
+          gcc ビルドでは、不必要なライブラリは省略します。 gcc の configure
+          スクリプトにはハードコーディングされている部分があるので、<code class=
+          "envar">CC_FOR_TARGET</code> はホストのターゲットが同じであれば <span class=
+          "command"><strong>cc</strong></span> になります。 しかしビルドシステムにおいては異なります。
+          そこで configure オプションには <em class=
+          "parameter"><code>CC_FOR_TARGET=$LFS_TGT-gcc</code></em>
+          を明示的に指定するようにしています。
+        </p>
+        <p>
+          <a class="xref" href="../chapter07/chapter07.html" title=
+          "第7章 chroot への移行と一時的ツールの追加ビルド">第&nbsp;7&nbsp;章</a>での chroot
+          による環境下では、各種プログラムのインストールを、ツールチェーンを適切に操作しながら実施していきます。
+          これ以降、コアとなるツールチェーンは自己完結していきます。
+          そしてシステムの全機能を動作させるための全パッケージの最終バージョンを、ビルドしテストしインストールします。
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="introduction.html" title="はじめに">戻る</a>
+          <p>
+            はじめに
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="generalinstructions.html" title=
+          "全般的なコンパイル手順">次へ</a>
+          <p>
+            全般的なコンパイル手順
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="partintro.html" title="重要な準備事項">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

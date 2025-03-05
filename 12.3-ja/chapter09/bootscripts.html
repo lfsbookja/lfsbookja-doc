@@ -1,0 +1,484 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      9.2. LFS-ブートスクリプト-20240825
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.3">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.3
+      </h4>
+      <h3>
+        第9章 システム設定
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="introduction.html" title="はじめに">戻る</a>
+          <p>
+            はじめに
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="udev.html" title="デバイスとモジュールの扱いについて">次へ</a>
+          <p>
+            デバイスとモジュールの扱いについて
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter09.html" title="第9章 システム設定">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-config-bootscripts" name="ch-config-bootscripts"></a>9.2.
+      LFS-ブートスクリプト-20240825
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          LFS-ブートスクリプトパッケージは LFS システムの起動、終了時に利用するスクリプトを提供します。
+          システム起動方法のカスタマイズに必要な設定や手順については以降の節で説明します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.1 SBU 以下</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">244 KB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          9.2.1. LFS ブートスクリプト のインストール
+        </h2>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-bootscripts" name="contents-bootscripts"></a>9.2.2.
+          LFS ブートスクリプト の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールスクリプト:</strong> <span class=
+              "segbody">checkfs, cleanfs, console, functions, halt, ifdown,
+              ifup, localnet, modules, mountfs, mountvirtfs, network, rc,
+              reboot, sendsignals, setclock, ipv4-static, swap, sysctl,
+              sysklogd, template, udev, udev_retry</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/etc/rc.d, /etc/init.d (シンボリックリンク), /etc/sysconfig,
+              /lib/services, /lib/lsb (シンボリックリンク)</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="checkfs-bootscripts" name=
+                    "checkfs-bootscripts"></a><span class="term"><span class=
+                    "command"><strong>checkfs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルシステムがマウントされる前にその整合性をチェックします。
+                    (ただしジャーナルファイルシステムとネットワークベースのファイルシステムは除きます。)
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cleanfs-bootscripts" name=
+                    "cleanfs-bootscripts"></a><span class="term"><span class=
+                    "command"><strong>cleanfs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    リブートの際に不要となるファイルを削除します。 例えば <code class=
+                    "filename">/run/</code> ディレクトリや <code class=
+                    "filename">/var/lock/</code> ディレクトリの配下にあるファイルです。
+                    <code class="filename">/run/utmp</code> ファイルは再生成されます。 また
+                    <code class="filename">/etc/nologin</code>、<code class=
+                    "filename">/fastboot</code>、<code class=
+                    "filename">/forcefsck</code> がおそらく存在しており、これらは削除されます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="console-bootscripts" name=
+                    "console-bootscripts"></a><span class="term"><span class=
+                    "command"><strong>console</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    必要となるキーボードレイアウトに対しての正しいキーマップテーブルをロードします。
+                    同時にスクリーンフォントもセットします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="functions-bootscripts" name=
+                    "functions-bootscripts"></a><span class=
+                    "term"><span class=
+                    "command"><strong>functions</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    共通的な関数を提供します。
+                    例えばエラーやステータスのチェックなどであり、これはブートスクリプトの多くが利用します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="halt-bootscripts" name=
+                    "halt-bootscripts"></a><span class="term"><span class=
+                    "command"><strong>halt</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    システムを停止します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ifdown-bootscripts" name=
+                    "ifdown-bootscripts"></a><span class="term"><span class=
+                    "command"><strong>ifdown</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ネットワークデバイスを停止します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ifup-bootscripts" name=
+                    "ifup-bootscripts"></a><span class="term"><span class=
+                    "command"><strong>ifup</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ネットワークデバイスを初期化します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="localnet-bootscripts" name=
+                    "localnet-bootscripts"></a><span class=
+                    "term"><span class="command"><strong>localnet</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    システムのホスト名とローカルループバックデバイスを設定します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="modules-bootscripts" name=
+                    "modules-bootscripts"></a><span class="term"><span class=
+                    "command"><strong>modules</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <code class="filename">/etc/sysconfig/modules</code>
+                    にて一覧設定されているカーネルモジュールをロードします。 その際には引数が指定され利用されます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mountfs-bootscripts" name=
+                    "mountfs-bootscripts"></a><span class="term"><span class=
+                    "command"><strong>mountfs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルシステムをすべてマウントします。 ただし <span class=
+                    "emphasis"><em>noauto</em></span>
+                    が設定されているものやネットワークベースのファイルシステムは除きます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mountvirtfs-bootscripts" name=
+                    "mountvirtfs-bootscripts"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mountvirtfs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    仮想カーネルファイルシステムをマウントします。 例えば <code class=
+                    "systemitem">proc</code> などです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="network-bootscripts" name=
+                    "network-bootscripts"></a><span class="term"><span class=
+                    "command"><strong>network</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ネットワークカードなどのネットワークインターフェースを設定します。 そして (可能であれば)
+                    デフォルトゲートウェイを設定します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rc-bootscripts" name=
+                    "rc-bootscripts"></a><span class="term"><span class=
+                    "command"><strong>rc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ランレベルを制御するマスタースクリプト。 他のブートスクリプトを一つずつ実行します。
+                    その際には、別のブートスクリプトへのシンボリックリンク名によって実行順序を決定します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="reboot-bootscripts" name=
+                    "reboot-bootscripts"></a><span class="term"><span class=
+                    "command"><strong>reboot</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    システムを再起動します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sendsignals-bootscripts" name=
+                    "sendsignals-bootscripts"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sendsignals</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    システムが再起動または停止する前に、プロセスすべてが停止していることを確認します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="setclock-bootscripts" name=
+                    "setclock-bootscripts"></a><span class=
+                    "term"><span class="command"><strong>setclock</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ハードウェアクロックが UTC 時刻に設定されていなければ、システムクロックをローカル時刻としてリセットします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ipv4-static-bootscripts" name=
+                    "ipv4-static-bootscripts"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ipv4-static</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ネットワークインターフェースに対して固定 IP (Internet Protocol)
+                    アドレスを割り当てるために必要となる機能を提供します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="swap-bootscripts" name=
+                    "swap-bootscripts"></a><span class="term"><span class=
+                    "command"><strong>swap</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    スワップファイルやスワップパーティションを有効または無効にします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sysctl-bootscripts" name=
+                    "sysctl-bootscripts"></a><span class="term"><span class=
+                    "command"><strong>sysctl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <code class="filename">/etc/sysctl.conf</code>
+                    ファイルが存在している場合、実行中のカーネルに対してシステム設定値をロードします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sysklogd-bootscripts" name=
+                    "sysklogd-bootscripts"></a><span class=
+                    "term"><span class="command"><strong>sysklogd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    システムログデーモンおよびカーネルログデーモンの起動と停止を行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="template-bootscripts" name=
+                    "template-bootscripts"></a><span class=
+                    "term"><span class="command"><strong>template</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    他のデーモン用としてブートスクリプトを生成するためのテンプレート。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="udev-bootscripts" name=
+                    "udev-bootscripts"></a><span class="term"><span class=
+                    "command"><strong>udev</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <code class="filename">/dev</code> ディレクトリを準備して udev
+                    デーモンを起動します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="udev-retry-bootscripts" name=
+                    "udev-retry-bootscripts"></a><span class=
+                    "term"><span class=
+                    "command"><strong>udev_retry</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Udev の uevent が失敗した場合にこれを再実行します。 そして必要に応じて、生成されたルールファイルを
+                    <code class="filename">/run/udev</code> から <code class=
+                    "filename">/etc/udev/rules.d</code> へコピーします。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="introduction.html" title="はじめに">戻る</a>
+          <p>
+            はじめに
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="udev.html" title="デバイスとモジュールの扱いについて">次へ</a>
+          <p>
+            デバイスとモジュールの扱いについて
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter09.html" title="第9章 システム設定">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

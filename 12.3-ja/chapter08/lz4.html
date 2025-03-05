@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.9. Lz4-1.10.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.3">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.3
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="xz.html" title="Xz-5.6.4">戻る</a>
+          <p>
+            Xz-5.6.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="zstd.html" title="Zstd-1.5.7">次へ</a>
+          <p>
+            Zstd-1.5.7
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-system-lz4" name="ch-system-lz4"></a>8.9. Lz4-1.10.0
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Lz4 は可逆圧縮アルゴリズムであり、1 コアあたり 500 MB/秒を超える圧縮速度を誇ります。
+          非常に高速なデコーダーも備えており、コアあたりの GB/秒 速度がさまざまにあります。 Lz4 は Zstandard (zstd)
+          と連携して、双方のアルゴリズムを用いて、より早く圧縮することができます。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.1 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">4.2 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.9.1. Lz4 のインストール
+        </h2>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make BUILD_STATIC=no PREFIX=/usr</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make -j1 check</kbd></pre>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make BUILD_STATIC=no PREFIX=/usr install</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-lz4" name="contents-lz4"></a>8.9.2. Lz4 の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">lz4, lz4c (lz4 へのリンク), lz4cat (lz4 へのリンク), unlz4 (lz4
+              へのリンク)</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">liblz4.so</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lz4" name="lz4"></a><span class=
+                    "term"><span class="command"><strong>lz4</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    LZ4 フォーマットを使ってファイルの圧縮、伸長を行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lz4c" name="lz4c"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lz4c</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    LZ4 フォーマットを使ってファイルの圧縮を行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lz4cat" name="lz4cat"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lz4cat</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    LZ4 フォーマットにより圧縮されたファイルの内容一覧を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="unlz4" name="unlz4"></a><span class=
+                    "term"><span class=
+                    "command"><strong>unlz4</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    LZ4 フォーマットを使ってファイルの伸長を行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="liblz4" name="liblz4"></a><span class=
+                    "term"><code class="filename">liblz4</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    LZ4 アルゴリズムを利用した可逆データ圧縮を実装するライブラリを提供します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="xz.html" title="Xz-5.6.4">戻る</a>
+          <p>
+            Xz-5.6.4
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="zstd.html" title="Zstd-1.5.7">次へ</a>
+          <p>
+            Zstd-1.5.7
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

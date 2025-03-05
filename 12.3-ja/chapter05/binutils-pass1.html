@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      5.2. Binutils-2.44 - 1回め
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.3">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.3
+      </h4>
+      <h3>
+        第5章 クロスツールチェーンの構築
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="introduction.html" title="はじめに">戻る</a>
+          <p>
+            はじめに
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gcc-pass1.html" title=
+          "GCC-14.2.0 - 1回め">次へ</a>
+          <p>
+            GCC-14.2.0 - 1回め
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter05.html" title=
+          "第5章 クロスツールチェーンの構築">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-tools-binutils-pass1" name="ch-tools-binutils-pass1"></a>5.2.
+      Binutils-2.44 - 1回め
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Binutils パッケージは、リンカーやアセンブラーなどのようにオブジェクトファイルを取り扱うツール類を提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">1 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">677 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          5.2.1. クロスコンパイル版 Binutils のインストール
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            <a class="xref" href="../partintro/generalinstructions.html"
+            title="全般的なコンパイル手順">全般的なコンパイル手順</a>
+            と書かれた節に戻って再度説明をよく読み、重要事項として説明している内容をよく理解しておいてください。
+            そうすればこの後の無用なトラブルを減らすことができるはずです。
+          </p>
+        </div>
+        <p>
+          Binutils は一番最初にビルドするパッケージです。 ここでビルドされるリンカーやアセンブラーを使って、Glibc や GCC
+          のさまざまな機能が利用できるかどうかを判別することになります。
+        </p>
+        <p>
+          Binutils のドキュメントでは Binutils
+          をビルドする際に、ビルド専用のディレクトリを使ってビルドすることを推奨しています。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir -v build
+cd       build</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            本節以降で SBU値を示していきます。 これを活用していくなら、本パッケージの configure
+            から初めのインストールまでの処理時間を計測しましょう。 具体的には処理コマンドを <span class=
+            "command"><strong>time</strong></span> で囲んで <strong class=
+            "userinput"><code>time { ../configure ... &amp;&amp; make
+            &amp;&amp; make install; }</code></strong> と入力すれば実現できます。
+          </p>
+        </div>
+        <p>
+          Binutils をコンパイルするための準備をします。:
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">../configure --prefix=$LFS/tools \
+             --with-sysroot=$LFS \
+             --target=$LFS_TGT   \
+             --disable-nls       \
+             --enable-gprofng=no \
+             --disable-werror    \
+             --enable-new-dtags  \
+             --enable-default-hash-style=gnu</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>configure オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--prefix=$LFS/tools</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                configure スクリプトに対して Binutils プログラムを <code class=
+                "filename">$LFS/tools</code> ディレクトリ以下にインストールすることを指示します。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-sysroot=$LFS</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                クロスコンパイル時に、ターゲットとして必要となるシステムライブラリを $LFS より探し出すことを指示します。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><code class=
+              "envar">--target=$LFS_TGT</code></span>
+            </dt>
+            <dd>
+              <p>
+                変数 <code class="envar">LFS_TGT</code> に設定しているマシン名は
+                <span class="command"><strong>config.guess</strong></span>
+                スクリプトが返すものとは微妙に異なります。 そこでこのオプションは、binutils
+                のビルドにあたってクロスリンカーをビルドするように <span class=
+                "command"><strong>configure</strong></span> スクリプトに指示するものです。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--disable-nls</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                一時的なツール構築にあたっては i18n 国際化は行わないことを指示します。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-gprofng=no</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                これは gprofng のビルドを無効にします。 gprofng は一時的ツールにおいては不要であるからです。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--disable-werror</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                ホストのコンパイラーが警告を発した場合に、ビルドが中断することがないようにします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-new-dtags</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                これは実行ファイルや共有ライブラリに埋め込むライブラリ検索パスとして<span class=
+                "quote">「<span class=
+                "quote">runpath</span>」</span>を用いることをリンカーに対して指示します。
+                従来の<span class="quote">「<span class=
+                "quote">rpath</span>」</span>タグは用いません。
+                こうすると、動的リンクされた実行ファイルのデバッグが容易になり、いくつかのパッケージにおけるテストスイートにおいて発生する潜在的な問題を解決できるものとなります。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-default-hash-style=gnu</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                リンカーにおいては、共有ライブラリや動的リンク実行ファイルのハッシュテーブルに関して、GNU スタイルのものと旧来の
+                ELF 形式のものの双方を生成することがデフォルトとなっています。
+                ハッシュテーブルは、動的リンカーがシンボル検索を実現するためのものです。 LFS における動的リンカー（Glibc
+                パッケージから提供されるもの）は、GNU
+                スタイルのハッシュを常に用いることにしており、シンボル検索をより早くなるようにしています。 したがって旧来の ELF
+                ハッシュテーブルは完全に無用です。 本指定はリンカーに対して、デフォルトでは GNU
+                スタイルのハッシュテーブルしか生成しないように指示します。 こうすることで、パッケージビルドの際に、旧来の ELF
+                ハッシュテーブルを生成する不要な時間、およびそれを収容するディスクスペースを軽減できます。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <p>
+          本パッケージの詳細は <a class="xref" href=
+          "../chapter08/binutils.html#contents-binutils" title=
+          "8.20.2. Binutils の構成">「Binutils の構成」</a>を参照してください。
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="introduction.html" title="はじめに">戻る</a>
+          <p>
+            はじめに
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gcc-pass1.html" title=
+          "GCC-14.2.0 - 1回め">次へ</a>
+          <p>
+            GCC-14.2.0 - 1回め
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter05.html" title=
+          "第5章 クロスツールチェーンの構築">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      9.7. システムロケールの設定
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.3-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.3-systemd
+      </h4>
+      <h3>
+        第9章 システム設定
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="console.html" title="Linux コンソールの設定">戻る</a>
+          <p>
+            Linux コンソールの設定
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="inputrc.html" title=
+          "/etc/inputrc ファイルの生成">次へ</a>
+          <p>
+            /etc/inputrc ファイルの生成
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter09.html" title="第9章 システム設定">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-config-locale" name="ch-config-locale"></a>9.7. システムロケールの設定
+    </h1>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <p>
+        環境変数の中には、ネイティブな言語サポートのために必要になるものがあります。 これを設定することによって以下の内容が定められます。
+      </p>
+      <div class="itemizedlist">
+        <ul>
+          <li class="listitem">
+            <p>
+              プログラムの出力結果を指定した言語で得ることができます。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              キャラクターを英字、数字、その他のクラスに分類します。
+              この設定は、英語以外のロケールにおいて、コマンドラインに非アスキー文字が入力された場合に <span class=
+              "command"><strong>bash</strong></span> が正しく入力を受け付けるために必要となります。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              各国ごとに正しくアルファベット順が並ぶようにします。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              適切なデフォルト用紙サイズを設定します。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              通貨、日付、時刻を正しい書式で出力するように設定します。
+            </p>
+          </li>
+        </ul>
+      </div>
+      <p>
+        以下において <em class="replaceable"><code>&lt;ll&gt;</code></em>
+        と示しているものは、言語を表す２文字の英字 (例えば <code class="literal">en</code>) に、また
+        <em class="replaceable"><code>&lt;CC&gt;</code></em> は、国を表す２文字の英字
+        (例えば <code class="literal">GB</code>) にそれぞれ置き換えてください。 <em class=
+        "replaceable"><code>&lt;charmap&gt;</code></em>
+        は、選択したロケールに対応したキャラクターマップ (charmap) に置き換えてください。 オプションの修飾子として
+        <code class="literal">@euro</code> といった記述もあります。
+      </p>
+      <p>
+        以下のコマンドを実行すれば Glibc が取り扱うロケールを一覧で見ることができます。
+      </p>
+      <pre class="userinput"><kbd class="command">locale -a</kbd></pre>
+      <p>
+        キャラクターマップにはエイリアスがいくつもあります。 例えば <code class=
+        "literal">ISO-8859-1</code> は <code class="literal">iso8859-1</code>
+        や <code class="literal">iso88591</code> として記述することもできます。
+        ただしアプリケーションによってはエイリアスを正しく取り扱うことができないものがあります。 (<code class=
+        "literal">UTF-8</code> の場合 <code class="literal">UTF-8</code>
+        と書かなければならず、これを <code class="literal">utf8</code> としてはならない場合があります。)
+        そこでロケールに対する正規の名称を選ぶのが最も無難です。 正規の名称は以下のコマンドを実行すれば分かります。 ここで <em class=
+        "replaceable"><code>&lt;locale name&gt;</code></em> は <span class=
+        "command"><strong>locale -a</strong></span> コマンドの出力から得られたロケールを指定します。
+        (本書の例では <code class="literal">en_GB.iso88591</code> としています。)
+      </p>
+      <pre class="userinput"><kbd class="command">LC_ALL=<em class=
+      "replaceable"><code>&lt;locale name&gt;</code></em> locale charmap</kbd></pre>
+      <p>
+        <code class="literal">en_GB.iso88591</code>
+        ロケールの場合、上のコマンドの出力は以下となります。
+      </p>
+      <pre class="screen"><code class=
+      "computeroutput">ISO-8859-1</code></pre>
+      <p>
+        出力された結果が <code class="literal">en_GB.ISO-8859-1</code>
+        に対するロケール設定として用いるべきものです。 こうして探し出したロケールは動作確認しておくことが重要です。 Bash
+        の起動ファイルに記述するのはその後です。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">LC_ALL=&lt;locale name&gt; locale language
+LC_ALL=&lt;locale name&gt; locale charmap
+LC_ALL=&lt;locale name&gt; locale int_curr_symbol
+LC_ALL=&lt;locale name&gt; locale int_prefix</kbd></pre>
+      <p>
+        上のコマンドを実行すると、言語名やロケールに応じたキャラクターエンコーディングが出力されます。
+        また通貨や各国ごとの国際電話番号プレフィックスも出力されます。
+        コマンドを実行した際に以下のようなメッセージが表示されたら、第&nbsp;8&nbsp;章にてロケールをインストールしていないか、あるいはそのロケールが
+        Glibc のデフォルトのインストールではサポートされていないかのいずれかです。
+      </p>
+      <pre class="screen"><code class=
+      "computeroutput">locale: Cannot set LC_* to default locale: No such file or directory</code></pre>
+      <p>
+        このエラーが発生したら <span class="command"><strong>localedef</strong></span>
+        コマンドを使って、目的とするロケールをインストールするか、別のロケールを選ぶ必要があります。 これ以降の説明では Glibc
+        がこのようなエラーを生成していないことを前提に話を進めます。
+      </p>
+      <p>
+        これ以外のパッケージでも、パッケージが求めるものとは異なるロケール設定がなされた場合に、適切に処理されないケースがあります。
+        (そして必ずしもエラーメッセージが表示されない場合もあります。) そういったケースでは、利用している Linux
+        ディストリビューションがどのようにロケール設定をサポートしているかを調べてみると、有用な情報が得られるかもしれません。
+      </p>
+      <p>
+        適切なロケール設定が決まったら <code class="filename">/etc/locale.conf</code>
+        ファイルを生成します。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">cat &gt; /etc/locale.conf &lt;&lt; "EOF"
+<code class="literal">LANG=<em class=
+"replaceable"><code>&lt;ll&gt;_&lt;CC&gt;.&lt;charmap&gt;&lt;@modifiers&gt;</code></em></code>
+EOF</kbd></pre>
+      <p>
+        シェルプログラムである <code class="filename">/bin/bash</code>
+        (これ以降は単に<span class="quote">「<span class=
+        "quote">シェル</span>」</span>と表現します) は、初期起動ファイルをいくつも利用して環境設定を行います。
+        個々のファイルにはそれぞれに目的があり、ログインや対話環境をさまざまに制御します。 <code class=
+        "filename">/etc</code> ディレクトリにあるファイルは一般にグローバルな設定を行います。
+        これに対応づいたファイルがユーザーのホームディレクトリにある場合は、グローバルな設定を上書きします。
+      </p>
+      <p>
+        対話型ログインシェルは <span class="command"><strong>/bin/login</strong></span>
+        プログラムを利用して <code class="filename">/etc/passwd</code>
+        ファイルを読み込み、ログインが成功することで起動します。 同じ対話型でも非ログインシェルの場合は <code class=
+        "prompt">[prompt]$</code><span class=
+        "command"><strong>/bin/bash</strong></span> のようなコマンドラインからの入力を経て起動します。
+        非対話型のシェルはシェルスクリプト動作中に実行されます。
+        非対話型であるのは、スクリプトの実行の最中にユーザーからの入力を待つことがないためです。
+      </p>
+      <p>
+        <span class="phrase">ログインシェルは <code class=
+        "filename">/etc/locale.conf</code> における設定に影響を受けないこともあります。</span>
+        <span class="phrase"><code class="filename">/etc/locale.conf</code>
+        のロケール設定を読み込んでエクスポートするために <code class="filename">/etc/profile</code>
+        を生成します。</span> , ただし Linux コンソールの起動中は、上ではなく <code class=
+        "literal">C.UTF-8</code> を設定します。 (Linux
+        コンソールが表示できない文字を出力しないようにするためです。)
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">cat &gt; /etc/profile &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/profile
+
+for i in $(locale); do
+  unset ${i%=*}
+done
+
+if [[ "$TERM" = linux ]]; then
+  export LANG=C.UTF-8
+else
+  source /etc/locale.conf
+
+  for i in $(locale); do
+    key=${i%=*}
+    if [[ -v $key ]]; then
+      export $key
+    fi
+  done
+fi
+
+# End /etc/profile</code>
+EOF</kbd></pre>
+      <p>
+        <code class="filename">/etc/locale.conf</code> ファイルは systemd
+        のユーティリティープログラム <span class=
+        "command"><strong>localectl</strong></span> を使って定めることもできます。
+        例えば上と同じ設定を行うには以下を実行します。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">localectl set-locale LANG="<em class=
+      "replaceable"><code>&lt;ll&gt;_&lt;CC&gt;.&lt;charmap&gt;&lt;@modifiers&gt;</code></em>"</kbd></pre>
+      <p>
+        言語に関連する環境変数、例えば <code class="envar">LANG</code>, <code class=
+        "envar">LC_CTYPE</code>, <code class="envar">LC_NUMERIC</code>
+        などや、<span class="command"><strong>locale</strong></span>
+        が出力する環境変数を指定することもできます。 その場合は各設定をスペースにより区切ります。 例として <code class=
+        "envar">LANG</code> を en_US.UTF-8 とし <code class=
+        "envar">LC_CTYPE</code> を単に en_US とする場合は以下のようにします。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">localectl set-locale LANG="en_US.UTF-8" LC_CTYPE="en_US"</kbd></pre>
+      <div class="admon note">
+        <img alt="[注記]" src="../images/note.png" />
+        <h3>
+          注記
+        </h3>
+        <p>
+          <span class="command"><strong>localectl</strong></span> コマンドは
+          chroot 環境内では動作しない点に注意してください。 systemd を使って LFS
+          システムを起動したときになって、初めて利用できるものです。
+        </p>
+      </div>
+      <p>
+        ロケール設定の <code class="literal">C</code> (デフォルト) と <code class=
+        "literal">en_US</code> (米国の英語利用ユーザーに推奨) は異なります。 <code class=
+        "literal">C</code> は US-ASCII 7 ビットキャラクターセットを用います。
+        もし最上位ビットがセットされたキャラクターがあれば不適当なものとして取り扱います。 例えば <span class=
+        "command"><strong>ls</strong></span>
+        コマンドにおいてクエスチョン記号が表示されることがあるのはこのためです。 また Mutt や Pine
+        などにより電子メールが送信される際に、そういった文字は RFC には適合しないメールとして送信されます。 送信された文字は
+        <code class="computeroutput">unknown 8-bit</code>(不明な 8ビット) として示されます。
+        そこで 8ビット文字を必要としないことが明らかな場合には <code class="literal">C</code>
+        ロケールを指定してください。
+      </p>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="console.html" title="Linux コンソールの設定">戻る</a>
+          <p>
+            Linux コンソールの設定
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="inputrc.html" title=
+          "/etc/inputrc ファイルの生成">次へ</a>
+          <p>
+            /etc/inputrc ファイルの生成
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter09.html" title="第9章 システム設定">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

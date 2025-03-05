@@ -1,0 +1,388 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.7. Bzip2-1.0.8
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.3">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.3
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="zlib.html" title="Zlib-1.3.1">戻る</a>
+          <p>
+            Zlib-1.3.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="xz.html" title="Xz-5.6.4">次へ</a>
+          <p>
+            Xz-5.6.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-system-bzip2" name="ch-system-bzip2"></a>8.7. Bzip2-1.0.8
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Bzip2 パッケージはファイル圧縮、伸長 (解凍) を行うプログラムを提供します。
+          テキストファイルであれば、これまでよく用いられてきた <span class=
+          "command"><strong>gzip</strong></span> に比べて <span class=
+          "command"><strong>bzip2</strong></span> の方が圧縮率の高いファイルを生成できます。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.1 SBU 以下</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">7.2 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.7.1. Bzip2 のインストール
+        </h2>
+        <p>
+          本パッケージのドキュメントをインストールするためにパッチを適用します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../bzip2-1.0.8-install_docs-1.patch</kbd></pre>
+        <p>
+          以下のコマンドによりシンボリックリンクを相対的なものとしてインストールします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i 's@\(ln -s -f \)$(PREFIX)/bin/@\1@' Makefile</kbd></pre>
+        <p>
+          man ページのインストール先を正しいディレクトリに修正します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i "s@(PREFIX)/man@(PREFIX)/share/man@g" Makefile</kbd></pre>
+        <p>
+          Bzip2 をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make -f Makefile-libbz2_so
+make clean</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>make パラメーターの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class="parameter"><code>-f
+              Makefile-libbz2_so</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このパラメーターは Bzip2 のビルドにあたって通常の <code class=
+                "filename">Makefile</code> ファイルではなく <code class=
+                "filename">Makefile-libbz2_so</code> ファイルを利用することを指示します。
+                これはダイナミックライブラリ <code class="filename">libbz2.so</code> をビルドし
+                Bzip2 の各種プログラムをこれにリンクします。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          パッケージのコンパイルとテストを行います。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make PREFIX=/usr install</kbd></pre>
+        <p>
+          共有ライブラリをインストールします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cp -av libbz2.so.* /usr/lib
+ln -sv libbz2.so.1.0.8 /usr/lib/libbz2.so</kbd></pre>
+        <p>
+          共有化された <span class="command"><strong>bzip2</strong></span> 実行モジュールを
+          <code class="filename">/usr/bin</code> ディレクトリにインストールします。
+          またシンボリックリンクにより <span class="command"><strong>bzip2</strong></span>
+          のコピーを 2 つ作ります。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cp -v bzip2-shared /usr/bin/bzip2
+for i in /usr/bin/{bzcat,bunzip2}; do
+  ln -sfv bzip2 $i
+done</kbd></pre>
+        <p>
+          不要なスタティックライブラリを削除します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">rm -fv /usr/lib/libbz2.a</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-bzip2" name="contents-bzip2"></a>8.7.2. Bzip2 の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">bunzip2 (bzip2 へのリンク), bzcat (bzip2 へのリンク), bzcmp
+              (bzdiff へのリンク), bzdiff, bzegrep (bzgrep へのリンク), bzfgrep (bzgrep
+              へのリンク), bzgrep, bzip2, bzip2recover, bzless (bzmore へのリンク),
+              bzmore</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libbz2.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/share/doc/bzip2-1.0.8</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="bunzip2" name="bunzip2"></a><span class=
+                    "term"><span class=
+                    "command"><strong>bunzip2</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    bzip2 で圧縮されたファイルを解凍します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="bzcat" name="bzcat"></a><span class=
+                    "term"><span class=
+                    "command"><strong>bzcat</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    解凍結果を標準出力に出力します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="bzcmp" name="bzcmp"></a><span class=
+                    "term"><span class=
+                    "command"><strong>bzcmp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    bzip2 で圧縮されたファイルに対して <span class=
+                    "command"><strong>cmp</strong></span> を実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="bzdiff" name="bzdiff"></a><span class=
+                    "term"><span class=
+                    "command"><strong>bzdiff</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    bzip2 で圧縮されたファイルに対して <span class=
+                    "command"><strong>diff</strong></span> を実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="bzegrep" name="bzegrep"></a><span class=
+                    "term"><span class=
+                    "command"><strong>bzegrep</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    bzip2 で圧縮されたファイルに対して <span class=
+                    "command"><strong>egrep</strong></span> を実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="bzfgrep" name="bzfgrep"></a><span class=
+                    "term"><span class=
+                    "command"><strong>bzfgrep</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    bzip2 で圧縮されたファイルに対して <span class=
+                    "command"><strong>fgrep</strong></span> を実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="bzgrep" name="bzgrep"></a><span class=
+                    "term"><span class=
+                    "command"><strong>bzgrep</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    bzip2 で圧縮されたファイルに対して <span class=
+                    "command"><strong>grep</strong></span> を実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="bzip2" name="bzip2"></a><span class=
+                    "term"><span class=
+                    "command"><strong>bzip2</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ブロックソート法 (バロウズ-ホイラー変換) とハフマン符号化法を用いてファイル圧縮を行います。
+                    圧縮率は、従来用いられてきた<span class="quote">「<span class=
+                    "quote">Lempel-Ziv</span>」</span>アルゴリズムによるもの、例えば
+                    <span class="command"><strong>gzip</strong></span>
+                    コマンドによるものに比べて高いものです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="bzip2recover" name="bzip2recover"></a><span class=
+                    "term"><span class=
+                    "command"><strong>bzip2recover</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    壊れた bzip2 ファイルの復旧を試みます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="bzless" name="bzless"></a><span class=
+                    "term"><span class=
+                    "command"><strong>bzless</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    bzip2 で圧縮されたファイルに対して <span class=
+                    "command"><strong>less</strong></span> を実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="bzmore" name="bzmore"></a><span class=
+                    "term"><span class=
+                    "command"><strong>bzmore</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    bzip2 で圧縮されたファイルに対して <span class=
+                    "command"><strong>more</strong></span> を実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libbz2" name="libbz2"></a><span class=
+                    "term"><code class="filename">libbz2</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ブロックソート法 (バロウズ-ホイラー変換) による可逆的なデータ圧縮を提供するライブラリ。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="zlib.html" title="Zlib-1.3.1">戻る</a>
+          <p>
+            Zlib-1.3.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="xz.html" title="Xz-5.6.4">次へ</a>
+          <p>
+            Xz-5.6.4
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

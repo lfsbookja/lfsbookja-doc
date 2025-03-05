@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      7.10. Python-3.13.2
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.3-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.3-systemd
+      </h4>
+      <h3>
+        第7章 chroot への移行と一時的ツールの追加ビルド
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="perl.html" title="Perl-5.40.1">戻る</a>
+          <p>
+            Perl-5.40.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="texinfo.html" title="Texinfo-7.2">次へ</a>
+          <p>
+            Texinfo-7.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter07.html" title=
+          "第7章 chroot への移行と一時的ツールの追加ビルド">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-tools-Python" name="ch-tools-Python"></a>7.10. Python-3.13.2
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Python 3 パッケージは Python 開発環境を提供します。
+          オブジェクト指向プログラミング、スクリプティング、大規模プログラムのプロトタイピング、アプリケーション開発などに有用なものです。
+          Python はインタープリター言語です。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.5 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">634 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          7.10.1. Python のインストール
+        </h2>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            <span class="quote">「<span class="quote">python</span>」</span>
+            というプレフィックスで始まるパッケージファイルは 2 種類あります。 そのうち、扱うべきファイルは <code class=
+            "filename">Python-3.13.2.tar.xz</code> です。 （1 文字めが大文字であるものです。）
+          </p>
+        </div>
+        <p>
+          Python をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr   \
+            --enable-shared \
+            --without-ensurepip</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>configure パラメーターの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-shared</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このスイッチはスタティックライブラリをインストールしないようにします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--without-ensurepip</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このスイッチは Python パッケージインストーラーを無効にします。 この段階では必要がないからです。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            この時点において、依存パッケージをまだインストールしていないために、ビルドできない Python 3 モジュールがあります。
+            <code class="filename">ssl</code> モジュールに対しては <code class=
+            "computeroutput">Python requires a OpenSSL 1.1.1 or newer</code>
+            というメッセージが出力されます。 このメッセージは無視できます。 よく確認すべきなのは、トップレベルの <span class=
+            "command"><strong>make</strong></span> コマンドは失敗していないことです。
+            任意でビルドすれば良いモジュールは、今ここでのビルドは必要ありません。 それは、この後に <a class="xref"
+            href="../chapter08/chapter08.html" title=
+            "第8章 基本的なソフトウェアのインストール">第&nbsp;8&nbsp;章</a> においてビルドされます。
+          </p>
+        </div>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <p>
+          本パッケージの詳細は <a class="xref" href=
+          "../chapter08/Python.html#contents-python" title=
+          "8.51.2. Python 3 の構成">「Python 3 の構成」</a>を参照してください。
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="perl.html" title="Perl-5.40.1">戻る</a>
+          <p>
+            Perl-5.40.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="texinfo.html" title="Texinfo-7.2">次へ</a>
+          <p>
+            Texinfo-7.2
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter07.html" title=
+          "第7章 chroot への移行と一時的ツールの追加ビルド">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.3-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
