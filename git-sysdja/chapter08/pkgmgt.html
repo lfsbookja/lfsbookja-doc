@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.2-112-systemd">
+  <body class="lfs" id="lfs-r12.3-4-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.2-112-systemd
+        Linux From Scratch - Version r12.3-4-systemd
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -40,7 +40,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.2-112-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.3-4-systemd">ホーム</a>
         </li>
       </ul>
     </div>
@@ -408,15 +408,19 @@ make DESTDIR=/usr/pkg/libfoo/1.1 install</kbd></pre>
         <p>
           新しいシステムのハードウェアと元のカーネルに差異があるかもしれないため、カーネルを新しいシステム向けに再ビルドする必要があるでしょう。
         </p>
-        <div class="admon note">
-          <img alt="[注記]" src="../images/note.png" />
+        <div class="admon important">
+          <img alt="[重要]" src="../images/important.png" />
           <h3>
-            注記
+            重要
           </h3>
           <p>
-            類似するアーキテクチャーのシステム間にてコピーを行う際には問題が生じるとの報告があります。
-            例えばインテルアーキテクチャーに対する命令セットは AMD
-            プロセッサーに対するものと完全に一致しているわけではないため、一方の命令セットが後に他方で動作しなくなることも考えられます。
+            LFS システムを CPU の異なるシステム上にデプロイしたい場合、<a class="xref" href="gmp.html"
+            title="8.21. GMP-6.3.0">「GMP-6.3.0」</a> と <a class="xref" href=
+            "libffi.html" title="8.50. Libffi-3.4.7">「Libffi-3.4.7」</a>
+            のビルドにあたっては、以下のメモ内容に従ってください。 つまりアーキテクチャー固有の最適化を通じて、ホストシステムと LFS
+            デプロイ先のシステム双方に適したライブラリを生成するようにしてください。 これを行っていないと LFS 実行時に
+            <code class="computeroutput">Illegal Instruction</code>
+            エラーが発生することになります。
           </p>
         </div>
         <p>
@@ -447,7 +451,7 @@ make DESTDIR=/usr/pkg/libfoo/1.1 install</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.2-112-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.3-4-systemd">ホーム</a>
         </li>
       </ul>
     </div>
