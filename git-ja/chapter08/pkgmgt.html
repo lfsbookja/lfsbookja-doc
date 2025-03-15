@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.3-4">
+  <body class="lfs" id="lfs-r12.3-8">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.3-4
+        Linux From Scratch - Version r12.3-8
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -29,9 +29,9 @@
         </li>
         <li class="next">
           <a accesskey="n" href="man-pages.html" title=
-          "Man-pages-6.12">次へ</a>
+          "Man-pages-6.13">次へ</a>
           <p>
-            Man-pages-6.12
+            Man-pages-6.13
           </p>
         </li>
         <li class="up">
@@ -40,7 +40,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.3-4">ホーム</a>
+          "Linux From Scratch - Version r12.3-8">ホーム</a>
         </li>
       </ul>
     </div>
@@ -112,10 +112,11 @@
             </li>
             <li class="listitem">
               <p>
-                共有ライブラリを提供しているパッケージをアップデートする場合で、そのライブラリ名が変更になったとします。
+                共有ライブラリを提供しているパッケージをアップデートする場合で、そのライブラリ名<a href="#ftn.id5511"
+                class="footnote" id="id5511" name="id5511"><sup class=
+                "footnote">[1]</sup></a> が変更になったとします。
                 この場合は、このライブラリに動的リンクを行っていたパッケージは、新たなライブラリに向けてのリンクとなるように再コンパイルすることが必要になります。
-                （なおパッケージバージョンとライブラリ名には関連性はありません。） たとえば foo-1.2.3
-                というパッケージがあって、これが共有ライブラリ <code class=
+                たとえば foo-1.2.3 というパッケージがあって、これが共有ライブラリ <code class=
                 "filename">libfoo.so.1</code> をインストールしているとします。 そして新バージョン
                 foo-1.2.4 が共有ライブラリ <code class="filename">libfoo.so.2</code>
                 を持っていて、これにアップグレードするものとします。 この場合 <code class=
@@ -425,6 +426,27 @@ make DESTDIR=/usr/pkg/libfoo/1.1 install</kbd></pre>
           を用いたブートプロセスの設定」</a>を設定する必要があります。
         </p>
       </div>
+      <div class="footnotes">
+        <br />
+        <hr width="100" align="left" />
+        <div id="ftn.id5511" class="footnote">
+          <p>
+            <a href="#id5511" class="para"><sup class="para">[1]</sup></a>
+            共有ライブラリ名は、その ELF 動的セクションの <code class="constant">DT_SONAME</code>
+            エントリーに名称がコーディングされます。 <span class="command"><strong>readelf -d
+            <em class="replaceable"><code>&lt;ライブラリファイル名&gt;</code></em> |
+            grep SONAME</strong></span> コマンドを使えば、それを取得することができます。 その後ろには
+            <code class="literal">.so.<em class=
+            "replaceable"><code>&lt;バージョン番号&gt;</code></em></code> がつくのが普通です。
+            ただし時には (<code class="filename">libbz2.so.1.0</code> などのように)
+            複数のバージョン番号がつく場合、<code class="filename">.so</code> の前に
+            (<code class="filename">libbfd-2.44</code> などのように) つく場合、または
+            (<code class="filename">libmemusage.so</code> のように)
+            まったくバージョン番号がつかない場合もあります。
+            一般的に言って、パッケージバージョンとライブラリ名の中のバージョン番号は関連性がありません。
+          </p>
+        </div>
+      </div>
     </div>
     <div class="navfooter">
       <ul>
@@ -436,9 +458,9 @@ make DESTDIR=/usr/pkg/libfoo/1.1 install</kbd></pre>
         </li>
         <li class="next">
           <a accesskey="n" href="man-pages.html" title=
-          "Man-pages-6.12">次へ</a>
+          "Man-pages-6.13">次へ</a>
           <p>
-            Man-pages-6.12
+            Man-pages-6.13
           </p>
         </li>
         <li class="up">
@@ -447,7 +469,7 @@ make DESTDIR=/usr/pkg/libfoo/1.1 install</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.3-4">ホーム</a>
+          "Linux From Scratch - Version r12.3-8">ホーム</a>
         </li>
       </ul>
     </div>
