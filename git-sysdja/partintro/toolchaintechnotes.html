@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.3-8-systemd">
+  <body class="lfs" id="lfs-r12.3-17-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.3-8-systemd
+        Linux From Scratch - Version r12.3-17-systemd
       </h4>
       <h3>
         重要な準備事項
@@ -39,7 +39,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.3-8-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.3-17-systemd">ホーム</a>
         </li>
       </ul>
     </div>
@@ -84,6 +84,12 @@
             LFS はクロスツールチェーン（あるいはネイティブツールチェーン）のビルドを説明する書ではなく、その説明は行っていません。
             クロスツールチェーンは、LFS
             のビルドとは異なる別の目的で用いるものであるため、何を行っているのかが十分に分かっていないまま、クロスチェーン向けのコマンドを利用することは避けてください。
+          </p>
+          <p>
+            GCC の 2 回めはクロスツールチェーンを崩すものと捉えられています。 しかしこれはバグと扱うべきものではありません。
+            というのも GCC の 2 回めというのは、本書においてクロスコンパイルを行う最後のパッケージです。 そしてこの GCC 2
+            回めのビルド以降に、クロスコンパイルを本当に行う必要のあるパッケージが現れるまでは、この状況を<span class=
+            "quote">「<span class="quote">直したくない</span>」</span>のです。
           </p>
         </div>
         <p>
@@ -344,15 +350,117 @@
           </p>
         </div>
         <p>
-          LFS ではクロスコンパイルに似せた作業を行うため、ホストのトリプレットを多少調整します。 <code class=
-          "envar">LFS_TGT</code> 変数において "vendor" 項目を変更します。
-          またクロスリンカーやクロスコンパイラーを生成する際には <em class=
-          "parameter"><code>--with-sysroot</code></em> オプションを利用します。
-          これはホスト内に必要となるファイルがどこにあるかを指示するものです。 <a class="xref" href=
-          "../chapter06/chapter06.html" title=
+          クロスコンパイルには以下の 2 つのキーポイントがあります。
+        </p>
+        <div class="itemizedlist">
+          <ul>
+            <li class="listitem">
+              <p>
+                マシンコードを生成して処理するのが<span class="quote">「<span class=
+                "quote">ホスト</span>」</span>上である場合は、クロスツールチェーンを用いなければなりません。
+                <span class="quote">「<span class=
+                "quote">ビルド</span>」</span>システムにあるネイティブなツールチェーンは、<span class=
+                "quote">「<span class=
+                "quote">ビルド</span>」</span>システム上において実行することができるマシンコードを生成するため、まだ呼び出される場合があるかもしれません。
+                たとえばビルドシステムがネイティブツールチェーンを使って、ジェネレーターをコンパイルしたとします。
+                そのジェネレーターを使って C ソースファイルを生成し、最終的にクロスツールチェーンを使って C
+                ソースファイルをコンパイルするかもしれません。 これによって生成されるコードは<span class=
+                "quote">「<span class="quote">ホスト</span>」</span>上で実行可能となります。
+              </p>
+              <p>
+                autoconf ベースのビルドシステムを使った場合、この状況は <em class=
+                "parameter"><code>--host</code></em> スイッチを用いることで<span class=
+                "quote">「<span class=
+                "quote">ホスト</span>」</span>トリプレットを確実に設定することができます。
+                このスイッチを使えば、ビルドシステムは <code class="literal"><em class=
+                "replaceable"><code>&lt;ホストのトリプレット&gt;</code></em></code>
+                というプリフィックスのついたツールチェーンコンポーネントを利用して、<span class=
+                "quote">「<span class=
+                "quote">ホスト</span>」</span>用のマシンコードを生成します。 具体的にコンパイラーは
+                <span class="command"><strong><em class=
+                "replaceable"><code>&lt;ホストのトリプレット&gt;</code></em>-gcc</strong></span>
+                となり、<span class="command"><strong>readelf</strong></span>
+                ツールは <span class="command"><strong><em class=
+                "replaceable"><code>&lt;ホストのトリプレット&gt;</code></em>-readelf</strong></span>
+                となります。
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="quote">「<span class=
+                "quote">ホスト</span>」</span>上において実行する目的で生成されたマシンコードを、ビルドシステム上で実行してはなりません。
+                たとえばネイティブにユーティリティーをビルドする際に、その man ページは <em class=
+                "parameter"><code>--help</code></em>
+                スイッチを使ってユーティリティーを実行させ、その出力を得ようとするでしょう。
+                しかしクロスコンパイルを行っていた場合には、このユーティリティーを<span class=
+                "quote">「<span class=
+                "quote">ビルド</span>」</span>上で動作させることに失敗するため、出力は得られません。 特に x86
+                CPU 上において (エミュレーターはないものとして) ARM64 マシンコードが実行できないのは当然です。
+              </p>
+              <p>
+                autoconf ベースのビルドシステムを使った場合、この状況は<span class=
+                "quote">「<span class=
+                "quote">クロスコンパイルモード</span>」</span>を用いて実現可能であり、<span class=
+                "quote">「<span class=
+                "quote">ホスト</span>」</span>向けマシンコードの実行に必要となるオプション機能は、ビルド時には無効化されます。
+                <span class="quote">「<span class=
+                "quote">ホスト</span>」</span>のトリプレットが明示的に指定された場合は、<span class=
+                "command"><strong>configure</strong></span>
+                スクリプトが<span class="quote">「<span class=
+                "quote">ホスト</span>」</span>向けにコンパイルされたダミープログラムの実行に失敗した場合、あるいは<span class="quote">「<span class="quote">ビルド</span>」</span>トリプレットが
+                <em class="parameter"><code>--build</code></em>
+                スイッチにより指定され、それが<span class="quote">「<span class=
+                "quote">ホスト</span>」</span>鳥プレととは異なる場合にのみ、<span class=
+                "quote">「<span class=
+                "quote">クロスコンパイルモード</span>」</span>が有効になります。
+              </p>
+            </li>
+          </ul>
+        </div>
+        <p>
+          LFS の一時システム向けのパッケージをクロスコンパイルするため、<code class="envar">LFS_TGT</code>
+          変数においてシステムトリプレットの "vendor" フィールドを "lfs" として若干修正します。 そして<span class=
+          "quote">「<span class="quote">ホスト</span>」</span>トリプレットを <em class=
+          "parameter"><code>--host</code></em> を通じて指定することで、クロスツールチェーンが LFS
+          一時システムにおいて稼働するマシンコードを生成実行するようにします。 また<span class=
+          "quote">「<span class=
+          "quote">クロスコンパイルモード</span>」</span>を有効にすることも必要です。 <span class=
+          "quote">「<span class="quote">ホスト</span>」</span>向けマシンコード、すなわち LFS
+          一時システム向けのマシンコードは、現在の CPU 上で実行できるわけですが、<span class=
+          "quote">「<span class="quote">ビルド</span>」</span> (ホストディストロ)
+          上では利用できないライブラリを参照するかもしれませんし、参照できたとしても、存在しなかったり異なった定義となってしまうようなコードやデータの参照が起きるかもしれません。
+          LFS 一時システム向けのパッケージをクロスコンパイルする際には、<span class=
+          "command"><strong>configure</strong></span>
+          スクリプトがその問題を判別するダミープログラムのことを信用することはできません。 つまり (ホストディストロが Musl のように
+          <code class="systemitem">libc</code> とは異なる実装をしていない限り)
+          ダミープログラムは、ホストディストロの <code class="systemitem">libc</code>
+          が提供する可能性のある、<code class="systemitem">libc</code>
+          の機能の一部を利用するに過ぎないからです。 したがってよくできたプログラムが失敗するようであっても、処理には成功するのかもしれません。
+          そこで<span class="quote">「<span class=
+          "quote">ビルド</span>」</span>トリプレットの指定は明示的に行わなければならず、これによって<span class="quote">「<span class="quote">クロスコンパイルモード</span>」</span>を有効にします。
+          設定する値は普通のデフォルト値です。 つまり <span class=
+          "command"><strong>config.guess</strong></span>
+          の出力から得られる、元々のシステムトリプレットです。 <span class="quote">「<span class=
+          "quote">クロスコンパイルモード</span>」</span> は上で述べたように明示的な指定によって有効になります。
+        </p>
+        <p>
+          クロスリンカーとクロスコンパイラーをビルドする際には <em class=
+          "parameter"><code>--with-sysroot</code></em> オプションを使います。
+          これは<span class="quote">「<span class=
+          "quote">ホスト</span>」</span>が必要とするファイルの検索ディレクトリを指示するためです。 こうしておけば
+          <a class="xref" href="../chapter06/chapter06.html" title=
           "第6章 クロスコンパイルによる一時的ツール">第&nbsp;6&nbsp;章</a>
-          においてビルドされる他のプログラムが、ビルドマシンのライブラリにリンクできないようにするためです。 以下の 2
-          段階は必須ですが、最後の 1 つはテスト用です。
+          においてビルドするそれ以外のプログラムが、<span class="quote">「<span class=
+          "quote">ビルド</span>」</span>上のライブラリにリンクすることをほぼ防げます。 ここで<span class=
+          "quote">「<span class=
+          "quote">ほぼ</span>」</span>という表現を使ったのは、コンパイラーの<span class=
+          "quote">「<span class="quote">互換性</span>」</span>ラッパーである <span class=
+          "command"><strong>libtool</strong></span> と、autoconf
+          ベースのビルドシステム向けのリンカーは、よくできたものであるがために、リンカーに対して<span class=
+          "quote">「<span class=
+          "quote">ビルド</span>」</span>システム内のライブラリを検索するようなオプションを与えてしまいます。
+          このことを避けるために libtool アーカイブ (<code class="filename">.la</code>)
+          ファイルは削除するものとし、Binutils に同梱されている古い libtool は修正するようにしています。
         </p>
         <div class="informaltable">
           <table class="informaltable" border="1">
@@ -431,7 +539,7 @@
                   lfs
                 </td>
                 <td align="left">
-                  lfs 上の cc-lfs を使い cc-lfs そのものの再ビルドとテストを実施。
+                  lfs 上の cc-lfs を使い cc-lfs の再ビルド (とおそらくテスト) を実施。
                 </td>
               </tr>
             </tbody>
@@ -457,32 +565,12 @@
         <p>
           上の段落における結論は以下のようになります。 グレードの落ちた libgcc を使っている以上、cc1 からは完全な
           libstdc++ はビルドできないということです。 しかし第 2 段階においては、C/C++
-          ライブラリをビルドできる唯一のコンパイラーです。 第 2 段階でビルドしたコンパイラー cc-lfs
-          を、そういったライブラリビルド用として即座には利用しない理由が 2 つあります。
-        </p>
-        <div class="itemizedlist">
-          <ul>
-            <li class="listitem">
-              <p>
-                一般的に cc-lfs は PC（ホストシステム）上で動作させることはできません。 PC と LFS
-                のトリプレットに互換性があったとしても、LFS 向けの実行ファイルは Glibc-2.41
-                に依存していなければなりません。 一方ホストディストロは、異なる libc 実装（たとえば musl）や古い
-                Glibc（たとえば glibc-2.13）を利用しているかもしれません。
-              </p>
-            </li>
-            <li class="listitem">
-              <p>
-                PC 上において cc-lfs が動作できたとしても、それを使い続けると、その PC
-                上のライブラリにリンクしてしまうリスクがあります。 これは cc-lfs がネイティブコンパイラーであるからです。
-              </p>
-            </li>
-          </ul>
-        </div>
-        <p>
-          そこで libstdc++ は、2 回めの gcc の一部として再ビルドしないといけません。 そこで GCC 2
-          回めのビルドにあたっては、cc1 を使って libgcc と libstdc++ を再ビルドするように指示します。
-          ただしこのとき、libstdc++ がリンクされるのは、デグレードした古い libgcc ではなく、新たに再ビルドされた libgcc
-          です。 こうして libstdc++ は再ビルドによって完全な機能を備えることになります。
+          ライブラリをビルドできる唯一のコンパイラーです。 すでに述べているように cc-lfs は pc (ホストディストロ)
+          上で実行することはできません。 それはライブラリー、コード、データのいずれかが利用できないにも関わらず、<span class=
+          "quote">「<span class="quote">ビルド</span>」</span> (ホストディストロ)
+          上において必要となることがあるからです。 そこで gcc の第 2 段階においてはライブラリ検索パスを上書きして、新たに再ビルドされた
+          libgcc に対してリンクされる libstdc++ を使ってビルドするようにします。 つまりはデグレードしたビルドです。
+          こうすることで、再ビルドした libstdc++ は完全に機能することになります。
         </p>
         <p>
           <a class="xref" href="../chapter08/chapter08.html" title=
@@ -500,11 +588,7 @@
           "../chapter07/chapter07.html" title=
           "第7章 chroot への移行と一時的ツールの追加ビルド">第&nbsp;7&nbsp;章</a>
           においてインストールする一時的なパッケージでは、この要件を満たしません。
-          なぜならそういったものに対しては、任意の依存パッケージを含めずにビルドしているからです。 また <a class="xref"
-          href="../chapter06/chapter06.html" title=
-          "第6章 クロスコンパイルによる一時的ツール">第&nbsp;6&nbsp;章</a> において autoconf
-          が行う機能チェックは、クロスコンパイルが原因で一部が適切に行われません。
-          そうなると一時パッケージには、オプション機能がコンパイルされなかったり、最適化が不十分なコードルーチンが用いられたりすることがあります。
+          なぜならそういった任意機能に対しては、依存パッケージがない、クロスコンパイルモードである、といった理由により利用できないからです。
           さらにパッケージ再ビルドのもう一つの理由は、テストスイートを実行するためです。
         </p>
       </div>
@@ -574,41 +658,28 @@ checking what linker to use... /mnt/lfs/tools/i686-lfs-linux-gnu/bin/ld</code></
           (glibc) が Linux カーネルが提供する機能とのインターフェースを可能とします。
         </p>
         <p>
-          次のパッケージは glibc です。 glibc
-          構築の際に気にかけるべき重要なものは、コンパイラー、バイナリツール、カーネルヘッダーです。
-          コンパイラーやバイナリーツールについては、一般にはあまり問題にはなりません。 glibc は常に configure
-          スクリプトにて指定される <em class="parameter"><code>--host</code></em>
-          パラメーターに関連づけしたコンパイラーを用いるからです。 我々の作業においてそのコンパイラーとは <span class=
-          "command"><strong>$LFS_TGT-gcc</strong></span> であり、<span class=
-          "command"><strong>readelf</strong></span> ツールは <span class=
-          "command"><strong>$LFS_TGT-readelf</strong></span> になります。
-          カーネルヘッダーは多少複雑です。 したがって無理なことはせずに有効な configure オプションを選択することが必要です。
-          <span class="command"><strong>configure</strong></span> 実行の後は
-          <code class="filename">build</code> ディレクトリにある <code class=
-          "filename">config.make</code> ファイルに重要な情報が示されているので確認してみてください。
-          これらの指定は Glibc パッケージの重要な面を示しています。 glibc
-          がビルドされるメカニズムは自己完結したビルドが行われるものであり、ツールチェーンのデフォルト設定には基本的に依存しないことを示しています。
+          次のパッケージは glibc です。 これはクロスコンパイルを行う最初のパッケージになります。 ここでは <em class=
+          "parameter"><code>--host=$LFS_TGT</code></em> というオプションを使います。
+          これを行うことによって、ビルドシステムが <code class="literal">$LFS_TGT-</code>
+          というプリフィックスのついたツール類を用いるようにするためです。 さらに <em class=
+          "parameter"><code>--build=$(../scripts/config.guess)</code></em>
+          オプションを指定することによって、上で述べたような<span class="quote">「<span class=
+          "quote">クロスコンパイルモード</span>」</span>を有効にします。 環境変数 <code class=
+          "envar">DESTDIR</code> はインストール先を LFS ファイルシステムとするために利用します。
         </p>
         <p>
           すでに述べたように、標準 C++ ライブラリはこの後にコンパイルします。 そして <a class="xref" href=
           "../chapter06/chapter06.html" title=
           "第6章 クロスコンパイルによる一時的ツール">第&nbsp;6&nbsp;章</a>
           では、自己依存性を持ったプログラムをビルドできるように、その依存性を無視するためにクロスコンパイル行っていきます。
-          そのようなパッケージのインストール手順においては <code class="envar">DESTDIR</code>
-          変数を使って、LFS ファイルシステム内にインストールするようにします。
+          これらのパッケージにおける手順は glibc の手順と同等です。
         </p>
         <p>
           <a class="xref" href="../chapter06/chapter06.html" title=
           "第6章 クロスコンパイルによる一時的ツール">第&nbsp;6&nbsp;章</a> の最後には、LFS
           のネイティブコンパイラーをインストールします。 はじめに <code class="envar">DESTDIR</code>
           ディレクトリを使って binutils 2 回めをビルドし、他のプログラムにおいても同じようにインストールを行います。 2 回めとなる
-          gcc ビルドでは、不必要なライブラリは省略します。 gcc の configure
-          スクリプトにはハードコーディングされている部分があるので、<code class=
-          "envar">CC_FOR_TARGET</code> はホストのターゲットが同じであれば <span class=
-          "command"><strong>cc</strong></span> になります。 しかしビルドシステムにおいては異なります。
-          そこで configure オプションには <em class=
-          "parameter"><code>CC_FOR_TARGET=$LFS_TGT-gcc</code></em>
-          を明示的に指定するようにしています。
+          gcc ビルドでは、不必要なライブラリは省略します。
         </p>
         <p>
           <a class="xref" href="../chapter07/chapter07.html" title=
@@ -639,7 +710,7 @@ checking what linker to use... /mnt/lfs/tools/i686-lfs-linux-gnu/bin/ld</code></
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.3-8-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.3-17-systemd">ホーム</a>
         </li>
       </ul>
     </div>

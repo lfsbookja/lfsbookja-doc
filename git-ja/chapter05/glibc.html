@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.3-8">
+  <body class="lfs" id="lfs-r12.3-17">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.3-8
+        Linux From Scratch - Version r12.3-17
       </h4>
       <h3>
         第5章 クロスツールチェーンの構築
@@ -41,7 +41,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.3-8">ホーム</a>
+          "Linux From Scratch - Version r12.3-17">ホーム</a>
         </li>
       </ul>
     </div>
@@ -123,7 +123,6 @@ cd       build</kbd></pre>
       --host=$LFS_TGT                    \
       --build=$(../scripts/config.guess) \
       --enable-kernel=5.4                \
-      --with-headers=$LFS/usr/include    \
       --disable-nscd                     \
       libc_cv_slibdir=/usr/lib</kbd></pre>
         <div class="variablelist">
@@ -148,17 +147,6 @@ cd       build</kbd></pre>
             <dd>
               <p>
                 Linux カーネル 5.4 以上のサポートを行うよう指示します。 これ以前のカーネルは利用することができません。
-              </p>
-            </dd>
-            <dt>
-              <span class="term"><em class=
-              "parameter"><code>--with-headers=$LFS/usr/include</code></em></span>
-            </dt>
-            <dd>
-              <p>
-                これまでに $LFS/usr/include ディレクトリにインストールしたヘッダーファイルを用いて Glibc
-                をビルドすることを指示します。 こうすればカーネルにどのような機能があるか、どのようにして処理効率化を図れるかなどの情報を
-                Glibc が得られることになります。
               </p>
             </dd>
             <dt>
@@ -263,37 +251,106 @@ cd       build</kbd></pre>
         </p>
         <pre class="userinput"><kbd class=
         "command">sed '/RTLDLIST=/s@/usr@@g' -i $LFS/usr/bin/ldd</kbd></pre>
-        <div class="admon caution">
-          <img alt="[注意]" src="../images/caution.png" />
-          <h3>
-            注意
-          </h3>
-          <p>
-            この時点で以下を必ず実施します。 新しいツールチェーンの基本的な機能 (コンパイルやリンク)
-            が正常に処理されるかどうかを確認することです。 健全性のチェック (sanity check)
-            を行うものであり、以下のコマンドを実行します。
-          </p>
-          <pre class="userinput"><kbd class=
-          "command">echo 'int main(){}' | $LFS_TGT-gcc -xc -
-readelf -l a.out | grep ld-linux</kbd></pre>
-          <p>
-            すべてが正常に処理され、エラーが発生しなければ、最終のコマンドの実行結果として以下が出力されるはずです。
-          </p>
-          <pre class="screen"><code class=
-          "computeroutput">[Requesting program interpreter: /lib64/ld-linux-x86-64.so.2]</code></pre>
-          <p>
-            インタープリター名は 32 ビットマシンの場合 <code class=
-            "filename">/lib/ld-linux.so.2</code> となります。
-          </p>
-          <p>
-            出力結果が上とは異なったり、あるいは何も出力されなかったりした場合は、どこかに不備があります。
-            どこに問題があるのか調査、再試行を行って解消してください。 解決せずにこの先に進まないでください。
-          </p>
-          <p>
-            すべてが完了したら、テストファイルを削除します。
-          </p>
-          <pre class="userinput"><kbd class="command">rm -v a.out</kbd></pre>
-        </div>
+        <p>
+          ここにクロスツールチェーンが用意できましたので、コンパイルとリンクが思うとおりに作動する確認をとることが必要になります。
+          以下の健全性チェックを実行してこれを確認します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">echo 'int main(){}' | $LFS_TGT-gcc -x c - -v -Wl,--verbose &amp;&gt; dummy.log
+readelf -l a.out | grep ': /lib'</kbd></pre>
+        <p>
+          エラーは出力しないはずであり、最後のコマンドからの出力は (ダイナミックリンカー名がプラットフォームごとに異なることを除けば)
+          以下のようになるはずです。
+        </p>
+        <pre class="screen"><code class=
+        "computeroutput">[Requesting program interpreter: /lib64/ld-linux-x86-64.so.2]</code></pre>
+        <p>
+          このパスには <code class="filename">/mnt/lfs</code> (あるいは <code class=
+          "envar">LFS</code> に指定しているパス) は含まれていないはずです。
+          こうなるのも、そもそもパスが解釈されるのは、コンパイルしたプログラムが実行される際です。 そしてここでは chroot
+          環境に入っているため、カーネルが <code class="filename">$LFS</code> をルートディレクトリ
+          (<code class="filename">/</code>) であると解釈しているからこそ、そのようになります。
+        </p>
+        <p>
+          ファイルが正しくできていることを確認します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">grep -E -o "$LFS/lib.*/S?crt[1in].*succeeded" dummy.log</kbd></pre>
+        <p>
+          最後のコマンドの出力は以下のようになるはずです。
+        </p>
+        <pre class="screen"><code class=
+        "computeroutput">/mnt/lfs/lib/../lib/Scrt1.o succeeded
+/mnt/lfs/lib/../lib/crti.o succeeded
+/mnt/lfs/lib/../lib/crtn.o succeeded</code></pre>
+        <p>
+          コンパイラーが正しいヘッダーファイルを読み取っているかどうかを検査します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">grep -B3 "^ $LFS/usr/include" dummy.log</kbd></pre>
+        <p>
+          上のコマンドは以下の出力を返します。
+        </p>
+        <pre class="screen"><code class=
+        "computeroutput">#include &lt;...&gt; search starts here:
+ /mnt/lfs/tools/lib/gcc/x86_64-lfs-linux-gnu/14.2.0/include
+ /mnt/lfs/tools/lib/gcc/x86_64-lfs-linux-gnu/14.2.0/include-fixed
+ /mnt/lfs/usr/include</code></pre>
+        <p>
+          もう一度触れておきますが、プラットフォームの三つの組 (target triplet)の次にくるディレクトリ名は CPU
+          アーキテクチャーにより異なる点に注意してください。
+        </p>
+        <p>
+          次に、新たなリンカーが正しいパスを検索して用いられているかどうかを検査します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">grep 'SEARCH.*/usr/lib' dummy.log |sed 's|; |\n|g'</kbd></pre>
+        <p>
+          '-linux-gnu' を含んだパスは無視すれば、最後のコマンドの出力は以下となるはずです。
+        </p>
+        <pre class="screen"><code class=
+        "computeroutput">SEARCH_DIR("=/mnt/lfs/tools/x86_64-lfs-linux-gnu/lib64")
+SEARCH_DIR("=/usr/local/lib64")
+SEARCH_DIR("=/lib64")
+SEARCH_DIR("=/usr/lib64")
+SEARCH_DIR("=/mnt/lfs/tools/x86_64-lfs-linux-gnu/lib")
+SEARCH_DIR("=/usr/local/lib")
+SEARCH_DIR("=/lib")
+SEARCH_DIR("=/usr/lib");</code></pre>
+        <p>
+          32ビットシステムではディレクトリが多少異なります。 ただしここで重要なことは、パス名の先頭がすべて等号記号
+          (<code class="literal">=</code>) で始まっている点です。 これはリンカーに対して設定した
+          sysroot ディレクトリに置き換わります。
+        </p>
+        <p>
+          次に libc が正しく用いられていることを確認します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">grep "/lib.*/libc.so.6 " dummy.log</kbd></pre>
+        <p>
+          最後のコマンドの出力は以下のようになるはずです。
+        </p>
+        <pre class="screen"><code class=
+        "computeroutput">attempt to open /mnt/lfs/usr/lib/libc.so.6 succeeded</code></pre>
+        <p>
+          GCC が正しくダイナミックリンカーを用いているかを確認します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">grep found dummy.log</kbd></pre>
+        <p>
+          上のコマンドの出力は以下のようになるはずです。 (ダイナミックリンカーの名前はプラットフォームによって違っているかもしれません。)
+        </p>
+        <pre class="screen"><code class=
+        "computeroutput">found ld-linux-x86-64.so.2 at /mnt/lfs/usr/lib/ld-linux-x86-64.so.2</code></pre>
+        <p>
+          出力結果が上と異なっていたり、出力が全く得られなかったりした場合は、何かが根本的に間違っているということです。
+          どこに問題があるのか調査、再試行を行って解消してください。 問題を残したままこの先には進まないでください。
+        </p>
+        <p>
+          すべてが正しく動作したら、テストに用いたファイルを削除します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">rm -v a.out dummy.log</kbd></pre>
         <div class="admon note">
           <img alt="[注記]" src="../images/note.png" />
           <h3>
@@ -336,7 +393,7 @@ readelf -l a.out | grep ld-linux</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.3-8">ホーム</a>
+          "Linux From Scratch - Version r12.3-17">ホーム</a>
         </li>
       </ul>
     </div>
