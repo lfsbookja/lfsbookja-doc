@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <title>
-      8.54. Wheel-0.46.1
+      8.53. Packaging-24.2
     </title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
     <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
@@ -12,27 +12,26 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.3-36">
+  <body class="lfs" id="lfs-r12.3-36-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.3-36
+        Linux From Scratch - Version r12.3-36-systemd
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
       </h3>
       <ul>
         <li class="prev">
-          <a accesskey="p" href="packaging.html" title=
-          "Packaging-24.2">戻る</a>
+          <a accesskey="p" href="flit-core.html" title=
+          "Flit-Core-3.12.0">戻る</a>
           <p>
-            Packaging-24.2
+            Flit-Core-3.12.0
           </p>
         </li>
         <li class="next">
-          <a accesskey="n" href="setuptools.html" title=
-          "Setuptools-78.1.0">次へ</a>
+          <a accesskey="n" href="wheel.html" title="Wheel-0.46.1">次へ</a>
           <p>
-            Setuptools-78.1.0
+            Wheel-0.46.1
           </p>
         </li>
         <li class="up">
@@ -41,17 +40,21 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.3-36">ホーム</a>
+          "Linux From Scratch - Version r12.3-36-systemd">ホーム</a>
         </li>
       </ul>
     </div>
     <h1 class="sect1">
-      <a id="ch-system-wheel" name="ch-system-wheel"></a>8.54. Wheel-0.46.1
+      <a id="ch-system-packaging" name="ch-system-packaging"></a>8.53.
+      Packaging-24.2
     </h1>
     <div class="wrap" lang="ja" xml:lang="ja">
       <div class="package" lang="ja" xml:lang="ja">
         <p>
-          Wheel は Python wheel パッケージング標準に基づいた標準実装の Python ライブラリです。
+          packaging モジュールは、相互運用性を実装したユーティリティーを提供する Python ライブラリです。
+          これを通じて明確で唯一の動作を規定 (PEP440) したり、共有的な実装 (PEP425)
+          を採用することでそのメリットを最大限活用したりします。
+          ここには、バージョンの取り扱い、識別子、マーカー、タグなどを取り扱うユーティリティーが含まれます。
         </p>
         <div class="segmentedlist">
           <div class="seglistitem">
@@ -61,86 +64,59 @@
             </div>
             <div class="seg">
               <strong class="segtitle">必要ディスク容量:</strong> <span class=
-              "segbody">1.6 MB</span>
+              "segbody">2.7 MB</span>
             </div>
           </div>
         </div>
       </div>
       <div class="installation" lang="ja" xml:lang="ja">
         <h2 class="sect2">
-          8.54.1. Wheel のインストール
+          8.53.1. Packaging のインストール
         </h2>
         <p>
-          以下のコマンドを実行して Wheel をコンパイルします。
+          以下のコマンドを実行して packaging をコンパイルします。
         </p>
         <pre class="userinput"><kbd class=
         "command">pip3 wheel -w dist --no-cache-dir --no-build-isolation --no-deps $PWD</kbd></pre>
         <p>
-          以下のコマンドを実行して Wheel をインストールします。
+          以下のコマンドを実行して packaging をインストールします。
         </p>
         <pre class="userinput"><kbd class=
-        "command">pip3 install --no-index --find-links dist wheel</kbd></pre>
+        "command">pip3 install --no-index --find-links dist packaging</kbd></pre>
       </div>
       <div class="content" lang="ja" xml:lang="ja">
         <h2 class="sect2">
-          <a id="contents-wheel" name="contents-wheel"></a>8.54.2. Wheel の構成
+          <a id="contents-packaging" name="contents-packaging"></a>8.53.2.
+          Packaging の構成
         </h2>
         <div class="segmentedlist">
           <div class="seglistitem">
             <div class="seg">
-              <strong class="segtitle">インストールプログラム:</strong> <span class=
-              "segbody">wheel</span>
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">packaging</span>
             </div>
             <div class="seg">
-              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
-              "segbody">/usr/lib/python3.13/site-packages/wheel,
-              /usr/lib/python3.13/site-packages/wheel-0.46.1.dist-info</span>
+              <strong class="segtitle">:</strong> <span class=
+              "segbody">/usr/lib/python3.13/site-packages/packaging,
+              /usr/lib/python3.13/site-packages/packaging-24.2.dist-info</span>
             </div>
           </div>
-        </div>
-        <div class="variablelist">
-          <h3>
-            概略説明
-          </h3>
-          <table border="0" class="variablelist">
-            <colgroup>
-              <col align="left" valign="top" />
-              <col />
-            </colgroup>
-            <tbody>
-              <tr>
-                <td>
-                  <p>
-                    <a id="wheel-wheel" name="wheel-wheel"></a><span class=
-                    "term"><span class=
-                    "command"><strong>wheel</strong></span></span>
-                  </p>
-                </td>
-                <td>
-                  <p>
-                    wheel アーカイブの解凍、圧縮、変換を行うユーティリティーです。
-                  </p>
-                </td>
-              </tr>
-            </tbody>
-          </table>
         </div>
       </div>
     </div>
     <div class="navfooter">
       <ul>
         <li class="prev">
-          <a accesskey="p" href="packaging.html" title=
-          "Packaging-24.2">戻る</a>
+          <a accesskey="p" href="flit-core.html" title=
+          "Flit-Core-3.12.0">戻る</a>
           <p>
-            Packaging-24.2
+            Flit-Core-3.12.0
           </p>
         </li>
         <li class="next">
-          <a accesskey="n" href="setuptools.html" title=
-          "Setuptools-78.1.0">次へ</a>
+          <a accesskey="n" href="wheel.html" title="Wheel-0.46.1">次へ</a>
           <p>
-            Setuptools-78.1.0
+            Wheel-0.46.1
           </p>
         </li>
         <li class="up">
@@ -149,7 +125,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.3-36">ホーム</a>
+          "Linux From Scratch - Version r12.3-36-systemd">ホーム</a>
         </li>
       </ul>
     </div>

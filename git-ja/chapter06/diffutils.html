@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <title>
-      6.6. Diffutils-3.11
+      6.6. Diffutils-3.12
     </title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
     <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
@@ -12,19 +12,19 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.3-25">
+  <body class="lfs" id="lfs-r12.3-36">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.3-25
+        Linux From Scratch - Version r12.3-36
       </h4>
       <h3>
         第6章 クロスコンパイルによる一時的ツール
       </h3>
       <ul>
         <li class="prev">
-          <a accesskey="p" href="coreutils.html" title="Coreutils-9.6">戻る</a>
+          <a accesskey="p" href="coreutils.html" title="Coreutils-9.7">戻る</a>
           <p>
-            Coreutils-9.6
+            Coreutils-9.7
           </p>
         </li>
         <li class="next">
@@ -39,13 +39,13 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.3-25">ホーム</a>
+          "Linux From Scratch - Version r12.3-36">ホーム</a>
         </li>
       </ul>
     </div>
     <h1 class="sect1">
       <a id="ch-tools-diffutils" name="ch-tools-diffutils"></a>6.6.
-      Diffutils-3.11
+      Diffutils-3.12
     </h1>
     <div class="wrap" lang="ja" xml:lang="ja">
       <div class="package" lang="ja" xml:lang="ja">
@@ -75,7 +75,38 @@
         <pre class="userinput"><kbd class=
         "command">./configure --prefix=/usr   \
             --host=$LFS_TGT \
+            gl_cv_func_strcasecmp_works=y \
             --build=$(./build-aux/config.guess)</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>The meaning of the configure options:</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>gl_cv_func_strcasecmp_works=y</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                本オプションは <code class="function">strcasecmp</code>
+                のチェック結果を示します。 そのチェックでは C
+                プログラムをコンパイルして実行することが必要になりますが、クロスコンパイル環境ではこれを行うことができません。
+                それは一般に、クロスコンパイルしたプログラムをホストディストロで実行することはできないからです。 普通であれば
+                <span class="command"><strong>configure</strong></span>
+                スクリプトにおけるそのようなチェックにあたっては、代替となる値を用いるものです。 ただしこのチェックに対する代替値はなく
+                <span class="command"><strong>configure</strong></span>
+                はエラーとなります。 アップストリームはすでにこの問題を修正していますが、その修正を適用するには <span class=
+                "command"><strong>autoconf</strong></span> の実行が必要です。
+                これはひょっとするとホストディストロにはないかもしれません。 そこでここではそのチェック結果（Glibc-2.41 の
+                <code class="function">strcasecmp</code>
+                は正しく動作が分かっているので、そのチェック結果 <code class=
+                "literal">y</code>）を用いることにします。 そうすれば <span class=
+                "command"><strong>configure</strong></span>
+                がその値を利用しチェックをスキップするようになります。
+              </p>
+            </dd>
+          </dl>
+        </div>
         <p>
           パッケージをコンパイルします。
         </p>
@@ -90,16 +121,16 @@
         <p>
           本パッケージの詳細は <a class="xref" href=
           "../chapter08/diffutils.html#contents-diffutils" title=
-          "8.59.2. Diffutils の構成">「Diffutils の構成」</a>を参照してください。
+          "8.60.2. Diffutils の構成">「Diffutils の構成」</a>を参照してください。
         </p>
       </div>
     </div>
     <div class="navfooter">
       <ul>
         <li class="prev">
-          <a accesskey="p" href="coreutils.html" title="Coreutils-9.6">戻る</a>
+          <a accesskey="p" href="coreutils.html" title="Coreutils-9.7">戻る</a>
           <p>
-            Coreutils-9.6
+            Coreutils-9.7
           </p>
         </li>
         <li class="next">
@@ -114,7 +145,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.3-25">ホーム</a>
+          "Linux From Scratch - Version r12.3-36">ホーム</a>
         </li>
       </ul>
     </div>
