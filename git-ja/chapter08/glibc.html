@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.3-44">
+  <body class="lfs" id="lfs-r12.3-74">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.3-44
+        Linux From Scratch - Version r12.3-74
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -23,9 +23,9 @@
       <ul>
         <li class="prev">
           <a accesskey="p" href="iana-etc.html" title=
-          "Iana-Etc-20250407">戻る</a>
+          "Iana-Etc-20250618">戻る</a>
           <p>
-            Iana-Etc-20250407
+            Iana-Etc-20250618
           </p>
         </li>
         <li class="next">
@@ -40,7 +40,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.3-44">ホーム</a>
+          "Linux From Scratch - Version r12.3-74">ホーム</a>
         </li>
       </ul>
     </div>
@@ -93,12 +93,12 @@ cd       build</kbd></pre>
           Glibc をコンパイルするための準備をします。
         </p>
         <pre class="userinput"><kbd class=
-        "command">../configure --prefix=/usr       \
-             --disable-werror    \
-             --disable-nscd      \
-             --enable-kernel=5.4 \
-             libc_cv_slibdir=/usr/lib \
-             --enable-stack-protector=strong</kbd></pre>
+        "command">../configure --prefix=/usr                   \
+             --disable-werror                \
+             --disable-nscd                  \
+             libc_cv_slibdir=/usr/lib        \
+             --enable-stack-protector=strong \
+             --enable-kernel=5.4</kbd></pre>
         <div class="variablelist">
           <p class="title">
             <strong>configure オプションの意味</strong>
@@ -282,7 +282,7 @@ cd       build</kbd></pre>
                   -r</strong></span> により確認することができますが) 5.4
                   よりも古いカーネルをアップグレードして再起動する場合には <a class="xref" href=
                   "../chapter10/kernel.html" title=
-                  "10.3. Linux-6.14.4">「Linux-6.14.4」</a> の説明に従ってください。
+                  "10.3. Linux-6.15.4">「Linux-6.15.4」</a> の説明に従ってください。
                 </p>
               </li>
               <li class="listitem">
@@ -291,7 +291,7 @@ cd       build</kbd></pre>
                   /usr/include/linux/version.h</strong></span>
                   により確認することができますが) 5.4 よりも古い API ヘッダーをアップグレードする場合は、<a class=
                   "xref" href="../chapter05/linux-headers.html" title=
-                  "5.4. Linux-6.14.4 API ヘッダー">「Linux-6.14.4 API ヘッダー」</a>
+                  "5.4. Linux-6.15.4 API ヘッダー">「Linux-6.15.4 API ヘッダー」</a>
                   の説明に従ってください (ただし <span class=
                   "command"><strong>cp</strong></span> コマンドからは <code class=
                   "envar">$LFS</code> を取り除いてください)。
@@ -329,9 +329,10 @@ install -vm755 dest/usr/lib/*.so.* /usr/lib</kbd></pre>
           </p>
           <pre class="userinput"><kbd class=
           "command">DIR=$(dirname $(gcc -print-libgcc-file-name))
-[ -e $DIR/include/limits.h ] || mv $DIR/include{-fixed,}/limits.h
+[ -e $DIR/include/limits.h ]    || mv $DIR/include{-fixed,}/limits.h
 [ -e $DIR/include/syslimits.h ] || mv $DIR/include{-fixed,}/syslimits.h
-rm -rfv $(dirname $(gcc -print-libgcc-file-name))/include-fixed/*</kbd></pre>
+rm -rfv $DIR/include-fixed/*
+unset DIR</kbd></pre>
         </div>
         <p>
           パッケージをインストールします。
@@ -1213,9 +1214,9 @@ mkdir -pv /etc/ld.so.conf.d</kbd></pre>
       <ul>
         <li class="prev">
           <a accesskey="p" href="iana-etc.html" title=
-          "Iana-Etc-20250407">戻る</a>
+          "Iana-Etc-20250618">戻る</a>
           <p>
-            Iana-Etc-20250407
+            Iana-Etc-20250618
           </p>
         </li>
         <li class="next">
@@ -1230,7 +1231,7 @@ mkdir -pv /etc/ld.so.conf.d</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.3-44">ホーム</a>
+          "Linux From Scratch - Version r12.3-74">ホーム</a>
         </li>
       </ul>
     </div>

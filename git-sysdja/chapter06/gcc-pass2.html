@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <title>
-      6.18. GCC-14.2.0 - 2回め
+      6.18. GCC-15.1.0 - 2回め
     </title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
     <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.3-44-systemd">
+  <body class="lfs" id="lfs-r12.3-74-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.3-44-systemd
+        Linux From Scratch - Version r12.3-74-systemd
       </h4>
       <h3>
         第6章 クロスコンパイルによる一時的ツール
@@ -41,13 +41,13 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.3-44-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.3-74-systemd">ホーム</a>
         </li>
       </ul>
     </div>
     <h1 class="sect1">
       <a id="ch-tools-gcc-pass2" name="ch-tools-gcc-pass2"></a>6.18.
-      GCC-14.2.0 - 2回め
+      GCC-15.1.0 - 2回め
     </h1>
     <div class="wrap" lang="ja" xml:lang="ja">
       <div class="package" lang="ja" xml:lang="ja">
@@ -115,7 +115,6 @@ cd       build</kbd></pre>
     --build=$(../config.guess) \
     --host=$LFS_TGT            \
     --target=$LFS_TGT          \
-    LDFLAGS_FOR_TARGET=-L$PWD/$LFS_TGT/libgcc \
     --prefix=/usr              \
     --with-build-sysroot=$LFS  \
     --enable-default-pie       \
@@ -128,7 +127,8 @@ cd       build</kbd></pre>
     --disable-libsanitizer     \
     --disable-libssp           \
     --disable-libvtv           \
-    --enable-languages=c,c++</kbd></pre>
+    --enable-languages=c,c++   \
+    LDFLAGS_FOR_TARGET=-L$PWD/$LFS_TGT/libgcc</kbd></pre>
         <div class="variablelist">
           <p class="title">
             <strong>configure オプションの意味</strong>
@@ -173,7 +173,7 @@ cd       build</kbd></pre>
                 <code class="filename">libstdc++</code> が今回ビルドされたライブラリ
                 <code class="filename">libgcc</code> を用いるようにします。 それは
                 <a class="xref" href="../chapter05/gcc-pass1.html" title=
-                "5.3. GCC-14.2.0 - 1回め">gcc 1 回め</a>
+                "5.3. GCC-15.1.0 - 1回め">gcc 1 回め</a>
                 においてビルドされた前回のバージョンではありません。 前回のバージョンは C++ 例外処理を適切に処理できません。 これは
                 libc サポートを抜きにしてビルドされているためです。
               </p>
@@ -186,7 +186,7 @@ cd       build</kbd></pre>
               <p>
                 GCC のサニタイザーランタイムライブラリを無効にします。 これはここでの一時的インストールにおいては不要です。
                 <a class="xref" href="../chapter05/gcc-pass1.html" title=
-                "5.3. GCC-14.2.0 - 1回め">gcc 1 回め</a> においては、<em class=
+                "5.3. GCC-15.1.0 - 1回め">gcc 1 回め</a> においては、<em class=
                 "parameter"><code>--disable-libstdcxx</code></em>
                 によって暗にそれを行っていましたが、ここではそれを明示的に行う必要があります。
               </p>
@@ -244,7 +244,7 @@ cd       build</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.3-44-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.3-74-systemd">ホーム</a>
         </li>
       </ul>
     </div>

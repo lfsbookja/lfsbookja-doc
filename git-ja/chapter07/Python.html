@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <title>
-      7.10. Python-3.13.3
+      7.10. Python-3.13.5
     </title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
     <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.3-44">
+  <body class="lfs" id="lfs-r12.3-74">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.3-44
+        Linux From Scratch - Version r12.3-74
       </h4>
       <h3>
         第7章 chroot への移行と一時的ツールの追加ビルド
@@ -39,12 +39,12 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.3-44">ホーム</a>
+          "Linux From Scratch - Version r12.3-74">ホーム</a>
         </li>
       </ul>
     </div>
     <h1 class="sect1">
-      <a id="ch-tools-Python" name="ch-tools-Python"></a>7.10. Python-3.13.3
+      <a id="ch-tools-Python" name="ch-tools-Python"></a>7.10. Python-3.13.5
     </h1>
     <div class="wrap" lang="ja" xml:lang="ja">
       <div class="package" lang="ja" xml:lang="ja">
@@ -78,16 +78,17 @@
           <p>
             <span class="quote">「<span class="quote">python</span>」</span>
             というプレフィックスで始まるパッケージファイルは 2 種類あります。 そのうち、扱うべきファイルは <code class=
-            "filename">Python-3.13.3.tar.xz</code> です。 （1 文字めが大文字であるものです。）
+            "filename">Python-3.13.5.tar.xz</code> です。 （1 文字めが大文字であるものです。）
           </p>
         </div>
         <p>
           Python をコンパイルするための準備をします。
         </p>
         <pre class="userinput"><kbd class=
-        "command">./configure --prefix=/usr   \
-            --enable-shared \
-            --without-ensurepip</kbd></pre>
+        "command">./configure --prefix=/usr       \
+            --enable-shared     \
+            --without-ensurepip \
+            --without-static-libpython</kbd></pre>
         <div class="variablelist">
           <p class="title">
             <strong>configure パラメーターの意味</strong>
@@ -109,6 +110,15 @@
             <dd>
               <p>
                 このスイッチは Python パッケージインストーラーを無効にします。 この段階では必要がないからです。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--without-static-libpython</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                本スイッチは、膨大でしかも不要なスタティックライブラリをビルドしないようにします。
               </p>
             </dd>
           </dl>
@@ -166,7 +176,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.3-44">ホーム</a>
+          "Linux From Scratch - Version r12.3-74">ホーム</a>
         </li>
       </ul>
     </div>

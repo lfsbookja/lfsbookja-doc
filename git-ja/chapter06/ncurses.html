@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <title>
-      6.3. Ncurses-6.5
+      6.3. Ncurses-6.5-20250531
     </title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
     <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
@@ -12,25 +12,25 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.3-44">
+  <body class="lfs" id="lfs-r12.3-74">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.3-44
+        Linux From Scratch - Version r12.3-74
       </h4>
       <h3>
         第6章 クロスコンパイルによる一時的ツール
       </h3>
       <ul>
         <li class="prev">
-          <a accesskey="p" href="m4.html" title="M4-1.4.19">戻る</a>
+          <a accesskey="p" href="m4.html" title="M4-1.4.20">戻る</a>
           <p>
-            M4-1.4.19
+            M4-1.4.20
           </p>
         </li>
         <li class="next">
-          <a accesskey="n" href="bash.html" title="Bash-5.2.37">次へ</a>
+          <a accesskey="n" href="bash.html" title="Bash-5.3-rc2">次へ</a>
           <p>
-            Bash-5.2.37
+            Bash-5.3-rc2
           </p>
         </li>
         <li class="up">
@@ -39,12 +39,13 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.3-44">ホーム</a>
+          "Linux From Scratch - Version r12.3-74">ホーム</a>
         </li>
       </ul>
     </div>
     <h1 class="sect1">
-      <a id="ch-tools-ncurses" name="ch-tools-ncurses"></a>6.3. Ncurses-6.5
+      <a id="ch-tools-ncurses" name="ch-tools-ncurses"></a>6.3.
+      Ncurses-6.5-20250531
     </h1>
     <div class="wrap" lang="ja" xml:lang="ja">
       <div class="package" lang="ja" xml:lang="ja">
@@ -69,14 +70,17 @@
           6.3.1. Ncurses のインストール
         </h2>
         <p>
-          以下のコマンドを実行して、ビルドホスト上に<span class="quote">「<span class=
-          "quote">tic</span>」</span>プログラムをビルドします。
+          以下のコマンドを実行して、ビルドホスト上に <span class=
+          "command"><strong>tic</strong></span> プログラムをビルドします。 インストール先は
+          <code class="filename">$LFS/tools</code> とします。 これは必要なときに
+          <code class="envar">PATH</code> を通じて利用することができます。
         </p>
         <pre class="userinput"><kbd class="command">mkdir build
 pushd build
-  ../configure AWK=gawk
+  ../configure --prefix=$LFS/tools AWK=gawk
   make -C include
   make -C progs tic
+  install progs/tic $LFS/tools/bin
 popd</kbd></pre>
         <p>
           Ncurses をコンパイルするための準備をします。
@@ -192,8 +196,7 @@ popd</kbd></pre>
         <p>
           パッケージをインストールします。
         </p>
-        <pre class="userinput"><kbd class=
-        "command">make DESTDIR=$LFS TIC_PATH=$(pwd)/build/progs/tic install
+        <pre class="userinput"><kbd class="command">make DESTDIR=$LFS install
 ln -sv libncursesw.so $LFS/usr/lib/libncurses.so
 sed -e 's/^#if.*XOPEN.*$/#if 1/' \
     -i $LFS/usr/include/curses.h</kbd></pre>
@@ -202,17 +205,6 @@ sed -e 's/^#if.*XOPEN.*$/#if 1/' \
             <strong>install オプションの意味</strong>
           </p>
           <dl class="variablelist">
-            <dt>
-              <span class="term"><em class=
-              "parameter"><code>TIC_PATH=$(pwd)/build/progs/tic</code></em></span>
-            </dt>
-            <dd>
-              <p>
-                ビルドマシン上において、作り出したばかりの <span class=
-                "command"><strong>tic</strong></span> のパスを示すことが必要です。 こうすることで
-                terminal データベースがエラーなく生成できることになります。
-              </p>
-            </dd>
             <dt>
               <span class="term"><span class="command"><strong>ln -sv
               libncursesw.so
@@ -258,15 +250,15 @@ sed -e 's/^#if.*XOPEN.*$/#if 1/' \
     <div class="navfooter">
       <ul>
         <li class="prev">
-          <a accesskey="p" href="m4.html" title="M4-1.4.19">戻る</a>
+          <a accesskey="p" href="m4.html" title="M4-1.4.20">戻る</a>
           <p>
-            M4-1.4.19
+            M4-1.4.20
           </p>
         </li>
         <li class="next">
-          <a accesskey="n" href="bash.html" title="Bash-5.2.37">次へ</a>
+          <a accesskey="n" href="bash.html" title="Bash-5.3-rc2">次へ</a>
           <p>
-            Bash-5.2.37
+            Bash-5.3-rc2
           </p>
         </li>
         <li class="up">
@@ -275,7 +267,7 @@ sed -e 's/^#if.*XOPEN.*$/#if 1/' \
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.3-44">ホーム</a>
+          "Linux From Scratch - Version r12.3-74">ホーム</a>
         </li>
       </ul>
     </div>
