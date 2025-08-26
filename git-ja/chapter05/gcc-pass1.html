@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <title>
-      5.3. GCC-15.1.0 - 1回め
+      5.3. GCC-15.2.0 - 1回め
     </title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
     <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.3-74">
+  <body class="lfs" id="lfs-r12.3-117">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.3-74
+        Linux From Scratch - Version r12.3-117
       </h4>
       <h3>
         第5章 クロスツールチェーンの構築
@@ -23,16 +23,16 @@
       <ul>
         <li class="prev">
           <a accesskey="p" href="binutils-pass1.html" title=
-          "Binutils-2.44 - 1回め">戻る</a>
+          "Binutils-2.45 - 1回め">戻る</a>
           <p>
-            Binutils-2.44 - 1回め
+            Binutils-2.45 - 1回め
           </p>
         </li>
         <li class="next">
           <a accesskey="n" href="linux-headers.html" title=
-          "Linux-6.15.4 API ヘッダー">次へ</a>
+          "Linux-6.16.1 API ヘッダー">次へ</a>
           <p>
-            Linux-6.15.4 API ヘッダー
+            Linux-6.16.1 API ヘッダー
           </p>
         </li>
         <li class="up">
@@ -41,13 +41,13 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.3-74">ホーム</a>
+          "Linux From Scratch - Version r12.3-117">ホーム</a>
         </li>
       </ul>
     </div>
     <h1 class="sect1">
       <a id="ch-tools-gcc-pass1" name="ch-tools-gcc-pass1"></a>5.3.
-      GCC-15.1.0 - 1回め
+      GCC-15.2.0 - 1回め
     </h1>
     <div class="wrap" lang="ja" xml:lang="ja">
       <div class="package" lang="ja" xml:lang="ja">
@@ -58,11 +58,11 @@
           <div class="seglistitem">
             <div class="seg">
               <strong class="segtitle">概算ビルド時間:</strong> <span class=
-              "segbody">3.2 SBU</span>
+              "segbody">3.8 SBU</span>
             </div>
             <div class="seg">
               <strong class="segtitle">必要ディスク容量:</strong> <span class=
-              "segbody">4.8 GB</span>
+              "segbody">5.4 GB</span>
             </div>
           </div>
         </div>
@@ -86,7 +86,7 @@
             本節においては誤解が多く発生しています。 ここでの手順は他のものと同様であり、手順の概要 (<a class="xref"
             href=
             "../partintro/generalinstructions.html#buildinstr">パッケージビルド手順</a>)
-            は説明済です。 まず初めに gcc-15.1.0 の tarball を伸張 (解凍)
+            は説明済です。 まず初めに gcc-15.2.0 の tarball を伸張 (解凍)
             し、生成されたソースディレクトリに移動します。 それに加えて本節では、以下の手順を行うものとなります。
           </p>
         </div>
@@ -107,6 +107,26 @@ mv -v mpc-1.3.1 mpc</kbd></pre>
         -i.orig gcc/config/i386/t-linux64
  ;;
 esac</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            上の処理例においては <em class="parameter"><code>-i.orig</code></em>
+            スイッチを利用しています。 これは <span class=
+            "command"><strong>sed</strong></span> が <code class=
+            "filename">t-linux64</code> ファイルのコピーを <code class=
+            "filename">t-linux64.orig</code> として残すものです。 その上で元の <code class=
+            "filename">t-linux64</code> ファイルの内容を編集します。 したがってこの処理の後に
+            <span class="command"><strong>diff -u
+            gcc/config/i386/t-linux64{.orig,}</strong></span>
+            を実行すれば、その編集結果を確認することができます。 本書のこれ以降のパッケージの処理においては、単に <em class=
+            "parameter"><code>-i</code></em> を用いていくことにします。
+            (元のファイルを直接編集し、そのファイルのコピーは取らないものとします。) もし元のファイルのコピーを取っておく必要があれば
+            <em class="parameter"><code>-i.orig</code></em> に置き換えてください。
+          </p>
+        </div>
         <p>
           GCC のドキュメントでは、専用のビルドディレクトリを作成することが推奨されています。
         </p>
@@ -119,7 +139,7 @@ cd       build</kbd></pre>
         "command">../configure                  \
     --target=$LFS_TGT         \
     --prefix=$LFS/tools       \
-    --with-glibc-version=2.41 \
+    --with-glibc-version=2.42 \
     --with-sysroot=$LFS       \
     --with-newlib             \
     --without-headers         \
@@ -143,7 +163,7 @@ cd       build</kbd></pre>
           <dl class="variablelist">
             <dt>
               <span class="term"><em class=
-              "parameter"><code>--with-glibc-version=2.41</code></em></span>
+              "parameter"><code>--with-glibc-version=2.42</code></em></span>
             </dt>
             <dd>
               <p>
@@ -284,16 +304,16 @@ cat gcc/limitx.h gcc/glimits.h gcc/limity.h &gt; \
       <ul>
         <li class="prev">
           <a accesskey="p" href="binutils-pass1.html" title=
-          "Binutils-2.44 - 1回め">戻る</a>
+          "Binutils-2.45 - 1回め">戻る</a>
           <p>
-            Binutils-2.44 - 1回め
+            Binutils-2.45 - 1回め
           </p>
         </li>
         <li class="next">
           <a accesskey="n" href="linux-headers.html" title=
-          "Linux-6.15.4 API ヘッダー">次へ</a>
+          "Linux-6.16.1 API ヘッダー">次へ</a>
           <p>
-            Linux-6.15.4 API ヘッダー
+            Linux-6.16.1 API ヘッダー
           </p>
         </li>
         <li class="up">
@@ -302,7 +322,7 @@ cat gcc/limitx.h gcc/glimits.h gcc/limity.h &gt; \
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.3-74">ホーム</a>
+          "Linux From Scratch - Version r12.3-117">ホーム</a>
         </li>
       </ul>
     </div>

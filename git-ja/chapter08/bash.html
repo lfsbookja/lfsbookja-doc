@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <title>
-      8.36. Bash-5.3-rc2
+      8.36. Bash-5.3
     </title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
     <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.3-74">
+  <body class="lfs" id="lfs-r12.3-117">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.3-74
+        Linux From Scratch - Version r12.3-117
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -39,12 +39,12 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.3-74">ホーム</a>
+          "Linux From Scratch - Version r12.3-117">ホーム</a>
         </li>
       </ul>
     </div>
     <h1 class="sect1">
-      <a id="ch-system-bash" name="ch-system-bash"></a>8.36. Bash-5.3-rc2
+      <a id="ch-system-bash" name="ch-system-bash"></a>8.36. Bash-5.3
     </h1>
     <div class="wrap" lang="ja" xml:lang="ja">
       <div class="package" lang="ja" xml:lang="ja">
@@ -55,11 +55,11 @@
           <div class="seglistitem">
             <div class="seg">
               <strong class="segtitle">概算ビルド時間:</strong> <span class=
-              "segbody">1.4 SBU</span>
+              "segbody">1.5 SBU</span>
             </div>
             <div class="seg">
               <strong class="segtitle">必要ディスク容量:</strong> <span class=
-              "segbody">53 MB</span>
+              "segbody">56 MB</span>
             </div>
           </div>
         </div>
@@ -75,7 +75,7 @@
         "command">./configure --prefix=/usr             \
             --without-bash-malloc     \
             --with-installed-readline \
-            --docdir=/usr/share/doc/bash-5.3-rc2</kbd></pre>
+            --docdir=/usr/share/doc/bash-5.3</kbd></pre>
         <div class="variablelist">
           <p class="title">
             <strong>configure オプションの意味</strong>
@@ -116,7 +116,7 @@
           ユーザーとしてテストを実行します。
         </p>
         <pre class="userinput"><kbd class=
-        "command">su -s /usr/bin/expect tester &lt;&lt; "EOF"
+        "command">LC_ALL=C.UTF-8 su -s /usr/bin/expect tester &lt;&lt; "EOF"
 set timeout -1
 spawn make tests
 expect eof
@@ -130,8 +130,11 @@ EOF</kbd></pre>
           "computeroutput">&lt;</code> と <code class=
           "computeroutput">&gt;</code>）があれば、テストが失敗したことを表します。
           ただしその差異は無視できる旨を示すメッセージがあれば問題ありません。 <code class=
-          "filename">run-builtins</code> というテストは、出力の第 1
-          行めが異なるということで、特定のホストディストリビューションでは失敗する場合があります。
+          "filename">run-builtins</code> というテストは特定のホストディストロにおいては失敗します。
+          その際には出力結果の 479 行めと480 行めが異なると示されます。 テストの中には <code class=
+          "literal">zh_TW.BIG5</code> と <code class=
+          "literal">ja_JP.SJIS</code>
+          というロケールを必要とするものがあるため、これらがインストールされていない場合には失敗します。
         </p>
         <p>
           パッケージをインストールします。
@@ -157,7 +160,7 @@ EOF</kbd></pre>
             <div class="seg">
               <strong class="segtitle">インストールディレクトリ:</strong> <span class=
               "segbody">/usr/include/bash, /usr/lib/bash,
-              /usr/share/doc/bash-5.3-rc2</span>
+              /usr/share/doc/bash-5.3</span>
             </div>
           </div>
         </div>
@@ -245,7 +248,7 @@ EOF</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.3-74">ホーム</a>
+          "Linux From Scratch - Version r12.3-117">ホーム</a>
         </li>
       </ul>
     </div>

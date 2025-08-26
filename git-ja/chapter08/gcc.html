@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <title>
-      8.29. GCC-15.1.0
+      8.29. GCC-15.2.0
     </title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
     <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.3-74">
+  <body class="lfs" id="lfs-r12.3-117">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.3-74
+        Linux From Scratch - Version r12.3-117
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -29,9 +29,9 @@
         </li>
         <li class="next">
           <a accesskey="n" href="ncurses.html" title=
-          "Ncurses-6.5-20250531">次へ</a>
+          "Ncurses-6.5-20250809">次へ</a>
           <p>
-            Ncurses-6.5-20250531
+            Ncurses-6.5-20250809
           </p>
         </li>
         <li class="up">
@@ -40,12 +40,12 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.3-74">ホーム</a>
+          "Linux From Scratch - Version r12.3-117">ホーム</a>
         </li>
       </ul>
     </div>
     <h1 class="sect1">
-      <a id="ch-system-gcc" name="ch-system-gcc"></a>8.29. GCC-15.1.0
+      <a id="ch-system-gcc" name="ch-system-gcc"></a>8.29. GCC-15.2.0
     </h1>
     <div class="wrap" lang="ja" xml:lang="ja">
       <div class="package" lang="ja" xml:lang="ja">
@@ -60,7 +60,7 @@
             </div>
             <div class="seg">
               <strong class="segtitle">必要ディスク容量:</strong> <span class=
-              "segbody">6.3 GB</span>
+              "segbody">6.6 GB</span>
             </div>
           </div>
         </div>
@@ -191,14 +191,10 @@ cd       build</kbd></pre>
         <pre class="userinput"><kbd class=
         "command">ulimit -s -H unlimited</kbd></pre>
         <p>
-          テストスイートの不備をここで削除/修正します。
+          失敗するテストをいくつか削除します。
         </p>
         <pre class="userinput"><kbd class=
-        "command">sed -e '/cpython/d'               -i ../gcc/testsuite/gcc.dg/plugin/plugin.exp
-sed -e 's/no-pic /&amp;-no-pie /'     -i ../gcc/testsuite/gcc.target/i386/pr113689-1.c
-sed -e 's/300000/(1|300000)/'     -i ../libgomp/testsuite/libgomp.c-c++-common/pr109062.c
-sed -e 's/{ target nonpic } //' \
-    -e '/GOTPCREL/d'              -i ../gcc/testsuite/gcc.target/i386/fentryname3.c</kbd></pre>
+        "command">sed -e '/cpython/d' -i ../gcc/testsuite/gcc.dg/plugin/plugin.exp</kbd></pre>
         <p>
           一般ユーザーにてテストを行います。 ただしエラーがあっても停止しないようにします。
         </p>
@@ -221,7 +217,7 @@ su tester -c "PATH=$PATH make -k check"</kbd></pre>
           にある情報と比較することができます。
         </p>
         <p>
-          tsan テストはホストディストロによっては失敗します。
+          <code class="filename">pr90579.c</code> に関係するテストは失敗します。
         </p>
         <p>
           テスト失敗は回避することができません。 その中には特定のハードウェアに起因するものもあります。 上記の URL
@@ -237,7 +233,7 @@ su tester -c "PATH=$PATH make -k check"</kbd></pre>
           <code class="systemitem">root</code> ユーザーとグループに変更します。
         </p>
         <pre class="userinput"><kbd class="command">chown -v -R root:root \
-    /usr/lib/gcc/$(gcc -dumpmachine)/15.1.0/include{,-fixed}</kbd></pre>
+    /usr/lib/gcc/$(gcc -dumpmachine)/15.2.0/include{,-fixed}</kbd></pre>
         <p>
           <a class="ulink" href=
           "https://refspecs.linuxfoundation.org/FHS_3.0/fhs/ch03s09.html">FHS</a>
@@ -249,7 +245,7 @@ su tester -c "PATH=$PATH make -k check"</kbd></pre>
           各種パッケージは C コンパイラーとして <span class=
           "command"><strong>cc</strong></span> を呼び出しているものが数多くあります。 <a class=
           "xref" href="../chapter06/gcc-pass2.html" title=
-          "6.18. GCC-15.1.0 - 2回め">GCC 2回め</a> においては、シンボリックリンクとして
+          "6.18. GCC-15.2.0 - 2回め">GCC 2回め</a> においては、シンボリックリンクとして
           <span class="command"><strong>cc</strong></span> をすでに生成しています。
           同様にしてその man ページについてもシンボリックリンクとして生成することにします。
         </p>
@@ -260,7 +256,7 @@ su tester -c "PATH=$PATH make -k check"</kbd></pre>
           によりプログラム構築できるように、シンボリックリンクを作ります。
         </p>
         <pre class="userinput"><kbd class=
-        "command">ln -sfv ../../libexec/gcc/$(gcc -dumpmachine)/15.1.0/liblto_plugin.so \
+        "command">ln -sfv ../../libexec/gcc/$(gcc -dumpmachine)/15.2.0/liblto_plugin.so \
         /usr/lib/bfd-plugins/</kbd></pre>
         <p>
           最終的なツールチェーンが出来上がりました。 ここで再びコンパイルとリンクが正しく動作することを確認することが必要です。
@@ -284,9 +280,9 @@ readelf -l a.out | grep ': /lib'</kbd></pre>
           上のコマンドの出力は以下のようになるはずです。
         </p>
         <pre class="screen"><code class=
-        "computeroutput">/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.0/../../../../lib/Scrt1.o succeeded
-/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.0/../../../../lib/crti.o succeeded
-/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.0/../../../../lib/crtn.o succeeded</code></pre>
+        "computeroutput">/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.0/../../../../lib/Scrt1.o succeeded
+/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.0/../../../../lib/crti.o succeeded
+/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.0/../../../../lib/crtn.o succeeded</code></pre>
         <p>
           作業しているマシンアーキテクチャーによっては、上の結果が微妙に異なるかもしれません。 その違いは、たいていは <code class=
           "filename">/usr/lib/gcc</code> の次のディレクトリ名にあります。 注意すべき重要な点は
@@ -304,9 +300,9 @@ readelf -l a.out | grep ': /lib'</kbd></pre>
         </p>
         <pre class="screen"><code class=
         "computeroutput">#include &lt;...&gt; search starts here:
- /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.0/include
+ /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.0/include
  /usr/local/include
- /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.0/include-fixed
+ /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.0/include-fixed
  /usr/include</code></pre>
         <p>
           もう一度触れておきますが、プラットフォームの<span class="quote">「<span class="quote">三つの組
@@ -402,7 +398,7 @@ mv -v /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib</kbd></pre>
             <div class="seg">
               <strong class="segtitle">インストールディレクトリ:</strong> <span class=
               "segbody">/usr/include/c++, /usr/lib/gcc, /usr/libexec/gcc,
-              /usr/share/gcc-15.1.0</span>
+              /usr/share/gcc-15.2.0</span>
             </div>
           </div>
         </div>
@@ -844,9 +840,9 @@ mv -v /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib</kbd></pre>
         </li>
         <li class="next">
           <a accesskey="n" href="ncurses.html" title=
-          "Ncurses-6.5-20250531">次へ</a>
+          "Ncurses-6.5-20250809">次へ</a>
           <p>
-            Ncurses-6.5-20250531
+            Ncurses-6.5-20250809
           </p>
         </li>
         <li class="up">
@@ -855,7 +851,7 @@ mv -v /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.3-74">ホーム</a>
+          "Linux From Scratch - Version r12.3-117">ホーム</a>
         </li>
       </ul>
     </div>

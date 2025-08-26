@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.3-74-systemd">
+  <body class="lfs" id="lfs-r12.3-117-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.3-74-systemd
+        Linux From Scratch - Version r12.3-117-systemd
       </h4>
       <h3>
         第9章 システム設定
@@ -38,7 +38,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.3-74-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.3-117-systemd">ホーム</a>
         </li>
       </ul>
     </div>
@@ -113,7 +113,7 @@
             <p>
               インターフェース名は、システム上で起動している udev デーモンの実装や設定に依存します。 LFS における udev
               デーモン（<a class="xref" href="../chapter08/systemd.html" title=
-              "8.76. Systemd-257.6">「Systemd-257.6」</a>においてインストール）は、LFS
+              "8.76. Systemd-257.8">「Systemd-257.8」</a>においてインストール）は、LFS
               システムを起動させるまでは動作しません。 したがってホストディストリビューションにおいて各コマンドを実行しても、LFS
               上において用いられるインターフェース名が何であるのかは特定できません。 それは chroot 環境内においても同じことです。
             </p>
@@ -266,6 +266,22 @@ EOF</kbd></pre>
             へのシンボリックリンクとして生成します。 その場合は <code class=
             "filename">/etc/resolv.conf</code> を手動で生成する必要はありません。
           </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              LFS システムにおいて chroot 環境下においても <span class=
+              "command"><strong>systemd-resolved</strong></span>
+              を利用できるようにしたい場合 (たとえば BLFS
+              パッケージのビルドにあたってビルド処理内にてインターネット接続を必要とする場合)、以下に示すような <code class=
+              "filename">/etc/resolv.conf</code> のスタティックな設定を行い、chroot
+              環境でも名前解決が動作するようにします。 chroot 環境から抜け出たときに、その設定を削除すれば <span class=
+              "command"><strong>systemd-resolved</strong></span>
+              が起動時にシンボリックリンクを生成します。
+            </p>
+          </div>
         </div>
         <div class="sect3">
           <h3 class="sect3">
@@ -437,7 +453,7 @@ EOF</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.3-74-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.3-117-systemd">ホーム</a>
         </li>
       </ul>
     </div>

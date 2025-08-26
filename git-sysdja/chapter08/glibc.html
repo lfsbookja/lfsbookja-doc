@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <title>
-      8.5. Glibc-2.41
+      8.5. Glibc-2.42
     </title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
     <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.3-74-systemd">
+  <body class="lfs" id="lfs-r12.3-117-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.3-74-systemd
+        Linux From Scratch - Version r12.3-117-systemd
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -23,9 +23,9 @@
       <ul>
         <li class="prev">
           <a accesskey="p" href="iana-etc.html" title=
-          "Iana-Etc-20250618">戻る</a>
+          "Iana-Etc-20250807">戻る</a>
           <p>
-            Iana-Etc-20250618
+            Iana-Etc-20250807
           </p>
         </li>
         <li class="next">
@@ -40,12 +40,12 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.3-74-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.3-117-systemd">ホーム</a>
         </li>
       </ul>
     </div>
     <h1 class="sect1">
-      <a id="ch-system-glibc" name="ch-system-glibc"></a>8.5. Glibc-2.41
+      <a id="ch-system-glibc" name="ch-system-glibc"></a>8.5. Glibc-2.42
     </h1>
     <div class="wrap" lang="ja" xml:lang="ja">
       <div class="package" lang="ja" xml:lang="ja">
@@ -61,7 +61,7 @@
             </div>
             <div class="seg">
               <strong class="segtitle">必要ディスク容量:</strong> <span class=
-              "segbody">3.2 GB</span>
+              "segbody">3.3 GB</span>
             </div>
           </div>
         </div>
@@ -76,7 +76,16 @@
           FHS 準拠のディレクトリとします。
         </p>
         <pre class="userinput"><kbd class=
-        "command">patch -Np1 -i ../glibc-2.41-fhs-1.patch</kbd></pre>
+        "command">patch -Np1 -i ../glibc-2.42-fhs-1.patch</kbd></pre>
+        <p>
+          BLFS における Valgrind に不備を起こす問題を修正します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -e '/unistd.h/i #include &lt;string.h&gt;' \
+    -e '/libc_rwlock_init/c\
+  __libc_rwlock_define_initialized (, reset_lock);\
+  memcpy (&amp;lock, &amp;reset_lock, sizeof (lock));' \
+    -i stdlib/abort.c </kbd></pre>
         <p>
           Glibc のドキュメントでは専用のビルドディレクトリを作成することが推奨されています。
         </p>
@@ -242,7 +251,7 @@ cd       build</kbd></pre>
           </h3>
           <p>
             稼働中の LFS システムにおいて Glibc のマイナーバージョンを最新のものにアップグレードする場合 (たとえば
-            Glibc-2.36 を Glibc-2.41
+            Glibc-2.36 を Glibc-2.42
             にあげる場合)、いくつか追加の措置を講じることで、システムが壊れないようにすることが必要です。
           </p>
           <div class="itemizedlist">
@@ -288,7 +297,7 @@ cd       build</kbd></pre>
                   -r</strong></span> により確認することができますが) 5.4
                   よりも古いカーネルをアップグレードして再起動する場合には <a class="xref" href=
                   "../chapter10/kernel.html" title=
-                  "10.3. Linux-6.15.4">「Linux-6.15.4」</a> の説明に従ってください。
+                  "10.3. Linux-6.16.1">「Linux-6.16.1」</a> の説明に従ってください。
                 </p>
               </li>
               <li class="listitem">
@@ -297,7 +306,7 @@ cd       build</kbd></pre>
                   /usr/include/linux/version.h</strong></span>
                   により確認することができますが) 5.4 よりも古い API ヘッダーをアップグレードする場合は、<a class=
                   "xref" href="../chapter05/linux-headers.html" title=
-                  "5.4. Linux-6.15.4 API ヘッダー">「Linux-6.15.4 API ヘッダー」</a>
+                  "5.4. Linux-6.16.1 API ヘッダー">「Linux-6.16.1 API ヘッダー」</a>
                   の説明に従ってください (ただし <span class=
                   "command"><strong>cp</strong></span> コマンドからは <code class=
                   "envar">$LFS</code> を取り除いてください)。
@@ -405,7 +414,7 @@ localedef -i zh_TW -f UTF-8 zh_TW.UTF-8</kbd></pre>
         </p>
         <p>
           必要に応じて <code class=
-          "filename">glibc-2.41/localedata/SUPPORTED</code>
+          "filename">glibc-2.42/localedata/SUPPORTED</code>
           に示されるすべてのロケールを同時にインストールしてください。(そこには上のロケールも含め、すべてのロケールが列記されています。)
           以下のコマンドによりそれを実現します。 ただしこれには相当な処理時間を要します。
         </p>
@@ -967,7 +976,7 @@ mkdir -pv /etc/ld.so.conf.d</kbd></pre>
                   <p>
                     Glibc が内部で利用するもので、異常が発生しているプログラムを見つけ出します。(例えば Motif
                     アプリケーションなど) 詳しくは <code class=
-                    "filename">glibc-2.41/locale/broken_cur_max.c</code>
+                    "filename">glibc-2.42/locale/broken_cur_max.c</code>
                     に書かれたコメントを参照してください。
                   </p>
                 </td>
@@ -1220,9 +1229,9 @@ mkdir -pv /etc/ld.so.conf.d</kbd></pre>
       <ul>
         <li class="prev">
           <a accesskey="p" href="iana-etc.html" title=
-          "Iana-Etc-20250618">戻る</a>
+          "Iana-Etc-20250807">戻る</a>
           <p>
-            Iana-Etc-20250618
+            Iana-Etc-20250807
           </p>
         </li>
         <li class="next">
@@ -1237,7 +1246,7 @@ mkdir -pv /etc/ld.so.conf.d</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.3-74-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.3-117-systemd">ホーム</a>
         </li>
       </ul>
     </div>
