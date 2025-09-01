@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      7.3. 仮想カーネルファイルシステムの準備
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.4-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.4-systemd
+      </h4>
+      <h3>
+        第7章 chroot への移行と一時的ツールの追加ビルド
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="changingowner.html" title="所有者の変更">戻る</a>
+          <p>
+            所有者の変更
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="chroot.html" title="Chroot 環境への移行">次へ</a>
+          <p>
+            Chroot 環境への移行
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter07.html" title=
+          "第7章 chroot への移行と一時的ツールの追加ビルド">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.4-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-tools-kernfs" name="ch-tools-kernfs"></a>7.3.
+      仮想カーネルファイルシステムの準備
+    </h1>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <p>
+        ユーザー名前空間内において稼働するアプリケーションは、カーネルが生成するさまざまなファイルシステムを使って、カーネルとのやり取りを行います。
+        これらのファイルシステムは仮想的なものであり、ディスクを消費するものではありません。 ファイルシステムの内容はメモリ上に保持されます。
+        こういったファイルシステムは $LFS ディレクトリツリー内にマウントされていなければならず、それができて初めて、アプリケーションが
+        <span class="command"><strong>chroot</strong></span>
+        環境内にてそれを認識できるようになります。
+      </p>
+      <p>
+        この仮想ファイルシステムがマウントされるディレクトリを、以下のようにして生成します。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">mkdir -pv $LFS/{dev,proc,sys,run}</kbd></pre>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="ch-tools-bindmount" name="ch-tools-bindmount"></a>7.3.1.
+          /dev のマウントと有効化
+        </h2>
+        <p>
+          LFS システムの通常のブートの際に、カーネルは <code class="filename">/dev</code>
+          ディレクトリ上に <code class="systemitem">devtmpfs</code>
+          ファイルシステムを自動的にマウントします。 カーネルはブートプロセスを通じて、仮想ファイルシステム上にデバイスノードを生成します。
+          またデバイスが初めて検出されるかアクセスされるかした際に生成します。 udev
+          デーモンは、カーネルが生成したデバイスノードの所有者やパーミッションを変更することがあります。
+          またディストリビューション管理者やシステム管理者の作業をやりやすくするために、新たなデバイスノードやシンボリックリンクを生成することもあります。
+          (詳しくは <a class="xref" href=
+          "../chapter09/udev.html#ch-config-udev-device-node-creation" title=
+          "9.3.2.2. デバイスノードの生成">「デバイスノードの生成」</a> を参照してください。) ホストのカーネルが
+          <code class="systemitem">devtmpfs</code> をサポートしている場合は、<code class=
+          "systemitem">devtmpfs</code> を <code class=
+          "filename">$LFS/dev</code>
+          上に簡単にマウントすることができ、デバイスの有効化をカーネルに委ねることができます。
+        </p>
+        <p>
+          しかしホストカーネルの中には、<code class="systemitem">devtmpfs</code>
+          をサポートしていないものがあり、そういったディストリビューションでは <code class=
+          "filename">/dev</code> の内容を別の手法によって実現しています。 そこでホストに依存せずに
+          <code class="filename">$LFS/dev</code> ディレクトリを有効にするには、ホストシステムの
+          <code class="filename">/dev</code> ディレクトリをバインドマウントします。
+          バインドマウントは特殊なマウント方法の一つであり、ディレクトリのサブツリーやファイルを、別の場所から見えるようにするものです。
+          以下のコマンドにより実現します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mount -v --bind /dev $LFS/dev</kbd></pre>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="ch-tools-kernfsmount" name="ch-tools-kernfsmount"></a>7.3.2.
+          仮想カーネルファイルシステムのマウント
+        </h2>
+        <p>
+          残りの仮想カーネルファイルシステムを以下のようにしてマウントします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mount -vt devpts devpts -o gid=5,mode=0620 $LFS/dev/pts
+mount -vt proc proc $LFS/proc
+mount -vt sysfs sysfs $LFS/sys
+mount -vt tmpfs tmpfs $LFS/run</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>devpts に対するマウントオプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>gid=5</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このオプションは、devpts により生成されるデバイスノードを、グループID が 5 となるようにするものです。 この
+                ID は、この後に <code class="systemitem">tty</code> グループにおいて利用します。
+                ここではグループ名ではなくグループ ID を用いるものとしています。 この理由は、ホストシステムが
+                <code class="systemitem">tty</code> グループに対して異なる ID
+                を利用していることがあるためです。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>mode=0620</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このオプションは、devpts により生成されるデバイスノードのモードを 0620 にします。
+                (所有ユーザーが読み書き可、グループが書き込み可)
+                前のオプションとともにこのオプションを指定することによって、devpts が生成するデバイスノードが grantpt()
+                の要求を満たすようにします。 これはつまり、Glibc の ヘルパーコマンド <span class=
+                "command"><strong>pt_chown</strong></span>
+                (デフォルトではインストールされない) が必要ないことを意味します。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          ホストシステムによっては <code class="filename">/dev/shm</code> が通常
+          <code class="filename">/run/shm</code> へのシンボリックリンクになっているものがあります。
+          上の作業にて /run tmpfs
+          がマウントされましたが、これを行うのはこのディレクトリを適切なパーミッションにより生成する必要がある場合のみです。
+        </p>
+        <p>
+          別のホストシステムでは <code class="filename">/dev/shm</code> が tmpfs
+          へのマウントポイントの場合があります。 その場合 /dev のマウントは /dev/shm をchroot
+          環境内のディレクトリとして生成します。 この状況においては tmpfs を明示的にマウントしなければなりません。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">if [ -h $LFS/dev/shm ]; then
+  install -v -d -m 1777 $LFS$(realpath /dev/shm)
+else
+  mount -vt tmpfs -o nosuid,nodev tmpfs $LFS/dev/shm
+fi</kbd></pre>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="changingowner.html" title="所有者の変更">戻る</a>
+          <p>
+            所有者の変更
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="chroot.html" title="Chroot 環境への移行">次へ</a>
+          <p>
+            Chroot 環境への移行
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter07.html" title=
+          "第7章 chroot への移行と一時的ツールの追加ビルド">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.4-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

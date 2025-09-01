@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.56. Ninja-1.13.1
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.4-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.4-systemd
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="setuptools.html" title=
+          "Setuptools-80.9.0">戻る</a>
+          <p>
+            Setuptools-80.9.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="meson.html" title="Meson-1.8.3">次へ</a>
+          <p>
+            Meson-1.8.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.4-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-system-ninja" name="ch-system-ninja"></a>8.56. Ninja-1.13.1
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          このパッケージは、処理速度を重視した軽量なビルドシステムを提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.2 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">43 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.56.1. Ninja のインストール
+        </h2>
+        <p>
+          <span class="command"><strong>ninja</strong></span>
+          は、可能な限り最大数のプロセスを使って並行処理により実行します。 そのプロセス数はデフォルトでは、システムのコア数に 2
+          を加えたものとなります。 このことが CPU をオーバーヒートさせたり、out of memory を引き起こす場合があります。
+          <span class="command"><strong>ninja</strong></span>
+          をコマンドラインから実行する場合には -jN パラメーターを使って、並行プロセスの数を制御することもできます。 ただ
+          <span class="command"><strong>ninja</strong></span>
+          の実行を組み込んでいるパッケージの場合は -j パラメーターを与えることができません。
+        </p>
+        <p>
+          以降に示す <span class="emphasis"><em>任意</em></span>
+          の手順を用いると、並行プロセス数を環境変数 NINJAJOBS から制御できるようになります。 <span class=
+          "bold"><strong>たとえば</strong></span> 以下のように設定します。
+        </p>
+        <pre class="screen">export NINJAJOBS=4</pre>
+        <p>
+          こうすると <span class="command"><strong>ninja</strong></span> の並行プロセスを
+          4 つに制限できます。
+        </p>
+        <p>
+          必要な場合は、以下のようにストリームエディターを実行して、<span class=
+          "command"><strong>ninja</strong></span> が環境変数 NINJAJOBS
+          を認識するようにします。
+        </p>
+        <pre class="userinput"><kbd class="command">sed -i '/int Guess/a \
+  int   j = 0;\
+  char* jobs = getenv( "NINJAJOBS" );\
+  if ( jobs != NULL ) j = atoi( jobs );\
+  if ( j &gt; 0 ) return j;\
+' src/ninja.cc</kbd></pre>
+        <p>
+          以下を実行して ninja をビルドします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">python3 configure.py --bootstrap --verbose</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>build オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--bootstrap</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                本パラメーターは、この時点でのシステムに対して Ninja 自身を再ビルドすることを指示します。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--verbose</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                本パラメーターは、<span class=
+                "command"><strong>configure.py</strong></span> の実行にあたって Ninja
+                のビルドプロセスを表示させます。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          本パッケージのテストは chroot 環境のもとでは実行することができません。 実行するには <a class="ulink"
+          href=
+          "https://www.linuxfromscratch.org/blfs/view/12.4-systemd/general/cmake.html">
+          cmake</a> が必要です。 ただし (<em class=
+          "parameter"><code>--bootstrap</code></em> オプションを使って)
+          もう一度ビルドを行えば、本パッケージの基本的な関数についてはテストが実施されます。
+        </p>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">install -vm755 ninja /usr/bin/
+install -vDm644 misc/bash-completion /usr/share/bash-completion/completions/ninja
+install -vDm644 misc/zsh-completion  /usr/share/zsh/site-functions/_ninja</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-ninja" name="contents-ninja"></a>8.56.2. Ninja の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">ninja</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ninja" name="ninja"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ninja</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Ninja ビルドシステム。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="setuptools.html" title=
+          "Setuptools-80.9.0">戻る</a>
+          <p>
+            Setuptools-80.9.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="meson.html" title="Meson-1.8.3">次へ</a>
+          <p>
+            Meson-1.8.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.4-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

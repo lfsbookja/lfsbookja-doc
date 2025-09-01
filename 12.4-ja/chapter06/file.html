@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      6.7. File-5.46
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.4">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.4
+      </h4>
+      <h3>
+        第6章 クロスコンパイルによる一時的ツール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="diffutils.html" title=
+          "Diffutils-3.12">戻る</a>
+          <p>
+            Diffutils-3.12
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="findutils.html" title=
+          "Findutils-4.10.0">次へ</a>
+          <p>
+            Findutils-4.10.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter06.html" title=
+          "第6章 クロスコンパイルによる一時的ツール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.4">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-tools-file" name="ch-tools-file"></a>6.7. File-5.46
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          File パッケージは指定されたファイルの種類を決定するユーティリティを提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.1 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">42 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          6.7.1. File のインストール
+        </h2>
+        <p>
+          ホストシステム上の <span class="command"><strong>file</strong></span>
+          コマンドは、これから生成する同コマンドと同一バージョンでなければなりません。 これはシグニチャーファイル生成のために必要となります。
+          そこで以下のコマンドを実行して、<span class="command"><strong>file</strong></span>
+          コマンドの一時的なコピーを生成します。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir build
+pushd build
+  ../configure --disable-bzlib      \
+               --disable-libseccomp \
+               --disable-xzlib      \
+               --disable-zlib
+  make
+popd</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>configure オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--disable-*</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                configure スクリプトは、ホスト上に特定のライブラリが存在するときに、それを利用しようとします。
+                ライブラリが存在していて、かつそれに対応するヘッダーファイルが存在していないときに、コンパイルに失敗することがあります。
+                このオプションは、そういったホストの機能は不要なので利用しないようにします。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          File をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr --host=$LFS_TGT --build=$(./config.guess)</kbd></pre>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make FILE_COMPILE=$(pwd)/build/src/file</kbd></pre>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make DESTDIR=$LFS install</kbd></pre>
+        <p>
+          クロスコンパイルにとっては libtool アーカイブファイルが邪魔になるため削除します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">rm -v $LFS/usr/lib/libmagic.la</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <p>
+          本パッケージの詳細は <a class="xref" href=
+          "../chapter08/file.html#contents-file" title=
+          "8.11.2. File の構成">「File の構成」</a>を参照してください。
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="diffutils.html" title=
+          "Diffutils-3.12">戻る</a>
+          <p>
+            Diffutils-3.12
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="findutils.html" title=
+          "Findutils-4.10.0">次へ</a>
+          <p>
+            Findutils-4.10.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter06.html" title=
+          "第6章 クロスコンパイルによる一時的ツール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.4">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

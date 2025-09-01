@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.83. ストリップ
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.4-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.4-systemd
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="aboutdebug.html" title="デバッグシンボルについて">戻る</a>
+          <p>
+            デバッグシンボルについて
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="cleanup.html" title="仕切り直し">次へ</a>
+          <p>
+            仕切り直し
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.4-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-system-stripping" name="ch-system-stripping"></a>8.83. ストリップ
+    </h1>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <p>
+        本節での作業を行うかどうかは任意です。
+        対象ユーザーがプログラマーではなく、プログラム類をデバッグするような使い方をしないのであれば、実行ファイルやライブラリに含まれるデバッグシンボルや不要シンボルを削除しても構いません。
+        そうすれば 2 GB ものサイズ削減を図ることができます。 普通の Linux ユーザーにとっては、実質的な問題はありません。
+      </p>
+      <p>
+        以下に示すコマンドは簡単なものです。 ただし入力つづりは簡単に間違いやすいので、もし誤った入力をするとシステムを利用不能にしてしまいます。
+        したがって <span class="command"><strong>strip</strong></span>
+        コマンドを実行する前に、現時点の LFS システムのバックアップを取っておくことをお勧めします。
+      </p>
+      <p>
+        <span class="command"><strong>strip</strong></span> コマンドに <em class=
+        "parameter"><code>--strip-unneeded</code></em>
+        オプションをつけて実行すると、バイナリやライブラリからデバッグシンボルをすべて削除します。
+        そして（スタティックライブラリ向けの）リンカーや（動的リンクバイナリあるいは共有ライブラリ向けの）ダイナミックリンカーにとって通常なら不要なシンボルテーブル項目もすべて削除します。
+        <em class="parameter"><code>--strip-debug</code></em>
+        を使うと、特定のアプリケーションに必要となるシンボルテーブルエントリは削除しなくなります。 <code class=
+        "literal">unneeded</code> と <code class="literal">debug</code>
+        の違いはわずかなものです。 たとえば unstripped な libc.a は 22.4 MB です。 <em class=
+        "parameter"><code>--strip-debug</code></em> によってストリップを行うと 5.9 MB
+        になります。 一方 <em class="parameter"><code>--strip-unneeded</code></em>
+        では減じられる容量はほんのわずかで 5.8 MB となります。
+      </p>
+      <p>
+        選択したライブラリから得られたデバッグシンボルは、<span class="application">Zstd</span>
+        によって圧縮され、個別のファイルに保存されます。 このデバッグ情報を必要とするのは BLFS における <a class="ulink"
+        href=
+        "https://www.linuxfromscratch.org/blfs/view/12.4-systemd//general/valgrind.html">
+        valgrind</a> または <a class="ulink" href=
+        "https://www.linuxfromscratch.org/blfs/view/12.4-systemd//general/gdb.html">
+        gdb</a> の縮退テストを実施するのに必要であるからです。
+      </p>
+      <p>
+        なお <span class="command"><strong>strip</strong></span>
+        は、処理しているバイナリファイルやライブラリファイルを上書きします。
+        そのファイルにあるコードやデータを利用しているプロセスは、これによってクラッシュすることがあります。 仮に <span class=
+        "command"><strong>strip</strong></span>
+        自体を実行しているプロセスがその影響を受けたとすると、ストリップ最中のバイナリやライブラリは壊れてしまうかもしれません。
+        これが起きると、システムが完全に利用不能となりかねません。 これを避けるため、ライブラリやバイナリのいくつかを <code class=
+        "filename">/tmp</code> にコピーして、そこでストリップした上で、<span class=
+        "command"><strong>install</strong></span>
+        コマンドを使って、元の場所に再インストールすることにします。 （ここで <span class=
+        "command"><strong>install</strong></span> コマンドを利用する意味については、<a class=
+        "xref" href="pkgmgt.html#pkgmgmt-upgrade-issues" title=
+        "8.2.1. アップグレードに関する問題">「アップグレードに関する問題」</a> において説明しています。）
+      </p>
+      <div class="admon note">
+        <img alt="[注記]" src="../images/note.png" />
+        <h3>
+          注記
+        </h3>
+        <p>
+          ELF ローダーの名前は、64 ビットシステムでは ld-linux-x86-64.so.2、32 ビットシステムでは
+          ld-linux.so.2 です。 後述の手順では、現行のアーキテクチャーに合わせて適切な名前を選ぶようにしています。 ただし
+          <code class="literal">g</code> で終わるものは除いています。
+          そのようなものはすでにコマンド実行されているからです。
+        </p>
+      </div>
+      <div class="admon important">
+        <img alt="[重要]" src="../images/important.png" />
+        <h3>
+          重要
+        </h3>
+        <p>
+          各パッケージのバージョンが、本書に示すバージョンとは異なる場合（セキュリティアドバイザリに従った場合や、必要に応じて変更した場合）、<code class="envar">save_usrlib</code>
+          や <code class="envar">online_usrlib</code>
+          に含まれるライブラリ名を変更することが必要かもしれません。 <span class=
+          "bold"><strong>これを行わなかった場合には、システムが全く動作しないことも起こりえます。</strong></span>
+        </p>
+      </div>
+      <pre class="userinput"><kbd class=
+      "command">save_usrlib="$(cd /usr/lib; ls ld-linux*[^g])
+             libc.so.6
+             libthread_db.so.1
+             libquadmath.so.0.0.0
+             libstdc++.so.6.0.34
+             libitm.so.1.0.0
+             libatomic.so.1.2.0"
+
+cd /usr/lib
+
+for LIB in $save_usrlib; do
+    objcopy --only-keep-debug --compress-debug-sections=zstd $LIB $LIB.dbg
+    cp $LIB /tmp/$LIB
+    strip --strip-debug /tmp/$LIB
+    objcopy --add-gnu-debuglink=$LIB.dbg /tmp/$LIB
+    install -vm755 /tmp/$LIB /usr/lib
+    rm /tmp/$LIB
+done
+
+online_usrbin="bash find strip"
+online_usrlib="libbfd-2.45.so
+               libsframe.so.2.0.0
+               libhistory.so.8.3
+               libncursesw.so.6.5
+               libm.so.6
+               libreadline.so.8.3
+               libz.so.1.3.1
+               libzstd.so.1.5.7
+               $(cd /usr/lib; find libnss*.so* -type f)"
+
+for BIN in $online_usrbin; do
+    cp /usr/bin/$BIN /tmp/$BIN
+    strip --strip-debug /tmp/$BIN
+    install -vm755 /tmp/$BIN /usr/bin
+    rm /tmp/$BIN
+done
+
+for LIB in $online_usrlib; do
+    cp /usr/lib/$LIB /tmp/$LIB
+    strip --strip-debug /tmp/$LIB
+    install -vm755 /tmp/$LIB /usr/lib
+    rm /tmp/$LIB
+done
+
+for i in $(find /usr/lib -type f -name \*.so* ! -name \*dbg) \
+         $(find /usr/lib -type f -name \*.a)                 \
+         $(find /usr/{bin,sbin,libexec} -type f); do
+    case "$online_usrbin $online_usrlib $save_usrlib" in
+        *$(basename $i)* )
+            ;;
+        * ) strip --strip-debug $i
+            ;;
+    esac
+done
+
+unset BIN LIB save_usrlib online_usrbin online_usrlib
+</kbd></pre>
+      <p>
+        ファイルフォーマットが認識できないファイルがいくつもエラーとなりますが、無視して構いません。
+        この警告は、処理したファイルが実行バイナリではなくスクリプトファイルであることを示しています。
+      </p>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="aboutdebug.html" title="デバッグシンボルについて">戻る</a>
+          <p>
+            デバッグシンボルについて
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="cleanup.html" title="仕切り直し">次へ</a>
+          <p>
+            仕切り直し
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.4-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

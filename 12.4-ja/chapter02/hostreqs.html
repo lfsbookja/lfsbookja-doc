@@ -1,0 +1,362 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      2.2. ホストシステム要件
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.4">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.4
+      </h4>
+      <h3>
+        第2章 ホストシステムの準備
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="introduction.html" title="はじめに">戻る</a>
+          <p>
+            はじめに
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="stages.html" title="作業段階ごとの LFS 構築">次へ</a>
+          <p>
+            作業段階ごとの LFS 構築
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter02.html" title=
+          "第2章 ホストシステムの準備">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.4">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-partitioning-hostreqs" name=
+      "ch-partitioning-hostreqs"></a>2.2. ホストシステム要件
+    </h1>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          2.2.1. ハードウェア
+        </h2>
+        <p>
+          LFS 編集者としては、システム CPU は最低でも 4 コア、メモリ容量は最低でも 8 GB を推奨しています。
+          この要件を満たさない古いシステムであっても、動くかもしれません。
+          しかしパッケージのビルド時間は、本書に示すものよりも極端に長くなるかもしれません。
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          2.2.2. ソフトウェア
+        </h2>
+        <p>
+          ホストシステムには以下に示すソフトウェアが必要であり、それぞれに示されているバージョン以降である必要があります。 最近の Linux
+          ディストリビューションを利用するなら、あまり問題にはならないはずです。
+          ディストリビューションによっては、ソフトウェアのヘッダーファイル群を別パッケージとして提供しているものが多々あります。 例えば
+          <code class="literal"><em class=
+          "replaceable"><code>&lt;パッケージ名&gt;</code></em>-devel</code> であったり
+          <code class="literal"><em class=
+          "replaceable"><code>&lt;パッケージ名&gt;</code></em>-dev</code> といった具合です。
+          お使いのディストリビューションがそのような提供の仕方をしている場合は、それらもインストールしてください。
+        </p>
+        <p>
+          各パッケージにて、示しているバージョンより古いものでも動作するかもしれませんが、テストは行っていません。
+        </p>
+        <div class="itemizedlist">
+          <ul class="compact">
+            <li class="listitem">
+              <p>
+                <span class="strong"><strong>Bash-3.2</strong></span>
+                (/bin/sh が bash に対するシンボリックリンクまたはハードリンクである必要があります。)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="strong"><strong>Binutils-2.13.1</strong></span>
+                (2.45 以上のバージョンは、テストしていないためお勧めしません。)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="strong"><strong>Bison-2.7</strong></span>
+                (/usr/bin/yacc が bison へのリンクか、bison を実行するためのスクリプトである必要があります。)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="strong"><strong>Coreutils-8.1</strong></span>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="strong"><strong>Diffutils-2.8.1</strong></span>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="strong"><strong>Findutils-4.2.31</strong></span>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="strong"><strong>Gawk-4.0.1</strong></span>
+                (/usr/bin/awk が gawk へのリンクである必要があります。)
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="strong"><strong>GCC-5.4</strong></span> と C++
+                コンパイラーである <span class="command"><strong>g++</strong></span>
+                (15.2.0 以上のバージョンは、テストしていないためお勧めしません。) ホストされたプログラムを C++
+                コンパイラーがビルドできるように、C および C++ の標準ライブラリ（ヘッダーを含む）が存在しなければなりません。
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="strong"><strong>Grep-2.5.1a</strong></span>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="strong"><strong>Gzip-1.3.12</strong></span>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="strong"><strong>Linux Kernel-5.4</strong></span>
+              </p>
+              <p>
+                カーネルのバージョンを指定しているのは、<a class="xref" href=
+                "../chapter05/chapter05.html" title=
+                "第5章 クロスツールチェーンの構築">第&nbsp;5&nbsp;章</a> と <a class="xref"
+                href="../chapter08/chapter08.html" title=
+                "第8章 基本的なソフトウェアのインストール">第&nbsp;8&nbsp;章</a> において、<span class=
+                "application">glibc</span> をビルドする際にバージョンを指定するからです。
+                こうすると古いカーネルに対する対応コードが無効となり、コンパイルした <span class=
+                "application">glibc</span> が若干早く、また軽量になります。 2024 年 12
+                月時点、カーネル開発者によってサポートされる、もっとも古いカーネルバージョンは 5.4 です。 5.4
+                よりも古いカーネルリリースであっても、サードパーティチームによってサポートされているものもあります。
+                ただしそういったものは、公式のカーネルリリースとは認められません。 詳しくは <a class="ulink" href=
+                "https://kernel.org/category/releases.html">https://kernel.org/category/releases.html</a>
+                を参照してください。
+              </p>
+              <p>
+                ホストシステムのカーネルバージョンが 5.4
+                より古い場合は、ここに示した条件に合致するカーネルに置き換えることが必要です。 これを実施するには２つの方法があります。
+                お使いの Linux システムのベンダーが 5.4 以上のバージョンのカーネルを提供しているかを調べることです。
+                提供していれば、それをインストールします。
+                もしそれがない場合や、あったとしてもそれをインストールしたくない場合、カーネルをご自身でコンパイルする必要があります。
+                カーネルのコンパイルと (ホストシステムが GRUB を利用しているとして) ブートローダーの設定方法については
+                <a class="xref" href="../chapter10/chapter10.html" title=
+                "第10章 LFS システムのブート設定">第&nbsp;10&nbsp;章</a> を参照してください。
+              </p>
+              <p>
+                本書では、ホストカーネルが UNIX 98 疑似端末（PTY）をサポートしていることが必要です。 これは Linux
+                5.4
+                またはそれ以降のカーネルを利用するデスクトップ向け、あるいはサーバー向けのディストリビューションにとって利用できなければなりません。
+                独自のホストカーネルを利用している場合には、カーネル設定において <code class=
+                "option">CONFIG_UNIX98_PTYS</code> が <code class=
+                "literal">y</code> であることを確認してください。
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="strong"><strong>M4-1.4.10</strong></span>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="strong"><strong>Make-4.0</strong></span>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="strong"><strong>Patch-2.5.4</strong></span>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="strong"><strong>Perl-5.8.8</strong></span>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="strong"><strong>Python-3.4</strong></span>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="strong"><strong>Sed-4.1.5</strong></span>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="strong"><strong>Tar-1.22</strong></span>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="strong"><strong>Texinfo-5.0</strong></span>
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                <span class="strong"><strong>Xz-5.0.0</strong></span>
+              </p>
+            </li>
+          </ul>
+        </div>
+        <div class="admon important">
+          <img alt="[重要]" src="../images/important.png" />
+          <h3>
+            重要
+          </h3>
+          <p>
+            上で示しているシンボリックリンクは、本書の説明を通じて LFS を構築するために必要となるものです。
+            シンボリックリンクが別のソフトウェア (例えば dash や mawk) を指し示している場合でもうまく動作するかもしれません。
+            しかしそれらに対して LFS 開発チームはテストを行っていませんしサポート対象としていません。
+            そのような状況に対しては作業手順の変更が必要となり、特定のパッケージに対しては追加のパッチを要するかもしれません。
+          </p>
+        </div>
+        <h2>
+          <a id="version-check" name="version-check"></a>
+        </h2>
+        <p>
+          ホストシステムに、上のソフトウェアの適切なバージョンがインストールされているかどうか、またコンパイルが適切に行えるかどうかは、以下のコマンドを実行して確認することができます。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; version-check.sh &lt;&lt; "EOF"
+<code class="literal">#!/bin/bash
+# A script to list version numbers of critical development tools
+
+# If you have tools installed in other directories, adjust PATH here AND
+# in ~lfs/.bashrc (section 4.4) as well.
+
+LC_ALL=C
+PATH=/usr/bin:/bin
+
+bail() { echo "FATAL: $1"; exit 1; }
+grep --version &gt; /dev/null 2&gt; /dev/null || bail "grep does not work"
+sed '' /dev/null || bail "sed does not work"
+sort   /dev/null || bail "sort does not work"
+
+ver_check()
+{
+   if ! type -p $2 &amp;&gt;/dev/null
+   then
+     echo "ERROR: Cannot find $2 ($1)"; return 1;
+   fi
+   v=$($2 --version 2&gt;&amp;1 | grep -E -o '[0-9]+\.[0-9\.]+[a-z]*' | head -n1)
+   if printf '%s\n' $3 $v | sort --version-sort --check &amp;&gt;/dev/null
+   then
+     printf "OK:    %-9s %-6s &gt;= $3\n" "$1" "$v"; return 0;
+   else
+     printf "ERROR: %-9s is TOO OLD ($3 or later required)\n" "$1";
+     return 1;
+   fi
+}
+
+ver_kernel()
+{
+   kver=$(uname -r | grep -E -o '^[0-9\.]+')
+   if printf '%s\n' $1 $kver | sort --version-sort --check &amp;&gt;/dev/null
+   then
+     printf "OK:    Linux Kernel $kver &gt;= $1\n"; return 0;
+   else
+     printf "ERROR: Linux Kernel ($kver) is TOO OLD ($1 or later required)\n" "$kver";
+     return 1;
+   fi
+}
+
+# Coreutils first because --version-sort needs Coreutils &gt;= 7.0
+ver_check Coreutils      sort     8.1 || bail "Coreutils too old, stop"
+ver_check Bash           bash     3.2
+ver_check Binutils       ld       2.13.1
+ver_check Bison          bison    2.7
+ver_check Diffutils      diff     2.8.1
+ver_check Findutils      find     4.2.31
+ver_check Gawk           gawk     4.0.1
+ver_check GCC            gcc      5.4
+ver_check "GCC (C++)"    g++      5.4
+ver_check Grep           grep     2.5.1a
+ver_check Gzip           gzip     1.3.12
+ver_check M4             m4       1.4.10
+ver_check Make           make     4.0
+ver_check Patch          patch    2.5.4
+ver_check Perl           perl     5.8.8
+ver_check Python         python3  3.4
+ver_check Sed            sed      4.1.5
+ver_check Tar            tar      1.22
+ver_check Texinfo        texi2any 5.0
+ver_check Xz             xz       5.0.0
+ver_kernel 5.4
+
+if mount | grep -q 'devpts on /dev/pts' &amp;&amp; [ -e /dev/ptmx ]
+then echo "OK:    Linux Kernel supports UNIX 98 PTY";
+else echo "ERROR: Linux Kernel does NOT support UNIX 98 PTY"; fi
+
+alias_check() {
+   if $1 --version 2&gt;&amp;1 | grep -qi $2
+   then printf "OK:    %-4s is $2\n" "$1";
+   else printf "ERROR: %-4s is NOT $2\n" "$1"; fi
+}
+echo "Aliases:"
+alias_check awk GNU
+alias_check yacc Bison
+alias_check sh Bash
+
+echo "Compiler check:"
+if printf "int main(){}" | g++ -x c++ -
+then echo "OK:    g++ works";
+else echo "ERROR: g++ does NOT work"; fi
+rm -f a.out
+
+if [ "$(nproc)" = "" ]; then
+   echo "ERROR: nproc is not available or it produces empty output"
+else
+   echo "OK: nproc reports $(nproc) logical cores are available"
+fi</code>
+EOF
+
+bash version-check.sh</kbd></pre>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="introduction.html" title="はじめに">戻る</a>
+          <p>
+            はじめに
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="stages.html" title="作業段階ごとの LFS 構築">次へ</a>
+          <p>
+            作業段階ごとの LFS 構築
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter02.html" title=
+          "第2章 ホストシステムの準備">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.4">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

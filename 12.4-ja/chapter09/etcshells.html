@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      9.9. /etc/shells ファイルの生成
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.4">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.4
+      </h4>
+      <h3>
+        第9章 システム設定
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="inputrc.html" title=
+          "/etc/inputrc ファイルの生成">戻る</a>
+          <p>
+            /etc/inputrc ファイルの生成
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="../chapter10/chapter10.html" title=
+          "LFS システムのブート設定">次へ</a>
+          <p>
+            LFS システムのブート設定
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter09.html" title="第9章 システム設定">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.4">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-config-shells" name="ch-config-shells"></a>9.9. /etc/shells
+      ファイルの生成
+    </h1>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <p>
+        <code class="filename">shells</code> ファイルには、システム上でのログインシェルを記述します。
+        各アプリケーションはこのファイルを参照して、シェルが適切であるかどうかを判別します。
+        各シェルの指定は１行で行い、そのシェルのパスを記述します。 パスはルートディレクトリ (/) を基準として記述します。
+      </p>
+      <p>
+        例えば一般ユーザーが自身のアカウントに対するログインシェルを <span class=
+        "command"><strong>chsh</strong></span> にしようとした場合、chsh が <code class=
+        "filename">shells</code> ファイルを参照します。
+        シェルコマンド名が記述されていなければ、その一般ユーザーはシェルの変更ができません。
+      </p>
+      <p>
+        例えば <span class="application">GDM</span> は <code class=
+        "filename">/etc/shells</code> ファイルが参照できない時には対話インターフェースの設定が出来ません。 また
+        FTP デーモンなどは、このファイルに記述されていないシェルを用いてのユーザーアクセスを拒否するのが通常です。
+        こういったアプリケーションのためにこのファイルが必要となります。
+      </p>
+      <pre class="root"><kbd class=
+      "command">cat &gt; /etc/shells &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/shells
+
+/bin/sh
+/bin/bash
+
+# End /etc/shells</code>
+EOF</kbd></pre>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="inputrc.html" title=
+          "/etc/inputrc ファイルの生成">戻る</a>
+          <p>
+            /etc/inputrc ファイルの生成
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="../chapter10/chapter10.html" title=
+          "LFS システムのブート設定">次へ</a>
+          <p>
+            LFS システムのブート設定
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter09.html" title="第9章 システム設定">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.4">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      全般的なコンパイル手順
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.4-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.4-systemd
+      </h4>
+      <h3>
+        重要な準備事項
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="toolchaintechnotes.html" title=
+          "ツールチェーンの技術的情報">戻る</a>
+          <p>
+            ツールチェーンの技術的情報
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="../chapter05/chapter05.html" title=
+          "クロスツールチェーンの構築">次へ</a>
+          <p>
+            クロスツールチェーンの構築
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="partintro.html" title="重要な準備事項">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.4-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-tools-generalinstructions" name=
+      "ch-tools-generalinstructions"></a>iii. 全般的なコンパイル手順
+    </h1>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <div class="admon caution">
+        <img alt="[注意]" src="../images/caution.png" />
+        <h3>
+          注意
+        </h3>
+        <p>
+          LFS を開発してきた中では、パッケージの更新やそれに伴う新機能に適応するために、本書内の手順を順次修正しています。 LFS
+          ブックのバージョンが異なっているにもかかわらず、その手順を混同してしまうと、些細なエラーにつながります。 こういった問題は、一般的には
+          LFS ブックの前バージョンに対して作り出したスクリプトを、そのまま再利用した結果として起こります。
+          スクリプトの再利用は是非行わないでください。
+          仮に何らかの理由があって前バージョン向けのスクリプトを再利用する場合であっても、最新バージョンの LFS
+          ブック向けにそのスクリプトの更新を十分確認して行ってください。
+        </p>
+      </div>
+      <p>
+        パッケージをビルドしていくにあたって、理解しておくべき内容を以下に示します:
+      </p>
+      <div class="itemizedlist">
+        <ul>
+          <li class="listitem">
+            <p>
+              パッケージの中には、コンパイルする前にパッチを当てるものがあります。
+              パッチを当てるのは、そのパッケージが抱える問題を回避するためです。
+              本章と後続の章でパッチを当てるものがありますが、同じパッケージを二度ビルドする場合であっても、パッチを必要としない場合があります。
+              したがってパッチをダウンロードする説明が書かれていないなら、何も気にせず先に進んでください。 パッチを当てた際に
+              <span class="emphasis"><em>offset</em></span> や <span class=
+              "emphasis"><em>fuzz</em></span>
+              といった警告メッセージが出る場合がありますが、これらは気にしないでください。
+              このような時でもパッチは問題なく適用されています。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              コンパイルの最中に、警告メッセージが画面上に出力されることがよくあります。 これは問題はないため無視して構いません。
+              警告メッセージは、メッセージ内に説明されているように、C や C++
+              の文法が誤りではないものの推奨されていないものであることを示しています。 C
+              言語の標準はよく変更されますが、パッケージの中には更新されていないものもあります。
+              重大な問題はないのですが、警告として画面表示されることになるわけです。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              もう一度、環境変数 <code class="envar">LFS</code> が正しく設定されているかを確認します。
+            </p>
+            <pre class="userinput"><kbd class="command">echo $LFS</kbd></pre>
+            <p>
+              上の出力結果が LFS パーティションのマウントポイントのディレクトリであることを確認してください。 本書では
+              <code class="filename">/mnt/lfs</code> ディレクトリとして説明しています。
+            </p>
+          </li>
+          <li class="listitem">
+            <p>
+              最後に以下の二つの点にも注意してください。
+            </p>
+            <div class="admon important">
+              <img alt="[重要]" src="../images/important.png" />
+              <h3>
+                重要
+              </h3>
+              <p>
+                ビルドにあたっては <a class="xref" href="../chapter02/hostreqs.html"
+                title=
+                "2.2. ホストシステム要件">ホストシステム要件</a>にて示す要件やシンボリックリンクが、正しくインストールされていることを前提とします。
+              </p>
+              <div class="itemizedlist">
+                <ul>
+                  <li class="listitem">
+                    <p>
+                      <span class="command"><strong>bash</strong></span>
+                      シェルの利用を想定しています。
+                    </p>
+                  </li>
+                  <li class="listitem">
+                    <p>
+                      <span class="command"><strong>sh</strong></span> は
+                      <span class="command"><strong>bash</strong></span>
+                      へのシンボリックリンクであるものとします。
+                    </p>
+                  </li>
+                  <li class="listitem">
+                    <p>
+                      <span class=
+                      "command"><strong>/usr/bin/awk</strong></span> は
+                      <span class="command"><strong>gawk</strong></span>
+                      へのシンボリックリンクであるものとします。
+                    </p>
+                  </li>
+                  <li class="listitem">
+                    <p>
+                      <span class=
+                      "command"><strong>/usr/bin/yacc</strong></span> は
+                      <span class="command"><strong>bison</strong></span>
+                      へのシンボリックリンクであるか、あるいは bison を実行するためのスクリプトであるものとします。
+                    </p>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="admon important">
+              <img alt="[重要]" src="../images/important.png" />
+              <h3>
+                重要
+              </h3>
+              <p>
+                ビルド作業の概要を示します。
+              </p>
+              <div class="orderedlist">
+                <ol class="compact">
+                  <li class="listitem">
+                    <p>
+                      ソースやパッチファイルを配置するディレクトリは /mnt/lfs/sources/ などのように chroot
+                      環境でもアクセスが出来るディレクトリとしてください。
+                    </p>
+                  </li>
+                  <li class="listitem">
+                    <p>
+                      <code class="filename">/mnt/lfs/sources/</code>
+                      ディレクトリに入ります。
+                    </p>
+                  </li>
+                  <li class="listitem">
+                    <p>
+                      <a id="buildinstr" name="buildinstr"></a>各パッケージについて：
+                    </p>
+                    <div class="orderedlist">
+                      <ol class="compact">
+                        <li class="listitem">
+                          <p>
+                            tar コマンドを使ってパッケージの tarball を伸張（解凍）します。 <a class=
+                            "xref" href="../chapter05/chapter05.html" title=
+                            "第5章 クロスツールチェーンの構築">第&nbsp;5&nbsp;章</a> と
+                            <a class="xref" href=
+                            "../chapter06/chapter06.html" title=
+                            "第6章 クロスコンパイルによる一時的ツール">第&nbsp;6&nbsp;章</a>
+                            では、パッケージを伸張（解凍）するのは <span class=
+                            "emphasis"><em>lfs</em></span> ユーザーとします。
+                          </p>
+                          <p>
+                            パッケージ tarball からソースコードを抽出する際には <span class=
+                            "command"><strong>tar</strong></span>
+                            コマンド以外による方法は用いないでください。 特にどこか別に配置しているソースコードを
+                            <span class="command"><strong>cp
+                            -R</strong></span>
+                            を使ってコピーすると、ソースツリー内のタイムスタンプを壊しかねません。
+                            そうなるとビルドの失敗に通じることになります。
+                          </p>
+                        </li>
+                        <li class="listitem">
+                          <p>
+                            パッケージの伸張 (解凍) 後に生成されたディレクトリに入ります。
+                          </p>
+                        </li>
+                        <li class="listitem">
+                          <p>
+                            本書の手順に従ってビルド作業を行っていきます。
+                          </p>
+                        </li>
+                        <li class="listitem">
+                          <p>
+                            ビルドが終了したらソースディレクトリに戻ります。
+                          </p>
+                        </li>
+                        <li class="listitem">
+                          <p>
+                            ビルド作業を通じて生成されたパッケージディレクトリを削除します。
+                          </p>
+                        </li>
+                      </ol>
+                    </div>
+                  </li>
+                </ol>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="toolchaintechnotes.html" title=
+          "ツールチェーンの技術的情報">戻る</a>
+          <p>
+            ツールチェーンの技術的情報
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="../chapter05/chapter05.html" title=
+          "クロスツールチェーンの構築">次へ</a>
+          <p>
+            クロスツールチェーンの構築
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="partintro.html" title="重要な準備事項">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.4-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

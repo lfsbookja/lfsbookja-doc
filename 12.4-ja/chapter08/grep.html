@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.35. Grep-3.12
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.4">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.4
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="bison.html" title="Bison-3.8.2">戻る</a>
+          <p>
+            Bison-3.8.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="bash.html" title="Bash-5.3">次へ</a>
+          <p>
+            Bash-5.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.4">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-system-grep" name="ch-system-grep"></a>8.35. Grep-3.12
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Grep パッケージはファイル内の検索を行うプログラムを提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.6 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">48 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.35.1. Grep のインストール
+        </h2>
+        <p>
+          各種パッケージのテストにおいて、egrep と fgrep を用いた際の警告が原因でテストが失敗するため、その警告を削除します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i "s/echo/#echo/" src/egrep.sh</kbd></pre>
+        <p>
+          Grep をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr</kbd></pre>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class="command">make check</kbd></pre>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-grep" name="contents-grep"></a>8.35.2. Grep の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">egrep, fgrep, grep</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="egrep" name="egrep"></a><span class=
+                    "term"><span class=
+                    "command"><strong>egrep</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    拡張正規表現 (extended regular expression) にマッチした行を表示します。
+                    これは非推奨となっているため、代わりに <span class="command"><strong>grep
+                    -E</strong></span> を使ってください。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fgrep" name="fgrep"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fgrep</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    固定文字列の一覧にマッチした行を表示します。 これは非推奨となっているため、代わりに <span class=
+                    "command"><strong>grep -F</strong></span> を使ってください。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="grep" name="grep"></a><span class=
+                    "term"><span class=
+                    "command"><strong>grep</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    基本的な正規表現に合致した行を出力します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="bison.html" title="Bison-3.8.2">戻る</a>
+          <p>
+            Bison-3.8.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="bash.html" title="Bash-5.3">次へ</a>
+          <p>
+            Bash-5.3
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.4">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

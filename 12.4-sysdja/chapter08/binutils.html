@@ -1,0 +1,593 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.20. Binutils-2.45
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.4-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.4-systemd
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="pkgconf.html" title="Pkgconf-2.5.1">戻る</a>
+          <p>
+            Pkgconf-2.5.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gmp.html" title="GMP-6.3.0">次へ</a>
+          <p>
+            GMP-6.3.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.4-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-system-binutils" name="ch-system-binutils"></a>8.20.
+      Binutils-2.45
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Binutils パッケージは、リンカーやアセンブラーなどのようにオブジェクトファイルを取り扱うツール類を提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">1.6 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">832 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.20.1. Binutils のインストール
+        </h2>
+        <p>
+          Binutils のドキュメントによると Binutils
+          のビルドにあたっては専用のビルドディレクトリを作成することが推奨されています。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir -v build
+cd       build</kbd></pre>
+        <p>
+          Binutils をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">../configure --prefix=/usr       \
+             --sysconfdir=/etc   \
+             --enable-ld=default \
+             --enable-plugins    \
+             --enable-shared     \
+             --disable-werror    \
+             --enable-64-bit-bfd \
+             --enable-new-dtags  \
+             --with-system-zlib  \
+             --enable-default-hash-style=gnu</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>configure パラメーターの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-ld=default</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                オリジナルの bfd リンカーをビルドし ld (デフォルトリンカー) と ld.bfd としてインストールします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-plugins</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                リンカーに対してプラグインサポートを有効にします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-system-zlib</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                本パッケージに含まれる zlib をビルドするのではなく、既にインストール済の zlib を用いるようにします。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make tooldir=/usr</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>make パラメーターの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>tooldir=/usr</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                通常 tooldir (実行ファイルが最終的に配置されるディレクトリ) は <code class=
+                "filename">$(exec_prefix)/$(target_alias)</code> に設定されています。
+                x86_64 マシンでは <code class=
+                "filename">/usr/x86_64-pc-linux-gnu</code> となります。 LFS
+                は自分で設定を定めていくシステムですから <code class="filename">/usr</code>
+                ディレクトリ配下に CPU ターゲットを特定するディレクトリを設ける必要がありません。 <code class=
+                "filename">$(exec_prefix)/$(target_alias)</code>
+                というディレクトリ構成は、クロスコンパイル環境において必要となるものです。 (例えばパッケージをコンパイルするマシンが
+                Intel であり、そこから PowerPC マシン用の実行コードを生成するような場合です。)
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <div class="admon important">
+          <img alt="[重要]" src="../images/important.png" />
+          <h3>
+            重要
+          </h3>
+          <p>
+            本節における Binutils のテストスイートは極めて重要なものです。 したがってどのような場合であっても必ず実行してください。
+          </p>
+        </div>
+        <p>
+          ビルド結果をテストします。
+        </p>
+        <pre class="userinput"><kbd class="command">make -k check</kbd></pre>
+        <p>
+          失敗したテストの一覧は、以下を実行すれば得られます。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">grep '^FAIL:' $(find -name '*.log')</kbd></pre>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make tooldir=/usr install</kbd></pre>
+        <p>
+          不要なスタティックライブラリなどのファイルを削除します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">rm -rfv /usr/lib/lib{bfd,ctf,ctf-nobfd,gprofng,opcodes,sframe}.a \
+        /usr/share/doc/gprofng/</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-binutils" name="contents-binutils"></a>8.20.2.
+          Binutils の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">addr2line, ar, as, c++filt, dwp, elfedit, gprof,
+              gprofng, ld, ld.bfd, nm, objcopy, objdump, ranlib, readelf,
+              size, strings, strip</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libbfd.so, libctf.so, libctf-nobfd.so, libgprofng.so,
+              libopcodes.so, libsframe.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/lib/ldscripts</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="addr2line" name="addr2line"></a><span class=
+                    "term"><span class=
+                    "command"><strong>addr2line</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定された実行モジュール名とアドレスに基づいて、プログラム内のアドレスをファイル名と行番号に変換します。
+                    これは実行モジュール内のデバッグ情報を利用します。
+                    特定のアドレスがどのソースファイルと行番号に該当するかを確認するものです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ar" name="ar"></a><span class="term"><span class=
+                    "command"><strong>ar</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    アーカイブの生成、修正、抽出を行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="as" name="as"></a><span class="term"><span class=
+                    "command"><strong>as</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>gcc</strong></span>
+                    の出力結果をアセンブルして、オブジェクトファイルとして生成するアセンブラー。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="c-filt" name="c-filt"></a><span class=
+                    "term"><span class=
+                    "command"><strong>c++filt</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    リンカーから呼び出されるもので C++ と Java のシンボルを複合 (demangle)
+                    し、オーバーロード関数が破壊されることを回避します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dwp" name="dwp"></a><span class=
+                    "term"><span class="command"><strong>dwp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    DWARF パッケージユーティリティー。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="elfedit" name="elfedit"></a><span class=
+                    "term"><span class=
+                    "command"><strong>elfedit</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ELF ファイルの ELF ヘッダーを更新します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gprof" name="gprof"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gprof</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    コールグラフ (call graph) のプロファイルデータを表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gprofng" name="gprofng"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gprofng</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    性能データの収集と解析を行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ld" name="ld"></a><span class="term"><span class=
+                    "command"><strong>ld</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    複数のオブジェクトファイルやアーカイブファイルから、一つのファイルを生成するリンカー。
+                    データの再配置やシンボル参照情報の結合を行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ld.bfd" name="ld.bfd"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ld.bfd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>ld</strong></span>
+                    へのハードリンク。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="nm" name="nm"></a><span class="term"><span class=
+                    "command"><strong>nm</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたオブジェクトファイル内のシンボル情報を一覧表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="objcopy" name="objcopy"></a><span class=
+                    "term"><span class=
+                    "command"><strong>objcopy</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    オブジェクトファイルの変換を行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="objdump" name="objdump"></a><span class=
+                    "term"><span class=
+                    "command"><strong>objdump</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたオブジェクトファイルの各種情報を表示します。
+                    さまざまなオプションを用いることで特定の情報表示が可能です。
+                    表示される情報は、コンパイル関連ツールを開発する際に有用なものです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ranlib" name="ranlib"></a><span class=
+                    "term"><span class=
+                    "command"><strong>ranlib</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    アーカイブの内容を索引として生成し、それをアーカイブに保存します。
+                    索引は、アーカイブのメンバーによって定義されるすべてのシンボルの一覧により構成されます。
+                    アーカイブのメンバーとは再配置可能なオブジェクトファイルのことです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="readelf" name="readelf"></a><span class=
+                    "term"><span class=
+                    "command"><strong>readelf</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ELF フォーマットのバイナリファイルの情報を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="size" name="size"></a><span class=
+                    "term"><span class=
+                    "command"><strong>size</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたオブジェクトファイルのセクションサイズと合計サイズを一覧表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="strings" name="strings"></a><span class=
+                    "term"><span class=
+                    "command"><strong>strings</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたファイルに対して、印字可能な文字の並びを出力します。 文字は所定の長さ (デフォルトでは 4文字)
+                    以上のものが対象となります。
+                    オブジェクトファイルの場合デフォルトでは、初期化セクションとロードされるセクションからのみ文字列を抽出し出力します。
+                    これ以外の種類のファイルの場合は、ファイル全体が走査されます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="strip" name="strip"></a><span class=
+                    "term"><span class=
+                    "command"><strong>strip</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    オブジェクトファイルからデバッグシンボルを取り除きます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libbfd" name="libbfd"></a><span class=
+                    "term"><code class="filename">libbfd</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    バイナリファイルディスクリプター (Binary File Descriptor) ライブラリ。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libctf" name="libctf"></a><span class=
+                    "term"><code class="filename">libctf</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Compat ANSI-C Type フォーマットタイプデバッギングサポートライブラリ。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libctf-nobfd" name="libctf-nobfd"></a><span class=
+                    "term"><code class="filename">libctf-nobfd</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    libbfd の機能を利用しない libctf の互換ライブラリ。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libgprofng" name="libgprofng"></a><span class=
+                    "term"><code class="filename">libgprofng</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>gprofng</strong></span>
+                    によって利用される処理ルーチンをほぼ含むライブラリ。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libopcodes" name="libopcodes"></a><span class=
+                    "term"><code class="filename">libopcodes</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    opcodes (オペレーションコード; プロセッサー命令を<span class=
+                    "quote">「<span class=
+                    "quote">認識可能なテキスト</span>」</span>として表現したもの) を取り扱うライブラリ。
+                    このライブラリは <span class=
+                    "command"><strong>objdump</strong></span>
+                    のような、ビルド作業に用いるユーティリティプログラムが利用しています。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libsframe" name="libsframe"></a><span class=
+                    "term"><code class="filename">libsframe</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    simple unwinder を使って、オンラインバックトレースをサポートするライブラリ。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="pkgconf.html" title="Pkgconf-2.5.1">戻る</a>
+          <p>
+            Pkgconf-2.5.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="gmp.html" title="GMP-6.3.0">次へ</a>
+          <p>
+            GMP-6.3.0
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.4-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

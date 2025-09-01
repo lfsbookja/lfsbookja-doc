@@ -1,0 +1,859 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.29. GCC-15.2.0
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.4-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.4-systemd
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="shadow.html" title="Shadow-4.18.0">戻る</a>
+          <p>
+            Shadow-4.18.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="ncurses.html" title=
+          "Ncurses-6.5-20250809">次へ</a>
+          <p>
+            Ncurses-6.5-20250809
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.4-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-system-gcc" name="ch-system-gcc"></a>8.29. GCC-15.2.0
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          GCC パッケージは C コンパイラーや C++ コンパイラーなどの GNU コンパイラーコレクションを提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">46 SBU (テスト込み)</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">6.6 GB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.29.1. GCC のインストール
+        </h2>
+        <p>
+          x86_64 上でビルドしている場合は、64ビットライブラリのデフォルトディレクトリ名を "lib"にします。
+        </p>
+        <pre class="userinput"><kbd class="command">case $(uname -m) in
+  x86_64)
+    sed -e '/m64=/s/lib64/lib/' \
+        -i.orig gcc/config/i386/t-linux64
+  ;;
+esac</kbd></pre>
+        <p>
+          GCC のドキュメントによると GCC のビルドにあたっては、専用のビルドディレクトリを作成することが推奨されています。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir -v build
+cd       build</kbd></pre>
+        <p>
+          GCC をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">../configure --prefix=/usr            \
+             LD=ld                    \
+             --enable-languages=c,c++ \
+             --enable-default-pie     \
+             --enable-default-ssp     \
+             --enable-host-pie        \
+             --disable-multilib       \
+             --disable-bootstrap      \
+             --disable-fixincludes    \
+             --with-system-zlib</kbd></pre>
+        <p>
+          GCC では 7
+          つのコンピューター言語をサポートしていますが、それらのほとんどが必要としている依存パッケージは、まだこの時点でインストールしていません。
+          GCC がサポートする他のコンピューター言語の構築方法については <a class="ulink" href=
+          "https://www.linuxfromscratch.org/blfs/view/12.4-systemd/general/gcc.html">
+          BLFS ブック</a> の説明を参照してください。
+        </p>
+        <div class="variablelist">
+          <p class="title">
+            <strong>configure パラメーターの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>LD=ld</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                本パラメーターは、本章の初期段階でビルドした Binutils の ld プログラムを使うことを configure
+                スクリプトに指示します。 これを指定しなかった場合は、クロスビルド版のものが用いられることになります。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--disable-fixincludes</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                デフォルトにおいて、GCC のインストール中に GCC が利用するシステムヘッダーが<span class=
+                "quote">「<span class="quote">固定される</span>」</span>場合があります。
+                これは最近の Linux システムにおいては不要なことです。 また GCC
+                のインストール後に何かのパッケージをインストールすることを考えると、潜在的な危険を生み出すことになります。 本スイッチは
+                GCC がヘッダーファイルを <span class="quote">「<span class="quote">固定
+                (fix)</span>」</span> しないようにします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-system-zlib</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このオプションはシステムに既にインストールされている Zlib
+                ライブラリをリンクすることを指示するものであり、内部にて作成されるライブラリを用いないようにします。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3><a id="pie-ssp-info" name="pie-ssp-info"></a>
+          <p>
+            PIE (position independent executable; 位置独立実行形式)
+            とは、メモリ上のどこであっても、実行プログラムをロードできるようにします。 PIE がない場合には ASLR (Address
+            Space Layout Randomization; アドレス空間配置のランダム化)
+            という技術が適用されますが、適用先は共有ライブラリのみであって実行ファイルには適用されません。
+            共有ライブラリに加えて実行ファイルに対しても、PIE と ASLR
+            を有効にすれば、実行ファイル内にある機密コードやデータが、固定的なアドレスに存在することを前提とした攻撃を軽減できます。
+          </p>
+          <p>
+            SSP (Stack Smashing Protection) とは、パラメータースタックが破壊されないようにする技術です。
+            スタック破壊が起きると、たとえばサブルーチンから返されるアドレスが変化してしまいます。
+            そうなった場合には、危険なコード（プログラムや共有ライブラリに元からあるものや、攻撃者が何らかの方法によって挿入したもの）に制御が移ってしまうことにもなります。
+          </p>
+        </div>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <div class="admon important">
+          <img alt="[重要]" src="../images/important.png" />
+          <h3>
+            重要
+          </h3>
+          <p>
+            本節における GCC のテストスイートは極めて重要なものです。 ただし相当な時間を要します。
+            初めてビルドを行う方には、必ず実施することをお勧めします。 テスト実行に要する時間は、<span class=
+            "command"><strong>make -k check</strong></span> コマンドに -jx
+            をつけることで、かなり削減できます。 ここに示す x には、システムの CPU コア数を指定するものです。
+          </p>
+        </div>
+        <p>
+          コンパイルするコードパターンが極端に複雑な場合に GCC はより多くのスタック領域を必要とする場合があります。
+          ホストディストロのスタック制限が厳しいかもしれないため、それを予防する意味でスタックサイズのハード上限を無制限に設定します。
+          ホストシステムのほとんど (そして最終的な LFS システム)
+          はデフォルトでハード上限は無制限としていますが、それを明示的に設定したところで何も問題はありません。
+          スタックサイズのソフト上限を変更する必要はありません。 これは GCC
+          が自動的に設定するものであり、その値がハード上限を超えない限りは適切に設定してくれます。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">ulimit -s -H unlimited</kbd></pre>
+        <p>
+          失敗するテストをいくつか削除します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -e '/cpython/d' -i ../gcc/testsuite/gcc.dg/plugin/plugin.exp</kbd></pre>
+        <p>
+          一般ユーザーにてテストを行います。 ただしエラーがあっても停止しないようにします。
+        </p>
+        <pre class="userinput"><kbd class="command">chown -R tester .
+su tester -c "PATH=$PATH make -k check"</kbd></pre>
+        <p>
+          テスト結果を確認するために以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">../contrib/test_summary</kbd></pre>
+        <p>
+          テスト結果の概略のみ確認したい場合は、出力結果をパイプ出力して <strong class=
+          "userinput"><code>grep -A7 Summ</code></strong> を実行してください。
+        </p>
+        <p>
+          テスト結果については <a class="ulink" href=
+          "https://www.linuxfromscratch.org/lfs/build-logs/12.4/">https://www.linuxfromscratch.org/lfs/build-logs/12.4/</a>
+          と <a class="ulink" href=
+          "https://gcc.gnu.org/ml/gcc-testresults/">https://gcc.gnu.org/ml/gcc-testresults/</a>
+          にある情報と比較することができます。
+        </p>
+        <p>
+          <code class="filename">pr90579.c</code> に関係するテストは失敗します。
+        </p>
+        <p>
+          テスト失敗は回避することができません。 その中には特定のハードウェアに起因するものもあります。 上記の URL
+          に示されている結果と大きく異なっていなかったら、問題はありませんので先に進んでください。
+        </p>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+        <p>
+          GCC のビルドディレクトリの所有者は <code class="systemitem">tester</code>
+          であるため、ヘッダーがインストールされるディレクトリ（とその内容）に対する所有権が不適切です。 そこでその所有権を
+          <code class="systemitem">root</code> ユーザーとグループに変更します。
+        </p>
+        <pre class="userinput"><kbd class="command">chown -v -R root:root \
+    /usr/lib/gcc/$(gcc -dumpmachine)/15.2.0/include{,-fixed}</kbd></pre>
+        <p>
+          <a class="ulink" href=
+          "https://refspecs.linuxfoundation.org/FHS_3.0/fhs/ch03s09.html">FHS</a>
+          の求めるところに応じてシンボリックリンクを作成します。 これは慣例によるものです
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">ln -svr /usr/bin/cpp /usr/lib</kbd></pre>
+        <p>
+          各種パッケージは C コンパイラーとして <span class=
+          "command"><strong>cc</strong></span> を呼び出しているものが数多くあります。 <a class=
+          "xref" href="../chapter06/gcc-pass2.html" title=
+          "6.18. GCC-15.2.0 - 2回め">GCC 2回め</a> においては、シンボリックリンクとして
+          <span class="command"><strong>cc</strong></span> をすでに生成しています。
+          同様にしてその man ページについてもシンボリックリンクとして生成することにします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">ln -sv gcc.1 /usr/share/man/man1/cc.1</kbd></pre>
+        <p>
+          リンク時の最適化 (Link Time Optimization; LTO)
+          によりプログラム構築できるように、シンボリックリンクを作ります。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">ln -sfv ../../libexec/gcc/$(gcc -dumpmachine)/15.2.0/liblto_plugin.so \
+        /usr/lib/bfd-plugins/</kbd></pre>
+        <p>
+          最終的なツールチェーンが出来上がりました。 ここで再びコンパイルとリンクが正しく動作することを確認することが必要です。
+          そこで健全性テストをここで実施します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">echo 'int main(){}' | cc -x c - -v -Wl,--verbose &amp;&gt; dummy.log
+readelf -l a.out | grep ': /lib'</kbd></pre>
+        <p>
+          問題なく動作するはずで、最後のコマンドから出力される結果は以下のようになるはずです。
+          (ダイナミックリンカーの名前はプラットフォームによって違っているかもしれません。)
+        </p>
+        <pre class="screen"><code class=
+        "computeroutput">[Requesting program interpreter: /lib64/ld-linux-x86-64.so.2]</code></pre>
+        <p>
+          ここで起動ファイルが正しく用いられていることを確認します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">grep -E -o '/usr/lib.*/S?crt[1in].*succeeded' dummy.log</kbd></pre>
+        <p>
+          上のコマンドの出力は以下のようになるはずです。
+        </p>
+        <pre class="screen"><code class=
+        "computeroutput">/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.0/../../../../lib/Scrt1.o succeeded
+/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.0/../../../../lib/crti.o succeeded
+/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.0/../../../../lib/crtn.o succeeded</code></pre>
+        <p>
+          作業しているマシンアーキテクチャーによっては、上の結果が微妙に異なるかもしれません。 その違いは、たいていは <code class=
+          "filename">/usr/lib/gcc</code> の次のディレクトリ名にあります。 注意すべき重要な点は
+          <span class="command"><strong>gcc</strong></span> が <code class=
+          "filename">crt*.o</code> という 3 つのファイルを <code class=
+          "filename">/usr/lib</code> 配下から探し出しているということです。
+        </p>
+        <p>
+          コンパイラーが正しいヘッダーファイルを読み取っているかどうかを検査します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">grep -B4 '^ /usr/include' dummy.log</kbd></pre>
+        <p>
+          上のコマンドは以下の出力を返します。
+        </p>
+        <pre class="screen"><code class=
+        "computeroutput">#include &lt;...&gt; search starts here:
+ /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.0/include
+ /usr/local/include
+ /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.0/include-fixed
+ /usr/include</code></pre>
+        <p>
+          もう一度触れておきますが、プラットフォームの<span class="quote">「<span class="quote">三つの組
+          (target triplet)</span>」</span>の次にくるディレクトリ名は CPU
+          アーキテクチャーにより異なる点に注意してください。
+        </p>
+        <p>
+          次に、新たなリンカーが正しいパスを検索して用いられているかどうかを検査します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">grep 'SEARCH.*/usr/lib' dummy.log |sed 's|; |\n|g'</kbd></pre>
+        <p>
+          '-linux-gnu' を含んだパスは無視すれば、最後のコマンドの出力は以下となるはずです。
+        </p>
+        <pre class="screen"><code class=
+        "computeroutput">SEARCH_DIR("/usr/x86_64-pc-linux-gnu/lib64")
+SEARCH_DIR("/usr/local/lib64")
+SEARCH_DIR("/lib64")
+SEARCH_DIR("/usr/lib64")
+SEARCH_DIR("/usr/x86_64-pc-linux-gnu/lib")
+SEARCH_DIR("/usr/local/lib")
+SEARCH_DIR("/lib")
+SEARCH_DIR("/usr/lib");</code></pre>
+        <p>
+          32ビットシステムではディレクトリが多少異なります。 以下は i686 マシンでの出力例です。
+        </p>
+        <pre class="screen"><code class=
+        "computeroutput">SEARCH_DIR("/usr/i686-pc-linux-gnu/lib32")
+SEARCH_DIR("/usr/local/lib32")
+SEARCH_DIR("/lib32")
+SEARCH_DIR("/usr/lib32")
+SEARCH_DIR("/usr/i686-pc-linux-gnu/lib")
+SEARCH_DIR("/usr/local/lib")
+SEARCH_DIR("/lib")
+SEARCH_DIR("/usr/lib");</code></pre>
+        <p>
+          次に libc が正しく用いられていることを確認します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">grep "/lib.*/libc.so.6 " dummy.log</kbd></pre>
+        <p>
+          最後のコマンドの出力は以下のようになるはずです。
+        </p>
+        <pre class="screen"><code class=
+        "computeroutput">attempt to open /usr/lib/libc.so.6 succeeded</code></pre>
+        <p>
+          GCC が正しくダイナミックリンカーを用いているかを確認します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">grep found dummy.log</kbd></pre>
+        <p>
+          上のコマンドの出力は以下のようになるはずです。 (ダイナミックリンカーの名前はプラットフォームによって違っているかもしれません。)
+        </p>
+        <pre class="screen"><code class=
+        "computeroutput">found ld-linux-x86-64.so.2 at /usr/lib/ld-linux-x86-64.so.2</code></pre>
+        <p>
+          出力結果が上と異なっていたり、出力が全く得られなかったりした場合は、何かが根本的に間違っているということです。
+          どこに問題があるのか調査、再試行を行って解消してください。 問題を残したままこの先には進まないでください。
+        </p>
+        <p>
+          すべてが正しく動作したら、テストに用いたファイルを削除します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">rm -v a.out dummy.log</kbd></pre>
+        <p>
+          最後に誤ったディレクトリにあるファイルを移動します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mkdir -pv /usr/share/gdb/auto-load/usr/lib
+mv -v /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-gcc" name="contents-gcc"></a>8.29.2. GCC の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">c++, cc (gcc へのリンク), cpp, g++, gcc, gcc-ar, gcc-nm,
+              gcc-ranlib, gcov, gcov-dump, gcov-tool, lto-dump</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libasan.{a,so}, libatomic.{a,so}, libcc1.so,
+              libgcc.a, libgcc_eh.a, libgcc_s.so, libgcov.a, libgomp.{a,so},
+              libhwasan.{a,so}, libitm.{a,so}, liblsan.{a,so},
+              liblto_plugin.so, libquadmath.{a,so}, libssp.{a,so},
+              libssp_nonshared.a, libstdc++.{a,so}, libstdc++exp.a,
+              libstdc++fs.a, libsupc++.a, libtsan.{a,so},
+              libubsan.{a,so}</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/c++, /usr/lib/gcc, /usr/libexec/gcc,
+              /usr/share/gcc-15.2.0</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="c" name="c"></a><span class="term"><span class=
+                    "command"><strong>c++</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    C++ コンパイラー
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cc" name="cc"></a><span class="term"><span class=
+                    "command"><strong>cc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    C コンパイラー
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cpp" name="cpp"></a><span class=
+                    "term"><span class="command"><strong>cpp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    C プリプロセッサー。 コンパイラーがこれを利用して、ソース内に記述された #include、#define
+                    や同じようなディレクティブを展開します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="g" name="g"></a><span class="term"><span class=
+                    "command"><strong>g++</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    C++ コンパイラー
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gcc" name="gcc"></a><span class=
+                    "term"><span class="command"><strong>gcc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    C コンパイラー
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gcc-ar" name="gcc-ar"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gcc-ar</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>ar</strong></span>
+                    に関連するラッパーであり、コマンドラインへのプラグインを追加します。 このプログラムは「リンク時の最適化
+                    (link time optimization)」機能を付与する場合にのみ利用されます。
+                    デフォルトのビルドオプションでは有効にはなりません。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gcc-nm" name="gcc-nm"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gcc-nm</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>nm</strong></span>
+                    に関連するラッパーであり、コマンドラインへのプラグインを追加します。 このプログラムは「リンク時の最適化
+                    (link time optimization)」機能を付与する場合にのみ利用されます。
+                    デフォルトのビルドオプションでは有効にはなりません。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gcc-ranlib" name="gcc-ranlib"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gcc-ranlib</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>ranlib</strong></span>
+                    に関連するラッパーであり、コマンドラインへのプラグインを追加します。 このプログラムは「リンク時の最適化
+                    (link time optimization)」機能を付与する場合にのみ利用されます。
+                    デフォルトのビルドオプションでは有効にはなりません。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gcov" name="gcov"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gcov</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    カバレッジテストツール。 プログラムを解析して、最適化が最も効果的となるのはどこかを特定します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gcov-dump" name="gcov-dump"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gcov-dump</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    オフラインの gcda および gcno プロファイルダンプツール。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="gcov-tool" name="gcov-tool"></a><span class=
+                    "term"><span class=
+                    "command"><strong>gcov-tool</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    オフラインの gcda プロファイル処理ツール。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lto-dump" name="lto-dump"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lto-dump</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    LTO が有効にした GCC によって生成されるオブジェクトファイルをダンプするためのツール。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libasan" name="libasan"></a><span class=
+                    "term"><code class="filename">libasan</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    アドレスサニタイザー (Address Sanitizer) のランタイムライブラリ。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libatomic" name="libatomic"></a><span class=
+                    "term"><code class="filename">libatomic</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    GCC 不可分 (アトミック) ビルトインランタイムライブラリ。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libcc1" name="libcc1"></a><span class=
+                    "term"><code class="filename">libcc1</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    GDB が GCC を利用可能とするためのライブラリ。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libgcc" name="libgcc"></a><span class=
+                    "term"><code class="filename">libgcc</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>gcc</strong></span>
+                    のランタイムサポートを提供します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libgcov" name="libgcov"></a><span class=
+                    "term"><code class="filename">libgcov</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    GCC のプロファイリングを有効にした場合にこのライブラリがリンクされます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libgomp" name="libgomp"></a><span class=
+                    "term"><code class="filename">libgomp</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    C/C++ や Fortran においてマルチプラットフォームでの共有メモリ並行プログラミング
+                    (multi-platform shared-memory parallel programming)
+                    を行うための GNU による OpenMP API インプリメンテーションです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libhwasan" name="libhwasan"></a><span class=
+                    "term"><code class="filename">libhwasan</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ハードウェアをアシストする Address Sanitizer ランタイムライブラリ。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libitm" name="libitm"></a><span class=
+                    "term"><code class="filename">libitm</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    GNU のトランザクショナル（transactional）メモリーライブラリ。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="liblsan" name="liblsan"></a><span class=
+                    "term"><code class="filename">liblsan</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    リークサニタイザー (Leak Sanitizer) のランタイムライブラリ。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="liblto_plugin" name=
+                    "liblto_plugin"></a><span class="term"><code class=
+                    "filename">liblto_plugin</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    GCC の LTO プラグインは、LTO を有効にした GCC から生成されたオブジェクトファイルを
+                    Binnutils が処理できるようにします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libquadmath" name="libquadmath"></a><span class=
+                    "term"><code class="filename">libquadmath</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    GCC の4倍精度数値演算 (Quad Precision Math) ライブラリ API
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libssp" name="libssp"></a><span class=
+                    "term"><code class="filename">libssp</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    GCC のスタック破壊を防止する (stack-smashing protection)
+                    機能をサポートするルーチンを提供します。 Glibc から同じルーチンが提供されているため、通常は用いられません。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libstdc" name="libstdc"></a><span class=
+                    "term"><code class="filename">libstdc++</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    標準 C++ ライブラリ
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libstdcexp" name="libstdcexp"></a><span class=
+                    "term"><code class="filename">libstdc++exp</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    試験的な C++ Contract ライブラリ。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libstdcfs" name="libstdcfs"></a><span class=
+                    "term"><code class="filename">libstdc++fs</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ISO/IEC TS 18822:2015 ファイルシステムライブラリ。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libsupc" name="libsupc"></a><span class=
+                    "term"><code class="filename">libsupc++</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    C++ プログラミング言語のためのサポートルーチンを提供します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libtsan" name="libtsan"></a><span class=
+                    "term"><code class="filename">libtsan</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    スレッドサニタイザー (Thread Sanitizer) のランタイムライブラリ。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libubsan" name="libubsan"></a><span class=
+                    "term"><code class="filename">libubsan</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Undefined Behavior Sanitizer ランタイムライブラリ。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="shadow.html" title="Shadow-4.18.0">戻る</a>
+          <p>
+            Shadow-4.18.0
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="ncurses.html" title=
+          "Ncurses-6.5-20250809">次へ</a>
+          <p>
+            Ncurses-6.5-20250809
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.4-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

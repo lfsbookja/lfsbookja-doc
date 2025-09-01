@@ -1,0 +1,305 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      9.5. 全般的なネットワークの設定
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.4">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.4
+      </h4>
+      <h3>
+        第9章 システム設定
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="symlinks.html" title="デバイスの管理">戻る</a>
+          <p>
+            デバイスの管理
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="usage.html" title=
+          "System V ブートスクリプトの利用と設定">次へ</a>
+          <p>
+            System V ブートスクリプトの利用と設定
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter09.html" title="第9章 システム設定">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.4">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-config-network" name="ch-config-network"></a>9.5.
+      全般的なネットワークの設定
+    </h1>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          9.5.1. ネットワークインターフェースに対する設定ファイルの生成
+        </h2>
+        <p>
+          <code class="filename">/etc/sysconfig/</code>
+          ディレクトリ配下のファイルは、どのネットワークインターフェースがネットワークスクリプトにより起動、停止されるかを取り決めます。
+          このディレクトリには、設定を行ないたい各ネットワークインターフェースに対するファイル <code class=
+          "filename">ifconfig.xyz</code> を準備します。 <span class=
+          "quote">「<span class="quote">xyz</span>」</span>はネットワークカードを指します。
+          通常はインターフェース名（例えばeth0）を用います。 そして各ファイルには、1 つのネットワークインターフェースの属性、つまり IP
+          アドレスやサブネットマスクなどを定義します。 ファイルベース名は <span class=
+          "emphasis"><em>ifconfig</em></span> とします。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            前節に示した手順を実施しなかった場合、udev は、システムの物理的な特性に従った enp2s1
+            などのような名称をネットワークカードインターフェースに割り当てます。 インタフェース名がよく分からない場合は、システム起動した後に
+            <span class="command"><strong>ip link</strong></span> または
+            <span class="command"><strong>ls /sys/class/net</strong></span>
+            を実行すれば確認できます。
+          </p>
+          <p>
+            インターフェース名は、システム上で起動している udev デーモンの実装や設定に依存します。 LFS における udev
+            デーモン（<a class="xref" href="../chapter08/udev.html" title=
+            "8.76. Systemd-257.8 から取り出した Udev">「Systemd-257.8 から取り出した
+            Udev」</a>においてインストール）は、LFS システムを起動させるまでは動作しません。
+            したがってホストディストリビューションにおいて各コマンドを実行しても、LFS
+            上において用いられるインターフェース名が何であるのかは特定できません。 それは chroot 環境内においても同じことです。
+          </p>
+        </div>
+        <p>
+          以下のコマンドは、<span class="emphasis"><em>eth0</em></span> デバイスに対して固定 IP
+          アドレスを設定するファイルを生成する例です。
+        </p>
+        <pre class="userinput"><kbd class="command">cd /etc/sysconfig/
+cat &gt; ifconfig.<em class=
+"replaceable"><code>eth0</code></em> &lt;&lt; "EOF"
+<code class="literal">ONBOOT=<em class="replaceable"><code>yes</code></em>
+IFACE=<em class="replaceable"><code>eth0</code></em>
+SERVICE=<em class="replaceable"><code>ipv4-static</code></em>
+IP=<em class="replaceable"><code>192.168.1.2</code></em>
+GATEWAY=<em class="replaceable"><code>192.168.1.1</code></em>
+PREFIX=<em class="replaceable"><code>24</code></em>
+BROADCAST=<em class="replaceable"><code>192.168.1.255</code></em></code>
+EOF</kbd></pre>
+        <p>
+          イタリックで示す変数の値は、各ファイルごとにインターフェースが起動するように適切に設定してください。
+        </p>
+        <p>
+          <code class="envar">ONBOOT</code> 変数を <code class=
+          "literal">yes</code> に設定した場合、システム起動時に System V
+          ネットワークスクリプトがネットワークインターフェースカード (network interface card; NIC) を起動します。
+          <code class="literal">yes</code> 以外に設定すると、ネットワークスクリプトから NIC
+          は無視され、NIC が自動的に起動することはなくなります。 ネットワークインターフェースは <span class=
+          "command"><strong>ifup</strong></span> や <span class=
+          "command"><strong>ifdown</strong></span>
+          といったコマンドを使って、起動や停止を行うことができます。
+        </p>
+        <p>
+          <code class="envar">IFACE</code> 変数は、インターフェース名を定義します。 例えば eth0
+          といったものです。 これはネットワークデバイスの設定を行うすべてのファイルにて必要な定義です。 ファイル拡張子もこの設定に合わせます。
+        </p>
+        <p>
+          <code class="envar">SERVICE</code> 変数はIP アドレスの取得方法を指定します。
+          LFS-ブートスクリプトは IP アドレス割り当て方法をモジュール化しています。 そして <code class=
+          "filename">/lib/services/</code> ディレクトリに追加でファイルを生成すれば、他の IP
+          アドレス割り当て方法をとることもできます。 通常は DHCP (Dynamic Host Configuration
+          Protocol) において利用されるものです。 これについては BLFS ブックにて説明しています。
+        </p>
+        <p>
+          <code class="envar">GATEWAY</code> 変数は、デフォルトゲートウェイが存在するならその IP
+          アドレスを指定します。 存在しない場合は、の変数設定を行っている一行をコメントにします。
+        </p>
+        <p>
+          <code class="envar">PREFIX</code> 変数はサブネットマスクにて用いられるビット数を指定します。 IP
+          アドレスの各セグメントは 8 ビットで構成されます。 例えばサブネットマスクが 255.255.255.0
+          である場合、ネットワーク番号 (network number) を特定するには最初の 3 つのセグメント (24ビット)
+          が用いられることを意味します。 もし 255.255.255.240 であれば、サブネットは最初の 28 ビットということになります。
+          24 ビットを超えるプレフィックスは、通常は DSL やケーブルを用いたインターネットサービスプロバイダー (Internet
+          Service Provider; ISP) がよく利用しています。 上の例 (PREFIX=24) では、サブネットマスクは
+          255.255.255.0 となります。 <code class="envar">PREFIX</code>
+          変数の値は、ネットワーク環境に応じて変更してください。 これが省略された場合は、デフォルトの 24 が用いられます。
+        </p>
+        <p>
+          より詳しくは <span class="command"><strong>ifup</strong></span> の man
+          ページを参照してください。
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="resolv.conf" name="resolv.conf"></a>9.5.2. /etc/resolv.conf
+          ファイルの生成
+        </h2>
+        <p>
+          インターネットドメイン名を IP アドレスに、あるいはその逆の変換を行なうには、ドメイン名サービス (domain name
+          service; DNS) による名前解決を必要とします。 これを行うには ISP やネットワーク管理者が指定する DNS
+          サーバーの割り振り IP アドレスを <code class="filename">/etc/resolv.conf</code>
+          ファイルに設定します。 以下のコマンドによりこのファイルを生成します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; /etc/resolv.conf &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/resolv.conf
+
+domain <em class="replaceable"><code>&lt;Your Domain Name&gt;</code></em>
+nameserver <em class=
+"replaceable"><code>&lt;IP address of your primary nameserver&gt;</code></em>
+nameserver <em class=
+"replaceable"><code>&lt;IP address of your secondary nameserver&gt;</code></em>
+
+# End /etc/resolv.conf</code>
+EOF</kbd></pre>
+        <p>
+          <code class="varname">domain</code> ステートメントは省略するか、<code class=
+          "varname">search</code> ステートメントで代用することが可能です。 詳しくは resolv.conf の man
+          ページを参照してください。
+        </p>
+        <p>
+          <em class="replaceable"><code>&lt;IP address of the
+          nameserver&gt;</code></em> (ネームサーバーの IP アドレス) の部分には、DNS が割り振る適切な IP
+          アドレスを記述します。 IP アドレスの設定は複数行う場合もあります。(代替構成を必要とするなら二次サーバーを設けることでしょう。)
+          一つのサーバーのみで十分な場合は、二つめの <span class=
+          "emphasis"><em>nameserver</em></span> の行は削除します。
+          ローカルネットワークにおいてはルーターの IP アドレスを設定することになるでしょう。
+        </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            Google Public IPv4 DNS アドレスは 8.8.8.8 と 8.8.4.4 です。
+          </p>
+        </div>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="ch-config-hostname" name="ch-config-hostname"></a>9.5.3.
+          ホスト名の設定
+        </h2>
+        <p>
+          システム起動時には <code class="filename">/etc/hostname</code>
+          が参照されてシステムのホスト名が決定されます。
+        </p>
+        <p>
+          以下のコマンドを実行することで <code class="filename">/etc/hostname</code>
+          ファイルを生成するとともに、ホスト名を設定します。
+        </p>
+        <pre class="userinput"><kbd class="command">echo "<em class=
+        "replaceable"><code>&lt;lfs&gt;</code></em>" &gt; /etc/hostname</kbd></pre>
+        <p>
+          <em class="replaceable"><code>&lt;lfs&gt;</code></em>
+          の部分は、各システムにおいて定めたい名称に置き換えてください。 ここでは完全修飾ドメイン名 (Fully Qualified
+          Domain Name; FQDN) は指定しないでください。 その情報は <code class=
+          "filename">/etc/hosts</code> ファイルにて行います。
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="ch-config-hosts" name="ch-config-hosts"></a>9.5.4.
+          /etc/hosts ファイルの設定
+        </h2>
+        <p>
+          完全修飾ドメイン名 (Fully Qualified Domain Name; FQDN)、エイリアスの各設定を
+          <code class="filename">/etc/hosts</code> ファイルにて行います。 固定 IP
+          アドレスを利用する場合は、その IP アドレスも定めることが必要です。 その文法は以下のようになります。
+        </p>
+        <pre class="screen"><code class=
+        "literal">IP_address myhost.example.org aliases</code></pre>
+        <p>
+          インターネットに公開されていないコンピューターである場合 (つまり登録ドメインであったり、あらかじめ IP
+          アドレスが割り当てられていたりする場合。 普通のユーザーはこれを持ちません。) IP アドレスはプライベートネットワーク IP
+          アドレスの範囲で指定します。 以下がそのアドレス範囲です。
+        </p>
+        <pre class="screen"><code class=
+        "literal">Private Network Address Range      Normal Prefix
+10.0.0.1 - 10.255.255.254           8
+172.x.0.1 - 172.x.255.254           16
+192.168.y.1 - 192.168.y.254         24</code></pre>
+        <p>
+          x は 16 から 31、y は 0 から 255 の範囲の数値です。
+        </p>
+        <p>
+          IP アドレスの例は 192.168.1.2 となります。
+        </p>
+        <p>
+          インターネット上にコンピューターを公開しようとする場合、正しい FQDN
+          はドメイン名そのものか、あるいはプレフィックス（たいていはホスト名）とドメイン名を<span class=
+          "quote">「<span class="quote">.</span>」</span>でつなげて記述します。
+          そしてドメインプロバイダーに問い合わせて、FQDN を公開 IP アドレスとして解決する必要があります。
+        </p>
+        <p>
+          インターネット上にコンピューターが公開されていない場合であっても、特定のプログラム、たとえば MTA
+          などにおいては、正常な処理が行われるように FQDN が必要になります。 特別な FQDN <code class=
+          "literal">localhost.localdomain</code> は、その目的で利用されます。
+        </p>
+        <p>
+          以下のようにして <code class="filename">/etc/hosts</code> ファイルを生成します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">cat &gt; /etc/hosts &lt;&lt; "EOF"
+<code class="literal"># Begin /etc/hosts
+
+127.0.0.1 localhost.localdomain localhost
+127.0.1.1 <em class="replaceable"><code>&lt;FQDN&gt;</code></em> <em class=
+"replaceable"><code>&lt;HOSTNAME&gt;</code></em>
+<em class="replaceable"><code>&lt;192.168.1.2&gt;</code></em> <em class=
+"replaceable"><code>&lt;FQDN&gt;</code></em> <em class=
+"replaceable"><code>&lt;HOSTNAME&gt;</code></em> <em class=
+"replaceable"><code>[alias1] [alias2 ...]</code></em>
+::1       localhost ip6-localhost ip6-loopback
+ff02::1   ip6-allnodes
+ff02::2   ip6-allrouters
+
+# End /etc/hosts</code>
+EOF</kbd></pre>
+        <p>
+          <em class="replaceable"><code>&lt;192.168.1.2&gt;</code></em>,
+          <em class="replaceable"><code>&lt;FQDN&gt;</code></em>, <em class=
+          "replaceable"><code>&lt;HOSTNAME.example.org&gt;</code></em>
+          の部分は利用状況に応じて書き換えてください。 (ネットワーク管理者から IP
+          アドレスを指定されている場合や、既存のネットワーク環境に接続する場合など。). エイリアスの記述は省略しても構いません。
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="symlinks.html" title="デバイスの管理">戻る</a>
+          <p>
+            デバイスの管理
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="usage.html" title=
+          "System V ブートスクリプトの利用と設定">次へ</a>
+          <p>
+            System V ブートスクリプトの利用と設定
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter09.html" title="第9章 システム設定">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.4">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

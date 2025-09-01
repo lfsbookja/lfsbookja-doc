@@ -1,0 +1,419 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      第IV部 LFSシステムの構築
+    </title>
+    <link rel="stylesheet" type="text/css" href="stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.4">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.4
+      </h4>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="chapter07/cleanup.html" title=
+          "一時的システムのクリーンアップと保存">戻る</a>
+          <p>
+            一時的システムのクリーンアップと保存
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="chapter08/chapter08.html" title=
+          "基本的なソフトウェアのインストール">次へ</a>
+          <p>
+            基本的なソフトウェアのインストール
+          </p>
+        </li>
+        <li class="up">.
+        </li>
+        <li class="home">
+          <a accesskey="h" href="index.html" title=
+          "Linux From Scratch - Version 12.4">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="part">
+      <a id="part4" name="part4"></a>IV. LFSシステムの構築
+    </h1>
+    <div class="part">
+      <div class="toc">
+        <h3>
+          目次
+        </h3>
+        <ul>
+          <li class="chapter">
+            <h4>
+              8. 基本的なソフトウェアのインストール
+            </h4>
+            <ul>
+              <li class="sect1">
+                <a href="chapter08/introduction.html">はじめに</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/pkgmgt.html">パッケージ管理</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/man-pages.html">Man-pages-6.15</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/iana-etc.html">Iana-Etc-20250807</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/glibc.html">Glibc-2.42</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/zlib.html">Zlib-1.3.1</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/bzip2.html">Bzip2-1.0.8</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/xz.html">Xz-5.8.1</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/lz4.html">Lz4-1.10.0</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/zstd.html">Zstd-1.5.7</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/file.html">File-5.46</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/readline.html">Readline-8.3</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/m4.html">M4-1.4.20</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/bc.html">Bc-7.0.3</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/flex.html">Flex-2.6.4</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/tcl.html">Tcl-8.6.16</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/expect.html">Expect-5.45.4</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/dejagnu.html">DejaGNU-1.6.3</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/pkgconf.html">Pkgconf-2.5.1</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/binutils.html">Binutils-2.45</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/gmp.html">GMP-6.3.0</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/mpfr.html">MPFR-4.2.2</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/mpc.html">MPC-1.3.1</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/attr.html">Attr-2.5.2</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/acl.html">Acl-2.3.2</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/libcap.html">Libcap-2.76</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/libxcrypt.html">Libxcrypt-4.4.38</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/shadow.html">Shadow-4.18.0</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/gcc.html">GCC-15.2.0</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/ncurses.html">Ncurses-6.5-20250809</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/sed.html">Sed-4.9</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/psmisc.html">Psmisc-23.7</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/gettext.html">Gettext-0.26</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/bison.html">Bison-3.8.2</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/grep.html">Grep-3.12</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/bash.html">Bash-5.3</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/libtool.html">Libtool-2.5.4</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/gdbm.html">GDBM-1.26</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/gperf.html">Gperf-3.3</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/expat.html">Expat-2.7.1</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/inetutils.html">Inetutils-2.6</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/less.html">Less-679</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/perl.html">Perl-5.42.0</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/xml-parser.html">XML::Parser-2.47</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/intltool.html">Intltool-0.51.0</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/autoconf.html">Autoconf-2.72</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/automake.html">Automake-1.18.1</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/openssl.html">OpenSSL-3.5.2</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/libelf.html">Elfutils-0.193 から取り出した
+                libelf</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/libffi.html">Libffi-3.5.2</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/Python.html">Python-3.13.7</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/flit-core.html">Flit-Core-3.12.0</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/packaging.html">Packaging-25.0</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/wheel.html">Wheel-0.46.1</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/setuptools.html">Setuptools-80.9.0</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/ninja.html">Ninja-1.13.1</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/meson.html">Meson-1.8.3</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/kmod.html">Kmod-34.2</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/coreutils.html">Coreutils-9.7</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/diffutils.html">Diffutils-3.12</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/gawk.html">Gawk-5.3.2</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/findutils.html">Findutils-4.10.0</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/groff.html">Groff-1.23.0</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/grub.html">GRUB-2.12</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/gzip.html">Gzip-1.14</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/iproute2.html">IPRoute2-6.16.0</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/kbd.html">Kbd-2.8.0</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/libpipeline.html">Libpipeline-1.5.8</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/make.html">Make-4.4.1</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/patch.html">Patch-2.8</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/tar.html">Tar-1.35</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/texinfo.html">Texinfo-7.2</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/vim.html">Vim-9.1.1629</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/markupsafe.html">MarkupSafe-3.0.2</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/jinja2.html">Jinja2-3.1.6</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/udev.html">Systemd-257.8 から取り出した Udev</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/man-db.html">Man-DB-2.13.1</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/procps-ng.html">Procps-ng-4.0.5</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/util-linux.html">Util-linux-2.41.1</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/e2fsprogs.html">E2fsprogs-1.47.3</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/sysklogd.html">Sysklogd-2.7.2</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/sysvinit.html">SysVinit-3.14</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/aboutdebug.html">デバッグシンボルについて</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/stripping.html">ストリップ</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter08/cleanup.html">仕切り直し</a>
+              </li>
+            </ul>
+          </li>
+          <li class="chapter">
+            <h4>
+              9. システム設定
+            </h4>
+            <ul>
+              <li class="sect1">
+                <a href="chapter09/introduction.html">はじめに</a>
+              </li>
+              <li class="sect1">
+                <a href=
+                "chapter09/bootscripts.html">LFS-ブートスクリプト-20250827</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter09/udev.html">デバイスとモジュールの扱いについて</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter09/symlinks.html">デバイスの管理</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter09/network.html">全般的なネットワークの設定</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter09/usage.html">System V ブートスクリプトの利用と設定</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter09/locale.html">システムロケールの設定</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter09/inputrc.html">/etc/inputrc ファイルの生成</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter09/etcshells.html">/etc/shells ファイルの生成</a>
+              </li>
+            </ul>
+          </li>
+          <li class="chapter">
+            <h4>
+              10. LFS システムのブート設定
+            </h4>
+            <ul>
+              <li class="sect1">
+                <a href="chapter10/introduction.html">はじめに</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter10/fstab.html">/etc/fstab ファイルの生成</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter10/kernel.html">Linux-6.16.1</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter10/grub.html">GRUB を用いたブートプロセスの設定</a>
+              </li>
+            </ul>
+          </li>
+          <li class="chapter">
+            <h4>
+              11. 作業終了
+            </h4>
+            <ul>
+              <li class="sect1">
+                <a href="chapter11/theend.html">作業終了</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter11/getcounted.html">ユーザー登録</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter11/reboot.html">システムの再起動</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter11/whatnow.html">さらなる情報</a>
+              </li>
+              <li class="sect1">
+                <a href="chapter11/afterlfs.html">LFS の次に向けて</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="chapter07/cleanup.html" title=
+          "一時的システムのクリーンアップと保存">戻る</a>
+          <p>
+            一時的システムのクリーンアップと保存
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="chapter08/chapter08.html" title=
+          "基本的なソフトウェアのインストール">次へ</a>
+          <p>
+            基本的なソフトウェアのインストール
+          </p>
+        </li>
+        <li class="up">.
+        </li>
+        <li class="home">
+          <a accesskey="h" href="index.html" title=
+          "Linux From Scratch - Version 12.4">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

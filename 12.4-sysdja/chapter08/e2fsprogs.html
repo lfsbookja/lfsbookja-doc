@@ -1,0 +1,753 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.81. E2fsprogs-1.47.3
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.4-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.4-systemd
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="util-linux.html" title=
+          "Util-linux-2.41.1">戻る</a>
+          <p>
+            Util-linux-2.41.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="aboutdebug.html" title="デバッグシンボルについて">次へ</a>
+          <p>
+            デバッグシンボルについて
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.4-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-system-e2fsprogs" name="ch-system-e2fsprogs"></a>8.81.
+      E2fsprogs-1.47.3
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          E2fsprogs パッケージは <code class="systemitem">ext2</code>
+          ファイルシステムを扱うユーティリティを提供します。これは同時に <code class=
+          "systemitem">ext3</code>、<code class="systemitem">ext4</code>
+          ジャーナリングファイルシステムもサポートします。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">回転式ディスクで 2.4 SBU、SSD で 0.5 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">100 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.81.1. E2fsprogs のインストール
+        </h2>
+        <p>
+          E2fsprogs パッケージは、ソースディレクトリ内にサブディレクトリを作ってビルドすることが推奨されています。
+        </p>
+        <pre class="userinput"><kbd class="command">mkdir -v build
+cd       build</kbd></pre>
+        <p>
+          E2fsprogs をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">../configure --prefix=/usr       \
+             --sysconfdir=/etc   \
+             --enable-elf-shlibs \
+             --disable-libblkid  \
+             --disable-libuuid   \
+             --disable-uuidd     \
+             --disable-fsck</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>configure オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-elf-shlibs</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このオプションは、本パッケージ内のプログラムが利用する共有ライブラリを生成します。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--disable-*</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このオプションは <code class="systemitem">libuuid</code>
+                ライブラリ、<code class="systemitem">libblkid</code>
+                ライブラリ、<code class="systemitem">uuidd</code> デーモン、<span class=
+                "command"><strong>fsck</strong></span>
+                ラッパーをいずれもビルドせずインストールしないようにします。 これらは util-linux
+                パッケージによって、より最新のものがインストールされています。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class="command">make check</kbd></pre>
+        <p>
+          <code class="filename">m_assume_storage_prezeroed</code>
+          というテストが１つだけ失敗します。 別のテスト <code class="filename">m_rootdir_acl</code>
+          というものは、LFS システム向けに <code class="systemitem">ext4</code>
+          以外を利用している場合に失敗します。
+        </p>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+        <p>
+          不要なスタティックライブラリを削除します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">rm -fv /usr/lib/{libcom_err,libe2p,libext2fs,libss}.a</kbd></pre>
+        <p>
+          本パッケージは gzip 圧縮された<code class="filename">.info</code>
+          ファイルをインストールしますが、共通的な <code class="filename">dir</code> を更新しません。
+          そこで以下のコマンドにより gzip ファイルを解凍した上で <code class="filename">dir</code>
+          ファイルを更新します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">gunzip -v /usr/share/info/libext2fs.info.gz
+install-info --dir-file=/usr/share/info/dir /usr/share/info/libext2fs.info</kbd></pre>
+        <p>
+          必要なら、以下のコマンドを実行して追加のドキュメントをインストールします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">makeinfo -o      doc/com_err.info ../lib/et/com_err.texinfo
+install -v -m644 doc/com_err.info /usr/share/info
+install-info --dir-file=/usr/share/info/dir /usr/share/info/com_err.info</kbd></pre>
+      </div>
+      <div class="configuration" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="conf-e2fsprogs" name="conf-e2fsprogs"></a>8.81.2. E2fsprogs
+          の設定
+        </h2>
+        <p>
+          <code class="filename">/etc/mke2fs.conf</code> では <span class=
+          "command"><strong>mke2fs</strong></span>
+          のさまざまなコマンドラインオプションに対するデフォルト値が設定されてます。
+          このファイルにおいて、必要となるデフォルト値を設定することができます。 たとえば（LFS や BLFS
+          には含まれていない）ユーティリティーの中には、<code class=
+          "literal">metadata_csum_seed</code> 機能が有効になった <code class=
+          "systemitem">ext4</code> ファイルシステムを認識できないものがあります。 <span class=
+          "bold"><strong>もし</strong></span>
+          そのようなユーティリティーを必要とする場合は、以下のコマンドを通じて <code class=
+          "systemitem">ext4</code> のデフォルト機能を取り除くことができます。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed 's/metadata_csum_seed,//' -i /etc/mke2fs.conf</kbd></pre>
+        <p>
+          詳しくは man ページ <a class="ulink" href=
+          "https://man.archlinux.org/man/mke2fs.conf.5">mke2fs.conf(5)</a>
+          を参照してください。
+        </p>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-e2fsprogs" name="contents-e2fsprogs"></a>8.81.3.
+          E2fsprogs の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">badblocks, chattr, compile_et, debugfs, dumpe2fs,
+              e2freefrag, e2fsck, e2image, e2label, e2mmpstatus, e2scrub,
+              e2scrub_all, e2undo, e4crypt, e4defrag, filefrag, fsck.ext2,
+              fsck.ext3, fsck.ext4, logsave, lsattr, mk_cmds, mke2fs,
+              mkfs.ext2, mkfs.ext3, mkfs.ext4, mklost+found, resize2fs,
+              tune2fs</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libcom_err.so, libe2p.so, libext2fs.so,
+              libss.so</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/include/e2p, /usr/include/et,
+              /usr/include/ext2fs, /usr/include/ss, /usr/lib/e2fsprogs,
+              /usr/share/et, /usr/share/ss</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="badblocks" name="badblocks"></a><span class=
+                    "term"><span class=
+                    "command"><strong>badblocks</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    デバイス (通常はディスクパーティション) の不良ブロックを検索します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="chattr" name="chattr"></a><span class=
+                    "term"><span class=
+                    "command"><strong>chattr</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <code class="systemitem">ext{234}</code>
+                    ファイルシステム上のファイル属性を変更します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="compile_et" name="compile_et"></a><span class=
+                    "term"><span class=
+                    "command"><strong>compile_et</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    エラーテーブルコンパイラー。 これはエラーコード名とメッセージの一覧を、<code class=
+                    "filename">com_err</code> ライブラリを利用する C ソースコードとして変換するものです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="debugfs" name="debugfs"></a><span class=
+                    "term"><span class=
+                    "command"><strong>debugfs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルシステムデバッガー。 これは <code class=
+                    "systemitem">ext{234}</code> ファイルシステムの状態を調査し変更することができます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dumpe2fs" name="dumpe2fs"></a><span class=
+                    "term"><span class=
+                    "command"><strong>dumpe2fs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたデバイス上にあるファイルシステムについて、スーパーブロックの情報とブロックグループの情報を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="e2freefrag" name="e2freefrag"></a><span class=
+                    "term"><span class=
+                    "command"><strong>e2freefrag</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    フリースペースのフラグメント情報を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="e2fsck" name="e2fsck"></a><span class=
+                    "term"><span class=
+                    "command"><strong>e2fsck</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <code class="systemitem">ext{234}</code>
+                    ファイルシステムをチェックし、必要なら修復を行うことができます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="e2image" name="e2image"></a><span class=
+                    "term"><span class=
+                    "command"><strong>e2image</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <code class="systemitem">ext{234}</code>
+                    ファイルシステムの重要なデータをファイルに保存します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="e2label" name="e2label"></a><span class=
+                    "term"><span class=
+                    "command"><strong>e2label</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたデバイス上にある <code class="systemitem">ext{234}</code>
+                    ファイルシステムのラベルを表示または変更します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="e2mmpstatus" name="e2mmpstatus"></a><span class=
+                    "term"><span class=
+                    "command"><strong>e2mmpstatus</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <code class="systemitem">ext4</code> ファイルシステムの
+                    MMP（Multiple Mount Protection）ステータスをチェックします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="e2scrub" name="e2scrub"></a><span class=
+                    "term"><span class=
+                    "command"><strong>e2scrub</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    マウントされている <code class="systemitem">ext{234}</code>
+                    ファイルシステムの内容をチェックします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="e2scrub_all" name="e2scrub_all"></a><span class=
+                    "term"><span class=
+                    "command"><strong>e2scrub_all</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    マウントされているすべての <code class="systemitem">ext{234}</code>
+                    ファイルシステムのエラーをチェックします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="e2undo" name="e2undo"></a><span class=
+                    "term"><span class=
+                    "command"><strong>e2undo</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    デバイス上にある <code class="systemitem">ext{234}</code>
+                    ファイルシステムの undo ログを再実行します。 （これは E2fsprogs プログラムが処理に失敗した際に
+                    undo を行うこともできます。）
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="e4crypt" name="e4crypt"></a><span class=
+                    "term"><span class=
+                    "command"><strong>e4crypt</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <code class="systemitem">Ext4</code>
+                    ファイルシステムの暗号化ユーティリティー。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="e4defrag" name="e4defrag"></a><span class=
+                    "term"><span class=
+                    "command"><strong>e4defrag</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <code class="systemitem">ext4</code>
+                    ファイルシステムに対するオンラインのデフラグプログラム。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="filefrag" name="filefrag"></a><span class=
+                    "term"><span class=
+                    "command"><strong>filefrag</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    特定のファイルがどのようにデフラグ化しているかを表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fsck.ext2" name="fsck.ext2"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fsck.ext2</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    デフォルトでは <code class="systemitem">ext2</code>
+                    ファイルシステムをチェックします。 これは <span class=
+                    "command"><strong>e2fsck</strong></span> へのハードリンクです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fsck.ext3" name="fsck.ext3"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fsck.ext3</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    デフォルトでは <code class="systemitem">ext3</code>
+                    ファイルシステムをチェックします。 これは <span class=
+                    "command"><strong>e2fsck</strong></span> へのハードリンクです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fsck.ext4" name="fsck.ext4"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fsck.ext4</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    デフォルトでは <code class="systemitem">ext4</code>
+                    ファイルシステムをチェックします。 これは <span class=
+                    "command"><strong>e2fsck</strong></span> へのハードリンクです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="logsave" name="logsave"></a><span class=
+                    "term"><span class=
+                    "command"><strong>logsave</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    コマンドの出力結果をログファイルに保存します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lsattr" name="lsattr"></a><span class=
+                    "term"><span class=
+                    "command"><strong>lsattr</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <code class="systemitem">ext2</code>
+                    ファイルシステム上のファイル属性を一覧表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mk_cmds" name="mk_cmds"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mk_cmds</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    コマンド名とヘルプメッセージの一覧を、サブシステムライブラリ <code class=
+                    "filename">libss</code> を利用する C ソースコードとして変換するものです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mke2fs" name="mke2fs"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mke2fs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたデバイス上に <code class="systemitem">ext{234}</code>
+                    ファイルシステムを生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mkfs.ext2" name="mkfs.ext2"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mkfs.ext2</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    デフォルトでは <code class="systemitem">ext2</code>
+                    ファイルシステムを生成します。 これは <span class=
+                    "command"><strong>mke2fs</strong></span> へのハードリンクです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mkfs.ext3" name="mkfs.ext3"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mkfs.ext3</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    デフォルトでは <code class="systemitem">ext3</code>
+                    ファイルシステムを生成します。 これは <span class=
+                    "command"><strong>mke2fs</strong></span> へのハードリンクです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mkfs.ext4" name="mkfs.ext4"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mkfs.ext4</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    デフォルトでは <code class="systemitem">ext4</code>
+                    ファイルシステムを生成します。 これは <span class=
+                    "command"><strong>mke2fs</strong></span> へのハードリンクです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mklost-found" name="mklost-found"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mklost+found</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <code class="systemitem">ext{234}</code> ファイルシステム上に
+                    <code class="filename">lost+found</code> ディレクトリを作成します。
+                    これはそのディレクトリ内にあらかじめディスクブロックを割り当てておくことにより <span class=
+                    "command"><strong>e2fsck</strong></span> コマンド処理を軽減させます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="resize2fs" name="resize2fs"></a><span class=
+                    "term"><span class=
+                    "command"><strong>resize2fs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <code class="systemitem">ext{234}</code>
+                    ファイルシステムを拡張または縮小するために利用します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tune2fs" name="tune2fs"></a><span class=
+                    "term"><span class=
+                    "command"><strong>tune2fs</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <code class="systemitem">ext{234}</code>
+                    ファイルシステム上にて調整可能なシステムパラメーターを調整します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libcom_err" name="libcom_err"></a><span class=
+                    "term"><code class="filename">libcom_err</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    共通的なエラー表示ルーチン。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libe2p" name="libe2p"></a><span class=
+                    "term"><code class="filename">libe2p</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class=
+                    "command"><strong>dumpe2fs</strong></span>、<span class=
+                    "command"><strong>chattr</strong></span>、<span class=
+                    "command"><strong>lsattr</strong></span> の各コマンドが利用します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libext2fs" name="libext2fs"></a><span class=
+                    "term"><code class="filename">libext2fs</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ユーザーレベルのプログラムが <code class="systemitem">ext{234}</code>
+                    ファイルシステムを操作可能とするためのルーチンを提供します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libss" name="libss"></a><span class=
+                    "term"><code class="filename">libss</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>debugfs</strong></span>
+                    コマンドが利用します。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="util-linux.html" title=
+          "Util-linux-2.41.1">戻る</a>
+          <p>
+            Util-linux-2.41.1
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="aboutdebug.html" title="デバッグシンボルについて">次へ</a>
+          <p>
+            デバッグシンボルについて
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.4-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

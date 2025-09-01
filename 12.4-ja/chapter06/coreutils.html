@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      6.5. Coreutils-9.7
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.4">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.4
+      </h4>
+      <h3>
+        第6章 クロスコンパイルによる一時的ツール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="bash.html" title="Bash-5.3">戻る</a>
+          <p>
+            Bash-5.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="diffutils.html" title=
+          "Diffutils-3.12">次へ</a>
+          <p>
+            Diffutils-3.12
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter06.html" title=
+          "第6章 クロスコンパイルによる一時的ツール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.4">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-tools-coreutils" name="ch-tools-coreutils"></a>6.5.
+      Coreutils-9.7
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Coreutils パッケージは、あらゆるオペレーティングシステムが必要とする基本的なユーティリティプログラムを提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.3 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">181 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          6.5.1. Coreutils のインストール
+        </h2>
+        <p>
+          Coreutils をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr                     \
+            --host=$LFS_TGT                   \
+            --build=$(build-aux/config.guess) \
+            --enable-install-program=hostname \
+            --enable-no-install-program=kill,uptime</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>configure オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><code class=
+              "envar">--enable-install-program=hostname</code></span>
+            </dt>
+            <dd>
+              <p>
+                このオプションは <span class=
+                "command"><strong>hostname</strong></span>
+                プログラムを生成しインストールすることを指示します。 このプログラムはデフォルトでは生成されません。 そしてこれは
+                Perl のテストスイートを実行するのに必要となります。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make DESTDIR=$LFS install</kbd></pre>
+        <p>
+          プログラムを、最終的に期待されるディレクトリに移動させます。
+          この一時的環境にとっては必要なことではありませんが、これを実施するのは、実行モジュールの場所をハードコーディングしているプログラムがあるからです。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mv -v $LFS/usr/bin/chroot              $LFS/usr/sbin
+mkdir -pv $LFS/usr/share/man/man8
+mv -v $LFS/usr/share/man/man1/chroot.1 $LFS/usr/share/man/man8/chroot.8
+sed -i 's/"1"/"8"/'                    $LFS/usr/share/man/man8/chroot.8</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <p>
+          本パッケージの詳細は <a class="xref" href=
+          "../chapter08/coreutils.html#contents-coreutils" title=
+          "8.59.2. Coreutils の構成">「Coreutils の構成」</a>を参照してください。
+        </p>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="bash.html" title="Bash-5.3">戻る</a>
+          <p>
+            Bash-5.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="diffutils.html" title=
+          "Diffutils-3.12">次へ</a>
+          <p>
+            Diffutils-3.12
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter06.html" title=
+          "第6章 クロスコンパイルによる一時的ツール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.4">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      2.7. 新しいパーティションのマウント
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.4-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.4-systemd
+      </h4>
+      <h3>
+        第2章 ホストシステムの準備
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="aboutlfs.html" title=
+          "変数 $LFS と umask の設定">戻る</a>
+          <p>
+            変数 $LFS と umask の設定
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="../chapter03/chapter03.html" title=
+          "パッケージとパッチ">次へ</a>
+          <p>
+            パッケージとパッチ
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter02.html" title=
+          "第2章 ホストシステムの準備">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.4-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-partitioning-mounting" name=
+      "ch-partitioning-mounting"></a>2.7. 新しいパーティションのマウント
+    </h1>
+    <div class="sect1" lang="ja" xml:lang="ja">
+      <p>
+        ファイルシステムが生成できたら、ホストシステムからアクセスできるようにパーティションをマウントします。 本書では前に示したように、環境変数
+        <code class="envar">LFS</code> に指定されたディレクトリに対してファイルシステムをマウントするものとします。
+      </p>
+      <p>
+        厳密に言うと<span class="quote">「<span class=
+        "quote">パーティションはマウントできません</span>」</span>。
+        マウントできるのは、そのパーティション内に埋め込まれている<span class=
+        "emphasis"><em>ファイルシステム</em></span>です。
+        ただし１つのパーティションに複数のファイルシステムを収めることはできないので、パーティションとそこに関連づいたファイルシステムのことを、同一のものとして表現するわけです。
+      </p>
+      <p>
+        以下のコマンドによってマウントポイントを生成し、LFS ファイルシステムをマウントします。
+      </p>
+      <pre class="userinput"><kbd class="command">mkdir -pv $LFS
+mount -v -t ext4 /dev/<em class=
+"replaceable"><code>&lt;xxx&gt;</code></em> $LFS</kbd></pre>
+      <p>
+        <em class="replaceable"><code>&lt;xxx&gt;</code></em> の部分は LFS
+        パーティション名に合わせて置き換えてください。
+      </p>
+      <p>
+        LFS に対して複数のパーティションを用いる場合 (例えば <code class="filename">/</code> と
+        <code class="filename">/home</code> が別パーティションである場合)
+        は、以下を実行してそれぞれをマウントします。
+      </p>
+      <pre class="userinput"><kbd class="command">mkdir -pv $LFS
+mount -v -t ext4 /dev/<em class=
+"replaceable"><code>&lt;xxx&gt;</code></em> $LFS
+mkdir -v $LFS/home
+mount -v -t ext4 /dev/<em class=
+"replaceable"><code>&lt;yyy&gt;</code></em> $LFS/home</kbd></pre>
+      <p>
+        <em class="replaceable"><code>&lt;xxx&gt;</code></em> や <em class=
+        "replaceable"><code>&lt;yyy&gt;</code></em>
+        の部分は、それぞれ適切なパーティション名に置き換えてください。
+      </p>
+      <p>
+        (LFS システムにおいて新たに生成されるファイルシステムのルートディレクトリである) <code class=
+        "filename">$LFS</code> ディレクトリに対して、その所有者とパーミッションモードをそれぞれ <code class=
+        "systemitem">root</code> および <code class="literal">755</code> に設定します。
+        ホストディストロがこれとは違う値をデフォルトとしている場合を考慮して行うものです。
+      </p>
+      <pre class="userinput"><kbd class="command">chown root:root $LFS
+chmod 755 $LFS</kbd></pre>
+      <p>
+        この新しいパーティションは特別な制限オプション (<code class=
+        "option">nosuid</code>、<code class="option">nodev</code> など)
+        は設定せずにマウントします。 <span class="command"><strong>mount</strong></span>
+        コマンドの実行時に引数を与えずに実行すれば、LFS パーティションがどのようなオプション設定によりマウントされているかが分かります。 もし
+        <code class="option">nosuid</code>、<code class="option">nodev</code>
+        オプションが設定されていたら、マウントし直してください。
+      </p>
+      <div class="admon warning">
+        <img alt="[警告]" src="../images/warning.png" />
+        <h3>
+          警告
+        </h3>
+        <p>
+          上で説明した内容は、LFS 構築作業においてコンピューターを再起動しない場合の話です。
+          コンピューターを一度シャットダウンした場合は、LFS 構築作業の再開のたびに LFS パーティションを再マウントする必要があります。
+          あるいはブート時に自動マウントをしたいのであれば、ホストシステムの <code class=
+          "filename">/etc/fstab</code> ファイルを書き換えておく必要があります。 例えば <code class=
+          "filename">/etc/fstab</code> ファイルに以下のような行を追加します。
+        </p>
+        <pre class="screen">/dev/<em class=
+        "replaceable"><code>&lt;xxx&gt;</code></em>  /mnt/lfs ext4   defaults      1     1</pre>
+        <p>
+          追加のパーティションを利用している場合は、それらを書き加えることも忘れないでください。
+        </p>
+      </div>
+      <p>
+        <code class="systemitem">swap</code> パーティションを用いる場合は、<span class=
+        "command"><strong>swapon</strong></span> コマンドを使って利用可能にしてください。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">/sbin/swapon -v /dev/<em class=
+      "replaceable"><code>&lt;zzz&gt;</code></em></kbd></pre>
+      <p>
+        <em class="replaceable"><code>&lt;zzz&gt;</code></em> の部分は
+        <code class="systemitem">swap</code> パーティション名に置き換えてください。
+      </p>
+      <p>
+        こうして新たな LFS パーティションが整いました。 次はパッケージのダウンロードです。
+      </p>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="aboutlfs.html" title=
+          "変数 $LFS と umask の設定">戻る</a>
+          <p>
+            変数 $LFS と umask の設定
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="../chapter03/chapter03.html" title=
+          "パッケージとパッチ">次へ</a>
+          <p>
+            パッケージとパッチ
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter02.html" title=
+          "第2章 ホストシステムの準備">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.4-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

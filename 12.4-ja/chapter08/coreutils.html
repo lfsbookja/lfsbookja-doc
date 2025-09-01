@@ -1,0 +1,1742 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.59. Coreutils-9.7
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-12.4">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version 12.4
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="kmod.html" title="Kmod-34.2">戻る</a>
+          <p>
+            Kmod-34.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="diffutils.html" title=
+          "Diffutils-3.12">次へ</a>
+          <p>
+            Diffutils-3.12
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.4">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-system-coreutils" name="ch-system-coreutils"></a>8.59.
+      Coreutils-9.7
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          Coreutils パッケージは、あらゆるオペレーティングシステムが必要とする基本的なユーティリティプログラムを提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">1.2 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">180 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.59.1. Coreutils のインストール
+        </h2>
+        <p>
+          はじめにアップストリームが認識しているセキュリティ問題に関するパッチを適用します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../coreutils-9.7-upstream_fix-1.patch</kbd></pre>
+        <p>
+          POSIX によると Coreutils
+          により生成されるプログラムは、マルチバイトロケールであっても文字データを正しく取り扱うことを求めています。
+          以下のパッチは標準に準拠することと、国際化処理に関連するバグを解消することを行います。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../coreutils-9.7-i18n-1.patch</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            このパッチには多くのバグがありました。 新たなバグを発見したら Coreutils
+            の開発者に報告する前に、このパッチの適用前でもバグが再現するかどうかを確認してください。
+          </p>
+        </div>
+        <p>
+          Coreutils をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class="command">autoreconf -fv
+automake -af
+FORCE_UNSAFE_CONFIGURE=1 ./configure \
+            --prefix=/usr            \
+            --enable-no-install-program=kill,uptime</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>コマンドと configure オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><span class="command"><strong>autoreconf
+              -fv</strong></span></span>
+            </dt>
+            <dd>
+              <p>
+                国際化対応を行うパッチによってビルドシステムが修正されます。 したがって設定ファイル類を再生成する必要があります。
+                通常なら <em class="parameter"><code>-i</code></em>
+                オプションを使って標準的な補助 (auxilary)
+                ファイルのアップデートを行うところですが、本パッケージに関してはそれが通用しません。 それは <code class=
+                "filename">configure.ac</code> が古い gettext バージョンを指定しているためです。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><span class="command"><strong>automake
+              -af</strong></span></span>
+            </dt>
+            <dd>
+              <p>
+                automake の補助 (auxilary) ファイルは、<span class=
+                "command"><strong>autoreconf</strong></span> において <em class=
+                "parameter"><code>-i</code></em> オプションを指定しなかったため更新されていません。
+                以下のコマンドによってこれを更新し、ビルドが失敗しないようにします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><code class=
+              "envar">FORCE_UNSAFE_CONFIGURE=1</code></span>
+            </dt>
+            <dd>
+              <p>
+                この環境変数は <code class="systemitem">root</code>
+                ユーザーによりパッケージをビルドできるようにします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-no-install-program=kill,uptime</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                指定のプログラムは、他のパッケージからインストールするため Coreutils からはインストールしないことを指示します。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          テストスイートを実行しない場合は<span class="quote">「<span class=
+          "quote">パッケージをインストールします。</span>」</span>と書かれたところまで読み飛ばしてください。
+        </p>
+        <p>
+          ここからテストスイートを実施していきます。 まずは <code class="systemitem">root</code>
+          ユーザーに対するテストを実行します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">make NON_ROOT_USERNAME=tester check-root</kbd></pre>
+        <p>
+          ここからは <code class="systemitem">tester</code> ユーザー向けのテストを実行します。
+          ただしテストの中には、複数のグループに属するユーザーを必要とするものがあります。
+          そのようなテストが確実に実施されるように、一時的なグループを作って <code class=
+          "systemitem">tester</code> ユーザーがそれに属するようにします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">groupadd -g 102 dummy -U tester</kbd></pre>
+        <p>
+          特定のファイルのパーミッションを変更して <code class="systemitem">root</code>
+          ユーザー以外でもコンパイルとテストができるようにします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">chown -R tester . </kbd></pre>
+        <p>
+          テストを実行します。 (テストの実行は標準入力を <code class="filename">/dev/null</code>
+          とします。 そうしておかないと、LFS をグラフィック端末上でビルドしている場合、あるいは SSH 上や GNU Screen
+          上でのセッションで実行している場合に、2 つのテストが失敗します。 この理由は標準入力がホストディストロにおいて PTY
+          に接続されているからであり、その PTY のようなデバイスノードは、LFS の chroot 環境からはアクセスできないからです。)
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">su tester -c "PATH=$PATH make -k RUN_EXPENSIVE_TESTS=yes check" \
+   &lt; /dev/null</kbd></pre>
+        <p>
+          一時的に作成したグループを削除します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">groupdel dummy</kbd></pre>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+        <p>
+          FHS が規定しているディレクトリにプログラムを移します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">mv -v /usr/bin/chroot /usr/sbin
+mv -v /usr/share/man/man1/chroot.1 /usr/share/man/man8/chroot.8
+sed -i 's/"1"/"8"/' /usr/share/man/man8/chroot.8</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-coreutils" name="contents-coreutils"></a>8.59.2.
+          Coreutils の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">[, b2sum, base32, base64, basename, basenc, cat,
+              chcon, chgrp, chmod, chown, chroot, cksum, comm, cp, csplit,
+              cut, date, dd, df, dir, dircolors, dirname, du, echo, env,
+              expand, expr, factor, false, fmt, fold, groups, head, hostid,
+              id, install, join, link, ln, logname, ls, md5sum, mkdir,
+              mkfifo, mknod, mktemp, mv, nice, nl, nohup, nproc, numfmt, od,
+              paste, pathchk, pinky, pr, printenv, printf, ptx, pwd,
+              readlink, realpath, rm, rmdir, runcon, seq, sha1sum, sha224sum,
+              sha256sum, sha384sum, sha512sum, shred, shuf, sleep, sort,
+              split, stat, stdbuf, stty, sum, sync, tac, tail, tee, test,
+              timeout, touch, tr, true, truncate, tsort, tty, uname,
+              unexpand, uniq, unlink, users, vdir, wc, who, whoami,
+              yes</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libstdbuf.so (/usr/libexec/coreutils ディレクトリ内)</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールディレクトリ:</strong> <span class=
+              "segbody">/usr/libexec/coreutils</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="lbracket" name="lbracket"></a><span class=
+                    "term"><span class=
+                    "command"><strong>[</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    実際のコマンドは /usr/bin/[ であり、これは <span class=
+                    "command"><strong>test</strong></span> コマンドへのシンボリックリンクです。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="base32" name="base32"></a><span class=
+                    "term"><span class=
+                    "command"><strong>base32</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    base32 規格 (RFC 4648) に従ってデータのエンコード、デコードを行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="base64" name="base64"></a><span class=
+                    "term"><span class=
+                    "command"><strong>base64</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    base64 規格 (RFC 3548) に従ってデータのエンコード、デコードを行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="b2sum" name="b2sum"></a><span class=
+                    "term"><span class=
+                    "command"><strong>b2sum</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Prints or checks BLAKE2 (512-bit) checksums
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="basename" name="basename"></a><span class=
+                    "term"><span class=
+                    "command"><strong>basename</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイル名からパス部分と指定されたサフィックスを取り除きます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="basenc" name="basenc"></a><span class=
+                    "term"><span class=
+                    "command"><strong>basenc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    各種アルゴリズムを利用したデータのエンコード、出コードを行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cat" name="cat"></a><span class=
+                    "term"><span class="command"><strong>cat</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    複数ファイルを連結して標準出力へ出力します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="chcon" name="chcon"></a><span class=
+                    "term"><span class=
+                    "command"><strong>chcon</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルやディレクトリに対してセキュリティコンテキスト (security context) を変更します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="chgrp" name="chgrp"></a><span class=
+                    "term"><span class=
+                    "command"><strong>chgrp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルやディレクトリのグループ所有権を変更します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="chmod" name="chmod"></a><span class=
+                    "term"><span class=
+                    "command"><strong>chmod</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたファイルのパーミッションを指定されたモードに変更します。
+                    モードは、変更内容を表す文字表現か8進数表現を用いることができます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="chown" name="chown"></a><span class=
+                    "term"><span class=
+                    "command"><strong>chown</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルやディレクトリの所有者またはグループを変更します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="chroot" name="chroot"></a><span class=
+                    "term"><span class=
+                    "command"><strong>chroot</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定したディレクトリを <code class="filename">/</code>
+                    ディレクトリとみなしてコマンドを実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cksum" name="cksum"></a><span class=
+                    "term"><span class=
+                    "command"><strong>cksum</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定された複数ファイルについて、CRC (Cyclic Redundancy Check; 巡回冗長検査)
+                    チェックサム値とバイト数を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="comm" name="comm"></a><span class=
+                    "term"><span class=
+                    "command"><strong>comm</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ソート済の二つのファイルを比較して、一致しない固有の行と一致する行を三つのカラムに分けて出力します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cp" name="cp"></a><span class="term"><span class=
+                    "command"><strong>cp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルをコピーします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="csplit" name="csplit"></a><span class=
+                    "term"><span class=
+                    "command"><strong>csplit</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたファイルを複数の新しいファイルに分割します。 分割は指定されたパターンか行数により行います。
+                    そして分割後のファイルにはバイト数を出力します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="cut" name="cut"></a><span class=
+                    "term"><span class="command"><strong>cut</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたフィールド位置や文字位置によってテキスト行を部分的に取り出します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="date" name="date"></a><span class=
+                    "term"><span class=
+                    "command"><strong>date</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定された書式により現在日付、現在時刻を表示します。 またはシステム日付を設定します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dd" name="dd"></a><span class="term"><span class=
+                    "command"><strong>dd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたブロックサイズとブロック数によりファイルをコピーします。 変換処理を行うことができます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="df" name="df"></a><span class="term"><span class=
+                    "command"><strong>df</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    マウントされているすべてのファイルシステムに対して、ディスクの空き容量 (使用量) を表示します。
+                    あるいは指定されたファイルを含んだファイルシステムについてのみの情報を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dir" name="dir"></a><span class=
+                    "term"><span class="command"><strong>dir</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたディレクトリの内容を一覧表示します。(<span class=
+                    "command"><strong>ls</strong></span> コマンドに同じ。)
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dircolors" name="dircolors"></a><span class=
+                    "term"><span class=
+                    "command"><strong>dircolors</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    環境変数 <code class="envar">LS_COLOR</code>
+                    にセットするべきコマンドを出力します。 これは <span class=
+                    "command"><strong>ls</strong></span> がカラー設定を行う際に利用します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="dirname" name="dirname"></a><span class=
+                    "term"><span class=
+                    "command"><strong>dirname</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたファイル名からディレクトリ名部分を取り出します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="du" name="du"></a><span class="term"><span class=
+                    "command"><strong>du</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    カレントディレクトリ、指定ディレクトリ
+                    (サブディレクトリを含む)、指定された個々のファイルについて、それらが利用しているディスク使用量を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="echo" name="echo"></a><span class=
+                    "term"><span class=
+                    "command"><strong>echo</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定された文字列を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="env" name="env"></a><span class=
+                    "term"><span class="command"><strong>env</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    環境設定を変更してコマンドを実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="expand" name="expand"></a><span class=
+                    "term"><span class=
+                    "command"><strong>expand</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    タブ文字を空白文字に変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="expr" name="expr"></a><span class=
+                    "term"><span class=
+                    "command"><strong>expr</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    表現式を評価します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="factor" name="factor"></a><span class=
+                    "term"><span class=
+                    "command"><strong>factor</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定された整数値に対する素因数 (prime factor) を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="false" name="false"></a><span class=
+                    "term"><span class=
+                    "command"><strong>false</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    何も行わず処理に失敗します。 これは常に失敗を意味するステータスコードを返して終了します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fmt" name="fmt"></a><span class=
+                    "term"><span class="command"><strong>fmt</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたファイル内にて段落を整形します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="fold" name="fold"></a><span class=
+                    "term"><span class=
+                    "command"><strong>fold</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたファイル内の行を折り返します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="groups" name="groups"></a><span class=
+                    "term"><span class=
+                    "command"><strong>groups</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ユーザーの所属グループを表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="head" name="head"></a><span class=
+                    "term"><span class=
+                    "command"><strong>head</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたファイルの先頭10行 (あるいは指定された行数) を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="hostid" name="hostid"></a><span class=
+                    "term"><span class=
+                    "command"><strong>hostid</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ホスト識別番号 (16進数) を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="id" name="id"></a><span class="term"><span class=
+                    "command"><strong>id</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    現在のユーザーあるいは指定されたユーザーについて、有効なユーザーID、グループID、所属グループを表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="install" name="install"></a><span class=
+                    "term"><span class=
+                    "command"><strong>install</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルコピーを行います。その際にパーミッションモードを設定し、可能なら所有者やグループも設定します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="join" name="join"></a><span class=
+                    "term"><span class=
+                    "command"><strong>join</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    2つのファイル内にて共通項を持つ行を結合します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="link" name="link"></a><span class=
+                    "term"><span class=
+                    "command"><strong>link</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    （指定された名称により）ファイルへのハードリンクを生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ln" name="ln"></a><span class="term"><span class=
+                    "command"><strong>ln</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルに対するハードリンク、あるいはソフトリンク (シンボリックリンク) を生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="logname" name="logname"></a><span class=
+                    "term"><span class=
+                    "command"><strong>logname</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    現在のユーザーのログイン名を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ls" name="ls"></a><span class="term"><span class=
+                    "command"><strong>ls</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたディレクトリ内容を一覧表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="md5sum" name="md5sum"></a><span class=
+                    "term"><span class=
+                    "command"><strong>md5sum</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    MD5 (Message Digest 5) チェックサム値を表示、あるいはチェックします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mkdir" name="mkdir"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mkdir</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定された名前のディレクトリを生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mkfifo" name="mkfifo"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mkfifo</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定された名前の FIFO (First-In, First-Out) を生成します。 これは UNIX の用語で
+                    "名前付きパイプ (named pipe)" とも呼ばれます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mknod" name="mknod"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mknod</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定された名前のデバイスノードを生成します。 デバイスノードはキャラクター型特殊ファイル (character
+                    special file)、ブロック特殊ファイル (block special file)、FIFO です。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mktemp" name="mktemp"></a><span class=
+                    "term"><span class=
+                    "command"><strong>mktemp</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    安全に一時ファイルを生成します。 これはスクリプト内にて利用されます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="mv" name="mv"></a><span class="term"><span class=
+                    "command"><strong>mv</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルあるいはディレクトリを移動、名称変更します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="nice" name="nice"></a><span class=
+                    "term"><span class=
+                    "command"><strong>nice</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    スケジューリング優先度を変更してプログラムを実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="nl" name="nl"></a><span class="term"><span class=
+                    "command"><strong>nl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたファイル内の行を数えます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="nohup" name="nohup"></a><span class=
+                    "term"><span class=
+                    "command"><strong>nohup</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ハングアップに関係なくコマンドを実行します。 その出力はログファイルにリダイレクトされます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="nproc" name="nproc"></a><span class=
+                    "term"><span class=
+                    "command"><strong>nproc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    プロセスが利用可能なプロセスユニット (processing unit) の数を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="numfmt" name="numfmt"></a><span class=
+                    "term"><span class=
+                    "command"><strong>numfmt</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    記述された文字列と数値を互いに変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="od" name="od"></a><span class="term"><span class=
+                    "command"><strong>od</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイル内容を 8進数または他の書式でダンプします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="paste" name="paste"></a><span class=
+                    "term"><span class=
+                    "command"><strong>paste</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定された複数ファイルを結合します。 その際には各行を順に並べて結合し、その間をタブ文字で区切ります。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pathchk" name="pathchk"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pathchk</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイル名が有効で移植可能であるかをチェックします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pinky" name="pinky"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pinky</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    軽量な finger クライアント。 指定されたユーザーに関する情報を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pr" name="pr"></a><span class="term"><span class=
+                    "command"><strong>pr</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルを印刷するために、ページ番号を振りカラム整形を行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="printenv" name="printenv"></a><span class=
+                    "term"><span class=
+                    "command"><strong>printenv</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    環境変数の内容を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="printf" name="printf"></a><span class=
+                    "term"><span class=
+                    "command"><strong>printf</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定された引数を指定された書式で表示します。 C 言語の printf 関数に似ています。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="ptx" name="ptx"></a><span class=
+                    "term"><span class="command"><strong>ptx</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたファイル内のキーワードに対して整列済インデックス (permuted index) を生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pwd" name="pwd"></a><span class=
+                    "term"><span class="command"><strong>pwd</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    現在の作業ディレクトリ名を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="readlink" name="readlink"></a><span class=
+                    "term"><span class=
+                    "command"><strong>readlink</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたシンボリックリンクの対象を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="realpath" name="realpath"></a><span class=
+                    "term"><span class=
+                    "command"><strong>realpath</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    解析されたパスを表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rm" name="rm"></a><span class="term"><span class=
+                    "command"><strong>rm</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルまたはディレクトリを削除します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="rmdir" name="rmdir"></a><span class=
+                    "term"><span class=
+                    "command"><strong>rmdir</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ディレクトリが空である時にそのディレクトリを削除します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="runcon" name="runcon"></a><span class=
+                    "term"><span class=
+                    "command"><strong>runcon</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたセキュリティコンテキストでコマンドを実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="seq" name="seq"></a><span class=
+                    "term"><span class="command"><strong>seq</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定された範囲と増分に従って数値の並びを表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sha1sum" name="sha1sum"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sha1sum</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    160 ビットの SHA1 (Secure Hash Algorithm 1)
+                    チェックサム値を表示またはチェックします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sha224sum" name="sha224sum"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sha224sum</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    224 ビットの SHA1 チェックサム値を表示またはチェックします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sha256sum" name="sha256sum"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sha256sum</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    256 ビットの SHA1 チェックサム値を表示またはチェックします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sha384sum" name="sha384sum"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sha384sum</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    384 ビットの SHA1 チェックサム値を表示またはチェックします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sha512sum" name="sha512sum"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sha512sum</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    512 ビットの SHA1 チェックサム値を表示またはチェックします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="shred" name="shred"></a><span class=
+                    "term"><span class=
+                    "command"><strong>shred</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたファイルに対して、複雑なパターンデータを繰り返し上書きすることで、データ復旧を困難なものにします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="shuf" name="shuf"></a><span class=
+                    "term"><span class=
+                    "command"><strong>shuf</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    テキスト行を入れ替えます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sleep" name="sleep"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sleep</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定時間だけ停止します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sort" name="sort"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sort</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたファイル内の行をソートします。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="split" name="split"></a><span class=
+                    "term"><span class=
+                    "command"><strong>split</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたファイルを、バイト数または行数を指定して分割します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="stat" name="stat"></a><span class=
+                    "term"><span class=
+                    "command"><strong>stat</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルやファイルシステムのステータスを表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="stdbuf" name="stdbuf"></a><span class=
+                    "term"><span class=
+                    "command"><strong>stdbuf</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    標準ストリームのバッファリング操作を変更してコマンド実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="stty" name="stty"></a><span class=
+                    "term"><span class=
+                    "command"><strong>stty</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    端末回線の設定や表示を行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sum" name="sum"></a><span class=
+                    "term"><span class="command"><strong>sum</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたファイルのチェックサムやブロック数を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="sync" name="sync"></a><span class=
+                    "term"><span class=
+                    "command"><strong>sync</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルシステムのバッファを消去します。 変更のあったブロックは強制的にディスクに書き出し、スーパーブロック
+                    (super block) を更新します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tac" name="tac"></a><span class=
+                    "term"><span class="command"><strong>tac</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたファイルを逆順にして連結します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tail" name="tail"></a><span class=
+                    "term"><span class=
+                    "command"><strong>tail</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたファイルの最終の10行 (あるいは指定された行数) を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tee" name="tee"></a><span class=
+                    "term"><span class="command"><strong>tee</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    標準入力を読み込んで、標準出力と指定ファイルの双方に出力します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="test" name="test"></a><span class=
+                    "term"><span class=
+                    "command"><strong>test</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルタイプの比較やチェックを行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="timeout" name="timeout"></a><span class=
+                    "term"><span class=
+                    "command"><strong>timeout</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定時間内だけコマンドを実行します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="touch" name="touch"></a><span class=
+                    "term"><span class=
+                    "command"><strong>touch</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルのタイムスタンプを更新します。 そのファイルに対するアクセス時刻、更新時刻を現在時刻にするものです。
+                    そのファイルが存在しなかった場合はゼロバイトのファイルを新規生成します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tr" name="tr"></a><span class="term"><span class=
+                    "command"><strong>tr</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    標準入力から読み込んだ文字列に対して、変換、圧縮、削除を行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="true" name="true"></a><span class=
+                    "term"><span class=
+                    "command"><strong>true</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    何も行わず処理に成功します。これは常に成功を意味するステータスコードを返して終了します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="truncate" name="truncate"></a><span class=
+                    "term"><span class=
+                    "command"><strong>truncate</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ファイルを指定されたサイズに縮小または拡張します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tsort" name="tsort"></a><span class=
+                    "term"><span class=
+                    "command"><strong>tsort</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    トポロジカルソート (topological sort) を行います。
+                    指定されたファイルの部分的な順序に従って並び替えリストを出力します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="tty" name="tty"></a><span class=
+                    "term"><span class="command"><strong>tty</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    標準入力に接続された端末のファイル名を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="uname" name="uname"></a><span class=
+                    "term"><span class=
+                    "command"><strong>uname</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    システム情報を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="unexpand" name="unexpand"></a><span class=
+                    "term"><span class=
+                    "command"><strong>unexpand</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    空白文字をタブ文字に変換します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="uniq" name="uniq"></a><span class=
+                    "term"><span class=
+                    "command"><strong>uniq</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    連続する同一行を一行のみ残して削除します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="unlink" name="unlink"></a><span class=
+                    "term"><span class=
+                    "command"><strong>unlink</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたファイルを削除します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="users" name="users"></a><span class=
+                    "term"><span class=
+                    "command"><strong>users</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    現在ログインしているユーザー名を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="vdir" name="vdir"></a><span class=
+                    "term"><span class=
+                    "command"><strong>vdir</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>ls -l</strong></span> と同じ。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="wc" name="wc"></a><span class="term"><span class=
+                    "command"><strong>wc</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    指定されたファイルの行数、単語数、バイト数を表示します。
+                    複数ファイルが指定された場合はこれに加えて合計も出力します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="who" name="who"></a><span class=
+                    "term"><span class="command"><strong>who</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    誰がログインしているかを表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="whoami" name="whoami"></a><span class=
+                    "term"><span class=
+                    "command"><strong>whoami</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    現在有効なユーザーIDに関連づいているユーザー名を表示します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="yes" name="yes"></a><span class=
+                    "term"><span class="command"><strong>yes</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    処理が停止されるまで繰り返して <code class="literal">y</code>
+                    または指定文字を出力します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="libstdbuf" name="libstdbuf"></a><span class=
+                    "term"><code class="filename">libstdbuf</code></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <span class="command"><strong>stdbuf</strong></span>
+                    が利用するライブラリ。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="kmod.html" title="Kmod-34.2">戻る</a>
+          <p>
+            Kmod-34.2
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="diffutils.html" title=
+          "Diffutils-3.12">次へ</a>
+          <p>
+            Diffutils-3.12
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version 12.4">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
