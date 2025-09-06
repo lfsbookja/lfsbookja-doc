@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <title>
+      8.13. Pcre2-10.45
+    </title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
+    <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
+    <link rel="stylesheet" href="../stylesheets/lfs-print.css" type=
+    "text/css" media="print" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="lfs" id="lfs-r12.4-15-systemd">
+    <div class="navheader">
+      <h4>
+        Linux From Scratch - Version r12.4-15-systemd
+      </h4>
+      <h3>
+        第8章 基本的なソフトウェアのインストール
+      </h3>
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="readline.html" title="Readline-8.3">戻る</a>
+          <p>
+            Readline-8.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="m4.html" title="M4-1.4.20">次へ</a>
+          <p>
+            M4-1.4.20
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r12.4-15-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+    <h1 class="sect1">
+      <a id="ch-system-pcre2" name="ch-system-pcre2"></a>8.13. Pcre2-10.45
+    </h1>
+    <div class="wrap" lang="ja" xml:lang="ja">
+      <div class="package" lang="ja" xml:lang="ja">
+        <p>
+          pcre2 パッケージは、次世代の Perl 互換正規表現 (Perl Compatible Regular Expression)
+          ライブラリを提供します。
+        </p>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">概算ビルド時間:</strong> <span class=
+              "segbody">0.5 SBU</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">必要ディスク容量:</strong> <span class=
+              "segbody">20 MB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.13.1. Pcre2 のインストール
+        </h2>
+        <p>
+          pcre2 をコンパイルするための準備をします。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr                       \
+            --docdir=/usr/share/doc/pcre2-10.45 \
+            --enable-unicode                    \
+            --enable-jit                        \
+            --enable-pcre2-16                   \
+            --enable-pcre2-32                   \
+            --enable-pcre2grep-libz             \
+            --enable-pcre2grep-libbz2           \
+            --enable-pcre2test-libreadline      \
+            --disable-static</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>configure オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-unicode</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このオプションは Unicode サポートを有効にして、このライブラリ内に UTF-8/16/32
+                文字列を扱う関数を含めるものです。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-jit</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このオプションはジャストインタイムコンパイルを有効にします。 これによりパターンマッチングが高速になります。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-pcre2-16</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このオプションは 16 ビット文字サポートを有効にします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-pcre2-32</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このオプションは 32 ビット文字サポートを有効にします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-pcre2grep-libz</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このオプションは pcregrep に対して .gz により圧縮されたファイルの読込機能を追加します。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-pcre2grep-libbz2</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このオプションは pcre2grep に対して .bz2 により圧縮されたファイルの読込機能を追加します。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--enable-pcre2test-libreadline</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このオプションは pcre2test プログラムに対して行編集および履歴機能を追加します。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          ビルド結果をテストする場合は以下を実行します。
+        </p>
+        <pre class="userinput"><kbd class="command">make check</kbd></pre>
+        <p>
+          パッケージをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="content" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          <a id="contents-pcre2" name="contents-pcre2"></a>8.13.2. Pcre2 の構成
+        </h2>
+        <div class="segmentedlist">
+          <div class="seglistitem">
+            <div class="seg">
+              <strong class="segtitle">インストールプログラム:</strong> <span class=
+              "segbody">pcre2grep, pcre2test</span>
+            </div>
+            <div class="seg">
+              <strong class="segtitle">インストールライブラリ:</strong> <span class=
+              "segbody">libpcre2-8.so, libpcre2-16.so, libpcre2-32.so,
+              libpcre2-posix.so</span>
+            </div>
+          </div>
+        </div>
+        <div class="variablelist">
+          <h3>
+            概略説明
+          </h3>
+          <table border="0" class="variablelist">
+            <colgroup>
+              <col align="left" valign="top" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pcre2grep" name="pcre2grep"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pcre2grep</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    grep と同等であり Perl 互換の正規表現を扱います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="pcre2test" name="pcre2test"></a><span class=
+                    "term"><span class=
+                    "command"><strong>pcre2test</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Perl 互換の正規表現をテストします。
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="navfooter">
+      <ul>
+        <li class="prev">
+          <a accesskey="p" href="readline.html" title="Readline-8.3">戻る</a>
+          <p>
+            Readline-8.3
+          </p>
+        </li>
+        <li class="next">
+          <a accesskey="n" href="m4.html" title="M4-1.4.20">次へ</a>
+          <p>
+            M4-1.4.20
+          </p>
+        </li>
+        <li class="up">
+          <a accesskey="u" href="chapter08.html" title=
+          "第8章 基本的なソフトウェアのインストール">上に戻る</a>
+        </li>
+        <li class="home">
+          <a accesskey="h" href="../index.html" title=
+          "Linux From Scratch - Version r12.4-15-systemd">ホーム</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

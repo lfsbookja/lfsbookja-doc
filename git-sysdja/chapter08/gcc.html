@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <title>
-      8.29. GCC-15.2.0
+      8.30. GCC-15.2.0
     </title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
     <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.3-117-systemd">
+  <body class="lfs" id="lfs-r12.4-15-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.3-117-systemd
+        Linux From Scratch - Version r12.4-15-systemd
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -40,12 +40,12 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.3-117-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.4-15-systemd">ホーム</a>
         </li>
       </ul>
     </div>
     <h1 class="sect1">
-      <a id="ch-system-gcc" name="ch-system-gcc"></a>8.29. GCC-15.2.0
+      <a id="ch-system-gcc" name="ch-system-gcc"></a>8.30. GCC-15.2.0
     </h1>
     <div class="wrap" lang="ja" xml:lang="ja">
       <div class="package" lang="ja" xml:lang="ja">
@@ -67,7 +67,7 @@
       </div>
       <div class="installation" lang="ja" xml:lang="ja">
         <h2 class="sect2">
-          8.29.1. GCC のインストール
+          8.30.1. GCC のインストール
         </h2>
         <p>
           x86_64 上でビルドしている場合は、64ビットライブラリのデフォルトディレクトリ名を "lib"にします。
@@ -104,6 +104,20 @@ cd       build</kbd></pre>
           "https://www.linuxfromscratch.org/blfs/view/systemd/general/gcc.html">
           BLFS ブック</a> の説明を参照してください。
         </p>
+        <p>
+          ここで有効にするのは C と C++ のみです。 ビルド時間を節約する目的があり、また LFS や BLFS において GCC
+          が他の言語を必要とするパッケージが存在しないからです。 GCC においてさらに言語を増やしてプログラムコンパイルを行いたい場合は
+          <em class="parameter"><code>--enable-languages</code></em>
+          オプションにそれぞれ以下を追加してください。 Cobol に対して <code class=
+          "literal">cobol</code> (32 ビット LFS システム上においてビルドすると GCC がエラーとなります)、
+          Fortran に対して <code class="literal">fortran</code>、 Go に対して
+          <code class="literal">go</code>、 Objective C に対して <code class=
+          "literal">objc</code>、 Objective C++ に対して <code class=
+          "literal">obj-c++</code>、 Modula 2 に対して <code class=
+          "literal">m2</code>。 GCC ではさらに Ada と D をサポートします。 ただしそれをサポートするコードは
+          Ada あるいは D そのものによって書かれています。 したがってこのサポートを含めてビルドするには、あらかじめ Ada あるいは D
+          コンパイラーがインストールされていないければなりません。 ここではそのサポートを有効にすることはできません。
+        </p>
         <div class="variablelist">
           <p class="title">
             <strong>configure パラメーターの意味</strong>
@@ -117,6 +131,23 @@ cd       build</kbd></pre>
               <p>
                 本パラメーターは、本章の初期段階でビルドした Binutils の ld プログラムを使うことを configure
                 スクリプトに指示します。 これを指定しなかった場合は、クロスビルド版のものが用いられることになります。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--disable-bootstrap</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                GCC
+                のビルドシステムでは、クロスコンパイラーをビルドする場合、あるいはクロスコンパイルを行っている場合を除くと、デフォルトでは
+                3 ステージにおいてブートストラップを行います。 ブートストラップ処理は堅牢性のためであり、特に GCC
+                をより新しいバージョンにアップグレードする際に必要となります。 LFS ではブートストラップとはことなる方法をとっています
+                (<a class="xref" href="../partintro/toolchaintechnotes.html"
+                title="ツールチェーンの技術的情報">ツールチェーンの技術的情報</a> において説明しています)。
+                したがってビルドシステムが提供するブートストラップ処理を必要としません。
+                この処理を用いないことからビルド時間を大幅に軽減しています。 完璧な (LFS のビルド中ではない) LFS
+                システム上において GCC をアップグレードする場合は、本オプションを取り除いてください。
               </p>
             </dd>
             <dt>
@@ -376,7 +407,7 @@ mv -v /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib</kbd></pre>
       </div>
       <div class="content" lang="ja" xml:lang="ja">
         <h2 class="sect2">
-          <a id="contents-gcc" name="contents-gcc"></a>8.29.2. GCC の構成
+          <a id="contents-gcc" name="contents-gcc"></a>8.30.2. GCC の構成
         </h2>
         <div class="segmentedlist">
           <div class="seglistitem">
@@ -851,7 +882,7 @@ mv -v /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.3-117-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.4-15-systemd">ホーム</a>
         </li>
       </ul>
     </div>
