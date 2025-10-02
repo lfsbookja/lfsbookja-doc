@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <title>
-      8.78. Systemd-257.8
+      8.78. Systemd-258
     </title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
     <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.4-28-systemd">
+  <body class="lfs" id="lfs-r12.4-29-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.4-28-systemd
+        Linux From Scratch - Version r12.4-29-systemd
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -39,13 +39,13 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.4-28-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.4-29-systemd">ホーム</a>
         </li>
       </ul>
     </div>
     <h1 class="sect1">
       <a id="ch-system-systemd" name="ch-system-systemd"></a>8.78.
-      Systemd-257.8
+      Systemd-258
     </h1>
     <div class="wrap" lang="ja" xml:lang="ja">
       <div class="package" lang="ja" xml:lang="ja">
@@ -60,7 +60,7 @@
             </div>
             <div class="seg">
               <strong class="segtitle">必要ディスク容量:</strong> <span class=
-              "segbody">310 MB</span>
+              "segbody">337 MB</span>
             </div>
           </div>
         </div>
@@ -94,7 +94,6 @@ meson setup ..                \
       -D sysusers=false       \
       -D rpmmacrosdir=no      \
       -D homed=disabled       \
-      -D userdb=false         \
       -D man=disabled         \
       -D mode=release         \
       -D pamconfdir=no        \
@@ -102,7 +101,7 @@ meson setup ..                \
       -D nobody-group=nogroup \
       -D sysupdate=disabled   \
       -D ukify=disabled       \
-      -D docdir=/usr/share/doc/systemd-257.8</kbd></pre>
+      -D docdir=/usr/share/doc/systemd-258</kbd></pre>
         <div class="variablelist">
           <p class="title">
             <strong>meson オプションの意味</strong>
@@ -185,8 +184,7 @@ meson setup ..                \
             </dd>
             <dt>
               <span class="term"><em class="parameter"><code>-D
-              homed=disabled</code></em> と <em class="parameter"><code>-D
-              userdb=false</code></em></span>
+              homed=disabled</code></em></span>
             </dt>
             <dd>
               <p>
@@ -296,7 +294,7 @@ ninja test</kbd></pre>
           man ページをインストールします。
         </p>
         <pre class="userinput"><kbd class=
-        "command">tar -xf ../../systemd-man-pages-257.8.tar.xz \
+        "command">tar -xf ../../systemd-man-pages-258.tar.xz \
     --no-same-owner --strip-components=1     \
     -C /usr/share/man</kbd></pre>
         <p>
@@ -320,44 +318,45 @@ ninja test</kbd></pre>
           <div class="seglistitem">
             <div class="seg">
               <strong class="segtitle">インストールプログラム:</strong> <span class=
-              "segbody">busctl, coredumpctl, halt (systemctl へのシンボリックリンク),
-              hostnamectl, init, journalctl, kernel-install, localectl,
-              loginctl, machinectl, mount.ddi (systemd-dissect へのシンボリックリンク),
-              networkctl, oomctl, portablectl, poweroff (systemctl
-              へのシンボリックリンク), reboot (systemctl へのシンボリックリンク), resolvconf
-              (resolvectl へのシンボリックリンク), resolvectl, runlevel (systemctl
-              へのシンボリックリンク), shutdown (systemctl へのシンボリックリンク), systemctl,
-              systemd-ac-power, systemd-analyze, systemd-ask-password,
-              systemd-cat, systemd-cgls, systemd-cgtop, systemd-confext
-              (systemd-sysext へのシンボリックリンク), systemd-creds, systemd-delta,
-              systemd-detect-virt, systemd-dissect, systemd-escape,
-              systemd-hwdb, systemd-id128, systemd-inhibit,
+              "segbody">bootctl, busctl, coredumpctl, halt (systemctl
+              へのシンボリックリンク), hostnamectl, init, journalctl, kernel-install,
+              localectl, loginctl, machinectl, mount.ddi (systemd-dissect
+              へのシンボリックリンク), networkctl, oomctl, portablectl, poweroff
+              (systemctl へのシンボリックリンク), reboot (systemctl へのシンボリックリンク),
+              resolvconf (resolvectl へのシンボリックリンク), resolvectl, run0, runlevel
+              (systemctl へのシンボリックリンク), shutdown (systemctl へのシンボリックリンク),
+              systemctl, systemd-ac-power, systemd-analyze,
+              systemd-ask-password, systemd-cat, systemd-cgls, systemd-cgtop,
+              systemd-confext (systemd-sysext へのシンボリックリンク), systemd-creds,
+              systemd-delta, systemd-detect-virt, systemd-dissect,
+              systemd-escape, systemd-hwdb, systemd-id128, systemd-inhibit,
               systemd-machine-id-setup, systemd-mount, systemd-notify,
-              systemd-nspawn, systemd-path, systemd-repart, systemd-resolve
-              (resolvectl へのシンボリックリンク), systemd-run, systemd-socket-activate,
-              systemd-stdio-bridge, systemd-sysext, systemd-tmpfiles,
-              systemd-tty-ask-password-agent, systemd-umount (systemd-mount
-              へのシンボリックリンク), telinit (systemctl へのシンボリックリンク), timedatectl,
-              udevadm</span>
+              systemd-nspawn, systemd-path, systemd-pty-forward,
+              systemd-repart, systemd-resolve (resolvectl へのシンボリックリンク),
+              systemd-run, systemd-socket-activate, systemd-stdio-bridge,
+              systemd-sysext, systemd-tmpfiles,
+              systemd-tty-ask-password-agent, systemd-vpick, systemd-umount
+              (systemd-mount へのシンボリックリンク), timedatectl, udevadm, userdbctl,
+              varlinkctl</span>
             </div>
             <div class="seg">
               <strong class="segtitle">インストールライブラリ:</strong> <span class=
               "segbody">libnss_myhostname.so.2, libnss_mymachines.so.2,
               libnss_resolve.so.2, libnss_systemd.so.2, libsystemd.so,
-              libsystemd-shared-257.8.so (/usr/lib/systemd ディレクトリ内),
+              libsystemd-shared-258.so (/usr/lib/systemd ディレクトリ内),
               libudev.so</span>
             </div>
             <div class="seg">
               <strong class="segtitle">インストールディレクトリ:</strong> <span class=
               "segbody">/etc/binfmt.d, /etc/init.d, /etc/kernel,
               /etc/modules-load.d, /etc/sysctl.d, /etc/systemd,
-              /etc/tmpfiles.d, /etc/udev, /etc/xdg/systemd, /usr/lib/systemd,
-              /usr/lib/udev, /usr/include/systemd, /usr/lib/binfmt.d,
-              /usr/lib/environment.d, /usr/lib/kernel,
-              /usr/lib/modules-load.d, /usr/lib/sysctl.d, /usr/lib/systemd,
-              /usr/lib/tmpfiles.d, /usr/share/doc/systemd-257.8,
-              /usr/share/factory, /usr/share/systemd, /var/lib/systemd,
-              /var/log/journal</span>
+              /etc/tmpfiles.d, /etc/udev, /etc/xdg/systemd,
+              /usr/include/systemd, /usr/lib/binfmt.d, /usr/lib/credstore,
+              /usr/lib/environment.d, /usr/lib/kernel, /usr/lib/modprobe.d,
+              /usr/lib/modules-load.d, /usr/lib/systemd, /usr/lib/udev,
+              /usr/lib/sysctl.d, /usr/lib/systemd, /usr/lib/tmpfiles.d,
+              /usr/share/doc/systemd-258, /usr/share/factory,
+              /usr/share/systemd, /var/lib/systemd, /var/log/journal</span>
             </div>
           </div>
         </div>
@@ -371,6 +370,20 @@ ninja test</kbd></pre>
               <col />
             </colgroup>
             <tbody>
+              <tr>
+                <td>
+                  <p>
+                    <a id="bootctl" name="bootctl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>bootctl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    EFI ファームウェアのブート設定の制御を行います。
+                  </p>
+                </td>
+              </tr>
               <tr>
                 <td>
                   <p>
@@ -620,6 +633,20 @@ ninja test</kbd></pre>
                   <p>
                     ネットワーク名前解決マネージャーに対して制御コマンドを送信します。 あるいはドメイン名、IPv4、IPv6
                     アドレス、DNS レコードやサービスなどを解決します。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="run0" name="run0"></a><span class=
+                    "term"><span class=
+                    "command"><strong>run0</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    sudo と同様に一時的な権限昇格や別権限の取得を行います。
                   </p>
                 </td>
               </tr>
@@ -944,6 +971,20 @@ ninja test</kbd></pre>
               <tr>
                 <td>
                   <p>
+                    <a id="systemd-pty-forward" name=
+                    "systemd-pty-forward"></a><span class="term"><span class=
+                    "command"><strong>systemd-pty-forward</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    カスタムの端末背景色あるいはタイトルを使ってコマンド実行を行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
                     <a id="systemd-repart" name=
                     "systemd-repart"></a><span class="term"><span class=
                     "command"><strong>systemd-repart</strong></span></span>
@@ -1061,15 +1102,14 @@ ninja test</kbd></pre>
               <tr>
                 <td>
                   <p>
-                    <a id="telinit" name="telinit"></a><span class=
-                    "term"><span class=
-                    "command"><strong>telinit</strong></span></span>
+                    <a id="systemd-vpick" name=
+                    "systemd-vpick"></a><span class="term"><span class=
+                    "command"><strong>systemd-vpick</strong></span></span>
                   </p>
                 </td>
                 <td>
                   <p>
-                    <span class="command"><strong>init</strong></span>
-                    コマンドに対してランレベルを何にするかを指示します。
+                    ".v/ バージョンディレクトリへのパスの解決に用いられます。
                   </p>
                 </td>
               </tr>
@@ -1100,6 +1140,34 @@ ninja test</kbd></pre>
                     汎用的な udev 管理ツール。 udevd デーモンの制御、udev データベースデータの提供、uevent
                     の監視、uevent の完了までの待機、udev 設定のテスト、指定デバイスに対する uevent
                     の起動、といったことを行います。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="userdbctl" name="userdbctl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>userdbctl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    ユーザー、グループ、グループメンバーの確認に用いられます。
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                    <a id="varlinkctl" name="varlinkctl"></a><span class=
+                    "term"><span class=
+                    "command"><strong>varlinkctl</strong></span></span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    Varlink サービスとの対話および起動に用いられます。
                   </p>
                 </td>
               </tr>
@@ -1154,7 +1222,7 @@ ninja test</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.4-28-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.4-29-systemd">ホーム</a>
         </li>
       </ul>
     </div>
