@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.4-44-systemd">
+  <body class="lfs" id="lfs-r12.4-45-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.4-44-systemd
+        Linux From Scratch - Version r12.4-45-systemd
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -40,7 +40,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.4-44-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.4-45-systemd">ホーム</a>
         </li>
       </ul>
     </div>
@@ -70,6 +70,11 @@
         <h2 class="sect2">
           8.5.1. Glibc のインストール
         </h2>
+        <p>
+          はじめにアップストリームによる変更を適用します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">patch -Np1 -i ../glibc-2.42-upstream_fixes-1.patch</kbd></pre>
         <p>
           Glibc のプログラムの中には <code class="filename">/var/db</code>
           ディレクトリに実行データを収容するものがあり、これは FHS に準拠していません。 以下のパッチを適用することで、実行データの収容先を
@@ -199,14 +204,6 @@ cd       build</kbd></pre>
             </li>
             <li class="listitem">
               <p>
-                <span class="emphasis"><em>misc/tst-preadvwritev2</em></span>
-                と <span class=
-                "emphasis"><em>misc/tst-preadvwritev64v2</em></span> は、カーネルが
-                Linux-6.14 またはそれ以降のときに失敗します。
-              </p>
-            </li>
-            <li class="listitem">
-              <p>
                 <span class=
                 "emphasis"><em>nss/tst-nss-files-hosts-multi</em></span>、<span class="emphasis"><em>nptl/tst-thread-affinity*</em></span>
                 のようなテストでは、タイムアウトを原因として
@@ -274,7 +271,7 @@ cd       build</kbd></pre>
                 <p>
                   12.0 未満の Glibc をアップグレードする場合は <a class="xref" href=
                   "libxcrypt.html" title=
-                  "8.28. Libxcrypt-4.4.38">「Libxcrypt-4.4.38.」</a> に従って
+                  "8.28. Libxcrypt-4.5.1">「Libxcrypt-4.5.1.」</a> に従って
                   <span class="application">Libxcrypt</span> をインストールしてください。
                   さらにその <span class="application">Libxcrypt</span>
                   の通常インストール手順に加えて、<span class="bold"><strong>Libxcrypt
@@ -305,7 +302,7 @@ cd       build</kbd></pre>
                   -r</strong></span> により確認することができますが) 5.4
                   よりも古いカーネルをアップグレードして再起動する場合には <a class="xref" href=
                   "../chapter10/kernel.html" title=
-                  "10.3. Linux-6.17.6">「Linux-6.17.6」</a> の説明に従ってください。
+                  "10.3. Linux-6.17.8">「Linux-6.17.8」</a> の説明に従ってください。
                 </p>
               </li>
               <li class="listitem">
@@ -314,7 +311,7 @@ cd       build</kbd></pre>
                   /usr/include/linux/version.h</strong></span>
                   により確認することができますが) 5.4 よりも古い API ヘッダーをアップグレードする場合は、<a class=
                   "xref" href="../chapter05/linux-headers.html" title=
-                  "5.4. Linux-6.17.6 API ヘッダー">「Linux-6.17.6 API ヘッダー」</a>
+                  "5.4. Linux-6.17.8 API ヘッダー">「Linux-6.17.8 API ヘッダー」</a>
                   の説明に従ってください (ただし <span class=
                   "command"><strong>cp</strong></span> コマンドからは <code class=
                   "envar">$LFS</code> を取り除いてください)。
@@ -1254,7 +1251,7 @@ mkdir -pv /etc/ld.so.conf.d</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.4-44-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.4-45-systemd">ホーム</a>
         </li>
       </ul>
     </div>
