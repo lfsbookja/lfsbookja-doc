@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <title>
-      8.29. Shadow-4.18.0
+      8.29. Shadow-4.19.0
     </title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
     <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.4-55">
+  <body class="lfs" id="lfs-r12.4-62">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.4-55
+        Linux From Scratch - Version r12.4-62
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -40,13 +40,13 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.4-55">ホーム</a>
+          "Linux From Scratch - Version r12.4-62">ホーム</a>
         </li>
       </ul>
     </div>
     <h1 class="sect1">
       <a id="ch-system-shadow" name="ch-system-shadow"></a>8.29.
-      Shadow-4.18.0
+      Shadow-4.19.0
     </h1>
     <div class="wrap" lang="ja" xml:lang="ja">
       <div class="package" lang="ja" xml:lang="ja">
@@ -146,6 +146,7 @@ find man -name Makefile.in -exec sed -i 's/passwd\.5 / /'   {} \;</kbd></pre>
             --disable-static    \
             --with-{b,yes}crypt \
             --without-libbsd    \
+            --disable-logind    \
             --with-group-name-max-length=32</kbd></pre>
         <div class="variablelist">
           <p class="title">
@@ -185,6 +186,23 @@ find man -name Makefile.in -exec sed -i 's/passwd\.5 / /'   {} \;</kbd></pre>
             <dd>
               <p>
                 ユーザー名の最大文字数は 32 です。 そこでグループ名の最大文字数も同様とします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--disable-logind</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                このオプションは、Shadow におけるアクティブなログインセッションの追跡にあたって (特に <span class=
+                "command"><strong>login</strong></span> と <span class=
+                "command"><strong>who</strong></span> のプログラムが) logind ではなく
+                <code class="filename">/run/utmp</code> を利用するものとして指定します。
+                なぜなら現段階の不完全な LFS システムでは logind がまだ利用できないためです。 ただし <a class=
+                "xref" href="../chapter07/createfiles.html" title=
+                "7.6. 重要なファイルとシンボリックリンクの生成">「重要なファイルとシンボリックリンクの生成」</a>
+                において触れているように、<code class="filename">/run/utmp</code>
+                ファイルのフォーマットは 2038 年以降は完全に壊れます。 LFS 編集者はその年になる前に問題解決を図るつもりです。
               </p>
             </dd>
             <dt>
@@ -878,7 +896,7 @@ useradd -D --gid 999</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.4-55">ホーム</a>
+          "Linux From Scratch - Version r12.4-62">ホーム</a>
         </li>
       </ul>
     </div>
