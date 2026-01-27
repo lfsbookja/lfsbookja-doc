@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.4-62">
+  <body class="lfs" id="lfs-r12.4-69">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.4-62
+        Linux From Scratch - Version r12.4-69
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -39,7 +39,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.4-62">ホーム</a>
+          "Linux From Scratch - Version r12.4-69">ホーム</a>
         </li>
       </ul>
     </div>
@@ -127,6 +127,30 @@ make clean</kbd></pre>
         <pre class="userinput"><kbd class=
         "command">cp -av libbz2.so.* /usr/lib
 ln -sv libbz2.so.1.0.8 /usr/lib/libbz2.so</kbd></pre>
+        <p>
+          共有ライブラリ名は標準化されておらず、ディストロによってさまざまに命名されています。 上の手順では <code class=
+          "filename">libbz2.so.1.0</code> をインストールしましたが、ディストロによってはたとえば Kbd
+          などのようなアプリケーションが、それとは別のライブラリ名を期待しているものがあります。
+          そういったものに対して、互換性のためにシンボリックリンクを生成します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">ln -sv libbz2.so.1.0.8 /usr/lib/libbz2.so.1</kbd></pre>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            このシンボリックリンクを用いた方法は、ここでのみ有効なものです。
+            というのも、ライブラリ名を別のものにしているのは、ディストロ管理者の美学に基づく結果であって、決して ABI
+            非互換性を理由とするものではないからです。 一般的にライブラリ名が異なっているとしたら、それは ABI
+            互換性がない可能性を意味します。 したがってその違いを、シンボリックリンクによって<span class=
+            "quote">「<span class=
+            "quote">隠す</span>」</span>ことは、不適切である可能性が高くなります。 ライブラリ名に関する詳細は
+            <a class="xref" href="pkgmgt.html#pkgmgmt-upgrade-issues" title=
+            "8.2.1. アップグレードに関する問題">「アップグレードに関する問題」</a> を参照してください。
+          </p>
+        </div>
         <p>
           共有化された <span class="command"><strong>bzip2</strong></span> 実行モジュールを
           <code class="filename">/usr/bin</code> ディレクトリにインストールします。
@@ -380,7 +404,7 @@ done</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.4-62">ホーム</a>
+          "Linux From Scratch - Version r12.4-69">ホーム</a>
         </li>
       </ul>
     </div>
