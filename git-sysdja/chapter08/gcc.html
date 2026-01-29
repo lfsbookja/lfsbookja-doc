@@ -12,19 +12,19 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.4-69-systemd">
+  <body class="lfs" id="lfs-r12.4-70-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.4-69-systemd
+        Linux From Scratch - Version r12.4-70-systemd
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
       </h3>
       <ul>
         <li class="prev">
-          <a accesskey="p" href="shadow.html" title="Shadow-4.19.0">戻る</a>
+          <a accesskey="p" href="shadow.html" title="Shadow-4.19.2">戻る</a>
           <p>
-            Shadow-4.19.0
+            Shadow-4.19.2
           </p>
         </li>
         <li class="next">
@@ -39,7 +39,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.4-69-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.4-70-systemd">ホーム</a>
         </li>
       </ul>
     </div>
@@ -68,6 +68,11 @@
         <h2 class="sect2">
           8.30.1. GCC のインストール
         </h2>
+        <p>
+          glibc-2.43 に対して必要となる修正を行います。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed -i 's/char [*]q/const &amp;/' libgomp/affinity-fmt.c</kbd></pre>
         <p>
           x86_64 上でビルドしている場合は、64ビットライブラリのデフォルトディレクトリ名を "lib"にします。
         </p>
@@ -247,7 +252,11 @@ su tester -c "PATH=$PATH make -k check"</kbd></pre>
           にある情報と比較することができます。
         </p>
         <p>
-          <code class="filename">pr90579.c</code> に関係するテストは失敗します。
+          <code class="filename">pr90579.c</code> に関係するテスト 4 つが失敗します。
+        </p>
+        <p>
+          <code class="filename">analyzer/strchr-1.c</code>&gt; に関係するテスト 5
+          つが失敗します。
         </p>
         <p>
           テスト失敗は回避することができません。 その中には特定のハードウェアに起因するものもあります。 上記の URL
@@ -863,9 +872,9 @@ mv -v /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib</kbd></pre>
     <div class="navfooter">
       <ul>
         <li class="prev">
-          <a accesskey="p" href="shadow.html" title="Shadow-4.19.0">戻る</a>
+          <a accesskey="p" href="shadow.html" title="Shadow-4.19.2">戻る</a>
           <p>
-            Shadow-4.19.0
+            Shadow-4.19.2
           </p>
         </li>
         <li class="next">
@@ -880,7 +889,7 @@ mv -v /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.4-69-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.4-70-systemd">ホーム</a>
         </li>
       </ul>
     </div>
