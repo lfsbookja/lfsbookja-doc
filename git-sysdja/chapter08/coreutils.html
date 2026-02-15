@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.4-82-systemd">
+  <body class="lfs" id="lfs-r12.4-92-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.4-82-systemd
+        Linux From Scratch - Version r12.4-92-systemd
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -40,7 +40,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.4-82-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.4-92-systemd">ホーム</a>
         </li>
       </ul>
     </div>
@@ -61,7 +61,7 @@
             </div>
             <div class="seg">
               <strong class="segtitle">必要ディスク容量:</strong> <span class=
-              "segbody">180 MB</span>
+              "segbody">188 MB</span>
             </div>
           </div>
         </div>
@@ -70,12 +70,6 @@
         <h2 class="sect2">
           8.61.1. Coreutils のインストール
         </h2>
-        <p>
-          glibc-2.43 に対して必要となる修正を行います。
-        </p>
-        <pre class="userinput"><kbd class=
-        "command">sed -r '/_GL_EXTERN_C/s/w?memchr|bsearch/(&amp;)/' \
-    -i $(find -name \*.in.h)</kbd></pre>
         <p>
           POSIX によると Coreutils
           により生成されるプログラムは、マルチバイトロケールであっても文字データを正しく取り扱うことを求めています。
@@ -99,8 +93,7 @@
         <pre class="userinput"><kbd class="command">autoreconf -fv
 automake -af
 FORCE_UNSAFE_CONFIGURE=1 ./configure \
-            --prefix=/usr            \
-            --enable-no-install-program=kill,uptime</kbd></pre>
+            --prefix=/usr</kbd></pre>
         <div class="variablelist">
           <p class="title">
             <strong>コマンドと configure オプションの意味</strong>
@@ -139,15 +132,6 @@ FORCE_UNSAFE_CONFIGURE=1 ./configure \
               <p>
                 この環境変数は <code class="systemitem">root</code>
                 ユーザーによりパッケージをビルドできるようにします。
-              </p>
-            </dd>
-            <dt>
-              <span class="term"><em class=
-              "parameter"><code>--enable-no-install-program=kill,uptime</code></em></span>
-            </dt>
-            <dd>
-              <p>
-                指定のプログラムは、他のパッケージからインストールするため Coreutils からはインストールしないことを指示します。
               </p>
             </dd>
           </dl>
@@ -1735,7 +1719,7 @@ sed -i 's/"1"/"8"/' /usr/share/man/man8/chroot.8</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.4-82-systemd">ホーム</a>
+          "Linux From Scratch - Version r12.4-92-systemd">ホーム</a>
         </li>
       </ul>
     </div>
