@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r12.4-97">
+  <body class="lfs" id="lfs-r13.0-4">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r12.4-97
+        Linux From Scratch - Version r13.0-4
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -39,7 +39,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.4-97">ホーム</a>
+          "Linux From Scratch - Version r13.0-4">ホーム</a>
         </li>
       </ul>
     </div>
@@ -62,13 +62,6 @@
         "parameter"><code>--strip-unneeded</code></em>
         オプションをつけて実行すると、バイナリやライブラリからデバッグシンボルをすべて削除します。
         そして（スタティックライブラリ向けの）リンカーや（動的リンクバイナリあるいは共有ライブラリ向けの）ダイナミックリンカーにとって通常なら不要なシンボルテーブル項目もすべて削除します。
-        <em class="parameter"><code>--strip-debug</code></em>
-        を使うと、特定のアプリケーションに必要となるシンボルテーブルエントリは削除しなくなります。 <code class=
-        "literal">unneeded</code> と <code class="literal">debug</code>
-        の違いはわずかなものです。 たとえば unstripped な libc.a は 22.4 MB です。 <em class=
-        "parameter"><code>--strip-debug</code></em> によってストリップを行うと 5.9 MB
-        になります。 一方 <em class="parameter"><code>--strip-unneeded</code></em>
-        では減じられる容量はほんのわずかで 5.8 MB となります。
       </p>
       <p>
         選択したライブラリから得られたデバッグシンボルは、<span class="application">Zstd</span>
@@ -131,7 +124,7 @@ cd /usr/lib
 for LIB in $save_usrlib; do
     objcopy --only-keep-debug --compress-debug-sections=zstd $LIB $LIB.dbg
     cp $LIB /tmp/$LIB
-    strip --strip-debug /tmp/$LIB
+    strip --strip-unneeded /tmp/$LIB
     objcopy --add-gnu-debuglink=$LIB.dbg /tmp/$LIB
     install -vm755 /tmp/$LIB /usr/lib
     rm /tmp/$LIB
@@ -150,14 +143,14 @@ online_usrlib="libbfd-2.46.0.20260210.so
 
 for BIN in $online_usrbin; do
     cp /usr/bin/$BIN /tmp/$BIN
-    strip --strip-debug /tmp/$BIN
+    strip --strip-unneeded /tmp/$BIN
     install -vm755 /tmp/$BIN /usr/bin
     rm /tmp/$BIN
 done
 
 for LIB in $online_usrlib; do
     cp /usr/lib/$LIB /tmp/$LIB
-    strip --strip-debug /tmp/$LIB
+    strip --strip-unneeded /tmp/$LIB
     install -vm755 /tmp/$LIB /usr/lib
     rm /tmp/$LIB
 done
@@ -168,7 +161,7 @@ for i in $(find /usr/lib -type f -name \*.so* ! -name \*dbg) \
     case "$online_usrbin $online_usrlib $save_usrlib" in
         *$(basename $i)* )
             ;;
-        * ) strip --strip-debug $i
+        * ) strip --strip-unneeded $i
             ;;
     esac
 done
@@ -200,7 +193,7 @@ unset BIN LIB save_usrlib online_usrbin online_usrlib
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r12.4-97">ホーム</a>
+          "Linux From Scratch - Version r13.0-4">ホーム</a>
         </li>
       </ul>
     </div>
