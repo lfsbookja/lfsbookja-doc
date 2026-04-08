@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r13.0-17">
+  <body class="lfs" id="lfs-r13.0-63">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r13.0-17
+        Linux From Scratch - Version r13.0-63
       </h4>
       <h3>
         第2章 ホストシステムの準備
@@ -40,7 +40,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-17">ホーム</a>
+          "Linux From Scratch - Version r13.0-63">ホーム</a>
         </li>
       </ul>
     </div>
@@ -154,12 +154,12 @@
         </div>
         <div class="sect3">
           <h3 class="sect3">
-            2.4.1.3. Grub バイオスパーティション
+            2.4.1.3. Grub BIOS パーティション
           </h3>
           <p>
             GUID パーティションテーブル (GUID Partition Table; GPT) を利用して <span class=
-            "emphasis"><em>ブートディスク</em></span> をパーティショニングした場合、普通は 1 MB
-            程度の小さなパーティションをさらに用意しておくことが必要です。
+            "emphasis"><em>ブートディスク</em></span> をパーティショニングした場合、BIOS
+            起動が必要なのであれば普通は 1 MB 程度の小さなパーティションを用意しておくことが必要です。
             このパーティションのフォーマットは不要であり、ブートローダーをインストールする際に GRUB
             が利用できるものでなければなりません。 通常このパーティションは <span class=
             "command"><strong>fdisk</strong></span> を用いた場合は 'BIOS Boot'
@@ -167,22 +167,56 @@
             コマンドを用いた場合は<span class="emphasis"><em>EF02</em></span>
             というコード名が与えられます。
           </p>
+          <p>
+            ブートディスクが MBR パーティションテーブル、つまり DOS
+            ディスクラベルを使ってパーティショニングされている場合、そのパーティションは GRUB
+            が利用する最初のパーティションよりも前に存在している必要はありません。
+          </p>
           <div class="admon note">
             <img alt="[注記]" src="../images/note.png" />
             <h3>
               注記
             </h3>
             <p>
-              Grub バイオスパーティションは、BIOS がシステムブート時に用いるドライブ上になければなりません。 これは LFS
+              Grub BIOS パーティションは、BIOS がシステムブート時に用いるドライブ上になければなりません。 これは LFS
               ルートパーティションがあるドライブと同一にする必要はありません。
-              システム上にあるドライブは、同一のパーティションテーブルタイプを利用していないことがあります。 つまりこの Grub
-              バイオスパーティションに必要なのは、ブートディスクのパーティションテーブルタイプに合わせることだけです。
+              システム上にあるドライブは、同一のパーティションテーブルタイプを利用していないことがあります。 つまりこの Grub BIOS
+              パーティションに必要なのは、ブートディスクのパーティションテーブルタイプに合わせることだけです。
             </p>
           </div>
         </div>
         <div class="sect3">
           <h3 class="sect3">
-            2.4.1.4. 有用なパーティション
+            2.4.1.4. EFI システムパーティション
+          </h3>
+          <p>
+            このパーティションは <span class="emphasis"><em>ESP</em></span> とも呼ばれます。
+            これは UEFI を使ったシステムをブートするために必要となります。 ここにはブート時に実行される EFI
+            アプリケーションが置かれます。 ブートドライブは MBR パーティションテーブル、つまりは DOS
+            パーティションテーブルによってパーティショニングされている必要があります。
+            ただこのことにより、互換性の問題が発生する傾向にあります。 その場合には GUID パーティションテーブル (GPT)
+            を使ってブートドライブをパーティショニングすることが推奨されます。 そのパーティションから LFS
+            のブートだけを行うのであれば、その容量は 20 MB もあれば十分です。 しかしこのパーティションは EFI
+            イメージサイズよりも大きくしなければなりません。 それは EFI イメージが生成される前に GRUB
+            が大量のデータをこのパーティションに対して出力するためです。 安全を考えて 128 MB から 256 MB
+            とすることが推奨されますが、実験的にこれより少なくすることもありえます。 <span class=
+            "command"><strong>fdisk</strong></span> を利用した場合、このパーティションは 'EFI
+            System' と表されます。
+          </p>
+          <p>
+            GRUB を使うなら EFI システムパーティションは <code class=
+            "filename">/boot/efi</code> に配置する必要があります。
+          </p>
+          <p>
+            多くの UEFI システムには Compatibility Support Mode (CSM) あるいは Legacy Boot
+            オプションが用意されていて、これにより BIOS を使ったブートが可能となります。 もし UEFI
+            によるブートがうまく動作しない場合であって、システムが CSM をサポートしているのであれば、Grub BIOS
+            パーティションを生成するのが有効かもしれません。
+          </p>
+        </div>
+        <div class="sect3">
+          <h3 class="sect3">
+            2.4.1.5. 有用なパーティション
           </h3>
           <p>
             この他にも、必要のないパーティションというものがいくつかあります。
@@ -196,14 +230,6 @@
                   /boot – 作成することが強く推奨されます。 カーネルやブート情報を収納するために利用するパーティションです。
                   容量の大きなディスクの場合、ブート時に問題が発生することがあるので、これを回避するには、一つ目のディスクドライブの物理的に一番最初のパーティションを選びます。
                   パーティションサイズを 200MB とすればそれで十分です。
-                </p>
-              </li>
-              <li class="listitem">
-                <p>
-                  /boot/efi – EFI システムパーティションであり、UEFI を使ってシステム起動する場合に必要です。
-                  詳しくは <a class="ulink" href=
-                  "https://www.linuxfromscratch.org/blfs/view/svn/postlfs/grub-setup.html">
-                  BLFS ページ</a> を参照してください。
                 </p>
               </li>
               <li class="listitem">
@@ -263,6 +289,81 @@
           </p>
         </div>
       </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          2.4.2. An Example Disk Layout
+        </h2>
+        <p>
+          Below is an example layout for an empty disk drive.
+        </p>
+        <pre class=
+        "screen">Number  Start (sector)    End (sector)        Size   Code  Name
+   1            2048           22527       10.0 MiB  EF00  EFI system partition
+   2           22528           24575     1024.0 KiB  EF02  BIOS boot partition
+   3           24576         1048575      500.0 MiB  8300  /boot
+   4         1048576         5242879        2.0 GiB  8200  swap
+   5         5242880        89128959       40.0 GiB  8300  lfs13.0+
+   6        89128960       173015039       40.0 GiB  8300  /home</pre>
+        <p>
+          The above example makes a few assumptions:
+        </p>
+        <div class="itemizedlist">
+          <ul>
+            <li class="listitem">
+              <p>
+                The partition table is a GUID Partition Table (GPT).
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Both EFI and BIOS Boot partitions are present, although only
+                one will be used. Which is used depends on the system BIOS.
+                If the system is old, it will not have UEFI capabilities at
+                all. Some later systems can disable UEFI through the BIOS by
+                disabling "Secure Boot" and enabling "Legacy Support" or
+                "CSM" (Compatibility Support Mode). If you know in advance
+                which mode you will use, the other partition can be omitted.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                The EFI partition must be formatted as VFAT.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                The BIOS partition is not formatted.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                The swap partition must be formatted as swap.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                The /boot partition can be formatted as ext2 since it is
+                rarely written (and then only by root) and does not need a
+                journal.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                The recommendation for all other partitions is to use ext4
+                formatting.
+              </p>
+            </li>
+            <li class="listitem">
+              <p>
+                Another partition can be added for installing the "host"
+                system for building LFS. A minimal sized partition, 10 GiB,
+                should be sufficient. If you are building the system using a
+                LiveCD, a host partition may not be required.
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
     <div class="navfooter">
       <ul>
@@ -285,7 +386,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-17">ホーム</a>
+          "Linux From Scratch - Version r13.0-63">ホーム</a>
         </li>
       </ul>
     </div>

@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r13.0-17">
+  <body class="lfs" id="lfs-r13.0-63">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r13.0-17
+        Linux From Scratch - Version r13.0-63
       </h4>
       <h3>
         第2章 ホストシステムの準備
@@ -41,7 +41,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-17">ホーム</a>
+          "Linux From Scratch - Version r13.0-63">ホーム</a>
         </li>
       </ul>
     </div>
@@ -124,6 +124,27 @@
         <em class="replaceable"><code>&lt;yyy&gt;</code></em> の部分は
         <code class="systemitem">swap</code> パーティションの名に合わせて置き換えてください。
       </p>
+      <p>
+        EFI システムパーティションを生成した場合、さらに選択肢があります。 UEFI によるブート処理にあたってマザーボードは、FAT 系
+        (FAT12, FAT16, FAT32, VFAT など) によってフォーマットされたパーティションの中から EFI
+        アプリケーションを探し出します。 普通は FAT32 か VFAT が推奨されます。
+      </p>
+      <p>
+        <code class="systemitem">FAT32</code> を選ぶ場合は ESP
+        を以下のコマンドによりフォーマットします。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">mkfs.fat -F 32 /dev/<em class=
+      "replaceable"><code>&lt;yyy&gt;</code></em></kbd></pre>
+      <p>
+        <code class="systemitem">VFAT</code> を選ぶ場合は以下を実行します。
+      </p>
+      <pre class="userinput"><kbd class="command">mkfs.vfat /dev/<em class=
+      "replaceable"><code>&lt;zzz&gt;</code></em></kbd></pre>
+      <p>
+        <em class="replaceable"><code>&lt;zzz&gt;</code></em> の部分は EFI
+        システムパーティションの名に合わせて置き換えてください。
+      </p>
     </div>
     <div class="navfooter">
       <ul>
@@ -147,7 +168,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-17">ホーム</a>
+          "Linux From Scratch - Version r13.0-63">ホーム</a>
         </li>
       </ul>
     </div>

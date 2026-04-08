@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r13.0-17">
+  <body class="lfs" id="lfs-r13.0-63">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r13.0-17
+        Linux From Scratch - Version r13.0-63
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -39,7 +39,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-17">ホーム</a>
+          "Linux From Scratch - Version r13.0-63">ホーム</a>
         </li>
       </ul>
     </div>
@@ -51,6 +51,40 @@
         <p>
           GRUB パッケージは GRand Unified Bootloader を提供します。
         </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            本ページは複数の節に分けて、さまざまなブート方法 (BIOS、64 ビット UEFI、32 ビット UEFI)
+            について説明しています。 GRUB はそのブート方法を一度にビルドすることはできません。
+          </p>
+          <p>
+            あなたにとって不要な説明は読み飛ばし、目的とするブート方法に進んでください。
+            もし分からなかったら、無駄なビルドをすることになりますが、すべての説明手順を進めてください。
+            目的のブート方法をインストールし終えたら、本章のこれ以降の手順に進んでください。 GRUB を使って LFS
+            システムをブート可能にすることに関しては <a class="xref" href=
+            "../chapter10/grub.html" title="10.4. GRUB を用いたブートプロセスの設定">「GRUB
+            を用いたブートプロセスの設定」</a> において説明しています。
+          </p>
+        </div>
+        <div class="admon warning">
+          <img alt="[警告]" src="../images/warning.png" />
+          <h3>
+            警告
+          </h3>
+          <p>
+            ビルドへの影響が懸念されるため、以下の環境変数は設定を解除してください。
+          </p>
+          <pre class="userinput"><kbd class=
+          "command">unset {C,CPP,CXX,LD}FLAGS</kbd></pre>
+          <p>
+            このパッケージのビルドにあたって独自のコンパイルフラグを使った<span class="quote">「<span class=
+            "quote">チューニング</span>」</span>は避けてください。 本パッケージはブートローダーです。
+            ソースコード内には低レベル処理が含まれており、強引な最適化を行ってしまうと処理が正常に行われなくなります。
+          </p>
+        </div>
         <div class="segmentedlist">
           <div class="seglistitem">
             <div class="seg">
@@ -66,38 +100,8 @@
       </div>
       <div class="installation" lang="ja" xml:lang="ja">
         <h2 class="sect2">
-          8.66.1. GRUB のインストール
+          8.66.1. BIOS 向け GRUB のインストール
         </h2>
-        <div class="admon note">
-          <img alt="[注記]" src="../images/note.png" />
-          <h3>
-            注記
-          </h3>
-          <p>
-            システムが UEFI をサポートしていて、これを使って LFS を起動しようとする場合は、UEFI サポートを含む GRUB
-            (およびその依存パッケージ) をインストールする必要があります。 その場合は <a class="ulink" href=
-            "https://www.linuxfromscratch.org/blfs/view/svn/postlfs/grub-efi.html">
-            BLFS ページ</a> の手順に従ってください。 このパッケージのインストールは省略できます。 あるいは BLFS ブックに示す
-            UEFI パッケージのサポートを含む GRUB を競合することなくインストールすることもできます (BLFS
-            ではどちらの状況に対しても、その手順を説明しています)。
-          </p>
-        </div>
-        <div class="admon warning">
-          <img alt="[警告]" src="../images/warning.png" />
-          <h3>
-            警告
-          </h3>
-          <p>
-            ビルドに影響を与える可能性のある環境変数をリセットします。
-          </p>
-          <pre class="userinput"><kbd class=
-          "command">unset {C,CPP,CXX,LD}FLAGS</kbd></pre>
-          <p>
-            このパッケージをビルドする際に、独自のコンパイルフラグを使って<span class="quote">「<span class=
-            "quote">チューニング</span>」</span>することは止めてください。 このパッケージはブートローダーです。
-            ソースコード内には低レベル操作が用いられており、過激な最適化フラグによってはその機能を壊してしまうかもしれないためです。
-          </p>
-        </div>
         <p>
           はじめに grub-2.14 におけるバグを修正します。
         </p>
@@ -150,15 +154,128 @@
           パッケージをインストールします。
         </p>
         <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.66.2. 64 ビット UEFI 向け GRUB のインストール
+        </h2>
         <p>
-          GRUB を使ってシステムのブート起動設定を行う方法については <a class="xref" href=
-          "../chapter10/grub.html" title="10.4. GRUB を用いたブートプロセスの設定">「GRUB
-          を用いたブートプロセスの設定」</a>で説明しています。
+          64 ビット UEFI を使ったブートを行うには、これをサポートするビルドを行う必要があります。
         </p>
+        <p>
+          まず前節に示す GRUB ビルドを行っているなら、ソースツリーをきれいにしておきます。
+        </p>
+        <pre class="userinput"><kbd class="command">make clean</kbd></pre>
+        <p>
+          はじめに grub-2.14 におけるバグを修正します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed 's/--image-base/--nonexist-linker-option/' -i configure</kbd></pre>
+        <p>
+          64 ビット UEFI サポートを有効にして GRUB を準備します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr       \
+            --sysconfdir=/etc   \
+            --target=x86_64     \
+            --with-platform=efi \
+            --disable-efiemu    \
+            --disable-werror</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>configure オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--target=x86_64</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                UEFI ファームウェアアーキテクチャーを x86_64 として定義します。 GRUB はこれを処理対象とします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-platform=efi</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                これは GRUB が処理対象とするプラットフォームが EFI であることを指定します。 <em class=
+                "parameter"><code>--target=x86_64</code></em>
+                と組み合わせることにより、<code class="literal">x86_64-efi</code>
+                プラットフォームを対象とする機能性を有するものとなります。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          64 ビット UEFI サポート用として本パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          64 ビット UEFI サポートをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+      </div>
+      <div class="installation" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          8.66.3. 32 ビット UEFI 向け GRUB のインストール
+        </h2>
+        <p>
+          32 ビット UEFI を使ったブートを行うには、これをサポートするビルドを行う必要があります。
+          ただしこれを必要とすることは極めてまれです。
+        </p>
+        <p>
+          まず前節に示す GRUB ビルドを行っているなら、ソースツリーをきれいにしておきます。
+        </p>
+        <pre class="userinput"><kbd class="command">make clean</kbd></pre>
+        <p>
+          はじめに grub-2.14 におけるバグを修正します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">sed 's/--image-base/--nonexist-linker-option/' -i configure</kbd></pre>
+        <p>
+          32 ビット UEFI サポートを有効にして GRUB を準備します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">./configure --prefix=/usr       \
+            --sysconfdir=/etc   \
+            --target=i386       \
+            --with-platform=efi \
+            --disable-efiemu    \
+            --disable-werror</kbd></pre>
+        <div class="variablelist">
+          <p class="title">
+            <strong>configure オプションの意味</strong>
+          </p>
+          <dl class="variablelist">
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--target=i386</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                UEFI ファームウェアアーキテクチャーを i386/32 ビットとして定義します。 GRUB はこれを処理対象とします。
+                <em class="parameter"><code>--with-platform=efi</code></em>
+                と組み合わせることにより、<code class="literal">i386-efi</code>
+                プラットフォームを対象とする機能性を有するものとなります。
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          32 ビット UEFI サポート用として本パッケージをコンパイルします。
+        </p>
+        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <p>
+          32 ビット UEFI サポートをインストールします。
+        </p>
+        <pre class="userinput"><kbd class="command">make install</kbd></pre>
       </div>
       <div class="content" lang="ja" xml:lang="ja">
         <h2 class="sect2">
-          <a id="contents-gRUB" name="contents-gRUB"></a>8.66.2. GRUB の構成
+          <a id="contents-gRUB" name="contents-gRUB"></a>8.66.4. GRUB の構成
         </h2>
         <div class="segmentedlist">
           <div class="seglistitem">
@@ -179,6 +296,17 @@
               /boot/grub (grub-install が初めに起動される時)</span>
             </div>
           </div>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            <code class="filename">/usr/lib/grub</code> の内容は、GRUB
+            をどのプラットフォーム向けにビルドしたかによって異なります。 つまり各プラットフォームごとに GRUB
+            モジュールは異なってきます。
+          </p>
         </div>
         <div class="variablelist">
           <h3>
@@ -571,7 +699,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-17">ホーム</a>
+          "Linux From Scratch - Version r13.0-63">ホーム</a>
         </li>
       </ul>
     </div>

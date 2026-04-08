@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r13.0-17">
+  <body class="lfs" id="lfs-r13.0-63">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r13.0-17
+        Linux From Scratch - Version r13.0-63
       </h4>
       <h3>
         第10章 LFS システムのブート設定
@@ -39,7 +39,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-17">ホーム</a>
+          "Linux From Scratch - Version r13.0-63">ホーム</a>
         </li>
       </ul>
     </div>
@@ -118,6 +118,39 @@ EOF</kbd></pre>
         ロケールに変換して取り扱うことを指示するものです。
       </p>
       <p>
+        UEFI を使った GRUB をインストールしている場合、ESP は FAT ファイルシステムでフォーマットされていなければなりません。
+        ごく普通には VFAT とします。 このファイルは実際がどうであれ VFAT として認識します。 ESP
+        に対するエントリとして記述すべき内容は、およそ以下のようになります。
+      </p>
+      <pre class="userinput"><kbd class=
+      "command">cat &gt;&gt; /etc/fstab &lt;&lt; "EOF"
+<code class="literal">/dev/<em class=
+"replaceable"><code>&lt;zzz&gt;</code></em>  /boot/efi  vfat  rw,relatime,codepage=437,iocharset=iso8859-1   0   2</code>
+EOF</kbd></pre>
+      <p>
+        IO キャラクターセット <code class="literal">iso8859-1</code> がここで指定されています。 これは
+        <a class="xref" href="kernel.html" title=
+        "10.3. Linux-6.19.10">「Linux-6.19.10」</a> におけるカーネル UEFI
+        設定の一部として機能させるためです。 技術面で言うと、これまでに述べてきたように IO
+        キャラクターセットは普段使用するロケールに合わせるべきものです。 しかし ESP に含まれるファイルはすべて 7
+        ビットアスキー文字しか用いていません。 したがって ISO-8859-1 と同様に 7
+        ビットアスキー文字を取り扱うロケールであれば何でも構いません。 たとえば UTF-8 はこれに該当するキャラクターセットです。
+      </p>
+      <div class="admon note">
+        <img alt="[注記]" src="../images/note.png" />
+        <h3>
+          注記
+        </h3>
+        <p>
+          EFI ファイルシステムは GRUB のインストール時にのみマウントが必要となります。
+          システムはこのパーティションを、カーネルがロードされる前に利用し、それ以降は利用しません。 このエントリを fstab
+          ファイルに記述しないのであれば、<a class="xref" href="grub.html" title=
+          "10.4. GRUB を用いたブートプロセスの設定">「GRUB を用いたブートプロセスの設定」</a> に示した
+          <span class="command"><strong>grub-install</strong></span>
+          の実行前に手動でマウントすることで実現できます。
+        </p>
+      </div>
+      <p>
         ファイルシステムによっては codepage と iocharset のデフォルト値をカーネルにおいて設定することもできます。
         カーネルにおいて対応する設定は<span class="quote">「<span class="quote">Default NLS
         Option</span>」</span>(<code class=
@@ -153,7 +186,7 @@ EOF</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-17">ホーム</a>
+          "Linux From Scratch - Version r13.0-63">ホーム</a>
         </li>
       </ul>
     </div>

@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r13.0-17">
+  <body class="lfs" id="lfs-r13.0-63">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r13.0-17
+        Linux From Scratch - Version r13.0-63
       </h4>
       <h3>
         第10章 LFS システムのブート設定
@@ -41,7 +41,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-17">ホーム</a>
+          "Linux From Scratch - Version r13.0-63">ホーム</a>
         </li>
       </ul>
     </div>
@@ -271,6 +271,44 @@
   N<span class="blue">V</span>ME Support ---&gt;
     &lt;*&gt; N<span class=
 "blue">V</span>M Express block device                                  [BLK_DEV_NVME]</pre>
+          <p>
+            UEFI を使ったブートを行う場合は、EFI パーティションのために必要となる DOS VFAT
+            ファイルシステムのサポートを加えます。 その上でカーネル調整により EFI パーティションとランタイムサポートを有効にします。
+          </p>
+          <pre class="screen"><span class=
+          "blue">P</span>rocessor type and features ---&gt;
+  [*] <span class=
+"blue">E</span>FI runtime service support                                          [EFI]
+  [*]   <span class=
+"blue">E</span>FI stub support                                              [EFI_STUB]
+
+-*- <span class=
+"blue">E</span>nable the block layer ---&gt;                                          [BLOCK]
+  <span class="blue">P</span>artition Types ---&gt;
+    [ /*] <span class=
+"blue">A</span>dvanced partition selection                      [PARTITION_ADVANCED]
+    [*]     <span class=
+"blue">E</span>FI GUID Partition support                           [EFI_PARTITION]
+
+<span class="blue">F</span>ile systems ---&gt;
+  <span class="blue">D</span>OS/FAT/EXFAT/NT Filesystems ---&gt;
+    &lt;*/M&gt; <span class=
+"blue">V</span>FAT (Windows-95) fs support                                 [VFAT_FS]
+  <span class="blue">P</span>seudo filesystems ---&gt;
+    &lt;*/M&gt; <span class=
+"blue">E</span>FI Variable filesystem                                    [EFIVAR_FS]
+  -*- N<span class=
+"blue">a</span>tive language support ---&gt;                                         [NLS]
+    &lt;*/M&gt; <span class=
+"blue">C</span>odepage 437 (United States, Canada)                [NLS_CODEPAGE_437]
+    &lt;*/M&gt; N<span class=
+"blue">L</span>S ISO 8859-1  (Latin 1; Western European Languages)  [NLS_ISO8859_1]</pre>
+          <p>
+            <code class="literal">PARTITION_ADVANCED</code>
+            を選択しなかった場合、<code class="literal">EFI_PARTITION</code>
+            が消えますが、ただし内部的では選択状態となります。 UEFI 経由でのブートを必要とするなら <code class=
+            "literal">PARTITION_ADVANCED</code> は選択しないでください。
+          </p>
         </div>
         <p>
           システムに特定の機能性が必要になれば、それだけ多くのオプションが必要となります。 例えば BLFS
@@ -278,20 +316,6 @@
           "https://www.linuxfromscratch.org/blfs/view/svn/longindex.html#kernel-config-index">
           BLFS Index of Kernel Settings</a> を参照してください。
         </p>
-        <div class="admon note">
-          <img alt="[注記]" src="../images/note.png" />
-          <h3>
-            注記
-          </h3>
-          <p>
-            ホストが UEFI を利用していて、これを使って LFS システムのブートを行いたい場合は、 <a class="ulink"
-            href=
-            "https://www.linuxfromscratch.org/blfs/view/svn/postlfs/grub-setup.html#uefi-kernel">
-            BLFS ページ</a> に従って、カーネル設定を調整する必要があります。 <span class=
-            "bold"><strong>これは、ホストディストリビューションにて UEFI
-            ブートローダーを利用している場合であっても同様です。</strong></span>
-          </p>
-        </div>
         <div class="variablelist">
           <p class="title">
             <strong>上の設定項目の説明</strong>
@@ -531,7 +555,7 @@
           アーキテクチャーの場合の例です。
         </p>
         <pre class="userinput"><kbd class=
-        "command">cp -iv arch/x86/boot/bzImage /boot/vmlinuz-6.19.10-lfs-r13.0-17</kbd></pre>
+        "command">cp -iv arch/x86/boot/bzImage /boot/vmlinuz-6.19.10-lfs-r13.0-63</kbd></pre>
         <p>
           <code class="filename">System.map</code> はカーネルに対するシンボルファイルです。
           このファイルはカーネル API の各関数のエントリポイントをマッピングしています。
@@ -655,7 +679,7 @@ EOF</kbd></pre>
           <div class="seglistitem">
             <div class="seg">
               <strong class="segtitle">インストールファイル:</strong> <span class=
-              "segbody">config-6.19.10, vmlinuz-6.19.10-lfs-r13.0-17, and
+              "segbody">config-6.19.10, vmlinuz-6.19.10-lfs-r13.0-63, and
               System.map-6.19.10</span>
             </div>
             <div class="seg">
@@ -693,7 +717,7 @@ EOF</kbd></pre>
                   <p>
                     <a id="lfskernel" name="lfskernel"></a><span class=
                     "term"><code class=
-                    "filename">vmlinuz-6.19.10-lfs-r13.0-17</code></span>
+                    "filename">vmlinuz-6.19.10-lfs-r13.0-63</code></span>
                   </p>
                 </td>
                 <td>
@@ -747,7 +771,7 @@ EOF</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-17">ホーム</a>
+          "Linux From Scratch - Version r13.0-63">ホーム</a>
         </li>
       </ul>
     </div>

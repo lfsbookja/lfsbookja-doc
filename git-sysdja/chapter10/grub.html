@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r13.0-17-systemd">
+  <body class="lfs" id="lfs-r13.0-63-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r13.0-17-systemd
+        Linux From Scratch - Version r13.0-63-systemd
       </h4>
       <h3>
         第10章 LFS システムのブート設定
@@ -40,7 +40,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-17-systemd">ホーム</a>
+          "Linux From Scratch - Version r13.0-63-systemd">ホーム</a>
         </li>
       </ul>
     </div>
@@ -49,21 +49,6 @@
       を用いたブートプロセスの設定
     </h1>
     <div class="wrap" lang="ja" xml:lang="ja">
-      <div class="admon note">
-        <img alt="[注記]" src="../images/note.png" />
-        <h3>
-          注記
-        </h3>
-        <p>
-          UEFI サポートが有効なシステムにおいて UEFI を使って LFS
-          をブートしたい場合は、本ページに示す手順は読み飛ばしてください。 ただし <code class=
-          "filename">grub.cfg</code>
-          の文法を学ぶ場合や、ファイル内にあるパーティションの指定方法を学ぶ場合は確認しておいてください。 そして <a class=
-          "ulink" href=
-          "https://www.linuxfromscratch.org/blfs/view/systemd/postlfs/grub-setup.html">
-          BLFS ページ</a> に示されている手順に従って、UEFI に対応するように GRUB 設定を行ってください。
-        </p>
-      </div>
       <div class="sect2" lang="ja" xml:lang="ja">
         <h2 class="sect2">
           10.4.1. はじめに
@@ -76,7 +61,7 @@
           <p>
             GRUB の設定を誤ってしまうと、CD-ROM や USB 起動ドライブのような他のデバイスからもブートできなくなってしまいます。
             読者の LFS システムをブート可能とするためには、本節の内容は必ずしも必要ではありません。
-            読者が利用している現在のブートローダー、例えば Grub-Legacy, GRUB2, LILO
+            読者が利用している現在のブートローダー、例えば Grub-Legacy, GRUB2
             などの設定を修正することが必要かもしれません。
           </p>
         </div>
@@ -96,7 +81,17 @@ xorriso -as cdrecord -v dev=/dev/cdrw blank=as_needed grub-img.iso</kbd></pre>
       </div>
       <div class="sect2" lang="ja" xml:lang="ja">
         <h2 class="sect2">
-          10.4.2. GRUB の命名規則
+          10.4.2. セキュアブートの無効化
+        </h2>
+        <p>
+          LFS にはセキュアブートをサポートする基本的なパッケージがありません。
+          本節の手順に従ってブートプロセスを設定する際には、ファームウェアの設定において Secure Boot は必ずオフに設定してください。
+          Secure Boot サポートの無効化に関する詳細手順は、利用しているシステムの製造者が提供するドキュメントを参照してください。
+        </p>
+      </div>
+      <div class="sect2" lang="ja" xml:lang="ja">
+        <h2 class="sect2">
+          10.4.3. GRUB の命名規則
         </h2>
         <p>
           GRUB ではドライブやパーティションに対して <span class=
@@ -117,27 +112,65 @@ xorriso -as cdrecord -v dev=/dev/cdrw blank=as_needed grub-img.iso</kbd></pre>
       </div>
       <div class="sect2" lang="ja" xml:lang="ja">
         <h2 class="sect2">
-          10.4.3. 設定作業
+          10.4.4. 設定作業
         </h2>
         <p>
-          GRUB は、ハードディスク上の最初の物理トラックにデータを書き出します。 この領域は、どのファイルシステムにも属していません。
-          ここに配置されているプログラムは、ブートパーティションにある GRUB モジュールにアクセスします。 モジュールのデフォルト位置は
-          /boot/grub/ です。
+          BIOS を経由してシステムをブートする場合、GRUB がハードディスクの最初のセクター (マスターブートレコード, MBR
+          と呼ばれる) にスタブを書き込みます。 この領域はファイルシステムに属するものではありません。 BIOS は MBR
+          の内容をロードして実行します。 そしてスタブが、BIOS ブートパーティションからメインの GRUB イメージをロードします。
+          GRUB イメージはファイルとしてではなく、生のデータとして保存されます (BIOS
+          ブートパーティションにファイルシステムがあってはなりません)。 したがってスタブはファイルシステムを一切サポートする必要がなく、MBR
+          に収まるように充分小さくすることができます。
+        </p>
+        <p>
+          UEFI を経由してシステムをブートする場合、GRUB はメインの GRUB イメージを PE-COFF
+          実行ファイルとして保存し機能します。 そしてその保存場所は EFI システムパーティション <code class=
+          "filename">EFI/BOOT/BOOTX64.EFI</code> (<code class=
+          "literal">i386-efi</code> の場合は <code class=
+          "filename">EFI/BOOT/BOOTIA32.EFI</code>) 内にある標準的な場所になります。 UEFI
+          ファームウェアはその標準的な場所から、その実行ファイルをロードして実行し GRUB を起動します。
+        </p>
+        <p>
+          GRUB 関数 (Linux カーネルのブートを行うものを含む) の多くは、メインの GRUB イメージの中にはありません。 それは
+          GRUB モジュールとしてファイルシステム内に保存されています。 そのファイルシステムは、たいていの Linux
+          ディストリビューションでは、<code class="filename">/boot/grub</code> にマウントされ GRUB
+          モジュールにアクセスできます。
+          このことが「にわとりが先かタマゴが先か」の問題とならないように、このファイルシステムへのアクセスに必要となるモジュールを
+          <span class="command"><strong>grub-install</strong></span> がメインの
+          GRUB イメージの中に埋め込みます。 これにより他のモジュールをロードすることができるようになります。
         </p>
         <p>
           ブートパーティションをどこにするかは各人に委ねられていて、それによって設定方法が変わります。
           推奨される1つの手順としては、ブートパーティションとして独立した小さな (200MB 程度のサイズの)
           パーティションを設けることです。 こうしておくと、この後に LFS
-          であろうが商用ディストリビューションであろうが、システム導入する際に同一のブートファイルを利用することが可能です。
-          つまりどのようなブートシステムからでもアクセスが可能となります。 この方法をとるなら、新たなパーティションをマウントした上で、現在
-          <code class="filename">/boot</code> ディレクトリにある全ファイルを (例えば前節にてビルドした
-          Linux カーネルも) 新しいパーティションに移動させる必要があります。 そしていったんパーティションをアンマウントし、再度
-          <code class="filename">/boot</code> としてマウントしなおすことになります。
-          これを行った後は<code class="filename">/etc/fstab</code> を適切に書き換えてください。
+          であろうが商用ディストリビューションであろうが、同一のブートファイルを別のブートシステムに対しても利用できます。
+          この方法をとるなら、新たなパーティションをマウントした上で、現在 <code class=
+          "filename">/boot</code> ディレクトリにある全ファイルを (例えば前節にてビルドした Linux カーネルも)
+          新しいパーティションに移動させる必要があります。 そしていったんパーティションをアンマウントし、再度 <code class=
+          "filename">/boot</code> としてマウントしなおすことになります。 これを行った後は<code class=
+          "filename">/etc/fstab</code> を適切に書き換えてください。
         </p>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            ホストディストロが <code class="filename">/boot</code>
+            に対して個別のパーティションを用いていて、かつ LFS も <code class="filename">/boot</code>
+            に対してそのパーティションを利用したいのであれば、そのパーティションをホストディストロの <code class=
+            "filename">$LFS/boot</code> にマウントしてください。 Linux
+            カーネルでは、複数のマウントポイントに対してパーティションをマウントする機能がサポートされています。
+          </p>
+        </div>
         <p>
           現時点での LFS パーティションにて <code class="filename">/boot</code>
           を残しておいても問題なく動作します。 ただし複数システムを取り扱うための設定は、より複雑になります。
+        </p>
+        <p>
+          ブートパーティションのレイアウトに関する具体的な話については、<a class="xref" href=
+          "../chapter02/creatingpartition.html" title=
+          "2.4. 新しいパーティションの生成">「新しいパーティションの生成」</a> に分かり易いかもしれません。
         </p>
         <p>
           ここまでの情報に基づいて、ルートパーティションの名称を (あるいはブートパーティションを別パーティションとするならそれも含めて)
@@ -145,42 +178,166 @@ xorriso -as cdrecord -v dev=/dev/cdrw blank=as_needed grub-img.iso</kbd></pre>
           "filename">sda2</code> であるとします。
         </p>
         <p>
-          以下を実行して GRUB ファイル類を <code class="filename">/boot/grub</code>
-          にインストールし、ブートトラックを構築します。
+          これ以降の節では BIOS または UEFI を使ったブート方法について説明していきます。 BIOS、64 ビット UEFI、32
+          ビット UEFI のそれぞれに対する GRUB インストールは共存が可能であり、同一の設定を共有することができます。 GRUB
+          イメージやデータは、それぞれに異なる場所に配置されるため、BIOS ブートパーティションと EFI
+          システムパーティションを同時に生成しておくこともでき、サポートされるファームウェアのタイプすべてに対して GRUB
+          をインストールすることができます (<span class=
+          "command"><strong>grub-install</strong></span> を 3 回実行することになります)。
+          利用しているファームウェアタイプが何かがよく分からない場合、またはハードディスクを別コンピューターに移転しようとしている場合は、共存させるという手法が必要になるかもしれません。
         </p>
-        <div class="admon warning">
-          <img alt="[警告]" src="../images/warning.png" />
-          <h3>
-            警告
-          </h3>
-          <p>
-            以下に示すコマンドを実行すると、現在のブートローダーを上書きします。
-            上書きするのが不適当であるならコマンドを実行しないでください。 例えばマスターブートレコード (Master Boot
-            Record; MBR) を管理するサードパーティ製のブートマネージャーソフトウェアを利用している場合などがこれに該当します。
-          </p>
-        </div>
-        <pre class="userinput"><kbd class=
-        "command">grub-install /dev/sda</kbd></pre>
         <div class="admon note">
           <img alt="[注記]" src="../images/note.png" />
           <h3>
             注記
           </h3>
           <p>
-            システムが UEFI を通じて起動されている時、<span class=
-            "command"><strong>grub-install</strong></span> は <span class=
-            "emphasis"><em>x86_64-efi</em></span>
-            ターゲットに対するファイルをインストールしようとします。 しかしそのようなファイルは <a class="xref" href=
-            "../chapter08/chapter08.html" title=
-            "第8章 基本的なソフトウェアのインストール">第&nbsp;8&nbsp;章</a> にてインストールしていません。
-            その場合は上のコマンドに対して <code class="option">--target i386-pc</code>
-            を追加してください。
+            UEFI ブートを行おうとしているのに Grub ブートパーティションを生成してしまった場合、UEFI
+            ブートが思うように動かないかもしれないことから、BIOS 向けコマンドを実行しておくのが良いでしょう。
           </p>
+        </div>
+        <div class="admon note">
+          <img alt="[注記]" src="../images/note.png" />
+          <h3>
+            注記
+          </h3>
+          <p>
+            GRUB によるブートはただ一つの方法だけ実現すれば十分であるなら、複数に対処するために複数回コマンドを実行する必要はありません。
+            必要としているブート向けのコマンドだけを実行すれば十分です。
+          </p>
+        </div>
+        <div class="sect3">
+          <h3 class="sect3">
+            10.4.4.1. BIOS を使ったブート
+          </h3>
+          <p>
+            BIOS を使ったブートでは、ブートパーティションがマウントされていて (個別のパーティションを用意している場合)、BIOS
+            ブートパーティションが存在していることを確認してください。 GRUB ファイル類を <code class=
+            "filename">/boot/grub</code> にインストールしたら、ブートトラックを設定します。
+          </p>
+          <div class="admon warning">
+            <img alt="[警告]" src="../images/warning.png" />
+            <h3>
+              警告
+            </h3>
+            <p>
+              以下のコマンドを実行すると、それまでのブートローダーを上書きします。 これを避けたい場合はコマンドを実行しないでください。
+              たとえば MBR の管理を行うサードパーティー製のブートマネージャーを利用している場合などです。
+            </p>
+          </div>
+          <pre class="userinput"><kbd class=
+          "command">grub-install /dev/sda --target=i386-pc</kbd></pre>
+        </div>
+        <div class="sect3">
+          <h3 class="sect3">
+            10.4.4.2. UEFI を使ったブート
+          </h3>
+          <p>
+            UEFI を使ったブートでは、ブートパーティションがマウントされていて (個別のパーティションを用意している場合)、EFI
+            システムパーティションが <code class="filename">/boot/efi</code>
+            にマウントされていることを確認してください。 その上で GRUB ファイル類を <code class=
+            "filename">/boot/grub</code> に、またメインの GRUB イメージを <code class=
+            "filename">/boot/efi/EFI/BOOT/BOOTX64.EFI</code> にインストールします。
+          </p>
+          <div class="admon warning">
+            <img alt="[警告]" src="../images/warning.png" />
+            <h3>
+              警告
+            </h3>
+            <p>
+              以下のコマンドは <code class=
+              "filename">/boot/efi/EFI/BOOT/BOOTX64.EFI</code> ファイルを上書きします。
+              すでにこのファイルが存在していたとしたら、それは別のブートローダー (たとえばホストディストロからの GRUB
+              インストール、あるいは Windows ブートマネージャー) によって導入されているものかもしれません。
+              後々の復元のことを考慮して、あるいは新たな GRUB インストールによって構成される 2
+              つめのブートローダー用としてロードできるように、このファイルのバックアップを取っておいてください。
+            </p>
+          </div>
+          <pre class="userinput"><kbd class=
+          "command">grub-install --target=x86_64-efi --removable</kbd></pre>
+          <p>
+            上のコマンドは、64 ビット UEFI ファームウェアを利用している場合のものです。 32 ビット UEFI
+            ファームウェア用としてシステムブートを行いたい場合は、<code class=
+            "literal">x86_64-efi</code> の部分を <code class=
+            "literal">i386-efi</code> に置き換えてコマンド実行してください。
+          </p>
+          <p>
+            <em class="parameter"><code>--removable</code></em> オプションは
+            <span class="command"><strong>grub-install</strong></span>
+            が標準的なインストール場所 <code class="filename">EFI/BOOT/BOOTX64.EFI</code>
+            (<code class="literal">i386-efi</code> の場合は <code class=
+            "filename">EFI/BOOT/BOOTIA32.EFI</code>) を用いるように指定するものです。
+            これを指定しなかった場合 GRUB は <code class=
+            "filename">EFI/GRUB/GRUBX64.EFI</code> または <code class=
+            "filename">EFI/GRUB/GRUBIA32.EFI</code> をインストール先とします。
+            標準的ではない場所を用いたとしても、EFI 変数が指定されていれば、その場所に正しくインストールされます。 しかし LFS では
+            BLFS パッケージ <a class="ulink" href=
+            "https://www.linuxfromscratch.org/blfs/view/systemd/postlfs/efibootmgr.html">
+            efibootmgr</a> が導入されていません。 これがないと EFI 変数を取り扱うことはできません。
+          </p>
+          <div class="admon note">
+            <img alt="[注記]" src="../images/note.png" />
+            <h3>
+              注記
+            </h3>
+            <p>
+              UEFI ブートローダーの中には、極めてまれな例として、ハードコーディングされた EFI パスを無視するものがあります。
+              そのようなシステムというのは、Lenevo ThinkPads とか HP
+              デスクトップ/ノートパソコンに見られる、かなり古いものです。 ブートエントリが BIOS 内にない場合、BLFS パッケージ
+              <a class="ulink" href=
+              "https://www.linuxfromscratch.org/blfs/view/systemd/postlfs/efibootmgr.html">
+              efibootmgr</a> をインストールして UEFI 向けのブートエントリを生成しないといけないかもしれません。
+              簡易な方法として、ホストディストリビューションのパッケージマネージャーがそのパッケージに対応していて、それをインストールし、LFS
+              システム上ではなくホストシステム上にて利用するということも考えられます。 これが可能であれば、LFS
+              システムに別パッケージを導入しなくても済みます。
+            </p>
+            <p>
+              はじめにそのパッケージをインストールします。 そしてファイルシステムのマウントをまだ行っていないのであれば、EFI
+              変数を使ってファイルシステムをマウントします。
+            </p>
+            <pre class="userinput"><kbd class=
+            "command">mountpoint /sys/firmware/efi/efivars ||
+  mount -v -t efivarfs efivarfs /sys/firmware/efi/efivars</kbd></pre>
+            <p>
+              そして EFI 向けのブートエントリを生成します。
+            </p>
+            <pre class="userinput"><kbd class=
+            "command">efibootmgr -c -d /dev/sd<em class=
+            "replaceable"><code>&lt;x&gt;</code></em> \
+  -p <em class=
+"replaceable"><code>&lt;y&gt;</code></em> -L "LFS" -l '\EFI\BOOT\BOOT<em class="replaceable"><code>&lt;X64&gt;</code></em>.EFI'</kbd></pre>
+            <p>
+              <code class="literal">/dev/sd<em class=
+              "replaceable"><code>&lt;x&gt;</code></em></code> の部分は LFS
+              をインストールしている場所となるよう適切に記述してください。 またパーティション番号 <em class=
+              "replaceable"><code>&lt;y&gt;</code></em> は、ESP
+              をマウントしている番号に合わせてください。 ESP を <code class=
+              "literal">/dev/sda2</code> にしている場合、パーティション番号は <code class=
+              "literal">2</code> となります。 32 ビット UEFI の設定時は <em class=
+              "replaceable"><code>&lt;X64&gt;</code></em> の部分を <code class=
+              "literal">IA32</code> に置き換えてください。
+            </p>
+            <p>
+              (不具合のある) ファームウェアでは <span class=
+              "command"><strong>efibootmgr</strong></span>
+              に対してさらなるパラメーターが必要になる場合があります。 たとえば <em class=
+              "parameter"><code>--full-dev-path</code></em> や <em class=
+              "parameter"><code>-e 1 -E</code></em> といったものです。 詳しくは man ページ
+              <a class="ulink" href=
+              "https://man.archlinux.org/man/efibootmgr.8">efibootmgr(8)</a>
+              を参照してください。
+            </p>
+            <p>
+              そして EFI 変数をアンマウントします。
+            </p>
+            <pre class="userinput"><kbd class=
+            "command">umount -v /sys/firmware/efi/efivars</kbd></pre>
+          </div>
         </div>
       </div>
       <div class="sect2" lang="ja" xml:lang="ja">
         <h2 class="sect2">
-          <a id="grub-cfg" name="grub-cfg"></a>10.4.4. GRUB 設定ファイルの生成
+          <a id="grub-cfg" name="grub-cfg"></a>10.4.5. GRUB 設定ファイルの生成
         </h2>
         <p>
           <code class="filename">/boot/grub/grub.cfg</code> ファイルを生成します。
@@ -193,36 +350,46 @@ set timeout=5
 
 insmod part_gpt
 insmod ext2
+
 set root=(hd0,2)
+
+# For UEFI
+insmod efi_gop
+insmod efi_uga
+
 set gfxpayload=1024x768x32
 
-menuentry "GNU/Linux, Linux 6.19.10-lfs-r13.0-17-systemd" {
-        linux   /boot/vmlinuz-6.19.10-lfs-r13.0-17-systemd root=/dev/sda2 ro
+menuentry "GNU/Linux, Linux 6.19.10-lfs-r13.0-63-systemd" {
+        linux   /boot/vmlinuz-6.19.10-lfs-r13.0-63-systemd root=/dev/sda2 ro
 }</code>
 EOF</kbd></pre>
         <p>
           <span class="command"><strong>insmod</strong></span> コマンドは
           <span class="application">GRUB</span> モジュールである <code class=
-          "filename">part_gpt</code> と <code class="filename">ext2</code>
+          "filename">part_gpt</code>、<code class=
+          "filename">ext2</code>、<code class=
+          "filename">efi_gop</code>、<code class="filename">efi_uga</code>
           をロードします。 そしてその名前こそ <code class="filename">ext2</code>
           となっていますが、このモジュールは実際には <code class="systemitem">ext2</code>,
           <code class="systemitem">ext3</code>, <code class=
-          "systemitem">ext4</code> の各ファイルシステムをサポートしています。 <span class=
-          "command"><strong>grub-install</strong></span>
-          コマンドによっていくつかのモジュールは、メインの（MBR または GRUB BIOS
-          パーティションにインストールされる）<span class="application">GRUB</span>
-          イメージ内に埋め込まれており、鶏が先か卵が先かという問題を生じさせることなく、そこから（<code class=
-          "filename">/boot/grub/i386-pc</code> にある）他モジュールへのアクセスを可能としています。
-          したがってごく普通の設定を行っていれば、上述の 2 つのもジュールはすでに埋め込まれていることとなり、<span class=
-          "command"><strong>insmod</strong></span> コマンドは何も行わないことになります。
-          そうなったとしても何も問題はありませんが、特殊な設定を行った際には必要となるかもしれません。
+          "systemitem">ext4</code> の各ファイルシステムをサポートしています。 UEFI システムでは
+          <code class="filename">efi_gop</code> と <code class=
+          "filename">efi_uga</code> がビデオ機能をサポートします。 具体的には GOP (Graphics
+          Output Protocol) を用いるのが最新式であり、UGA (UGA Draw Protocol)
+          を用いるのがレガシーな方式です。 通常の設定では <code class="filename">part_gpt</code> と
+          <code class="filename">ext2</code> の各モジュールが、<span class=
+          "command"><strong>grub-install</strong></span> によって GRUB
+          のメインイメージに埋め込まれています。 したがってこれらのモジュールを <span class=
+          "command"><strong>insmod</strong></span> に対して用いても何も起きません。
+          これは問題を引き起こすものではなく、特殊な設定を行った際には必要となるかもしれません。
         </p>
         <p>
           <span class="command"><strong>set
           gfxpayload=1024x768x32</strong></span> コマンドは VESA
           フレームバッファーの解像度と色の深さを設定するものであり、これがカーネルに受け渡されます。 VESA
           フレームバッファー向けにカーネルの SimpleDRM ドライバーを用いる場合にこの指定が必要になります。
-          モニター画面に最適な解像度や色深さを選んでください。
+          モニター画面に最適な解像度や色深さを選んでください。 その指定行は、システムが UEFI
+          経由のブート時には何も行わず、書かれていても何も問題はありません。
         </p>
         <div class="admon note">
           <img alt="[注記]" src="../images/note.png" />
@@ -273,12 +440,13 @@ EOF</kbd></pre>
           </p>
           <p>
             <code class="filename">/dev</code>
-            内のパーティションに対するデバイスノード名も変わります（GRUB 指定子が変更される可能性よりは低いです）。
-            <code class="filename">/etc/fstab</code>
-            において記述するデバイスノードへのパスは、たとえば <code class="literal">/dev/sda1</code>
-            を <code class="literal">PARTUUID=<em class=
-            "replaceable"><code>&lt;パーティション UUID&gt;</code></em></code>
-            に置き換えることができます。 これによりデバイスノード名が変更になった場合の、潜在的な起動エラーを回避することができます。
+            内のパーティションに対するデバイスノード名も変わります（複数の NVME
+            ディスクを有するシステムでは頻繁に発生することがあります）。 <code class=
+            "filename">/etc/fstab</code> において記述するデバイスノードへのパスは、たとえば
+            <code class="literal">/dev/sda1</code> を <code class=
+            "literal">PARTUUID=<em class="replaceable"><code>&lt;パーティション
+            UUID&gt;</code></em></code> に置き換えることができます。
+            これによりデバイスノード名が変更になった場合の、潜在的な起動エラーを回避することができます。
           </p>
         </div>
         <p>
@@ -325,7 +493,7 @@ EOF</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-17-systemd">ホーム</a>
+          "Linux From Scratch - Version r13.0-63-systemd">ホーム</a>
         </li>
       </ul>
     </div>
