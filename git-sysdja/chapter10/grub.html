@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r13.0-67-systemd">
+  <body class="lfs" id="lfs-r13.0-87-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r13.0-67-systemd
+        Linux From Scratch - Version r13.0-87-systemd
       </h4>
       <h3>
         第10章 LFS システムのブート設定
@@ -40,7 +40,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-67-systemd">ホーム</a>
+          "Linux From Scratch - Version r13.0-87-systemd">ホーム</a>
         </li>
       </ul>
     </div>
@@ -160,7 +160,7 @@ xorriso -as cdrecord -v dev=/dev/cdrw blank=as_needed grub-img.iso</kbd></pre>
             に対して個別のパーティションを用いていて、かつ LFS も <code class="filename">/boot</code>
             に対してそのパーティションを利用したいのであれば、そのパーティションをホストディストロの <code class=
             "filename">$LFS/boot</code> にマウントしてください。 Linux
-            カーネルでは、複数のマウントポイントに対してパーティションをマウントする機能がサポートされています。
+            カーネルでは、複数のマウントポイントに対して 1 つのパーティションをマウントする機能がサポートされています。
           </p>
         </div>
         <p>
@@ -273,7 +273,8 @@ xorriso -as cdrecord -v dev=/dev/cdrw blank=as_needed grub-img.iso</kbd></pre>
             標準的ではない場所を用いたとしても、EFI 変数が指定されていれば、その場所に正しくインストールされます。 しかし LFS では
             BLFS パッケージ <a class="ulink" href=
             "https://www.linuxfromscratch.org/blfs/view/systemd/postlfs/efibootmgr.html">
-            efibootmgr</a> が導入されていません。 これがないと EFI 変数を取り扱うことはできません。
+            efibootmgr</a> が導入されていません。 これがないと GRUB がその位置を EFI
+            変数に保存しておくことができません。
           </p>
           <div class="admon note">
             <img alt="[注記]" src="../images/note.png" />
@@ -281,10 +282,10 @@ xorriso -as cdrecord -v dev=/dev/cdrw blank=as_needed grub-img.iso</kbd></pre>
               注記
             </h3>
             <p>
-              UEFI ブートローダーの中には、極めてまれな例として、ハードコーディングされた EFI パスを無視するものがあります。
+              UEFI ファームウェアの中には、極めてまれな例として、標準的な EFI パスを無視するものがあります。
               そのようなシステムというのは、Lenovo ThinkPads とか HP
-              デスクトップ/ノートパソコンに見られる、かなり古いものです。 ブートエントリが BIOS 内にない場合、BLFS パッケージ
-              <a class="ulink" href=
+              デスクトップ/ノートパソコンに見られる、かなり古いものです。 ブートエントリがファームウェアセットアップ時にない場合、BLFS
+              パッケージ <a class="ulink" href=
               "https://www.linuxfromscratch.org/blfs/view/systemd/postlfs/efibootmgr.html">
               efibootmgr</a> をインストールして UEFI 向けのブートエントリを生成しないといけないかもしれません。
               簡易な方法として、ホストディストリビューションのパッケージマネージャーがそのパッケージに対応していて、それをインストールし、LFS
@@ -308,14 +309,13 @@ xorriso -as cdrecord -v dev=/dev/cdrw blank=as_needed grub-img.iso</kbd></pre>
 "replaceable"><code>&lt;y&gt;</code></em> -L "LFS" -l '\EFI\BOOT\BOOT<em class="replaceable"><code>&lt;X64&gt;</code></em>.EFI'</kbd></pre>
             <p>
               <code class="literal">/dev/sd<em class=
-              "replaceable"><code>&lt;x&gt;</code></em></code> の部分は LFS
-              をインストールしている場所となるよう適切に記述してください。 またパーティション番号 <em class=
-              "replaceable"><code>&lt;y&gt;</code></em> は、ESP
-              をマウントしている番号に合わせてください。 ESP を <code class=
-              "literal">/dev/sda2</code> にしている場合、パーティション番号は <code class=
-              "literal">2</code> となります。 32 ビット UEFI の設定時は <em class=
-              "replaceable"><code>&lt;X64&gt;</code></em> の部分を <code class=
-              "literal">IA32</code> に置き換えてください。
+              "replaceable"><code>&lt;x&gt;</code></em></code> の部分は ESP
+              が存在している場所となるよう適切に記述してください。 またパーティション番号 <em class=
+              "replaceable"><code>&lt;y&gt;</code></em> は、ESP の番号に合わせてください。
+              ESP を <code class="literal">/dev/sda2</code> にしている場合、パーティション番号は
+              <code class="literal">2</code> となります。 32 ビット UEFI の設定時は
+              <em class="replaceable"><code>&lt;X64&gt;</code></em> の部分を
+              <code class="literal">IA32</code> に置き換えてください。
             </p>
             <p>
               (不具合のある) ファームウェアでは <span class=
@@ -359,8 +359,8 @@ insmod efi_uga
 
 set gfxpayload=1024x768x32
 
-menuentry "GNU/Linux, Linux 6.19.12-lfs-r13.0-67-systemd" {
-        linux   /boot/vmlinuz-6.19.12-lfs-r13.0-67-systemd root=/dev/sda2 ro
+menuentry "GNU/Linux, Linux 6.19.12-lfs-r13.0-87-systemd" {
+        linux   /boot/vmlinuz-6.19.12-lfs-r13.0-87-systemd root=/dev/sda2 ro
 }</code>
 EOF</kbd></pre>
         <p>
@@ -375,7 +375,7 @@ EOF</kbd></pre>
           "systemitem">ext4</code> の各ファイルシステムをサポートしています。 UEFI システムでは
           <code class="filename">efi_gop</code> と <code class=
           "filename">efi_uga</code> がビデオ機能をサポートします。 具体的には GOP (Graphics
-          Output Protocol) を用いるのが最新式であり、UGA (UGA Draw Protocol)
+          Output Protocol) を用いるのが最新式であり、UGA (Universal Graphics Adaptor)
           を用いるのがレガシーな方式です。 通常の設定では <code class="filename">part_gpt</code> と
           <code class="filename">ext2</code> の各モジュールが、<span class=
           "command"><strong>grub-install</strong></span> によって GRUB
@@ -493,7 +493,7 @@ EOF</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-67-systemd">ホーム</a>
+          "Linux From Scratch - Version r13.0-87-systemd">ホーム</a>
         </li>
       </ul>
     </div>

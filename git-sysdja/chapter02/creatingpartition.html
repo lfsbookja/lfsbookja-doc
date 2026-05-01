@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r13.0-67-systemd">
+  <body class="lfs" id="lfs-r13.0-87-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r13.0-67-systemd
+        Linux From Scratch - Version r13.0-87-systemd
       </h4>
       <h3>
         第2章 ホストシステムの準備
@@ -40,7 +40,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-67-systemd">ホーム</a>
+          "Linux From Scratch - Version r13.0-87-systemd">ホーム</a>
         </li>
       </ul>
     </div>
@@ -208,8 +208,8 @@
             "filename">/boot/efi</code> に配置する必要があります。
           </p>
           <p>
-            多くの UEFI システムには Compatibility Support Mode (CSM) あるいは Legacy Boot
-            オプションが用意されていて、これにより BIOS を使ったブートが可能となります。 もし UEFI
+            多くの UEFI システムには Compatibility Support Module (CSM) あるいは Legacy
+            Boot オプションが用意されていて、これにより BIOS を使ったブートが可能となります。 もし UEFI
             によるブートがうまく動作しない場合であって、システムが CSM をサポートしているのであれば、Grub BIOS
             パーティションを生成するのが有効かもしれません。
           </p>
@@ -293,10 +293,10 @@
       </div>
       <div class="sect2" lang="ja" xml:lang="ja">
         <h2 class="sect2">
-          2.4.2. An Example Disk Layout
+          2.4.2. ディスクレイアウト例
         </h2>
         <p>
-          Below is an example layout for an empty disk drive.
+          以下は空のディスクドライブに対するレイアウト例です。
         </p>
         <pre class=
         "screen">Number  Start (sector)    End (sector)        Size   Code  Name
@@ -307,60 +307,56 @@
    5         5242880        89128959       40.0 GiB  8300  lfs13.0+
    6        89128960       173015039       40.0 GiB  8300  /home</pre>
         <p>
-          The above example makes a few assumptions:
+          この例は以下を前提としています。
         </p>
         <div class="itemizedlist">
           <ul>
             <li class="listitem">
               <p>
-                The partition table is a GUID Partition Table (GPT).
+                パーティションテーブルは GUID パーティションテーブル (GPT) です。
               </p>
             </li>
             <li class="listitem">
               <p>
-                Both EFI and BIOS Boot partitions are present, although only
-                one will be used. Which is used depends on the system BIOS.
-                If the system is old, it will not have UEFI capabilities at
-                all. Some later systems can disable UEFI through the BIOS by
-                disabling "Secure Boot" and enabling "Legacy Support" or
-                "CSM" (Compatibility Support Mode). If you know in advance
-                which mode you will use, the other partition can be omitted.
+                EFI と BIOS の両ブートパーティションが存在しますが、利用されるのはどちらか一方です。
+                どちらが利用されるかはシステムファームウェア次第です。 システムが旧式である場合、UEFI 機能は全く存在しないでしょう。
+                より最新のシステムであっても、ファームウェアの設定において "Secure Boot" が無効になっており "Legacy
+                Support" や "CSM" (Compatibility Support Module)
+                が有効になっていると、UEFI が利用できない場合があります。
+                どちらのパーティションが利用されるのか、あらかじめ分かっているのであれば、無用なパーティションの生成を省略することができます。
               </p>
             </li>
             <li class="listitem">
               <p>
-                The EFI partition must be formatted as VFAT.
+                EFI パーティションは VFAT によりフォーマットされています。
               </p>
             </li>
             <li class="listitem">
               <p>
-                The BIOS partition is not formatted.
+                BIOS パーティションはフォーマットされていません。
               </p>
             </li>
             <li class="listitem">
               <p>
-                The swap partition must be formatted as swap.
+                swap パーティションは初期化されています。
               </p>
             </li>
             <li class="listitem">
               <p>
-                The /boot partition can be formatted as ext2 since it is
-                rarely written (and then only by root) and does not need a
-                journal.
+                /boot パーティションは ext2 によりフォーマットされています。 書き込みがほぼなく (あったとしても root
+                であり) ジャーナルを必要としないためです。
               </p>
             </li>
             <li class="listitem">
               <p>
-                The recommendation for all other partitions is to use ext4
-                formatting.
+                その他のパーティションはすべて ext4 フォーマットであることを推奨するものです。
               </p>
             </li>
             <li class="listitem">
               <p>
-                Another partition can be added for installing the "host"
-                system for building LFS. A minimal sized partition, 10 GiB,
-                should be sufficient. If you are building the system using a
-                LiveCD, a host partition may not be required.
+                別のパーティションを追加して LFS 構築のための「ホスト」システムをインストールすることもできます。 最小限として 10
+                GiB もあれば十分でしょう。 LiveCD
+                を利用してシステムビルドを行うのであれば、ホスト向けのパーティションは不要でしょう。
               </p>
             </li>
           </ul>
@@ -388,7 +384,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-67-systemd">ホーム</a>
+          "Linux From Scratch - Version r13.0-87-systemd">ホーム</a>
         </li>
       </ul>
     </div>

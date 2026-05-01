@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r13.0-67-systemd">
+  <body class="lfs" id="lfs-r13.0-87-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r13.0-67-systemd
+        Linux From Scratch - Version r13.0-87-systemd
       </h4>
       <h3>
         第3章 パッケージとパッチ
@@ -39,7 +39,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-67-systemd">ホーム</a>
+          "Linux From Scratch - Version r13.0-87-systemd">ホーム</a>
         </li>
       </ul>
     </div>
@@ -160,25 +160,23 @@
         <p>
           オリジナルの LFS ブックでは、<a class="ulink" href=
           "../wget-list-systemd">wget-list-systemd</a> 内に含まれる、各種パッケージの入手 URL
-          が主に米国サイトとなっています。 一方、日本国内にて作業する方であれば、例えば GNU
-          のパッケージ類は国内に数多くのミラーサイトが存在するため、そちらから取得するのが適切でしょう。
+          が主に米国サイトとなっています。
+          一方、日本国内にて作業する方であれば、日本国内のミラーサイトがいろいろと存在するため、そちらから取得するのが適切でしょう。
           これはネットワークリソースを利用する際のマナーとも言えるものです。 堅苦しい話をするつもりはありません。
           国内サイトから入手することにすればダウンロード速度が断然早くなります。 メリットは大きいと思いますのでお勧めします。
         </p>
         <p>
           国内から入手可能なものは国内から入手することを目指し、訳者は以下の手順により <a class="ulink" href=
           "../wget-list-systemd">wget-list-systemd</a> を書き換えて利用しています。
-          一例として国内には理化学研究所のサイト (ftp.riken.jp) があります。 そこでは GNU
-          パッケージ類がミラー提供されています。 そこで <a class="ulink" href=
-          "../wget-list-systemd">wget-list-systemd</a> にて ftp.gnu.org
-          を指し示している URL を ftp.riken.jp に置き換えます。 また同じ方法で Linux
-          カーネル、<span class="application">Perl</span>、<span class=
+          一例として国内には理化学研究所のサイト (ftp.riken.jp) があります。 Linux カーネルの入手先を
+          www.kernel.org から ftp.riken.jp/Linux/kernel.org に書き換えています。 同じようにして
+          <span class="application">Perl</span>、<span class=
           "application">Vim</span> の入手先も変更します。
         </p>
         <pre class="userinput"><kbd class=
         "command">cat &gt; wl.sed &lt;&lt; "EOF"
-<code class="literal">s|ftp\.gnu\.org/gnu/|ftp.riken.jp/GNU/|g
-s|www\.kernel\.org/pub/linux/|ftp.riken.jp/Linux/kernel.org/linux/|g
+<code class=
+"literal">s|www\.kernel\.org/pub/linux/|ftp.riken.jp/Linux/kernel.org/linux/|g
 s|www\.cpan\.org|ftp.riken.jp/lang/CPAN|g
 s|ftp\.vim\.org|ftp.jp.vim.org|g</code>
 EOF
@@ -186,7 +184,7 @@ sed -f wl.sed -i.orig wget-list-systemd
 rm wl.sed</kbd></pre>
         <p>
           上記はあくまで一例です。しかもすべてのパッケージについて、国内サイトからの入手となるわけではありません。
-          ただし上記を行うだけでも、大半のパッケージは国内サイトを向くことになります。 上記にて国内のミラーサイトは、ネットワーク的に
+          ただし上記を行うだけでも、たいていのパッケージは国内サイトを向くことになります。 上記にて国内のミラーサイトは、ネットワーク的に
           "より近い" ものを選んでください。 サイトを変えた場合は、パッケージの URL が異なることが多々あるため、適宜 sed
           置換内容を書き換えてください。
         </p>
@@ -243,7 +241,7 @@ popd</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-67-systemd">ホーム</a>
+          "Linux From Scratch - Version r13.0-87-systemd">ホーム</a>
         </li>
       </ul>
     </div>
