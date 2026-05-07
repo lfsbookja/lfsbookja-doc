@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r13.0-87">
+  <body class="lfs" id="lfs-r13.0-97">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r13.0-87
+        Linux From Scratch - Version r13.0-97
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -39,7 +39,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-87">ホーム</a>
+          "Linux From Scratch - Version r13.0-97">ホーム</a>
         </li>
       </ul>
     </div>
@@ -185,10 +185,9 @@ cd       build</kbd></pre>
             </dt>
             <dd>
               <p>
-                This switch tells GCC to enable 64-bit code generation
-                support even if we are building it for a 32-bit system. It's
-                needed to build GRUB for 64-bit UEFI. This switch has no
-                effect if building for 64-bit.
+                本スイッチは、32 ビット向けのシステムをビルドしている場合であっても、GCC に対して 64
+                ビットコードの生成を指示するものです。 これは GRUB の 64 ビット UEFI をビルドを行う場合に必要となります。
+                64 ビットシステムをビルドしている場合に、本スイッチは何の効果もありません。
               </p>
             </dd>
           </dl>
@@ -271,7 +270,7 @@ su tester -c "PATH=$PATH make -k check"</kbd></pre>
           <code class="filename">builtin-math-6.c</code> に関連する 8 つのテストが失敗します。
         </p>
         <p>
-          <code class="filename">analyzer/strchr-1.c</code>&gt; に関係するテスト 5
+          <code class="filename">analyzer/strchr-1.c</code> に関係するテスト 5
           つが失敗します。
         </p>
         <p>
@@ -294,8 +293,8 @@ su tester -c "PATH=$PATH make -k check"</kbd></pre>
           であるため、ヘッダーがインストールされるディレクトリ（とその内容）に対する所有権が不適切です。 そこでその所有権を
           <code class="systemitem">root</code> ユーザーとグループに変更します。
         </p>
-        <pre class="userinput"><kbd class="command">chown -v -R root:root \
-    /usr/lib/gcc/$(gcc -dumpmachine)/15.2.0/include{,-fixed}</kbd></pre>
+        <pre class="userinput"><kbd class=
+        "command">chown -v -R root:root $(gcc -print-file-name=include){,-fixed}</kbd></pre>
         <p>
           <a class="ulink" href=
           "https://refspecs.linuxfoundation.org/FHS_3.0/fhs/ch03s09.html">FHS</a>
@@ -318,8 +317,7 @@ su tester -c "PATH=$PATH make -k check"</kbd></pre>
           によりプログラム構築できるように、シンボリックリンクを作ります。
         </p>
         <pre class="userinput"><kbd class=
-        "command">ln -sfv ../../libexec/gcc/$(gcc -dumpmachine)/15.2.0/liblto_plugin.so \
-        /usr/lib/bfd-plugins/</kbd></pre>
+        "command">ln -sfvr $(gcc -print-prog-name=liblto_plugin.so) /usr/lib/bfd-plugins/</kbd></pre>
         <p>
           最終的なツールチェーンが出来上がりました。 ここで再びコンパイルとリンクが正しく動作することを確認することが必要です。
           そこで健全性テストをここで実施します。
@@ -912,7 +910,7 @@ mv -v /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-87">ホーム</a>
+          "Linux From Scratch - Version r13.0-97">ホーム</a>
         </li>
       </ul>
     </div>

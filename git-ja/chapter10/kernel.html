@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r13.0-87">
+  <body class="lfs" id="lfs-r13.0-97">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r13.0-87
+        Linux From Scratch - Version r13.0-97
       </h4>
       <h3>
         第10章 LFS システムのブート設定
@@ -41,7 +41,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-87">ホーム</a>
+          "Linux From Scratch - Version r13.0-97">ホーム</a>
         </li>
       </ul>
     </div>
@@ -555,7 +555,7 @@
           アーキテクチャーの場合の例です。
         </p>
         <pre class="userinput"><kbd class=
-        "command">cp -iv arch/x86/boot/bzImage /boot/vmlinuz-6.19.12-lfs-r13.0-87</kbd></pre>
+        "command">cp -iv arch/x86/boot/bzImage /boot/vmlinuz-6.19.12-lfs-r13.0-97</kbd></pre>
         <p>
           <code class="filename">System.map</code> はカーネルに対するシンボルファイルです。
           このファイルはカーネル API の各関数のエントリポイントをマッピングしています。
@@ -638,48 +638,16 @@
           </p>
         </div>
       </div>
-      <div class="configuration" lang="ja" xml:lang="ja">
-        <h2 class="sect2">
-          <a id="conf-modprobe" name="conf-modprobe"></a>10.3.2. Linux
-          モジュールのロード順の設定
-        </h2>
-        <p>
-          たいていの場合 Linux モジュールは自動的にロードされます。 しかし中には特定の指示を必要とするものもあります。
-          モジュールをロードするプログラム、<span class=
-          "command"><strong>modprobe</strong></span> または <span class=
-          "command"><strong>insmod</strong></span> は、そのような指示を行う目的で
-          <code class="filename">/etc/modprobe.d/usb.conf</code> を利用します。 USB
-          ドライバー (ehci_hcd, ohci_hcd, uhci_hcd)
-          がモジュールとしてビルドされていた場合には、それらを正しい順でロードしなければならず、そのために <code class=
-          "filename">/etc/modprobe.d/usb.conf</code> ファイルが必要となります。 ehci_hcd は
-          ohci_hcd や uhci_hcd よりも先にロードしなければなりません。
-          これを行わないとブート時に警告メッセージが出力されます。
-        </p>
-        <p>
-          以下のコマンドを実行して <code class="filename">/etc/modprobe.d/usb.conf</code>
-          ファイルを生成します。
-        </p>
-        <pre class="userinput"><kbd class=
-        "command">install -v -m755 -d /etc/modprobe.d
-cat &gt; /etc/modprobe.d/usb.conf &lt;&lt; "EOF"
-<code class="literal"># Begin /etc/modprobe.d/usb.conf
-
-install ohci_hcd /sbin/modprobe ehci_hcd ; /sbin/modprobe -i ohci_hcd ; true
-install uhci_hcd /sbin/modprobe ehci_hcd ; /sbin/modprobe -i uhci_hcd ; true
-
-# End /etc/modprobe.d/usb.conf</code>
-EOF</kbd></pre>
-      </div>
       <div class="content" lang="ja" xml:lang="ja">
         <h2 class="sect2">
-          <a id="contents-kernel" name="contents-kernel"></a>10.3.3. Linux
+          <a id="contents-kernel" name="contents-kernel"></a>10.3.2. Linux
           の構成
         </h2>
         <div class="segmentedlist">
           <div class="seglistitem">
             <div class="seg">
               <strong class="segtitle">インストールファイル:</strong> <span class=
-              "segbody">config-6.19.12, vmlinuz-6.19.12-lfs-r13.0-87, and
+              "segbody">config-6.19.12, vmlinuz-6.19.12-lfs-r13.0-97, and
               System.map-6.19.12</span>
             </div>
             <div class="seg">
@@ -717,7 +685,7 @@ EOF</kbd></pre>
                   <p>
                     <a id="lfskernel" name="lfskernel"></a><span class=
                     "term"><code class=
-                    "filename">vmlinuz-6.19.12-lfs-r13.0-87</code></span>
+                    "filename">vmlinuz-6.19.12-lfs-r13.0-97</code></span>
                   </p>
                 </td>
                 <td>
@@ -771,7 +739,7 @@ EOF</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-87">ホーム</a>
+          "Linux From Scratch - Version r13.0-97">ホーム</a>
         </li>
       </ul>
     </div>
