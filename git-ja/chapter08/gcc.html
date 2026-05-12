@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <title>
-      8.30. GCC-15.2.0
+      8.30. GCC-16.1.0
     </title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
     <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r13.0-97">
+  <body class="lfs" id="lfs-r13.0-107">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r13.0-97
+        Linux From Scratch - Version r13.0-107
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -39,12 +39,12 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-97">ホーム</a>
+          "Linux From Scratch - Version r13.0-107">ホーム</a>
         </li>
       </ul>
     </div>
     <h1 class="sect1">
-      <a id="ch-system-gcc" name="ch-system-gcc"></a>8.30. GCC-15.2.0
+      <a id="ch-system-gcc" name="ch-system-gcc"></a>8.30. GCC-16.1.0
     </h1>
     <div class="wrap" lang="ja" xml:lang="ja">
       <div class="package" lang="ja" xml:lang="ja">
@@ -68,11 +68,6 @@
         <h2 class="sect2">
           8.30.1. GCC のインストール
         </h2>
-        <p>
-          glibc-2.43 に対して必要となる修正を行います。
-        </p>
-        <pre class="userinput"><kbd class=
-        "command">sed -i 's/char [*]q/const &amp;/' libgomp/affinity-fmt.c</kbd></pre>
         <p>
           x86_64 上でビルドしている場合は、64ビットライブラリのデフォルトディレクトリ名を "lib"にします。
         </p>
@@ -238,11 +233,6 @@ cd       build</kbd></pre>
         <pre class="userinput"><kbd class=
         "command">ulimit -s -H unlimited</kbd></pre>
         <p>
-          失敗するテストをいくつか削除します。
-        </p>
-        <pre class="userinput"><kbd class=
-        "command">sed -e '/cpython/d' -i ../gcc/testsuite/gcc.dg/plugin/plugin.exp</kbd></pre>
-        <p>
           一般ユーザーにてテストを行います。 ただしエラーがあっても停止しないようにします。
         </p>
         <pre class="userinput"><kbd class="command">chown -R tester .
@@ -264,21 +254,36 @@ su tester -c "PATH=$PATH make -k check"</kbd></pre>
           にある情報と比較することができます。
         </p>
         <p>
-          <code class="filename">pr90579.c</code> に関係するテスト 4 つが失敗します。
+          <code class="filename">gcc.target/i386</code> テストの中で、 <code class=
+          "filename">auto-init-padding-9.c</code>, <code class=
+          "filename">builtin-memmove-*.c</code>, <code class=
+          "filename">mem{cpy,set}-pr120683-*.c</code>, <code class=
+          "filename">pr111657-1.c</code>, <code class=
+          "filename">pr115102.c</code>, <code class=
+          "filename">pr116896.c</code>, <code class=
+          "filename">pr120881-2a.c</code>, <code class=
+          "filename">pr122343-4a.c</code> というテストが失敗します。 また <code class=
+          "filename">shift-gf2p8affine-2.c</code> というテストは、プロセッサーが AVX512
+          をサポートしていない場合に失敗します。
         </p>
         <p>
-          <code class="filename">builtin-math-6.c</code> に関連する 8 つのテストが失敗します。
+          <code class="filename">g++.target/i386</code> テストの中で <code class=
+          "filename">memset-pr108585-1{a,b}.C</code>, <code class=
+          "filename">mv{,c}-symbols*.C</code>, <code class=
+          "filename">pr112824-2.C</code>, <code class=
+          "filename">pr116896-1.C</code> というテストが失敗します。
         </p>
         <p>
-          <code class="filename">analyzer/strchr-1.c</code> に関係するテスト 5
-          つが失敗します。
+          また <code class="filename">gcc.dg/ipa/pr122458.c</code>,
+          <code class="filename">gcc.dg/lto/toplevel-*-asm-*</code>,
+          <code class="filename">gcc.dg/plugin/crash-test-nested-*.c</code>
+          というテストが失敗します。
         </p>
         <p>
-          libstdc++ の中にある 4 つのテスト、<code class=
-          "filename">17_intro/badnames.cc</code>, <code class=
-          "filename">17_intro/names.cc</code>, <code class=
-          "filename">17_intro/names_fortify.cc</code>, <code class=
-          "filename">experimental/names.cc</code> が glibc-2.43 への変更に伴って失敗します。
+          LFS 編集者による上記の失敗に対する調査においては、いずれも重大な問題はないことを確認しています。
+          そのほとんどはテストケースの作成者が、<em class=
+          "parameter"><code>--enable-default-ssp</code></em> または <em class=
+          "parameter"><code>--enable-default-pie</code></em> の指定を想定していないためです。
         </p>
         <p>
           テスト失敗は回避することができません。 その中には特定のハードウェアに起因するものもあります。 上記の URL
@@ -306,7 +311,7 @@ su tester -c "PATH=$PATH make -k check"</kbd></pre>
           各種パッケージは C コンパイラーとして <span class=
           "command"><strong>cc</strong></span> を呼び出しているものが数多くあります。 <a class=
           "xref" href="../chapter06/gcc-pass2.html" title=
-          "6.18. GCC-15.2.0 - 2回め">GCC 2回め</a> においては、シンボリックリンクとして
+          "6.18. GCC-16.1.0 - 2回め">GCC 2回め</a> においては、シンボリックリンクとして
           <span class="command"><strong>cc</strong></span> をすでに生成しています。
           同様にしてその man ページについてもシンボリックリンクとして生成することにします。
         </p>
@@ -340,9 +345,9 @@ readelf -l a.out | grep ': /lib'</kbd></pre>
           上のコマンドの出力は以下のようになるはずです。
         </p>
         <pre class="screen"><code class=
-        "computeroutput">/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.0/../../../../lib/Scrt1.o succeeded
-/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.0/../../../../lib/crti.o succeeded
-/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.0/../../../../lib/crtn.o succeeded</code></pre>
+        "computeroutput">/usr/lib/gcc/x86_64-pc-linux-gnu/16.1.0/../../../../lib/Scrt1.o succeeded
+/usr/lib/gcc/x86_64-pc-linux-gnu/16.1.0/../../../../lib/crti.o succeeded
+/usr/lib/gcc/x86_64-pc-linux-gnu/16.1.0/../../../../lib/crtn.o succeeded</code></pre>
         <p>
           作業しているマシンアーキテクチャーによっては、上の結果が微妙に異なるかもしれません。 その違いは、たいていは <code class=
           "filename">/usr/lib/gcc</code> の次のディレクトリ名にあります。 注意すべき重要な点は
@@ -360,9 +365,9 @@ readelf -l a.out | grep ': /lib'</kbd></pre>
         </p>
         <pre class="screen"><code class=
         "computeroutput">#include &lt;...&gt; search starts here:
- /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.0/include
+ /usr/lib/gcc/x86_64-pc-linux-gnu/16.1.0/include
  /usr/local/include
- /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.0/include-fixed
+ /usr/lib/gcc/x86_64-pc-linux-gnu/16.1.0/include-fixed
  /usr/include</code></pre>
         <p>
           もう一度触れておきますが、プラットフォームの<span class="quote">「<span class="quote">三つの組
@@ -458,7 +463,7 @@ mv -v /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib</kbd></pre>
             <div class="seg">
               <strong class="segtitle">インストールディレクトリ:</strong> <span class=
               "segbody">/usr/include/c++, /usr/lib/gcc, /usr/libexec/gcc,
-              /usr/share/gcc-15.2.0</span>
+              /usr/share/gcc-16.1.0</span>
             </div>
           </div>
         </div>
@@ -910,7 +915,7 @@ mv -v /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-97">ホーム</a>
+          "Linux From Scratch - Version r13.0-107">ホーム</a>
         </li>
       </ul>
     </div>
