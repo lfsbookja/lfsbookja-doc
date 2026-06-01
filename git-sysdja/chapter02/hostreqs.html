@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r13.0-115-systemd">
+  <body class="lfs" id="lfs-r13.0-127-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r13.0-115-systemd
+        Linux From Scratch - Version r13.0-127-systemd
       </h4>
       <h3>
         第2章 ホストシステムの準備
@@ -39,7 +39,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-115-systemd">ホーム</a>
+          "Linux From Scratch - Version r13.0-127-systemd">ホーム</a>
         </li>
       </ul>
     </div>
@@ -123,7 +123,9 @@
             </li>
             <li class="listitem">
               <p>
-                <span class="strong"><strong>Coreutils-8.1</strong></span>
+                <span class="strong"><strong>GNU
+                Coreutils-8.1</strong></span> または <span class=
+                "strong"><strong>Uutils Coreutils-0.8</strong></span>
               </p>
             </li>
             <li class="listitem">
@@ -316,7 +318,11 @@ ver_kernel()
 }
 
 # Coreutils first because --version-sort needs Coreutils &gt;= 7.0
-ver_check Coreutils      sort     8.1 || bail "Coreutils too old, stop"
+if sort --version |&amp; grep -q uutils; then
+    ver_check Coreutils  sort     0.8 || bail "Uutils Coreutils too old, stop"
+else
+    ver_check Coreutils  sort     8.1 || bail "GNU Coreutils too old, stop"
+fi
 ver_check Bash           bash     3.2
 ver_check Binutils       ld       2.13.1
 ver_check Bison          bison    2.7
@@ -388,7 +394,7 @@ bash version-check.sh</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-115-systemd">ホーム</a>
+          "Linux From Scratch - Version r13.0-127-systemd">ホーム</a>
         </li>
       </ul>
     </div>
