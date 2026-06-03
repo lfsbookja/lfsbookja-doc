@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r13.0-127-systemd">
+  <body class="lfs" id="lfs-r13.0-131-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r13.0-127-systemd
+        Linux From Scratch - Version r13.0-131-systemd
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -39,7 +39,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-127-systemd">ホーム</a>
+          "Linux From Scratch - Version r13.0-131-systemd">ホーム</a>
         </li>
       </ul>
     </div>
@@ -98,25 +98,22 @@ cd       build</kbd></pre>
              --disable-fixincludes    \
              --with-system-zlib</kbd></pre>
         <p>
-          GCC では 7
-          つのコンピューター言語をサポートしていますが、それらのほとんどが必要としている依存パッケージは、まだこの時点でインストールしていません。
-          GCC がサポートする他のコンピューター言語の構築方法については <a class="ulink" href=
-          "https://www.linuxfromscratch.org/blfs/view/systemd/general/gcc.html">
-          BLFS ブック</a> の説明を参照してください。
-        </p>
-        <p>
           ここで有効にするのは C と C++ のみです。 ビルド時間を節約する目的があり、また LFS や BLFS において GCC
           が他の言語を必要とするパッケージが存在しないからです。 GCC においてさらに言語を増やしてプログラムコンパイルを行いたい場合は
           <em class="parameter"><code>--enable-languages</code></em>
-          オプションにそれぞれ以下を追加してください。 Cobol に対して <code class=
-          "literal">cobol</code> (32 ビット LFS システム上においてビルドすると GCC がエラーとなります)、
-          Fortran に対して <code class="literal">fortran</code>、 Go に対して
-          <code class="literal">go</code>、 Objective C に対して <code class=
-          "literal">objc</code>、 Objective C++ に対して <code class=
-          "literal">obj-c++</code>、 Modula 2 に対して <code class=
-          "literal">m2</code>。 GCC ではさらに Ada と D をサポートします。 ただしそれをサポートするコードは
-          Ada あるいは D そのものによって書かれています。 したがってこのサポートを含めてビルドするには、あらかじめ Ada あるいは D
-          コンパイラーがインストールされていないければなりません。 ここではそのサポートを有効にすることはできません。
+          オプションにそれぞれ以下を追加してください。 Algol 68 に対して <code class=
+          "literal">algol68</code>、 Fortran に対して <code class=
+          "literal">fortran</code>、 Go に対して <code class="literal">go</code>、
+          Objective C に対して <code class="literal">objc</code>、 Objective C++
+          に対して <code class="literal">obj-c++</code>、 Modula 2 に対して
+          <code class="literal">m2</code>。
+        </p>
+        <p>
+          GCC では Ada、COBOL、D 言語もサポートしています。 ただしこれに対しては、LFS
+          の基本システムでは採用していないもの、そして本ブックの範囲を超えるものを依存パッケージとして必要としています。
+          詳しくはアップストリームによる <a class="ulink" href=
+          "https://gcc.gnu.org/install/prerequisites.html">アップストリームのドキュメント</a>
+          を参照してください。
         </p>
         <div class="variablelist">
           <p class="title">
@@ -241,7 +238,7 @@ su tester -c "PATH=$PATH make -k check"</kbd></pre>
           テスト結果を確認するために以下を実行します。
         </p>
         <pre class="userinput"><kbd class=
-        "command">../contrib/test_summary</kbd></pre>
+        "command">../contrib/test_summary -t</kbd></pre>
         <p>
           テスト結果の概略のみ確認したい場合は、出力結果をパイプ出力して <strong class=
           "userinput"><code>grep -A7 Summ</code></strong> を実行してください。
@@ -916,7 +913,7 @@ mv -v /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-127-systemd">ホーム</a>
+          "Linux From Scratch - Version r13.0-131-systemd">ホーム</a>
         </li>
       </ul>
     </div>

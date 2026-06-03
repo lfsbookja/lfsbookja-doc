@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r13.0-127">
+  <body class="lfs" id="lfs-r13.0-131">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r13.0-127
+        Linux From Scratch - Version r13.0-131
       </h4>
       <h3>
         第6章 クロスコンパイルによる一時的ツール
@@ -41,7 +41,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-127">ホーム</a>
+          "Linux From Scratch - Version r13.0-131">ホーム</a>
         </li>
       </ul>
     </div>
@@ -93,13 +93,6 @@ mv -v mpc-1.4.1 mpc</kbd></pre>
   ;;
 esac</kbd></pre>
         <p>
-          libgcc と libstdc++ のヘッダーのビルドルールを変更して、これらのライブラリに対して POSIX
-          スレッドサポートを含めてビルドするようにします。
-        </p>
-        <pre class="userinput"><kbd class=
-        "command">sed '/thread_header =/s/@.*@/gthr-posix.h/' \
-    -i libgcc/Makefile.in libstdc++-v3/include/Makefile.in</kbd></pre>
-        <p>
           専用のディレクトリを再度生成します。
         </p>
         <pre class="userinput"><kbd class="command">mkdir -v build
@@ -128,26 +121,13 @@ cd       build</kbd></pre>
     --disable-libssp           \
     --disable-libvtv           \
     --enable-languages=c,c++   \
-    LDFLAGS_FOR_TARGET=-L$PWD/$LFS_TGT/libgcc</kbd></pre>
+    LDFLAGS_FOR_TARGET=-L$PWD/$LFS_TGT/libgcc \
+    target_configargs=gcc_cv_target_thread_file=posix</kbd></pre>
         <div class="variablelist">
           <p class="title">
             <strong>configure オプションの意味</strong>
           </p>
           <dl class="variablelist">
-            <dt>
-              <span class="term"><em class=
-              "parameter"><code>--with-build-sysroot=$LFS</code></em></span>
-            </dt>
-            <dd>
-              <p>
-                通常は <em class="parameter"><code>--host</code></em> を用いれば、GCC
-                ビルドにクロスコンパイラーが用いられ、参照すべきヘッダーやライブラリも <code class=
-                "filename">$LFS</code> にあるものが用いられるように指示されます。 しかし GCC
-                向けのビルドシステムは追加のツールを使っているので、上のような場所を認識できていません。
-                本スイッチは、そのツール類が必要とするファイルを、ホスト内からではなく、<code class=
-                "filename">$LFS</code> から探し出すようにします。
-              </p>
-            </dd>
             <dt>
               <span class="term"><em class=
               "parameter"><code>--target=$LFS_TGT</code></em></span>
@@ -166,6 +146,33 @@ cd       build</kbd></pre>
             </dd>
             <dt>
               <span class="term"><em class=
+              "parameter"><code>--with-build-sysroot=$LFS</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                通常は <em class="parameter"><code>--host</code></em> を用いれば、GCC
+                ビルドにクロスコンパイラーが用いられ、参照すべきヘッダーやライブラリも <code class=
+                "filename">$LFS</code> にあるものが用いられるように指示されます。 しかし GCC
+                向けのビルドシステムは追加のツールを使っているので、上のような場所を認識できていません。
+                本スイッチは、そのツール類が必要とするファイルを、ホスト内からではなく、<code class=
+                "filename">$LFS</code> から探し出すようにします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--disable-libsanitizer</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                GCC のサニタイザーランタイムライブラリを無効にします。 これはここでの一時的インストールにおいては不要です。
+                <a class="xref" href="../chapter05/gcc-pass1.html" title=
+                "5.3. GCC-16.1.0 - 1回め">gcc 1 回め</a> においては、<em class=
+                "parameter"><code>--disable-libstdcxx</code></em>
+                によって暗にそれを行っていましたが、ここではそれを明示的に行う必要があります。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
               "parameter"><code>LDFLAGS_FOR_TARGET=...</code></em></span>
             </dt>
             <dd>
@@ -180,15 +187,16 @@ cd       build</kbd></pre>
             </dd>
             <dt>
               <span class="term"><em class=
-              "parameter"><code>--disable-libsanitizer</code></em></span>
+              "parameter"><code>target_configargs=gcc_cv_target_thread_file=posix</code></em></span>
             </dt>
             <dd>
               <p>
-                GCC のサニタイザーランタイムライブラリを無効にします。 これはここでの一時的インストールにおいては不要です。
-                <a class="xref" href="../chapter05/gcc-pass1.html" title=
-                "5.3. GCC-16.1.0 - 1回め">gcc 1 回め</a> においては、<em class=
-                "parameter"><code>--disable-libstdcxx</code></em>
-                によって暗にそれを行っていましたが、ここではそれを明示的に行う必要があります。
+                ビルド対象ライブラリである libgcc と libstdc++ を POSIX
+                スレッドサポートを有効にしてビルドします。
+                デフォルトは対象ライブラリのビルドに際して指定されたコンパイラー設定に従います。 (その場合は <a class=
+                "xref" href="../chapter05/gcc-pass1.html" title=
+                "5.3. GCC-16.1.0 - 1回め">gcc 1 回め</a>
+                に従うこととなり、それはスレッドサポートがないものとなります。)
               </p>
             </dd>
           </dl>
@@ -244,7 +252,7 @@ cd       build</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-127">ホーム</a>
+          "Linux From Scratch - Version r13.0-131">ホーム</a>
         </li>
       </ul>
     </div>
