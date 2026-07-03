@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r13.0-131-systemd">
+  <body class="lfs" id="lfs-r13.0-141-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r13.0-131-systemd
+        Linux From Scratch - Version r13.0-141-systemd
       </h4>
       <h3>
         第6章 クロスコンパイルによる一時的ツール
@@ -23,9 +23,9 @@
       <ul>
         <li class="prev">
           <a accesskey="p" href="binutils-pass2.html" title=
-          "Binutils-2.46.0 - 2回め">戻る</a>
+          "Binutils-2.46.1 - 2回め">戻る</a>
           <p>
-            Binutils-2.46.0 - 2回め
+            Binutils-2.46.1 - 2回め
           </p>
         </li>
         <li class="next">
@@ -41,7 +41,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-131-systemd">ホーム</a>
+          "Linux From Scratch - Version r13.0-141-systemd">ホーム</a>
         </li>
       </ul>
     </div>
@@ -112,6 +112,7 @@ cd       build</kbd></pre>
     --with-build-sysroot=$LFS  \
     --enable-default-pie       \
     --enable-default-ssp       \
+    --disable-fixincludes      \
     --disable-nls              \
     --disable-multilib         \
     --disable-libatomic        \
@@ -156,6 +157,20 @@ cd       build</kbd></pre>
                 向けのビルドシステムは追加のツールを使っているので、上のような場所を認識できていません。
                 本スイッチは、そのツール類が必要とするファイルを、ホスト内からではなく、<code class=
                 "filename">$LFS</code> から探し出すようにします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--disable-fixincludes</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                GCC のインストール時に GCC が利用するヘッダーは <span class=
+                "quote">「<span class="quote">fixed</span>」</span>
+                のものを利用するシステムがあります。 これは現代の Linux システムにおいては不要なものであり、GCC
+                インストールの後にパッケージインストールを行う際の潜在的な弊害となり得ます。 本スイッチは GCC
+                のヘッダーを<span class="quote">「<span class=
+                "quote">fixing</span>」</span>とならないようにします。
               </p>
             </dd>
             <dt>
@@ -234,9 +249,9 @@ cd       build</kbd></pre>
       <ul>
         <li class="prev">
           <a accesskey="p" href="binutils-pass2.html" title=
-          "Binutils-2.46.0 - 2回め">戻る</a>
+          "Binutils-2.46.1 - 2回め">戻る</a>
           <p>
-            Binutils-2.46.0 - 2回め
+            Binutils-2.46.1 - 2回め
           </p>
         </li>
         <li class="next">
@@ -252,7 +267,7 @@ cd       build</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-131-systemd">ホーム</a>
+          "Linux From Scratch - Version r13.0-141-systemd">ホーム</a>
         </li>
       </ul>
     </div>

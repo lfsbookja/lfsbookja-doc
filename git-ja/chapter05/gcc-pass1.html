@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r13.0-131">
+  <body class="lfs" id="lfs-r13.0-141">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r13.0-131
+        Linux From Scratch - Version r13.0-141
       </h4>
       <h3>
         第5章 クロスツールチェーンの構築
@@ -23,16 +23,16 @@
       <ul>
         <li class="prev">
           <a accesskey="p" href="binutils-pass1.html" title=
-          "Binutils-2.46.0 - 1回め">戻る</a>
+          "Binutils-2.46.1 - 1回め">戻る</a>
           <p>
-            Binutils-2.46.0 - 1回め
+            Binutils-2.46.1 - 1回め
           </p>
         </li>
         <li class="next">
           <a accesskey="n" href="linux-headers.html" title=
-          "Linux-7.0.10 API ヘッダー">次へ</a>
+          "Linux-7.1.2 API ヘッダー">次へ</a>
           <p>
-            Linux-7.0.10 API ヘッダー
+            Linux-7.1.2 API ヘッダー
           </p>
         </li>
         <li class="up">
@@ -41,7 +41,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-131">ホーム</a>
+          "Linux From Scratch - Version r13.0-141">ホーム</a>
         </li>
       </ul>
     </div>
@@ -145,6 +145,7 @@ cd       build</kbd></pre>
     --without-headers         \
     --enable-default-pie      \
     --enable-default-ssp      \
+    --disable-fixincludes     \
     --disable-nls             \
     --disable-shared          \
     --disable-multilib        \
@@ -207,6 +208,22 @@ cd       build</kbd></pre>
                 厳密には、この段階で必要となるものではありません。
                 と言うのも、ここでのコンパイラーは一時的な実行ファイルを生み出すだけのものだからです。
                 ただし一時的なパッケージだとしても、最終形とするパッケージにできるだけ近づけておけば、理解しやすくなります。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--disable-fixincludes</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                GCC のインストール時に GCC が利用するヘッダーは <span class=
+                "quote">「<span class="quote">fixed</span>」</span>
+                のものを利用するシステムがあります。
+                本書のこの時点においてインストールするヘッダーはクロスコンパイラー用であるため、関連する補助プログラムを
+                <span class="quote">「<span class="quote">fix</span>」</span>
+                を用いてビルドするのは無駄な時間を要します。 本スイッチは <span class=
+                "quote">「<span class="quote">fix</span>」</span>
+                を無効とし、関連するプログラムのビルドをスキップします。
               </p>
             </dd>
             <dt>
@@ -291,16 +308,16 @@ cd       build</kbd></pre>
       <ul>
         <li class="prev">
           <a accesskey="p" href="binutils-pass1.html" title=
-          "Binutils-2.46.0 - 1回め">戻る</a>
+          "Binutils-2.46.1 - 1回め">戻る</a>
           <p>
-            Binutils-2.46.0 - 1回め
+            Binutils-2.46.1 - 1回め
           </p>
         </li>
         <li class="next">
           <a accesskey="n" href="linux-headers.html" title=
-          "Linux-7.0.10 API ヘッダー">次へ</a>
+          "Linux-7.1.2 API ヘッダー">次へ</a>
           <p>
-            Linux-7.0.10 API ヘッダー
+            Linux-7.1.2 API ヘッダー
           </p>
         </li>
         <li class="up">
@@ -309,7 +326,7 @@ cd       build</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-131">ホーム</a>
+          "Linux From Scratch - Version r13.0-141">ホーム</a>
         </li>
       </ul>
     </div>
