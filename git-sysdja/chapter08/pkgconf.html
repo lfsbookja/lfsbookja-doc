@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <title>
-      8.20. Pkgconf-2.5.1
+      8.21. Pkgconf-3.0.2
     </title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
     <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
@@ -12,19 +12,19 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r13.0-141-systemd">
+  <body class="lfs" id="lfs-r13.0-147-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r13.0-141-systemd
+        Linux From Scratch - Version r13.0-147-systemd
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
       </h3>
       <ul>
         <li class="prev">
-          <a accesskey="p" href="dejagnu.html" title="DejaGNU-1.6.3">戻る</a>
+          <a accesskey="p" href="ninja.html" title="Ninja-1.13.2">戻る</a>
           <p>
-            DejaGNU-1.6.3
+            Ninja-1.13.2
           </p>
         </li>
         <li class="next">
@@ -40,13 +40,13 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-141-systemd">ホーム</a>
+          "Linux From Scratch - Version r13.0-147-systemd">ホーム</a>
         </li>
       </ul>
     </div>
     <h1 class="sect1">
-      <a id="ch-system-pkgconf" name="ch-system-pkgconf"></a>8.20.
-      Pkgconf-2.5.1
+      <a id="ch-system-pkgconf" name="ch-system-pkgconf"></a>8.21.
+      Pkgconf-3.0.2
     </h1>
     <div class="wrap" lang="ja" xml:lang="ja">
       <div class="package" lang="ja" xml:lang="ja">
@@ -69,23 +69,29 @@
       </div>
       <div class="installation" lang="ja" xml:lang="ja">
         <h2 class="sect2">
-          8.20.1. Pkgconf のインストール
+          8.21.1. Pkgconf のインストール
         </h2>
+        <p>
+          まず meson との循環参照を回避します。
+        </p>
+        <pre class="userinput"><kbd class=
+        "command">tar -xf ../meson-1.11.2.tar.gz</kbd></pre>
         <p>
           Pkgconf をコンパイルするための準備をします。
         </p>
-        <pre class="userinput"><kbd class=
-        "command">./configure --prefix=/usr    \
-            --disable-static \
-            --docdir=/usr/share/doc/pkgconf-2.5.1</kbd></pre>
+        <pre class="userinput"><kbd class="command">mkdir build
+cd    build
+
+python3 ../meson-1.11.2/meson.py setup --prefix=/usr --buildtype=release ..</kbd></pre>
         <p>
           パッケージをコンパイルします。
         </p>
-        <pre class="userinput"><kbd class="command">make</kbd></pre>
+        <pre class="userinput"><kbd class="command">ninja</kbd></pre>
         <p>
           パッケージをインストールします。
         </p>
-        <pre class="userinput"><kbd class="command">make install</kbd></pre>
+        <pre class="userinput"><kbd class="command">ninja install
+mv /usr/share/doc/pkgconf{,-3.0.2}</kbd></pre>
         <p>
           元の Pkg-config との互換性を維持するため、以下の 2 つのシンボリックリンクを生成します。
         </p>
@@ -95,7 +101,7 @@ ln -sv pkgconf.1 /usr/share/man/man1/pkg-config.1</kbd></pre>
       </div>
       <div class="content" lang="ja" xml:lang="ja">
         <h2 class="sect2">
-          <a id="contents-pkgconf" name="contents-pkgconf"></a>8.20.2.
+          <a id="contents-pkgconf" name="contents-pkgconf"></a>8.21.2.
           Pkgconf の構成
         </h2>
         <div class="segmentedlist">
@@ -110,7 +116,7 @@ ln -sv pkgconf.1 /usr/share/man/man1/pkg-config.1</kbd></pre>
             </div>
             <div class="seg">
               <strong class="segtitle">インストールディレクトリ:</strong> <span class=
-              "segbody">/usr/share/doc/pkgconf-2.5.1</span>
+              "segbody">/usr/share/doc/pkgconf-3.0.2</span>
             </div>
           </div>
         </div>
@@ -157,7 +163,7 @@ ln -sv pkgconf.1 /usr/share/man/man1/pkg-config.1</kbd></pre>
                 <td>
                   <p>
                     <a id="libpkgconf" name="libpkgconf"></a><span class=
-                    "term"><code class="filename">libpkgconf</code></span>
+                    "term"><code class="filename">libpkgconf.so</code></span>
                   </p>
                 </td>
                 <td>
@@ -175,9 +181,9 @@ ln -sv pkgconf.1 /usr/share/man/man1/pkg-config.1</kbd></pre>
     <div class="navfooter">
       <ul>
         <li class="prev">
-          <a accesskey="p" href="dejagnu.html" title="DejaGNU-1.6.3">戻る</a>
+          <a accesskey="p" href="ninja.html" title="Ninja-1.13.2">戻る</a>
           <p>
-            DejaGNU-1.6.3
+            Ninja-1.13.2
           </p>
         </li>
         <li class="next">
@@ -193,7 +199,7 @@ ln -sv pkgconf.1 /usr/share/man/man1/pkg-config.1</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-141-systemd">ホーム</a>
+          "Linux From Scratch - Version r13.0-147-systemd">ホーム</a>
         </li>
       </ul>
     </div>
