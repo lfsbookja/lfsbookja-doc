@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <title>
-      8.22. Binutils-2.46.1
+      8.22. Binutils-2.47
     </title>
     <link rel="stylesheet" type="text/css" href="../stylesheets/lfs.css" />
     <meta name="generator" content="DocBook XSL-NS Stylesheets Vsnapshot" />
@@ -12,19 +12,19 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r13.0-147-systemd">
+  <body class="lfs" id="lfs-r13.0-171-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r13.0-147-systemd
+        Linux From Scratch - Version r13.0-171-systemd
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
       </h3>
       <ul>
         <li class="prev">
-          <a accesskey="p" href="pkgconf.html" title="Pkgconf-3.0.2">戻る</a>
+          <a accesskey="p" href="pkgconf.html" title="Pkgconf-3.0.4">戻る</a>
           <p>
-            Pkgconf-3.0.2
+            Pkgconf-3.0.4
           </p>
         </li>
         <li class="next">
@@ -39,13 +39,13 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-147-systemd">ホーム</a>
+          "Linux From Scratch - Version r13.0-171-systemd">ホーム</a>
         </li>
       </ul>
     </div>
     <h1 class="sect1">
       <a id="ch-system-binutils" name="ch-system-binutils"></a>8.22.
-      Binutils-2.46.1
+      Binutils-2.47
     </h1>
     <div class="wrap" lang="ja" xml:lang="ja">
       <div class="package" lang="ja" xml:lang="ja">
@@ -88,6 +88,7 @@ cd       build</kbd></pre>
              --enable-64-bit-bfd \
              --enable-new-dtags  \
              --with-system-zlib  \
+             --with-lib-path=/usr/lib \
              --enable-default-hash-style=gnu</kbd></pre>
         <div class="variablelist">
           <p class="title">
@@ -119,6 +120,23 @@ cd       build</kbd></pre>
             <dd>
               <p>
                 本パッケージに含まれる zlib をビルドするのではなく、既にインストール済の zlib を用いるようにします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>--with-lib-path=/usr/lib</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                リンカー (<span class="command"><strong>ld</strong></span>)
+                を探し出すパスを指定します。 デフォルトではいくつものディレクトリを検索しますが、LFS において
+                <code class="filename">/usr/lib</code> 以外のものはそもそも存在しません。 特に
+                <code class="filename">/usr/lib64</code>
+                は無用なものなので、そういったものは意図的に検索しないようにします。 この状況に際して仮に <code class=
+                "filename">/usr/lib64</code>
+                が誤って生成されてしまっていて、そこにライブラリが存在している場合、<span class=
+                "command"><strong>ld</strong></span>
+                がこのパスを検索しないようにしておけば、そのライブラリが実行時でなくビルド時に見つからないことになるため、早期に問題解決ができます。
               </p>
             </dd>
           </dl>
@@ -571,9 +589,9 @@ cd       build</kbd></pre>
     <div class="navfooter">
       <ul>
         <li class="prev">
-          <a accesskey="p" href="pkgconf.html" title="Pkgconf-3.0.2">戻る</a>
+          <a accesskey="p" href="pkgconf.html" title="Pkgconf-3.0.4">戻る</a>
           <p>
-            Pkgconf-3.0.2
+            Pkgconf-3.0.4
           </p>
         </li>
         <li class="next">
@@ -588,7 +606,7 @@ cd       build</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-147-systemd">ホーム</a>
+          "Linux From Scratch - Version r13.0-171-systemd">ホーム</a>
         </li>
       </ul>
     </div>

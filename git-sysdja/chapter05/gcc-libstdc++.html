@@ -12,19 +12,19 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r13.0-147-systemd">
+  <body class="lfs" id="lfs-r13.0-171-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r13.0-147-systemd
+        Linux From Scratch - Version r13.0-171-systemd
       </h4>
       <h3>
         第5章 クロスツールチェーンの構築
       </h3>
       <ul>
         <li class="prev">
-          <a accesskey="p" href="glibc.html" title="Glibc-2.43">戻る</a>
+          <a accesskey="p" href="glibc.html" title="Glibc-2.44">戻る</a>
           <p>
-            Glibc-2.43
+            Glibc-2.44
           </p>
         </li>
         <li class="next">
@@ -40,7 +40,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-147-systemd">ホーム</a>
+          "Linux From Scratch - Version r13.0-171-systemd">ホーム</a>
         </li>
       </ul>
     </div>
@@ -97,6 +97,7 @@ cd       build</kbd></pre>
         "command">../libstdc++-v3/configure      \
     --host=$LFS_TGT            \
     --build=$(../config.guess) \
+    CXX=$LFS_TGT-gcc           \
     --prefix=/usr              \
     --disable-multilib         \
     --disable-nls              \
@@ -115,6 +116,26 @@ cd       build</kbd></pre>
               <p>
                 利用するクロスコンパイラーを指示するものであり、<code class=
                 "filename">/usr/bin</code> にあるものではなく、まさに先ほど作り出したものを指定するものです。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
+              "parameter"><code>CXX=$LFS_TGT-gcc</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                C++ コードのコンパイルには <span class=
+                "command"><strong>$LFS_TGT-gcc</strong></span> を用いることを指定します。
+                デフォルトの <span class=
+                "command"><strong>$LFS_TGT-g++</strong></span> はリンカーの呼び出し時に
+                <code class="systemitem">libstdc++</code> に対するリンクを自動的に指定します。
+                しかしこの場面ではまだ <code class="systemitem">libstdc++</code>
+                がインストールされていないため、<span class=
+                "command"><strong>configure</strong></span> による <span class=
+                "command"><strong>$LFS_TGT-g++</strong></span>
+                に関するチェックが誤動作する可能性があります。 通常のビルドであれば、最上位ディレクトリの <span class=
+                "command"><strong>configure</strong></span>
+                スクリプトに対して、この設定が自動的にオーバーライドされます。 したがってここで明示的にこの設定を受け渡すことにします。
               </p>
             </dd>
             <dt>
@@ -176,9 +197,9 @@ cd       build</kbd></pre>
     <div class="navfooter">
       <ul>
         <li class="prev">
-          <a accesskey="p" href="glibc.html" title="Glibc-2.43">戻る</a>
+          <a accesskey="p" href="glibc.html" title="Glibc-2.44">戻る</a>
           <p>
-            Glibc-2.43
+            Glibc-2.44
           </p>
         </li>
         <li class="next">
@@ -194,7 +215,7 @@ cd       build</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-147-systemd">ホーム</a>
+          "Linux From Scratch - Version r13.0-171-systemd">ホーム</a>
         </li>
       </ul>
     </div>

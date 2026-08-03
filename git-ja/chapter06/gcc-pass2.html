@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r13.0-147">
+  <body class="lfs" id="lfs-r13.0-171">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r13.0-147
+        Linux From Scratch - Version r13.0-171
       </h4>
       <h3>
         第6章 クロスコンパイルによる一時的ツール
@@ -23,9 +23,9 @@
       <ul>
         <li class="prev">
           <a accesskey="p" href="binutils-pass2.html" title=
-          "Binutils-2.46.1 - 2回め">戻る</a>
+          "Binutils-2.47 - 2回め">戻る</a>
           <p>
-            Binutils-2.46.1 - 2回め
+            Binutils-2.47 - 2回め
           </p>
         </li>
         <li class="next">
@@ -41,7 +41,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-147">ホーム</a>
+          "Linux From Scratch - Version r13.0-171">ホーム</a>
         </li>
       </ul>
     </div>
@@ -122,6 +122,7 @@ cd       build</kbd></pre>
     --disable-libssp           \
     --disable-libvtv           \
     --enable-languages=c,c++   \
+    CXX_FOR_TARGET="$LFS_TGT-gcc -nostdinc++" \
     LDFLAGS_FOR_TARGET=-L$PWD/$LFS_TGT/libgcc \
     target_configargs=gcc_cv_target_thread_file=posix</kbd></pre>
         <div class="variablelist">
@@ -188,6 +189,25 @@ cd       build</kbd></pre>
             </dd>
             <dt>
               <span class="term"><em class=
+              "parameter"><code>CXX="$LFS_TGT-gcc
+              -nostdinc++"</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                <a class="xref" href="../chapter05/gcc-libstdc++.html" title=
+                "5.6. GCC-16.1.0 から取り出した libstdc++">「GCC-16.1.0 から取り出した
+                libstdc++」</a> と同様にして C++ コードのコンパイルには <span class=
+                "command"><strong>$LFS_TGT-gcc</strong></span> を用いることを指定します。
+                これは同時に、直前の libstdc++ のビルドによりインストールされたヘッダーを用いないことも指示します。
+                現時点でビルドされている libstdc++ の C++ ヘッダーなどを混在して利用すると、ディレクティブ
+                <code class="literal">#include_next</code> が正しい C
+                ヘッダーを探し出せなくなります。 通常のビルドであれば、最上位ディレクトリの <span class=
+                "command"><strong>configure</strong></span>
+                スクリプトに対して、この設定が自動的にオーバーライドされます。 したがってここで明示的にこの設定を受け渡すことにします。
+              </p>
+            </dd>
+            <dt>
+              <span class="term"><em class=
               "parameter"><code>LDFLAGS_FOR_TARGET=...</code></em></span>
             </dt>
             <dd>
@@ -249,9 +269,9 @@ cd       build</kbd></pre>
       <ul>
         <li class="prev">
           <a accesskey="p" href="binutils-pass2.html" title=
-          "Binutils-2.46.1 - 2回め">戻る</a>
+          "Binutils-2.47 - 2回め">戻る</a>
           <p>
-            Binutils-2.46.1 - 2回め
+            Binutils-2.47 - 2回め
           </p>
         </li>
         <li class="next">
@@ -267,7 +287,7 @@ cd       build</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-147">ホーム</a>
+          "Linux From Scratch - Version r13.0-171">ホーム</a>
         </li>
       </ul>
     </div>
