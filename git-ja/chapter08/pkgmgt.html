@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r13.0-185">
+  <body class="lfs" id="lfs-r13.0-191">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r13.0-185
+        Linux From Scratch - Version r13.0-191
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -40,12 +40,12 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-185">ホーム</a>
+          "Linux From Scratch - Version r13.0-191">ホーム</a>
         </li>
       </ul>
     </div>
     <h1 class="sect1">
-      <a id="ch-system-pkgmgt" name="ch-system-pkgmgt"></a>8.2. パッケージ管理
+      <a id="ch-system-pkgmgt" name="ch-system-pkgmgt"></a>8.2 パッケージ管理
     </h1>
     <div class="sect1" lang="ja" xml:lang="ja">
       <p>
@@ -84,7 +84,7 @@
       <div class="sect2" lang="ja" xml:lang="ja">
         <h2 class="sect2">
           <a id="pkgmgmt-upgrade-issues" name=
-          "pkgmgmt-upgrade-issues"></a>8.2.1. アップグレードに関する問題
+          "pkgmgmt-upgrade-issues"></a>8.2.1 アップグレードに関する問題
         </h2>
         <p>
           パッケージ管理ツールがあれば、各種ソフトウェアの最新版がリリースされた際に容易にアップグレードができます。 全般に LFS ブックや
@@ -112,8 +112,8 @@
             </li>
             <li class="listitem">
               <p>
-                共有ライブラリを提供しているパッケージをアップデートする場合で、そのライブラリ名<a href="#ftn.id6426"
-                class="footnote" id="id6426" name="id6426"><sup class=
+                共有ライブラリを提供しているパッケージをアップデートする場合で、そのライブラリ名<a href="#ftn.id6436"
+                class="footnote" id="id6436" name="id6436"><sup class=
                 "footnote">[1]</sup></a> が変更になったとします。
                 この場合は、このライブラリに動的リンクを行っていたパッケージは、新たなライブラリに向けてのリンクとなるように再コンパイルすることが必要になります。
                 たとえば foo-1.2.3 というパッケージがあって、これが共有ライブラリ <code class=
@@ -198,7 +198,7 @@
       </div>
       <div class="sect2" lang="ja" xml:lang="ja">
         <h2 class="sect2">
-          8.2.2. パッケージ管理手法
+          8.2.2 パッケージ管理手法
         </h2>
         <p>
           以下に一般的なパッケージ管理手法について示します。
@@ -206,7 +206,7 @@
         </p>
         <div class="sect3">
           <h3 class="sect3">
-            8.2.2.1. すべては頭の中で
+            8.2.2.1 すべては頭の中で
           </h3>
           <p>
             そうです。 これもパッケージ管理のやり方の一つです。
@@ -217,7 +217,7 @@
         </div>
         <div class="sect3">
           <h3 class="sect3">
-            8.2.2.2. 異なるディレクトリへのインストール
+            8.2.2.2 異なるディレクトリへのインストール
           </h3>
           <p>
             これは最も単純なパッケージ管理のテクニックであり、パッケージ管理のための特別なプログラムを必要としません。
@@ -249,7 +249,7 @@
         </div>
         <div class="sect3">
           <h3 class="sect3">
-            8.2.2.3. シンボリックリンク方式による管理
+            8.2.2.3 シンボリックリンク方式による管理
           </h3>
           <p>
             これは一つ前に示したパッケージ管理テクニックの応用です。 各パッケージは、上で説明した方法と同じようにインストールします。
@@ -291,7 +291,7 @@ make DESTDIR=/usr/pkg/libfoo/1.1 install</kbd></pre>
         </div>
         <div class="sect3">
           <h3 class="sect3">
-            8.2.2.4. タイムスタンプによる管理方法
+            8.2.2.4 タイムスタンプによる管理方法
           </h3>
           <p>
             この方法ではパッケージをインストールするにあたって、あるファイルにタイムスタンプが記されます。 インストールの直後に
@@ -309,7 +309,7 @@ make DESTDIR=/usr/pkg/libfoo/1.1 install</kbd></pre>
         </div>
         <div class="sect3">
           <h3 class="sect3">
-            8.2.2.5. インストールスクリプトの追跡管理
+            8.2.2.5 インストールスクリプトの追跡管理
           </h3>
           <p>
             この方法はインストールスクリプトが実行するコマンドを記録するものです。 これには以下の二種類の手法があります。
@@ -333,7 +333,7 @@ make DESTDIR=/usr/pkg/libfoo/1.1 install</kbd></pre>
         </div>
         <div class="sect3">
           <h3 class="sect3">
-            8.2.2.6. パッケージのアーカイブを生成する方法
+            8.2.2.6 パッケージのアーカイブを生成する方法
           </h3>
           <p>
             この方法では、シンボリックリンク方式によるパッケージ管理にて説明したのと同じように、パッケージが個別のディレクトリにインストールされます。
@@ -365,7 +365,7 @@ make DESTDIR=/usr/pkg/libfoo/1.1 install</kbd></pre>
         </div>
         <div class="sect3">
           <h3 class="sect3">
-            8.2.2.7. ユーザー情報をベースとする管理方法
+            8.2.2.7 ユーザー情報をベースとする管理方法
           </h3>
           <p>
             この手法は LFS に固有のものであり Matthias Benkmann により考案されました。 <a class=
@@ -383,7 +383,7 @@ make DESTDIR=/usr/pkg/libfoo/1.1 install</kbd></pre>
       </div>
       <div class="sect2" lang="ja" xml:lang="ja">
         <h2 class="sect2">
-          8.2.3. 他システムへの LFS の配置
+          8.2.3 他システムへの LFS の配置
         </h2>
         <p>
           LFS システムの利点の一つとして、どのファイルもディスク上のどこに位置していても構わないことです。
@@ -439,9 +439,9 @@ make DESTDIR=/usr/pkg/libfoo/1.1 install</kbd></pre>
       <div class="footnotes">
         <br />
         <hr width="100" align="left" />
-        <div id="ftn.id6426" class="footnote">
+        <div id="ftn.id6436" class="footnote">
           <p>
-            <a href="#id6426" class="para"><sup class="para">[1]</sup></a>
+            <a href="#id6436" class="para"><sup class="para">[1]</sup></a>
             共有ライブラリ名は、その ELF 動的セクションの <code class="constant">DT_SONAME</code>
             エントリーに名称がコーディングされます。 <span class="command"><strong>readelf -d
             <em class="replaceable"><code>&lt;ライブラリファイル名&gt;</code></em> |
@@ -479,7 +479,7 @@ make DESTDIR=/usr/pkg/libfoo/1.1 install</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-185">ホーム</a>
+          "Linux From Scratch - Version r13.0-191">ホーム</a>
         </li>
       </ul>
     </div>

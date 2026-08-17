@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r13.0-185">
+  <body class="lfs" id="lfs-r13.0-191">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r13.0-185
+        Linux From Scratch - Version r13.0-191
       </h4>
       <h3>
         第8章 基本的なソフトウェアのインストール
@@ -40,12 +40,12 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-185">ホーム</a>
+          "Linux From Scratch - Version r13.0-191">ホーム</a>
         </li>
       </ul>
     </div>
     <h1 class="sect1">
-      <a id="ch-system-glibc" name="ch-system-glibc"></a>8.5. Glibc-2.44
+      <a id="ch-system-glibc" name="ch-system-glibc"></a>8.5 Glibc-2.44
     </h1>
     <div class="wrap" lang="ja" xml:lang="ja">
       <div class="package" lang="ja" xml:lang="ja">
@@ -68,7 +68,7 @@
       </div>
       <div class="installation" lang="ja" xml:lang="ja">
         <h2 class="sect2">
-          8.5.1. Glibc のインストール
+          8.5.1 Glibc のインストール
         </h2>
         <p>
           Glibc のプログラムの中には <code class="filename">/var/db</code>
@@ -78,13 +78,13 @@
         <pre class="userinput"><kbd class=
         "command">patch -Np1 -i ../glibc-fhs-1.patch</kbd></pre>
         <p>
-          ここで <a class="ulink" href=
-          "https://man.archlinux.org/man/tanh.3">tanh(3)</a> 関数が x86_64
-          の古いプロセッサー上においてクラッシュすることがあるため修正します。 より最新の x86_64 プロセッサーや 32 ビット x86
-          プロセッサーには無関係な修正であって、どちらに対してもこのパッチは影響を及ぼしません。
+          古い x86_64 プロセッサーにおいて <a class="ulink" href=
+          "https://man.archlinux.org/man/tanh.3">tanh(3)</a>
+          関数がクラッシュすることがあるので、これを修正します。 そして <span class=
+          "command"><strong>make</strong></span> のマルチジョブ処理でのインストールを行う修正も行います。
         </p>
         <pre class="userinput"><kbd class=
-        "command">patch -Np1 -i ../glibc-2.44-upstream_fix-1.patch</kbd></pre>
+        "command">patch -Np1 -i ../glibc-2.44-upstream_fixes-1.patch</kbd></pre>
         <p>
           Glibc のドキュメントでは専用のビルドディレクトリを作成することが推奨されています。
         </p>
@@ -426,11 +426,11 @@ localedef -i zh_TW -f UTF-8 zh_TW.UTF-8</kbd></pre>
       </div>
       <div class="configuration" lang="ja" xml:lang="ja">
         <h2 class="sect2">
-          <a id="conf-glibc" name="conf-glibc"></a>8.5.2. Glibc の設定
+          <a id="conf-glibc" name="conf-glibc"></a>8.5.2 Glibc の設定
         </h2>
         <div class="sect3">
           <h3 class="sect3">
-            8.5.2.1. nsswitch.conf の追加
+            8.5.2.1 nsswitch.conf の追加
           </h3>
           <p>
             <code class="filename">/etc/nsswitch.conf</code>
@@ -462,7 +462,7 @@ EOF</kbd></pre>
         </div>
         <div class="sect3">
           <h3 class="sect3">
-            8.5.2.2. タイムゾーンデータの追加
+            8.5.2.2 タイムゾーンデータの追加
           </h3>
           <p>
             以下によりタイムゾーンデータをインストールし設定します。
@@ -554,7 +554,7 @@ unset ZONEINFO tz</kbd></pre>
         </div>
         <div class="sect3">
           <h3 class="sect3">
-            <a id="conf-ld" name="conf-ld"></a>8.5.2.3. ダイナミックローダー の設定
+            <a id="conf-ld" name="conf-ld"></a>8.5.2.3 ダイナミックローダー の設定
           </h3>
           <p>
             ダイナミックリンカー (<code class="filename">/lib/ld-linux.so.2</code>)
@@ -596,7 +596,7 @@ mkdir -pv /etc/ld.so.conf.d</kbd></pre>
       </div>
       <div class="content" lang="ja" xml:lang="ja">
         <h2 class="sect2">
-          <a id="contents-glibc" name="contents-glibc"></a>8.5.3. Glibc の構成
+          <a id="contents-glibc" name="contents-glibc"></a>8.5.3 Glibc の構成
         </h2>
         <div class="segmentedlist">
           <div class="seglistitem">
@@ -1237,7 +1237,7 @@ mkdir -pv /etc/ld.so.conf.d</kbd></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-185">ホーム</a>
+          "Linux From Scratch - Version r13.0-191">ホーム</a>
         </li>
       </ul>
     </div>
