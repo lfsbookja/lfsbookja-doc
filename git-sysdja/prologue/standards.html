@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r13.0-201-systemd">
+  <body class="lfs" id="lfs-r13.1-6-systemd">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r13.0-201-systemd
+        Linux From Scratch - Version r13.1-6-systemd
       </h4>
       <h3>
         序文
@@ -39,7 +39,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-201-systemd">ホーム</a>
+          "Linux From Scratch - Version r13.1-6-systemd">ホーム</a>
         </li>
       </ul>
     </div>
@@ -55,7 +55,7 @@
           <li class="listitem">
             <p>
               <a class="ulink" href=
-              "https://pubs.opengroup.org/onlinepubs/9699919799/">POSIX.1-2008</a>
+              "https://pubs.opengroup.org/onlinepubs/9799919799/">POSIX.1-2024</a>.
             </p>
           </li>
           <li class="listitem">
@@ -65,304 +65,22 @@
               Hierarchy Standard (FHS) Version 3.0</a>
             </p>
           </li>
-          <li class="listitem">
-            <p>
-              <a class="ulink" href=
-              "https://refspecs.linuxfoundation.org/lsb.shtml">Linux Standard
-              Base (LSB) Version 5.0 (2015)</a>
-            </p>
-            <p>
-              LSB はさらに以下の４つの仕様から構成されます。 コア (Core)、デスクトップ (Desktop)、言語
-              (Languages)、画像処理 (Imaging) です。
-              コアとデスクトップの中には、アーキテクチャーに固有の要求事項もあります。 Gtk3
-              やグラフィックスという二項目に関しての試しの仕様も含んでいます。 LFS では前節にて示したように、IA32 (32 ビット
-              x86) や AMD64 (x86_64) アーキテクチャーに対応する LSB 仕様への適合を目指しています。
-            </p>
-            <div class="admon note">
-              <img alt="[注記]" src="../images/note.png" />
-              <h3>
-                注記
-              </h3>
-              <p>
-                このような要求に対しては異論のある方も多いでしょう。 LSB の目的は、私有ソフトウェア (proprietary
-                software) をインストールした場合に、要求事項を満たしたシステム上にて問題なく動作することを目指すためです。
-                LFS はソースコードから構築するシステムですから、どのパッケージを利用するかをユーザー自身が完全に制御できます。 また
-                LSB にて要求されているパッケージであっても、インストールしない選択をとることもできます。
-              </p>
-            </div>
-          </li>
         </ul>
       </div>
       <p>
-        LFS の構築にあたっては LSB に適合していることを確認するテスト (certifications tests)
-        を<span class="quote">「<span class=
-        "quote">一から</span>」</span>クリアしていくように構築することも可能です。 ただし LFS
-        ブックの範囲外にあるパッケージ類を追加しなければ実現できません。 そのような追加パッケージ類については、おおむね BLFS
-        にて導入手順を説明しています。
+        <a class="ulink" href=
+        "https://refspecs.linuxfoundation.org/lsb.shtml">Linux Standard Base
+        (LSB) バージョン 5.0 (2015)</a>
+        は、これに準拠するシステム上においてバイナリソフトウェアパッケージのインストールと実行の保証を行う目的で定められたものですが、現在は廃止されています。
+        最近ではこの古い LSB に従ったシステムを構築することは現実的ではありません。
+        というのもバイナリソフトウェアパッケージであれば、必要となるサードパーティー製のコンポーネント (glibc、bash、coreutils
+        などの基本的で極めて重要なものは除く) をすべて含む形でリリースされます。 具体的にはあらゆるコンポーネントを束ねた
+        tarball、スタティックリンクされた実行ファイル、AppImage や Flatpak といった軽量コンテナーイメージ。
+        ディストロなどといった形で提供するのであれば、LSB などに準拠する必要などありません。 LFS 編集者はかつては LSB
+        を参照してきましたが、現在ではダイナミックリンカーのパスを厳密に考える必要がある場合にのみ、その要件を考慮するだけに留めています
+        (その要件を満たすため <a class="xref" href="../chapter05/glibc.html" title=
+        "5.5. Glibc-2.44">「Glibc-2.44」</a> においてシンボリックリンクを生成している場面があります)。
       </p>
-      <div class="variablelist">
-        <h3>
-          LFS 提供のパッケージで LSB 要求に従うもの
-        </h3>
-        <table border="0" class="variablelist">
-          <colgroup>
-            <col align="left" valign="top" />
-            <col />
-          </colgroup>
-          <tbody>
-            <tr>
-              <td>
-                <p>
-                  <span class="term"><span class="emphasis"><em>LSB
-                  コア:</em></span></span>
-                </p>
-              </td>
-              <td>
-                <p>
-                  Bash, Bc, Binutils, Coreutils, Diffutils, File, Findutils,
-                  Gawk, GCC, Gettext, Glibc, Grep, Gzip, M4, Man-DB, Procps,
-                  Psmisc, Sed, Shadow, <span class="phrase">Systemd</span>,
-                  Tar, Util-linux, Zlib
-                </p>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <p>
-                  <span class="term"><span class="emphasis"><em>LSB
-                  デスクトップ:</em></span></span>
-                </p>
-              </td>
-              <td>
-                <p>
-                  なし
-                </p>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <p>
-                  <span class="term"><span class="emphasis"><em>LSB
-                  言語:</em></span></span>
-                </p>
-              </td>
-              <td>
-                <p>
-                  Perl
-                </p>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <p>
-                  <span class="term"><span class="emphasis"><em>LSB
-                  画像処理:</em></span></span>
-                </p>
-              </td>
-              <td>
-                <p>
-                  なし
-                </p>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <p>
-                  <span class="term"><span class="emphasis"><em>LSB Gtk3、LSB
-                  グラフィックス (試用):</em></span></span>
-                </p>
-              </td>
-              <td>
-                <p>
-                  なし
-                </p>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="variablelist">
-        <h3>
-          BLFS 提供のパッケージで LSB 要求に従うもの
-        </h3>
-        <table border="0" class="variablelist">
-          <colgroup>
-            <col align="left" valign="top" />
-            <col />
-          </colgroup>
-          <tbody>
-            <tr>
-              <td>
-                <p>
-                  <span class="term"><span class="emphasis"><em>LSB
-                  コア:</em></span></span>
-                </p>
-              </td>
-              <td>
-                <p>
-                  At, Batch (At の一部), BLFS Bash Startup Files, Cpio, Ed,
-                  Fcrontab, LSB-Tools, NSPR, NSS, PAM, Pax, Sendmail (または
-                  Postfix または Exim), Time
-                </p>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <p>
-                  <span class="term"><span class="emphasis"><em>LSB
-                  デスクトップ:</em></span></span>
-                </p>
-              </td>
-              <td>
-                <p>
-                  Alsa, ATK, Cairo, Desktop-file-utils, Freetype, Fontconfig,
-                  Gdk-pixbuf, Glib2, GLU, Icon-naming-utils, Libjpeg-turbo,
-                  Libxml2, Mesa, Pango, Xdg-utils, Xorg
-                </p>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <p>
-                  <span class="term"><span class="emphasis"><em>LSB
-                  言語:</em></span></span>
-                </p>
-              </td>
-              <td>
-                <p>
-                  Libxml2, Libxslt
-                </p>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <p>
-                  <span class="term"><span class="emphasis"><em>LSB
-                  画像処理:</em></span></span>
-                </p>
-              </td>
-              <td>
-                <p>
-                  CUPS, Cups-filters, Ghostscript, SANE
-                </p>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <p>
-                  <span class="term"><span class="emphasis"><em>LSB Gtk3、LSB
-                  グラフィックス (試用):</em></span></span>
-                </p>
-              </td>
-              <td>
-                <p>
-                  GTK+3
-                </p>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="variablelist">
-        <h3>
-          LFS, BLFS で提供しない、あるいはオプションで提供されているコンポーネントで LSB 要求に従うもの
-        </h3>
-        <table border="0" class="variablelist">
-          <colgroup>
-            <col align="left" valign="top" />
-            <col />
-          </colgroup>
-          <tbody>
-            <tr>
-              <td>
-                <p>
-                  <span class="term"><span class="emphasis"><em>LSB
-                  コア:</em></span></span>
-                </p>
-              </td>
-              <td>
-                <p>
-                  <span class=
-                  "command"><strong>install_initd</strong></span>,
-                  <code class="filename">libcrypt.so.1</code> (LFS の
-                  Libxcrypt パッケージにおける任意実施の手順により提供), <code class=
-                  "filename">libncurses.so.5</code> (LFS の Ncurses
-                  パッケージにおける任意実施の手順により提供), <code class=
-                  "filename">libncursesw.so.5</code> (ただし <code class=
-                  "filename">libncursesw.so.6</code> は LFS の Ncurses
-                  パッケージにより提供)
-                </p>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <p>
-                  <span class="term"><span class="emphasis"><em>LSB
-                  デスクトップ:</em></span></span>
-                </p>
-              </td>
-              <td>
-                <p>
-                  <code class="filename">libgdk-x11-2.0.so</code> (ただし
-                  <code class="filename">libgdk-3.so</code> は BLFS GTK+-3
-                  パッケージが提供), <code class="filename">libgtk-x11-2.0.so</code>
-                  (ただし <code class="filename">libgtk-3.so</code> と
-                  <code class="filename">libgtk-4.so</code> はBLFS GTK+-3 と
-                  GTK-4 パッケージが提供), <code class="filename">libpng12.so</code>
-                  (ただし <code class="filename">libpng16.so</code> は BLFS
-                  Libpng パッケージが提供), <code class="filename">libQt*.so.4</code>
-                  (ただし <code class="filename">libQt6*.so.6</code> は BLFS Qt6
-                  パッケージが提供), <code class="filename">libtiff.so.4</code> (ただし
-                  <code class="filename">libtiff.so.6</code> は BLFS Libtiff
-                  パッケージが提供)
-                </p>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <p>
-                  <span class="term"><span class="emphasis"><em>LSB
-                  言語:</em></span></span>
-                </p>
-              </td>
-              <td>
-                <p>
-                  <span class=
-                  "command"><strong>/usr/bin/python</strong></span> (LSB は
-                  Python2 を要求しているが LFS と BLFS は Python3 のみを提供)
-                </p>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <p>
-                  <span class="term"><span class="emphasis"><em>LSB
-                  画像処理:</em></span></span>
-                </p>
-              </td>
-              <td>
-                <p>
-                  なし
-                </p>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <p>
-                  <span class="term"><span class="emphasis"><em>LSB Gtk3、LSB
-                  グラフィックス (試用):</em></span></span>
-                </p>
-              </td>
-              <td>
-                <p>
-                  <code class="filename">libpng15.so</code> (ただし <code class=
-                  "filename">libpng16.so</code> は BLFS Libpng パッケージが提供)
-                </p>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
     </div>
     <div class="navfooter">
       <ul>
@@ -384,7 +102,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.0-201-systemd">ホーム</a>
+          "Linux From Scratch - Version r13.1-6-systemd">ホーム</a>
         </li>
       </ul>
     </div>
