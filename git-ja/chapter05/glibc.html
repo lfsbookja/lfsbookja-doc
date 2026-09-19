@@ -12,10 +12,10 @@
     "text/css" media="print" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="lfs" id="lfs-r13.1-6">
+  <body class="lfs" id="lfs-r13.1-8">
     <div class="navheader">
       <h4>
-        Linux From Scratch - Version r13.1-6
+        Linux From Scratch - Version r13.1-8
       </h4>
       <h3>
         第5章 クロスツールチェーンの構築
@@ -41,7 +41,7 @@
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.1-6">ホーム</a>
+          "Linux From Scratch - Version r13.1-8">ホーム</a>
         </li>
       </ul>
     </div>
@@ -103,13 +103,16 @@ esac</kbd></pre>
         <pre class="userinput"><kbd class=
         "command">patch -Np1 -i ../glibc-fhs-1.patch</kbd></pre>
         <p>
-          古い x86_64 プロセッサーにおいて <a class="ulink" href=
-          "https://man.archlinux.org/man/tanh.3">tanh(3)</a>
-          関数がクラッシュすることがあるので、これを修正します。 そして <span class=
-          "command"><strong>make</strong></span> のマルチジョブ処理でのインストールを行う修正も行います。
+          glibc 2.44 のリリース以降に認識されている不具合に対処します。 その不具合とは <a class="ulink" href=
+          "https://man.archlinux.org/man/tanh.3">tanh(3)</a> 関数が古い x86_64
+          プロセッサー上においてクラッシュするものであり、また gnulib
+          を利用するパッケージの中には、実行時に永久にハングしてしまうものがあります。 さらに <span class=
+          "command"><strong>make</strong></span> による並行ジョブを行うとビルド時やテスト時に失敗し、また
+          6 つのセキュリティぜい弱性も含んでいます
+          (この中のものすべてが、この時点の一時的ビルドには必要のないものかもしれません。ただし修正することに害はないため適用するものです)。
         </p>
         <pre class="userinput"><kbd class=
-        "command">patch -Np1 -i ../glibc-2.44-upstream_fixes-1.patch</kbd></pre>
+        "command">patch -Np1 -i ../glibc-2.44-upstream_fixes-2.patch</kbd></pre>
         <p>
           Glibc のドキュメントでは、専用のビルドディレクトリを作成することが推奨されています。
         </p>
@@ -401,7 +404,7 @@ SEARCH_DIR("=/usr/lib");</code></pre>
         </li>
         <li class="home">
           <a accesskey="h" href="../index.html" title=
-          "Linux From Scratch - Version r13.1-6">ホーム</a>
+          "Linux From Scratch - Version r13.1-8">ホーム</a>
         </li>
       </ul>
     </div>
